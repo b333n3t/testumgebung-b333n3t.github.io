@@ -7,108 +7,24 @@
   <meta name="description" content="aktuell — b3nn3t" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-  <!-- Haupt-Styles -->
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles_nav_arrows.css" />
+  <link rel="stylesheet" href="swipe-helper.css" />
 
-  <!-- Abstand unten: Desktop/Mobile über Variable -->
   <style>
     :root { --bottom-gap: 60px; }
-    @media (max-width: 767px){
-      :root { --bottom-gap: 50px; }
-    }
+    @media (max-width: 767px){ :root { --bottom-gap: 50px; } }
     .main { margin-bottom: var(--bottom-gap); }
-  </style>
 
-  <!-- 👇 Mobile: grauer Container näher am unteren Rand -->
-  <style>
     @media (max-width: 768px) {
       main.main {
         min-height: calc(100dvh - 56px - 20px);
         height: calc(100dvh - 56px - 20px);
       }
     }
-  </style>
 
-  <!-- Pfeile -->
-  <link rel="stylesheet" href="styles_nav_arrows.css" />
-  <link rel="stylesheet" href="swipe-helper.css" />
-
-  <!-- Burger-Menü -->
-  <style>
-    .hamburger {
-      position: fixed;
-      top: 14px;
-      right: 18px;
-      width: 20px;
-      height: 20px;
-      border: none;
-      background: transparent;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      z-index: 1200;
-      padding: 0;
-    }
-    .hamburger span {
-      display: block;
-      width: 12px;
-      height: 1.4px;
-      margin: 1.5px 0;
-      background: #000;
-      border-radius: 2px;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    body.menu-open .hamburger span:nth-child(1){ transform: translateY(3.5px) rotate(45deg); }
-    body.menu-open .hamburger span:nth-child(2){ opacity: 0; }
-    body.menu-open .hamburger span:nth-child(3){ transform: translateY(-3.5px) rotate(-45deg); }
-
-    .menu-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.08);
-      backdrop-filter: blur(1px);
-      -webkit-backdrop-filter: blur(1px);
-      z-index: 1099;
-    }
-    body.menu-open #menu-overlay { display: block; }
-    #menu-overlay[hidden]{ display:none; }
-
-    .site-menu {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: auto;
-      max-height: 90vh;
-      width: min(40vw,150px);
-      background: rgba(255,255,255,.32);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      box-shadow: 0 20px 50px rgba(0,0,0,.08);
-      transform: translateX(100%);
-      transition: transform .25s ease;
-      z-index: 1101;
-      padding: 46px 10px 14px;
-    }
-    body.menu-open .site-menu { transform: translateX(0); }
-
-    .site-menu ul { list-style:none; margin:0; padding:0; }
-    .site-menu li { margin:0 0 10px 0; }
-    .site-menu li.sep { margin-top:18px; padding-top:8px; border-top:1px solid rgba(0,0,0,.08); }
-    .site-menu a {
-      display:block;
-      padding:8px 6px;
-      border-radius:10px;
-      color:#000;
-      text-decoration:none;
-      font-size:1rem;
-      font-weight:500;
-    }
-    .site-menu a:hover { background:rgba(0,0,0,.05); }
-  </style>
-
-  <!-- Glasiger Textbereich -->
-  <style id="transparent-panel-overrides">
-    .main {
+    /* Glasiger Textbereich */
+    .main{
       background: rgba(255,255,255,.32);
       backdrop-filter: blur(2px);
       -webkit-backdrop-filter: blur(2px);
@@ -116,21 +32,66 @@
       padding: 1.25rem 1rem;
       position: relative;
       z-index: 1;
-    }
-    .main h1, .main p {
-      background: transparent !important;
-      box-shadow: none !important;
-    }
-    .main {
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       -ms-overflow-style: none;
     }
-    .main::-webkit-scrollbar { display: none; }
+    .main::-webkit-scrollbar{ display:none; }
+    .main h1, .main p{
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    /* Menü */
+    .hamburger {
+      position: fixed;
+      top: 14px; right: 18px;
+      width: 20px; height: 20px;
+      border: none; background: transparent;
+      display: grid; place-items: center;
+      cursor: pointer; z-index: 1200; padding: 0;
+    }
+    .hamburger span {
+      display:block; width:12px; height:1.4px;
+      margin:1.5px 0; background:#000; border-radius:2px;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg);}
+    body.menu-open .hamburger span:nth-child(2){ opacity:0;}
+    body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg);}
+    .menu-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,.08);
+      backdrop-filter:blur(1px); -webkit-backdrop-filter:blur(1px);
+      z-index:1099;
+    }
+    body.menu-open #menu-overlay{display:block;}
+    #menu-overlay[hidden]{display:none;}
+    .site-menu {
+      position:fixed; top:0; right:0;
+      height:auto; max-height:90vh;
+      width:min(40vw,150px);
+      background:rgba(255,255,255,.32);
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+      box-shadow:0 20px 50px rgba(0,0,0,.08);
+      transform:translateX(100%);
+      transition:transform .25s ease;
+      z-index:1101;
+      padding:46px 10px 14px;
+    }
+    body.menu-open .site-menu{transform:translateX(0);}
+    .site-menu ul{list-style:none;margin:0;padding:0;}
+    .site-menu li{margin:0 0 10px 0;}
+    .site-menu li.sep{margin-top:18px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08);}
+    .site-menu a{
+      display:block;padding:8px 6px;border-radius:10px;
+      color:#000;text-decoration:none;font-size:1rem;font-weight:500;
+    }
+    .site-menu a:hover{background:rgba(0,0,0,.05);}
   </style>
 
-  <!-- ===== CHAOTISCHE BILDERCOLLAGE ===== -->
+  <!-- CHAOTISCHE BILDERCOLLAGE -->
   <style>
     .collage-window {
       position: relative;
@@ -142,13 +103,11 @@
       box-shadow: 0 6px 18px rgba(0,0,0,0.15);
       overflow: hidden;
     }
-
     .chaos-collage {
       position: relative;
       width: 100%;
       height: 400px;
     }
-
     .chaos-collage img {
       position: absolute;
       width: 45%;
@@ -157,22 +116,18 @@
       transition: transform 0.4s ease;
       object-fit: cover;
     }
-
     .chaos-collage img:hover {
       transform: scale(1.05) rotate(0deg);
       z-index: 3;
     }
-
-    /* Unregelmäßige Positionierung */
-    .chaos-collage img:nth-child(1) { top: 10%; left: 5%; transform: rotate(-8deg); }
-    .chaos-collage img:nth-child(2) { top: 5%; right: 8%; transform: rotate(7deg); }
-    .chaos-collage img:nth-child(3) { top: 45%; left: 10%; transform: rotate(-4deg); }
-    .chaos-collage img:nth-child(4) { top: 40%; right: 5%; transform: rotate(10deg); }
-    .chaos-collage img:nth-child(5) { top: 65%; left: 35%; transform: rotate(-3deg); }
-
-    @media (max-width: 600px) {
-      .chaos-collage { height: 300px; }
-      .chaos-collage img { width: 60%; }
+    .chaos-collage img:nth-child(1){top:10%;left:5%;transform:rotate(-8deg);}
+    .chaos-collage img:nth-child(2){top:5%;right:8%;transform:rotate(7deg);}
+    .chaos-collage img:nth-child(3){top:45%;left:10%;transform:rotate(-4deg);}
+    .chaos-collage img:nth-child(4){top:40%;right:5%;transform:rotate(10deg);}
+    .chaos-collage img:nth-child(5){top:65%;left:35%;transform:rotate(-3deg);}
+    @media (max-width:600px){
+      .chaos-collage{height:300px;}
+      .chaos-collage img{width:60%;}
     }
   </style>
 </head>
@@ -180,8 +135,7 @@
 <body>
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg">
-      <strong>b3nn3t</strong>
+      <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
     </a>
   </header>
 
@@ -214,6 +168,59 @@
     <div style="margin-top: 3em;">
       <p><b>termine</b></p>
       <p>- noch in arbeit -</p>
+
+      <!-- Linienlose Tabelle -->
+      <div class="termine-wrapper" style="margin-top: 2.5em;">
+        <style>
+          .termine-table {
+            display: grid;
+            grid-template-columns: 8ch 1fr 1fr;
+            gap: 0.5rem 1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1rem;
+          }
+          .termine-table div { padding: 0.2rem 0; }
+          .termine-table .datum {
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+            white-space: nowrap;
+          }
+          .termine-table .veranstaltung { font-weight: 500; }
+          .termine-table .ort {
+            text-align: right;
+            opacity: 0.8;
+            white-space: nowrap;
+          }
+          .termine-table .spacer {
+            grid-column: 1 / -1;
+            height: 0.6rem;
+          }
+          @media (max-width: 600px) {
+            .termine-table { grid-template-columns: 8ch 1fr; }
+            .termine-table .ort {
+              grid-column: 2 / -1;
+              text-align: left;
+            }
+          }
+        </style>
+
+        <div class="termine-table">
+          <div class="datum">08.11.</div>
+          <div class="veranstaltung">Open Studio: Näh-Sessions &amp; Q&amp;A</div>
+          <div class="ort">Zürich · 14:00</div>
+
+          <div class="datum">03.12.</div>
+          <div class="veranstaltung">Workshop: Upcycling aus Reststoffen</div>
+          <div class="ort">Bern · 18:30</div>
+
+          <div class="spacer"></div>
+
+          <div class="datum">17.01.</div>
+          <div class="veranstaltung">Community-Meetup „Fadenlauf“</div>
+          <div class="ort">Basel · 19:00</div>
+        </div>
+      </div>
     </div>
 
     <div style="margin-top: 3em;">
@@ -221,12 +228,14 @@
       <p>- nähen -</p>
     </div>
 
-    <!-- ===== CHAOTISCHE BILDERCOLLAGE ===== -->
+    <!-- Chaotische Bildercollage -->
     <div class="collage-window">
       <div class="chaos-collage">
-        <img src="bilder-aktuell/er.jpg" alt="Nähprojekt 1">
-        <img src="bilder-aktuell/qw.jpg" alt="Stoffmuster">
-        
+        <img src="bilder/naeh1.jpg" alt="Nähprojekt 1">
+        <img src="bilder/stoff2.jpg" alt="Stoffmuster">
+        <img src="bilder/faden3.jpg" alt="Fadenrolle">
+        <img src="bilder/skizze4.jpg" alt="Skizze Nähidee">
+        <img src="bilder/detail5.jpg" alt="Detailaufnahme Stoff">
       </div>
     </div>
 
