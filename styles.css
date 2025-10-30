@@ -1,11 +1,10 @@
+stylus
+
 :root{
   --bg-tint: rgba(255,255,255,.35); /* blasser Hintergrund */
   --text: #0e0e0e;
   --text-dim: #2d2d2d;
   --accent: #0b84ff;
-
-  /* 👇 Neu: Basiswert für Scroll-Peek */
-  --peekY: 0px;
 }
 
 /* Base reset */
@@ -137,19 +136,9 @@ p{ line-height:1.6; color: var(--text-dim); }
   font-weight: 600;
   color: var(--text);
   text-align:center;
-
-  /* 👇 Neu: Scroll-Peek additiv per Variable */
-  will-change: transform;
-  transform: translateY(var(--peekY, 0px));
-  transition: transform .12s ease;
 }
 .card small{ display:block; font-weight:400; color: #444; margin-top:6px; }
-
-/* 👇 Neu: Hover addiert sich zur Scroll-Peek-Position, überschreibt sie NICHT */
-.card:hover{
-  transform: translateY(calc(var(--peekY, 0px) - 2px));
-  transition: transform .12s ease;
-}
+.card:hover{ transform: translateY(-2px); transition: transform .12s ease; }
 
 /* home only footer note */
 .note{
