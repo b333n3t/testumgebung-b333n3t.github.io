@@ -204,48 +204,78 @@
     })();
   </script>
 
-  <!-- ✅ Scroll-Peek Effekt (JS-only, zuverlässig) -->
-  <script>
-  (function(){
-    const scroller=document.querySelector('.main');
-    if(!scroller)return;
+<!-- ✅ Scroll-Peek Effekt (JS-only, scroll-getriggert & rAF-throttled) -->
+<script>
+(function(){
+  const scroller = document.querySelector('.main');
+  if (!scroller) return;
 
-    const targets=['ueber-mich.html','diskografie.html','kontakt.html','aktuell.html','intro.html'];
+  const targets = ['ueber-mich.html','diskografie.html','kontakt.html','aktuell.html','intro.html'];
 
-    function neighborPair(card){
-      const prev=card.previousElementSibling;
-      const next=card.nextElementSibling;
-      const up=prev&&prev.matches('.panel-photo')?prev:null;
-      const down=next&&next.matches('.panel-photo')?next:null;
-      if(up) return {card,img:up,dir:-1};
-      if(down) return {card,img:down,dir:1};
-      return null;
+  function neighborPair(card){
+    const prev = card.previousElementSibling;
+    const next = card.nextElementSibling;
+    const up   = prev && prev.matches('.panel-photo') ? prev : null;
+    const down = next && next.matches('.panel-photo') ? next : null;
+    if (up)   return { card, img: up,   dir: -1 }; // Card UNTER Bild -> nach oben ins Bild darüber
+    if (down) return { card, img: down, dir: +1 }; // Card ÜBER  Bild -> nach unten ins Bild darunter
+    return null;
+  }
+
+  const pairs = targets
+    .flatMap(h => Array.from(document.querySelectorAll(`.card[href$="${h}"]`)))
+    .map(neighborPair)
+    .filter(Boolean);
+
+  // Setup (Performance + Ausgangszustand)
+  for (const {card} of pairs) {
+    card.style.willChange = 'transform';
+    card.style.transform = 'translateY(0)';
+    card.style.transformOrigin = '50% 50%';
+  }
+
+  const ease = t => t*t*(3 - 2*t); // smoothstep
+
+  let ticking = false;
+  function computeAndApply(){
+    const sRect = scroller.getBoundingClientRect();
+    const viewH = scroller.clientHeight;
+    const start = viewH * 0.15;
+    const end   = viewH * 0.80;
+
+    for (const {card, img, dir} of pairs) {
+      const r = img.getBoundingClientRect();
+      // Mittelpunkt des Bildes relativ zur .main-Viewport-Oberkante
+      const imgMid = (r.top - sRect.top) + r.height/2;
+
+      let t = (end - imgMid) / (end - start);   // 0..1 im aktiven Bereich
+      if (!isFinite(t)) t = 0;
+      t = Math.max(0, Math.min(1, t));
+      t = ease(t);
+
+      const peekPx = r.height * 0.10 * t * dir; // 10% Bildhöhe
+      card.style.transform = `translateY(${peekPx.toFixed(2)}px)`;
     }
+    ticking = false;
+  }
 
-    const pairs=targets.flatMap(h=>Array.from(document.querySelectorAll(`.card[href$="${h}"]`)))
-                       .map(neighborPair).filter(Boolean);
-
-    const ease=t=>t*t*(3-2*t); // smoothstep easing
-
-    function update(){
-      const sRect=scroller.getBoundingClientRect();
-      const viewH=scroller.clientHeight;
-      const start=viewH*0.15;
-      const end=viewH*0.80;
-
-      for(const {card,img,dir} of pairs){
-        const r=img.getBoundingClientRect();
-        const imgMid=(r.top - sRect.top)+r.height/2;
-        let t=(end - imgMid)/(end - start);
-        t=Math.max(0,Math.min(1,t));
-        t=ease(t);
-        const peek=r.height*0.10*t*dir; // 10% der Bildhöhe
-        card.style.transform=`translateY(${peek.toFixed(2)}px)`;
-      }
-      requestAnimationFrame(update);
+  function requestTick(){
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(computeAndApply);
     }
-    requestAnimationFrame(update);
-  })();
-  </script>
+  }
+
+  // 🔗 WIRKLICH am Scroll des eigenen Containers hängen
+  scroller.addEventListener('scroll', requestTick, {passive:true});
+  // Edge-Fälle: Größe/Layout ändern
+  window.addEventListener('resize', requestTick);
+  window.addEventListener('orientationchange', requestTick);
+
+  // Initial rechnen
+  requestTick();
+})();
+</script>
+
 </body>
 </html>
