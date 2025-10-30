@@ -81,15 +81,11 @@
     .footer-inline a:hover{text-decoration:underline;}
 
     /* === Scroll-Peek Setup === */
-    :root{--peek-amount:10%;}
-    .card[href$="ueber-mich.html"],
-    .card[href$="diskografie.html"],
-    .card[href$="kontakt.html"],
-    .card[href$="aktuell.html"],
-    .card[href$="intro.html"]{
-      position:relative;
-      z-index:3;
-      will-change:transform;
+    .card[data-peek]{
+      position: relative;
+      z-index: 3;
+      will-change: transform;
+      transform: translateY(0);
     }
   </style>
 </head>
@@ -129,7 +125,7 @@
       <p>bei <strong>b3nn3t</strong> – bock auf browsen... dann los</p>
 
       <section class="grid" aria-label="Seitenübersicht">
-        <a class="card" href="ueber-mich.html">über mich<small>Bio & Einblicke</small></a>
+        <a class="card" href="ueber-mich.html" data-peek="down">über mich<small>Bio & Einblicke</small></a>
         <figure class="panel-photo">
           <picture>
             <source srcset="assets/bennet_index1.avif" type="image/avif">
@@ -138,7 +134,7 @@
           </picture>
         </figure>
 
-        <a class="card" href="diskografie.html">diskografie<small>Releases & Projekte</small></a>
+        <a class="card" href="diskografie.html" data-peek="down">diskografie<small>Releases & Projekte</small></a>
         <figure class="panel-photo">
           <picture>
             <source srcset="assets/bennet_index2.avif" type="image/avif">
@@ -147,8 +143,8 @@
           </picture>
         </figure>
 
-        <a class="card" href="kontakt.html">kontakt<small>Booking & Mail</small></a>
-        <a class="card" href="aktuell.html">aktuell<small>News & Termine</small></a>
+        <a class="card" href="kontakt.html" data-peek="up">kontakt<small>Booking & Mail</small></a>
+        <a class="card" href="aktuell.html" data-peek="down">aktuell<small>News & Termine</small></a>
         <figure class="panel-photo">
           <picture>
             <source srcset="assets/bennet_index3.avif" type="image/avif">
@@ -157,7 +153,7 @@
           </picture>
         </figure>
 
-        <a class="card" href="intro.html">gesehen<small>Inspiration & Notizen</small></a>
+        <a class="card" href="intro.html" data-peek="up">gesehen<small>Inspiration & Notizen</small></a>
         <a class="card" href="plattformen.html">plattformen<small>Social & Streaming</small></a>
 
         <br><br><br>
@@ -204,83 +200,71 @@
     })();
   </script>
 
-<!-- ✅ Scroll-Peek (velocity-basiert, robust in Safari/Edge/iOS) -->
-<script>
-(function(){
-  const scroller = document.querySelector('.main');
-  if (!scroller) return;
+  <!-- ✅ Scroll-Peek (klar markiert, robust) -->
+  <script>
+  (function(){
+    const scroller=document.querySelector('.main');
+    if(!scroller)return;
 
-  const targets = ['ueber-mich.html','diskografie.html','kontakt.html','aktuell.html','intro.html'];
-
-  function neighborPair(card){
-    const prev = card.previousElementSibling;
-    const next = card.nextElementSibling;
-    const up   = prev && prev.matches('.panel-photo') ? prev : null;
-    const down = next && next.matches('.panel-photo') ? next : null;
-    if (up)   return { card, img: up,   dir: -1 };
-    if (down) return { card, img: down, dir: +1 };
-    return null;
-  }
-
-  const pairs = targets
-    .flatMap(href => Array.from(document.querySelectorAll(`.card[href$="${href}"]`)))
-    .map(neighborPair)
-    .filter(Boolean);
-
-  const state = new Map();
-  function recalcMaxPeek(){
-    for (const p of pairs) {
-      const imgH = p.img.getBoundingClientRect().height || 0;
-      state.set(p.card, { offset: 0, max: imgH * 0.10, dir: p.dir });
-      p.card.style.willChange = 'transform';
-      p.card.style.position = 'relative';
-      p.card.style.zIndex = '3';
-      p.card.style.transform = 'translateY(0)';
+    function findNeighbor(card){
+      const dir=(card.getAttribute('data-peek')||'').toLowerCase();
+      if(dir==='down'){
+        const next=card.nextElementSibling;
+        if(next&&next.matches('.panel-photo'))return{card,img:next,dir:+1};
+      }
+      if(dir==='up'){
+        const prev=card.previousElementSibling;
+        if(prev&&prev.matches('.panel-photo'))return{card,img:prev,dir:-1};
+      }
+      return null;
     }
-  }
-  recalcMaxPeek();
-  window.addEventListener('resize', recalcMaxPeek);
-  window.addEventListener('orientationchange', recalcMaxPeek);
 
-  let lastTop = scroller.scrollTop;
-  let animId = 0;
+    const cards=Array.from(document.querySelectorAll('.card[data-peek]'));
+    const pairs=cards.map(findNeighbor).filter(Boolean);
+    if(!pairs.length)return;
 
-  function onScroll(){
-    const nowTop = scroller.scrollTop;
-    const dy = nowTop - lastTop;
-    lastTop = nowTop;
-
-    const intensity = Math.min(1, Math.abs(dy) / 60);
-    for (const {card} of pairs) {
-      const s = state.get(card);
-      if (!s) continue;
-      const target = s.max * intensity * s.dir;
-      s.offset = target;
+    for(const {card} of pairs){
+      card.style.willChange='transform';
+      card.style.position='relative';
+      card.style.zIndex='3';
+      card.style.transform='translateY(0)';
     }
-    if (!animId) animId = requestAnimationFrame(step);
-  }
 
-  function step(){
-    let active = false;
-    for (const {card} of pairs) {
-      const s = state.get(card);
-      if (!s) continue;
-      s.offset *= 0.85;
-      if (Math.abs(s.offset) < 0.2) s.offset = 0;
-      card.style.transform = `translateY(${s.offset.toFixed(2)}px)`;
-      if (s.offset !== 0) active = true;
+    const ease=t=>t*t*(3-2*t);
+    function progressFor(imgRect,viewRect,viewH){
+      const imgMid=(imgRect.top-viewRect.top)+imgRect.height/2;
+      const start=viewH*0.15,end=viewH*0.80;
+      let t=(end-imgMid)/(end-start);
+      if(!isFinite(t))t=0;
+      return Math.max(0,Math.min(1,t));
     }
-    if (active) animId = requestAnimationFrame(step);
-    else animId = 0;
-  }
 
-  scroller.addEventListener('scroll', onScroll, { passive: true });
-  ['wheel','touchmove','keydown'].forEach(ev =>
-    window.addEventListener(ev, onScroll, { passive: true })
-  );
-})();
-</script>
+    function update(){
+      const vRect=scroller.getBoundingClientRect();
+      const vH=scroller.clientHeight;
+      for(const {card,img,dir}of pairs){
+        const r=img.getBoundingClientRect();
+        const t=ease(progressFor(r,vRect,vH));
+        const peek=r.height*0.10*t*dir;
+        card.style.transform=`translateY(${peek.toFixed(2)}px)`;
+      }
+    }
 
+    scroller.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update);
+    window.addEventListener('orientationchange',update);
 
+    // kleiner Ticker für träge Scroll-Events
+    let rafId=0;function tick(){update();rafId=requestAnimationFrame(tick);}
+    rafId=requestAnimationFrame(tick);
+
+    document.addEventListener('visibilitychange',()=>{
+      if(document.hidden&&rafId){cancelAnimationFrame(rafId);rafId=0;}
+      else if(!rafId){rafId=requestAnimationFrame(tick);}
+    });
+
+    update();
+  })();
+  </script>
 </body>
 </html>
