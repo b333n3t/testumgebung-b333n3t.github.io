@@ -204,7 +204,7 @@
     })();
   </script>
 
-<!-- ✅ Scroll-Peek Effekt (JS-only, scroll-getriggert & rAF-throttled) -->
+<!-- ✅ Scroll-Peek (velocity-basiert, robust in Safari/Edge/iOS) -->
 <script>
 (function(){
   const scroller = document.querySelector('.main');
@@ -217,65 +217,70 @@
     const next = card.nextElementSibling;
     const up   = prev && prev.matches('.panel-photo') ? prev : null;
     const down = next && next.matches('.panel-photo') ? next : null;
-    if (up)   return { card, img: up,   dir: -1 }; // Card UNTER Bild -> nach oben ins Bild darüber
-    if (down) return { card, img: down, dir: +1 }; // Card ÜBER  Bild -> nach unten ins Bild darunter
+    if (up)   return { card, img: up,   dir: -1 };
+    if (down) return { card, img: down, dir: +1 };
     return null;
   }
 
   const pairs = targets
-    .flatMap(h => Array.from(document.querySelectorAll(`.card[href$="${h}"]`)))
+    .flatMap(href => Array.from(document.querySelectorAll(`.card[href$="${href}"]`)))
     .map(neighborPair)
     .filter(Boolean);
 
-  // Setup (Performance + Ausgangszustand)
-  for (const {card} of pairs) {
-    card.style.willChange = 'transform';
-    card.style.transform = 'translateY(0)';
-    card.style.transformOrigin = '50% 50%';
-  }
-
-  const ease = t => t*t*(3 - 2*t); // smoothstep
-
-  let ticking = false;
-  function computeAndApply(){
-    const sRect = scroller.getBoundingClientRect();
-    const viewH = scroller.clientHeight;
-    const start = viewH * 0.15;
-    const end   = viewH * 0.80;
-
-    for (const {card, img, dir} of pairs) {
-      const r = img.getBoundingClientRect();
-      // Mittelpunkt des Bildes relativ zur .main-Viewport-Oberkante
-      const imgMid = (r.top - sRect.top) + r.height/2;
-
-      let t = (end - imgMid) / (end - start);   // 0..1 im aktiven Bereich
-      if (!isFinite(t)) t = 0;
-      t = Math.max(0, Math.min(1, t));
-      t = ease(t);
-
-      const peekPx = r.height * 0.10 * t * dir; // 10% Bildhöhe
-      card.style.transform = `translateY(${peekPx.toFixed(2)}px)`;
-    }
-    ticking = false;
-  }
-
-  function requestTick(){
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(computeAndApply);
+  const state = new Map();
+  function recalcMaxPeek(){
+    for (const p of pairs) {
+      const imgH = p.img.getBoundingClientRect().height || 0;
+      state.set(p.card, { offset: 0, max: imgH * 0.10, dir: p.dir });
+      p.card.style.willChange = 'transform';
+      p.card.style.position = 'relative';
+      p.card.style.zIndex = '3';
+      p.card.style.transform = 'translateY(0)';
     }
   }
+  recalcMaxPeek();
+  window.addEventListener('resize', recalcMaxPeek);
+  window.addEventListener('orientationchange', recalcMaxPeek);
 
-  // 🔗 WIRKLICH am Scroll des eigenen Containers hängen
-  scroller.addEventListener('scroll', requestTick, {passive:true});
-  // Edge-Fälle: Größe/Layout ändern
-  window.addEventListener('resize', requestTick);
-  window.addEventListener('orientationchange', requestTick);
+  let lastTop = scroller.scrollTop;
+  let animId = 0;
 
-  // Initial rechnen
-  requestTick();
+  function onScroll(){
+    const nowTop = scroller.scrollTop;
+    const dy = nowTop - lastTop;
+    lastTop = nowTop;
+
+    const intensity = Math.min(1, Math.abs(dy) / 60);
+    for (const {card} of pairs) {
+      const s = state.get(card);
+      if (!s) continue;
+      const target = s.max * intensity * s.dir;
+      s.offset = target;
+    }
+    if (!animId) animId = requestAnimationFrame(step);
+  }
+
+  function step(){
+    let active = false;
+    for (const {card} of pairs) {
+      const s = state.get(card);
+      if (!s) continue;
+      s.offset *= 0.85;
+      if (Math.abs(s.offset) < 0.2) s.offset = 0;
+      card.style.transform = `translateY(${s.offset.toFixed(2)}px)`;
+      if (s.offset !== 0) active = true;
+    }
+    if (active) animId = requestAnimationFrame(step);
+    else animId = 0;
+  }
+
+  scroller.addEventListener('scroll', onScroll, { passive: true });
+  ['wheel','touchmove','keydown'].forEach(ev =>
+    window.addEventListener(ev, onScroll, { passive: true })
+  );
 })();
 </script>
+
 
 </body>
 </html>
