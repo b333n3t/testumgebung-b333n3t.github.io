@@ -1,0 +1,4 @@
+/* swipe-helper.css — v2 (wider Pan-Y Scope for iOS) */
+@media (pointer: coarse){
+  html, body, .main { touch-action: pan-y; } /* allow vertical scroll, free horizontal swipes */
+}

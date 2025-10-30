@@ -1,0 +1,66 @@
+
+/* === NAV-ARROWS: transparente Halbkreise mit Glas-/Blur-Effekt === */
+.nav-arrow{
+  position: fixed !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 1000 !important;
+
+  /* Klickfläche */
+  width: 26px !important;  /* vorher 44px */
+  height: 52px !important; /* vorher 88px */
+  padding: 0 !important;
+
+  /* Look */
+  background: rgba(255, 255, 255, 0.32) !important;     /* halbtransparentes Schwarz */
+  color: #000 !important;                         /* weißer Pfeil */
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08) !important;
+  text-decoration: none !important;
+  backdrop-filter: blur(2px) !important;          /* Glas-Effekt */
+  -webkit-backdrop-filter: blur(8px) !important;  /* Safari/iOS-Kompatibilität */
+  border: none !important);    /* dezente helle Kontur */
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  user-select: none !important;
+  -webkit-tap-highlight-color: transparent !important;
+  cursor: pointer !important;
+}
+
+/* Linke Seite → rechter Kreisradius */
+.nav-arrow.left{
+  left: 0 !important;
+  border-top-right-radius: 26px !important; /* vorher 44px */
+  border-bottom-right-radius: 26px !important; /* vorher 44px */
+}
+
+/* Rechte Seite → linker Kreisradius */
+.nav-arrow.right{
+  right: 0 !important;
+  border-top-left-radius: 26px !important; /* vorher 44px */
+  border-bottom-left-radius: 26px !important; /* vorher 44px */
+}
+
+/* Hover/Active Feedback (Desktop) */
+.nav-arrow:hover{
+  transform: translateY(-50%) scale(1.03) !important;
+  background: rgba(255, 255, 255, 0.45) !important;    /* etwas dunkler beim Hover */
+  backdrop-filter: blur(3px) !important;
+  -webkit-backdrop-filter: blur(3px) !important;
+}
+.nav-arrow:active{ transform: translateY(-50%) scale(0.98) !important; }
+
+/* SVG-Icons im Link automatisch weiß & zentriert */
+.nav-arrow svg{ width:22px; height:22px; fill:#fff; display:block; }
+
+/* Kleinere Geräte: etwas kompaktere Pfeile */
+@media (max-width: 480px){
+  .nav-arrow{ width: 22px !important; height: 44px !important; } /* vorher 38 und 76px */
+  .nav-arrow.left{ border-top-right-radius: 22px !important; border-bottom-right-radius: 38px !important; } /* vorher 38px */  
+  .nav-arrow.right{ border-top-left-radius: 22px !important; border-bottom-left-radius: 38px !important; } /* vorher 38px */  
+  .nav-arrow svg{ width:20px; height:20px; }
+}
+
+/* Optional: Tastatur-Fokus sichtbar */
+.nav-arrow:focus-visible{ outline: 2px solid #fff; outline-offset: 2px; }

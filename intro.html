@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Intro</title>
+    <style>
+      :root { --app-vh: 100vh; }
+      @supports (height: 100dvh) { :root { --app-vh: 100dvh; } }
+      @supports (height: 100svh) and (height: 100lvh) { :root { --app-vh: 100svh; } }
+
+      html, body { height: 100%; margin: 0; background: #000; }
+
+      .video-container {
+        position: fixed; inset: 0; display: grid; place-items: center;
+        overflow: hidden; background: #000; opacity: 1; transition: opacity 1s ease;
+        height: var(--app-vh); width: 100vw;
+      }
+      .video-container.fade-out { opacity: 0; }
+
+      video { width: 100%; height: 100%; object-fit: cover; }
+
+      .controls {
+        position: fixed; top: 16px; right: 16px; display: flex; gap: 8px; z-index: 10;
+      }
+      .skip-btn, .sound-btn {
+        font: 500 14px system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        padding: 10px 14px; border-radius: 999px; border: none;
+        background: rgba(255,255,255,0.12); color: #fff; backdrop-filter: blur(6px);
+        cursor: pointer; transition: background .2s ease;
+      }
+      .skip-btn:hover, .sound-btn:hover { background: rgba(255,255,255,0.2); }
+
+      /* Der Sound-Button sitzt links neben „Überspringen“ */
+      .sound-btn { order: -1; }
+
+      @media (max-width: 360px) {
+        .skip-btn, .sound-btn { padding: 8px 12px; font-size: 13px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="video-container" id="videoContainer">
+      <!-- Autoplay immer stumm starten -->
+      <video id="introVideo" autoplay muted playsinline webkit-playsinline preload="auto"
+             disablepictureinpicture controlslist="nodownload nofullscreen noplaybackrate">
+        <source src="assets/B3NN3T.mp4" type="video/mp4" />
+        Ihr Browser unterstützt das Video-Tag nicht.
+      </video>
+
+      <div class="controls">
+        <button id="soundBtn" class="sound-btn" aria-label="Ton aktivieren" hidden>🔊 Ton</button>
+        <button id="skipBtn" class="skip-btn" aria-label="Intro überspringen">Überspringen</button>
+      </div>
+    </div>
+
+    <script>
+      // Zielseite nach dem Intro
+      const TARGET_URL = "/gesehen.html";
+
+      const video = document.getElementById('introVideo');
+      const skipBtn = document.getElementById('skipBtn');
+      const soundBtn = document.getElementById('soundBtn');
+      const container = document.getElementById('videoContainer');
+
+      // Motion-Preference respektieren
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReducedMotion) window.location.replace(TARGET_URL);
+
+      function fadeAndRedirect() {
+        container.classList.add('fade-out');
+        setTimeout(() => window.location.replace(TARGET_URL), 1000);
+      }
+
+      // Geräte-Heuristik: iOS oder "coarse pointer" => kein Auto-Unmute
+      const ua = navigator.userAgent || "";
+      const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+      const isCoarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      const allowAutoUnmute = !(isIOS || isCoarse);
+
+      // Immer versuchen, stumm zu starten
+      video.muted = true;
+      video.play().catch(() => { /* ignore */ });
+
+      if (allowAutoUnmute) {
+        // Desktop: kurz nach Start un-muten
+        setTimeout(() => {
+          video.muted = false;
+          video.volume = 1.0;
+          const p = video.play();
+          if (p && p.catch) p.catch(() => {});
+        }, 800);
+      } else {
+        // Mobile/iOS: Button zeigen, um Ton via User-Geste zu aktivieren
+        soundBtn.hidden = false;
+        const enableSound = () => {
+          video.muted = false;
+          video.volume = 1.0;
+          const p = video.play();
+          if (p && p.catch) p.catch(() => {});
+          soundBtn.hidden = true;
+        };
+        soundBtn.addEventListener('click', enableSound, { once: true });
+
+        // Alternativ jede erste Interaktion erlaubt Aktivierung
+        const gestureUnlock = () => {
+          enableSound();
+          window.removeEventListener('pointerdown', gestureUnlock, { once: true });
+          window.removeEventListener('keydown', gestureUnlock, { once: true });
+        };
+        window.addEventListener('pointerdown', gestureUnlock, { once: true });
+        window.addEventListener('keydown', gestureUnlock, { once: true });
+      }
+
+      // Falls Tab/Screen kurz inaktiv war, bei Rückkehr weiterlaufen lassen
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && video.paused) {
+          const p = video.play();
+          if (p && p.catch) p.catch(() => {});
+        }
+      });
+
+      // Ende / Fehler / Skip => weiter
+      video.addEventListener('ended', fadeAndRedirect);
+      video.addEventListener('error', fadeAndRedirect);
+      skipBtn.addEventListener('click', fadeAndRedirect);
+    </script>
+  </body>
+</html>
