@@ -27,6 +27,7 @@
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
+  <!-- 👇 Mobile: grauer Container näher am unteren Rand -->
   <style>
     @media (max-width:768px){
       main.main{
@@ -35,7 +36,7 @@
       }
     }
 
-    /* ===== Layout & Menü (unverändert) ===== */
+    /* ===== Layout & Menü ===== */
     .hamburger{position:fixed;top:14px;right:18px;width:20px;height:20px;border:0;background:transparent;display:grid;place-items:center;cursor:pointer;z-index:1200;padding:0}
     .hamburger span{display:block;width:12px;height:1.4px;margin:1.5px 0;background:#000;border-radius:2px;transition:transform .2s,opacity .2s}
     body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
@@ -52,6 +53,7 @@
     .site-menu a{display:block;padding:8px 6px;border-radius:10px;color:#000;text-decoration:none;font-size:1rem;font-weight:500}
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
+    /* ===== FIXED Glas-Overlay ===== */
     #page-glass{position:fixed;left:0;right:0;top:0;bottom:0;pointer-events:none;z-index:0;}
     #page-glass .glass-fade{position:absolute;left:0;right:0;top:100vh;height:10vh;
       background:linear-gradient(to bottom,rgba(255,255,255,0)0%,rgba(255,255,255,.32)100%);
@@ -66,15 +68,18 @@
     .main::-webkit-scrollbar{display:none}
     .main .content-offset{padding-top:105vh}
     .main{padding-bottom:3.5rem}
+
     .nav-arrow{z-index:1000!important}
     .scroll-cue{position:fixed;left:50%;bottom:60px;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.4);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);box-shadow:0 4px 12px rgba(0,0,0,.08);display:grid;place-items:center;z-index:900;opacity:0;transition:opacity .2s;pointer-events:none}
     .scroll-cue svg{width:16px;height:16px}
     .scroll-cue.visible{opacity:1}
     .scroll-cue.hidden{opacity:0}
+
     .grid{display:flex;flex-direction:column;gap:1rem}
     .grid .card{width:100%}
     .panel-photo{margin:1rem -1rem 0;border-radius:12px;overflow:hidden;line-height:0;box-shadow:0 6px 24px rgba(0,0,0,.15)}
     .panel-photo img{display:block;width:100%;height:auto;object-fit:cover;object-position:center}
+
     footer{text-align:center;margin-top:2rem;font-size:.82rem}
     .footer-inline{text-align:center;font-size:.82rem;margin-bottom:1rem}
     .footer-inline a{color:#000;text-decoration:none;}
@@ -143,7 +148,7 @@
           </picture>
         </figure>
 
-        <a class="card" href="kontakt.html" data-peek="up">kontakt<small>Booking & Mail</small></a>
+        <a class="card" href="kontakt.html" data-peek="down">kontakt<small>Booking & Mail</small></a>
         <a class="card" href="aktuell.html" data-peek="down">aktuell<small>News & Termine</small></a>
         <figure class="panel-photo">
           <picture>
@@ -156,7 +161,9 @@
         <a class="card" href="intro.html" data-peek="up">gesehen<small>Inspiration & Notizen</small></a>
         <a class="card" href="plattformen.html">plattformen<small>Social & Streaming</small></a>
 
+        <!-- Drei Zeilen Abstand -->
         <br><br><br>
+
         <div class="footer-inline">
           © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
         </div>
@@ -200,29 +207,55 @@
     })();
   </script>
 
-  <!-- ✅ Scroll-Peek (klar markiert, robust) -->
+  <!-- ✅ Scroll-Peek (robust, findet das nächste Bild auch ohne direkte Nachbarschaft) -->
   <script>
   (function(){
     const scroller=document.querySelector('.main');
     if(!scroller)return;
 
-    function findNeighbor(card){
-      const dir=(card.getAttribute('data-peek')||'').toLowerCase();
-      if(dir==='down'){
-        const next=card.nextElementSibling;
-        if(next&&next.matches('.panel-photo'))return{card,img:next,dir:+1};
-      }
-      if(dir==='up'){
-        const prev=card.previousElementSibling;
-        if(prev&&prev.matches('.panel-photo'))return{card,img:prev,dir:-1};
+    // Nächstes/vorheriges .panel-photo finden (überspringt andere Elemente)
+    function findPanelPhoto(startEl, dir){
+      let el = startEl;
+      for(let i=0;i<8 && el;i++){  // bis zu 8 Geschwister prüfen
+        el = dir>0 ? el.nextElementSibling : el.previousElementSibling;
+        if(!el) break;
+        if(el.matches && el.matches('.panel-photo')) return el;
       }
       return null;
     }
 
-    const cards=Array.from(document.querySelectorAll('.card[data-peek]'));
-    const pairs=cards.map(findNeighbor).filter(Boolean);
-    if(!pairs.length)return;
+    // Für Karten mit data-peek gewünschte Richtung respektieren, sonst näherliegendes Bild wählen
+    function resolvePair(card){
+      const pref = (card.getAttribute('data-peek')||'').toLowerCase();
+      const downImg = findPanelPhoto(card, +1);
+      const upImg   = findPanelPhoto(card, -1);
 
+      let img=null, dir=0;
+      if(pref==='down' && downImg){ img=downImg; dir=+1; }
+      else if(pref==='up' && upImg){ img=upImg; dir=-1; }
+      else{
+        // Fallback: näherliegendes Bild wählen
+        const idxDist = (el)=>{
+          let d=0, cur=card;
+          while(cur && cur!==el){ cur=cur.nextElementSibling; d++; }
+          if(cur===el) return d;
+          d=0; cur=card;
+          while(cur && cur!==el){ cur=cur.previousElementSibling; d++; }
+          return cur===el ? d : Infinity;
+        };
+        const dDown = downImg ? idxDist(downImg) : Infinity;
+        const dUp   = upImg   ? idxDist(upImg)   : Infinity;
+        if(dDown<=dUp && downImg){ img=downImg; dir=+1; }
+        else if(upImg){ img=upImg; dir=-1; }
+      }
+      return img ? {card,img,dir} : null;
+    }
+
+    const cards = Array.from(document.querySelectorAll('.card[data-peek]'));
+    const pairs = cards.map(resolvePair).filter(Boolean);
+    if(!pairs.length) return;
+
+    // Basis-Styles
     for(const {card} of pairs){
       card.style.willChange='transform';
       card.style.position='relative';
@@ -230,39 +263,36 @@
       card.style.transform='translateY(0)';
     }
 
-    const ease=t=>t*t*(3-2*t);
-    function progressFor(imgRect,viewRect,viewH){
-      const imgMid=(imgRect.top-viewRect.top)+imgRect.height/2;
-      const start=viewH*0.15,end=viewH*0.80;
-      let t=(end-imgMid)/(end-start);
-      if(!isFinite(t))t=0;
-      return Math.max(0,Math.min(1,t));
+    // Positionsgebundene Progress-Funktion (0..1), breit gefasste Aktiv-Zone
+    function progressFor(imgRect, viewRect, viewH){
+      const imgMid = (imgRect.top - viewRect.top) + imgRect.height/2;
+      const start = viewH * 0.05;   // 5% -> früh beginnen
+      const end   = viewH * 0.95;   // 95% -> spät enden
+      let t = (end - imgMid) / (end - start);
+      if(!isFinite(t)) t = 0;
+      return Math.max(0, Math.min(1, t));
     }
+    const ease = t => t*t*(3-2*t);
 
     function update(){
-      const vRect=scroller.getBoundingClientRect();
-      const vH=scroller.clientHeight;
-      for(const {card,img,dir}of pairs){
-        const r=img.getBoundingClientRect();
-        const t=ease(progressFor(r,vRect,vH));
-        const peek=r.height*0.10*t*dir;
-        card.style.transform=`translateY(${peek.toFixed(2)}px)`;
+      const vRect = scroller.getBoundingClientRect();
+      const vH = scroller.clientHeight;
+
+      for(const {card,img,dir} of pairs){
+        const ir = img.getBoundingClientRect();
+        const t = ease(progressFor(ir, vRect, vH));
+        const peek = ir.height * 0.10 * t * dir; // 10% der Bildhöhe in Blickrichtung
+        card.style.transform = `translateY(${peek.toFixed(2)}px)`;
       }
     }
 
-    scroller.addEventListener('scroll',update,{passive:true});
-    window.addEventListener('resize',update);
-    window.addEventListener('orientationchange',update);
+    // Events + rAF-Ticker (damit auch träge Scroll-Events erfasst werden)
+    scroller.addEventListener('scroll', update, {passive:true});
+    window.addEventListener('resize', update);
+    window.addEventListener('orientationchange', update);
+    let rafId=0; (function tick(){ update(); rafId=requestAnimationFrame(tick); })();
 
-    // kleiner Ticker für träge Scroll-Events
-    let rafId=0;function tick(){update();rafId=requestAnimationFrame(tick);}
-    rafId=requestAnimationFrame(tick);
-
-    document.addEventListener('visibilitychange',()=>{
-      if(document.hidden&&rafId){cancelAnimationFrame(rafId);rafId=0;}
-      else if(!rafId){rafId=requestAnimationFrame(tick);}
-    });
-
+    // Initial
     update();
   })();
   </script>
