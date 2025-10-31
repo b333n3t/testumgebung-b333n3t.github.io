@@ -414,124 +414,161 @@
 <script src="script.js"></script>
 <script defer src="swipe-nav.js?v=12"></script>
 
-<!-- Cover-Loader mit JPG-Fallback (seriell + kleine Pause) -->
+<!-- Optimierter Block: Singles-Cover lazy, Fallback, sanfte Drosselung, Embeds -->
 <script>
-(function () {
-  const FALLBACK_SRC = 'assets/placeholder-cover.jpg';
-  const DELAY_MS = 150; // kleine Pause zwischen Requests
+/* ========= Einstellungen ========= */
+const FALLBACK_SRC = 'assets/placeholder-cover.jpg';
+const DELAY_MS = 120; // kleine Pause zwischen Requests, schont Rate-Limits
 
-  async function setCover(img) {
-    const url = img.dataset.spotify;
-    if (!url) { img.src = FALLBACK_SRC; return; }
-    try {
-      const res = await fetch(
-        `https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`,
-        { mode: 'cors' }
-      );
-      if (!res.ok) throw new Error('oEmbed failed');
-      const data = await res.json();
-      const src = (data.thumbnail_url || '').replace(/&?size=\d+/, '');
-      img.src = src || FALLBACK_SRC;
-    } catch {
-      img.src = FALLBACK_SRC;
-    }
-    // kleine Pause, um Rate-Limits zu vermeiden
-    await new Promise(r => setTimeout(r, DELAY_MS));
+/* ========= Hilfsfunktionen ========= */
+function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+/* Spotify-oEmbed laden und Cover setzen (mit Fallback) */
+async function setCover(img){
+  const url = img?.dataset?.spotify;
+  if (!url){ img.src = FALLBACK_SRC; img.dataset.loaded = 'true'; return; }
+  try{
+    const res = await fetch(
+      `https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`,
+      { mode: 'cors' }
+    );
+    if (!res.ok) throw new Error('oEmbed failed');
+    const data = await res.json();
+    const src = (data.thumbnail_url || '').replace(/&?size=\d+/, '');
+    img.src = src || FALLBACK_SRC;
+  }catch{
+    img.src = FALLBACK_SRC;
+  }finally{
+    img.dataset.loaded = 'true';
   }
+}
 
-  async function initCovers(){
-    const imgs = document.querySelectorAll('img.cover[data-spotify]');
-    for (const img of imgs){
-      await setCover(img); // seriell statt parallel
-    }
+/* Alle Covers in einem Grid laden – nur die, die noch nicht geladen wurden */
+async function loadCoversIn(grid){
+  if (!grid) return;
+  const imgs = grid.querySelectorAll('img.cover[data-spotify]:not([data-loaded])');
+  for (const img of imgs){
+    await setCover(img);
+    await sleep(DELAY_MS);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initCovers);
-  else initCovers();
-})();
-</script>
+}
 
-<!-- Singles: fehlende „Mehr“-Buttons + Player automatisch ergänzen -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const singlesHeading = Array.from(document.querySelectorAll('main h3'))
-      .find(h => h.textContent.trim().toLowerCase().startsWith('singles'));
-    if (!singlesHeading) return;
+/* „Mehr“-Button & Spotify-Embed bei Singles automatisch ergänzen (falls fehlt) */
+function enhanceSingles(grid){
+  if (!grid) return;
+  let idx = 1;
+  grid.querySelectorAll('.release').forEach(card => {
+    const hasToggle = card.querySelector('.toggle');
+    const hasTracklist = card.querySelector('.tracklist');
 
-    const singlesGrid = singlesHeading.closest('.panel-block')?.nextElementSibling;
-    if (!singlesGrid || !singlesGrid.classList.contains('disco-grid')) return;
+    if (hasToggle && hasTracklist) return;
 
-    let idx = 1;
-    singlesGrid.querySelectorAll('.release').forEach(card => {
-      const hasToggle = card.querySelector('.toggle');
-      const hasTracklist = card.querySelector('.tracklist');
-      if (hasToggle && hasTracklist) return;
+    const url =
+      card.querySelector('img.cover')?.dataset.spotify ||
+      card.querySelector('.title a')?.href || '';
 
-      const url =
-        card.querySelector('img.cover')?.dataset.spotify ||
-        card.querySelector('.title a')?.href || '';
+    let embed = '';
+    if (/open\.spotify\.com/.test(url)){
+      embed = url.replace('open.spotify.com/', 'open.spotify.com/embed/');
+    }
 
-      let embed = '';
-      if (/open\.spotify\.com/.test(url)) {
-        embed = url.replace('open.spotify.com/', 'open.spotify.com/embed/');
+    const afterMeta = card.querySelector('.meta') || card.lastElementChild;
+
+    const toggleWrap = document.createElement('div');
+    toggleWrap.className = 'toggle';
+
+    const id = `tracklist-s-${idx++}`;
+    toggleWrap.innerHTML = `<button type="button" onclick="toggleTracklist('${id}')">Mehr</button>`;
+
+    const panel = document.createElement('div');
+    panel.className = 'tracklist';
+    panel.id = id;
+    panel.innerHTML = embed
+      ? `<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="${embed}"></iframe>`
+      : `<div style="padding:.6rem 0;color:#666">Keine Einbettung gefunden.</div>`;
+
+    afterMeta.insertAdjacentElement('afterend', toggleWrap);
+    toggleWrap.insertAdjacentElement('afterend', panel);
+  });
+}
+
+/* Tracklist-Akkordeon (pro Karte) */
+function toggleTracklist(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('open');
+}
+
+/* Abschnitts-Akkordeon (Alben / EPs / Singles) – Singles lädt Covers erst beim Öffnen */
+function setupCategoryAccordions(){
+  const sections = document.querySelectorAll('main section');
+
+  sections.forEach((section, i) => {
+    const heading = section.querySelector('.panel-block h3');
+    const grid = section.querySelector('.disco-grid');
+    if (!heading || !grid) return;
+
+    heading.setAttribute('role', 'button');
+    heading.setAttribute('tabindex', '0');
+    const gridId = `cat-grid-${i+1}`;
+    heading.setAttribute('aria-controls', gridId);
+    heading.setAttribute('aria-expanded', 'false'); // geschlossen starten
+    grid.id = gridId;
+    grid.hidden = true;
+
+    const isSingles = heading.textContent.trim().toLowerCase().startsWith('singles');
+
+    const openHandler = () => {
+      const nowOpen = heading.getAttribute('aria-expanded') === 'true';
+      // Wenn jetzt geöffnet: ggf. Covers laden (bei Singles lazy)
+      if (nowOpen){
+        if (isSingles){
+          // Singles-Cover erst jetzt laden
+          loadCoversIn(grid);
+        }
       }
+    };
 
-      const afterMeta = card.querySelector('.meta') || card.lastElementChild;
-      const toggleWrap = document.createElement('div');
-      toggleWrap.className = 'toggle';
+    const toggle = () => {
+      const isOpen = heading.getAttribute('aria-expanded') === 'true';
+      heading.setAttribute('aria-expanded', String(!isOpen));
+      grid.hidden = isOpen;
+      // nach Statuswechsel prüfen
+      openHandler();
+    };
 
-      const id = `tracklist-s-${idx++}`;
-      toggleWrap.innerHTML = `<button type="button" onclick="toggleTracklist('${id}')">Mehr</button>`;
-
-      const panel = document.createElement('div');
-      panel.className = 'tracklist';
-      panel.id = id;
-      panel.innerHTML = embed
-        ? `<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="${embed}"></iframe>`
-        : `<div style="padding:.6rem 0;color:#666">Keine Einbettung gefunden.</div>`;
-
-      afterMeta.insertAdjacentElement('afterend', toggleWrap);
-      toggleWrap.insertAdjacentElement('afterend', panel);
+    heading.addEventListener('click', toggle);
+    heading.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
   });
-</script>
+}
 
-<!-- Akkordeon-Logik (Start: geschlossen) -->
-<script>
-  function toggleTracklist(id){
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.classList.toggle('open');
-  }
+/* ======== Initialisierung ======== */
+document.addEventListener('DOMContentLoaded', async () => {
+  // Referenzen auf die drei Kategorien
+  const allHeadings = Array.from(document.querySelectorAll('main .panel-block h3'));
+  const findGridAfter = (h) => h?.closest('.panel-block')?.nextElementSibling;
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const sections = document.querySelectorAll('main section');
+  const albumsHeading = allHeadings.find(h => h.textContent.trim().toLowerCase().startsWith('alben'));
+  const epsHeading     = allHeadings.find(h => h.textContent.trim().toLowerCase().startsWith('eps'));
+  const singlesHeading = allHeadings.find(h => h.textContent.trim().toLowerCase().startsWith('singles'));
 
-    sections.forEach((section, i) => {
-      const heading = section.querySelector('.panel-block h3');
-      const grid = section.querySelector('.disco-grid');
-      if (!heading || !grid) return;
+  const albumsGrid  = findGridAfter(albumsHeading);
+  const epsGrid     = findGridAfter(epsHeading);
+  const singlesGrid = findGridAfter(singlesHeading);
 
-      heading.setAttribute('role', 'button');
-      heading.setAttribute('tabindex', '0');
+  // Singles: fehlende „Mehr“-Buttons & Embeds ergänzen (vor dem ersten Öffnen)
+  if (singlesGrid) enhanceSingles(singlesGrid);
 
-      const gridId = `cat-grid-${i+1}`;
-      heading.setAttribute('aria-controls', gridId);
-      heading.setAttribute('aria-expanded', 'false'); // geschlossen starten
-      grid.id = gridId;
-      grid.hidden = true;
+  // Akkordeons initialisieren (alle starten geschlossen; Singles lädt Covers erst beim Öffnen)
+  setupCategoryAccordions();
 
-      const toggle = () => {
-        const isOpen = heading.getAttribute('aria-expanded') === 'true';
-        heading.setAttribute('aria-expanded', String(!isOpen));
-        grid.hidden = isOpen;
-      };
-
-      heading.addEventListener('click', toggle);
-      heading.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-      });
-    });
-  });
+  // OPTIONAL: Alben & EPs beim Start vorladen (Covers), damit sie beim Öffnen sofort da sind
+  // -> Wenn du das NICHT willst, diese zwei Zeilen einfach auskommentieren.
+  if (albumsGrid) loadCoversIn(albumsGrid);
+  if (epsGrid)    loadCoversIn(epsGrid);
+});
 </script>
 
 </body>
