@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>b3nn3t • Intro (schiefe Buchstaben, Pause nur beim „t“)</title>
+  <title>b3nn3t • Intro (Sprung + Linien-Fade + t-Hüpfer)</title>
 <style>
   :root {
     --fade-ms: 900ms; /* Dauer der Ein-/Ausblendung */
@@ -144,8 +144,8 @@ function preloadAllVideos(urls){
 }
 
 function PX(){return Math.max(2,Math.floor(Math.min(W,H)/240));}
-function lineY(){return Math.floor(H*2/3);}
-function lineEndX(){return Math.floor(W*0.82);}
+function lineY(){return Math.floor(H*2/3);} 
+function lineEndX(){return Math.floor(W*0.82);} 
 
 function resize(){
   DPR=Math.max(1,Math.floor(window.devicePixelRatio||1));
@@ -217,8 +217,19 @@ function rect(x,y,w,h,fill){
   ctx.fillRect(x-1,y,1,h);
   ctx.fillRect(x+w-1,y,1,h);
 }
+
+// ▼▼▼ NEU: Linien-Fade (Nr. 2)
+let lineFadeStart = null;
+
 function drawLine(){
-  ctx.strokeStyle='#fff';ctx.lineWidth=2*PX();
+  const now = performance.now();
+  let alpha = 1;
+  if(lineFadeStart){
+    const t = (now - lineFadeStart) / 1800; // ~1.8s Fade-Out
+    alpha = Math.max(0, 1 - t);
+  }
+  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+  ctx.lineWidth = 2*PX();
   ctx.beginPath();ctx.moveTo(0,lineY());ctx.lineTo(lineEndX(),lineY());ctx.stroke();
 }
 
@@ -227,7 +238,8 @@ const avatar={
   state:'walk', x:-40*PX(), y:lineY()-3*PX(),
   vx:2.2, vy:0, gravity:.35, step:0,
   headScale:HEAD_SCALE, bodyScale:BODY_SCALE,
-  hammerUntil:0, pauseUntil:0
+  hammerUntil:0, pauseUntil:0,
+  didPauseJump:false // ▼▼▼ NEU: Sprung-Flag (Nr. 1)
 };
 
 // Kopf etwas tiefer, Oberkörper etwas höher
@@ -288,14 +300,14 @@ function drawFallShadow(){
 
 /* ===== Buchstaben (schief) + weißer Glow & Welle ===== */
 let baseX=null;
-function ensureBaseX(){if(baseX!==null)return;const p=PX(),s=LETTER_GAP*p;const total=(WORD.length-1)*s;baseX=Math.round(W/2-total/2);}
+function ensureBaseX(){if(baseX!==null)return;const p=PX(),s=LETTER_GAP*p;const total=(WORD.length-1)*s;baseX=Math.round(W/2-total/2);} 
 function letterTargetX(i){ensureBaseX();const p=PX(),s=LETTER_GAP*p;return baseX+i*s;}
 function letterTargetY(){
   const p=PX(), s=avatar.headScale*p, base = avatar.y - avatar.bodyScale*p - s*0.35;
   return base - (LETTER_SIZE*p)*0.5; // halbe Buchstabenhöhe höher
 }
 
-const letters=[]; // {ch,x,y,angle,tiltStart}
+const letters=[]; // {ch,x,y,angle,tiltStart,baseY}
 let nextLetterIndex=0;
 
 const sparks=[];
@@ -368,7 +380,7 @@ function maybeHammerNext(){
     const p=PX();
     const angle = (Math.random()*2*LETTER_TILT_MAX - LETTER_TILT_MAX); // ±LETTER_TILT_MAX°
     const jitterY = (Math.random()*2*LETTER_JITTER_Y - LETTER_JITTER_Y)*p;
-    letters.push({ch:WORD[i],x:tx,y:ty+jitterY,angle,tiltStart:null});
+    letters.push({ch:WORD[i],x:tx,y:ty+jitterY,angle,tiltStart:null, baseY:ty+jitterY}); // ▲ baseY merken (Nr. 3)
 
     avatar.hammerUntil = performance.now()+HAMMER_MS;
     avatar.state = 'hammer';
@@ -414,13 +426,18 @@ function updateTiltAndPause(){
     if(t<TILT_MS){
       const e=1-Math.pow(1-t/TILT_MS,3);
       last.angle=TILT_TARGET_DEG*e;
+      // ▼▼▼ NEU: kleiner "+Hüpfer" des t (Nr. 3) relativ zu baseY
+      last.y = last.baseY - Math.sin(e*Math.PI)*2*PX();
     }else{
       const wobbleT=(t-TILT_MS)/TILT_WOBBLE_MS;
       if(wobbleT<=1){
         const amp=(1-wobbleT)*TILT_TARGET_DEG*0.5;
         last.angle=TILT_TARGET_DEG + Math.sin(wobbleT*Math.PI*6)*amp;
+        // nach der Kipp-Phase: y langsam zurück zur Basis
+        last.y = last.baseY;
       }else{
         last.angle=TILT_TARGET_DEG;
+        last.y = last.baseY;
       }
     }
   }
@@ -462,7 +479,7 @@ function startTransition(){
 
   // Wartezeit = Fade-Dauer + kleine Pufferzeit
   const fadeMs = 1800;     // gleich wie --fade-ms
-  const extra  = 300;     // Puffer
+  const extra  = 300;      // Puffer
   setTimeout(()=>{
     window.location.href = INTRO_RETURN_URL;
   }, fadeMs + extra);
@@ -497,13 +514,30 @@ function tick(){
     avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*2)*0.5*p);
     const last = letters[letters.length-1];
     const pauseOver = !last?.tiltStart || performance.now() >= (last.tiltStart + TILT_PAUSE_MS);
-    if(avatar.x>=lineEndX()-6*p && pauseOver){ avatar.state='fall'; avatar.vy=0; }
+    if(avatar.x>=lineEndX()-6*p && pauseOver){ 
+      avatar.state='fall'; avatar.vy=0; 
+      // ▼▼▼ NEU: Linien-Fade starten, wenn Fall beginnt (Nr. 2)
+      if(!lineFadeStart){ lineFadeStart = performance.now(); }
+    }
   }else if(avatar.state==='hammer'){
     if(performance.now()>=avatar.hammerUntil){ avatar.state='walk'; }
     else { avatar.step+=.08; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.3*p); }
   }else if(avatar.state==='pause'){
+    // ▼▼▼ NEU: kurzer Sprung kurz vor Pausenende (Nr. 1)
+    if(!avatar.didPauseJump && performance.now() >= avatar.pauseUntil - 600){
+      avatar.didPauseJump = true;
+      avatar.vy = -7*PX();
+    }
+    if(avatar.didPauseJump){
+      avatar.vy += avatar.gravity*p*0.9; // sanftere Schwerkraft im Sprung
+      avatar.y += avatar.vy;
+      if(avatar.y > lineY()-3*p){ avatar.y = lineY()-3*p; avatar.vy = 0; }
+    } else {
+      // leichtes Atmen, solange noch nicht gesprungen
+      avatar.step+=.05; 
+      avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.25*p);
+    }
     if(performance.now()>=avatar.pauseUntil){ avatar.state='walk'; }
-    avatar.step+=.05; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.25*p);
   }else if(avatar.state==='fall'){
     avatar.vy+=avatar.gravity*p*.6; avatar.y+=avatar.vy; avatar.x+=speed*.2;
     drawFallShadow();
