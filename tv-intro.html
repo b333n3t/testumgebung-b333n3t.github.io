@@ -6,7 +6,7 @@
   <title>b3nn3t • Intro (Sprung + Wipe-Fade von links)</title>
 <style>
   :root {
-    --fade-ms: 900ms; /* Dauer der Ein-/Ausblendung */
+    --fade-ms: 1000ms; /* Dauer der Ein-/Ausblendung */
   }
 
   html,body {
@@ -492,7 +492,7 @@ function drawWave(){
 function startTransition(){
   sessionStorage.setItem("introPlayed","1");
   document.body.classList.add('fadeout');
-  const fadeMs = 1800;
+  const fadeMs = 2200;
   const extra  = 300;
   setTimeout(()=>{ window.location.href = INTRO_RETURN_URL; }, fadeMs + extra);
 }
