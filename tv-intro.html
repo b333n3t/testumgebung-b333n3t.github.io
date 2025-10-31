@@ -225,7 +225,7 @@ function drawLine(){
   const now = performance.now();
   let alpha = 1;
   if(lineFadeStart){
-    const t = (now - lineFadeStart) / 1800; // ~1.8s Fade-Out
+    const t = (now - lineFadeStart) / 3500; // ~1.8s Fade-Out
     alpha = Math.max(0, 1 - t);
   }
   ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
