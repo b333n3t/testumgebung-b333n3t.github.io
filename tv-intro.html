@@ -3,560 +3,187 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>b3nn3t • Intro (Sprung + Linien-Fade + t-Hüpfer)</title>
+  <title>b3nn3t • Intro (SAFE MODE – Debug + Fixes)</title>
 <style>
-  :root {
-    --fade-ms: 900ms; /* Dauer der Ein-/Ausblendung */
-  }
-
-  html,body {
-    margin:0;
-    height:100%;
-    background:#000;          /* schwarzer Hintergrund */
-    overflow:hidden;
-  }
-
-  /* Canvas weich ein-/ausblenden */
-  canvas#c {
-    display:block;
-    width:100vw;
-    height:100vh;
-    image-rendering:pixelated;
-    image-rendering:crisp-edges;
-    opacity:0;
-    transition: opacity var(--fade-ms) ease;
-  }
-
-  body.ready canvas#c  { opacity:1; }  /* Fade-In */
-  body.fadeout canvas#c{ opacity:0; }  /* Fade-Out */
+  :root { --fade-ms: 900ms; }
+  html,body { margin:0; height:100%; background:#000; overflow:hidden; }
+  canvas#c { display:block; width:100vw; height:100vh; image-rendering:pixelated; image-rendering:crisp-edges; opacity:0; transition:opacity var(--fade-ms) ease; }
+  body.ready canvas#c  { opacity:1; }
+  body.fadeout canvas#c{ opacity:0; }
+  .debug { position:fixed; left:8px; top:8px; font:12px monospace; color:#0f0; background:rgba(0,0,0,.6); padding:6px 8px; border-radius:6px; pointer-events:none; }
 </style>
-
 </head>
 <body>
+  <div id="dbg" class="debug" hidden>DBG</div>
   <canvas id="c"></canvas>
-
 <script>
-/* ================== EINSTELLUNGEN ================== */
-const USE_HEAD_IMAGE   = true;
-const HEAD_IMG_URL     = "assets/tv-intro/dein-pixel.webp?v=" + Date.now(); // dein Kopf (mit/ohne Alpha)
+/************** SAFE MODE Schalter **************/
+const SAFE_MODE = true;                 // erzwingt robuste Defaults
+const USE_HEAD_IMAGE = false;           // Head-Bild aus, um CORS/404 auszuschließen
+const FORCE_REDIRECT_TIMEOUT_MS = 15000;// Hard Redirect, falls etwas hängt
+/***********************************************/
 
-// Kopf-Keying (nur nötig, wenn das Bild keinen Alpha-Kanal hat)
-const KEY_TOLERANCE    = 65;
-const KEY_SOFTNESS     = 0.45;
-const KEY_CUTOFF       = 0.10;
-const KEY_DESPECKLE    = 1;
-
-// Bewegung & Layout
-const RUN_TO_RIGHT     = true;
-const WORD             = "b3nn3t";
-const HAMMER_MS        = 680;    // „Hammer“-Zeit je Buchstabe
-const SPARK_COUNT      = 12;
-const HEAD_SCALE       = 26;
-const BODY_SCALE       = 16;
-
-// Buchstaben-Darstellung
-const LETTER_SIZE      = 24;     // in PX()-Einheiten
-const LETTER_GAP       = 18;
-const LETTER_TILT_MAX  = 6;      // max. zufällige Schiefstellung in Grad
-const LETTER_JITTER_Y  = 2;      // vertikale Zufallsabweichung in PX()
-
-// „t“ kippen + kurze Pause NUR dann
-const TILT_TRIGGER_PX  = 42;     // Abstand zur Kante (in PX())
-const TILT_TARGET_DEG  = 24;     // Kippwinkel nach rechts
-const TILT_MS          = 500;    // bis max. Neigung
-const TILT_WOBBLE_MS   = 5800;   // Wackeln
-const TILT_PAUSE_MS    = 3000;   // Figur-Standzeit beim gekippten „t“
-
-// (Optional) Weißer Glow & Welle – wie vorher
-const GLOW_DELAY_MS    = 140;
-const GLOW_MS          = 650;
-const WAVE_DELAY_MS    = 800;
-const WAVE_MS          = 1600;
-const WAVE_STRENGTH    = 1.0;
-
-/* ===== Rücksprungziel für Redirect nach dem Intro ===== */
+/************** Einstellungen (wie gehabt) **************/
+const HEAD_IMG_URL     = "assets/tv-intro/dein-pixel.webp?v=" + Date.now();
+const KEY_TOLERANCE=65, KEY_SOFTNESS=.45, KEY_CUTOFF=.10, KEY_DESPECKLE=1;
+const WORD="b3nn3t", HAMMER_MS=680, SPARK_COUNT=12, HEAD_SCALE=26, BODY_SCALE=16;
+const LETTER_SIZE=24, LETTER_GAP=18, LETTER_TILT_MAX=6, LETTER_JITTER_Y=2;
+const TILT_TRIGGER_PX=42, TILT_TARGET_DEG=24, TILT_MS=500, TILT_WOBBLE_MS=5800, TILT_PAUSE_MS=3000;
+const GLOW_DELAY_MS=140, GLOW_MS=650, WAVE_DELAY_MS=800, WAVE_MS=1600, WAVE_STRENGTH=1.0;
 const INTRO_RETURN_URL = sessionStorage.getItem("introReturn") || "index.html";
-/* ==================================================== */
+/*********************************************************/
 
-const c = document.getElementById('c');
-const ctx = c.getContext('2d');
+const c=document.getElementById('c');
+const ctx=c.getContext('2d');
+const dbg=document.getElementById('dbg');
 let W=0,H=0,DPR=1;
+let _animStarted=false, _lastFrameOk=false;
 
-/* ===== PRELOAD: Bilder & Videos von index.html, diskografie.html & gesehen.html ===== */
-const preloadImages = [
-  // --- Startseite ---
-  "assets/index/bennet_index1.avif",
-  "assets/index/bennet_index1.webp",
- 
-  "assets/index/bennet_index2.avif",
-  "assets/index/bennet_index2.webp",
+function debugLog(msg){ if(!SAFE_MODE) return; dbg.hidden=false; dbg.textContent=String(msg); }
 
-  "assets/index/bennet_index3.avif",
-  "assets/index/bennet_index3.webp",
-
-
-  // --- Diskografie (Spotify-Cover) ---
-
-
-  // --- Gesehen (Instagram + YouTube Thumbs + Bilder) ---
-  "assets/gesehen/insta1.webp",
-  "assets/gesehen/insta2.webp",
-  "assets/gesehen/insta3.webp",
-  "assets/gesehen/insta4.webp",
-
-  "assets/gesehen/reel1.avif",
-  "assets/gesehen/reel2.avif",
-  "assets/gesehen/reel3.avif",
-  "assets/gesehen/reel4.avif",
-  "assets/gesehen/reel5.avif",
-  "assets/gesehen/reel6.avif",
-  "assets/gesehen/reel7.avif",
-  "assets/gesehen/instagram_poster.jpg",
-  "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
-  "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
-  "https://img.youtube.com/vi/K5pKG0Smdfc/hqdefault.jpg",
-  "https://img.youtube.com/vi/4I9vlcGvFGQ/hqdefault.jpg",
-  "https://img.youtube.com/vi/w0pNdnlb96M/hqdefault.jpg",
-  "https://img.youtube.com/vi/rV1U891RKLo/hqdefault.jpg",
-  "https://img.youtube.com/vi/fq8zhAQMam0/hqdefault.jpg"
-];
-
-// Nur **Videos** hier rein:
-const preloadVideos = [ "assets/gesehen/B3NN3T.mp4" ];
-
-// Bilder vorladen
-function preloadAllImages(urls){
-  urls.forEach(url=>{
-    const img = new Image();
-    img.referrerPolicy = "no-referrer"; // sicher bei externen Covern
-    img.src = url;
-  });
-}
-// Videos vorladen
-function preloadAllVideos(urls){
-  urls.forEach(url=>{
-    const v = document.createElement('video');
-    v.preload = 'auto';
-    v.muted = true;
-    v.src = url;
-    v.load();
-  });
-}
-
-function PX(){return Math.max(2,Math.floor(Math.min(W,H)/240));}
-function lineY(){return Math.floor(H*2/3);} 
-function lineEndX(){return Math.floor(W*0.82);} 
+function PX(){ return Math.max(2,Math.floor(Math.min(W,H)/240)); }
+function lineY(){ return Math.floor(H*2/3); }
+function lineEndX(){ return Math.floor(W*0.82); }
 
 function resize(){
   DPR=Math.max(1,Math.floor(window.devicePixelRatio||1));
-  W=c.width=Math.floor(innerWidth*DPR);
-  H=c.height=Math.floor(innerHeight*DPR);
+  W=c.width=Math.max(2,Math.floor(innerWidth*DPR));
+  H=c.height=Math.max(2,Math.floor(innerHeight*DPR));
   c.style.width=innerWidth+'px';
   c.style.height=innerHeight+'px';
   ctx.imageSmoothingEnabled=false;
-  _baseX=null;
+  baseX=null; // recalc letter base on resize
 }
-addEventListener('resize',resize);resize();
+addEventListener('resize',resize);
+resize();
 
-/* 🔥 Preload sofort beim Start */
-if(!window._preloaded){
-  window._preloaded=true;
-  preloadAllImages(preloadImages);
-  preloadAllVideos(preloadVideos);
-}
+/* Minimal-Preload im Safe Mode weggelassen */
 
-/* ===== Kopf laden & Keying ===== */
-let headReady=false, headImg;
+/* Kopf & Keying (deaktiviert im SAFE_MODE via USE_HEAD_IMAGE=false) */
+let headReady=false, headImg=null;
 if(USE_HEAD_IMAGE){
-  const raw=new Image();raw.crossOrigin="anonymous";
-  raw.onload=()=>{
-    headImg=removeBGSmart(raw,{
-      tolerance:KEY_TOLERANCE,softness:KEY_SOFTNESS,cutoff:KEY_CUTOFF,despeckle:KEY_DESPECKLE
-    });
-    headReady=true;
-  };
-  raw.onerror=()=>{headReady=false;};
-  raw.src=HEAD_IMG_URL;
+  try{
+    const raw=new Image(); raw.crossOrigin="anonymous";
+    raw.onload=()=>{ headImg=removeBGSmart(raw,{tolerance:KEY_TOLERANCE,softness:KEY_SOFTNESS,cutoff:KEY_CUTOFF,despeckle:KEY_DESPECKLE}); headReady=true; };
+    raw.onerror=()=>{ headReady=false; };
+    raw.src=HEAD_IMG_URL;
+  }catch(e){ console.error(e); }
 }
 function removeBGSmart(image,{tolerance=60,softness=.4,cutoff=.1,despeckle=1}={}){
   const w=image.naturalWidth||image.width,h=image.naturalHeight||image.height;
-  const off=document.createElement('canvas');off.width=w;off.height=h;
+  const off=document.createElement('canvas'); off.width=w; off.height=h;
   const octx=off.getContext('2d',{willReadFrequently:true});
-  octx.imageSmoothingEnabled=false;octx.drawImage(image,0,0,w,h);
+  octx.imageSmoothingEnabled=false; octx.drawImage(image,0,0,w,h);
   const img=octx.getImageData(0,0,w,h),d=img.data;
   let sumR=0,sumG=0,sumB=0,count=0; const add=(ix)=>{sumR+=d[ix];sumG+=d[ix+1];sumB+=d[ix+2];count++;};
   for(let x=0;x<w;x++){add((x<<2));add((((h-1)*w+x)<<2));}
   for(let y=0;y<h;y++){add(((y*w)<<2));add(((y*w+(w-1))<<2));}
   const keyR=(sumR/count)|0,keyG=(sumG/count)|0,keyB=(sumB/count)|0;
   const rgb2ycbcr=(r,g,b)=>[0.299*r+0.587*g+0.114*b,-0.168736*r-0.331264*g+0.5*b+128,0.5*r-0.418688*g-0.081312*b+128];
-  const [ky,kcb,kcr]=rgb2ycbcr(keyR,keyG,keyB);const tol=Math.max(1,tolerance);
+  const [ky,kcb,kcr]=rgb2ycbcr(keyR,keyG,keyB); const tol=Math.max(1,tolerance);
   const smooth=(t)=>t<=0?0:t>=1?1:t*t*(3-2*t);
   for(let i=0;i<d.length;i+=4){
     const [y,cb,cr]=rgb2ycbcr(d[i],d[i+1],d[i+2]);
     const dist=Math.hypot(cb-kcb,cr-kcr)*0.9+Math.abs(y-ky)*0.1;
     let a=(dist-tol*cutoff)/Math.max(1,tol*(1-cutoff));
-    a=smooth(a*(1+softness));a=Math.max(0,Math.min(1,a));
+    a=smooth(a*(1+softness)); a=Math.max(0,Math.min(1,a));
     d[i+3]=Math.round(255*a);
   }
   octx.putImageData(img,0,0);
-  if(despeckle>0){
-    const pass=octx.getImageData(0,0,w,h),p=pass.data,thr=140;
-    const neigh=(x,y)=>{let n=0;for(let yy=-1;yy<=1;yy++)for(let xx=-1;xx<=1;xx++){if(!xx&&!yy)continue;const X=x+xx,Y=y+yy;if(X<0||Y<0||X>=w||Y>=h)continue;if(p[((Y*w+X)<<2)+3]>thr)n++;}return n;};
-    for(let y=1;y<h-1;y++){for(let x=1;x<w-1;x++){const ai=((y*w+x)<<2)+3;if(p[ai]<=thr&&neigh(x,y)>=(despeckle===2?5:7))p[ai]=0;}}
-    octx.putImageData(pass,0,0);
-  }
   return off;
 }
 
-/* ===== Zeichenhilfen ===== */
-function rect(x,y,w,h,fill){
-  ctx.fillStyle=fill;ctx.fillRect(x,y,w,h);
-  ctx.fillStyle='#000';
-  ctx.fillRect(x-1,y,w+2,1);
-  ctx.fillRect(x-1,y+h-1,w+2,1);
-  ctx.fillRect(x-1,y,1,h);
-  ctx.fillRect(x+w-1,y,1,h);
+/* Helpers */
+function rect(x,y,w,h,fill){ ctx.fillStyle=fill; ctx.fillRect(x,y,w,h); ctx.fillStyle='#000'; ctx.fillRect(x-1,y,w+2,1); ctx.fillRect(x-1,y+h-1,w+2,1); ctx.fillRect(x-1,y,1,h); ctx.fillRect(x+w-1,y,1,h); }
+let lineFadeStart=null;
+function drawLine(){ const now=performance.now(); const alpha=lineFadeStart? Math.max(0,1-(now-lineFadeStart)/1800) : 1; ctx.strokeStyle=`rgba(255,255,255,${alpha})`; ctx.lineWidth=2*PX(); ctx.beginPath(); ctx.moveTo(0,lineY()); ctx.lineTo(lineEndX(),lineY()); ctx.stroke(); }
+
+/* Avatar */
+const avatar={ state:'walk', x:-40*PX(), y:lineY()-3*PX(), vx:2.2, vy:0, gravity:.35, step:0, headScale:HEAD_SCALE, bodyScale:BODY_SCALE, hammerUntil:0, pauseUntil:0, didPauseJump:false };
+function drawHead(x,y){ const p=PX(),s=avatar.headScale*p,w=s,h=s; const top=y-avatar.bodyScale*p - s + 2*p; rect(Math.round(x-w/2),Math.round(top),w,Math.round(h*0.6),'#caa134'); rect(Math.round(x-w/2),Math.round(top+h*0.45),w,Math.round(h*0.5),'#f2b59a'); ctx.fillStyle='#1a5cff'; ctx.fillRect(Math.round(x+w*0.1),Math.round(top+h*0.62),2*p,2*p); ctx.fillRect(Math.round(x+w*0.22),Math.round(top+h*0.62),2*p,2*p); }
+function drawBody(x,y){ const p=PX(),bodyH=avatar.bodyScale*p,bodyW=Math.round(10*p),legLen=Math.round(12*p),armLen=Math.round(9*p); const torsoX=Math.round(x-bodyW/2),torsoY=Math.round(y-bodyH-2*p); rect(torsoX,torsoY,bodyW,bodyH,'#2b3a56'); const hammering=avatar.state==='hammer' && performance.now()<avatar.hammerUntil; const armTh=3*p,legTh=4*p; const walkFactor=(avatar.state==='walk')?1:0.1; const armSwing=hammering?-2*p:Math.sin(avatar.step)*1.2*p; rect(Math.round(x+4*p),torsoY+Math.round(3*p)+Math.round(armSwing),armTh,armLen,'#2b3a56'); rect(Math.round(x-7*p),torsoY+Math.round(3*p)-Math.round(armSwing),armTh,armLen,'#2b3a56'); const legSwing=Math.sin(avatar.step)*1.2*p*walkFactor; rect(Math.round(x+1*p),y-legLen+Math.round(legSwing),legTh,legLen,'#233047'); rect(Math.round(x-4*p),y-legLen-Math.round(legSwing),legTh,legLen,'#233047'); rect(Math.round(x+1*p),Math.round(lineY()-3*p),7*p,3*p,'#7a4f1f'); rect(Math.round(x-4*p),Math.round(lineY()-3*p),7*p,3*p,'#7a4f1f'); if(hammering){ const hx=Math.round(x+10*p),hy=Math.round(torsoY+7*p); ctx.fillStyle='#7a4f1f';ctx.fillRect(hx,hy,1*p,9*p); ctx.fillStyle='#c0c0c0';ctx.fillRect(hx-3*p,hy,7*p,2*p); ctx.fillStyle='#000'; ctx.fillRect(hx-3*p-1,hy,1,2*p); ctx.fillRect(hx+7*p-1,hy,1,2*p); ctx.fillRect(hx-3*p-1,hy-1,7*p+2,1); ctx.fillRect(hx-3*p-1,hy+2*p-1,7*p+2,1); } }
+
+/* Buchstaben */
+let baseX=null; function ensureBaseX(){ if(baseX!==null)return; const p=PX(),s=LETTER_GAP*p; const total=(WORD.length-1)*s; baseX=Math.round(W/2-total/2); }
+function letterTargetX(i){ ensureBaseX(); const p=PX(),s=LETTER_GAP*p; return baseX+i*s; }
+function letterTargetY(){ const p=PX(), s=avatar.headScale*p, base = avatar.y - avatar.bodyScale*p - s*0.35; return base - (LETTER_SIZE*p)*0.5; }
+const letters=[]; let nextLetterIndex=0;
+
+/* Funken */
+const sparks=[]; function spawnSparks(x,y){ const p=PX(); for(let i=0;i<SPARK_COUNT;i++){ const ang=Math.random()*Math.PI-Math.PI/2,spd=(0.8+Math.random()*0.8)*6*p; sparks.push({x,y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd-1*p,life:450+Math.random()*250,b:performance.now(),a:1}); }}
+function updateSparks(){ const now=performance.now(),p=PX(); for(let i=sparks.length-1;i>=0;i--){ const s=sparks[i],t=now-s.b; if(t>s.life){sparks.splice(i,1);continue;} s.vy+=0.02*p;s.x+=s.vx*0.016;s.y+=s.vy*0.016;s.a=1-(t/s.life);} }
+function drawSparks(){ const p=PX(); for(const s of sparks){ ctx.globalAlpha=Math.max(0,Math.min(1,s.a)); ctx.fillStyle='#ffd966'; ctx.fillRect(Math.round(s.x/p)*p,Math.round(s.y/p)*p,2*p,2*p);} ctx.globalAlpha=1; }
+
+function drawLetters(glowAlpha=0){ const p=PX(); ctx.font=(LETTER_SIZE*p)+'px monospace'; ctx.textBaseline='middle'; for(const L of letters){ ctx.save(); const x=Math.round(L.x),y=Math.round(L.y); if(L.angle){ ctx.translate(x,y); ctx.rotate(L.angle*Math.PI/180); ctx.translate(-x,-y); } if(glowAlpha>0){ ctx.globalCompositeOperation='lighter'; ctx.lineWidth=6*p; ctx.strokeStyle=`rgba(255,255,255,${0.25*glowAlpha})`; ctx.strokeText(L.ch,x,y); ctx.lineWidth=4*p; ctx.strokeStyle=`rgba(255,255,255,${0.35*glowAlpha})`; ctx.strokeText(L.ch,x,y); ctx.lineWidth=2*p; ctx.strokeStyle=`rgba(255,255,255,${0.45*glowAlpha})`; ctx.strokeText(L.ch,x,y); ctx.globalCompositeOperation='source-over'; } ctx.lineWidth=2*p; ctx.strokeStyle='#000'; ctx.strokeText(L.ch,x,y); ctx.fillStyle='#f2f2f2'; ctx.fillText(L.ch,x,y); ctx.restore(); } }
+
+/* Glow/Welle */
+let glowStartAt=null, waveStartAt=null, waveOrigin=null;
+function drawWave(){ if(!waveStartAt||!waveOrigin) return; const now=performance.now(); const t=(now-waveStartAt)/WAVE_MS; if(t<0||t>1) return; const p=PX(); const rMax=Math.hypot(W,H), r=rMax*t, band=34*p; const grad=ctx.createRadialGradient(waveOrigin.x,waveOrigin.y,Math.max(1,r-band), waveOrigin.x,waveOrigin.y,r); grad.addColorStop(0,"rgba(255,255,255,0)"); grad.addColorStop(.35,`rgba(255,255,255,${0.22*WAVE_STRENGTH*(1-t)})`); grad.addColorStop(.70,`rgba(255,255,255,${0.35*WAVE_STRENGTH*(1-t)})`); grad.addColorStop(1,"rgba(255,255,255,0)"); ctx.save(); ctx.globalCompositeOperation='lighter'; ctx.fillStyle=grad; ctx.fillRect(0,0,W,H); ctx.restore(); }
+
+/* Buchstaben setzen */
+function maybeHammerNext(){ if(nextLetterIndex>=WORD.length) return; const i=nextLetterIndex, tx=letterTargetX(i), ty=letterTargetY(), reach=8*PX(); if(avatar.x>=tx-reach && avatar.state==='walk'){ const p=PX(); const angle=(Math.random()*2*LETTER_TILT_MAX-LETTER_TILT_MAX); const jitterY=(Math.random()*2*LETTER_JITTER_Y-LETTER_JITTER_Y)*p; letters.push({ch:WORD[i],x:tx,y:ty+jitterY,angle,tiltStart:null,baseY:ty+jitterY}); avatar.hammerUntil=performance.now()+HAMMER_MS; avatar.state='hammer'; spawnSparks(tx,ty); nextLetterIndex++; if(nextLetterIndex===WORD.length){ const firstX=letterTargetX(0), lastX=letterTargetX(WORD.length-1); waveOrigin={x:(firstX+lastX)/2,y:ty}; glowStartAt=null; waveStartAt=null; } } }
+
+/* t-Kipp + Pause */
+function updateTiltAndPause(){ if(letters.length<WORD.length) return; const last=letters[letters.length-1]; const p=PX(); if(!last.tiltStart && avatar.x >= lineEndX() - TILT_TRIGGER_PX*p){ last.tiltStart=performance.now(); avatar.state='pause'; avatar.pauseUntil=last.tiltStart+TILT_PAUSE_MS; if(!glowStartAt){ glowStartAt=performance.now()+GLOW_DELAY_MS; waveStartAt=performance.now()+WAVE_DELAY_MS; } if(!lineFadeStart){ lineFadeStart=performance.now(); } }
+  if(last.tiltStart){ const t=(performance.now()-last.tiltStart); if(t<TILT_MS){ const e=1-Math.pow(1-t/TILT_MS,3); last.angle=TILT_TARGET_DEG*e; last.y=last.baseY - Math.sin(e*Math.PI)*6*PX(); } else { const wobbleT=(t-TILT_MS)/TILT_WOBBLE_MS; if(wobbleT<=1){ const amp=(1-wobbleT)*TILT_TARGET_DEG*0.5; last.angle=TILT_TARGET_DEG + Math.sin(wobbleT*Math.PI*6)*amp; last.y=last.baseY; } else { last.angle=TILT_TARGET_DEG; last.y=last.baseY; } } }
 }
 
-// ▼▼▼ NEU: Linien-Fade (Nr. 2)
-let lineFadeStart = null;
+/* Redirect */
+function startTransition(){ try{ sessionStorage.setItem("introPlayed","1"); }catch(_){} document.body.classList.add('fadeout'); const fadeMs=1800, extra=300; setTimeout(()=>{ window.location.href=INTRO_RETURN_URL; }, fadeMs+extra); }
 
-function drawLine(){
-  const now = performance.now();
-  let alpha = 1;
-  if(lineFadeStart){
-    const t = (now - lineFadeStart) / 1800; // ~1.8s Fade-Out
-    alpha = Math.max(0, 1 - t);
-  }
-  ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
-  ctx.lineWidth = 2*PX();
-  ctx.beginPath();ctx.moveTo(0,lineY());ctx.lineTo(lineEndX(),lineY());ctx.stroke();
-}
-
-/* ===== Avatar (walk | hammer | pause | fall) ===== */
-const avatar={
-  state:'walk', x:-40*PX(), y:lineY()-3*PX(),
-  vx:2.2, vy:0, gravity:.35, step:0,
-  headScale:HEAD_SCALE, bodyScale:BODY_SCALE,
-  hammerUntil:0, pauseUntil:0,
-  didPauseJump:false // ▼▼▼ NEU: Sprung-Flag (Nr. 1)
-};
-
-// Kopf etwas tiefer, Oberkörper etwas höher
-function drawHead(x,y){
-  const p=PX(),s=avatar.headScale*p,w=s,h=s;
-  const top = y - avatar.bodyScale*p - s + 2*p;   // ↓ Kopf tiefer
-  if(USE_HEAD_IMAGE&&headReady){
-    ctx.drawImage(headImg,Math.round(x-w/2),Math.round(top),Math.round(w),Math.round(h));
-    return;
-  }
-  rect(Math.round(x-w/2),Math.round(top),w,Math.round(h*0.6),'#caa134');
-  rect(Math.round(x-w/2),Math.round(top+h*0.45),w,Math.round(h*0.5),'#f2b59a');
-  ctx.fillStyle='#1a5cff';
-  ctx.fillRect(Math.round(x+w*0.1),Math.round(top+h*0.62),2*p,2*p);
-  ctx.fillRect(Math.round(x+w*0.22),Math.round(top+h*0.62),2*p,2*p);
-}
-function drawBody(x,y){
-  const p=PX(),bodyH=avatar.bodyScale*p,bodyW=Math.round(10*p),legLen=Math.round(12*p),armLen=Math.round(9*p);
-  const torsoX=Math.round(x-bodyW/2), torsoY=Math.round(y-bodyH-2*p); // ↑ Oberkörper leicht höher
-  rect(torsoX,torsoY,bodyW,bodyH,'#2b3a56');
-
-  const hammering=avatar.state==='hammer' && performance.now()<avatar.hammerUntil;
-  const armTh=3*p,legTh=4*p;
-  const walkFactor=(avatar.state==='walk')?1:0.1;
-  const armSwing=hammering?-2*p:Math.sin(avatar.step)*1.2*p;
-
-  rect(Math.round(x+4*p),torsoY+Math.round(3*p)+Math.round(armSwing),armTh,armLen,'#2b3a56');
-  rect(Math.round(x-7*p),torsoY+Math.round(3*p)-Math.round(armSwing),armTh,armLen,'#2b3a56');
-
-  const legSwing=Math.sin(avatar.step)*1.2*p*walkFactor;
-  rect(Math.round(x+1*p),y-legLen+Math.round(legSwing),legTh,legLen,'#233047');
-  rect(Math.round(x-4*p),y-legLen-Math.round(legSwing),legTh,legLen,'#233047');
-
-  rect(Math.round(x+1*p),Math.round(lineY()-3*p),7*p,3*p,'#7a4f1f');
-  rect(Math.round(x-4*p),Math.round(lineY()-3*p),7*p,3*p,'#7a4f1f');
-
-  if(hammering){
-    const hx=Math.round(x+10*p),hy=Math.round(torsoY+7*p);
-    ctx.fillStyle='#7a4f1f';ctx.fillRect(hx,hy,1*p,9*p);
-    ctx.fillStyle='#c0c0c0';ctx.fillRect(hx-3*p,hy,7*p,2*p);
-    ctx.fillStyle='#000';
-    ctx.fillRect(hx-3*p-1,hy,1,2*p);
-    ctx.fillRect(hx+7*p-1,hy,1,2*p);
-    ctx.fillRect(hx-3*p-1,hy-1,7*p+2,1);
-    ctx.fillRect(hx-3*p-1,hy+2*p-1,7*p+2,1);
-  }
-}
-
-/* ===== Schatten ===== */
-function drawFallShadow(){
-  if(avatar.state!=='fall')return;
-  const p=PX(),baseY=lineY()+2*p,dist=Math.max(0,avatar.y-lineY());
-  const maxW=28*p,minW=10*p,w=Math.max(minW,maxW-dist*0.15),h=Math.max(2*p,6*p-dist*0.08);
-  const a=Math.max(0.05,Math.min(0.35,0.35-dist*0.0015));
-  ctx.save();ctx.translate(Math.round(avatar.x),Math.round(baseY));ctx.scale(w,h);
-  ctx.beginPath();ctx.fillStyle=`rgba(0,0,0,${a})`;ctx.arc(0,0,1,0,Math.PI*2);ctx.fill();ctx.restore();
-}
-
-/* ===== Buchstaben (schief) + weißer Glow & Welle ===== */
-let baseX=null;
-function ensureBaseX(){if(baseX!==null)return;const p=PX(),s=LETTER_GAP*p;const total=(WORD.length-1)*s;baseX=Math.round(W/2-total/2);} 
-function letterTargetX(i){ensureBaseX();const p=PX(),s=LETTER_GAP*p;return baseX+i*s;}
-function letterTargetY(){
-  const p=PX(), s=avatar.headScale*p, base = avatar.y - avatar.bodyScale*p - s*0.35;
-  return base - (LETTER_SIZE*p)*0.5; // halbe Buchstabenhöhe höher
-}
-
-const letters=[]; // {ch,x,y,angle,tiltStart,baseY}
-let nextLetterIndex=0;
-
-const sparks=[];
-function spawnSparks(x,y){
-  const p=PX();
-  for(let i=0;i<SPARK_COUNT;i++){
-    const ang=Math.random()*Math.PI-Math.PI/2,spd=(0.8+Math.random()*0.8)*6*p;
-    sparks.push({x,y,vx:Math.cos(ang)*spd,vy:Math.sin(ang)*spd-1*p,life:450+Math.random()*250,b:performance.now(),a:1});
-  }
-}
-function updateSparks(){
-  const now=performance.now(),p=PX();
-  for(let i=sparks.length-1;i>=0;i--){
-    const s=sparks[i],t=now-s.b;
-    if(t>s.life){sparks.splice(i,1);continue;}
-    s.vy+=0.02*p;s.x+=s.vx*0.016;s.y+=s.vy*0.016;s.a=1-(t/s.life);
-  }
-}
-function drawSparks(){
-  const p=PX();
-  for(const s of sparks){
-    ctx.globalAlpha=Math.max(0,Math.min(1,s.a));
-    ctx.fillStyle='#ffd966';
-    ctx.fillRect(Math.round(s.x/p)*p,Math.round(s.y/p)*p,2*p,2*p);
-  }
-  ctx.globalAlpha=1;
-}
-
-/* Weißer Glow um Buchstaben */
-function drawLetters(glowAlpha=0){
-  const p=PX();
-  ctx.font=(LETTER_SIZE*p)+'px monospace';
-  ctx.textBaseline='middle';
-
-  for(const L of letters){
-    ctx.save();
-    const x=Math.round(L.x), y=Math.round(L.y);
-    if(L.angle){ ctx.translate(x,y); ctx.rotate(L.angle*Math.PI/180); ctx.translate(-x,-y); }
-
-    // Weißer Glow (additiv)
-    if(glowAlpha>0){
-      ctx.globalCompositeOperation='lighter';
-      ctx.lineWidth=6*p; ctx.strokeStyle=`rgba(255,255,255,${0.25*glowAlpha})`;
-      ctx.strokeText(L.ch,x,y);
-      ctx.lineWidth=4*p; ctx.strokeStyle=`rgba(255,255,255,${0.35*glowAlpha})`;
-      ctx.strokeText(L.ch,x,y);
-      ctx.lineWidth=2*p; ctx.strokeStyle=`rgba(255,255,255,${0.45*glowAlpha})`;
-      ctx.strokeText(L.ch,x,y);
-      ctx.globalCompositeOperation='source-over';
-    }
-
-    // Outline + Füllung
-    ctx.lineWidth=2*p; ctx.strokeStyle='#000'; ctx.strokeText(L.ch,x,y);
-    ctx.fillStyle='#f2f2f2'; ctx.fillText(L.ch,x,y);
-    ctx.restore();
-  }
-}
-
-/* Glow/Welle-Timing (wie zuvor) */
-let wordComplete=false;
-let glowStartAt=null;
-let waveStartAt=null;
-let waveOrigin=null;
-
-function maybeHammerNext(){
-  if(nextLetterIndex>=WORD.length) return;
-  const i=nextLetterIndex, tx=letterTargetX(i), ty=letterTargetY(), reach=8*PX();
-  if(avatar.x>=tx-reach && avatar.state==='walk'){
-    // Schief & leicht ungerade:
-    const p=PX();
-    const angle = (Math.random()*2*LETTER_TILT_MAX - LETTER_TILT_MAX); // ±LETTER_TILT_MAX°
-    const jitterY = (Math.random()*2*LETTER_JITTER_Y - LETTER_JITTER_Y)*p;
-    letters.push({ch:WORD[i],x:tx,y:ty+jitterY,angle,tiltStart:null, baseY:ty+jitterY}); // ▲ baseY merken (Nr. 3)
-
-    avatar.hammerUntil = performance.now()+HAMMER_MS;
-    avatar.state = 'hammer';
-    spawnSparks(tx,ty);
-    nextLetterIndex++;
-
-    if(nextLetterIndex===WORD.length){
-      wordComplete = true;
-      const firstX = letterTargetX(0), lastX = letterTargetX(WORD.length-1);
-      waveOrigin = { x: (firstX+lastX)/2, y: ty };
-      // Glow & Welle starten NICHT sofort, sondern wenn die Figur beim t angekommen ist
-      glowStartAt = null;
-      waveStartAt = null;
-    }
-  }
-}
-
-/* „t“ kippen + EINZIGE Pause */
-function updateTiltAndPause(){
-  if(letters.length<WORD.length) return;
-  const last=letters[letters.length-1]; // "t"
-  const p=PX();
-  if(!last.tiltStart && avatar.x >= lineEndX() - TILT_TRIGGER_PX*p){
-    last.tiltStart = performance.now();
-    avatar.state = 'pause';
-    avatar.pauseUntil = last.tiltStart + TILT_PAUSE_MS;
-
-    // Preload kurz vor Schluss starten (nur einmal)
-    if(!window._preloaded){
-      window._preloaded = true;
-      preloadAllImages(preloadImages);
-      preloadAllVideos(preloadVideos);
-    }
-
-    // Jetzt, wo Figur neben dem t steht → Glow und Welle starten
-    if(!glowStartAt){
-      glowStartAt = performance.now() + GLOW_DELAY_MS;
-      waveStartAt = performance.now() + WAVE_DELAY_MS;
-    }
-  }
-  if(last.tiltStart){
-    const t=(performance.now()-last.tiltStart);
-    if(t<TILT_MS){
-      const e=1-Math.pow(1-t/TILT_MS,3);
-      last.angle=TILT_TARGET_DEG*e;
-      // ▼▼▼ NEU: kleiner "+Hüpfer" des t (Nr. 3) relativ zu baseY
-      last.y = last.baseY - Math.sin(e*Math.PI)*2*PX();
-    }else{
-      const wobbleT=(t-TILT_MS)/TILT_WOBBLE_MS;
-      if(wobbleT<=1){
-        const amp=(1-wobbleT)*TILT_TARGET_DEG*0.5;
-        last.angle=TILT_TARGET_DEG + Math.sin(wobbleT*Math.PI*6)*amp;
-        // nach der Kipp-Phase: y langsam zurück zur Basis
-        last.y = last.baseY;
-      }else{
-        last.angle=TILT_TARGET_DEG;
-        last.y = last.baseY;
-      }
-    }
-  }
-}
-
-/* Weiße Lichtwelle (radial) */
-function drawWave(){
-  if(!waveStartAt || !waveOrigin) return;
-  const now=performance.now();
-  const t = (now - waveStartAt) / WAVE_MS;
-  if(t<0 || t>1) return;
-
-  const p=PX();
-  const rMax = Math.hypot(W,H);
-  const r = rMax * t;
-  const band = 34*p;
-
-  const grad = ctx.createRadialGradient(
-    waveOrigin.x, waveOrigin.y, Math.max(1, r-band),
-    waveOrigin.x, waveOrigin.y, r
-  );
-  grad.addColorStop(0.00, "rgba(255,255,255,0)");
-  grad.addColorStop(0.35, `rgba(255,255,255,${0.22*WAVE_STRENGTH*(1-t)})`);
-  grad.addColorStop(0.70, `rgba(255,255,255,${0.35*WAVE_STRENGTH*(1-t)})`);
-  grad.addColorStop(1.00, "rgba(255,255,255,0)");
-
-  ctx.save();
-  ctx.globalCompositeOperation='lighter';
-  ctx.fillStyle=grad;
-  ctx.fillRect(0,0,W,H);
-  ctx.restore();
-}
-
-/* ===== Redirect nach Intro ===== */
-function startTransition(){
-  sessionStorage.setItem("introPlayed","1");
-  // sanft ausblenden
-  document.body.classList.add('fadeout');
-
-  // Wartezeit = Fade-Dauer + kleine Pufferzeit
-  const fadeMs = 1800;     // gleich wie --fade-ms
-  const extra  = 300;      // Puffer
-  setTimeout(()=>{
-    window.location.href = INTRO_RETURN_URL;
-  }, fadeMs + extra);
-}
-
-
-
-/* ===== Hauptloop ===== */
+/* Loop – mit Try/Catch zur Fehlersuche */
 function tick(){
-  ctx.clearRect(0,0,W,H);
-  drawLine();
+  try{
+    _lastFrameOk=true;
+    ctx.clearRect(0,0,W,H);
+    drawLine();
+    maybeHammerNext();
+    updateTiltAndPause();
+    updateSparks();
+    let glowAlpha=0; if(glowStartAt){ const t=(performance.now()-glowStartAt)/GLOW_MS; if(t>=0&&t<=1){ glowAlpha=1-Math.pow(1-t,3);} }
+    drawLetters(glowAlpha);
+    drawSparks();
+    drawWave();
 
-  maybeHammerNext();
-  updateTiltAndPause();
-  updateSparks();
+    const p=PX(), speed=avatar.vx*p;
+    if(avatar.state==='walk'){
+      avatar.x+=speed; avatar.step+=.15; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*2)*0.5*p);
+      const last=letters[letters.length-1]; const pauseOver=!last?.tiltStart || performance.now()>=(last.tiltStart+TILT_PAUSE_MS);
+      if(avatar.x>=lineEndX()-6*p && pauseOver){ avatar.state='fall'; avatar.vy=0; if(!lineFadeStart){ lineFadeStart=performance.now(); } }
+    } else if(avatar.state==='hammer'){
+      if(performance.now()>=avatar.hammerUntil){ avatar.state='walk'; } else { avatar.step+=.08; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.3*p); }
+    } else if(avatar.state==='pause'){
+      if(!avatar.didPauseJump && performance.now() >= avatar.pauseUntil-600){ avatar.didPauseJump=true; avatar.vy=-7*PX(); }
+      if(avatar.didPauseJump){ avatar.vy+=avatar.gravity*p*0.9; avatar.y+=avatar.vy; if(avatar.y>lineY()-3*p){ avatar.y=lineY()-3*p; avatar.vy=0; } }
+      else { avatar.step+=.05; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.25*p); }
+      if(performance.now()>=avatar.pauseUntil){ avatar.state='walk'; }
+    } else if(avatar.state==='fall'){
+      avatar.vy+=avatar.gravity*p*.6; avatar.y+=avatar.vy; avatar.x+=speed*.2; 
+      const baseY=lineY()+2*p, dist=Math.max(0,avatar.y-lineY()); const maxW=28*p,minW=10*p,w=Math.max(minW,maxW-dist*0.15),h=Math.max(2*p,6*p-dist*0.08); const a=Math.max(0.05,Math.min(0.35,0.35-dist*0.0015));
+      ctx.save(); ctx.translate(Math.round(avatar.x),Math.round(baseY)); ctx.scale(w,h); ctx.beginPath(); ctx.fillStyle=`rgba(0,0,0,${a})`; ctx.arc(0,0,1,0,Math.PI*2); ctx.fill(); ctx.restore();
+      if(avatar.y>H+40*p){ avatar.state='done'; startTransition(); }
+    }
 
-  // Glow-Alpha (hell/weiß)
-  let glowAlpha = 0;
-  if(glowStartAt){
-    const t = (performance.now() - glowStartAt) / GLOW_MS;
-    if(t>=0 && t<=1){ glowAlpha = 1 - Math.pow(1-t, 3); }
+    drawBody(avatar.x,avatar.y);
+    drawHead(avatar.x,avatar.y);
+    requestAnimationFrame(tick);
+  }catch(err){
+    console.error('Intro tick error:', err);
+    debugLog('Fehler: '+err.message);
+    // Notbremse: Weiterlaufen, damit Redirect trotzdem erfolgt
+    requestAnimationFrame(tick);
   }
-
-  drawLetters(glowAlpha);
-  drawSparks();
-  drawWave();
-
-  const p=PX(),speed=avatar.vx*p;
-
-  if(avatar.state==='walk'){
-    avatar.x+=speed; avatar.step+=.15;
-    avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*2)*0.5*p);
-    const last = letters[letters.length-1];
-    const pauseOver = !last?.tiltStart || performance.now() >= (last.tiltStart + TILT_PAUSE_MS);
-    if(avatar.x>=lineEndX()-6*p && pauseOver){ 
-      avatar.state='fall'; avatar.vy=0; 
-      // ▼▼▼ NEU: Linien-Fade starten, wenn Fall beginnt (Nr. 2)
-      if(!lineFadeStart){ lineFadeStart = performance.now(); }
-    }
-  }else if(avatar.state==='hammer'){
-    if(performance.now()>=avatar.hammerUntil){ avatar.state='walk'; }
-    else { avatar.step+=.08; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.3*p); }
-  }else if(avatar.state==='pause'){
-    // ▼▼▼ NEU: kurzer Sprung kurz vor Pausenende (Nr. 1)
-    if(!avatar.didPauseJump && performance.now() >= avatar.pauseUntil - 600){
-      avatar.didPauseJump = true;
-      avatar.vy = -7*PX();
-    }
-    if(avatar.didPauseJump){
-      avatar.vy += avatar.gravity*p*0.9; // sanftere Schwerkraft im Sprung
-      avatar.y += avatar.vy;
-      if(avatar.y > lineY()-3*p){ avatar.y = lineY()-3*p; avatar.vy = 0; }
-    } else {
-      // leichtes Atmen, solange noch nicht gesprungen
-      avatar.step+=.05; 
-      avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.25*p);
-    }
-    if(performance.now()>=avatar.pauseUntil){ avatar.state='walk'; }
-  }else if(avatar.state==='fall'){
-    avatar.vy+=avatar.gravity*p*.6; avatar.y+=avatar.vy; avatar.x+=speed*.2;
-    drawFallShadow();
-    if(avatar.y>H+40*p){ avatar.state='done'; startTransition(); }
-  }
-
-  drawBody(avatar.x,avatar.y);
-  drawHead(avatar.x,avatar.y);
-
-  requestAnimationFrame(tick);
 }
-// ⏱ Wartezeit vor dem Start der Animation (z. B. 1500 ms = 1,5 Sek.)
-setTimeout(() => {
-  // erst sanft einblenden…
-  document.body.classList.add('ready');
-  // …und dann Animation starten
-  requestAnimationFrame(tick);
-}, 1500); // Start-Verzögerung bleibt (1.5s); gern auf 1000/2000 ändern
 
+function startAnim(){ if(_animStarted) return; _animStarted=true; document.body.classList.add('ready'); requestAnimationFrame(tick); debugLog('running…'); }
+
+// Mehrfach abgesichert starten
+window.addEventListener('load', ()=>{ setTimeout(startAnim, 200); });
+document.addEventListener('DOMContentLoaded', ()=>{ setTimeout(startAnim, 400); });
+setTimeout(()=>{ if(!_animStarted){ startAnim(); } }, 1200);
+
+// Hard Redirect, falls irgendwas hängt
+setTimeout(()=>{ startTransition(); }, FORCE_REDIRECT_TIMEOUT_MS);
 </script>
 </body>
 </html>
