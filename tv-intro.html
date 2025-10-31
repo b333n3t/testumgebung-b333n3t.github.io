@@ -70,7 +70,7 @@ const TILT_PAUSE_MS    = 3000;   // Figur-Standzeit beim gekippten „t“
 // (Optional) Weißer Glow & Welle – wie vorher
 const GLOW_DELAY_MS    = 140;
 const GLOW_MS          = 650;
-const WAVE_DELAY_MS    = 800;
+const WAVE_DELAY_MS    = 850;
 const WAVE_MS          = 1600;
 const WAVE_STRENGTH    = 1.0;
 
@@ -225,7 +225,7 @@ function drawLine(){
   const now = performance.now();
   let alpha = 1;
   if(lineFadeStart){
-    const t = (now - lineFadeStart) / 3500; // ~1.8s Fade-Out
+    const t = (now - lineFadeStart) / 3800; // ~1.8s Fade-Out
     alpha = Math.max(0, 1 - t);
   }
   ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
