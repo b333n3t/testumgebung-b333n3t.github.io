@@ -1,143 +1,236 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Diskografie</title>
-  <style>
-    :root{
-      --bg: #0b0c0e;
-      --card: #121417;
-      --text: #e8e9ea;
-      --muted: #a7adb4;
-      --accent: #4da3ff;
-      --ring: rgba(77,163,255,.35);
-      --shadow: rgba(0,0,0,.3);
-    }
-    @media (prefers-color-scheme: light) {
-      :root{
-        --bg:#f6f7f9;
-        --card:#ffffff;
-        --text:#0b0c0e;
-        --muted:#656b73;
-        --accent:#0b6bff;
-        --ring: rgba(11,107,255,.25);
-        --shadow: rgba(0,0,0,.08);
-      }
-    }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; }
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-    .wrap{
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    header{
-      margin-bottom: 22px;
-    }
-    h1{
-      margin:0 0 6px 0;
-      font-size: clamp(26px, 4vw, 36px);
-      letter-spacing: .2px;
-    }
-    .sub{
-      margin:0 0 2px 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>diskografie — b3nn3t</title>
+<meta content="diskografie — b3nn3t" name="description"/>
+<link href="favicon.svg" rel="icon" type="image/svg+xml"/>
 
-    /* Section titles */
-    h2{
-      margin: 28px 0 14px;
-      font-size: clamp(18px, 2.6vw, 22px);
-      letter-spacing:.2px;
-      border-left: 3px solid var(--accent);
-      padding-left: 10px;
-    }
+<!-- Haupt-Styles -->
+<link href="styles.css" rel="stylesheet"/>
+<link href="styles_nav_arrows.css" rel="stylesheet"/>
+<link href="swipe-helper.css" rel="stylesheet"/>
 
-    /* Grid */
-    .discography{
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 18px;
-    }
+<!-- ========= Layout-Variablen & Kernlayout ========= -->
+<style>
+  :root{
+    --header-height: 56px;                  /* Höhe der Top-Leiste "b3nn3t" */
+    --title-top: clamp(21px, 3vw, 31px);    /* 3 px tiefer */
+    --title-left: clamp(21px, 3vw, 31px);   /* 3 px weiter rechts */
+    --title-space: 150px;                   /* Luft zwischen Titelblock und Scrollbereich */
+    --title-size: 2.6rem;                   /* H1-Größe wie „gesehen“ */
+  }
 
-    /* Card */
-    .release{
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: 16px;
-      box-shadow: 0 6px 20px var(--shadow);
-      overflow: hidden;
-      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+  /* Außen-Scrolling aus; nur innen wird gescrollt */
+  html, body { height: 100%; overflow: hidden; margin: 0; }
+
+  /* Grauer Container */
+  .main{
+    position: relative;
+    height: calc(100vh - var(--header-height)); /* bleibt im Viewport */
+    background: rgba(255,255,255,.32);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border-radius: 12px;
+  }
+
+  /* Fixierter Titelblock – NICHT im Scrollbereich */
+  .title-fixed{
+    position: absolute;
+    top: var(--title-top);
+    left: var(--title-left);
+    right: var(--title-left);
+    z-index: 3;
+  }
+  /* Fixierter Titel: Typo identisch zu plattformen.html (aus styles.css) */
+  .title-fixed h1{
+    margin: 0;
+    /* keine eigene font-size → erbt H1-Größe aus styles.css */
+    font-weight: 700;   /* nicht 800; wie plattformen */
+    line-height: 1.1;
+    color:#111;
+  }
+
+  .title-fixed p{
+    margin: .6rem 0 0 0;  /* kleiner Abstand unter der H1 */
+    /* keine eigene font-size → erbt p-Größe aus styles.css */
+    color:#333;
+  }
+
+  /* Nur dieser Bereich scrollt – startet UNTER dem Titel */
+  .scroll-panel{
+    position: absolute;
+    top: calc(var(--title-top) + var(--title-space));
+    left: var(--title-left);
+    right: var(--title-left);
+    bottom: 16px;
+
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0;
+    margin: 0;
+    border-radius: 12px;
+    scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .scroll-panel::-webkit-scrollbar{ display:none; }
+
+  /* Karten & Grids */
+  .panel-block{ background:transparent !important; box-shadow:none !important; padding:0; margin:0 0 1rem 0; }
+  .disco-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+    gap:1rem; margin:0 0 2rem; align-items:start;
+  }
+  .release{
+    border:1px solid #ddd; border-radius:12px; padding:12px;
+    box-shadow:0 1px 3px rgba(0,0,0,.06); background:#fff;
+  }
+  .release img{ width:100%; height:220px; object-fit:cover; border-radius:8px; background:#f2f2f2; }
+  .release .meta{ font-size:.9rem; color:#444; margin-top:.5rem }
+  .release .title{ font-weight:600 }
+
+  /* Akkordeon-Header */
+  .panel-block h3[role="button"]{
+    display:flex; align-items:center; justify-content:space-between;
+    font-weight:700; font-size:1rem; line-height:1.2;
+    padding:.9rem 1rem; margin:0 0 .8rem 0;
+    background:rgba(255,255,255,.92);
+    border:1px solid rgba(0,0,0,.08);
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+    cursor:pointer; color:#111;
+  }
+  .panel-block h3[role="button"]::after{
+    content:"▾"; opacity:.75; margin-left:.75rem;
+    transition:transform .2s ease, opacity .2s ease;
+    font-weight:400;
+  }
+  .panel-block h3[role="button"]:[aria-expanded="true"]::after{ transform:rotate(180deg); }
+  .panel-block h3[role="button"]:hover{ box-shadow:0 4px 14px rgba(0,0,0,.08); }
+  .panel-block h3[role="button"]:active{ transform:translateY(1px); }
+  .panel-block h3[role="button"]:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(17,17,17,.2); }
+
+  .disco-grid[hidden]{ display:none; }
+
+  /* (Optional) Badges ausblenden */
+  .badge{ display:none !important; }
+
+  /* Mehr-Button / Tracklist */
+  .toggle{margin-top:.5rem}
+  .toggle button{
+    border:1px solid #111;border-radius:999px;padding:.35rem .7rem;font-weight:600;
+    background:#111;color:#fff;cursor:pointer
+  }
+  .tracklist{margin-top:.6rem;display:none}
+  .tracklist.open{display:block}
+  .tracklist iframe{width:100%;height:352px;border:0;border-radius:8px}
+
+  @media (max-width:768px){
+    /* Text im Untertitel etwas kleiner (wie gehabt) */
+    .title-fixed p{ font-size:1rem; }
+
+    /* Scrollbereich minimal näher an unten */
+    .scroll-panel{ bottom:8px; } /* vorher 12px */
+
+    /* Grauer Container: etwas näher an unteren Rand,
+       dynamische Höhe für Mobile-Browserleisten */
+    main.main{
+      min-height: calc(100dvh - var(--header-height) - 20px);
+      height: calc(100dvh - var(--header-height) - 20px);
     }
-    .release:focus-within{
-      outline: none;
-      border-color: var(--ring);
-      box-shadow: 0 0 0 4px var(--ring);
-    }
-    .cover{
-      width: 100%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      display: block;
-      background: #222;
-      transition: transform .25s ease;
-    }
-    .release:hover .cover{ transform: scale(1.02); }
-    @media (prefers-reduced-motion: reduce){
-      .release, .cover{ transition: none; }
-    }
-    .title, .meta{
-      padding: 12px 14px 0 14px;
-    }
-    .title a{
-      color: var(--text);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    .title a:hover{ text-decoration: underline; }
-    .badge{
-      display: inline-block;
-      margin-left: 8px;
-      padding: 2px 8px;
-      font-size: 12px;
-      line-height: 1.7;
-      border-radius: 999px;
-      background: rgba(77,163,255,.12);
-      color: var(--accent);
-      vertical-align: middle;
-      white-space: nowrap;
-    }
-    .meta{
-      color: var(--muted);
-      padding-bottom: 14px;
-      font-size: 14px;
-    }
-    /* layout spacing between sections */
-    section + section{ margin-top: 28px; }
-  </style>
+  }
+</style>
+
+<!-- === Hamburger-/Menü-Styles (aus ueber-mich.html) === -->
+<style>
+  .hamburger{
+    position:fixed; top:14px; right:18px; width:20px; height:20px;
+    border:none; background:transparent; display:grid; place-items:center;
+    cursor:pointer; z-index:1200; padding:0;
+  }
+  .hamburger span{
+    display:block; width:12px; height:1.4px; margin:1.5px 0;
+    background:#000; border-radius:2px; transition:transform .2s ease, opacity .2s ease;
+  }
+  body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
+  body.menu-open .hamburger span:nth-child(2){opacity:0}
+  body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
+
+  .menu-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.08);
+    backdrop-filter:blur(1px); -webkit-backdrop-filter:blur(1px); z-index:1099;
+  }
+  body.menu-open #menu-overlay{display:block}
+  #menu-overlay[hidden]{display:none}
+
+  .site-menu{
+    position:fixed; top:0; right:0; height:auto; max-height:90vh;
+    width:min(40vw,150px);
+    background:rgba(255,255,255,.32);
+    backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+    transform:translateX(100%); transition:transform .25s ease;
+    z-index:1101; padding:46px 10px 14px;
+  }
+  body.menu-open .site-menu{transform:translateX(0)}
+  .site-menu ul{list-style:none; margin:0; padding:0}
+  .site-menu li{margin:0 0 10px 0}
+  .site-menu li.sep{margin-top:18px; padding-top:8px; border-top:1px solid rgba(0,0,0,.08)}
+  .site-menu a{
+    display:block; padding:8px 6px; border-radius:10px; color:#000; text-decoration:none;
+    font-size:1rem; font-weight:500;
+  }
+  .site-menu a:hover{background:rgba(0,0,0,.05)}
+  .nav-arrow{z-index:1000}
+</style>
 </head>
-<body>
-  <main class="wrap">
-    <header>
-      <p class="sub">Diskografie</p>
-      <h1>b3nn3t</h1>
-    </header>
 
-    <!-- ALBEN -->
-    <section aria-labelledby="alben">
-      <h2 id="alben">Alben</h2>
-      <div class="discography">
+<body>
+<header class="header">
+  <a aria-label="b3nn3t Home" class="brand" href="index.html">
+    <img alt="" src="favicon.svg"/><strong>b3nn3t</strong>
+  </a>
+</header>
+
+<!-- Burger-Menü (identisch zu ueber-mich.html) -->
+<button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
+  <span></span><span></span><span></span>
+</button>
+<div id="menu-overlay" class="menu-overlay" hidden></div>
+
+<nav id="site-menu" class="site-menu" aria-hidden="true">
+  <ul>
+    <li><a href="ueber-mich.html">über mich</a></li>
+    <li><a href="diskografie.html" class="active">diskografie</a></li>
+    <li><a href="kontakt.html">kontakt</a></li>
+    <li><a href="aktuell.html">aktuell</a></li>
+    <li><a href="gesehen.html">gesehen</a></li>
+    <li><a href="plattformen.html">plattformen</a></li>
+    <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
+  </ul>
+</nav>
+
+<!-- Pfeile -->
+<a aria-label="Vorherige Seite" class="nav-arrow left" href="ueber-mich.html">←</a>
+<a aria-label="Nächste Seite" class="nav-arrow right" href="kontakt.html">→</a>
+
+<main class="main">
+  <!-- Fixierter Titel -->
+  <div class="title-fixed">
+    <h1>diskografie</h1>
+    <p>meine releases & kollabos</p>
+  </div>
+
+  <!-- Scrollbarer Bereich -->
+  <div class="scroll-panel">
+
+    <!-- Alben -->
+    <section>
+      <div class="panel-block"><h3>Alben</h3></div>
+      <div class="disco-grid">
         <article class="release">
           <img src="assets/diskografie/Alben/traeum ich.jpg" alt="Cover: traeum ich??" class="cover" loading="lazy" />
           <div class="title">
@@ -159,9 +252,9 @@
     </section>
 
     <!-- EPs -->
-    <section aria-labelledby="eps">
-      <h2 id="eps">EPs</h2>
-      <div class="discography">
+    <section>
+      <div class="panel-block"><h3>EPs</h3></div>
+      <div class="disco-grid">
         <article class="release">
           <img src="assets/diskografie/EPs/st3rne.jpg" alt="Cover: st3rne☆*" class="cover" loading="lazy" />
           <div class="title">
@@ -191,12 +284,11 @@
       </div>
     </section>
 
-    <!-- SINGLES -->
-    <section aria-labelledby="singles">
-      <h2 id="singles">Singles</h2>
-      <div class="discography">
+    <!-- Singles (inkl. Kollabos) -->
+    <section>
+      <div class="panel-block"><h3>Singles (inkl. Kollabos)</h3></div>
 
-        <!-- 2025 -->
+      <div class="disco-grid">
         <article class="release">
           <img src="assets/diskografie/Singles/kreative perspektiven.jpg" alt="Cover: kreative perspektiven" class="cover" loading="lazy" />
           <div class="title">
@@ -260,7 +352,6 @@
           <div class="meta">2025</div>
         </article>
 
-        <!-- 2024 -->
         <article class="release">
           <img src="assets/diskografie/Singles/seit wieviel jahren leuchten sterne.jpg" alt="Cover: seit wieviel jahren leuchten sterne??" class="cover" loading="lazy" />
           <div class="title">
@@ -351,7 +442,6 @@
           <div class="meta">2024</div>
         </article>
 
-        <!-- 2023 -->
         <article class="release">
           <img src="assets/diskografie/Singles/zwei stunden.jpg" alt="Cover: zwei stunden" class="cover" loading="lazy" />
           <div class="title">
@@ -369,9 +459,142 @@
           </div>
           <div class="meta">2023</div>
         </article>
+      </div>
 
+      <!-- Copyright -->
+      <div style="margin-top: 25em; color: black; text-align: center;">
+        © b3nn3t · <a href="impressum.html" style="color: black; text-decoration: none;">Impressum / Datenschutz</a>
       </div>
     </section>
-  </main>
+
+  </div>
+</main>
+
+<a aria-label="Zur Startseite" class="home-btn" href="index.html">Startseite</a>
+
+<!-- Skripte -->
+<script src="script.js"></script>
+<script defer src="swipe-nav.js?v=12"></script>
+
+<!-- Cover-Loader mit JPG-Fallback (seriell + kleine Pause) -->
+<script>
+(function () {
+  const FALLBACK_SRC = 'assets/placeholder-cover.jpg';
+  const DELAY_MS = 150; // kleine Pause zwischen Requests
+
+  async function setCover(img) {
+    const url = img.dataset.spotify;
+    if (!url) { img.src = FALLBACK_SRC; return; }
+    try {
+      const res = await fetch(
+        `https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`,
+        { mode: 'cors' }
+      );
+      if (!res.ok) throw new Error('oEmbed failed');
+      const data = await res.json();
+      const src = (data.thumbnail_url || '').replace(/&?size=\d+/, '');
+      img.src = src || FALLBACK_SRC;
+    } catch {
+      img.src = FALLBACK_SRC;
+    }
+    // kleine Pause, um Rate-Limits zu vermeiden
+    await new Promise(r => setTimeout(r, DELAY_MS));
+  }
+
+  async function initCovers(){
+    const imgs = document.querySelectorAll('img.cover[data-spotify]');
+    for (const img of imgs){
+      await setCover(img); // seriell statt parallel
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initCovers);
+  else initCovers();
+})();
+</script>
+
+<!-- Singles: fehlende „Mehr“-Buttons + Player automatisch ergänzen -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const singlesHeading = Array.from(document.querySelectorAll('main h3'))
+      .find(h => h.textContent.trim().toLowerCase().startsWith('singles'));
+    if (!singlesHeading) return;
+
+    const singlesGrid = singlesHeading.closest('.panel-block')?.nextElementSibling;
+    if (!singlesGrid || !singlesGrid.classList.contains('disco-grid')) return;
+
+    let idx = 1;
+    singlesGrid.querySelectorAll('.release').forEach(card => {
+      const hasToggle = card.querySelector('.toggle');
+      const hasTracklist = card.querySelector('.tracklist');
+      if (hasToggle && hasTracklist) return;
+
+      const url =
+        card.querySelector('img.cover')?.dataset.spotify ||
+        card.querySelector('.title a')?.href || '';
+
+      let embed = '';
+      if (/open\.spotify\.com/.test(url)) {
+        embed = url.replace('open.spotify.com/', 'open.spotify.com/embed/');
+      }
+
+      const afterMeta = card.querySelector('.meta') || card.lastElementChild;
+      const toggleWrap = document.createElement('div');
+      toggleWrap.className = 'toggle';
+
+      const id = `tracklist-s-${idx++}`;
+      toggleWrap.innerHTML = `<button type="button" onclick="toggleTracklist('${id}')">Mehr</button>`;
+
+      const panel = document.createElement('div');
+      panel.className = 'tracklist';
+      panel.id = id;
+      panel.innerHTML = embed
+        ? `<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="${embed}"></iframe>`
+        : `<div style="padding:.6rem 0;color:#666">Keine Einbettung gefunden.</div>`;
+
+      afterMeta.insertAdjacentElement('afterend', toggleWrap);
+      toggleWrap.insertAdjacentElement('afterend', panel);
+    });
+  });
+</script>
+
+<!-- Akkordeon-Logik (Start: geschlossen) -->
+<script>
+  function toggleTracklist(id){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.classList.toggle('open');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const sections = document.querySelectorAll('main section');
+
+    sections.forEach((section, i) => {
+      const heading = section.querySelector('.panel-block h3');
+      const grid = section.querySelector('.disco-grid');
+      if (!heading || !grid) return;
+
+      heading.setAttribute('role', 'button');
+      heading.setAttribute('tabindex', '0');
+
+      const gridId = `cat-grid-${i+1}`;
+      heading.setAttribute('aria-controls', gridId);
+      heading.setAttribute('aria-expanded', 'false'); // geschlossen starten
+      grid.id = gridId;
+      grid.hidden = true;
+
+      const toggle = () => {
+        const isOpen = heading.getAttribute('aria-expanded') === 'true';
+        heading.setAttribute('aria-expanded', String(!isOpen));
+        grid.hidden = isOpen;
+      };
+
+      heading.addEventListener('click', toggle);
+      heading.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+  });
+</script>
+
 </body>
 </html>
