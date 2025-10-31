@@ -420,6 +420,9 @@ function updateTiltAndPause(){
       glowStartAt = performance.now() + GLOW_DELAY_MS;
       waveStartAt = performance.now() + WAVE_DELAY_MS;
     }
+
+    // ▼▼▼ NEU: Linien-Fade bereits beim t-Event starten (robuster als erst beim Fall)
+    if(!lineFadeStart){ lineFadeStart = performance.now(); }
   }
   if(last.tiltStart){
     const t=(performance.now()-last.tiltStart);
@@ -427,7 +430,7 @@ function updateTiltAndPause(){
       const e=1-Math.pow(1-t/TILT_MS,3);
       last.angle=TILT_TARGET_DEG*e;
       // ▼▼▼ NEU: kleiner "+Hüpfer" des t (Nr. 3) relativ zu baseY
-      last.y = last.baseY - Math.sin(e*Math.PI)*2*PX();
+      last.y = last.baseY - Math.sin(e*Math.PI)*6*PX(); // stärkerer Hüpfer (sichtbarer)
     }else{
       const wobbleT=(t-TILT_MS)/TILT_WOBBLE_MS;
       if(wobbleT<=1){
@@ -516,8 +519,9 @@ function tick(){
     const pauseOver = !last?.tiltStart || performance.now() >= (last.tiltStart + TILT_PAUSE_MS);
     if(avatar.x>=lineEndX()-6*p && pauseOver){ 
       avatar.state='fall'; avatar.vy=0; 
-      // ▼▼▼ NEU: Linien-Fade starten, wenn Fall beginnt (Nr. 2)
+      // Sicherheitsnetz: Falls der Fade noch nicht gestartet wurde, hier starten
       if(!lineFadeStart){ lineFadeStart = performance.now(); }
+    }
     }
   }else if(avatar.state==='hammer'){
     if(performance.now()>=avatar.hammerUntil){ avatar.state='walk'; }
