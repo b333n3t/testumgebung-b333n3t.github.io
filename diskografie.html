@@ -109,8 +109,10 @@
     font-weight:400;
   }
   .panel-block h3[role="button"]:[aria-expanded="true"]::after{ transform:rotate(180deg); }
+  .panel-block h3[role="button"]::after{ will-change: transform; }
   .panel-block h3[role="button"]:hover{ box-shadow:0 4px 14px rgba(0,0,0,.08); }
   .panel-block h3[role="button"]:active{ transform:translateY(1px); }
+  .panel-block h3[role="button"]::after{ transition: transform .2s ease; }
   .panel-block h3[role="button"]:focus-visible{ outline:none; box-shadow:0 0 0 3px rgba(17,17,17,.2); }
 
   .disco-grid[hidden]{ display:none; }
@@ -186,6 +188,10 @@
   .site-menu a:hover{background:rgba(0,0,0,.05)}
   .nav-arrow{z-index:1000}
 </style>
+
+<!-- Performance: Verbindungen früh aufbauen -->
+<link rel="preconnect" href="https://open.spotify.com" crossorigin>
+<link rel="preconnect" href="https://i.scdn.co" crossorigin>
 </head>
 
 <body>
@@ -414,27 +420,62 @@
 <script src="script.js"></script>
 <script defer src="swipe-nav.js?v=12"></script>
 
-<!-- Optimierter Block: Singles-Cover lazy, Fallback, sanfte Drosselung, Embeds -->
+<!-- Optimierter Block: Singles sehr schnell (Prefetch + Parallel + IO), Fallback -->
 <script>
 /* ========= Einstellungen ========= */
 const FALLBACK_SRC = 'assets/placeholder-cover.jpg';
-const DELAY_MS = 120; // kleine Pause zwischen Requests, schont Rate-Limits
+const DELAY_MS = 60;           // kurze Pause, schont Rate-Limits
+const MAX_CONCURRENCY = 6;     // parallele Requests
+const PREFETCH_SINGLES = 12;   // so viele Singles im Hintergrund vorbereiten
 
-/* ========= Hilfsfunktionen ========= */
+/* ========= Caches & Helfer ========= */
+const oembedCache = new Map(); // url -> thumbnail_url
 function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+function withLimit(limit){
+  const queue = [];
+  let active = 0;
+  const run = async (fn, resolve, reject) => {
+    active++;
+    try{ resolve(await fn()); }
+    catch(e){ reject(e); }
+    finally{
+      active--;
+      if (queue.length) {
+        const {fn, resolve, reject} = queue.shift();
+        run(fn, resolve, reject);
+      }
+    }
+  };
+  return (fn) => new Promise((res, rej) => {
+    if (active < limit) run(fn, res, rej);
+    else queue.push({fn, resolve:res, reject:rej});
+  });
+}
+const limit = withLimit(MAX_CONCURRENCY);
 
-/* Spotify-oEmbed laden und Cover setzen (mit Fallback) */
+/* ========= Spotify oEmbed ========= */
+async function fetchOEmbedThumb(url){
+  if (!url) return null;
+  if (oembedCache.has(url)) return oembedCache.get(url);
+  const res = await fetch(
+    `https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`,
+    { mode: 'cors' }
+  );
+  if (!res.ok) throw new Error('oEmbed failed');
+  const data = await res.json();
+  const src = (data.thumbnail_url || '').replace(/&?size=\d+/, '') || null;
+  oembedCache.set(url, src);
+  return src;
+}
+
+/* ========= Cover-Setzen (mit Fallback) ========= */
 async function setCover(img){
   const url = img?.dataset?.spotify;
+  img.decoding = 'async';
+  img.fetchPriority = 'low';
   if (!url){ img.src = FALLBACK_SRC; img.dataset.loaded = 'true'; return; }
   try{
-    const res = await fetch(
-      `https://open.spotify.com/oembed?url=${encodeURIComponent(url)}`,
-      { mode: 'cors' }
-    );
-    if (!res.ok) throw new Error('oEmbed failed');
-    const data = await res.json();
-    const src = (data.thumbnail_url || '').replace(/&?size=\d+/, '');
+    const src = await fetchOEmbedThumb(url);
     img.src = src || FALLBACK_SRC;
   }catch{
     img.src = FALLBACK_SRC;
@@ -443,17 +484,17 @@ async function setCover(img){
   }
 }
 
-/* Alle Covers in einem Grid laden – nur die, die noch nicht geladen wurden */
-async function loadCoversIn(grid){
+/* ========= Batch-Lader ========= */
+async function loadCoversIn(grid, filter = 'img.cover[data-spotify]:not([data-loaded])'){
   if (!grid) return;
-  const imgs = grid.querySelectorAll('img.cover[data-spotify]:not([data-loaded])');
-  for (const img of imgs){
+  const imgs = Array.from(grid.querySelectorAll(filter));
+  await Promise.all(imgs.map(img => limit(async () => {
     await setCover(img);
     await sleep(DELAY_MS);
-  }
+  })));
 }
 
-/* „Mehr“-Button & Spotify-Embed bei Singles automatisch ergänzen (falls fehlt) */
+/* ========= Singles verbessern (Mehr-Buttons/Embeds) ========= */
 function enhanceSingles(grid){
   if (!grid) return;
   let idx = 1;
@@ -492,14 +533,21 @@ function enhanceSingles(grid){
   });
 }
 
-/* Tracklist-Akkordeon (pro Karte) */
+/* ========= Tracklist-Akkordeon (pro Karte) ========= */
 function toggleTracklist(id){
   const el = document.getElementById(id);
   if(!el) return;
   el.classList.toggle('open');
 }
 
-/* Abschnitts-Akkordeon (Alben / EPs / Singles) – Singles lädt Covers erst beim Öffnen */
+/* ========= Abschnitts-Akkordeon =========
+   Singles:
+   - Vorab: oEmbed-Thumbs der ersten N Einträge im Hintergrund (idle) prefetchen
+   - Beim Öffnen:
+       1) sofort gecachte Thumbs setzen (instant)
+       2) restliche Thumbs parallel nachladen
+       3) IntersectionObserver lädt nur sichtbare/nahe Bilder
+*/
 function setupCategoryAccordions(){
   const sections = document.querySelectorAll('main section');
 
@@ -518,14 +566,48 @@ function setupCategoryAccordions(){
 
     const isSingles = heading.textContent.trim().toLowerCase().startsWith('singles');
 
-    const openHandler = () => {
+    // Für Singles: Observer für "sichtbar = laden"
+    let singlesObserver = null;
+    if (isSingles){
+      singlesObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting){
+            const img = entry.target;
+            if (!img.dataset.loaded){
+              const url = img.dataset.spotify || '';
+              const cached = oembedCache.get(url);
+              if (cached){
+                img.src = cached;
+                img.dataset.loaded = 'true';
+              }else{
+                setCover(img);
+              }
+            }
+            singlesObserver.unobserve(img);
+          }
+        });
+      }, { root: grid, rootMargin: '200px 0px', threshold: 0.01 });
+    }
+
+    const openHandler = async () => {
       const nowOpen = heading.getAttribute('aria-expanded') === 'true';
-      // Wenn jetzt geöffnet: ggf. Covers laden (bei Singles lazy)
-      if (nowOpen){
-        if (isSingles){
-          // Singles-Cover erst jetzt laden
-          loadCoversIn(grid);
-        }
+      if (nowOpen && isSingles){
+        // 1) Sofort alle gecachten Thumbs setzen (instant paint)
+        grid.querySelectorAll('img.cover[data-spotify]:not([data-loaded])').forEach(img => {
+          const cached = oembedCache.get(img.dataset.spotify || '');
+          if (cached){
+            img.src = cached;
+            img.dataset.loaded = 'true';
+          }
+        });
+
+        // 2) Rest parallel nachladen (mit Limit)
+        loadCoversIn(grid);
+
+        // 3) Observer für verbleibende (sichtbarkeitsbasiert)
+        grid.querySelectorAll('img.cover[data-spotify]:not([data-loaded])').forEach(img => {
+          singlesObserver && singlesObserver.observe(img);
+        });
       }
     };
 
@@ -533,7 +615,6 @@ function setupCategoryAccordions(){
       const isOpen = heading.getAttribute('aria-expanded') === 'true';
       heading.setAttribute('aria-expanded', String(!isOpen));
       grid.hidden = isOpen;
-      // nach Statuswechsel prüfen
       openHandler();
     };
 
@@ -541,12 +622,32 @@ function setupCategoryAccordions(){
     heading.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
     });
+
+    // === Singles: Prefetch der ersten N oEmbed-Thumbnails im Hintergrund ===
+    if (isSingles){
+      const singlesImgs = Array.from(grid.querySelectorAll('img.cover[data-spotify]')).slice(0, PREFETCH_SINGLES);
+      const prefetchFn = async () => {
+        await Promise.all(singlesImgs.map(img => limit(async () => {
+          try{
+            const url = img.dataset.spotify || '';
+            if (url && !oembedCache.has(url)){
+              await fetchOEmbedThumb(url);
+              await sleep(DELAY_MS);
+            }
+          }catch{}
+        })));
+      };
+      if ('requestIdleCallback' in window){
+        requestIdleCallback(prefetchFn, {timeout: 2000});
+      }else{
+        setTimeout(prefetchFn, 400);
+      }
+    }
   });
 }
 
 /* ======== Initialisierung ======== */
 document.addEventListener('DOMContentLoaded', async () => {
-  // Referenzen auf die drei Kategorien
   const allHeadings = Array.from(document.querySelectorAll('main .panel-block h3'));
   const findGridAfter = (h) => h?.closest('.panel-block')?.nextElementSibling;
 
@@ -561,11 +662,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Singles: fehlende „Mehr“-Buttons & Embeds ergänzen (vor dem ersten Öffnen)
   if (singlesGrid) enhanceSingles(singlesGrid);
 
-  // Akkordeons initialisieren (alle starten geschlossen; Singles lädt Covers erst beim Öffnen)
+  // Akkordeons initialisieren
   setupCategoryAccordions();
 
   // OPTIONAL: Alben & EPs beim Start vorladen (Covers), damit sie beim Öffnen sofort da sind
-  // -> Wenn du das NICHT willst, diese zwei Zeilen einfach auskommentieren.
   if (albumsGrid) loadCoversIn(albumsGrid);
   if (epsGrid)    loadCoversIn(epsGrid);
 });
