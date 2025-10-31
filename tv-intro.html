@@ -225,7 +225,7 @@ function drawLine(){
   const now = performance.now();
   let alpha = 1;
   if(lineFadeStart){
-    const t = (now - lineFadeStart) / 3800; // ~1.8s Fade-Out
+    const t = (now - lineFadeStart) / 4000; // ~1.8s Fade-Out
     alpha = Math.max(0, 1 - t);
   }
   ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
@@ -483,7 +483,7 @@ function startTransition(){
   document.body.classList.add('fadeout');
 
   // Wartezeit = Fade-Dauer + kleine Pufferzeit
-  const fadeMs = 1800;     // gleich wie --fade-ms
+  const fadeMs = 1900;     // gleich wie --fade-ms
   const extra  = 300;      // Puffer
   setTimeout(()=>{
     window.location.href = INTRO_RETURN_URL;
