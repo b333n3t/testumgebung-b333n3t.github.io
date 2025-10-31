@@ -529,7 +529,7 @@ function tick(){
     else { avatar.step+=.08; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.3*p); }
   }else if(avatar.state==='pause'){
     // kurzer Sprung kurz vor Pausenende
-    if(!avatar.didPauseJump && performance.now() >= avatar.pauseUntil - 600){
+    if(!avatar.didPauseJump && performance.now() >= avatar.pauseUntil - 700){
       avatar.didPauseJump = true;
       avatar.vy = -7*PX();
     }
