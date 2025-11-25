@@ -4,36 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>b3nn3t • Intro</title>
-<style>
-  :root {
-    --fade-ms: 1000ms; /* Dauer der Ein-/Ausblendung */
-  }
 
-  html,body {
-    margin:0;
-    height:100%;
-    background:#000;          /* schwarzer Hintergrund */
-    overflow:hidden;
-  }
+  <!-- SEO: Intro nicht indexieren, Links trotzdem folgen -->
+  <meta name="robots" content="noindex,follow" />
+  <link rel="canonical" href="https://www.b3nn3t.com/" />
 
-  /* Canvas weich ein-/ausblenden */
-  canvas#c {
-    display:block;
-    width:100vw;
-    height:100vh;
-    image-rendering:pixelated;
-    image-rendering:crisp-edges;
-    opacity:0;
-    transition: opacity var(--fade-ms) ease;
-  }
+  <style>
+    :root {
+      --fade-ms: 1000ms; /* Dauer der Ein-/Ausblendung (wie im Original) */
+    }
 
-  body.ready canvas#c  { opacity:1; }  /* Fade-In */
-  body.fadeout canvas#c{ opacity:0; }  /* Fade-Out */
-</style>
+    html,body {
+      margin:0;
+      height:100%;
+      background:#000;          /* schwarzer Hintergrund */
+      overflow:hidden;
+    }
+
+    /* Canvas weich ein-/ausblenden */
+    canvas#c {
+      display:block;
+      width:100vw;
+      height:100vh;
+      image-rendering:pixelated;
+      image-rendering:crisp-edges;
+      opacity:0;
+      transition: opacity var(--fade-ms) ease;
+    }
+
+    body.ready canvas#c  { opacity:1; }  /* Fade-In */
+    body.fadeout canvas#c{ opacity:0; }  /* Fade-Out */
+
+    /* Screenreader-/SEO-Helfer: unsichtbarer Text */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 1px, 1px);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
 
 </head>
 <body>
   <canvas id="c"></canvas>
+
+  <!-- Unsichtbarer, aber semantischer Text für Screenreader/SEO -->
+  <h1 class="visually-hidden">b3nn3t – Intro-Animation</h1>
+  <p class="visually-hidden">
+    Intro-Animation zur Website von b3nn3t. Nach der Animation wirst du automatisch zur Startseite weitergeleitet.
+  </p>
 
 <script>
 /* ================== EINSTELLUNGEN ================== */
@@ -231,7 +255,6 @@ function drawLine(){
   }
 
   // Linke Kante des sichtbaren Restsegments
-  // Für „pixeligeren“ Wipe: Math.floor((end/PX())*t)*PX()
   const startX = Math.round(end * t);
 
   ctx.save();
@@ -526,26 +549,23 @@ function tick(){
     const pauseOver = !last?.tiltStart || performance.now() >= (last.tiltStart + TILT_PAUSE_MS);
     if(avatar.x>=lineEndX()-6*p && pauseOver){ 
       avatar.state='fall'; avatar.vy=0;
-      // (Optionales Sicherheitsnetz: falls der Wipe noch nicht lief)
       if(!lineFadeStart){ lineFadeStart = performance.now(); }
     }
   }else if(avatar.state==='hammer'){
     if(performance.now()>=avatar.hammerUntil){ avatar.state='walk'; }
     else { avatar.step+=.08; avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.3*p); }
   }else if(avatar.state==='pause'){
-    // kurz vor dem Sprung (~600 ms vor Pausenende) → HIER Wipe starten
     if(!avatar.didPauseJump && performance.now() >= avatar.pauseUntil - 600){
-      if(!lineFadeStart){ lineFadeStart = performance.now(); } // Wipe-Start!
+      if(!lineFadeStart){ lineFadeStart = performance.now(); }
       avatar.didPauseJump = true;
-      avatar.vy = -7*PX(); // Sprung auslösen
+      avatar.vy = -7*PX();
     }
 
     if(avatar.didPauseJump){
-      avatar.vy += avatar.gravity*p*0.9; // sanftere Schwerkraft im Sprung
+      avatar.vy += avatar.gravity*p*0.9;
       avatar.y += avatar.vy;
       if(avatar.y > lineY()-3*p){ avatar.y = lineY()-3*p; avatar.vy = 0; }
     } else {
-      // leichtes Atmen, solange noch nicht gesprungen
       avatar.step+=.05; 
       avatar.y=lineY()-3*p+Math.round(Math.sin(avatar.step*3)*0.25*p);
     }
@@ -561,7 +581,8 @@ function tick(){
 
   requestAnimationFrame(tick);
 }
-// ⏱ Wartezeit vor dem Start der Animation (z. B. 1500 ms = 1,5 Sek.)
+
+// ⏱ Wartezeit vor dem Start der Animation (1 Sekunde wie im Original)
 setTimeout(() => {
   document.body.classList.add('ready'); // sanft einblenden
   requestAnimationFrame(tick);          // Animation starten
