@@ -3,25 +3,92 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Start — b3nn3t</title>
-  <meta name="description" content="Start — b3nn3t" />
+
+  <!-- Basis-SEO -->
+  <title>b3nn3t – Musik, Veröffentlichungen & Projekte</title>
+  <meta name="description" content="b3nn3t – Musik, Veröffentlichungen und Projekte von b3nn3t. Infos, Diskografie, aktuelle Releases und Kontakt." />
+  <meta name="robots" content="index,follow" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
-  <!-- 🔁 Intro-Redirect (nur einmal pro Session) -->
+  <!-- Open Graph / Social Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="b3nn3t – Musik, Veröffentlichungen & Projekte">
+  <meta property="og:description" content="b3nn3t – Musik, Veröffentlichungen und Projekte von b3nn3t. Infos, Diskografie, aktuelle Releases und Kontakt.">
+  <meta property="og:url" content="https://www.b3nn3t.com/">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+
+  <!-- Twitter Card (X) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="b3nn3t – Musik, Veröffentlichungen & Projekte">
+  <meta name="twitter:description" content="b3nn3t – Musik, Veröffentlichungen und Projekte von b3nn3t. Infos, Diskografie, aktuelle Releases und Kontakt.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+
+  <!-- Schema.org: Website & Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.b3nn3t.com/#website",
+        "url": "https://www.b3nn3t.com/",
+        "name": "b3nn3t",
+        "description": "b3nn3t – Musik, Veröffentlichungen und Projekte von b3nn3t.",
+        "publisher": {
+          "@id": "https://www.b3nn3t.com/#person"
+        }
+      },
+      {
+        "@type": "Person",
+        "@id": "https://www.b3nn3t.com/#person",
+        "name": "Bennet",
+        "alternateName": "b3nn3t",
+        "url": "https://www.b3nn3t.com/",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://www.b3nn3t.com/assets/index/bennet_index1.jpg"
+        },
+        "sameAs": [
+          "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A",
+          "https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE",
+          "https://mx3.ch/b3nn3t",
+          "https://genius.com/artists/B3nn3t",
+          "https://soundcloud.com/b3nn3t-music",
+          "https://www.instagram.com/b333nn3t",
+          "https://www.youtube.com/@b333nn3t"
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <!-- 🔁 Intro-Redirect (nur einmal pro Session, aber NICHT für Bots) -->
   <script>
     (function () {
       try {
-        const played     = sessionStorage.getItem("introPlayed") === "1";
-        const fromIntro  = document.referrer && /tv-intro\.html(?:$|[?#])/.test(document.referrer);
-        const bypass     = location.search.includes("nointro=1");
-        if (!played && !fromIntro && !bypass) {
-          const returnUrl = (location.pathname || "index.html") +
-                            (location.search || "") +
-                            (location.hash || "");
+        const played    = sessionStorage.getItem("introPlayed") === "1";
+        const fromIntro = document.referrer && /tv-intro\.html(?:$|[?#])/.test(document.referrer);
+        const bypass    = location.search.includes("nointro=1");
+
+        // einfache Bot-Erkennung über User-Agent
+        const ua    = navigator.userAgent || "";
+        const isBot = /bot|crawl|slurp|spider|preview/i.test(ua);
+
+        // Nur echte Besucher sehen das Intro
+        if (!isBot && !played && !fromIntro && !bypass) {
+          const returnUrl =
+            (location.pathname || "index.html") +
+            (location.search || "") +
+            (location.hash || "");
+
           sessionStorage.setItem("introReturn", returnUrl);
+
           location.replace("tv-intro.html");
         }
-      } catch (e) {}
+      } catch (e) {
+        /* Fehler ignorieren */
+      }
     })();
   </script>
 
@@ -129,8 +196,6 @@
       "https://open.spotify.com/track/3Ja7f0z3lM23ieRq58FcDM",
       "https://open.spotify.com/track/7zRS3iAoQbzgMHBsSJl5MG",
       "https://open.spotify.com/track/1xDwlGUQyPBzaHL6iDJphM"
-
-    
     ];
     async function warmupSpotifyThumb(u){
       try{
@@ -158,15 +223,6 @@
     })();
   </script>
 
-  <!-- (Optional) Speculation Rules – erst aktivieren, wenn du willst -->
-  <!--
-  <script type="speculationrules">
-  {
-    "prefetch": [{ "source": "list", "urls": ["diskografie.html", "plattformen.html", "kontakt.html"] }],
-    "prerender": [{ "source": "list", "urls": ["diskografie.html"] }]
-  }
-  </script>
-  -->
 </head>
 
 <body ontouchstart="">
