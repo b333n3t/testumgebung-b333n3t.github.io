@@ -19,20 +19,9 @@ html,body{
 /* === Einheitlicher Hintergrund: ruhiges Scrolling + dynamischer Fokus === */
 body{
   background-color: #000;
-
-  /* Fallback für ganz alte Browser */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
-    url('assets/b3nn3t_1200.jpg');
-
-  /* moderne Browser nehmen automatisch AVIF/WebP */
-  background-image:
-    linear-gradient(var(--bg-tint), var(--bg-tint)),
-    image-set(
-      url('assets/b3nn3t_1200.webp') type("image/webp"),
-      url('assets/b3nn3t_1200.avif') type("image/avif"),
-      url('assets/b3nn3t_1200.jpg') type("image/jpeg")
-    );
+    url('assets/b3nn3t.webp');
   background-repeat: no-repeat;
   background-position: center 45%;   /* Grundfokus etwas höher */
   background-size: cover;            /* keine Balken links/rechts */
