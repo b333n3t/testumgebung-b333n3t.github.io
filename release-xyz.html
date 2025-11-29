@@ -152,18 +152,19 @@
     }
 
     /* Nebel-Wave – sichtbar, aber nicht dominant */
-    .awb-fogwave {
-      inset: -48%;
-      z-index: -4;
-      mix-blend-mode: screen;
-      background:
-        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.16), transparent 60%),
-        radial-gradient(circle at 80% 10%, rgba(180,220,255,0.22), transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), transparent 65%);
-      filter: blur(45px);
-      opacity: 0.45;
-      animation: fogDrift 45s ease-in-out infinite alternate;
-    }
+.awb-fogwave {
+  inset: -48%;
+  z-index: -4;
+  mix-blend-mode: screen;
+  background:
+    radial-gradient(circle at 10% 90%, rgba(255,255,255,0.12), transparent 60%),
+    radial-gradient(circle at 80% 10%, rgba(180,220,255,0.16), transparent 60%),
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.10), transparent 65%);
+  filter: blur(40px);
+  opacity: 0.32; /* vorher 0.45+ */
+  animation: fogDrift 45s ease-in-out infinite alternate;
+}
+
 
     @keyframes fogDrift {
       0%   { transform: translate(-6%, 0); }
@@ -219,19 +220,25 @@
       100% { opacity: 0;   transform: translate(30%, -30%) scale(1.03); }
     }
 
-    .awb-neon-2 {
-      background: linear-gradient(
-        130deg,
-        transparent 0%,
-        rgba(0,30,120,0.55) 35%,
-        rgba(0,80,255,0.8) 50%,
-        rgba(0,30,120,0.55) 65%,
-        transparent 100%
-      );
-      filter: blur(18px) saturate(170%);
-      opacity: 0.55;
-      animation: neonDeep 12s ease-in-out infinite;
-    }
+.awb-neon-2 {
+  position: fixed;
+  inset: -35%;
+  pointer-events: none;
+  z-index: -2;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    130deg,
+    transparent 0%,
+    rgba(0,50,120,0.25) 35%,
+    rgba(0,80,255,0.25) 50%,
+    rgba(0,50,120,0.25) 65%,
+    transparent 100%
+  );
+  filter: blur(14px) saturate(130%);
+  opacity: 0.22; /* vorher ~0.55–0.7 */
+  animation: neonDeep 14s ease-in-out infinite;
+}
+
 
     @keyframes neonDeep {
       0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.03); }
@@ -242,22 +249,27 @@
     }
 
     /* Grüne Wave – kräftig, aber Hintergrund bleibt sichtbar */
-    .awb-greenwave {
-      inset: -45%;
-      background: linear-gradient(
-        125deg,
-        transparent 0%,
-        rgba(0,255,140,0.15) 15%,
-        rgba(0,255,140,0.55) 35%,
-        rgba(0,180,100,0.7) 50%,
-        rgba(0,110,60,0.7) 62%,
-        rgba(0,60,35,0.6) 72%,
-        transparent 100%
-      );
-      filter: blur(34px) saturate(170%);
-      opacity: 0.55;
-      animation: greenWave 16s ease-in-out infinite;
-    }
+.awb-greenwave {
+  position: fixed;
+  inset: -45%;
+  pointer-events: none;
+  z-index: -2;
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    125deg,
+    transparent 0%,
+    rgba(0,255,140,0.12) 15%,
+    rgba(0,255,140,0.38) 35%,
+    rgba(0,180,100,0.55) 50%,
+    rgba(0,110,60,0.55) 62%,
+    rgba(0,60,35,0.45) 72%,
+    transparent 100%
+  );
+  filter: blur(30px) saturate(140%);
+  opacity: 0.45; /* vorher ~0.6–0.7 */
+  animation: greenWave 16s ease-in-out infinite;
+}
+
 
     @keyframes greenWave {
       0%   { opacity: 0;   transform: translate(-45%, 35%) scale(1.08); }
@@ -268,22 +280,24 @@
     }
 
     /* Dunkle Farbwelle – wieder etwas softer */
-    .awb-darkwave {
-      z-index: -1;
-      mix-blend-mode: multiply;
-      inset: -40%;
-      background: linear-gradient(
-        130deg,
-        transparent 0%,
-        rgba(10, 0, 60, 0.6) 30%,
-        rgba(40, 0, 110, 0.85) 50%,
-        rgba(10, 0, 60, 0.6) 70%,
-        transparent 100%
-      );
-      filter: blur(42px) saturate(150%);
-      opacity: 0.5;
-      animation: awbDarkwaveSweep 15s ease-in-out infinite;
-    }
+.awb-darkwave {
+  position: fixed;
+  inset: -40%;
+  z-index: -1;
+  mix-blend-mode: multiply;
+  background: linear-gradient(
+    130deg,
+    transparent 0%,
+    rgba(5,0,30,0.85) 32%,
+    rgba(20,0,60,0.95) 50%,
+    rgba(5,0,30,0.85) 68%,
+    transparent 100%
+  );
+  filter: blur(40px) saturate(140%);
+  opacity: 0.85; /* vorher 0.4–0.6 */
+  animation: awbDarkwaveSweep 15s ease-in-out infinite;
+}
+
 
     @keyframes awbDarkwaveSweep {
       0%   { opacity: 0;   transform: translate(-40%, 40%) scale(1.08); }
