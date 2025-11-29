@@ -319,50 +319,61 @@ footer a:hover{
     max-width: 120px;
   }
 }
-
-/* Verhindert, dass globale Styles die Startseite überlagern */
-body.home .main{
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
+/* === Termine: einheitliche, linienlose "Tabelle" === */
+.termine-list{
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;        /* vertikaler Abstand zwischen den Zeilen */
+  margin-top: 1rem;
 }
-@media (max-width: 480px){
 
+/* Zwei Spalten:
+   - links: Datum
+   - rechts: Veranstaltung (oben) + Ort/Uhrzeit (unten) */
+.termin-row{
+  display: grid;
+  grid-template-columns: 220px 1fr;       /* 220px = Datum-Spalte */
+  grid-template-areas:
+    "datum veranstaltung"
+    "datum ort";
+  column-gap: 1.5rem;                     /* Abstand zwischen Datum und Text */
+  row-gap: 0.25rem;                       /* Abstand zwischen Veranstaltung & Ort */
+  align-items: baseline;
+}
+
+/* Datum links, rechtsbündig in der Datumsspalte */
+.termin-row .datum{
+  grid-area: datum;
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Veranstaltung: Haupttitel rechts */
+.termin-row .veranstaltung{
+  grid-area: veranstaltung;
+  font-weight: 600;
+}
+
+/* Ort + Uhrzeit: darunter, gleiche Startkante wie Veranstaltung */
+.termin-row .ort{
+  grid-area: ort;
+  text-align: left;
+  white-space: nowrap;    /* ⬅️ Verhindert Umbruch (z.B. 20:00 Uhr in zweiter Zeile) */
+  font-size: 0.95em;
+}
+
+/* Auf schmalen Screens Datumsspalte etwas schmaler machen */
+@media (max-width: 600px){
   .termin-row{
-    display: table;
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 0.6rem;
-  }
-
-  .termin-row .datum,
-  .termin-row .veranstaltung{
-    display: table-cell;
-    vertical-align: baseline;
-  }
-
-  .termin-row .datum{
-    width: 110px;
-    text-align: right;
-    padding-right: 12px;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-
-  .termin-row .veranstaltung{
-    font-weight: 600;
-    margin-left: 0;
-    text-align: left;
-    white-space: nowrap;
-  }
-
-  /* ORT/Zeit: jetzt in EINER Zeile + gleiche linke Kante wie Veranstaltung */
-  .termin-row .ort{
-    display: inline-block;                 /* ⬅️ verhindert Block-Umbruch */
-    margin-left: calc(110px + 12px);       /* gleiche Startkante wie Veranstaltung */
-    text-align: left;
-    font-size: 0.9em;
-    margin-top: 0.15rem;
-    white-space: nowrap;                   /* ⬅️ kein Zeilenumbruch */
+    grid-template-columns: 150px 1fr;
+    column-gap: 1rem;
   }
 }
+
+@media (max-width: 400px){
+  .termin-row{
+    grid-template-columns: 125px 1fr;
+    column-gap: 0.8rem;
+  }
+}
+
