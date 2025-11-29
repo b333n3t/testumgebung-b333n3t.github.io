@@ -104,6 +104,21 @@
       display: none !important;
     }
 
+    /* 🔥 HINTERGRUND VOM PANEL WEG – harte Overrides für alles,
+       was wie eine große Glasfläche aussehen könnte  */
+    body.release-page main.main,
+    body.release-page .main,
+    body.release-page .main::before,
+    body.release-page .main::after,
+    body.release-page .page-panel,
+    body.release-page .page-panel::before,
+    body.release-page .page-panel::after {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
     /* ---------------------------
        NEON LINES (CYAN + DEEP BLUE)
     ----------------------------*/
@@ -246,7 +261,7 @@
       color: var(--awb-pink);
     }
 
-    /* ❌ Milchigen Hintergrund der Textblöcke deaktivieren */
+    /* Kein Milchglas hinter Texten */
     h1,
     h2,
     .content-offset > p:first-of-type,
