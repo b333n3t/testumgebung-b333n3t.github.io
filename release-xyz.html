@@ -373,7 +373,6 @@
       animation: letterWave 1.6s ease-in-out infinite, textShimmer 9s ease-in-out infinite;
     }
 
-    /* Wellenbewegung pro Buchstabe */
     @keyframes letterWave {
       0%   { transform: translateY(0); }
       25%  { transform: translateY(-6px); }
@@ -477,6 +476,30 @@
 
     .release-description {
       display: none !important;
+    }
+
+    /* ---------------------------
+       WOBBLE-BLOCK FÜR UNTEREN TEXT
+    ----------------------------*/
+
+    .wobble-block {
+      animation: wobbleBlock 5s ease-in-out infinite;
+      transform-origin: center left;
+    }
+
+    @keyframes wobbleBlock {
+      0%   { transform: translateY(0) skewX(0deg); }
+      20%  { transform: translateY(-3px) skewX(-0.8deg); }
+      40%  { transform: translateY(2px) skewX(0.4deg); }
+      60%  { transform: translateY(-1px) skewX(-0.4deg); }
+      80%  { transform: translateY(1px) skewX(0.3deg); }
+      100% { transform: translateY(0) skewX(0deg); }
+    }
+
+    @media (max-width: 768px) {
+      .wobble-block {
+        animation-duration: 6.5s;
+      }
     }
 
     /* ---------------------------
@@ -700,7 +723,7 @@
       </section>
 
       <!-- STREAM -->
-      <section aria-label="Streaming">
+      <section aria-label="Streaming" class="wobble-block">
         <h2>jetzt streamen</h2>
         <p>
           Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
@@ -711,7 +734,7 @@
       </section>
 
       <!-- STORY -->
-      <section aria-label="Story zum Song">
+      <section aria-label="Story zum Song" class="wobble-block">
         <h2>story zum song</h2>
         <p>
           Wenn der Rauch sich legt, bleibt was zählt –  
@@ -721,7 +744,7 @@
       </section>
 
       <!-- MORE -->
-      <section aria-label="Mehr von b3nn3t">
+      <section aria-label="Mehr von b3nn3t" class="wobble-block">
         <h2>mehr von b3nn3t</h2>
         <p>
           Mehr Musik. Mehr Kunst. Mehr b3nn3t.
