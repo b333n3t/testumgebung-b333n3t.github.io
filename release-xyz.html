@@ -5,12 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>b3nn3t – „ALLES WAS BLEIBT“ | Neues Release</title>
-  <meta name="description" content="„ALLES WAS BLEIBT“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz. Story zum Song, Cover, Plattformen & mehr entdecken." />
+  <meta name="description" content="„ALLES WAS BLEIBT“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
   <meta name="robots" content="noindex,follow" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
   <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
@@ -18,33 +16,10 @@
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
-  <meta property="og:description" content="Deutschrap & Indie-Pop aus der Schweiz. Das neue Release „ALLES WAS BLEIBT“ – Cover, Story & Plattformen auf der offiziellen Seite von b3nn3t.">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
+  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
-  <meta property="og:locale" content="de_DE">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
-  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „ALLES WAS BLEIBT“ jetzt auf der offiziellen b3nn3t-Seite entdecken.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
-
-  <!-- Intro-Redirect wie gehabt -->
-  <script>
-  (function () {
-    try {
-      const played = sessionStorage.getItem("introPlayed") === "1";
-      const fromIntro = document.referrer && /tv-intro\.html(?:$|[?#])/.test(document.referrer);
-      const bypass = location.search.includes("nointro=1");
-      const ua = navigator.userAgent || "";
-      const isBot = /bot|crawl|slurp|spider|preview|Google-InspectionTool|Google-Site-Verification|Google-PageRenderer|Google-StructuredDataTestingTool/i.test(ua);
-      if (!isBot && !played && !fromIntro && !bypass) {
-        const returnUrl = (location.pathname || "release-alles-was-bleibt.html") + (location.search || "") + (location.hash || "");
-        sessionStorage.setItem("introReturn", returnUrl);
-        location.replace("tv-intro.html");
-      }
-    } catch (e) { }
-  })();
-  </script>
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="styles_nav_arrows.css" />
@@ -55,18 +30,22 @@
       --awb-pink: #ff5bb1;
       --awb-yellow: #ffd85b;
       --awb-neon-blue: #00c8ff;
+      --awb-deep-blue: #0050ff;
     }
 
-    /* Hintergrund Desktop/Mobile */
+    /* ---------------------------
+       BACKGROUND + BASE LAYOUT
+    ----------------------------*/
     body.release-page {
       background-image: url("assets/release/background_desktop.jpg");
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
       background-attachment: fixed;
+      overflow-x: hidden;
+      margin: 0;
+      padding: 0;
       color: #111;
       position: relative;
-      overflow-x: hidden;
     }
 
     @media (max-width: 768px) {
@@ -74,110 +53,109 @@
         background-image: url("assets/release/background_mobile.jpg");
         background-attachment: scroll;
       }
-
-      main.main {
-        min-height: calc(100dvh - 56px - 20px);
-        height: calc(100dvh - 56px - 20px);
-      }
     }
 
-    /* alle Top-Borders killen → weißer Strich oben weg */
-    body.release-page,
+    /* ---------------------------
+       REMOVE WHITE BAR + BACKDROP
+    ----------------------------*/
+
+    /* Entfernt jeden weißen Balken oben */
+    header,
+    header *,
+    .content-offset,
+    .content-offset *,
+    body.release-page header,
     body.release-page * {
-      border-top: none !important;
+      border: none !important;
+      background: transparent !important;
+      box-shadow: none !important;
     }
 
-    /* Bunte Glow-Overlays */
-    body.release-page::before,
-    body.release-page::after {
-      content: "";
-      position: fixed;
-      inset: -20%;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: 0.55;
-      z-index: -2;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(255, 91, 177, 0.7), transparent 55%),
-        radial-gradient(circle at 80% 0%, rgba(255, 216, 91, 0.5), transparent 55%),
-        radial-gradient(circle at 80% 80%, rgba(150, 78, 255, 0.45), transparent 55%);
-      filter: blur(6px);
+    /* Glass BG komplett transparent */
+    #page-glass .glass-solid,
+    #page-glass .glass-fade {
+      background: transparent !important;
+      backdrop-filter: none !important;
+      box-shadow: none !important;
     }
 
-    body.release-page::after {
-      mix-blend-mode: soft-light;
-      opacity: 0.7;
+    /* remove scroll arrow */
+    .scroll-cue {
+      display: none !important;
     }
 
-    /* Neon-Linie 1 (Cyan) */
+    /* ---------------------------
+       NEON LINES (CYAN + DEEP BLUE)
+    ----------------------------*/
+
     .awb-neon {
       position: fixed;
       inset: -40%;
-      pointer-events: none;
       z-index: -1;
+      mix-blend-mode: screen;
+      pointer-events: none;
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0, 180, 255, 0.6) 35%,
-        rgba(0, 255, 255, 1) 50%,
-        rgba(0, 180, 255, 0.6) 65%,
+        rgba(0,255,255,0.6) 35%,
+        rgba(0,255,255,1) 50%,
+        rgba(0,255,255,0.6) 65%,
         transparent 100%
       );
-      mix-blend-mode: screen;
+      filter: blur(14px) saturate(150%);
       opacity: 0;
-      filter: blur(12px) saturate(140%);
-      transform: translate(-30%, 30%) scale(1.15);
-      animation: awbNeonSweep 9s ease-in-out infinite;
+      animation: neonCyan 9s ease-in-out infinite;
     }
 
-    @keyframes awbNeonSweep {
-      0%   { opacity: 0;   transform: translate(-30%, 30%) scale(1.1); }
-      20%  { opacity: 0.9; }
-      50%  { opacity: 1;   transform: translate(0, 0) scale(1.05); }
-      80%  { opacity: 0.7; }
-      100% { opacity: 0;   transform: translate(30%, -30%) scale(1.15); }
+    @keyframes neonCyan {
+      0%   { opacity: 0;   transform: translate(-30%,30%) scale(1.1); }
+      20%  { opacity: 1; }
+      50%  { opacity: 1;   transform: translate(0,0) scale(1.05); }
+      80%  { opacity: .6; }
+      100% { opacity: 0;   transform: translate(30%,-30%) scale(1.15); }
     }
 
-    /* Neon-Linie 2 (dunkles Blau, tiefer) */
     .awb-neon-2 {
       position: fixed;
       inset: -45%;
-      pointer-events: none;
       z-index: -1;
+      mix-blend-mode: screen;
+      pointer-events: none;
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0, 20, 60, 0.45) 20%,
-        rgba(0, 90, 255, 0.65) 40%,
-        rgba(0, 120, 255, 0.9) 50%,
-        rgba(0, 90, 255, 0.65) 60%,
+        rgba(0,20,60,0.45) 25%,
+        rgba(0,90,255,0.7) 45%,
+        rgba(0,120,255,1) 50%,
+        rgba(0,90,255,0.7) 60%,
         transparent 100%
       );
-      mix-blend-mode: screen;
+      filter: blur(24px) saturate(170%);
       opacity: 0;
-      filter: blur(20px) saturate(170%);
-      transform: translate(-35%, 35%) scale(1.15);
-      animation: neonBlue 12s ease-in-out infinite;
+      animation: neonDeep 12s ease-in-out infinite;
     }
 
-    @keyframes neonBlue {
-      0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.1); }
+    @keyframes neonDeep {
+      0%   { opacity: 0;   transform: translate(-35%,35%) scale(1.1); }
       25%  { opacity: .8; }
-      50%  { opacity: 1;   transform: translate(0, 0) scale(1.05); }
+      50%  { opacity: 1;   transform: translate(0,0) scale(1.05); }
       75%  { opacity: .6; }
-      100% { opacity: 0;   transform: translate(35%, -35%) scale(1.2); }
+      100% { opacity: 0;   transform: translate(35%,-35%) scale(1.2); }
     }
 
-    /* Glitzer-Partikel */
+    /* ---------------------------
+       GLITTER PARTICLES
+    ----------------------------*/
+
     .awb-sparkle {
       position: fixed;
       width: 6px;
       height: 6px;
-      background: rgba(255, 255, 255, 0.95);
+      background: white;
       border-radius: 50%;
-      filter: blur(1px) drop-shadow(0 0 6px rgba(255,255,255,0.9));
       pointer-events: none;
       z-index: -1;
+      filter: drop-shadow(0 0 6px white);
       opacity: 0;
       animation:
         sparkleMove 9s linear infinite,
@@ -185,332 +163,165 @@
     }
 
     @keyframes sparkleMove {
-      0%   { transform: translate(-30vw, 30vh) scale(.8); opacity: 0; }
+      0%   { transform: translate(-30vw,30vh) scale(.8); opacity: 0; }
       20%  { opacity: 1; }
-      50%  { transform: translate(0, 0) scale(1); opacity: 1; }
+      50%  { transform: translate(0,0) scale(1); opacity: 1; }
       80%  { opacity: .5; }
-      100% { transform: translate(30vw, -30vh) scale(.8); opacity: 0; }
+      100% { transform: translate(30vw,-30vh) scale(.8); opacity: 0; }
     }
 
     @keyframes sparkleBlink {
-      0%   { opacity: 0.2; transform: scale(0.9); }
-      100% { opacity: 1;   transform: scale(1.3); }
+      0%   { opacity: .2; transform: scale(.8); }
+      100% { opacity: 1; transform: scale(1.35); }
     }
 
-    /* Glasfläche verfeinern */
-    .release-page #page-glass .glass-solid {
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.92));
-      backdrop-filter: blur(26px) saturate(130%);
-    }
+    /* ---------------------------
+       TYPOGRAPHY + BEAUTY TUNING
+    ----------------------------*/
 
-    .release-page #page-glass .glass-fade {
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.98));
-    }
-
-    /* Typo */
-    .release-page .content-offset > p:first-of-type {
+    h1 {
+      font-size: clamp(2.6rem, 4vw + 1rem, 4rem);
       text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.8rem;
-      opacity: 0.75;
+      letter-spacing: .14em;
+      margin-bottom: 0.7rem;
+      text-shadow: 0 0 18px rgba(255,255,255,.25);
     }
 
-    .release-page h1 {
-      font-size: clamp(2.4rem, 3vw + 1.4rem, 3.4rem);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-      position: relative;
-      display: inline-block;
-    }
-
-    .release-page h1::after {
+    h1::after {
       content: "";
-      position: absolute;
-      inset: 100% 0 auto 0;
+      display: block;
+      margin-top: .25rem;
+      width: 90%;
       height: 3px;
-      border-radius: 999px;
       background: linear-gradient(90deg, var(--awb-pink), var(--awb-yellow));
-      transform-origin: left;
-      transform: scaleX(0.8);
-      opacity: 0.9;
+      border-radius: 999px;
     }
 
-    .release-page h2 {
-      text-transform: lowercase;
-      letter-spacing: 0.08em;
-      font-size: 1.15rem;
-      margin-bottom: 0.6rem;
-      position: relative;
-    }
-
-    .release-page h2::before {
-      content: "✶";
-      font-size: 0.9rem;
-      margin-right: 0.4rem;
+    h2::before {
+      content: "✶ ";
       color: var(--awb-pink);
     }
 
-    /* Panel (für Video) */
-    .release-page .panel-photo {
-      border-radius: 1.6rem;
-      overflow: hidden;
-      position: relative;
-      box-shadow:
-        0 22px 55px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.6);
-      isolation: isolate;
+    /* Soft highlight row - subtle */
+    h1, h2, .content-offset > p:first-of-type {
+      background: linear-gradient(
+        to right,
+        rgba(255,255,255,.55),
+        rgba(255,255,255,.25),
+        rgba(255,255,255,0)
+      );
+      padding: .2rem .45rem;
+      border-radius: 0.4rem;
+      width: fit-content;
     }
 
-    .release-page .panel-photo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      mix-blend-mode: soft-light;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.2), transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.15), transparent 55%);
-      pointer-events: none;
+    section p {
+      line-height: 1.55;
+      padding: .4rem .5rem;
+      background: rgba(255,255,255,.4);
+      border-radius: .4rem;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ---------------------------
+       VIDEO STYLING
+    ----------------------------*/
+
+    .panel-photo {
+      border-radius: 1.6rem;
+      overflow: hidden;
+      box-shadow:
+        0 30px 60px rgba(0,0,0,.35),
+        0 0 0 1px rgba(255,255,255,.5);
     }
 
     .release-video {
-      display: block;
       width: 100%;
-      height: auto;
+      display: block;
       border-radius: 1.6rem;
-      filter: brightness(1.05) contrast(1.05) saturate(1.15);
-      transform: scale(1.02);
-      transition: transform 0.6s ease-out;
       background: #000;
+      filter: brightness(1.1) contrast(1.06) saturate(1.15);
+      transition: .4s ease;
     }
 
     .release-video:hover {
-      transform: scale(1.05);
+      filter: brightness(1.17) saturate(1.2);
+      transform: scale(1.012);
     }
 
-    /* Cards im Stream-Abschnitt */
-    .release-page .card {
-      position: relative;
-      border-radius: 999px;
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.9));
-      box-shadow:
-        0 14px 40px rgba(0, 0, 0, 0.09),
-        0 0 0 1px rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      padding: 0.9rem 1.4rem;
-      text-align: center;
+    /* ---------------------------
+       CARDS + LINKS
+    ----------------------------*/
+
+    .card {
+      background: rgba(255,255,255,.35);
+      padding: .9rem 1.4rem;
+      border-radius: 1rem;
       text-decoration: none;
-      color: inherit;
-      transition:
-        transform 200ms ease-out,
-        box-shadow 200ms ease-out,
-        border-color 200ms ease-out;
+      color: #111;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.6);
+      box-shadow: 0 12px 25px rgba(0,0,0,.18);
+      transition: .25s ease;
     }
 
-    .release-page .card:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.14),
-        0 0 0 1px rgba(255, 255, 255, 0.9);
-      border-color: rgba(255, 91, 177, 0.5);
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 35px rgba(0,0,0,.22);
     }
 
-    .release-page .grid {
-      gap: 0.8rem;
-    }
-
-    /* Neon-Link "b3nn3t" */
-    .release-more-link {
-      margin-top: 1.4rem;
-    }
-
-    .release-page .neon-link {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      padding: 0.65rem 1.9rem;
-      border-radius: 999px;
-      border: 1px solid rgba(0, 200, 255, 0.7);
+    .neon-link {
+      display: inline-block;
+      padding: 0.75rem 2.2rem;
+      border-radius: 1.2rem;
+      background: rgba(255,255,255,.45);
+      border: 1px solid var(--awb-neon-blue);
       text-decoration: none;
+      letter-spacing: .18em;
       text-transform: lowercase;
-      letter-spacing: 0.18em;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #001018;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.35), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.1), transparent 55%);
-      box-shadow:
-        0 0 18px rgba(0, 200, 255, 0.7),
-        0 0 40px rgba(0, 120, 255, 0.6);
-      position: relative;
-      overflow: hidden;
-      transition:
-        box-shadow 200ms ease-out,
-        transform 200ms ease-out,
-        border-color 200ms ease-out;
+      box-shadow: 0 0 25px rgba(0,200,255,.5);
     }
 
-    .release-page .neon-link:hover {
-      box-shadow:
-        0 0 26px rgba(0, 200, 255, 0.9),
-        0 0 65px rgba(0, 120, 255, 0.8);
-      transform: translateY(-1px);
-      border-color: rgba(0, 200, 255, 1);
+    .neon-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 55px rgba(0,200,255,.7);
     }
 
-    .release-page .neon-link span.dot {
-      font-size: 0.9rem;
+    .dot {
       color: var(--awb-neon-blue);
-      filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.9));
+      text-shadow: 0 0 6px var(--awb-neon-blue);
     }
 
-    /* Swipe-Nav & Pfeile ausblenden */
-    .release-page .nav-arrow,
-    .release-page .nav-arrow-left,
-    .release-page .nav-arrow-right,
-    .release-page .swipe-nav {
+    /* ---------------------------
+       DESCRIPTION (hide from visitor)
+    ----------------------------*/
+    .release-description {
       display: none !important;
     }
+
+    /* ---------------------------
+       HIDE SWIPE NAV
+    ----------------------------*/
+    .nav-arrow,
+    .nav-arrow-left,
+    .nav-arrow-right,
+    .swipe-nav {
+      display: none !important;
+    }
+
   </style>
 
-  <link rel="preconnect" href="https://open.spotify.com" crossorigin>
-  <link rel="preconnect" href="https://i.scdn.co" crossorigin>
 </head>
 
-<body class="release-page" ontouchstart="">
+<body class="release-page">
+
   <!-- Neon-Linien -->
-  <div class="awb-neon" aria-hidden="true"></div>
-  <div class="awb-neon-2" aria-hidden="true"></div>
+  <div class="awb-neon"></div>
+  <div class="awb-neon-2"></div>
 
-  <header class="header">
-    <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
-    </a>
-  </header>
-
-  <div id="page-glass" aria-hidden="true">
-    <div class="glass-fade"></div>
-    <div class="glass-solid"></div>
-  </div>
-
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
-    <span></span><span></span><span></span>
-  </button>
-
-  <div id="menu-overlay" class="menu-overlay" hidden></div>
-
-  <nav id="site-menu" class="site-menu" aria-hidden="true" hidden>
-    <ul>
-      <li><a href="ueber-mich.html">über mich</a></li>
-      <li><a href="diskografie.html">diskografie</a></li>
-      <li><a href="kontakt.html">kontakt</a></li>
-      <li><a href="aktuell.html">aktuell</a></li>
-      <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">plattformen</a></li>
-      <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-    </ul>
-  </nav>
-
-  <main class="main">
-    <div class="content-offset">
-
-      <p>
-        neues release
-      </p>
-
-      <h1>
-        ALLES WAS BLEIBT
-        <span style="opacity:0; display:inline-block; height:0; overflow:hidden;">
-          b3nn3t – neues Release
-        </span>
-      </h1>
-
-      <p>
-        <strong>b3nn3t</strong> – Deutschrap & Indie-Pop aus der Schweiz.
-        Mit <strong>„ALLES WAS BLEIBT“</strong> geht es um Nächte, die nicht loslassen,
-        Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
-      </p>
-
-      <!-- 🎬 Video-Preview -->
-      <section aria-label="Video Preview">
-        <figure class="panel-photo" style="margin-top: 1.2rem;">
-          <video
-            class="release-video"
-            controls
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto">
-            <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-            Dein Browser unterstützt das Videoformat nicht.
-          </video>
-        </figure>
-      </section>
-
-      <section aria-label="Stream" style="margin-top: 1.8rem;">
-        <h2>jetzt streamen</h2>
-        <p style="margin-bottom: 1rem;">
-          Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
-          Bis dahin kannst du dir das Release schon vormerken – folg mir auf deinen Plattformen.
-        </p>
-
-        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top: 0.8rem;">
-          <a href="plattformen.html" class="card" style="flex:1 1 140px;">
-            alle plattformen
-          </a>
-          <a href="aktuell.html" class="card" style="flex:1 1 140px;">
-            news & aktuell
-          </a>
-        </div>
-      </section>
-
-      <section aria-label="Story" style="margin-top: 2.2rem;">
-        <h2>story zum song</h2>
-        <p>
-          <strong>„ALLES WAS BLEIBT“</strong> ist der Moment nach dem Chaos – wenn der Rauch sich legt
-          und man schaut, was übrig ist. Der Track verbindet melancholische Indie-Vibes mit
-          direkten Rap-Zeilen und einer Hook, die hängen bleibt.
-        </p>
-        <p>
-          Geschrieben, aufgenommen und produziert in der Schweiz.
-          Für alle, die nachts wach liegen und den Kopf nicht leise kriegen.
-        </p>
-      </section>
-
-      <section aria-label="Mehr von b3nn3t" style="margin-top: 2.5rem;">
-        <h2>mehr von b3nn3t</h2>
-        <p>
-          Wenn dir das Release taugt, gibt’s noch mehr zu holen.
-          Auf der Seite findest du alle Tracks, ein bisschen Background
-          und was gerade so läuft.
-        </p>
-
-        <p class="release-more-link">
-          <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
-            <span class="dot">•</span> b3nn3t <span class="dot">•</span>
-          </a>
-        </p>
-      </section>
-
-    </div>
-  </main>
-
-  <div class="scroll-cue" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="6 9 12 15 18 9"></polyline>
-    </svg>
-  </div>
-
-  <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
-
-  <!-- Glitzer-Partikel erzeugen -->
+  <!-- Glitzer -->
   <script>
     const sparkleCount = 40;
-
     for (let i = 0; i < sparkleCount; i++) {
       const s = document.createElement("div");
       s.classList.add("awb-sparkle");
@@ -523,6 +334,72 @@
       document.body.appendChild(s);
     }
   </script>
+
+  <header class="header">
+    <a class="brand" href="index.html"><img src="favicon.svg"><strong>b3nn3t</strong></a>
+  </header>
+
+  <main class="main">
+    <div class="content-offset">
+
+      <p>NEUES RELEASE</p>
+
+      <h1>ALLES WAS BLEIBT</h1>
+
+      <!-- Hidden description (SEO, invisible to visitors) -->
+      <p class="release-description">
+        <strong>b3nn3t</strong> – Deutschrap & Indie-Pop aus der Schweiz.
+        Mit <strong>„ALLES WAS BLEIBT“</strong> geht es um Nächte, die nicht loslassen,
+        Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
+      </p>
+
+      <!-- VIDEO -->
+      <section aria-label="Video Preview">
+        <figure class="panel-photo" style="margin-top: 1.2rem;">
+          <video 
+            class="release-video"
+            controls
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto">
+            <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+            Dein Browser unterstützt dieses Videoformat nicht.
+          </video>
+        </figure>
+      </section>
+
+      <!-- STREAM -->
+      <section style="margin-top: 2rem;">
+        <h2>jetzt streamen</h2>
+        <p>Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.</p>
+
+        <a class="card" href="plattformen.html">alle plattformen</a>
+        <a class="card" href="aktuell.html">news & aktuell</a>
+      </section>
+
+      <!-- STORY -->
+      <section style="margin-top: 2rem;">
+        <h2>story zum song</h2>
+        <p>
+          Wenn der Rauch sich legt, bleibt was zählt — melancholische Indie-Vibes,
+          klare Zeilen und ein Gefühl, das hängen bleibt.
+        </p>
+      </section>
+
+      <!-- MORE -->
+      <section style="margin-top: 2rem;">
+        <h2>mehr von b3nn3t</h2>
+        <p>Mehr Musik. Mehr Kunst. Mehr Atmosphäre.</p>
+
+        <a class="neon-link" href="https://www.b3nn3t.com" target="_blank">
+          <span class="dot">•</span> b3nn3t <span class="dot">•</span>
+        </a>
+      </section>
+
+    </div>
+  </main>
 
 </body>
 </html>
