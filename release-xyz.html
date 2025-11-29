@@ -4,16 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- Basis-SEO für Release-Page -->
   <title>b3nn3t – „ALLES WAS BLEIBT“ | Neues Release</title>
   <meta name="description" content="„ALLES WAS BLEIBT“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz. Story zum Song, Cover, Plattformen & mehr entdecken." />
   <meta name="robots" content="noindex,follow" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192.png">
 
   <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
 
@@ -21,83 +18,65 @@
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
   <meta property="og:description" content="Deutschrap & Indie-Pop aus der Schweiz. Das neue Release „ALLES WAS BLEIBT“ – Cover, Story & Plattformen auf der offiziellen Seite von b3nn3t.">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
-  <meta property="og:locale" content="de_DE">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
-  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „ALLES WAS BLEIBT“ jetzt auf der offiziellen b3nn3t-Seite entdecken.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
-
-  <!-- Intro-Redirect -->
-  <script>
-  (function () {
-    try {
-      const played = sessionStorage.getItem("introPlayed") === "1";
-      const fromIntro = document.referrer && /tv-intro\.html(?:$|[?#])/.test(document.referrer);
-      const bypass = location.search.includes("nointro=1");
-      const ua = navigator.userAgent || "";
-      const isBot = /bot|crawl|slurp|spider|preview|Google-InspectionTool|Google-Site-Verification|Google-PageRenderer|Google-StructuredDataTestingTool/i.test(ua);
-      if (!isBot && !played && !fromIntro && !bypass) {
-        const returnUrl = (location.pathname || "release-alles-was-bleibt.html") + (location.search || "") + (location.hash || "");
-        sessionStorage.setItem("introReturn", returnUrl);
-        location.replace("tv-intro.html");
-      }
-    } catch (e) { }
-  })();
-  </script>
 
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles_nav_arrows.css" />
-  <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
-    /* ---------- GLOBAL FARBWELT NUR FÜR DIESE SEITE ---------- */
     :root {
       --awb-pink: #ff5bb1;
       --awb-yellow: #ffd85b;
-      --awb-deep: #4a0030;
-      --awb-soft: rgba(255, 255, 255, 0.9);
       --awb-neon-blue: #00c8ff;
-      --awb-neon-deep: #0078ff;
+      --awb-neon-deep: #0050ff;
     }
 
-    /* 🌄 Hintergrund Desktop */
+    /* Hintergrund */
     body.release-page {
       background-image: url("assets/release/background_desktop.jpg");
       background-size: cover;
       background-position: center;
-      background-repeat: no-repeat;
       background-attachment: fixed;
-      color: #111;
-      position: relative;
       overflow-x: hidden;
+      position: relative;
+      color: #111;
     }
 
-    /* Bunte Glow-Overlays über dem Bild */
+    @media (max-width: 768px) {
+      body.release-page {
+        background-image: url("assets/release/background_mobile.jpg");
+        background-attachment: scroll;
+      }
+    }
+
+    /* Weißer Strich entfernen */
+    .release-page header,
+    .release-page .content-offset {
+      border: none !important;
+    }
+
+    /* Glow / Farbnebel */
     body.release-page::before,
     body.release-page::after {
       content: "";
       position: fixed;
       inset: -20%;
+      z-index: -2;
       pointer-events: none;
       mix-blend-mode: screen;
-      opacity: 0.55;
-      z-index: -2;
       background:
         radial-gradient(circle at 10% 20%, rgba(255, 91, 177, 0.7), transparent 55%),
         radial-gradient(circle at 80% 0%, rgba(255, 216, 91, 0.5), transparent 55%),
         radial-gradient(circle at 80% 80%, rgba(150, 78, 255, 0.45), transparent 55%);
       filter: blur(6px);
+      opacity: 0.55;
     }
 
     body.release-page::after {
       mix-blend-mode: soft-light;
-      opacity: 0.6;
+      opacity: 0.7;
     }
 
-    /* 💙 stärkere animierte blaue Neon-Lichter diagonal */
+    /* Erste Neon-Linie (CYAN) */
     .awb-neon {
       position: fixed;
       inset: -40%;
@@ -105,19 +84,17 @@
       z-index: -1;
       background: linear-gradient(
         130deg,
-        transparent 0%,
-        rgba(0, 60, 120, 0.25) 15%,
+        transparent,
         rgba(0, 180, 255, 0.6) 35%,
         rgba(0, 255, 255, 1) 50%,
-        rgba(0, 180, 255, 0.65) 65%,
-        rgba(0, 60, 120, 0.25) 85%,
-        transparent 100%
+        rgba(0, 180, 255, 0.6) 65%,
+        transparent
       );
-      mix-blend-mode: screen;
-      opacity: 0;
       filter: blur(12px) saturate(140%);
+      opacity: 0;
       transform: translate(-30%, 30%) scale(1.15);
       animation: awbNeonSweep 9s ease-in-out infinite;
+      mix-blend-mode: screen;
     }
 
     @keyframes awbNeonSweep {
@@ -130,10 +107,10 @@
       }
       50% {
         opacity: 1;
-        transform: translate(0%, 0%) scale(1.05);
+        transform: translate(0, 0) scale(1.05);
       }
       80% {
-        opacity: 0.75;
+        opacity: 0.7;
       }
       100% {
         opacity: 0;
@@ -141,45 +118,68 @@
       }
     }
 
-    /* 📱 Hintergrund Mobile */
-    @media (max-width: 768px) {
-      body.release-page {
-        background-image: url("assets/release/background_mobile.jpg");
-        background-attachment: scroll;
-      }
+    /* Zweite Neon-Linie (DEEP BLUE) */
+    .awb-neon-2 {
+      position: fixed;
+      inset: -45%;
+      pointer-events: none;
+      z-index: -1;
+      background: linear-gradient(
+        130deg,
+        transparent 0%,
+        rgba(0, 20, 60, 0.35) 20%,
+        rgba(0, 90, 255, 0.55) 40%,
+        rgba(0, 120, 255, 0.75) 50%,
+        rgba(0, 90, 255, 0.55) 60%,
+        transparent 100%
+      );
+      filter: blur(18px) saturate(160%);
+      opacity: 0;
+      transform: translate(-35%, 35%) scale(1.2);
+      animation: awbNeonSweep2 12s ease-in-out infinite;
+      mix-blend-mode: screen;
     }
 
-    /* Glasfläche etwas transparenter & weicher */
-    .release-page #page-glass .glass-solid {
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.92));
-      backdrop-filter: blur(26px) saturate(130%);
+    @keyframes awbNeonSweep2 {
+      0% { opacity: 0; transform: translate(-35%, 35%) scale(1.1); }
+      25% { opacity: 0.8; }
+      50% { opacity: 1; transform: translate(0,0) scale(1.05); }
+      75% { opacity: 0.7; }
+      100% { opacity: 0; transform: translate(35%, -35%) scale(1.2); }
     }
 
-    .release-page #page-glass .glass-fade {
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.98));
+    /* Glitzer Partikel */
+    .awb-sparkle {
+      position: fixed;
+      width: 6px;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 50%;
+      z-index: -1;
+      pointer-events: none;
+      filter: blur(1px) drop-shadow(0 0 6px rgba(255,255,255,0.8));
+      opacity: 0;
+      animation: sparkleMove 9s linear infinite, sparkleBlink 1.5s ease-in-out infinite alternate;
     }
 
-    /* ❌ Weißer Strich oben komplett entfernen */
-    .release-page header,
-    .release-page .content-offset {
-      border: none !important;
+    @keyframes sparkleMove {
+      0%   { transform: translate(-30vw, 30vh) scale(.8); opacity: 0; }
+      20%  { opacity: .9; }
+      50%  { transform: translate(0, 0) scale(1); opacity: 1; }
+      80%  { opacity: .5; }
+      100% { transform: translate(30vw, -30vh) scale(.8); opacity: 0; }
     }
 
-    /* Mobile-Height-Anpassung */
-    @media (max-width: 768px) {
-      main.main {
-        min-height: calc(100dvh - 56px - 20px);
-        height: calc(100dvh - 56px - 20px);
-      }
+    @keyframes sparkleBlink {
+      0% { opacity: 0.2; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1.25); }
     }
 
-    /* ---------- TYPO / HEADLINES ---------- */
-
+    /* Headings */
     .release-page h1 {
       font-size: clamp(2.4rem, 3vw + 1.4rem, 3.4rem);
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-bottom: 0.6rem;
       position: relative;
       display: inline-block;
     }
@@ -189,325 +189,112 @@
       position: absolute;
       inset: 100% 0 auto 0;
       height: 3px;
-      border-radius: 999px;
       background: linear-gradient(90deg, var(--awb-pink), var(--awb-yellow));
-      transform-origin: left;
-      transform: scaleX(0.8);
-      opacity: 0.9;
+      border-radius: 999px;
+      transform: scaleX(.8);
     }
 
-    .release-page h2 {
-      text-transform: lowercase;
-      letter-spacing: 0.08em;
-      font-size: 1.15rem;
-      margin-bottom: 0.6rem;
-      position: relative;
-    }
-
-    .release-page h2::before {
+    h2::before {
       content: "✶";
-      font-size: 0.9rem;
-      margin-right: 0.4rem;
       color: var(--awb-pink);
+      margin-right: .5rem;
     }
 
-    /* Intro-Tagline */
-    .release-page .content-offset > p:first-of-type {
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      font-size: 0.8rem;
-      opacity: 0.75;
-    }
-
-    /* ---------- CARDS / GRID (oben bei Stream-Section) ---------- */
-
-    .release-page .card {
-      position: relative;
-      border-radius: 999px;
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.9));
-      box-shadow:
-        0 14px 40px rgba(0, 0, 0, 0.09),
-        0 0 0 1px rgba(255, 255, 255, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      overflow: hidden;
-      transition:
-        transform 200ms ease-out,
-        box-shadow 200ms ease-out,
-        border-color 200ms ease-out,
-        background 200ms ease-out;
-    }
-
-    .release-page .card::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255, 91, 177, 0.16), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(255, 216, 91, 0.12), transparent 60%);
-      opacity: 0;
-      transition: opacity 200ms ease-out;
-      pointer-events: none;
-    }
-
-    .release-page .card small {
-      display: block;
-      margin-top: 0.1rem;
-      font-size: 0.8rem;
-      opacity: 0.75;
-    }
-
-    .release-page .card:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.14),
-        0 0 0 1px rgba(255, 255, 255, 0.9);
-      border-color: rgba(255, 91, 177, 0.5);
-      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.98), rgba(255, 255, 255, 0.94));
-    }
-
-    .release-page .card:hover::before {
-      opacity: 1;
-    }
-
-    .release-page .grid {
-      gap: 0.8rem;
-    }
-
-    /* ---------- COVER / PANEL ---------- */
-
-    .release-page .panel-photo {
-      border-radius: 1.6rem;
-      overflow: hidden;
-      position: relative;
-      box-shadow:
-        0 22px 55px rgba(0, 0, 0, 0.25),
-        0 0 0 1px rgba(255, 255, 255, 0.6);
-      isolation: isolate;
-    }
-
-    .release-page .panel-photo::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      mix-blend-mode: soft-light;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.2), transparent 50%),
-        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.15), transparent 55%);
-      pointer-events: none;
-    }
-
-    .release-page .panel-photo img {
-      display: block;
-      width: 100%;
-      height: auto;
-      transform: scale(1.02);
-      transition: transform 500ms ease-out;
-    }
-
-    .release-page .panel-photo:hover img {
-      transform: scale(1.05);
-    }
-
-    /* ---------- NEON-LINK "b3nn3t" ---------- */
-
-    .release-more-link {
-      margin-top: 1.4rem;
-    }
-
-    .release-page .neon-link {
+    /* Neon-Link */
+    .neon-link {
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.35rem;
-      padding: 0.65rem 1.9rem;
+      padding: .7rem 2rem;
       border-radius: 999px;
-      border: 1px solid rgba(0, 200, 255, 0.7);
       text-decoration: none;
-      text-transform: lowercase;
-      letter-spacing: 0.18em;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #001018;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.35), transparent 55%),
-        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.1), transparent 55%);
-      box-shadow:
-        0 0 18px rgba(0, 200, 255, 0.7),
-        0 0 40px rgba(0, 120, 255, 0.6);
-      position: relative;
-      overflow: hidden;
-      transition:
-        box-shadow 200ms ease-out,
-        transform 200ms ease-out,
-        border-color 200ms ease-out,
-        background 200ms ease-out;
+      letter-spacing: .18em;
+      border: 1px solid rgba(0,200,255,.7);
+      background: rgba(255,255,255,.4);
+      box-shadow: 0 0 18px rgba(0,200,255,.75), 0 0 40px rgba(0,120,255,.6);
+      transition: .2s ease-out;
+      color: #002;
     }
 
-    .release-page .neon-link::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background: radial-gradient(circle at 0% 50%, rgba(255, 255, 255, 0.8), transparent 60%);
-      opacity: 0;
-      transform: translateX(-40%);
-      transition: opacity 200ms ease-out, transform 450ms ease-out;
+    .neon-link:hover {
+      box-shadow: 0 0 28px rgba(0,200,255,1), 0 0 70px rgba(0,120,255,.95);
+      transform: translateY(-2px);
     }
 
-    .release-page .neon-link span.dot {
-      font-size: 0.9rem;
-      color: var(--awb-neon-blue);
-      filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.9));
-    }
-
-    .release-page .neon-link:hover {
-      box-shadow:
-        0 0 26px rgba(0, 200, 255, 0.9),
-        0 0 65px rgba(0, 120, 255, 0.8);
-      transform: translateY(-1px);
-      border-color: rgba(0, 200, 255, 1);
-    }
-
-    .release-page .neon-link:hover::before {
-      opacity: 1;
-      transform: translateX(25%);
-    }
-
-    /* ❌ Swipe-Navigation & Pfeile auf dieser Seite komplett deaktivieren */
-    .release-page .nav-arrow,
-    .release-page .nav-arrow-left,
-    .release-page .nav-arrow-right,
-    .release-page .swipe-nav {
-      display: none !important;
-    }
   </style>
-
-  <link rel="preconnect" href="https://open.spotify.com" crossorigin>
-  <link rel="preconnect" href="https://i.scdn.co" crossorigin>
-
 </head>
-<body class="release-page" ontouchstart="">
-  <!-- animierte neon-blaue Diagonale -->
-  <div class="awb-neon" aria-hidden="true"></div>
 
+<body class="release-page">
+
+  <!-- NEON-LINIEN -->
+  <div class="awb-neon"></div>
+  <div class="awb-neon-2"></div>
+
+  <!-- Header -->
   <header class="header">
-    <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
+    <a class="brand" href="index.html">
+      <img src="favicon.svg" alt=""><strong>b3nn3t</strong>
     </a>
   </header>
-
-  <div id="page-glass" aria-hidden="true">
-    <div class="glass-fade"></div>
-    <div class="glass-solid"></div>
-  </div>
-
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
-    <span></span><span></span><span></span>
-  </button>
-
-  <div id="menu-overlay" class="menu-overlay" hidden></div>
-
-  <!-- Menü initial versteckt -->
-  <nav id="site-menu" class="site-menu" aria-hidden="true" hidden>
-    <ul>
-      <li><a href="ueber-mich.html">über mich</a></li>
-      <li><a href="diskografie.html">diskografie</a></li>
-      <li><a href="kontakt.html">kontakt</a></li>
-      <li><a href="aktuell.html">aktuell</a></li>
-      <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">plattformen</a></li>
-      <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-    </ul>
-  </nav>
 
   <main class="main">
     <div class="content-offset">
 
-      <p>
-        neues release
-      </p>
+      <p>NEUES RELEASE</p>
 
-      <h1>
-        ALLES WAS BLEIBT
-        <span style="opacity:0; display:inline-block; height:0; overflow:hidden;">
-          b3nn3t – neues Release
-        </span>
-      </h1>
+      <h1>ALLES WAS BLEIBT</h1>
 
       <p>
         <strong>b3nn3t</strong> – Deutschrap & Indie-Pop aus der Schweiz.
-        Mit <strong>„ALLES WAS BLEIBT“</strong> geht es um Nächte, die nicht loslassen,
-        Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
+        Nächte, die nicht loslassen. Kopfkino. Dinge, die bleiben – und die, die gehen.
       </p>
 
-      <section aria-label="Cover">
-        <figure class="panel-photo" style="margin-top: 1.2rem;">
-          <picture>
-            <source srcset="assets/releases/alles-was-bleibt/cover.avif" type="image/avif">
-            <source srcset="assets/releases/alles-was-bleibt/cover.webp" type="image/webp">
-            <img src="assets/releases/alles-was-bleibt/cover.jpg" alt="Cover des Releases 'ALLES WAS BLEIBT' von b3nn3t">
-          </picture>
-        </figure>
-      </section>
+      <!-- Cover -->
+      <figure class="panel-photo">
+        <picture>
+          <source srcset="assets/releases/alles-was-bleibt/cover.avif" type="image/avif">
+          <source srcset="assets/releases/alles-was-bleibt/cover.webp" type="image/webp">
+          <img src="assets/releases/alles-was-bleibt/cover.jpg" alt="">
+        </picture>
+      </figure>
 
-      <section aria-label="Stream" style="margin-top: 1.8rem;">
-        <h2>jetzt streamen</h2>
-        <p style="margin-bottom: 1rem;">
-          Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
-          Bis dahin kannst du dir das Release schon vormerken – folg mir auf deinen Plattformen.
-        </p>
+      <h2>jetzt streamen</h2>
 
-        <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top: 0.8rem;">
-          <a href="plattformen.html" class="card" style="flex:1 1 140px; text-align:center;">
-            alle plattformen
-            <small>Spotify, Apple, YouTube & mehr</small>
-          </a>
-          <a href="aktuell.html" class="card" style="flex:1 1 140px; text-align:center;">
-            news & aktuell
-            <small>Release-Dates & Termine</small>
-          </a>
-        </div>
-      </section>
+      <div style="display:flex; gap:.6rem; flex-wrap:wrap;">
+        <a href="plattformen.html" class="card">alle plattformen</a>
+        <a href="aktuell.html" class="card">news & aktuell</a>
+      </div>
 
-      <section aria-label="Story" style="margin-top: 2.2rem;">
-        <h2>story zum song</h2>
-        <p>
-          <strong>„ALLES WAS BLEIBT“</strong> ist der Moment nach dem Chaos – wenn der Rauch sich legt
-          und man schaut, was übrig ist. Der Track verbindet melancholische Indie-Vibes mit
-          direkten Rap-Zeilen und einer Hook, die hängen bleibt.
-        </p>
-        <p>
-          Geschrieben, aufgenommen und produziert in der Schweiz.
-          Für alle, die nachts wach liegen und den Kopf nicht leise kriegen.
-        </p>
-      </section>
+      <h2>story zum song</h2>
+      <p>
+        Wenn der Rauch sich legt, bleibt was zählt.  
+        Melancholie trifft Indie-Vibe, Rap-Zeilen treffen Gefühl.
+      </p>
 
-      <!-- Mehr von b3nn3t: Text + Neon-Link -->
-      <section aria-label="Mehr von b3nn3t" style="margin-top: 2.5rem;">
-        <h2>mehr von b3nn3t</h2>
-        <p>
-          Wenn dir das Release taugt, gibt’s noch mehr zu holen.
-          Auf der Seite findest du alle Tracks, ein bisschen Background
-          und was gerade so läuft.
-        </p>
+      <h2>mehr von b3nn3t</h2>
+      <p>
+        Mehr Musik, mehr Projekte, mehr Kunst.
+      </p>
 
-        <p class="release-more-link">
-          <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
-            <span class="dot">•</span> b3nn3t <span class="dot">•</span>
-          </a>
-        </p>
-      </section>
+      <a class="neon-link" href="https://www.b3nn3t.com" target="_blank">• b3nn3t •</a>
 
     </div>
   </main>
 
-  <div class="scroll-cue" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <polyline points="6 9 12 15 18 9"></polyline>
-    </svg>
-  </div>
+  <!-- GLITZER PARTIKEL -->
+  <script>
+    const sparkleCount = 40;
 
-  <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
+    for (let i = 0; i < sparkleCount; i++) {
+      const s = document.createElement("div");
+      s.classList.add("awb-sparkle");
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.top = Math.random() * 100 + "vh";
+      s.style.animationDelay = (Math.random() * 6) + "s";
+      const size = Math.random() * 6 + 3;
+      s.style.width = size + "px";
+      s.style.height = size + "px";
+      document.body.appendChild(s);
+    }
+  </script>
 
 </body>
 </html>
