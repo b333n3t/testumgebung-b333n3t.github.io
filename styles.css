@@ -383,21 +383,22 @@ footer a:hover{
     white-space: nowrap;
   }
 
-  /* Veranstaltung: startet immer an derselben Stelle */
+  /* Veranstaltung: LINKS bündig – wichtig für mobile Darstellung */
   .termin-row .veranstaltung{
     font-weight: 600;
     margin-left: 0;      /* kein zusätzlicher Abstand */
-    text-align: left;
-    white-space: nowrap; /* z.B. "Full HD - Grün & Gold" in einer Zeile lassen */
+    text-align: left;    /* <-- KORREKTUR  */
+    white-space: nowrap; /* kein Umbruch */
   }
 
-  /* Ort/Zeit in der Zeile darunter, unter der Veranstaltung ausgerichtet */
+  /* Ort/Uhrzeit unter der Veranstaltung, exakt gleiche linke Kante */
   .termin-row .ort{
     display: block;
-    margin-left: calc(110px + 12px); /* 110px Datum + 12px Abstand → gleiche Kante wie Veranstaltung */
-    text-align: left;
+    margin-left: calc(110px + 12px);  /* gleiche Startkante wie Veranstaltung */
+    text-align: left;                 /* <-- KORREKTUR  */
     font-size: 0.9em;
     margin-top: 0.15rem;
-    white-space: nowrap;            /* ⬅️ verhindert Umbruch zwischen Ort und Uhrzeit */
+    white-space: nowrap;              /* kein Umbruch von Ort/Uhrzeit */
   }
 }
+
