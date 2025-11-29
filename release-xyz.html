@@ -39,7 +39,7 @@
     ----------------------------*/
     body.release-page {
       background-image: url("assets/release/background_desktop.jpg");
-      background-size: 110% 110%;
+      background-size: 108% 108%;
       background-position: 50% 50%;
       background-attachment: fixed;
       overflow-x: hidden;
@@ -47,16 +47,15 @@
       padding: 0;
       color: var(--awb-text-main);
       position: relative;
-      /* deutlich stärkeres „Atmen“ inkl. leichtem Wobble */
-      animation: bgDrift 22s ease-in-out infinite alternate;
+      /* leichtes, aber merkbares Atmen */
+      animation: bgDrift 28s ease-in-out infinite alternate;
     }
 
     @keyframes bgDrift {
       0%   { background-position: 50% 50%; transform: translate3d(0,0,0) scale(1.02); }
-      20%  { background-position: 47% 53%; transform: translate3d(-4px,3px,0) scale(1.05); }
-      40%  { background-position: 53% 47%; transform: translate3d(3px,-4px,0) scale(1.07); }
-      60%  { background-position: 48% 48%; transform: translate3d(-3px,-2px,0) scale(1.03); }
-      80%  { background-position: 52% 52%; transform: translate3d(2px,4px,0) scale(1.06); }
+      25%  { background-position: 48% 52%; transform: translate3d(-2px,2px,0) scale(1.035); }
+      50%  { background-position: 52% 48%; transform: translate3d(2px,-2px,0) scale(1.04); }
+      75%  { background-position: 49% 51%; transform: translate3d(-1px,1px,0) scale(1.03); }
       100% { background-position: 50% 50%; transform: translate3d(0,0,0) scale(1.02); }
     }
 
@@ -64,6 +63,14 @@
       body.release-page {
         background-image: url("assets/release/background_mobile.jpg");
         background-attachment: scroll;
+        background-size: cover;
+        animation: bgDriftMobile 32s ease-in-out infinite alternate;
+      }
+
+      @keyframes bgDriftMobile {
+        0%   { background-position: 50% 50%; }
+        50%  { background-position: 52% 48%; }
+        100% { background-position: 50% 50%; }
       }
     }
 
@@ -76,16 +83,16 @@
       pointer-events: none;
       z-index: -3;
       background:
-        radial-gradient(circle at 10% 10%, rgba(255, 91, 177, 0.45), transparent 55%),
-        radial-gradient(circle at 90% 0%, rgba(255, 216, 91, 0.35), transparent 55%),
-        radial-gradient(circle at 80% 80%, rgba(150, 78, 255, 0.3), transparent 55%);
+        radial-gradient(circle at 10% 10%, rgba(255, 91, 177, 0.35), transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(255, 216, 91, 0.25), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(150, 78, 255, 0.22), transparent 55%);
       filter: blur(5px);
-      opacity: 0.35;
+      opacity: 0.3;
       mix-blend-mode: screen;
     }
 
     body.release-page::after {
-      opacity: 0.45;
+      opacity: 0.35;
       mix-blend-mode: soft-light;
     }
 
@@ -144,43 +151,43 @@
       pointer-events: none;
     }
 
-    /* Nebel-Wave – stärker & mystischer */
+    /* Nebel-Wave – sichtbar, aber nicht dominant */
     .awb-fogwave {
-      inset: -50%;
+      inset: -48%;
       z-index: -4;
       mix-blend-mode: screen;
       background:
-        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.22), transparent 60%),
-        radial-gradient(circle at 80% 10%, rgba(180,220,255,0.3), transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.18), transparent 65%);
-      filter: blur(55px);
-      opacity: 0.6;
-      animation: fogDrift 40s ease-in-out infinite alternate;
+        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.16), transparent 60%),
+        radial-gradient(circle at 80% 10%, rgba(180,220,255,0.22), transparent 60%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), transparent 65%);
+      filter: blur(45px);
+      opacity: 0.45;
+      animation: fogDrift 45s ease-in-out infinite alternate;
     }
 
     @keyframes fogDrift {
-      0%   { transform: translate(-8%, 0); }
-      50%  { transform: translate(8%, 3%); }
-      100% { transform: translate(-5%, -3%); }
+      0%   { transform: translate(-6%, 0); }
+      50%  { transform: translate(6%, 2%); }
+      100% { transform: translate(-4%, -2%); }
     }
 
-    /* Spotlight / Light & Dark Switch – schneller */
+    /* Spotlight / Light & Dark Switch – öfter, aber sanfter */
     .awb-spotlight {
       z-index: -2;
       mix-blend-mode: soft-light;
       background:
-        radial-gradient(circle at 0% 50%, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0) 45%),
-        radial-gradient(circle at 120% 50%, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 55%);
-      opacity: 0.7;
-      animation: spotSweep 14s ease-in-out infinite;
+        radial-gradient(circle at 0% 50%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 45%),
+        radial-gradient(circle at 120% 50%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 55%);
+      opacity: 0.55;
+      animation: spotSweep 16s ease-in-out infinite;
     }
 
     @keyframes spotSweep {
-      0%   { transform: translate(-45%, 0); }
+      0%   { transform: translate(-40%, 0); }
       25%  { transform: translate(0, 0); }
-      50%  { transform: translate(45%, 0); }
+      50%  { transform: translate(40%, 0); }
       75%  { transform: translate(0, 0); }
-      100% { transform: translate(-45%, 0); }
+      100% { transform: translate(-40%, 0); }
     }
 
     .awb-neon,
@@ -194,73 +201,73 @@
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0,255,255,0.9) 40%,
-        rgba(0,255,255,1) 50%,
-        rgba(0,255,255,0.9) 60%,
+        rgba(0,255,255,0.7) 40%,
+        rgba(0,255,255,0.85) 50%,
+        rgba(0,255,255,0.7) 60%,
         transparent 100%
       );
-      filter: blur(10px) saturate(180%);
-      opacity: 0;
-      animation: neonCyan 7s ease-in-out infinite;
+      filter: blur(10px) saturate(150%);
+      opacity: 0.65;
+      animation: neonCyan 9s ease-in-out infinite;
     }
 
     @keyframes neonCyan {
-      0%   { opacity: 0;   transform: translate(-30%, 30%) scale(1.05); }
-      20%  { opacity: 1; }
-      50%  { opacity: 1;   transform: translate(0, 0) scale(1); }
-      80%  { opacity: .7; }
-      100% { opacity: 0;   transform: translate(30%, -30%) scale(1.05); }
+      0%   { opacity: 0;   transform: translate(-30%, 30%) scale(1.03); }
+      20%  { opacity: 0.8; }
+      50%  { opacity: 0.9;   transform: translate(0, 0) scale(1.0); }
+      80%  { opacity: 0.7; }
+      100% { opacity: 0;   transform: translate(30%, -30%) scale(1.03); }
     }
 
     .awb-neon-2 {
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0,30,120,0.8) 35%,
-        rgba(0,80,255,1) 50%,
-        rgba(0,30,120,0.8) 65%,
+        rgba(0,30,120,0.55) 35%,
+        rgba(0,80,255,0.8) 50%,
+        rgba(0,30,120,0.55) 65%,
         transparent 100%
       );
-      filter: blur(20px) saturate(220%);
-      opacity: 0;
-      animation: neonDeep 10s ease-in-out infinite;
+      filter: blur(18px) saturate(170%);
+      opacity: 0.55;
+      animation: neonDeep 12s ease-in-out infinite;
     }
 
     @keyframes neonDeep {
-      0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.05); }
-      25%  { opacity: 1; }
-      50%  { opacity: 1;   transform: translate(0, 0) scale(1.02); }
-      75%  { opacity: .8; }
-      100% { opacity: 0;   transform: translate(35%, -35%) scale(1.08); }
+      0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.03); }
+      25%  { opacity: 0.7; }
+      50%  { opacity: 0.8;   transform: translate(0, 0) scale(1.0); }
+      75%  { opacity: 0.6; }
+      100% { opacity: 0;   transform: translate(35%, -35%) scale(1.05); }
     }
 
-    /* Grüne Wave – stärker + ins Dunkelgrün */
+    /* Grüne Wave – kräftig, aber Hintergrund bleibt sichtbar */
     .awb-greenwave {
       inset: -45%;
       background: linear-gradient(
         125deg,
         transparent 0%,
-        rgba(0,255,120,0.0) 15%,
-        rgba(0,255,140,0.8) 35%,
-        rgba(0,180,100,0.95) 50%,
-        rgba(0,110,60,0.95) 62%,
-        rgba(0,50,30,0.9) 72%,
+        rgba(0,255,140,0.15) 15%,
+        rgba(0,255,140,0.55) 35%,
+        rgba(0,180,100,0.7) 50%,
+        rgba(0,110,60,0.7) 62%,
+        rgba(0,60,35,0.6) 72%,
         transparent 100%
       );
-      filter: blur(38px) saturate(220%);
-      opacity: 0;
-      animation: greenWave 14s ease-in-out infinite;
+      filter: blur(34px) saturate(170%);
+      opacity: 0.55;
+      animation: greenWave 16s ease-in-out infinite;
     }
 
     @keyframes greenWave {
-      0%   { opacity: 0;   transform: translate(-48%, 38%) scale(1.12); }
-      20%  { opacity: 1;  }
-      50%  { opacity: 1;   transform: translate(0, 0) scale(1.06); }
-      80%  { opacity: .7;  }
-      100% { opacity: 0;   transform: translate(48%, -38%) scale(1.12); }
+      0%   { opacity: 0;   transform: translate(-45%, 35%) scale(1.08); }
+      20%  { opacity: 0.7; }
+      50%  { opacity: 0.8;   transform: translate(0, 0) scale(1.03); }
+      80%  { opacity: 0.6;  }
+      100% { opacity: 0;   transform: translate(45%, -35%) scale(1.08); }
     }
 
-    /* Dunkle Farbwelle */
+    /* Dunkle Farbwelle – wieder etwas softer */
     .awb-darkwave {
       z-index: -1;
       mix-blend-mode: multiply;
@@ -268,22 +275,32 @@
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(10, 0, 60, 0.8) 30%,
-        rgba(40, 0, 110, 1) 50%,
-        rgba(10, 0, 60, 0.8) 70%,
+        rgba(10, 0, 60, 0.6) 30%,
+        rgba(40, 0, 110, 0.85) 50%,
+        rgba(10, 0, 60, 0.6) 70%,
         transparent 100%
       );
-      filter: blur(45px) saturate(180%);
-      opacity: 0;
-      animation: awbDarkwaveSweep 13s ease-in-out infinite;
+      filter: blur(42px) saturate(150%);
+      opacity: 0.5;
+      animation: awbDarkwaveSweep 15s ease-in-out infinite;
     }
 
     @keyframes awbDarkwaveSweep {
-      0%   { opacity: 0;   transform: translate(-40%, 40%) scale(1.1); }
-      25%  { opacity: .9;  }
-      50%  { opacity: 1;   transform: translate(0, 0) scale(1.04); }
-      75%  { opacity: .7;  }
-      100% { opacity: 0;   transform: translate(40%, -40%) scale(1.1); }
+      0%   { opacity: 0;   transform: translate(-40%, 40%) scale(1.08); }
+      25%  { opacity: 0.7;  }
+      50%  { opacity: 0.8;   transform: translate(0, 0) scale(1.02); }
+      75%  { opacity: 0.5;  }
+      100% { opacity: 0;   transform: translate(40%, -40%) scale(1.08); }
+    }
+
+    /* Mobile: Effekte etwas zurückdrehen */
+    @media (max-width: 768px) {
+      .awb-fogwave { opacity: 0.35; filter: blur(40px); }
+      .awb-spotlight { opacity: 0.45; }
+      .awb-neon { opacity: 0.5; filter: blur(9px); }
+      .awb-neon-2 { opacity: 0.45; filter: blur(16px); }
+      .awb-greenwave { opacity: 0.45; filter: blur(30px); }
+      .awb-darkwave { opacity: 0.4; filter: blur(38px); }
     }
 
     /* ---------------------------
@@ -343,36 +360,36 @@
       text-shadow:
         0 0 14px rgba(0,0,0,0.95),
         0 0 30px rgba(0,0,0,0.8);
-      /* Impact Pulse – öfter & extremer */
-      animation: pulseGlow 9s ease-in-out infinite;
+      /* Impact Pulse – oft & intensiv, aber nicht komplett extrem */
+      animation: pulseGlow 11s ease-in-out infinite;
     }
 
     @keyframes pulseGlow {
-      0%, 25% {
+      0%, 22% {
         transform: translateY(0) scale(1);
         text-shadow:
           0 0 14px rgba(0,0,0,0.95),
           0 0 30px rgba(0,0,0,0.8);
       }
-      28%, 32% {
-        transform: translateY(-3px) scale(1.04);
+      25%, 29% {
+        transform: translateY(-3px) scale(1.03);
         text-shadow:
           0 0 18px rgba(255,255,255,1),
-          0 0 40px rgba(0,255,255,0.95),
-          0 0 70px rgba(0,255,130,0.9);
+          0 0 38px rgba(0,255,255,0.9),
+          0 0 60px rgba(0,255,130,0.85);
       }
-      35%, 60% {
+      32%, 60% {
         transform: translateY(0) scale(1);
         text-shadow:
           0 0 14px rgba(0,0,0,0.95),
           0 0 30px rgba(0,0,0,0.8);
       }
       63%, 67% {
-        transform: translateY(-2px) scale(1.03);
+        transform: translateY(-2px) scale(1.02);
         text-shadow:
           0 0 16px rgba(255,255,255,0.95),
-          0 0 34px rgba(0,200,255,0.9),
-          0 0 60px rgba(0,200,130,0.9);
+          0 0 34px rgba(0,200,255,0.85),
+          0 0 52px rgba(0,200,130,0.85);
       }
       70%, 100% {
         transform: translateY(0) scale(1);
@@ -690,7 +707,7 @@
   <!-- COUNTDOWN SCRIPT -->
   <script>
     (function () {
-      // TODO: Dein reales Releasedatum
+      // Dein Releasedatum anpassen:
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
