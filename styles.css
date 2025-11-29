@@ -326,39 +326,8 @@ body.home .main{
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
-/* === Termine: gridbasierte, linienlose "Tabelle" (Desktop) === */ 
-.termine-list{
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;        /* vertikaler Abstand zwischen den Zeilen */
-  margin-top: 1rem;
-}
-
-.termin-row{
-  display: grid;
-  grid-template-columns: 200px 1fr auto;  /* Desktop: breite Datumsspalte */
-  column-gap: 2rem;
-  align-items: baseline;
-}
-
-/* Typo-Feinschliff */
-.termin-row .datum{
-  font-weight: 700;
-}
-
-.termin-row .veranstaltung{
-  font-weight: 600;
-  margin-left: 1.5rem;  /* Extra-Abstand hinter Datum auf Desktop */
-}
-
-.termin-row .ort{
-  text-align: right;
-}
-
-/* === Mobile: Datum feste Spalte, Veranstaltung exakt dahinter === */
 @media (max-width: 480px){
 
-  /* Jede Zeile verhält sich wie eine Tabellenzeile */
   .termin-row{
     display: table;
     width: 100%;
@@ -366,35 +335,34 @@ body.home .main{
     margin-bottom: 0.6rem;
   }
 
-  /* Datum + Veranstaltung = Zellen in derselben Zeile */
   .termin-row .datum,
   .termin-row .veranstaltung{
     display: table-cell;
     vertical-align: baseline;
   }
 
-  /* Datum: feste Breite + rechtsbündig + fester Abstand */
   .termin-row .datum{
-    width: 110px;        /* ⬅️ alle Datums-Spalten gleich breit */
+    width: 110px;
     text-align: right;
-    padding-right: 12px; /* ⬅️ fixer Abstand hinter dem Datum */
+    padding-right: 12px;
     font-weight: 700;
     white-space: nowrap;
   }
 
-  /* Veranstaltung: startet immer an derselben Stelle */
   .termin-row .veranstaltung{
     font-weight: 600;
-    margin-left: 0;      /* kein zusätzlicher Abstand */
+    margin-left: 0;
     text-align: left;
+    white-space: nowrap;
   }
 
-  /* Ort/Zeit in der Zeile darunter, unter der Veranstaltung ausgerichtet */
+  /* ORT/Zeit: jetzt in EINER Zeile + gleiche linke Kante wie Veranstaltung */
   .termin-row .ort{
-    display: block;
-    margin-left: calc(110px + 12px); /* 110px Datum + 12px Abstand */
+    display: inline-block;                 /* ⬅️ verhindert Block-Umbruch */
+    margin-left: calc(110px + 12px);       /* gleiche Startkante wie Veranstaltung */
     text-align: left;
     font-size: 0.9em;
     margin-top: 0.15rem;
+    white-space: nowrap;                   /* ⬅️ kein Zeilenumbruch */
   }
 }
