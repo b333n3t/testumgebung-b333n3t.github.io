@@ -355,43 +355,46 @@ body.home .main{
   text-align: right;
 }
 
-/* === Mobile: Datum links, Veranstaltung + Ort in einer Spalte rechts === */
+/* === Mobile: Datum feste Spalte, Veranstaltung exakt dahinter === */
 @media (max-width: 480px){
 
+  /* Jede Zeile verhält sich wie eine Tabellenzeile */
   .termin-row{
-    display: grid;
+    display: table;
     width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-
-    /* 1. Spalte: Datum (90px)
-       2. Spalte: Veranstaltung + Ort */
-    grid-template-columns: 90px 1fr;
-    grid-template-areas:
-      "datum veranstaltung"
-      "datum ort";
-    column-gap: 12px;   /* Abstand zwischen Datum und Text */
-    row-gap: 2px;
+    border-collapse: collapse;
     margin-bottom: 0.6rem;
-    align-items: baseline;
   }
 
-  .termin-row .datum{
-    grid-area: datum;
-    font-weight: 700;
-    text-align: right;   /* Datum rechtsbündig */
-  }
-
+  /* Datum + Veranstaltung = Zellen in derselben Zeile */
+  .termin-row .datum,
   .termin-row .veranstaltung{
-    grid-area: veranstaltung;
-    font-weight: 600;
-    margin-left: 0;      /* Abstand kommt nur über column-gap */
+    display: table-cell;
+    vertical-align: baseline;
   }
 
+  /* Datum: feste Breite + rechtsbündig + fester Abstand */
+  .termin-row .datum{
+    width: 110px;        /* ⬅️ alle Datums-Spalten gleich breit */
+    text-align: right;
+    padding-right: 12px; /* ⬅️ fixer Abstand hinter dem Datum */
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* Veranstaltung: startet immer an derselben Stelle */
+  .termin-row .veranstaltung{
+    font-weight: 600;
+    margin-left: 0;      /* kein zusätzlicher Abstand */
+    text-align: left;
+  }
+
+  /* Ort/Zeit in der Zeile darunter, unter der Veranstaltung ausgerichtet */
   .termin-row .ort{
-    grid-area: ort;      /* steht in derselben Spalte wie Veranstaltung */
+    display: block;
+    margin-left: calc(110px + 12px); /* 110px Datum + 12px Abstand */
     text-align: left;
     font-size: 0.9em;
-    margin: 0;
+    margin-top: 0.15rem;
   }
 }
