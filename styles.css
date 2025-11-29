@@ -326,7 +326,7 @@ body.home .main{
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
 }
-/* === Termine: gridbasierte, linienlose "Tabelle" === */ 
+/* === Termine: gridbasierte, linienlose "Tabelle" (Desktop) === */ 
 .termine-list{
   display: flex;
   flex-direction: column;
@@ -336,11 +336,8 @@ body.home .main{
 
 .termin-row{
   display: grid;
-  grid-template-columns: 200px 1fr auto;  /* Datum breiter = mehr Abstand */
-  /* 200px = Datum-Spalte (Abstand nach rechts)
-     1fr   = Veranstaltung (flexibel)
-     auto  = Ort/Zeit */
-  column-gap: 2rem;  /* zusätzlicher horizontaler Abstand zwischen Spalten */
+  grid-template-columns: 200px 1fr auto;  /* Desktop: breite Datumsspalte */
+  column-gap: 2rem;
   align-items: baseline;
 }
 
@@ -351,35 +348,36 @@ body.home .main{
 
 .termin-row .veranstaltung{
   font-weight: 600;
-  margin-left: 1.5rem;  /* ⬅️ Erzwingt sichtbaren Abstand zwischen Datum und Text */
+  margin-left: 1.5rem;  /* Extra-Abstand hinter Datum auf Desktop */
 }
 
 .termin-row .ort{
-  text-align: right;   /* Ort/Zeit an rechter Kante ausrichten */
+  text-align: right;
 }
 
-/* Auf sehr schmalen Screens die Struktur untereinander stacken */
+/* === Mobile: einheitlicher Abstand hinter Datum === */
 @media (max-width: 480px){
   .termin-row{
-    grid-template-columns: 90px 1fr;
-    grid-template-areas:
-      "datum veranstaltung"
-      ".     ort";
+    display: grid;
+    grid-template-columns: 7ch 1fr; /* 7 Zeichen breite Datumsspalte */
+    column-gap: 0.8rem;             /* fester Abstand hinter Datum */
     row-gap: 0.1rem;
+    align-items: baseline;
   }
 
   .termin-row .datum{
     font-weight: 700;
+    text-align: right;  /* Datum rechtsbündig = optisch gleiche Kante */
   }
 
   .termin-row .veranstaltung{
-    grid-area: veranstaltung;
-    margin-left: 0;        /* Auf Handy kein Extra-Abstand */
+    margin-left: 0;     /* Abstand kommt hier über column-gap */
   }
 
   .termin-row .ort{
-    grid-area: ort;
-    text-align: left;       /* auf Handy wieder linksbündig */
+    grid-column: 2;     /* Ort unter die Veranstaltung */
+    text-align: left;
     font-size: 0.9em;
+    margin-top: 0.1rem;
   }
 }
