@@ -355,27 +355,27 @@ body.home .main{
   text-align: right;
 }
 
-/* === Mobile: einheitlicher Abstand hinter dem Datum === */
+/* === Mobile: einheitlicher Abstand hinter dem Datum (Pixel-basiert) === */
 @media (max-width: 480px){
 
-  /* Jede Zeile wird ein normaler Block */
+  /* Jede Zeile = Block untereinander */
   .termin-row{
     display: block;
     margin-bottom: 0.4rem;
   }
 
-  /* Datum + Veranstaltung nebeneinander */
+  /* Datum + Veranstaltung in einer Zeile nebeneinander */
   .termin-row .datum,
   .termin-row .veranstaltung{
     display: inline-block;
     vertical-align: baseline;
   }
 
-  /* Datum: FESTE Breite + rechtsbündig + fester Abstand */
+  /* Datum: FESTE Breite in Pixel + rechtsbündig + fixer Abstand */
   .termin-row .datum{
-    width: 8ch;           /* feste Breite – alle Datumsangaben gleich breit */
-    text-align: right;    /* rechte Kante bündig */
-    margin-right: 0.8rem; /* fixer Abstand hinter dem Datum */
+    width: 90px;          /* ⬅️ feste Datumsspalte, für alle Zeilen gleich */
+    text-align: right;    /* Datum rechtsbündig */
+    margin-right: 12px;   /* fixer Abstand hinter dem Datum */
     font-weight: 700;
   }
 
@@ -385,10 +385,10 @@ body.home .main{
     font-weight: 600;
   }
 
-  /* Ort unter die Veranstaltung setzen */
+  /* Ort steht in der Zeile darunter, unter der Veranstaltung ausgerichtet */
   .termin-row .ort{
     display: block;
-    margin-left: calc(8ch + 0.8rem); /* beginnt exakt unter der Textspalte */
+    margin-left: 102px;   /* 90px Breite + 12px Abstand = gleiche Startkante */
     text-align: left;
     font-size: 0.9em;
     margin-top: 0.1rem;
