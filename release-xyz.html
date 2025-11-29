@@ -61,6 +61,15 @@
 
   <!-- Mobile-Height-Anpassung wie auf index -->
   <style>
+    /* 🔥 Hintergrundbild für Release-Page */
+    body {
+      background-image: url("assets/release/IMG_5652.jpg");
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+
     @media (max-width: 768px) {
       main.main {
         min-height: calc(100dvh - 56px - 20px);
@@ -68,9 +77,6 @@
       }
     }
   </style>
-
-  <!-- Deine Inline-Styles (Hamburger, Glass, Cards etc.) kannst du 1:1 übernehmen -->
-  <!-- Ich kürze hier, du kannst exakt den gleichen Block aus index.html reinkopieren -->
 
   <!-- ✅ Nur Performance: Verbindungen vorbereiten -->
   <link rel="preconnect" href="https://open.spotify.com" crossorigin>
@@ -147,30 +153,6 @@
           Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
           Bis dahin kannst du dir das Release schon vormerken – folg mir auf deinen Plattformen.
         </p>
-
-        <!-- Platzhalter, bis Spotify da ist -->
-        <!--
-        <div style="margin-bottom: 1rem;">
-          <iframe style="border-radius:12px"
-            src="https://open.spotify.com/embed/track/DEINTRACKID?utm_source=generator"
-            width="100%" height="152" frameborder="0"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
-            loading="lazy">
-          </iframe>
-        </div>
-        -->
-
-        <!-- YouTube-Embed optional -->
-        <!--
-        <div style="margin-bottom: 1.5rem;">
-          <iframe width="100%" height="215"
-            src="https://www.youtube.com/embed/DEINVIDEOID"
-            title="YouTube Video Player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen loading="lazy">
-          </iframe>
-        </div>
-        -->
 
         <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top: 0.8rem;">
           <a href="plattformen.html" class="card" style="flex:1 1 140px; text-align:center;">
