@@ -81,10 +81,10 @@
       }
     }
 
-    /* Weißer Strich entfernen */
-    .release-page header,
-    .release-page .content-offset {
-      border: none !important;
+    /* alle Top-Borders killen → weißer Strich oben weg */
+    body.release-page,
+    body.release-page * {
+      border-top: none !important;
     }
 
     /* Bunte Glow-Overlays */
@@ -138,7 +138,7 @@
       100% { opacity: 0;   transform: translate(30%, -30%) scale(1.15); }
     }
 
-    /* Neon-Linie 2 (dunkles Blau) */
+    /* Neon-Linie 2 (dunkles Blau, tiefer) */
     .awb-neon-2 {
       position: fixed;
       inset: -45%;
@@ -147,24 +147,24 @@
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0, 20, 60, 0.35) 20%,
-        rgba(0, 90, 255, 0.55) 40%,
-        rgba(0, 120, 255, 0.75) 50%,
-        rgba(0, 90, 255, 0.55) 60%,
+        rgba(0, 20, 60, 0.45) 20%,
+        rgba(0, 90, 255, 0.65) 40%,
+        rgba(0, 120, 255, 0.9) 50%,
+        rgba(0, 90, 255, 0.65) 60%,
         transparent 100%
       );
       mix-blend-mode: screen;
       opacity: 0;
-      filter: blur(18px) saturate(160%);
-      transform: translate(-35%, 35%) scale(1.2);
-      animation: awbNeonSweep2 12s ease-in-out infinite;
+      filter: blur(20px) saturate(170%);
+      transform: translate(-35%, 35%) scale(1.15);
+      animation: neonBlue 12s ease-in-out infinite;
     }
 
-    @keyframes awbNeonSweep2 {
+    @keyframes neonBlue {
       0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.1); }
-      25%  { opacity: 0.8; }
+      25%  { opacity: .8; }
       50%  { opacity: 1;   transform: translate(0, 0) scale(1.05); }
-      75%  { opacity: 0.7; }
+      75%  { opacity: .6; }
       100% { opacity: 0;   transform: translate(35%, -35%) scale(1.2); }
     }
 
@@ -175,16 +175,18 @@
       height: 6px;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 50%;
-      filter: blur(1px) drop-shadow(0 0 6px rgba(255,255,255,0.8));
+      filter: blur(1px) drop-shadow(0 0 6px rgba(255,255,255,0.9));
       pointer-events: none;
       z-index: -1;
       opacity: 0;
-      animation: sparkleMove 9s linear infinite, sparkleBlink 1.5s ease-in-out infinite alternate;
+      animation:
+        sparkleMove 9s linear infinite,
+        sparkleBlink 1.6s ease-in-out infinite alternate;
     }
 
     @keyframes sparkleMove {
       0%   { transform: translate(-30vw, 30vh) scale(.8); opacity: 0; }
-      20%  { opacity: .9; }
+      20%  { opacity: 1; }
       50%  { transform: translate(0, 0) scale(1); opacity: 1; }
       80%  { opacity: .5; }
       100% { transform: translate(30vw, -30vh) scale(.8); opacity: 0; }
@@ -192,7 +194,7 @@
 
     @keyframes sparkleBlink {
       0%   { opacity: 0.2; transform: scale(0.9); }
-      100% { opacity: 1;   transform: scale(1.25); }
+      100% { opacity: 1;   transform: scale(1.3); }
     }
 
     /* Glasfläche verfeinern */
@@ -279,6 +281,7 @@
       filter: brightness(1.05) contrast(1.05) saturate(1.15);
       transform: scale(1.02);
       transition: transform 0.6s ease-out;
+      background: #000;
     }
 
     .release-video:hover {
@@ -430,11 +433,12 @@
         Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
       </p>
 
-      <!-- 🎬 Video-Preview statt Cover -->
+      <!-- 🎬 Video-Preview -->
       <section aria-label="Video Preview">
         <figure class="panel-photo" style="margin-top: 1.2rem;">
           <video
             class="release-video"
+            controls
             autoplay
             muted
             loop
