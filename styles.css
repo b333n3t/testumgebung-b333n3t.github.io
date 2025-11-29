@@ -371,9 +371,9 @@ body.home .main{
     vertical-align: baseline;
   }
 
-  /* Datum: FESTE Breite in Pixel + rechtsbündig + fixer Abstand */
+  /* Datum: feste Breite + rechtsbündig + fixer Abstand */
   .termin-row .datum{
-    width: 90px;          /* ⬅️ feste Datumsspalte, für alle Zeilen gleich */
+    width: 90px;          /* feste Datumsspalte, für alle Zeilen gleich */
     text-align: right;    /* Datum rechtsbündig */
     margin-right: 12px;   /* fixer Abstand hinter dem Datum */
     font-weight: 700;
@@ -385,10 +385,10 @@ body.home .main{
     font-weight: 600;
   }
 
-  /* Ort steht in der Zeile darunter, unter der Veranstaltung ausgerichtet */
+  /* Ort/Zeit unter die Veranstaltung, etwas weiter nach links */
   .termin-row .ort{
     display: block;
-    margin-left: 102px;   /* 90px Breite + 12px Abstand = gleiche Startkante */
+    margin-left: 95px;    /* leicht nach links (statt 102px) */
     text-align: left;
     font-size: 0.9em;
     margin-top: 0.1rem;
