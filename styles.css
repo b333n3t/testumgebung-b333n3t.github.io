@@ -326,7 +326,6 @@ footer a:hover{
   gap: 0.35rem;        /* vertikaler Abstand zwischen den Zeilen */
   margin-top: 1rem;
 }
-
 /* === Termine: gridbasierte, linienlose "Tabelle" (Desktop) === */ 
 .termine-list{
   display: flex;
@@ -356,19 +355,19 @@ footer a:hover{
   text-align: right;
 }
 
-/* === Mobile: Datum links, Veranstaltung + Ort in gleicher Spalte linksbündig === */
-@media (max-width: 480px){
+/* === Mobile Hochformat: Datum links, Veranstaltung + Ort in gleicher Spalte === */
+@media (max-width: 600px){
 
   /* 2-Spalten-Grid: Datum | Text (Veranstaltung + Ort) */
   .termin-row{
-    display: grid;
+    display: grid !important;
     width: 100%;
     box-sizing: border-box;
-    grid-template-columns: 110px 1fr;  /* 110px = Datumspalte */
+    grid-template-columns: 110px 1fr !important;   /* 110px = Datumspalte */
     grid-template-areas:
       "datum veranstaltung"
       "datum ort";
-    column-gap: 12px;                 /* Abstand zwischen Datum und Text */
+    column-gap: 12px;
     row-gap: 2px;
     align-items: baseline;
     margin-bottom: 0.6rem;
@@ -377,25 +376,28 @@ footer a:hover{
   .termin-row .datum{
     grid-area: datum;
     font-weight: 700;
-    text-align: right;
-    white-space: nowrap;              /* Datum nicht umbrechen */
+    text-align: right !important;
+    white-space: nowrap;
+    padding-right: 0;          /* Sicherheit, falls vorher was gesetzt war */
   }
 
   /* Veranstaltung: linksbündig in Spalte 2 */
   .termin-row .veranstaltung{
     grid-area: veranstaltung;
     font-weight: 600;
-    margin-left: 0;
-    text-align: left;
-    white-space: nowrap;              /* z.B. "Full HD - Grün & Gold" in einer Zeile */
+    margin-left: 0 !important; /* Abstand kommt über column-gap */
+    text-align: left !important;
+    white-space: nowrap;       /* z.B. "Full HD - Grün & Gold" in einer Zeile */
   }
 
   /* Ort/Uhrzeit: gleiche Spalte wie Veranstaltung, gleiche linke Kante */
   .termin-row .ort{
     grid-area: ort;
-    text-align: left;
+    display: block !important;
+    text-align: left !important;
     font-size: 0.9em;
-    margin: 0;
-    white-space: nowrap;              /* "Heidelberg · 20:00 Uhr" nicht umbrechen */
+    margin: 0 !important;
+    white-space: nowrap !important;  /* kein Umbruch "Ort · Uhrzeit" */
   }
 }
+
