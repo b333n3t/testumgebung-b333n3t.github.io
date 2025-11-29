@@ -53,20 +53,36 @@
   <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
-    /* 🔥 Hintergrundbild */
+    /* 🌄 Hintergrund Desktop */
     body {
-      background-image: url("assets/release/IMG_5652.jpg");
+      background-image: url("assets/release/background_desktop.jpg");
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
       background-attachment: fixed;
     }
 
+    /* 📱 Hintergrund Mobile */
+    @media (max-width: 768px) {
+      body {
+        background-image: url("assets/release/background_mobile.jpg");
+      }
+    }
+
+    /* Mobile-Height-Anpassung */
     @media (max-width: 768px) {
       main.main {
         min-height: calc(100dvh - 56px - 20px);
         height: calc(100dvh - 56px - 20px);
       }
+    }
+
+    /* ❌ Swipe-Navigation & Pfeile auf dieser Seite komplett deaktivieren */
+    .nav-arrow,
+    .nav-arrow-left,
+    .nav-arrow-right,
+    .swipe-nav {
+      display: none !important;
     }
   </style>
 
@@ -92,7 +108,7 @@
 
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-  <!-- ✅ Menü jetzt initial versteckt → keine Bullet-List -->
+  <!-- Menü initial versteckt -->
   <nav id="site-menu" class="site-menu" aria-hidden="true" hidden>
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
