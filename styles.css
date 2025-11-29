@@ -355,27 +355,40 @@ body.home .main{
   text-align: right;
 }
 
-/* === Mobile: einheitlicher Abstand hinter Datum === */
+/* === Mobile: einheitlicher Abstand hinter dem Datum === */
 @media (max-width: 480px){
+
+  /* Jede Zeile wird ein normaler Block */
   .termin-row{
-    display: grid;
-    grid-template-columns: 7ch 1fr; /* 7 Zeichen breite Datumsspalte */
-    column-gap: 0.8rem;             /* fester Abstand hinter Datum */
-    row-gap: 0.1rem;
-    align-items: baseline;
+    display: block;
+    margin-bottom: 0.4rem;
   }
 
-  .termin-row .datum{
-    font-weight: 700;
-    text-align: right;  /* Datum rechtsbündig = optisch gleiche Kante */
-  }
-
+  /* Datum + Veranstaltung nebeneinander */
+  .termin-row .datum,
   .termin-row .veranstaltung{
-    margin-left: 0;     /* Abstand kommt hier über column-gap */
+    display: inline-block;
+    vertical-align: baseline;
   }
 
+  /* Datum: feste Breite + rechtsbündig + fester Abstand */
+  .termin-row .datum{
+    min-width: 7ch;        /* Alle Datum-Formate = exakt gleiche Spaltenbreite */
+    text-align: right;     /* rechte Kante aller Datumswerte bündig */
+    margin-right: 0.8rem;  /* ⬅️ FIXER Abstand hinter dem Datum */
+    font-weight: 700;
+  }
+
+  /* Veranstaltung: kein zusätzlicher margin-left */
+  .termin-row .veranstaltung{
+    margin-left: 0;
+    font-weight: 600;
+  }
+
+  /* Ort unter die Veranstaltung setzen */
   .termin-row .ort{
-    grid-column: 2;     /* Ort unter die Veranstaltung */
+    display: block;
+    margin-left: calc(7ch + 0.8rem); /* beginnt exakt unter der Textspalte */
     text-align: left;
     font-size: 0.9em;
     margin-top: 0.1rem;
