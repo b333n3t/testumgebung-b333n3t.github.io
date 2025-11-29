@@ -246,19 +246,14 @@
       color: var(--awb-pink);
     }
 
+    /* ❌ Milchigen Hintergrund der Textblöcke deaktivieren */
+    h1,
+    h2,
+    .content-offset > p:first-of-type,
     section p {
-      line-height: 1.6;
-      font-size: 1rem;
-      color: #fefefe;
-      text-shadow: 0 0 8px rgba(0,0,0,0.85);
-      background: linear-gradient(
-        to right,
-        rgba(0,0,0,0.55),
-        rgba(0,0,0,0.3),
-        rgba(0,0,0,0)
-      );
-      padding: 0.45rem 0.6rem;
-      border-radius: 0.45rem;
+      background: transparent !important;
+      backdrop-filter: none !important;
+      padding: 0 !important;
     }
 
     /* Beschreibung für SEO, aber unsichtbar */
