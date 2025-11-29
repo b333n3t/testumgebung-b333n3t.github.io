@@ -124,12 +124,17 @@
     ----------------------------*/
 
     .awb-neon,
-    .awb-neon-2 {
+    .awb-neon-2,
+    .awb-darkwave {
       position: fixed;
       inset: -35%;
       pointer-events: none;
-      z-index: -2;
       mix-blend-mode: screen;
+    }
+
+    .awb-neon,
+    .awb-neon-2 {
+      z-index: -2;
     }
 
     .awb-neon {
@@ -174,6 +179,35 @@
       50%  { opacity: 1;   transform: translate(0, 0) scale(1); }
       75%  { opacity: .7; }
       100% { opacity: 0;   transform: translate(35%, -35%) scale(1.08); }
+    }
+
+    /* ---------------------------
+       DUNKLE FARBWELLE
+    ----------------------------*/
+
+    .awb-darkwave {
+      z-index: -1; /* liegt über dem Hintergrund, unter dem Content */
+      mix-blend-mode: multiply;
+      inset: -40%;
+      background: linear-gradient(
+        130deg,
+        transparent 0%,
+        rgba(10, 0, 60, 0.75) 30%,
+        rgba(40, 0, 110, 0.95) 50%,
+        rgba(10, 0, 60, 0.75) 70%,
+        transparent 100%
+      );
+      filter: blur(45px) saturate(160%);
+      opacity: 0;
+      animation: awbDarkwaveSweep 14s ease-in-out infinite;
+    }
+
+    @keyframes awbDarkwaveSweep {
+      0%   { opacity: 0;   transform: translate(-40%, 40%) scale(1.1); }
+      25%  { opacity: .8;  }
+      50%  { opacity: 1;   transform: translate(0, 0) scale(1.0); }
+      75%  { opacity: .6;  }
+      100% { opacity: 0;   transform: translate(40%, -40%) scale(1.1); }
     }
 
     /* ---------------------------
@@ -231,8 +265,8 @@
       margin-bottom: 0.7rem;
       color: #ffffff;
       text-shadow:
-        0 0 10px rgba(0,0,0,0.9),
-        0 0 26px rgba(0,0,0,0.7);
+        0 0 12px rgba(0,0,0,0.9),
+        0 0 28px rgba(0,0,0,0.7);
     }
 
     h1::after {
@@ -259,6 +293,17 @@
     h2::before {
       content: "✶ ";
       color: var(--awb-pink);
+    }
+
+    /* Text global etwas mehr Glow, damit er über der Darkwave knallt */
+    .release-page h1,
+    .release-page h2,
+    .release-page p {
+      color: #ffffff !important;
+      text-shadow:
+        0 0 10px rgba(0,0,0,0.9),
+        0 0 18px rgba(255,255,255,0.75);
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
 
     /* Kein Milchglas hinter Texten */
@@ -429,6 +474,7 @@
   <!-- NEON-EBENEN -->
   <div class="awb-neon"></div>
   <div class="awb-neon-2"></div>
+  <div class="awb-darkwave"></div>
 
   <!-- COUNTDOWN -->
   <div class="awb-countdown" aria-label="Release Countdown">
