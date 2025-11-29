@@ -371,11 +371,11 @@ body.home .main{
     vertical-align: baseline;
   }
 
-  /* Datum: feste Breite + rechtsbündig + fester Abstand */
+  /* Datum: FESTE Breite + rechtsbündig + fester Abstand */
   .termin-row .datum{
-    min-width: 7ch;        /* Alle Datum-Formate = exakt gleiche Spaltenbreite */
-    text-align: right;     /* rechte Kante aller Datumswerte bündig */
-    margin-right: 0.8rem;  /* ⬅️ FIXER Abstand hinter dem Datum */
+    width: 8ch;           /* feste Breite – alle Datumsangaben gleich breit */
+    text-align: right;    /* rechte Kante bündig */
+    margin-right: 0.8rem; /* fixer Abstand hinter dem Datum */
     font-weight: 700;
   }
 
@@ -388,7 +388,7 @@ body.home .main{
   /* Ort unter die Veranstaltung setzen */
   .termin-row .ort{
     display: block;
-    margin-left: calc(7ch + 0.8rem); /* beginnt exakt unter der Textspalte */
+    margin-left: calc(8ch + 0.8rem); /* beginnt exakt unter der Textspalte */
     text-align: left;
     font-size: 0.9em;
     margin-top: 0.1rem;
