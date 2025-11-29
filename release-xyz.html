@@ -59,6 +59,8 @@
       --awb-yellow: #ffd85b;
       --awb-deep: #4a0030;
       --awb-soft: rgba(255, 255, 255, 0.9);
+      --awb-neon-blue: #00c8ff;
+      --awb-neon-deep: #0078ff;
     }
 
     /* 🌄 Hintergrund Desktop */
@@ -82,7 +84,7 @@
       pointer-events: none;
       mix-blend-mode: screen;
       opacity: 0.55;
-      z-index: -1;
+      z-index: -2;
       background:
         radial-gradient(circle at 10% 20%, rgba(255, 91, 177, 0.7), transparent 55%),
         radial-gradient(circle at 80% 0%, rgba(255, 216, 91, 0.5), transparent 55%),
@@ -93,6 +95,50 @@
     body.release-page::after {
       mix-blend-mode: soft-light;
       opacity: 0.6;
+    }
+
+    /* 💙 animierte blaue Neon-Lichter diagonal */
+    .awb-neon {
+      position: fixed;
+      inset: -30%;
+      pointer-events: none;
+      z-index: -1;
+      background: linear-gradient(
+        130deg,
+        transparent 0%,
+        rgba(0, 0, 0, 0.18) 20%,
+        rgba(0, 200, 255, 0.5) 40%,
+        rgba(0, 120, 255, 0.8) 50%,
+        rgba(0, 200, 255, 0.5) 60%,
+        rgba(0, 0, 0, 0.18) 80%,
+        transparent 100%
+      );
+      mix-blend-mode: screen;
+      opacity: 0;
+      transform: translate(-25%, 25%) scale(1.1);
+      filter: blur(8px);
+      animation: awbNeonSweep 11s ease-in-out infinite;
+    }
+
+    @keyframes awbNeonSweep {
+      0% {
+        opacity: 0;
+        transform: translate(-25%, 25%) scale(1.1);
+      }
+      20% {
+        opacity: 0.7;
+      }
+      50% {
+        opacity: 0.9;
+        transform: translate(0%, 0%) scale(1.05);
+      }
+      80% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(25%, -25%) scale(1.1);
+      }
     }
 
     /* 📱 Hintergrund Mobile */
@@ -111,6 +157,11 @@
 
     .release-page #page-glass .glass-fade {
       background: linear-gradient(to bottom, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.98));
+    }
+
+    /* ❌ Weißer Strich oben entfernen (falls aus globalem Layout) */
+    .release-page .content-offset {
+      border-top: none !important;
     }
 
     /* Mobile-Height-Anpassung */
@@ -140,7 +191,7 @@
       border-radius: 999px;
       background: linear-gradient(90deg, var(--awb-pink), var(--awb-yellow));
       transform-origin: left;
-      transform: scaleX(0.2);
+      transform: scaleX(0.8);
       opacity: 0.9;
     }
 
@@ -167,7 +218,7 @@
       opacity: 0.75;
     }
 
-    /* ---------- CARDS / GRID ---------- */
+    /* ---------- CARDS / GRID (nur noch oben bei Stream-Section genutzt) ---------- */
 
     .release-page .card {
       position: relative;
@@ -256,19 +307,68 @@
       transform: scale(1.05);
     }
 
-    /* ---------- FOOTER ---------- */
+    /* ---------- NEON-LINK "b3nn3t" ---------- */
 
-    .release-page footer {
-      opacity: 0.9;
+    .release-more-link {
+      margin-top: 1.4rem;
     }
 
-    .release-page footer a {
+    .release-page .neon-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.35rem;
+      padding: 0.65rem 1.9rem;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 200, 255, 0.7);
       text-decoration: none;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+      text-transform: lowercase;
+      letter-spacing: 0.18em;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #001018;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(255, 255, 255, 0.35), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(0, 0, 0, 0.1), transparent 55%);
+      box-shadow:
+        0 0 18px rgba(0, 200, 255, 0.7),
+        0 0 40px rgba(0, 120, 255, 0.6);
+      position: relative;
+      overflow: hidden;
+      transition:
+        box-shadow 200ms ease-out,
+        transform 200ms ease-out,
+        border-color 200ms ease-out,
+        background 200ms ease-out;
     }
 
-    .release-page footer a:hover {
-      border-bottom-color: rgba(0, 0, 0, 0.4);
+    .release-page .neon-link::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: radial-gradient(circle at 0% 50%, rgba(255, 255, 255, 0.8), transparent 60%);
+      opacity: 0;
+      transform: translateX(-40%);
+      transition: opacity 200ms ease-out, transform 450ms ease-out;
+    }
+
+    .release-page .neon-link span.dot {
+      font-size: 0.9rem;
+      color: var(--awb-neon-blue);
+      filter: drop-shadow(0 0 6px rgba(0, 200, 255, 0.9));
+    }
+
+    .release-page .neon-link:hover {
+      box-shadow:
+        0 0 26px rgba(0, 200, 255, 0.9),
+        0 0 65px rgba(0, 120, 255, 0.8);
+      transform: translateY(-1px);
+      border-color: rgba(0, 200, 255, 1);
+    }
+
+    .release-page .neon-link:hover::before {
+      opacity: 1;
+      transform: translateX(25%);
     }
 
     /* ❌ Swipe-Navigation & Pfeile auf dieser Seite komplett deaktivieren */
@@ -285,6 +385,9 @@
 
 </head>
 <body class="release-page" ontouchstart="">
+  <!-- animierte neon-blaue Diagonale -->
+  <div class="awb-neon" aria-hidden="true"></div>
+
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
       <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
@@ -377,6 +480,7 @@
         </p>
       </section>
 
+      <!-- 🆕 Mehr von b3nn3t: nur noch Text + Neon-Link -->
       <section aria-label="Mehr von b3nn3t" style="margin-top: 2.5rem;">
         <h2>mehr von b3nn3t</h2>
         <p>
@@ -385,32 +489,14 @@
           und was gerade so läuft.
         </p>
 
-        <div class="grid" style="margin-top: 1rem;">
-          <a class="card" href="diskografie.html">
-            diskografie
-            <small>alle releases & projekte</small>
+        <p class="release-more-link">
+          <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
+            <span class="dot">•</span> b3nn3t <span class="dot">•</span>
           </a>
-
-          <a class="card" href="ueber-mich.html">
-            über mich
-            <small>wer hinter b3nn3t steckt</small>
-          </a>
-
-          <a class="card" href="aktuell.html">
-            aktuell
-            <small>was gerade läuft – news & termine</small>
-          </a>
-
-          <a class="card" href="plattformen.html">
-            plattformen
-            <small>follow auf spotify, insta & co.</small>
-          </a>
-        </div>
+        </p>
       </section>
 
-      <footer style="margin-top: 2.5rem; text-align:center; font-size:0.82rem;">
-        © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-      </footer>
+      <!-- Footer entfernt – nur noch der Neon-Link führt zur Hauptseite -->
 
     </div>
   </main>
