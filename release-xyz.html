@@ -29,8 +29,9 @@
     :root {
       --awb-pink: #ff5bb1;
       --awb-yellow: #ffd85b;
-      --awb-neon-blue: #00c8ff;
-      --awb-deep-blue: #0050ff;
+      --awb-neon-blue: #00e6ff;
+      --awb-deep-blue: #0040ff;
+      --awb-text-main: #fdfdfd;
     }
 
     /* ---------------------------
@@ -44,7 +45,7 @@
       overflow-x: hidden;
       margin: 0;
       padding: 0;
-      color: #111;
+      color: var(--awb-text-main);
       position: relative;
     }
 
@@ -55,23 +56,43 @@
       }
     }
 
+    /* leichtes Farbglühen, aber schwächer damit Neon sichtbar bleibt */
+    body.release-page::before,
+    body.release-page::after {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      z-index: -3;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(255, 91, 177, 0.45), transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(255, 216, 91, 0.35), transparent 55%),
+        radial-gradient(circle at 80% 80%, rgba(150, 78, 255, 0.3), transparent 55%);
+      filter: blur(5px);
+      opacity: 0.35;
+      mix-blend-mode: screen;
+    }
+
+    body.release-page::after {
+      opacity: 0.45;
+      mix-blend-mode: soft-light;
+    }
+
     /* ---------------------------
-       REMOVE WHITE BAR + BACKDROP
+       REMOVE WHITE BAR + GLASS
     ----------------------------*/
 
-    /* Entfernt jeden weißen Balken oben */
     header,
     header *,
     .content-offset,
     .content-offset *,
     body.release-page header,
     body.release-page * {
-      border: none !important;
-      background: transparent !important;
+      border-top: none !important;
       box-shadow: none !important;
     }
 
-    /* Glass BG komplett transparent */
+    #page-glass,
     #page-glass .glass-solid,
     #page-glass .glass-fade {
       background: transparent !important;
@@ -79,7 +100,6 @@
       box-shadow: none !important;
     }
 
-    /* remove scroll arrow */
     .scroll-cue {
       display: none !important;
     }
@@ -88,59 +108,57 @@
        NEON LINES (CYAN + DEEP BLUE)
     ----------------------------*/
 
-    .awb-neon {
+    .awb-neon,
+    .awb-neon-2 {
       position: fixed;
-      inset: -40%;
-      z-index: -1;
-      mix-blend-mode: screen;
+      inset: -35%;
       pointer-events: none;
+      z-index: -2;
+      mix-blend-mode: screen;
+    }
+
+    .awb-neon {
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0,255,255,0.6) 35%,
+        rgba(0,255,255,0.9) 40%,
         rgba(0,255,255,1) 50%,
-        rgba(0,255,255,0.6) 65%,
+        rgba(0,255,255,0.9) 60%,
         transparent 100%
       );
-      filter: blur(14px) saturate(150%);
+      filter: blur(10px) saturate(180%);
       opacity: 0;
-      animation: neonCyan 9s ease-in-out infinite;
+      animation: neonCyan 7s ease-in-out infinite;
     }
 
     @keyframes neonCyan {
-      0%   { opacity: 0;   transform: translate(-30%,30%) scale(1.1); }
+      0%   { opacity: 0;   transform: translate(-30%, 30%) scale(1.05); }
       20%  { opacity: 1; }
-      50%  { opacity: 1;   transform: translate(0,0) scale(1.05); }
-      80%  { opacity: .6; }
-      100% { opacity: 0;   transform: translate(30%,-30%) scale(1.15); }
+      50%  { opacity: 1;   transform: translate(0, 0) scale(1); }
+      80%  { opacity: .7; }
+      100% { opacity: 0;   transform: translate(30%, -30%) scale(1.05); }
     }
 
     .awb-neon-2 {
-      position: fixed;
-      inset: -45%;
-      z-index: -1;
-      mix-blend-mode: screen;
-      pointer-events: none;
       background: linear-gradient(
         130deg,
         transparent 0%,
-        rgba(0,20,60,0.45) 25%,
-        rgba(0,90,255,0.7) 45%,
-        rgba(0,120,255,1) 50%,
-        rgba(0,90,255,0.7) 60%,
+        rgba(0,30,120,0.7) 35%,
+        rgba(0,80,255,1) 50%,
+        rgba(0,30,120,0.7) 65%,
         transparent 100%
       );
-      filter: blur(24px) saturate(170%);
+      filter: blur(18px) saturate(200%);
       opacity: 0;
-      animation: neonDeep 12s ease-in-out infinite;
+      animation: neonDeep 11s ease-in-out infinite;
     }
 
     @keyframes neonDeep {
-      0%   { opacity: 0;   transform: translate(-35%,35%) scale(1.1); }
-      25%  { opacity: .8; }
-      50%  { opacity: 1;   transform: translate(0,0) scale(1.05); }
-      75%  { opacity: .6; }
-      100% { opacity: 0;   transform: translate(35%,-35%) scale(1.2); }
+      0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.05); }
+      25%  { opacity: .9; }
+      50%  { opacity: 1;   transform: translate(0, 0) scale(1); }
+      75%  { opacity: .7; }
+      100% { opacity: 0;   transform: translate(35%, -35%) scale(1.08); }
     }
 
     /* ---------------------------
@@ -149,52 +167,78 @@
 
     .awb-sparkle {
       position: fixed;
-      width: 6px;
-      height: 6px;
-      background: white;
       border-radius: 50%;
       pointer-events: none;
       z-index: -1;
-      filter: drop-shadow(0 0 6px white);
+      background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0) 70%);
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
       opacity: 0;
       animation:
-        sparkleMove 9s linear infinite,
-        sparkleBlink 1.6s ease-in-out infinite alternate;
+        sparkleMove 7s linear infinite,
+        sparkleBlink 1.4s ease-in-out infinite alternate;
     }
 
     @keyframes sparkleMove {
-      0%   { transform: translate(-30vw,30vh) scale(.8); opacity: 0; }
-      20%  { opacity: 1; }
-      50%  { transform: translate(0,0) scale(1); opacity: 1; }
-      80%  { opacity: .5; }
-      100% { transform: translate(30vw,-30vh) scale(.8); opacity: 0; }
+      0%   { transform: translate(-30vw, 30vh) scale(.7); opacity: 0; }
+      15%  { opacity: 1; }
+      50%  { transform: translate(0, 0) scale(1); opacity: 1; }
+      85%  { opacity: .4; }
+      100% { transform: translate(30vw, -30vh) scale(.7); opacity: 0; }
     }
 
     @keyframes sparkleBlink {
-      0%   { opacity: .2; transform: scale(.8); }
-      100% { opacity: 1; transform: scale(1.35); }
+      0%   { opacity: .3; transform: scale(0.8); }
+      100% { opacity: 1;  transform: scale(1.25); }
     }
 
     /* ---------------------------
-       TYPOGRAPHY + BEAUTY TUNING
+       TYPOGRAPHY
     ----------------------------*/
 
-    h1 {
-      font-size: clamp(2.6rem, 4vw + 1rem, 4rem);
+    .content-offset {
+      margin-top: 2.5rem;
+      max-width: 720px;
+    }
+
+    .content-offset > p:first-of-type {
       text-transform: uppercase;
-      letter-spacing: .14em;
+      letter-spacing: 0.2em;
+      font-size: 0.8rem;
+      opacity: 0.9;
+      color: #fdfdfd;
+      text-shadow: 0 0 8px rgba(0,0,0,0.7);
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
       margin-bottom: 0.7rem;
-      text-shadow: 0 0 18px rgba(255,255,255,.25);
+      color: #ffffff;
+      text-shadow:
+        0 0 10px rgba(0,0,0,0.9),
+        0 0 26px rgba(0,0,0,0.7);
     }
 
     h1::after {
       content: "";
       display: block;
-      margin-top: .25rem;
+      margin-top: .3rem;
       width: 90%;
       height: 3px;
       background: linear-gradient(90deg, var(--awb-pink), var(--awb-yellow));
       border-radius: 999px;
+      box-shadow: 0 0 16px rgba(0,0,0,0.7);
+    }
+
+    h2 {
+      margin-top: 2rem;
+      margin-bottom: 0.7rem;
+      font-size: 1.2rem;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8);
     }
 
     h2::before {
@@ -202,37 +246,37 @@
       color: var(--awb-pink);
     }
 
-    /* Soft highlight row - subtle */
-    h1, h2, .content-offset > p:first-of-type {
+    section p {
+      line-height: 1.6;
+      font-size: 1rem;
+      color: #fefefe;
+      text-shadow: 0 0 8px rgba(0,0,0,0.85);
       background: linear-gradient(
         to right,
-        rgba(255,255,255,.55),
-        rgba(255,255,255,.25),
-        rgba(255,255,255,0)
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.3),
+        rgba(0,0,0,0)
       );
-      padding: .2rem .45rem;
-      border-radius: 0.4rem;
-      width: fit-content;
+      padding: 0.45rem 0.6rem;
+      border-radius: 0.45rem;
     }
 
-    section p {
-      line-height: 1.55;
-      padding: .4rem .5rem;
-      background: rgba(255,255,255,.4);
-      border-radius: .4rem;
-      backdrop-filter: blur(4px);
+    /* Beschreibung für SEO, aber unsichtbar */
+    .release-description {
+      display: none !important;
     }
 
     /* ---------------------------
-       VIDEO STYLING
+       VIDEO PANEL
     ----------------------------*/
 
     .panel-photo {
       border-radius: 1.6rem;
       overflow: hidden;
       box-shadow:
-        0 30px 60px rgba(0,0,0,.35),
-        0 0 0 1px rgba(255,255,255,.5);
+        0 30px 60px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.4);
+      margin-top: 1.2rem;
     }
 
     .release-video {
@@ -240,103 +284,168 @@
       display: block;
       border-radius: 1.6rem;
       background: #000;
-      filter: brightness(1.1) contrast(1.06) saturate(1.15);
-      transition: .4s ease;
+      filter: brightness(1.12) contrast(1.1) saturate(1.2);
+      transition: transform 0.4s ease, filter 0.4s ease;
     }
 
     .release-video:hover {
-      filter: brightness(1.17) saturate(1.2);
-      transform: scale(1.012);
+      filter: brightness(1.18) contrast(1.15) saturate(1.25);
+      transform: scale(1.015);
     }
 
     /* ---------------------------
-       CARDS + LINKS
+       CARDS + NEON LINK
     ----------------------------*/
 
     .card {
-      background: rgba(255,255,255,.35);
-      padding: .9rem 1.4rem;
+      display: inline-block;
+      margin-right: 0.5rem;
+      margin-top: 0.6rem;
+      background: rgba(0,0,0,0.5);
+      padding: 0.9rem 1.4rem;
       border-radius: 1rem;
       text-decoration: none;
-      color: #111;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.6);
-      box-shadow: 0 12px 25px rgba(0,0,0,.18);
-      transition: .25s ease;
+      color: #fefefe;
+      border: 1px solid rgba(255,255,255,0.6);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      font-size: 0.92rem;
+      text-shadow: 0 0 8px rgba(0,0,0,0.8);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .card:hover {
       transform: translateY(-3px);
-      box-shadow: 0 18px 35px rgba(0,0,0,.22);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
     }
 
     .neon-link {
       display: inline-block;
-      padding: 0.75rem 2.2rem;
+      margin-top: 0.8rem;
+      padding: 0.8rem 2.4rem;
       border-radius: 1.2rem;
-      background: rgba(255,255,255,.45);
-      border: 1px solid var(--awb-neon-blue);
       text-decoration: none;
-      letter-spacing: .18em;
       text-transform: lowercase;
-      box-shadow: 0 0 25px rgba(0,200,255,.5);
+      letter-spacing: 0.18em;
+      color: #001018;
+      background: rgba(255,255,255,0.8);
+      border: 1px solid var(--awb-neon-blue);
+      box-shadow:
+        0 0 22px rgba(0,200,255,0.7),
+        0 0 44px rgba(0,120,255,0.7);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .neon-link:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 55px rgba(0,200,255,.7);
+      box-shadow:
+        0 0 36px rgba(0,200,255,0.95),
+        0 0 70px rgba(0,120,255,0.9);
     }
 
     .dot {
       color: var(--awb-neon-blue);
-      text-shadow: 0 0 6px var(--awb-neon-blue);
+      text-shadow: 0 0 10px var(--awb-neon-blue);
     }
 
     /* ---------------------------
-       DESCRIPTION (hide from visitor)
+       COUNTDOWN OBEN RECHTS
     ----------------------------*/
-    .release-description {
-      display: none !important;
+
+    .awb-countdown {
+      position: fixed;
+      top: 1.2rem;
+      right: 1.2rem;
+      z-index: 10;
+      padding: 0.6rem 1.1rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.6);
+      border: 1px solid rgba(0,200,255,0.9);
+      box-shadow:
+        0 0 18px rgba(0,200,255,0.9),
+        0 0 36px rgba(0,80,255,0.9);
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      backdrop-filter: blur(10px);
+    }
+
+    .awb-countdown .label {
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      opacity: 0.8;
+      color: #bdf7ff;
+    }
+
+    .awb-countdown #awb-countdown-timer {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0,0,0,0.9);
+    }
+
+    @media (max-width: 600px) {
+      .awb-countdown {
+        top: 0.75rem;
+        right: 0.7rem;
+        padding: 0.45rem 0.9rem;
+      }
+      .awb-countdown #awb-countdown-timer {
+        font-size: 0.85rem;
+      }
+      .awb-countdown .label {
+        display: none; /* auf sehr kleinen Screens nur noch Zahlen */
+      }
     }
 
     /* ---------------------------
-       HIDE SWIPE NAV
+       SWIPE NAV HIDE
     ----------------------------*/
+
     .nav-arrow,
     .nav-arrow-left,
     .nav-arrow-right,
     .swipe-nav {
       display: none !important;
     }
-
   </style>
-
 </head>
 
 <body class="release-page">
 
-  <!-- Neon-Linien -->
+  <!-- NEON-EBENEN -->
   <div class="awb-neon"></div>
   <div class="awb-neon-2"></div>
 
-  <!-- Glitzer -->
+  <!-- COUNTDOWN -->
+  <div class="awb-countdown" aria-label="Release Countdown">
+    <span class="label">release in</span>
+    <span id="awb-countdown-timer">--:--:--</span>
+  </div>
+
+  <!-- GLITZER -->
   <script>
-    const sparkleCount = 40;
-    for (let i = 0; i < sparkleCount; i++) {
-      const s = document.createElement("div");
-      s.classList.add("awb-sparkle");
-      s.style.left = Math.random() * 100 + "vw";
-      s.style.top = Math.random() * 100 + "vh";
-      s.style.animationDelay = (Math.random() * 6) + "s";
-      const size = Math.random() * 6 + 3;
-      s.style.width = size + "px";
-      s.style.height = size + "px";
-      document.body.appendChild(s);
-    }
+    (function () {
+      const sparkleCount = 45;
+      for (let i = 0; i < sparkleCount; i++) {
+        const s = document.createElement("div");
+        s.classList.add("awb-sparkle");
+        s.style.left = Math.random() * 100 + "vw";
+        s.style.top = Math.random() * 100 + "vh";
+        s.style.animationDelay = (Math.random() * 6) + "s";
+        const size = Math.random() * 10 + 6;
+        s.style.width = size + "px";
+        s.style.height = size + "px";
+        document.body.appendChild(s);
+      }
+    })();
   </script>
 
   <header class="header">
-    <a class="brand" href="index.html"><img src="favicon.svg"><strong>b3nn3t</strong></a>
+    <a class="brand" href="index.html"><img src="favicon.svg" alt=""><strong>b3nn3t</strong></a>
   </header>
 
   <main class="main">
@@ -346,7 +455,7 @@
 
       <h1>ALLES WAS BLEIBT</h1>
 
-      <!-- Hidden description (SEO, invisible to visitors) -->
+      <!-- Beschreibung nur für SEO -->
       <p class="release-description">
         <strong>b3nn3t</strong> – Deutschrap & Indie-Pop aus der Schweiz.
         Mit <strong>„ALLES WAS BLEIBT“</strong> geht es um Nächte, die nicht loslassen,
@@ -355,8 +464,8 @@
 
       <!-- VIDEO -->
       <section aria-label="Video Preview">
-        <figure class="panel-photo" style="margin-top: 1.2rem;">
-          <video 
+        <figure class="panel-photo">
+          <video
             class="release-video"
             controls
             autoplay
@@ -371,35 +480,80 @@
       </section>
 
       <!-- STREAM -->
-      <section style="margin-top: 2rem;">
+      <section aria-label="Streaming">
         <h2>jetzt streamen</h2>
-        <p>Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.</p>
-
+        <p>
+          Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
+          Bis dahin: vormerken, folgen, laut aufdrehen.
+        </p>
         <a class="card" href="plattformen.html">alle plattformen</a>
         <a class="card" href="aktuell.html">news & aktuell</a>
       </section>
 
       <!-- STORY -->
-      <section style="margin-top: 2rem;">
+      <section aria-label="Story zum Song">
         <h2>story zum song</h2>
         <p>
-          Wenn der Rauch sich legt, bleibt was zählt — melancholische Indie-Vibes,
-          klare Zeilen und ein Gefühl, das hängen bleibt.
+          Wenn der Rauch sich legt, bleibt was zählt –  
+          melancholische Indie-Vibes, klare Zeilen und ein Gefühl,
+          das länger bleibt als die Nacht.
         </p>
       </section>
 
       <!-- MORE -->
-      <section style="margin-top: 2rem;">
+      <section aria-label="Mehr von b3nn3t">
         <h2>mehr von b3nn3t</h2>
-        <p>Mehr Musik. Mehr Kunst. Mehr Atmosphäre.</p>
+        <p>
+          Mehr Musik. Mehr Kunst. Mehr b3nn3t.
+        </p>
 
-        <a class="neon-link" href="https://www.b3nn3t.com" target="_blank">
+        <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
           <span class="dot">•</span> b3nn3t <span class="dot">•</span>
         </a>
       </section>
 
     </div>
   </main>
+
+  <!-- COUNTDOWN SCRIPT -->
+  <script>
+    (function () {
+      // TODO: HIER dein reales Releasedatum eintragen
+      // Beispiel: 20. Dezember 2025, 00:00 Uhr (Schweizer Zeit)
+      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
+      const el = document.getElementById("awb-countdown-timer");
+      if (!el) return;
+
+      function updateCountdown() {
+        const now = Date.now();
+        let diff = targetDate - now;
+
+        if (diff <= 0) {
+          el.textContent = "OUT NOW";
+          return;
+        }
+
+        const seconds = Math.floor(diff / 1000);
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        const hh = String(hours).padStart(2, "0");
+        const mm = String(mins).padStart(2, "0");
+        const ss = String(secs).padStart(2, "0");
+
+        if (days > 0) {
+          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
+        } else {
+          el.textContent = hh + ":" + mm + ":" + ss;
+        }
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
+    })();
+  </script>
 
 </body>
 </html>
