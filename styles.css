@@ -355,45 +355,43 @@ body.home .main{
   text-align: right;
 }
 
-/* === Mobile: einheitlicher Abstand hinter dem Datum (Pixel-basiert) === */
+/* === Mobile: Datum links, Veranstaltung + Ort in einer Spalte rechts === */
 @media (max-width: 480px){
 
-  /* Jede Zeile = volle Breite & gleiche Box-Größe */
   .termin-row{
-    display: block;
-    width: 100%;          /* ⬅️ verhindert unterschiedliche Breiten */
+    display: grid;
+    width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    margin-bottom: 0.4rem;
+
+    /* 1. Spalte: Datum (90px)
+       2. Spalte: Veranstaltung + Ort */
+    grid-template-columns: 90px 1fr;
+    grid-template-areas:
+      "datum veranstaltung"
+      "datum ort";
+    column-gap: 12px;   /* Abstand zwischen Datum und Text */
+    row-gap: 2px;
+    margin-bottom: 0.6rem;
+    align-items: baseline;
   }
 
-  /* Datum + Veranstaltung in einer Zeile nebeneinander */
-  .termin-row .datum,
-  .termin-row .veranstaltung{
-    display: inline-block;
-    vertical-align: baseline;
-  }
-
-  /* Datum: feste Breite + rechtsbündig + fixer Abstand */
   .termin-row .datum{
-    width: 90px;          /* feste Datumsspalte, gleiche Breite für alle */
-    text-align: right;    /* Datum rechtsbündig */
-    margin-right: 12px;   /* fixer Abstand hinter dem Datum */
+    grid-area: datum;
     font-weight: 700;
+    text-align: right;   /* Datum rechtsbündig */
   }
 
-  /* Veranstaltung: kein zusätzlicher margin-left */
   .termin-row .veranstaltung{
-    margin-left: 0;
+    grid-area: veranstaltung;
     font-weight: 600;
+    margin-left: 0;      /* Abstand kommt nur über column-gap */
   }
 
-  /* Ort/Zeit unter die Veranstaltung, weiter links */
   .termin-row .ort{
-    display: block;
-    margin-left: 95px;    /* 90px + 12px → leicht nach links korrigiert */
+    grid-area: ort;      /* steht in derselben Spalte wie Veranstaltung */
     text-align: left;
     font-size: 0.9em;
-    margin-top: 0.1rem;
+    margin: 0;
   }
 }
