@@ -327,7 +327,7 @@ footer a:hover{
   margin-top: 1rem;
 }
 
-/* === Termine: gridbasierte, linienlose "Tabelle" (Desktop & Querformat) === */ 
+/* === Termine: gridbasierte, linienlose "Tabelle" (Desktop) === */ 
 .termine-list{
   display: flex;
   flex-direction: column;
@@ -337,7 +337,7 @@ footer a:hover{
 
 .termin-row{
   display: grid;
-  grid-template-columns: 200px 1fr auto;  /* 3 Spalten: Datum | Veranstaltung | Ort */
+  grid-template-columns: 200px 1fr auto;  /* Desktop: breite Datumsspalte */
   column-gap: 2rem;
   align-items: baseline;
 }
@@ -349,50 +349,55 @@ footer a:hover{
 
 .termin-row .veranstaltung{
   font-weight: 600;
-  margin-left: 1.5rem;  /* Extra-Abstand hinter Datum auf Desktop/Querformat */
+  margin-left: 1.5rem;  /* Extra-Abstand hinter Datum auf Desktop */
 }
 
 .termin-row .ort{
-  text-align: right;    /* Ort/Uhrzeit rechts in Spalte 3 */
+  text-align: right;
 }
 
-/* === Mobile HOCHFORMAT (schmale Breite): Ort/Uhrzeit unter Veranstaltung, linksbündig === */
+/* === Mobile: Datum feste Spalte, Veranstaltung exakt dahinter === */
 @media (max-width: 480px){
 
-  /* 2 Spalten: Datum | Text (Veranstaltung + Ort) */
+  /* Jede Zeile verhält sich wie eine Tabellenzeile */
   .termin-row{
-    display: grid;
-    grid-template-columns: 90px 1fr;   /* Datum schmal, Rest flexibel */
-    grid-template-areas:
-      "datum veranstaltung"
-      "datum ort";
-    column-gap: 12px;                 /* Abstand zwischen Datum und Text */
-    row-gap: 2px;
-    align-items: baseline;
+    display: table;
     width: 100%;
-    box-sizing: border-box;
+    border-collapse: collapse;
+    margin-bottom: 0.6rem;
   }
 
-  .termin-row .datum{
-    grid-area: datum;
-    font-weight: 700;
-    text-align: right;
-    white-space: nowrap;              /* Datum nicht umbrechen */
-  }
-
+  /* Datum + Veranstaltung = Zellen in derselben Zeile */
+  .termin-row .datum,
   .termin-row .veranstaltung{
-    grid-area: veranstaltung;
-    font-weight: 600;
-    margin-left: 0;                   /* Abstand kommt über column-gap */
-    text-align: left;
-    white-space: nowrap;              /* z.B. "Full HD - Grün & Gold" in einer Zeile lassen */
+    display: table-cell;
+    vertical-align: baseline;
   }
 
+  /* Datum: feste Breite + rechtsbündig + fester Abstand */
+  .termin-row .datum{
+    width: 110px;        /* alle Datums-Spalten gleich breit */
+    text-align: right;
+    padding-right: 12px; /* fixer Abstand hinter dem Datum */
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* Veranstaltung: startet immer an derselben Stelle */
+  .termin-row .veranstaltung{
+    font-weight: 600;
+    margin-left: 0;      /* kein zusätzlicher Abstand */
+    text-align: left;
+    white-space: nowrap; /* z.B. "Full HD - Grün & Gold" in einer Zeile lassen */
+  }
+
+  /* Ort/Zeit in der Zeile darunter, unter der Veranstaltung ausgerichtet */
   .termin-row .ort{
-    grid-area: ort;                   /* gleiche Spalte wie Veranstaltung */
+    display: block;
+    margin-left: calc(110px + 12px); /* 110px Datum + 12px Abstand → gleiche Kante wie Veranstaltung */
     text-align: left;
     font-size: 0.9em;
-    margin: 0;
-    white-space: nowrap;              /* "Heidelberg · 20:00 Uhr" NICHT umbrechen */
+    margin-top: 0.15rem;
+    white-space: nowrap;            /* ⬅️ verhindert Umbruch zwischen Ort und Uhrzeit */
   }
 }
