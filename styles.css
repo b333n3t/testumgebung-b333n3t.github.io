@@ -367,7 +367,11 @@ body.home .main{
     row-gap: 0.1rem;
   }
 
-  .termin-row .datum{ grid-area: datum; }
+  .termin-row .datum{
+  font-weight: 700;
+  background: yellow;   /* TESTFARBE */
+}
+
   .termin-row .veranstaltung{ grid-area: veranstaltung; }
   .termin-row .ort{
     grid-area: ort;
