@@ -356,49 +356,46 @@ footer a:hover{
   text-align: right;
 }
 
-/* === Mobile: Datum feste Spalte, Veranstaltung exakt dahinter === */
+/* === Mobile: Datum links, Veranstaltung + Ort in gleicher Spalte linksbündig === */
 @media (max-width: 480px){
 
-  /* Jede Zeile verhält sich wie eine Tabellenzeile */
+  /* 2-Spalten-Grid: Datum | Text (Veranstaltung + Ort) */
   .termin-row{
-    display: table;
+    display: grid;
     width: 100%;
-    border-collapse: collapse;
+    box-sizing: border-box;
+    grid-template-columns: 110px 1fr;  /* 110px = Datumspalte */
+    grid-template-areas:
+      "datum veranstaltung"
+      "datum ort";
+    column-gap: 12px;                 /* Abstand zwischen Datum und Text */
+    row-gap: 2px;
+    align-items: baseline;
     margin-bottom: 0.6rem;
   }
 
-  /* Datum + Veranstaltung = Zellen in derselben Zeile */
-  .termin-row .datum,
-  .termin-row .veranstaltung{
-    display: table-cell;
-    vertical-align: baseline;
-  }
-
-  /* Datum: feste Breite + rechtsbündig + fester Abstand */
   .termin-row .datum{
-    width: 110px;        /* alle Datums-Spalten gleich breit */
-    text-align: right;
-    padding-right: 12px; /* fixer Abstand hinter dem Datum */
+    grid-area: datum;
     font-weight: 700;
-    white-space: nowrap;
+    text-align: right;
+    white-space: nowrap;              /* Datum nicht umbrechen */
   }
 
-  /* Veranstaltung: LINKS bündig – wichtig für mobile Darstellung */
+  /* Veranstaltung: linksbündig in Spalte 2 */
   .termin-row .veranstaltung{
+    grid-area: veranstaltung;
     font-weight: 600;
-    margin-left: 0;      /* kein zusätzlicher Abstand */
-    text-align: left;    /* <-- KORREKTUR  */
-    white-space: nowrap; /* kein Umbruch */
+    margin-left: 0;
+    text-align: left;
+    white-space: nowrap;              /* z.B. "Full HD - Grün & Gold" in einer Zeile */
   }
 
-  /* Ort/Uhrzeit unter der Veranstaltung, exakt gleiche linke Kante */
+  /* Ort/Uhrzeit: gleiche Spalte wie Veranstaltung, gleiche linke Kante */
   .termin-row .ort{
-    display: block;
-    margin-left: calc(110px + 12px);  /* gleiche Startkante wie Veranstaltung */
-    text-align: left;                 /* <-- KORREKTUR  */
+    grid-area: ort;
+    text-align: left;
     font-size: 0.9em;
-    margin-top: 0.15rem;
-    white-space: nowrap;              /* kein Umbruch von Ort/Uhrzeit */
+    margin: 0;
+    white-space: nowrap;              /* "Heidelberg · 20:00 Uhr" nicht umbrechen */
   }
 }
-
