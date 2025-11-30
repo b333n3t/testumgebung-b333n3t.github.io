@@ -307,6 +307,71 @@
       .awb-darkwave  { opacity: 0.75; filter: blur(38px); }
     }
 
+/* weicher Übergang nach unten in dunkleren Bereich */
+.awb-bottom-fade {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 40vh;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(2, 6, 18, 0.8) 60%,
+    #020612 100%
+  );
+  mix-blend-mode: multiply;
+}
+
+/* „Tränen“, die vom Bild nach unten laufen */
+.awb-bottom-tears {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -8vh;
+  height: 42vh;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(40% 120% at 10% 0%, rgba(255,255,255,0.16), transparent 60%),
+    radial-gradient(35% 120% at 35% 0%, rgba(255,255,255,0.20), transparent 65%),
+    radial-gradient(45% 130% at 60% 0%, rgba(255,255,255,0.18), transparent 70%),
+    radial-gradient(35% 115% at 85% 0%, rgba(255,255,255,0.16), transparent 65%);
+  opacity: 0.65;
+  mix-blend-mode: screen;
+  filter: blur(6px);
+  animation: awbTearsDrip 18s ease-in-out infinite alternate;
+}
+
+@keyframes awbTearsDrip {
+  0% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(-6px);
+    opacity: 0.75;
+  }
+  100% {
+    transform: translateY(4px);
+    opacity: 0.6;
+  }
+}
+
+@media (max-width: 768px) {
+  .awb-bottom-fade {
+    height: 45vh;
+  }
+  .awb-bottom-tears {
+    height: 46vh;
+    bottom: -10vh;
+    filter: blur(7px);
+  }
+}
+
+    
     /* ---------------------------
        GLITTER PARTICLES
     ----------------------------*/
@@ -762,12 +827,13 @@
       margin-bottom: 0.8rem;
     }
 
-    .social-icons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-    }
+.social-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.1rem;         /* NEU: mehr Abstand */
+  align-items: center;
+}
+
 
     .social-link {
       text-decoration: none;
@@ -808,13 +874,16 @@
 
 <body class="release-page">
 
-  <!-- WAVE / NEBEL / LICHT-EBENEN -->
+   <!-- WAVE / NEBEL / LICHT-EBENEN -->
   <div class="awb-fogwave"></div>
   <div class="awb-spotlight"></div>
   <div class="awb-neon"></div>
   <div class="awb-neon-2"></div>
   <div class="awb-greenwave"></div>
   <div class="awb-darkwave"></div>
+  <div class="awb-bottom-fade"></div>
+  <div class="awb-bottom-tears"></div>
+
 
   <!-- COUNTDOWN -->
   <div class="awb-countdown" aria-label="Release Countdown">
@@ -899,7 +968,16 @@
         </figure>
       </section>
 
-      <!-- STREAM -->
+      <!-- STORY (jetzt zuerst) -->
+      <section aria-label="Story zum Song" class="wobble-block">
+        <h2 class="star-2">story zum song</h2>
+        <p class="wave-paragraph wave-paragraph--2">
+          Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
+          klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
+        </p>
+      </section>
+
+      <!-- STREAM (jetzt in der Mitte) -->
       <section aria-label="Streaming" class="wobble-block">
         <h2 class="star-1">jetzt streamen</h2>
 
@@ -973,17 +1051,7 @@
         <a class="card" href="aktuell.html">news & aktuell</a>
       </section>
 
-
-      <!-- STORY -->
-      <section aria-label="Story zum Song" class="wobble-block">
-        <h2 class="star-2">story zum song</h2>
-        <p class="wave-paragraph wave-paragraph--2">
-          Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
-          klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
-        </p>
-      </section>
-
-      <!-- MORE -->
+      <!-- MORE (bleibt am Schluss) -->
       <section aria-label="Mehr von b3nn3t" class="wobble-block">
         <h2 class="star-3">mehr von b3nn3t</h2>
         <p class="wave-paragraph wave-paragraph--3">
@@ -994,6 +1062,7 @@
           <span class="dot">•</span> b3nn3t <span class="dot">•</span>
         </a>
       </section>
+
 
     </div>
   </main>
