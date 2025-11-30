@@ -345,9 +345,14 @@
 
     @media (max-width: 768px) {
       .content-offset {
-        max-width: 760px;
-        width: calc(100% - 1.5rem);   /* schmaler Rand */
-        padding: 0 0.75rem;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 1rem;   /* leichte Ränder links/rechts */
+        margin-left: 0;
+        margin-right: 0;
+        box-sizing: border-box;
+        position: relative;
+        transform: translateZ(0); /* verhindert „springenden“ Reflow */
       }
     }
 
@@ -372,13 +377,13 @@
       letter-spacing: 0.16em;
       margin-bottom: 0.7rem;
       color: #ffffff;
-      display: inline-block; /* für zentrierten Unterstrich */
+      display: inline-block;
       position: relative;
     }
 
     .wave-word {
       display: inline-block;
-      white-space: nowrap; /* bricht NICHT mitten im Wort */
+      white-space: nowrap;
     }
 
     .wave-space {
@@ -588,7 +593,7 @@
     }
 
     /* ---------------------------
-       VIDEO PANEL – mittig, breiter
+       VIDEO PANEL – Desktop kleiner, Mobile groß & mittig
     ----------------------------*/
 
     .panel-photo {
@@ -598,7 +603,7 @@
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
       margin: 1.2rem auto 0;
-      max-width: 1040px;           /* breiter auf Desktop */
+      max-width: 860px;       /* >>> kleiner auf Desktop */
       width: 100%;
     }
 
@@ -607,7 +612,9 @@
         margin-top: 1rem;
         border-radius: 1.2rem;
         max-width: none;
-        width: 100%; /* nutzt fast die volle Bildschirmbreite durch kleinere Ränder */
+        width: calc(100% - 1rem);
+        margin-left: auto;
+        margin-right: auto;
       }
     }
 
