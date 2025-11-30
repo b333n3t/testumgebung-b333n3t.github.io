@@ -25,6 +25,12 @@
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
+  <!-- Font Awesome für Social-Logos -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  />
+
   <style>
     :root {
       --awb-pink: #ff5bb1;
@@ -228,7 +234,7 @@
       );
       filter: blur(14px) saturate(130%);
       opacity: 0.22;
-      animation: neonDeep 14s ease-in-out infinite;
+      animation: neonDeep 14s.ease-in-out infinite;
     }
 
     @keyframes neonDeep {
@@ -338,21 +344,21 @@
     .content-offset {
       margin: 2.5rem auto 3rem;
       max-width: 1040px;
-      width: min(1040px, calc(100% - 2rem)); /* näher an Rand */
+      width: min(1040px, calc(100% - 2rem));
       padding: 0 1rem;
-      text-align: center; /* H1 + Video mittig */
+      text-align: center;
     }
 
     @media (max-width: 768px) {
       .content-offset {
         width: 100%;
         max-width: 100%;
-        padding: 0 1rem;   /* leichte Ränder links/rechts */
+        padding: 0 1rem;
         margin-left: 0;
         margin-right: 0;
         box-sizing: border-box;
         position: relative;
-        transform: translateZ(0); /* verhindert „springenden“ Reflow */
+        transform: translateZ(0);
       }
     }
 
@@ -603,7 +609,7 @@
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
       margin: 1.2rem auto 0;
-      max-width: 860px;       /* >>> kleiner auf Desktop */
+      max-width: 860px;
       width: 100%;
     }
 
@@ -688,63 +694,88 @@
     }
 
     /* ---------------------------
-       COUNTDOWN OBEN RECHTS
+       STREAMING-BUTTONS
     ----------------------------*/
 
-    .awb-countdown {
-      position: fixed;
-      top: 1.2rem;
-      right: 1.2rem;
-      z-index: 10;
-      padding: 0.6rem 1.1rem;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(0,200,255,0.9);
-      box-shadow:
-        0 0 18px rgba(0,200,255,0.9),
-        0 0 36px rgba(0,80,255,0.9);
+    .stream-buttons {
       display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-      backdrop-filter: blur(10px);
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 0.9rem;
     }
 
-    .awb-countdown .label {
-      text-transform: uppercase;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      opacity: 0.8;
-      color: #bdf7ff;
+    .stream-buttons .card {
+      margin-right: 0;
     }
 
-    .awb-countdown #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
+    .stream-note {
+      margin-top: 1.2rem;
       font-size: 0.95rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(0,0,0,0.9);
     }
 
-    @media (max-width: 600px) {
-      .awb-countdown {
-        top: 0.75rem;
-        right: 0.7rem;
-        padding: 0.45rem 0.9rem;
-      }
-      .awb-countdown #awb-countdown-timer {
-        font-size: 0.85rem;
-      }
-      .awb-countdown .label {
-        display: none;
-      }
-    }
+    /* ---------------------------
+       COUNTDOWN-Styles bleiben ungenutzt,
+       können bei Bedarf später gelöscht werden
+    ----------------------------*/
+
+    .awb-countdown { display:none; }
 
     .nav-arrow,
     .nav-arrow-left,
     .nav-arrow-right,
     .swipe-nav {
       display: none !important;
+    }
+
+    /* ---------------------------
+       SOCIAL ICONS – nur weiße Outlines
+    ----------------------------*/
+
+    .social-section {
+      margin-top: 0.4rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.1rem;
+      align-items: center;
+    }
+
+    .social-link {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-icon {
+      font-size: 1.8rem;
+      color: transparent;
+      -webkit-text-stroke: 1.6px #ffffff;
+      text-stroke: 1.6px #ffffff;
+      transition:
+        transform 0.2s ease,
+        -webkit-text-stroke 0.2s.ease,
+        text-stroke 0.2s ease,
+        filter 0.2s ease;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
+    }
+
+    .social-link:hover .social-icon {
+      transform: scale(1.15) translateY(-2px);
+      -webkit-text-stroke: 2px #ffffff;
+      text-stroke: 2px #ffffff;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+    }
+
+    @media (max-width: 600px) {
+      .social-icon {
+        font-size: 1.6rem;
+        -webkit-text-stroke: 1.4px #ffffff;
+        text-stroke: 1.4px #ffffff;
+      }
     }
   </style>
 </head>
@@ -758,12 +789,6 @@
   <div class="awb-neon-2"></div>
   <div class="awb-greenwave"></div>
   <div class="awb-darkwave"></div>
-
-  <!-- COUNTDOWN -->
-  <div class="awb-countdown" aria-label="Release Countdown">
-    <span class="label">release in</span>
-    <span id="awb-countdown-timer">--:--:--</span>
-  </div>
 
   <!-- GLITZER -->
   <script>
@@ -825,7 +850,7 @@
         Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
       </p>
 
-      <!-- VIDEO (mittig) -->
+      <!-- VIDEO (Teaser) -->
       <section aria-label="Video Preview">
         <figure class="panel-photo">
           <video
@@ -842,16 +867,54 @@
         </figure>
       </section>
 
-      <!-- STREAM -->
+      <!-- STREAMING (Buttons + Video-Links zum Song) -->
       <section aria-label="Streaming" class="wobble-block">
-        <h2 class="star-1">jetzt streamen</h2>
-        <p class="wave-paragraph wave-paragraph--1">
-          Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
-          Bis dahin: vormerken, folgen, laut aufdrehen.
+        <h2 class="star-1">streaming</h2>
+        <p class="wave-paragraph">
+          „ALLES WAS BLEIBT“ ist jetzt draußen – hol dir den Song auf deiner Lieblingsplattform.
         </p>
-        <br>
-        <a class="card" href="plattformen.html">alle plattformen</a>
-        <a class="card" href="aktuell.html">news & aktuell</a>
+
+        <!-- Streaming-Buttons: Track-Links – Platzhalter-URLs -->
+        <div class="stream-buttons">
+          <a
+            class="card"
+            href="https://open.spotify.com/track/DEIN_SPOTIFY_TRACK_LINK"
+            target="_blank"
+            rel="noopener"
+          >
+            Spotify – Song
+          </a>
+
+          <a
+            class="card"
+            href="https://music.apple.com/ch/album/DEIN_APPLE_MUSIC_TRACK_LINK"
+            target="_blank"
+            rel="noopener"
+          >
+            Apple Music – Song
+          </a>
+
+          <a
+            class="card"
+            href="https://www.youtube.com/watch?v=DEIN_YOUTUBE_VIDEO_LINK"
+            target="_blank"
+            rel="noopener"
+          >
+            YouTube – Video
+          </a>
+        </div>
+
+        <p class="stream-note">
+          <!-- Zusatztext optional, kannst du bei Bedarf anpassen oder löschen -->
+          Erlebe das Video direkt auf YouTube oder speichere dir den Track in deiner Playlist.
+        </p>
+
+        <!--
+          Sobald du die finalen Links hast, ersetze oben einfach die Platzhalter:
+          - DEIN_SPOTIFY_TRACK_LINK
+          - DEIN_APPLE_MUSIC_TRACK_LINK
+          - DEIN_YOUTUBE_VIDEO_LINK
+        -->
       </section>
 
       <!-- STORY -->
@@ -863,9 +926,80 @@
         </p>
       </section>
 
+      <!-- „JETZT STREAMEN“ – Social Links -->
+      <section aria-label="Social Links" class="wobble-block">
+        <h2 class="star-3">jetzt streamen</h2>
+
+        <!-- Social Media Plattformen – nur Logos (weiße Outline) -->
+        <div class="social-section" aria-label="Social Media Links">
+          <div class="social-icons">
+            <!-- MX3 -->
+            <a href="https://mx3.ch/b3nn3t"
+               class="social-link"
+               aria-label="MX3 – b3nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-solid fa-music social-icon"></i>
+            </a>
+
+            <!-- Genius -->
+            <a href="https://genius.com/artists/B3nn3t"
+               class="social-link"
+               aria-label="Genius – b3nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-solid fa-pen-nib social-icon"></i>
+            </a>
+
+            <!-- Spotify -->
+            <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+               class="social-link"
+               aria-label="Spotify – b3nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-brands fa-spotify social-icon"></i>
+            </a>
+
+            <!-- Apple Music -->
+            <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+               class="social-link"
+               aria-label="Apple Music – b3nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-brands fa-apple social-icon"></i>
+            </a>
+
+            <!-- Instagram -->
+            <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+               class="social-link"
+               aria-label="Instagram – b333nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-brands fa-instagram social-icon"></i>
+            </a>
+
+            <!-- YouTube -->
+            <a href="https://www.youtube.com/@b333nn3t"
+               class="social-link"
+               aria-label="YouTube – @b333nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-brands fa-youtube social-icon"></i>
+            </a>
+
+            <!-- SoundCloud -->
+            <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+               class="social-link"
+               aria-label="SoundCloud – b3nn3t"
+               target="_blank" rel="noopener">
+              <i class="fa-brands fa-soundcloud social-icon"></i>
+            </a>
+          </div>
+        </div>
+
+        <p class="wave-paragraph wave-paragraph--1">
+          Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song
+          und bleib bei neuen Releases direkt am Start.
+        </p>
+      </section>
+
       <!-- MORE -->
       <section aria-label="Mehr von b3nn3t" class="wobble-block">
-        <h2 class="star-3">mehr von b3nn3t</h2>
+        <h2 class="star-1">mehr von b3nn3t</h2>
         <p class="wave-paragraph wave-paragraph--3">
           Mehr Musik. Mehr Kunst. Mehr b3nn3t.
         </p>
@@ -877,44 +1011,6 @@
 
     </div>
   </main>
-
-  <!-- COUNTDOWN SCRIPT -->
-  <script>
-    (function () {
-      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
-      const el = document.getElementById("awb-countdown-timer");
-      if (!el) return;
-
-      function updateCountdown() {
-        const now = Date.now();
-        let diff = targetDate - now;
-
-        if (diff <= 0) {
-          el.textContent = "OUT NOW";
-          return;
-        }
-
-        const seconds = Math.floor(diff / 1000);
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        if (days > 0) {
-          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
-        } else {
-          el.textContent = hh + ":" + mm + ":" + ss;
-        }
-      }
-
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    })();
-  </script>
 
   <!-- Wave-Delay für die H1-Buchstaben -->
   <script>
