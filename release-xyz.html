@@ -337,16 +337,22 @@
 
     .content-offset {
       margin: 2.5rem auto 3rem;
-      max-width: 720px;
-      width: min(720px, calc(100% - 4rem)); /* links + rechts Luft */
+      max-width: 900px;
+      width: min(900px, calc(100% - 4rem));
       padding: 0 1.5rem;
+      text-align: center; /* H1 + Video mittig */
     }
 
-    @media (min-width: 900px) {
+    @media (max-width: 768px) {
       .content-offset {
-        margin-left: clamp(10vw, 18vw, 260px);
-        margin-right: clamp(6vw, 10vw, 160px);
+        max-width: 720px;
+        width: min(720px, calc(100% - 2.5rem));
       }
+    }
+
+    /* Text in Sections wieder links ausrichten */
+    section {
+      text-align: left;
     }
 
     .content-offset > p:first-of-type {
@@ -366,7 +372,7 @@
       letter-spacing: 0.16em;
       margin-bottom: 0.7rem;
       color: #ffffff;
-      display: inline-block;
+      display: inline-block; /* für zentrierten Unterstrich */
       position: relative;
     }
 
@@ -440,18 +446,34 @@
       }
     }
 
+    /* Unterstrich als animierte Lichterkette */
     h1.wave-text::after {
       content: "";
+      position: relative;
       display: block;
-      margin-top: .3rem;
-      width: 90%;
+      margin: .35rem auto 0;
+      width: 100%;
       height: 3px;
-      background: linear-gradient(90deg, var(--awb-pink), var(--awb-yellow));
       border-radius: 999px;
+      background-image: linear-gradient(
+        90deg,
+        #ff5bb1,
+        #ffd85b,
+        #00e6ff,
+        #00ff90,
+        #ff5bb1
+      );
+      background-size: 300% 100%;
       box-shadow: 0 0 16px rgba(0,0,0,0.7);
+      animation: underlineLights 3s linear infinite;
     }
 
-    /* H2 + STERN-FARBLAUF – 3 verschiedene Sequenzen */
+    @keyframes underlineLights {
+      0%   { background-position: 0% 50%; }
+      100% { background-position: 300% 50%; }
+    }
+
+    /* H2 + Sternfarben (unterschiedlich) */
     h2 {
       margin-top: 2rem;
       margin-bottom: 0.7rem;
@@ -566,7 +588,7 @@
     }
 
     /* ---------------------------
-       VIDEO PANEL
+       VIDEO PANEL – mittig
     ----------------------------*/
 
     .panel-photo {
@@ -575,7 +597,8 @@
       box-shadow:
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
-      margin-top: 1.2rem;
+      margin: 1.2rem auto 0; /* zentriert */
+      max-width: 900px;
     }
 
     .release-video {
@@ -752,7 +775,7 @@
 
       <p>NEUES RELEASE</p>
 
-      <!-- H1 mit Wort-Gruppierung, damit „WAS“ nicht getrennt wird -->
+      <!-- H1 mittig, Wörter bleiben zusammen -->
       <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
         <span class="wave-word">
           <span class="letter">A</span>
@@ -785,7 +808,7 @@
         Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
       </p>
 
-      <!-- VIDEO -->
+      <!-- VIDEO (mittig) -->
       <section aria-label="Video Preview">
         <figure class="panel-photo">
           <video
@@ -881,8 +904,8 @@
     (function () {
       const letters = document.querySelectorAll('h1.wave-text .letter');
       letters.forEach((el, i) => {
-        const delay = i * 0.06; // Staffelung
-        el.style.animationDelay = delay + 's, 0s'; // erste Animation (letterWave) verzögert
+        const delay = i * 0.06;
+        el.style.animationDelay = delay + 's, 0s';
       });
     })();
   </script>
