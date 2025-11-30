@@ -65,9 +65,15 @@
         background-image: url("assets/release/background_mobile.jpg");
         background-attachment: scroll;
         background-size: cover;
-        /* keine Body-Animation auf Mobile – ruhigeres Layout */
-        animation: none;
-        transform: none;
+        animation: bgDriftMobile 26s ease-in-out infinite alternate;
+      }
+
+      @keyframes bgDriftMobile {
+        0%   { background-position: 50% 50%; }
+        25%  { background-position: 51% 48%; }
+        50%  { background-position: 48% 52%; }
+        75%  { background-position: 52% 49%; }
+        100% { background-position: 50% 50%; }
       }
     }
 
@@ -287,16 +293,12 @@
     }
 
     @media (max-width: 768px) {
-      /* große Flächen-Animationen auf Mobile ausschalten – kein visuelles Springen */
-      .awb-fogwave,
-      .awb-spotlight,
-      .awb-neon,
-      .awb-neon-2,
-      .awb-greenwave,
-      .awb-darkwave {
-        animation: none !important;
-        transform: none !important;
-      }
+      .awb-fogwave   { opacity: 0.10; filter: blur(26px); }
+      .awb-spotlight { opacity: 0.35; }
+      .awb-neon      { opacity: 0.35; filter: blur(9px); }
+      .awb-neon-2    { opacity: 0.18; filter: blur(12px); }
+      .awb-greenwave { opacity: 0.28; filter: blur(22px); }
+      .awb-darkwave  { opacity: 0.75; filter: blur(38px); }
     }
 
     /* ---------------------------
@@ -336,21 +338,21 @@
     .content-offset {
       margin: 2.5rem auto 3rem;
       max-width: 1040px;
-      width: min(1040px, calc(100% - 2rem));
+      width: min(1040px, calc(100% - 2rem)); /* näher an Rand */
       padding: 0 1rem;
-      text-align: center;
+      text-align: center; /* H1 + Video mittig */
     }
 
     @media (max-width: 768px) {
       .content-offset {
         width: 100%;
         max-width: 100%;
-        padding: 0 1rem;
+        padding: 0 1rem;   /* leichte Ränder links/rechts */
         margin-left: 0;
         margin-right: 0;
         box-sizing: border-box;
         position: relative;
-        transform: translateZ(0);
+        transform: translateZ(0); /* verhindert „springenden“ Reflow */
       }
     }
 
@@ -368,7 +370,7 @@
       animation: textShimmer 10s ease-in-out infinite;
     }
 
-    /* Wellen-H1 */
+    /* Wellen-H1 mit wortweiser Zeilenumbruch-Kontrolle */
     h1.wave-text {
       font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
       text-transform: uppercase;
@@ -403,13 +405,6 @@
       50%  { transform: translateY(0); }
       75%  { transform: translateY(4px); }
       100% { transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      h1.wave-text .letter {
-        /* auf Mobile weniger „Wackeln“ (ruhiger) */
-        animation: textShimmer 9s ease-in-out infinite;
-      }
     }
 
     @media (max-width: 600px) {
@@ -456,7 +451,7 @@
       }
     }
 
-    /* animierter Unterstrich */
+    /* Unterstrich als animierte Lichterkette */
     h1.wave-text::after {
       content: "";
       position: relative;
@@ -483,7 +478,7 @@
       100% { background-position: 300% 50%; }
     }
 
-    /* H2 + Sterne */
+    /* H2 + Sternfarben (unterschiedlich) */
     h2 {
       margin-top: 2rem;
       margin-bottom: 0.7rem;
@@ -589,41 +584,34 @@
     }
 
     @media (max-width: 768px) {
-      /* Textanimationen auf Mobile ruhiger/aus -> weniger „Shift“-Gefühl */
-      .wobble-block,
+      .wobble-block {
+        animation-duration: 6.5s;
+      }
       .wave-paragraph {
-        animation: none !important;
+        animation-duration: 4s !important;
       }
     }
 
     /* ---------------------------
-       VIDEO PANEL – Desktop kleiner, Mobile mit fester Höhe (kein CLS)
+       VIDEO PANEL – Desktop kleiner, Mobile groß & mittig
     ----------------------------*/
 
     .panel-photo {
-      position: relative;
       border-radius: 1.6rem;
       overflow: hidden;
       box-shadow:
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
       margin: 1.2rem auto 0;
-      max-width: 720px;   /* Desktop etwas kleiner */
+      max-width: 860px;       /* >>> kleiner auf Desktop */
       width: 100%;
-    }
-
-    /* 16:9 Platzhalter – reserviert die Höhe von Anfang an */
-    .panel-photo::before {
-      content: "";
-      display: block;
-      padding-top: 56.25%; /* 16:9 */
     }
 
     @media (max-width: 768px) {
       .panel-photo {
         margin-top: 1rem;
         border-radius: 1.2rem;
-        max-width: 100%;
+        max-width: none;
         width: calc(100% - 1rem);
         margin-left: auto;
         margin-right: auto;
@@ -631,14 +619,10 @@
     }
 
     .release-video {
-      position: absolute;
-      inset: 0;
       width: 100%;
-      height: 100%;
       display: block;
       border-radius: inherit;
       background: #000;
-      object-fit: cover;
       filter: brightness(1.12) contrast(1.1) saturate(1.2);
       transition: transform 0.4s ease, filter 0.4s ease;
     }
@@ -841,7 +825,7 @@
         Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
       </p>
 
-      <!-- VIDEO (mit fester Aspect-Ratio, kein CLS) -->
+      <!-- VIDEO (mittig) -->
       <section aria-label="Video Preview">
         <figure class="panel-photo">
           <video
