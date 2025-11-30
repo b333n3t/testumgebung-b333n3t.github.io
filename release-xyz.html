@@ -337,20 +337,20 @@
 
     .content-offset {
       margin: 2.5rem auto 3rem;
-      max-width: 900px;
-      width: min(900px, calc(100% - 4rem));
-      padding: 0 1.5rem;
+      max-width: 1040px;
+      width: min(1040px, calc(100% - 2rem)); /* näher an Rand */
+      padding: 0 1rem;
       text-align: center; /* H1 + Video mittig */
     }
 
     @media (max-width: 768px) {
       .content-offset {
-        max-width: 720px;
-        width: min(720px, calc(100% - 2.5rem));
+        max-width: 760px;
+        width: calc(100% - 1.5rem);   /* schmaler Rand */
+        padding: 0 0.75rem;
       }
     }
 
-    /* Text in Sections wieder links ausrichten */
     section {
       text-align: left;
     }
@@ -588,7 +588,7 @@
     }
 
     /* ---------------------------
-       VIDEO PANEL – mittig
+       VIDEO PANEL – mittig, breiter
     ----------------------------*/
 
     .panel-photo {
@@ -597,14 +597,24 @@
       box-shadow:
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
-      margin: 1.2rem auto 0; /* zentriert */
-      max-width: 900px;
+      margin: 1.2rem auto 0;
+      max-width: 1040px;           /* breiter auf Desktop */
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .panel-photo {
+        margin-top: 1rem;
+        border-radius: 1.2rem;
+        max-width: none;
+        width: 100%; /* nutzt fast die volle Bildschirmbreite durch kleinere Ränder */
+      }
     }
 
     .release-video {
       width: 100%;
       display: block;
-      border-radius: 1.6rem;
+      border-radius: inherit;
       background: #000;
       filter: brightness(1.12) contrast(1.1) saturate(1.2);
       transition: transform 0.4s ease, filter 0.4s ease;
