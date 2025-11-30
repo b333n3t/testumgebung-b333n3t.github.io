@@ -339,14 +339,17 @@
     ----------------------------*/
 
     .content-offset {
-      margin: 2.5rem 1.5rem 3rem;
+      margin: 2.5rem auto 3rem;
       max-width: 720px;
+      width: min(720px, calc(100% - 4rem)); /* rechter Rand sichern */
+      padding: 0 1.5rem;
     }
 
-    /* ► Desktop deutlich weiter nach rechts */
+    /* ► Desktop leicht nach rechts versetzt, aber mit rechtem Rand */
     @media (min-width: 900px) {
       .content-offset {
-        margin-left: min(18vw, 260px);
+        margin-left: clamp(10vw, 18vw, 260px);
+        margin-right: clamp(6vw, 10vw, 160px);
       }
     }
 
@@ -405,7 +408,7 @@
     h1.wave-text span:nth-child(15) { animation-delay: 0.75s, 0s; }
     h1.wave-text span:nth-child(16) { animation-delay: 0.80s, 0s; }
 
-    /* Mobile: Titel muss komplett sichtbar sein */
+    /* Mobile: Titel komplett sichtbar */
     @media (max-width: 600px) {
       h1.wave-text {
         font-size: clamp(2.1rem, 8vw, 2.6rem);
@@ -459,6 +462,7 @@
       box-shadow: 0 0 16px rgba(0,0,0,0.7);
     }
 
+    /* H2 + Sterne */
     h2 {
       margin-top: 2rem;
       margin-bottom: 0.7rem;
@@ -468,11 +472,27 @@
       color: #ffffff;
       text-shadow: 0 0 10px rgba(0,0,0,0.8);
       animation: textShimmer 12s ease-in-out infinite;
+      position: relative;
+      padding-left: 1.6rem;
     }
 
+    /* ✶ Neon-Sterne mit Farbwechsel */
     h2::before {
-      content: "✶ ";
-      color: var(--awb-pink);
+      content: "✶";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-52%);
+      font-size: 1.2rem;
+      animation: starGlow 3.5s linear infinite;
+    }
+
+    @keyframes starGlow {
+      0%   { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
+      25%  { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
+      50%  { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
+      75%  { color: #00ff90; text-shadow: 0 0 10px #00ff90, 0 0 20px #00ff90; }
+      100% { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
     }
 
     .release-page p:not(.release-description):not(.awb-countdown *) {
@@ -489,7 +509,7 @@
     section p {
       background: transparent !important;
       backdrop-filter: none !important;
-      padding: 0 !important;
+      padding-right: 0 !important;
     }
 
     .release-description {
@@ -514,20 +534,14 @@
       100% { transform: translateY(0) skewX(0deg); }
     }
 
-    /* ► stärkere Wellenbewegung für die 3 Texte – mit !important */
     .wave-paragraph {
       display: inline-block;
       transform-origin: center;
       animation: paragraphWave 3.2s ease-in-out infinite !important;
     }
 
-    .wave-paragraph--2 {
-      animation-delay: 0.4s !important;
-    }
-
-    .wave-paragraph--3 {
-      animation-delay: 0.8s !important;
-    }
+    .wave-paragraph--2 { animation-delay: 0.4s !important; }
+    .wave-paragraph--3 { animation-delay: 0.8s !important; }
 
     @keyframes paragraphWave {
       0%   { transform: translateY(0) skewX(0deg); }
