@@ -65,7 +65,7 @@
         background-image: url("assets/release/background_mobile.jpg");
         background-attachment: scroll;
         background-size: cover;
-        /* keine Animation auf Mobile → weniger Layout-Shift-Eindruck */
+        /* keine Body-Animation auf Mobile – ruhigeres Layout */
         animation: none;
         transform: none;
       }
@@ -287,8 +287,7 @@
     }
 
     @media (max-width: 768px) {
-      /* große Flächen-Animationen auf Mobile ausschalten,
-         damit nichts optisch „springt“ */
+      /* große Flächen-Animationen auf Mobile ausschalten – kein visuelles Springen */
       .awb-fogwave,
       .awb-spotlight,
       .awb-neon,
@@ -404,6 +403,13 @@
       50%  { transform: translateY(0); }
       75%  { transform: translateY(4px); }
       100% { transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      h1.wave-text .letter {
+        /* auf Mobile weniger „Wackeln“ (ruhiger) */
+        animation: textShimmer 9s ease-in-out infinite;
+      }
     }
 
     @media (max-width: 600px) {
@@ -583,34 +589,41 @@
     }
 
     @media (max-width: 768px) {
-      .wobble-block {
-        animation-duration: 6.5s;
-      }
+      /* Textanimationen auf Mobile ruhiger/aus -> weniger „Shift“-Gefühl */
+      .wobble-block,
       .wave-paragraph {
-        animation-duration: 4s !important;
+        animation: none !important;
       }
     }
 
     /* ---------------------------
-       VIDEO PANEL – Desktop kleiner, Mobile groß & mittig
+       VIDEO PANEL – Desktop kleiner, Mobile mit fester Höhe (kein CLS)
     ----------------------------*/
 
     .panel-photo {
+      position: relative;
       border-radius: 1.6rem;
       overflow: hidden;
       box-shadow:
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
       margin: 1.2rem auto 0;
-      max-width: 720px;       /* << kleiner auf Desktop */
+      max-width: 720px;   /* Desktop etwas kleiner */
       width: 100%;
+    }
+
+    /* 16:9 Platzhalter – reserviert die Höhe von Anfang an */
+    .panel-photo::before {
+      content: "";
+      display: block;
+      padding-top: 56.25%; /* 16:9 */
     }
 
     @media (max-width: 768px) {
       .panel-photo {
         margin-top: 1rem;
         border-radius: 1.2rem;
-        max-width: none;
+        max-width: 100%;
         width: calc(100% - 1rem);
         margin-left: auto;
         margin-right: auto;
@@ -618,10 +631,14 @@
     }
 
     .release-video {
+      position: absolute;
+      inset: 0;
       width: 100%;
+      height: 100%;
       display: block;
       border-radius: inherit;
       background: #000;
+      object-fit: cover;
       filter: brightness(1.12) contrast(1.1) saturate(1.2);
       transition: transform 0.4s ease, filter 0.4s ease;
     }
@@ -824,7 +841,7 @@
         Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
       </p>
 
-      <!-- VIDEO (mittig) -->
+      <!-- VIDEO (mit fester Aspect-Ratio, kein CLS) -->
       <section aria-label="Video Preview">
         <figure class="panel-photo">
           <video
