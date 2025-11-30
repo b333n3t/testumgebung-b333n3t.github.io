@@ -65,9 +65,15 @@
         background-image: url("assets/release/background_mobile.jpg");
         background-attachment: scroll;
         background-size: cover;
-        /* Wichtig: keine Animation auf Mobile → weniger Layout Shift-Eindruck */
-        animation: none;
-        transform: none;
+        animation: bgDriftMobile 26s ease-in-out infinite alternate;
+      }
+
+      @keyframes bgDriftMobile {
+        0%   { background-position: 50% 50%; }
+        25%  { background-position: 51% 48%; }
+        50%  { background-position: 48% 52%; }
+        75%  { background-position: 52% 49%; }
+        100% { background-position: 50% 50%; }
       }
     }
 
@@ -287,16 +293,12 @@
     }
 
     @media (max-width: 768px) {
-      /* Alle großen Flächen-Animationen auf Mobile aus → ruhiger, kein sichtbarer Shift */
-      .awb-fogwave,
-      .awb-spotlight,
-      .awb-neon,
-      .awb-neon-2,
-      .awb-greenwave,
-      .awb-darkwave {
-        animation: none !important;
-        transform: none !important;
-      }
+      .awb-fogwave   { opacity: 0.10; filter: blur(26px); }
+      .awb-spotlight { opacity: 0.35; }
+      .awb-neon      { opacity: 0.35; filter: blur(9px); }
+      .awb-neon-2    { opacity: 0.18; filter: blur(12px); }
+      .awb-greenwave { opacity: 0.28; filter: blur(22px); }
+      .awb-darkwave  { opacity: 0.75; filter: blur(38px); }
     }
 
     /* ---------------------------
@@ -329,12 +331,6 @@
       100% { opacity: 1;  transform: scale(1.25); }
     }
 
-    @media (max-width: 768px) {
-      /* Sparkles bewegen sich zwar noch, aber beeinflussen Layout nicht.
-         Wenn du magst, kann man sie hier auch komplett deaktivieren:
-         .awb-sparkle { display:none; } */
-    }
-
     /* ---------------------------
        TYPOGRAPHY + LAYOUT
     ----------------------------*/
@@ -356,7 +352,7 @@
         margin-right: 0;
         box-sizing: border-box;
         position: relative;
-        transform: translateZ(0);
+        transform: translateZ(0); /* verhindert „springenden“ Reflow */
       }
     }
 
@@ -587,15 +583,12 @@
       100% { transform: translateY(0)  skewX(0deg); }
     }
 
-    /* Auf Mobile Textanimationen deaktivieren, damit nichts „nachwackelt“ */
     @media (max-width: 768px) {
-      .wobble-block,
-      .wave-paragraph,
-      h1.wave-text .letter,
-      .content-offset > p:first-of-type,
-      h2 {
-        animation: none !important;
-        transform: none !important;
+      .wobble-block {
+        animation-duration: 6.5s;
+      }
+      .wave-paragraph {
+        animation-duration: 4s !important;
       }
     }
 
@@ -610,7 +603,7 @@
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
       margin: 1.2rem auto 0;
-      max-width: 860px;       /* Desktop */
+      max-width: 860px;       /* >>> kleiner auf Desktop */
       width: 100%;
     }
 
