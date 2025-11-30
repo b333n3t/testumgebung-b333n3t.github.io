@@ -1,294 +1,142 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>aktuell — b3nn3t</title>
-  <meta name="description" content="aktuell — b3nn3t" />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles_nav_arrows.css" />
-  <link rel="stylesheet" href="swipe-helper.css" />
+  <meta charset="UTF-8" />
+  <title>B3NN3T – Intro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    :root { --bottom-gap: 60px; }
-    @media (max-width: 767px){ :root { --bottom-gap: 50px; } }
-    .main { margin-bottom: var(--bottom-gap); }
-
-    @media (max-width: 768px) {
-      main.main {
-        min-height: calc(100dvh - 56px - 20px);
-        height: calc(100dvh - 56px - 20px);
-      }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
-    /* Glasiger Textbereich */
-    .main{
-      background: rgba(255,255,255,.32);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      border-radius: 12px;
-      padding: 1.25rem 1rem;
-      position: relative;
-      z-index: 1;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    .main::-webkit-scrollbar{ display:none; }
-    .main h1, .main p{
-      background: transparent !important;
-      box-shadow: none !important;
-    }
-
-    /* Menü */
-    .hamburger {
-      position: fixed;
-      top: 14px; right: 18px;
-      width: 20px; height: 20px;
-      border: none; background: transparent;
-      display: grid; place-items: center;
-      cursor: pointer; z-index: 1200; padding: 0;
-    }
-    .hamburger span {
-      display:block; width:12px; height:1.4px;
-      margin:1.5px 0; background:#000; border-radius:2px;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg);}
-    body.menu-open .hamburger span:nth-child(2){ opacity:0;}
-    body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg);}
-    .menu-overlay {
-      position:fixed; inset:0; background:rgba(0,0,0,.08);
-      backdrop-filter:blur(1px); -webkit-backdrop-filter:blur(1px);
-      z-index:1099;
-    }
-    body.menu-open #menu-overlay{display:block;}
-    #menu-overlay[hidden]{display:none;}
-    .site-menu {
-      position:fixed; top:0; right:0;
-      height:auto; max-height:90vh;
-      width:min(40vw,150px);
-      background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px);
-      -webkit-backdrop-filter:blur(2px);
-      box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);
-      transition:transform .25s ease;
-      z-index:1101;
-      padding:46px 10px 14px;
-    }
-    body.menu-open .site-menu{transform:translateX(0);}
-    .site-menu ul{list-style:none;margin:0;padding:0;}
-    .site-menu li{margin:0 0 10px 0;}
-    .site-menu li.sep{margin-top:18px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08);}
-    .site-menu a{
-      display:block;padding:8px 6px;border-radius:10px;
-      color:#000;text-decoration:none;font-size:1rem;font-weight:500;
-    }
-    .site-menu a:hover{background:rgba(0,0,0,.05);}
-  </style>
-
-  <!-- CHAOTISCHE BILDERCOLLAGE -->
-  <style>
-    .collage-window {
-      position: relative;
-      max-width: 650px;
-      margin: 2rem auto;
-      padding: 1rem;
-      background: rgba(255,255,255,0.25);
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-      overflow: hidden;
-    }
-    .chaos-collage {
-      position: relative;
+    html, body {
       width: 100%;
-      height: 400px;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #fff;
     }
-    .chaos-collage img {
+
+    /* INTRO Overlay */
+    #intro {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      z-index: 10;
+      overflow: hidden;
+      opacity: 1;
+      transition: opacity 0.8s ease-in-out;
+    }
+
+    /* Partikel-Tunnel */
+    #intro::before {
+      content: "";
       position: absolute;
-      width: 45%;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      transition: transform 0.4s ease;
-      object-fit: cover;
-    }
-    .chaos-collage img:hover {
-      transform: scale(1.05) rotate(0deg);
-      z-index: 3;
-    }
-    .chaos-collage img:nth-child(1){top:10%;left:5%;transform:rotate(-8deg);}
-    .chaos-collage img:nth-child(2){top:5%;right:8%;transform:rotate(7deg);}
-    .chaos-collage img:nth-child(3){top:45%;left:10%;transform:rotate(-4deg);}
-    .chaos-collage img:nth-child(4){top:40%;right:5%;transform:rotate(10deg);}
-    .chaos-collage img:nth-child(5){top:65%;left:35%;transform:rotate(-3deg);}
-    @media (max-width:600px){
-      .chaos-collage{height:300px;}
-      .chaos-collage img{width:60%;}
-    }
-  </style>
-
-  <!-- RESPONSIVE "TABELLEN"-STYLES FÜR TERMINE -->
-  <style>
-    /* Container aller Terminzeilen */
-    .termine-list {
-      display: grid;
-      gap: 0.75rem;
-      max-width: 800px;
-      margin: 0 auto;
+      inset: -50%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.9) 0 1px, transparent 1px) repeat;
+      background-size: 16px 16px;
+      filter: blur(1px);
+      animation: tunnelZoom 3s linear infinite;
+      opacity: 0.75;
     }
 
-    /* Einzelne Zeile: Datum | Veranstaltung | Ort/Zeit */
-    .termin-row {
-      display: grid;
-      grid-template-columns: 8ch 1fr auto;
-      gap: 0.5rem 1rem;
-      align-items: baseline;
-      padding: 0.6rem 0.8rem;
-      border-radius: 12px;       /* keine Linien, nur Luft */
-      background: transparent;   /* bleibt linienlos */
+    @keyframes tunnelZoom {
+      0%   { transform: scale(1);   opacity: 0.4; }
+      50%  { transform: scale(1.8); opacity: 0.8; }
+      100% { transform: scale(3);   opacity: 0.2; }
     }
 
-    .termin-row .datum {
-      font-variant-numeric: tabular-nums;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .termin-row .veranstaltung {
-      font-weight: 500;
-      min-width: 10rem;
-    }
-    .termin-row .ort {
-      opacity: .85;
-      white-space: nowrap;
-      text-align: right;
+    .intro-content {
+      position: relative;
+      text-align: center;
+      z-index: 1;
     }
 
-    /* Optionaler Gruppentrenner */
-    .termin-row.spacer {
-      grid-template-columns: 1fr;
-      padding: 0.2rem 0;
-      height: 0.2rem;
+    .intro-artist {
+      font-size: clamp(1.4rem, 4vw, 2.4rem);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+      opacity: 0.95;
     }
 
-    /* Tablet: 2 Spalten, Ort/Zeit unter den Titel */
-    @media (max-width: 800px) {
-      .termin-row {
-        grid-template-columns: 8ch 1fr;
-      }
-      .termin-row .ort {
-        grid-column: 2 / -1;
-        text-align: left;
-      }
+    .intro-sub {
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      opacity: 0.7;
     }
 
-    /* Handy: Kartenlayout (1 Spalte) */
-    @media (max-width: 480px) {
-      .termin-row {
-        grid-template-columns: 1fr;
-        gap: 0.35rem;
-        padding: 0.75rem 0.9rem;
-        background: rgba(255,255,255,0.20); /* sanfter Karten-Look */
-        box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-      }
-      .termin-row .datum,
-      .termin-row .veranstaltung,
-      .termin-row .ort {
-        text-align: left;
-        white-space: normal;
-      }
-      .termin-row .datum { opacity: .9; }
-      .termin-row .ort   { opacity: .85; }
+    /* Release Titel – unsichtbar, aber vorbereitet */
+    .intro-release-title {
+      margin-top: 0.5rem;
+      font-size: clamp(0.8rem, 2.5vw, 1.2rem);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0;
     }
   </style>
 </head>
 
 <body>
-  <header class="header">
-    <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
-    </a>
-  </header>
 
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
-    <span></span><span></span><span></span>
-  </button>
-  <div id="menu-overlay" class="menu-overlay" hidden></div>
-
-  <nav id="site-menu" class="site-menu" aria-hidden="true">
-    <ul>
-      <li><a href="ueber-mich.html">über mich</a></li>
-      <li><a href="diskografie.html">diskografie</a></li>
-      <li><a href="kontakt.html">kontakt</a></li>
-      <li><a href="aktuell.html">aktuell</a></li>
-      <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">plattformen</a></li>
-      <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-    </ul>
-  </nav>
-
-  <main class="main">
-    <h1>aktuell</h1>
-    <p>was steht an...</p>
-
-    <div style="margin-top: 3em;">
-      <p><b>neuigkeiten</b></p>
-      <p>- lasst euch überraschen ;) - </p>
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="intro-content">
+      <div class="intro-artist">B3NN3T</div>
+      <div class="intro-sub">Video wird vorbereitet …</div>
+      <div class="intro-release-title">RELEASE TITEL PLATZHALTER</div>
     </div>
+  </div>
 
-    <div style="margin-top: 3em;">
-      <p><b>termine</b></p>
-      <p>- - - auftritte - - -</p>
+  <!-- HINTERGRUND-LADER FÜR B3NN3T.mp4 (unsichtbar) -->
+  <video id="preloadVideo" preload="auto" style="display:none;">
+      <source src="B3NN3T.mp4" type="video/mp4" />
+  </video>
 
-      <!-- ===== Responsive, linienlose "Tabelle" für Termine ===== -->
-      <div class="termine-responsive" style="margin-top: 2rem;">
-        <!-- 💡 Hier trägst du deine Termine ein (Datum | Veranstaltung | Ort/Zeit) -->
-        <div class="termine-list" role="table" aria-label="Termine">
-          <div class="termin-row" role="row">
-<div class="datum" role="cell"><time datetime="2025-11-08">10.10.2025</time></div>
-            <div class="veranstaltung" role="cell">· Full HD - Grün & Gold</div>
-            <div class="ort" role="cell">· Heidelberg · 20:00 Uhr</div>
-          </div>
+  <script>
+    const intro = document.getElementById("intro");
+    const preloadVideo = document.getElementById("preloadVideo");
 
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2025-12-03">xx.05.2026</time></div>
-            <div class="veranstaltung" role="cell">· ZAK</div>
-            <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
-          </div>
+    // Intro soll mind. ~3 Sekunden sichtbar sein
+    const MIN_INTRO_TIME = 3000;
+    // Max. Wartezeit bevor Redirect – Fallback
+    const MAX_WAIT = 8000;
 
-                   <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2026-01-17">xx.yy.zzzz</time></div>
-            <div class="veranstaltung" role="cell">· in der mache</div>
-            <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
-        </div>
-      </div>
-      <!-- ===== Ende: Responsive Termine ===== -->
-    </div>
+    const startTime = Date.now();
 
-    <div style="margin-top: 3em;">
-      <p><b>was mich gerade beschäftigt</b></p>
-      <p>- - - - - -</p>
-    </div>
+    function finishIntroAndRedirect() {
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_INTRO_TIME - elapsed);
 
-    <!-- Chaotische Bildercollage -->
-    <div class="collage-window">
-      <div class="chaos-collage">
-        <img src="assets/aktuell/er.jpg" alt="style">
-        <img src="assets/aktuell/qw.jpg" alt="style">
-      </div>
-    </div>
+      setTimeout(() => {
+        intro.style.opacity = "0";
 
-    <div style="margin-top: 15em; color: black; text-align: center;">
-      © b3nn3t · <a href="impressum.html" style="color: black; text-decoration: none;">Impressum / Datenschutz</a>
-    </div>
-  </main>
+        // kleine Verzögerung für Fade-Out
+        setTimeout(() => {
+          window.location.href = "release-xyz.html";
+        }, 850);
 
-  <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+      }, remaining);
+    }
 
-  <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
+    // Wenn Video vollständig geladen werden kann
+    preloadVideo.addEventListener("canplaythrough", () => {
+      finishIntroAndRedirect();
+    });
+
+    // Fallback: spätestens nach MAX_WAIT weiterleiten
+    setTimeout(() => {
+      finishIntroAndRedirect();
+    }, MAX_WAIT);
+  </script>
+
 </body>
 </html>
