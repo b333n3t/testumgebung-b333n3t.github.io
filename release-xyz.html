@@ -359,19 +359,28 @@
       animation: textShimmer 10s ease-in-out infinite;
     }
 
-    /* Wellen-H1 */
+    /* Wellen-H1 mit wortweiser Zeilenumbruch-Kontrolle */
     h1.wave-text {
       font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
       text-transform: uppercase;
       letter-spacing: 0.16em;
       margin-bottom: 0.7rem;
       color: #ffffff;
-      white-space: nowrap;
       display: inline-block;
       position: relative;
     }
 
-    h1.wave-text span {
+    .wave-word {
+      display: inline-block;
+      white-space: nowrap; /* bricht NICHT mitten im Wort */
+    }
+
+    .wave-space {
+      display: inline-block;
+      width: 0.45em;
+    }
+
+    h1.wave-text .letter {
       display: inline-block;
       text-shadow:
         0 0 14px rgba(0,0,0,0.95),
@@ -387,30 +396,14 @@
       100% { transform: translateY(0); }
     }
 
-    /* Phasenversatz pro Buchstabe */
-    h1.wave-text span:nth-child(1)  { animation-delay: 0s,   0s; }
-    h1.wave-text span:nth-child(2)  { animation-delay: 0.05s, 0s; }
-    h1.wave-text span:nth-child(3)  { animation-delay: 0.10s, 0s; }
-    h1.wave-text span:nth-child(4)  { animation-delay: 0.15s, 0s; }
-    h1.wave-text span:nth-child(5)  { animation-delay: 0.20s, 0s; }
-    h1.wave-text span:nth-child(6)  { animation-delay: 0.30s, 0s; }
-    h1.wave-text span:nth-child(7)  { animation-delay: 0.35s, 0s; }
-    h1.wave-text span:nth-child(8)  { animation-delay: 0.40s, 0s; }
-    h1.wave-text span:nth-child(9)  { animation-delay: 0.45s, 0s; }
-    h1.wave-text span:nth-child(10) { animation-delay: 0.50s, 0s; }
-    h1.wave-text span:nth-child(11) { animation-delay: 0.55s, 0s; }
-    h1.wave-text span:nth-child(12) { animation-delay: 0.60s, 0s; }
-    h1.wave-text span:nth-child(13) { animation-delay: 0.65s, 0s; }
-    h1.wave-text span:nth-child(14) { animation-delay: 0.70s, 0s; }
-    h1.wave-text span:nth-child(15) { animation-delay: 0.75s, 0s; }
-    h1.wave-text span:nth-child(16) { animation-delay: 0.80s, 0s; }
-
     @media (max-width: 600px) {
       h1.wave-text {
         font-size: clamp(2.1rem, 8vw, 2.6rem);
         letter-spacing: 0.10em;
-        white-space: normal;
         line-height: 1.15;
+      }
+      .wave-space {
+        width: 0.35em;
       }
     }
 
@@ -481,7 +474,6 @@
       font-size: 1.2rem;
     }
 
-    /* Drei verschiedene Farbrunden, damit nie gleichzeitig gleiche Farbe */
     h2.star-1::before { animation: starGlowA 3.5s linear infinite; }
     h2.star-2::before { animation: starGlowB 3.5s linear infinite; }
     h2.star-3::before { animation: starGlowC 3.5s linear infinite; }
@@ -760,12 +752,30 @@
 
       <p>NEUES RELEASE</p>
 
+      <!-- H1 mit Wort-Gruppierung, damit „WAS“ nicht getrennt wird -->
       <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
-        <span>A</span><span>L</span><span>L</span><span>E</span><span>S</span>
-        <span>&nbsp;</span>
-        <span>W</span><span>A</span><span>S</span>
-        <span>&nbsp;</span>
-        <span>B</span><span>L</span><span>E</span><span>I</span><span>B</span><span>T</span>
+        <span class="wave-word">
+          <span class="letter">A</span>
+          <span class="letter">L</span>
+          <span class="letter">L</span>
+          <span class="letter">E</span>
+          <span class="letter">S</span>
+        </span>
+        <span class="wave-space">&nbsp;</span>
+        <span class="wave-word">
+          <span class="letter">W</span>
+          <span class="letter">A</span>
+          <span class="letter">S</span>
+        </span>
+        <span class="wave-space">&nbsp;</span>
+        <span class="wave-word">
+          <span class="letter">B</span>
+          <span class="letter">L</span>
+          <span class="letter">E</span>
+          <span class="letter">I</span>
+          <span class="letter">B</span>
+          <span class="letter">T</span>
+        </span>
       </h1>
 
       <!-- Beschreibung nur für SEO -->
@@ -863,6 +873,17 @@
 
       updateCountdown();
       setInterval(updateCountdown, 1000);
+    })();
+  </script>
+
+  <!-- Wave-Delay für die H1-Buchstaben -->
+  <script>
+    (function () {
+      const letters = document.querySelectorAll('h1.wave-text .letter');
+      letters.forEach((el, i) => {
+        const delay = i * 0.06; // Staffelung
+        el.style.animationDelay = delay + 's, 0s'; // erste Animation (letterWave) verzögert
+      });
     })();
   </script>
 
