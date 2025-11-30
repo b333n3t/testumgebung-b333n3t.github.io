@@ -313,16 +313,16 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 55vh; /* höher nach oben ziehen */
-  z-index: 0;   /* etwas höher als die tiefen Layer */
+  height: 35vh; /* nur der unterste Bereich */
+  z-index: -2;  /* HINTER Content, vor Hintergrundbild */
   pointer-events: none;
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0) 0%,
-    rgba(5, 10, 24, 0.65) 40%,
-    #020612 100%
+    rgba(2, 6, 18, 0.0) 40%,   /* oben noch transparent */
+    rgba(2, 6, 18, 0.75) 100%  /* nur ganz unten dunkel */
   );
-  mix-blend-mode: multiply;
+  mix-blend-mode: normal;      /* kein „grau machen“ mehr */
 }
 
 /* „Tränen“, die vom Bild nach unten laufen */
@@ -330,46 +330,47 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: -4vh;   /* näher an die Kante */
-  height: 50vh;   /* höher, damit es früher reingreift */
-  z-index: 1;     /* knapp über dem Fade */
+  bottom: -6vh;
+  height: 38vh;
+  z-index: -1;                 /* direkt über dem Fade, unter Content */
   pointer-events: none;
   background-image:
-    radial-gradient(45% 140% at 8% 0%,  rgba(255,255,255,0.22), transparent 65%),
-    radial-gradient(40% 145% at 32% 0%, rgba(255,255,255,0.26), transparent 68%),
-    radial-gradient(50% 150% at 60% 0%, rgba(255,255,255,0.24), transparent 70%),
-    radial-gradient(42% 145% at 86% 0%, rgba(255,255,255,0.20), transparent 68%);
-  opacity: 0.8;        /* stärker sichtbar */
-  mix-blend-mode: screen;
-  filter: blur(8px);   /* weicher, organischer */
-  animation: awbTearsDrip 18s ease-in-out infinite alternate;
+    radial-gradient(45% 135% at 10% 0%, rgba(0, 230, 255, 0.35), transparent 65%),
+    radial-gradient(40% 140% at 35% 0%, rgba(0, 255, 180, 0.28), transparent 68%),
+    radial-gradient(48% 145% at 62% 0%, rgba(0, 230, 255, 0.32), transparent 70%),
+    radial-gradient(42% 140% at 88% 0%, rgba(0, 255, 200, 0.26), transparent 68%);
+  opacity: 0.75;
+  mix-blend-mode: screen;      /* leuchtet, statt zu verdunkeln */
+  filter: blur(8px);
+  animation: awbTearsDrip 20s ease-in-out infinite alternate;
 }
 
 @keyframes awbTearsDrip {
   0% {
     transform: translateY(0);
-    opacity: 0.75;
+    opacity: 0.7;
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-8px);
     opacity: 0.9;
   }
   100% {
-    transform: translateY(6px);
+    transform: translateY(5px);
     opacity: 0.7;
   }
 }
 
 @media (max-width: 768px) {
   .awb-bottom-fade {
-    height: 60vh;
+    height: 40vh;        /* mobil etwas höher */
   }
   .awb-bottom-tears {
-    height: 55vh;
-    bottom: -6vh;
+    height: 42vh;
+    bottom: -8vh;
     filter: blur(9px);
   }
 }
+
 
 
     
