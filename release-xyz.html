@@ -98,10 +98,7 @@
       mix-blend-mode: soft-light;
     }
 
-    /* ---------------------------
-       REMOVE WHITE BAR + GLASS
-    ----------------------------*/
-
+    /* remove top bar / glass */
     header,
     header *,
     .content-offset,
@@ -341,11 +338,10 @@
     .content-offset {
       margin: 2.5rem auto 3rem;
       max-width: 720px;
-      width: min(720px, calc(100% - 4rem)); /* rechter Rand sichern */
+      width: min(720px, calc(100% - 4rem)); /* links + rechts Luft */
       padding: 0 1.5rem;
     }
 
-    /* ► Desktop leicht nach rechts versetzt, aber mit rechtem Rand */
     @media (min-width: 900px) {
       .content-offset {
         margin-left: clamp(10vw, 18vw, 260px);
@@ -363,7 +359,7 @@
       animation: textShimmer 10s ease-in-out infinite;
     }
 
-    /* Wellen-Titel */
+    /* Wellen-H1 */
     h1.wave-text {
       font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
       text-transform: uppercase;
@@ -391,6 +387,7 @@
       100% { transform: translateY(0); }
     }
 
+    /* Phasenversatz pro Buchstabe */
     h1.wave-text span:nth-child(1)  { animation-delay: 0s,   0s; }
     h1.wave-text span:nth-child(2)  { animation-delay: 0.05s, 0s; }
     h1.wave-text span:nth-child(3)  { animation-delay: 0.10s, 0s; }
@@ -408,7 +405,6 @@
     h1.wave-text span:nth-child(15) { animation-delay: 0.75s, 0s; }
     h1.wave-text span:nth-child(16) { animation-delay: 0.80s, 0s; }
 
-    /* Mobile: Titel komplett sichtbar */
     @media (max-width: 600px) {
       h1.wave-text {
         font-size: clamp(2.1rem, 8vw, 2.6rem);
@@ -462,7 +458,7 @@
       box-shadow: 0 0 16px rgba(0,0,0,0.7);
     }
 
-    /* H2 + Sterne */
+    /* H2 + STERN-FARBLAUF – 3 verschiedene Sequenzen */
     h2 {
       margin-top: 2rem;
       margin-bottom: 0.7rem;
@@ -476,7 +472,6 @@
       padding-left: 1.6rem;
     }
 
-    /* ✶ Neon-Sterne mit Farbwechsel */
     h2::before {
       content: "✶";
       position: absolute;
@@ -484,15 +479,32 @@
       top: 50%;
       transform: translateY(-52%);
       font-size: 1.2rem;
-      animation: starGlow 3.5s linear infinite;
     }
 
-    @keyframes starGlow {
+    /* Drei verschiedene Farbrunden, damit nie gleichzeitig gleiche Farbe */
+    h2.star-1::before { animation: starGlowA 3.5s linear infinite; }
+    h2.star-2::before { animation: starGlowB 3.5s linear infinite; }
+    h2.star-3::before { animation: starGlowC 3.5s linear infinite; }
+
+    @keyframes starGlowA {
       0%   { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
-      25%  { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
-      50%  { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
-      75%  { color: #00ff90; text-shadow: 0 0 10px #00ff90, 0 0 20px #00ff90; }
+      33%  { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
+      66%  { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
       100% { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
+    }
+
+    @keyframes starGlowB {
+      0%   { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
+      33%  { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
+      66%  { color: #00ff90; text-shadow: 0 0 10px #00ff90, 0 0 20px #00ff90; }
+      100% { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
+    }
+
+    @keyframes starGlowC {
+      0%   { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
+      33%  { color: #00ff90; text-shadow: 0 0 10px #00ff90, 0 0 20px #00ff90; }
+      66%  { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
+      100% { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
     }
 
     .release-page p:not(.release-description):not(.awb-countdown *) {
@@ -782,7 +794,7 @@
 
       <!-- STREAM -->
       <section aria-label="Streaming" class="wobble-block">
-        <h2>jetzt streamen</h2>
+        <h2 class="star-1">jetzt streamen</h2>
         <p class="wave-paragraph wave-paragraph--1">
           Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
           Bis dahin: vormerken, folgen, laut aufdrehen.
@@ -794,7 +806,7 @@
 
       <!-- STORY -->
       <section aria-label="Story zum Song" class="wobble-block">
-        <h2>story zum song</h2>
+        <h2 class="star-2">story zum song</h2>
         <p class="wave-paragraph wave-paragraph--2">
           Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
           klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
@@ -803,7 +815,7 @@
 
       <!-- MORE -->
       <section aria-label="Mehr von b3nn3t" class="wobble-block">
-        <h2>mehr von b3nn3t</h2>
+        <h2 class="star-3">mehr von b3nn3t</h2>
         <p class="wave-paragraph wave-paragraph--3">
           Mehr Musik. Mehr Kunst. Mehr b3nn3t.
         </p>
