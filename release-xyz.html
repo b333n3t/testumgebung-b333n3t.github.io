@@ -65,15 +65,9 @@
         background-image: url("assets/release/background_mobile.jpg");
         background-attachment: scroll;
         background-size: cover;
-        animation: bgDriftMobile 26s ease-in-out infinite alternate;
-      }
-
-      @keyframes bgDriftMobile {
-        0%   { background-position: 50% 50%; }
-        25%  { background-position: 51% 48%; }
-        50%  { background-position: 48% 52%; }
-        75%  { background-position: 52% 49%; }
-        100% { background-position: 50% 50%; }
+        /* keine Animation auf Mobile → weniger Layout-Shift-Eindruck */
+        animation: none;
+        transform: none;
       }
     }
 
@@ -293,12 +287,17 @@
     }
 
     @media (max-width: 768px) {
-      .awb-fogwave   { opacity: 0.10; filter: blur(26px); }
-      .awb-spotlight { opacity: 0.35; }
-      .awb-neon      { opacity: 0.35; filter: blur(9px); }
-      .awb-neon-2    { opacity: 0.18; filter: blur(12px); }
-      .awb-greenwave { opacity: 0.28; filter: blur(22px); }
-      .awb-darkwave  { opacity: 0.75; filter: blur(38px); }
+      /* große Flächen-Animationen auf Mobile ausschalten,
+         damit nichts optisch „springt“ */
+      .awb-fogwave,
+      .awb-spotlight,
+      .awb-neon,
+      .awb-neon-2,
+      .awb-greenwave,
+      .awb-darkwave {
+        animation: none !important;
+        transform: none !important;
+      }
     }
 
     /* ---------------------------
@@ -338,21 +337,21 @@
     .content-offset {
       margin: 2.5rem auto 3rem;
       max-width: 1040px;
-      width: min(1040px, calc(100% - 2rem)); /* näher an Rand */
+      width: min(1040px, calc(100% - 2rem));
       padding: 0 1rem;
-      text-align: center; /* H1 + Video mittig */
+      text-align: center;
     }
 
     @media (max-width: 768px) {
       .content-offset {
         width: 100%;
         max-width: 100%;
-        padding: 0 1rem;   /* leichte Ränder links/rechts */
+        padding: 0 1rem;
         margin-left: 0;
         margin-right: 0;
         box-sizing: border-box;
         position: relative;
-        transform: translateZ(0); /* verhindert „springenden“ Reflow */
+        transform: translateZ(0);
       }
     }
 
@@ -370,7 +369,7 @@
       animation: textShimmer 10s ease-in-out infinite;
     }
 
-    /* Wellen-H1 mit wortweiser Zeilenumbruch-Kontrolle */
+    /* Wellen-H1 */
     h1.wave-text {
       font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
       text-transform: uppercase;
@@ -451,7 +450,7 @@
       }
     }
 
-    /* Unterstrich als animierte Lichterkette */
+    /* animierter Unterstrich */
     h1.wave-text::after {
       content: "";
       position: relative;
@@ -478,7 +477,7 @@
       100% { background-position: 300% 50%; }
     }
 
-    /* H2 + Sternfarben (unterschiedlich) */
+    /* H2 + Sterne */
     h2 {
       margin-top: 2rem;
       margin-bottom: 0.7rem;
@@ -603,7 +602,7 @@
         0 30px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.4);
       margin: 1.2rem auto 0;
-      max-width: 860px;       /* >>> kleiner auf Desktop */
+      max-width: 720px;       /* << kleiner auf Desktop */
       width: 100%;
     }
 
