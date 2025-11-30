@@ -152,7 +152,6 @@
       pointer-events: none;
     }
 
-    /* NEBEL-WAVE – abgeschwächt */
     .awb-fogwave {
       inset: -48%;
       z-index: -4;
@@ -336,7 +335,7 @@
     }
 
     /* ---------------------------
-       TYPOGRAPHY + WAVY TEXT
+       TYPOGRAPHY + LAYOUT
     ----------------------------*/
 
     .content-offset {
@@ -344,10 +343,10 @@
       max-width: 720px;
     }
 
-    /* auf Desktop weiter nach rechts schieben */
+    /* ► Desktop deutlich weiter nach rechts */
     @media (min-width: 900px) {
       .content-offset {
-        margin-left: clamp(7vw, 10vw, 14vw);
+        margin-left: min(18vw, 260px);
       }
     }
 
@@ -361,6 +360,7 @@
       animation: textShimmer 10s ease-in-out infinite;
     }
 
+    /* Wellen-Titel */
     h1.wave-text {
       font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
       text-transform: uppercase;
@@ -388,7 +388,6 @@
       100% { transform: translateY(0); }
     }
 
-    /* gestaffelte Delays für Buchstaben */
     h1.wave-text span:nth-child(1)  { animation-delay: 0s,   0s; }
     h1.wave-text span:nth-child(2)  { animation-delay: 0.05s, 0s; }
     h1.wave-text span:nth-child(3)  { animation-delay: 0.10s, 0s; }
@@ -406,12 +405,12 @@
     h1.wave-text span:nth-child(15) { animation-delay: 0.75s, 0s; }
     h1.wave-text span:nth-child(16) { animation-delay: 0.80s, 0s; }
 
-    /* Mobile: Songtitel soll ganz draufpassen */
+    /* Mobile: Titel muss komplett sichtbar sein */
     @media (max-width: 600px) {
       h1.wave-text {
         font-size: clamp(2.1rem, 8vw, 2.6rem);
         letter-spacing: 0.10em;
-        white-space: normal;      /* Zeilenumbruch erlauben */
+        white-space: normal;
         line-height: 1.15;
       }
     }
@@ -515,19 +514,19 @@
       100% { transform: translateY(0) skewX(0deg); }
     }
 
-    /* Stärkere Welle NUR für die drei gewünschten Texte */
+    /* ► stärkere Wellenbewegung für die 3 Texte – mit !important */
     .wave-paragraph {
       display: inline-block;
       transform-origin: center;
-      animation: paragraphWave 3.2s ease-in-out infinite;
+      animation: paragraphWave 3.2s ease-in-out infinite !important;
     }
 
     .wave-paragraph--2 {
-      animation-delay: 0.4s;
+      animation-delay: 0.4s !important;
     }
 
     .wave-paragraph--3 {
-      animation-delay: 0.8s;
+      animation-delay: 0.8s !important;
     }
 
     @keyframes paragraphWave {
@@ -544,7 +543,7 @@
         animation-duration: 6.5s;
       }
       .wave-paragraph {
-        animation-duration: 4s;
+        animation-duration: 4s !important;
       }
     }
 
@@ -774,6 +773,7 @@
           Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
           Bis dahin: vormerken, folgen, laut aufdrehen.
         </p>
+        <br>
         <a class="card" href="plattformen.html">alle plattformen</a>
         <a class="card" href="aktuell.html">news & aktuell</a>
       </section>
@@ -805,7 +805,6 @@
   <!-- COUNTDOWN SCRIPT -->
   <script>
     (function () {
-      // Releasedatum anpassen
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
