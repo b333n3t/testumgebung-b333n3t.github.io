@@ -60,12 +60,13 @@
       position: relative;
       overflow: hidden;
 
+      /* neoniger, weniger „sandig“ */
       background:
-        radial-gradient(circle at 50% 40%, #fff583 0%, #ff9b00 30%, transparent 55%),
-        radial-gradient(circle at 8% 85%, #ff4bcb 0%, transparent 55%),
+        radial-gradient(circle at 40% 25%, #ffff8b 0%, #ffe600 26%, transparent 55%),
+        radial-gradient(circle at 8% 85%, #ff6bff 0%, transparent 55%),
         radial-gradient(circle at 92% 15%, #00f6ff 0%, transparent 55%),
-        linear-gradient(135deg, #3b0070, #12003a, #001328);
-      background-size: 200% 200%;
+        linear-gradient(135deg, #4300a8, #12003a, #001c40);
+      background-size: 210% 210%;
       animation: bgShift var(--bg-speed) ease-in-out infinite alternate;
     }
 
@@ -93,13 +94,13 @@
       pointer-events: none;
       z-index: 0;
       background:
-        radial-gradient(circle at 20% 40%, rgba(15, 0, 15, 0.9) 0, transparent 55%),
-        radial-gradient(circle at 70% 60%, rgba(5, 0, 30, 0.85) 0, transparent 55%),
-        radial-gradient(circle at 40% 90%, rgba(0, 0, 0, 0.75) 0, transparent 60%),
-        radial-gradient(circle at 5% 75%, rgba(0, 0, 0, 0.65) 0, transparent 55%);
+        radial-gradient(circle at 20% 40%, rgba(30, 0, 60, 0.7) 0, transparent 55%),
+        radial-gradient(circle at 70% 60%, rgba(5, 0, 40, 0.8) 0, transparent 55%),
+        radial-gradient(circle at 40% 90%, rgba(0, 0, 30, 0.7) 0, transparent 60%),
+        radial-gradient(circle at 5% 75%, rgba(0, 0, 0, 0.55) 0, transparent 55%);
       mix-blend-mode: multiply;
       filter: blur(6px);
-      opacity: 0.7;
+      opacity: 0.65;
       animation: darkDrift 26s ease-in-out infinite alternate;
     }
 
@@ -199,10 +200,11 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
+    /* H1 – engeres Letterspacing + automatisch umbrechbar */
     h1.wave-text {
-      font-size: clamp(2.6rem, 4vw + 1rem, 4.2rem);
+      font-size: clamp(2.2rem, 5vw + 0.5rem, 3.6rem);
       text-transform: uppercase;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.14em;
       margin: 0 0 0.7rem;
       color: #ffffff;
       text-align: left;
@@ -210,7 +212,8 @@
         0 0 20px rgba(0,0,0,0.9),
         0 0 32px rgba(0,255,235,0.7);
       display: inline-block;
-      white-space: nowrap;
+      white-space: normal;
+      line-height: 1.15;
     }
 
     .wave-word { display: inline-block; }
@@ -283,6 +286,7 @@
       margin-bottom: 2rem;
     }
 
+    /* H2 + Sterne mit wechselnden Farben */
     h2 {
       margin: 0 0 0.5rem;
       font-size: 1.1rem;
@@ -290,6 +294,42 @@
       text-transform: lowercase;
       color: #ffffff;
       text-shadow: 0 0 10px rgba(0,0,0,0.9);
+      position: relative;
+      padding-left: 1.8rem;  /* Platz für Stern */
+    }
+
+    h2::before {
+      content: "✶";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-52%);
+      font-size: 1.2rem;
+    }
+
+    h2.star-1::before { animation: starGlowA 4.2s linear infinite; }
+    h2.star-2::before { animation: starGlowB 4.2s linear infinite; }
+    h2.star-3::before { animation: starGlowC 4.2s linear infinite; }
+
+    @keyframes starGlowA {
+      0%   { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
+      33%  { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
+      66%  { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
+      100% { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
+    }
+
+    @keyframes starGlowB {
+      0%   { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
+      33%  { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
+      66%  { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
+      100% { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
+    }
+
+    @keyframes starGlowC {
+      0%   { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
+      33%  { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
+      66%  { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
+      100% { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
     }
 
     section p {
@@ -500,7 +540,7 @@
 
         <!-- STORY -->
         <section aria-label="Story zum Song" class="wobble-block">
-          <h2>story zum song</h2>
+          <h2 class="star-1">story zum song</h2>
           <p>
             Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
             klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
@@ -509,7 +549,7 @@
 
         <!-- JETZT STREAMEN -->
         <section aria-label="Streaming" class="wobble-block">
-          <h2>jetzt streamen</h2>
+          <h2 class="star-2">jetzt streamen</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
@@ -567,13 +607,13 @@
           <p>
             Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song und bleib bei neuen Releases direkt am Start.
           </p>
-          <!-- WICHTIG: der alte Text mit "Bald findest du..." und die Links
+          <!-- Der alte Text mit "Bald findest du..." und die Links
                "alle plattformen / news & aktuell" sind hier bewusst NICHT mehr vorhanden -->
         </section>
 
         <!-- MEHR VON B3NN3T -->
         <section aria-label="Mehr von b3nn3t" class="wobble-block">
-          <h2>mehr von b3nn3t</h2>
+          <h2 class="star-3">mehr von b3nn3t</h2>
           <p>
             Mehr Musik. Mehr Kunst. Mehr b3nn3t.
           </p>
