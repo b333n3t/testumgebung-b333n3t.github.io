@@ -31,8 +31,6 @@
     :root {
       --awb-neon-blue: #00e6ff;
       --awb-text-main: #fdfdfd;
-
-      /* Basis-Werte für Beat-Reaktion */
       --bg-speed: 8s;
       --wobble-speed: 2.4s;
     }
@@ -47,7 +45,7 @@
       background: #000;
     }
 
-    /* THEME BASIS: Neon / Schwarzlicht (Standard) */
+    /* Hintergrund (Neon / Schwarzlicht) */
     .background {
       min-height: 100vh;
       width: 100%;
@@ -72,23 +70,6 @@
       overflow: hidden;
     }
 
-    /* Vaporwave / Cyberpunk Variante */
-    .background.theme-vaporwave {
-      background: radial-gradient(circle at 10% 0%, #ff9af5 0, transparent 60%),
-                  radial-gradient(circle at 90% 100%, #7df9ff 0, transparent 60%),
-                  linear-gradient(135deg, #1b0034, #020824, #12003a);
-      background-size: 200% 200%;
-    }
-
-    /* sehr dunkler Cyberpunk */
-    .background.theme-cyberpunk {
-      background:
-        radial-gradient(circle at 10% 0%, #ff0077 0, transparent 55%),
-        radial-gradient(circle at 90% 100%, #00f2ff 0, transparent 55%),
-        linear-gradient(135deg, #05010d, #05001b, #000000);
-      background-size: 220% 220%;
-    }
-
     @keyframes gradientMove {
       0%   { background-position: 0% 50%; }
       50%  { background-position: 100% 50%; }
@@ -103,7 +84,7 @@
       z-index: 2;
     }
 
-    /* Partikel-Ebene (leicht) */
+    /* Partikel (leicht) */
     .particles {
       position: absolute;
       inset: 0;
@@ -140,51 +121,33 @@
       }
     }
 
-    /* Header / Logo wie im Bild – schlicht & schwarz */
+    /* Header / Logo wie Bild 2: nur schwarzer Text */
     header.header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
       margin-bottom: 1.5rem;
     }
 
-    header.header a.brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      text-decoration: none;
-      color: #000000;
+    header.header .brand {
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.2rem;
+      color: #000000;
+      text-decoration: none;
       letter-spacing: 0.02em;
+      text-shadow: 0 0 6px rgba(255,255,255,0.7);
+      display: inline-block;
     }
 
-    header.header img {
-      width: 20px;
-      height: 20px;
-    }
-
-    /* leicht dunkler Glow hinter Logo, damit es auf bunt lesbar bleibt */
-    header.header {
-      background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.9), rgba(255,255,255,0.0) 70%);
-      padding: 0.35rem 0.7rem;
-      display: inline-flex;
-      border-radius: 999px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-    }
-
-    /* NEUES RELEASE */
+    /* „NEUES RELEASE“ */
     .tagline {
       text-transform: uppercase;
       letter-spacing: 0.2em;
       font-size: 0.8rem;
       opacity: 0.95;
-      margin: 1.2rem 0 0.6rem;
+      margin: 0 0 0.6rem;
       text-shadow: 0 0 6px rgba(0,0,0,0.5);
     }
 
-    /* WOBBLE-TITEL – drei Intensitäten über Klassen steuerbar */
-    h1.wobble-title {
+    /* H1: Wellenbewegung über Buchstaben/Wörter */
+    h1.wave-text {
       font-size: clamp(2.6rem, 4vw + 1rem, 4.2rem);
       text-transform: uppercase;
       letter-spacing: 0.18em;
@@ -192,56 +155,67 @@
       color: #ffffff;
       text-align: left;
       text-shadow: 0 0 15px rgba(0,0,0,0.6);
-      animation: wobbleMedium var(--wobble-speed) ease-in-out infinite;
-      transform-origin: center left;
+      display: inline-block;
+      white-space: nowrap;
     }
 
-    /* subtiler Wobble */
-    .wobble-soft {
-      animation-name: wobbleSoft;
+    .wave-word {
+      display: inline-block;
     }
 
-    /* starker Wobble */
-    .wobble-strong {
-      animation-name: wobbleStrong;
+    .wave-space {
+      display: inline-block;
+      width: 0.45em;
     }
 
-    @keyframes wobbleSoft {
-      0%,100% { transform: rotate(0deg) scale(1); }
-      25%     { transform: rotate(-1deg) scale(1.01); }
-      50%     { transform: rotate(1deg)  scale(0.99); }
-      75%     { transform: rotate(-0.5deg) scale(1.01); }
+    .wave-letter {
+      display: inline-block;
+      animation: letterWave var(--wobble-speed) ease-in-out infinite;
     }
 
-    @keyframes wobbleMedium {
-      0%,100% { transform: rotate(0deg) scale(1); }
-      25%     { transform: rotate(-2deg) scale(1.05); }
-      50%     { transform: rotate(2deg)  scale(0.97); }
-      75%     { transform: rotate(-1.5deg) scale(1.04); }
+    /* Delay-Klassen für Wellenbewegung */
+    .wave-delay-0  { animation-delay: 0s; }
+    .wave-delay-1  { animation-delay: 0.06s; }
+    .wave-delay-2  { animation-delay: 0.12s; }
+    .wave-delay-3  { animation-delay: 0.18s; }
+    .wave-delay-4  { animation-delay: 0.24s; }
+    .wave-delay-5  { animation-delay: 0.30s; }
+    .wave-delay-6  { animation-delay: 0.36s; }
+    .wave-delay-7  { animation-delay: 0.42s; }
+    .wave-delay-8  { animation-delay: 0.48s; }
+    .wave-delay-9  { animation-delay: 0.54s; }
+    .wave-delay-10 { animation-delay: 0.60s; }
+    .wave-delay-11 { animation-delay: 0.66s; }
+    .wave-delay-12 { animation-delay: 0.72s; }
+
+    @keyframes letterWave {
+      0%   { transform: translateY(0); }
+      20%  { transform: translateY(-6px); }
+      50%  { transform: translateY(0); }
+      80%  { transform: translateY(4px); }
+      100% { transform: translateY(0); }
     }
 
-    @keyframes wobbleStrong {
-      0%,100% { transform: rotate(0deg) scale(1); }
-      20%     { transform: rotate(-4deg) scale(1.08); }
-      50%     { transform: rotate(4deg)  scale(0.94); }
-      80%     { transform: rotate(-3deg) scale(1.06); }
-    }
-
-    .intro {
-      max-width: 620px;
-      margin-bottom: 1.6rem;
-      line-height: 1.6;
-      text-shadow: 0 0 8px rgba(0,0,0,0.4);
-    }
-
-    /* Video */
-    .panel-photo {
-      border-radius: 1.4rem;
+    /* Intro-Text – SEO-only, nicht sichtbar */
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
       overflow: hidden;
-      box-shadow:
-        0 24px 50px rgba(0,0,0,0.6);
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Video — kleiner für Performance */
+    .panel-photo {
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.55);
       margin: 0 0 1.8rem;
-      max-width: 860px;
+      max-width: 520px;      /* kleiner Player */
       width: 100%;
     }
 
@@ -250,16 +224,15 @@
       display: block;
       border-radius: inherit;
       background: #000;
-      filter: brightness(1.12) contrast(1.1) saturate(1.2);
-      transition: transform 0.4s ease, filter 0.4s ease;
+      filter: brightness(1.08) contrast(1.05) saturate(1.15);
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .release-video:hover {
-      filter: brightness(1.18) contrast(1.15) saturate(1.25);
+      filter: brightness(1.1) contrast(1.1) saturate(1.2);
       transform: scale(1.01);
     }
 
-    /* Sektionen */
     section {
       margin-bottom: 2rem;
     }
@@ -280,7 +253,6 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.4);
     }
 
-    /* leichte Block-Wobble-Animation */
     .wobble-block {
       animation: wobbleBlock 5s ease-in-out infinite;
       transform-origin: center left;
@@ -295,7 +267,6 @@
       100% { transform: translateY(0)    skewX(0deg); }
     }
 
-    /* Social Icons */
     .social-section {
       margin: 0.4rem 0 0.8rem;
     }
@@ -334,7 +305,6 @@
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
     }
 
-    /* Buttons */
     .card {
       display: inline-block;
       margin-right: 0.5rem;
@@ -348,7 +318,7 @@
       box-shadow: 0 12px 26px rgba(0,0,0,0.55);
       font-size: 0.92rem;
       text-shadow: 0 0 8px rgba(0,0,0,0.8);
-      transition: transform 0.25s ease, box-shadow 0.25s.ease;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
 
     .card:hover {
@@ -385,7 +355,7 @@
       text-shadow: 0 0 10px var(--awb-neon-blue);
     }
 
-    /* COUNTDOWN oben rechts */
+    /* Countdown */
     .awb-countdown {
       position: fixed;
       top: 1rem;
@@ -421,11 +391,11 @@
       text-shadow: 0 0 10px rgba(0,0,0,0.9);
     }
 
-    /* Beat-Reaktion: wenn JS Klasse setzt */
+    /* Beat-Pulse (falls du das später wieder anschaltest) */
     body.beat-pulse .background {
       animation-duration: 5s;
     }
-    body.beat-pulse h1.wobble-title {
+    body.beat-pulse h1.wave-text {
       animation-duration: 1.5s;
     }
 
@@ -449,9 +419,6 @@
         -webkit-text-stroke: 1.4px #ffffff;
         text-stroke: 1.4px #ffffff;
       }
-      header.header {
-        padding: 0.3rem 0.6rem;
-      }
     }
   </style>
 </head>
@@ -464,44 +431,62 @@
     <span id="awb-countdown-timer">--:--:--</span>
   </div>
 
-  <div class="background theme-neon">
-    <!-- Partikel-Ebene (leicht) -->
+  <div class="background">
     <div class="particles" id="particles"></div>
 
     <div class="content">
 
       <header class="header">
-        <a class="brand" href="index.html">
-          <img src="favicon.svg" alt="">
-          <span>b3nn3t</span>
-        </a>
+        <!-- Nur Text, kein Button, kein Icon -->
+        <a class="brand" href="index.html">b3nn3t</a>
       </header>
 
       <main class="main">
 
         <p class="tagline">NEUES RELEASE</p>
 
-        <!-- wobbelnder H1: Klasse ändern für soft/strong -->
-        <h1 class="wobble-title wobble-strong">ALLES WAS BLEIBT</h1>
+        <!-- H1 mit Wellen-Wobble -->
+        <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
+          <span class="wave-word">
+            <span class="wave-letter wave-delay-0">A</span>
+            <span class="wave-letter wave-delay-1">L</span>
+            <span class="wave-letter wave-delay-2">L</span>
+            <span class="wave-letter wave-delay-3">E</span>
+            <span class="wave-letter wave-delay-4">S</span>
+          </span>
+          <span class="wave-space"></span>
+          <span class="wave-word">
+            <span class="wave-letter wave-delay-5">W</span>
+            <span class="wave-letter wave-delay-6">A</span>
+            <span class="wave-letter wave-delay-7">S</span>
+          </span>
+          <span class="wave-space"></span>
+          <span class="wave-word">
+            <span class="wave-letter wave-delay-8">B</span>
+            <span class="wave-letter wave-delay-9">L</span>
+            <span class="wave-letter wave-delay-10">E</span>
+            <span class="wave-letter wave-delay-11">I</span>
+            <span class="wave-letter wave-delay-12">B</span>
+            <span class="wave-letter wave-delay-0">T</span>
+          </span>
+        </h1>
 
-        <p class="intro">
-          <strong>b3nn3t</strong> – Deutschrap & Indie-Pop aus der Schweiz.
-          Mit <strong>„ALLES WAS BLEIBT“</strong> geht es um Nächte, die nicht loslassen,
-          Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
+        <!-- SEO-Text: nicht sichtbar -->
+        <p class="visually-hidden">
+          b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
+          loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
         </p>
 
-        <!-- VIDEO -->
+        <!-- Video (kleiner Player) -->
         <section aria-label="Video Preview">
           <figure class="panel-photo">
             <video
               id="release-video"
               class="release-video"
               controls
-              autoplay
               muted
-              loop
               playsinline
-              preload="auto">
+              preload="metadata">
               <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
               Dein Browser unterstützt dieses Videoformat nicht.
             </video>
@@ -523,7 +508,6 @@
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
-              <!-- MX3 -->
               <a href="https://mx3.ch/b3nn3t"
                  class="social-link"
                  aria-label="MX3 – b3nn3t"
@@ -531,7 +515,6 @@
                 <i class="fa-solid fa-music social-icon"></i>
               </a>
 
-              <!-- Genius -->
               <a href="https://genius.com/artists/B3nn3t"
                  class="social-link"
                  aria-label="Genius – b3nn3t"
@@ -539,7 +522,6 @@
                 <i class="fa-solid fa-pen-nib social-icon"></i>
               </a>
 
-              <!-- Spotify -->
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link"
                  aria-label="Spotify – b3nn3t"
@@ -547,7 +529,6 @@
                 <i class="fa-brands fa-spotify social-icon"></i>
               </a>
 
-              <!-- Apple Music -->
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                  class="social-link"
                  aria-label="Apple Music – b3nn3t"
@@ -555,7 +536,6 @@
                 <i class="fa-brands fa-apple social-icon"></i>
               </a>
 
-              <!-- Instagram -->
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
                  class="social-link"
                  aria-label="Instagram – b333nn3t"
@@ -563,7 +543,6 @@
                 <i class="fa-brands fa-instagram social-icon"></i>
               </a>
 
-              <!-- YouTube -->
               <a href="https://www.youtube.com/@b333nn3t"
                  class="social-link"
                  aria-label="YouTube – @b333nn3t"
@@ -571,7 +550,6 @@
                 <i class="fa-brands fa-youtube social-icon"></i>
               </a>
 
-              <!-- SoundCloud -->
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
                  class="social-link"
                  aria-label="SoundCloud – b3nn3t"
@@ -644,4 +622,29 @@
     })();
   </script>
 
-  <!-- leicht
+  <!-- leichte Partikel-Erzeugung -->
+  <script>
+    (function () {
+      const container = document.getElementById('particles');
+      if (!container) return;
+
+      const count = 25; // leicht halten
+      for (let i = 0; i < count; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + 'vw';
+        p.style.bottom = (Math.random() * -40) + 'vh';
+        const delay = (Math.random() * 12).toFixed(2);
+        const duration = (10 + Math.random() * 8).toFixed(2);
+        p.style.animationDelay = delay + 's';
+        p.style.animationDuration = duration + 's';
+        const size = 3 + Math.random() * 5;
+        p.style.width = size + 'px';
+        p.style.height = size + 'px';
+        container.appendChild(p);
+      }
+    })();
+  </script>
+
+</body>
+</html>
