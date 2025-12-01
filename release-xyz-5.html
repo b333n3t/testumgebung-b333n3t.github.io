@@ -21,7 +21,7 @@
 
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Font Awesome für Social-Logos (falls du später wieder brauchst) -->
+  <!-- Font Awesome für Social-Logos -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -60,7 +60,6 @@
       position: relative;
       overflow: hidden;
 
-      /* knalliger Grundgradient */
       background:
         radial-gradient(circle at 50% 40%, #fff583 0%, #ff9b00 30%, transparent 55%),
         radial-gradient(circle at 8% 85%, #ff4bcb 0%, transparent 55%),
@@ -70,7 +69,6 @@
       animation: bgShift var(--bg-speed) ease-in-out infinite alternate;
     }
 
-    /* weiche Neon-Farbblasen */
     .background::before {
       content: "";
       position: absolute;
@@ -88,7 +86,6 @@
       animation: blobDrift 18s ease-in-out infinite alternate;
     }
 
-    /* dunklere, fleckige Struktur */
     .background::after {
       content: "";
       position: absolute;
@@ -106,7 +103,6 @@
       animation: darkDrift 26s ease-in-out infinite alternate;
     }
 
-    /* Glitch-Lines-Overlay */
     .glitch-overlay {
       position: absolute;
       inset: -5%;
@@ -217,14 +213,8 @@
       white-space: nowrap;
     }
 
-    .wave-word {
-      display: inline-block;
-    }
-
-    .wave-space {
-      display: inline-block;
-      width: 0.45em;
-    }
+    .wave-word { display: inline-block; }
+    .wave-space { display: inline-block; width: 0.45em; }
 
     .wave-letter {
       display: inline-block;
@@ -253,7 +243,6 @@
       100% { transform: translateY(0); }
     }
 
-    /* SEO-Text unsichtbar */
     .visually-hidden {
       position: absolute;
       width: 1px;
@@ -266,7 +255,6 @@
       border: 0;
     }
 
-    /* Video – klein & performant */
     .panel-photo {
       border-radius: 1rem;
       overflow: hidden;
@@ -325,6 +313,61 @@
       100% { transform: translateY(0)    skewX(0deg); }
     }
 
+    /* Social / jetzt streamen */
+    .social-section {
+      margin: 0.4rem 0 0.8rem;
+    }
+
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .social-link {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .social-icon {
+      font-size: 1.8rem;
+      color: transparent;
+      -webkit-text-stroke: 1.6px #ffffff;
+      text-stroke: 1.6px #ffffff;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
+      transition:
+        transform 0.2s ease,
+        -webkit-text-stroke 0.2s ease,
+        text-stroke 0.2s ease,
+        filter 0.2s ease;
+    }
+
+    .social-link:hover .social-icon {
+      transform: scale(1.15) translateY(-2px);
+      -webkit-text-stroke: 2px #ffffff;
+      text-stroke: 2px #ffffff;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+    }
+
+    /* einfacher Text-Link für b3nn3t unten */
+    .plain-link {
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: lowercase;
+      text-shadow: 0 0 10px rgba(0,0,0,0.9);
+    }
+
+    .plain-link:hover {
+      text-shadow:
+        0 0 14px rgba(0,0,0,1),
+        0 0 18px rgba(0,255,235,0.9);
+    }
+
     /* Countdown */
     .awb-countdown {
       position: fixed;
@@ -376,6 +419,11 @@
       .awb-countdown #awb-countdown-timer {
         font-size: 0.85rem;
       }
+      .social-icon {
+        font-size: 1.6rem;
+        -webkit-text-stroke: 1.4px #ffffff;
+        text-stroke: 1.4px #ffffff;
+      }
     }
   </style>
 </head>
@@ -395,7 +443,6 @@
     <div class="content">
 
       <header class="header">
-        <!-- Logo oben -->
         <a class="brand" href="index.html">b3nn3t</a>
       </header>
 
@@ -460,7 +507,82 @@
           </p>
         </section>
 
-        <!-- Streaming+Mehr-Bereich ist entfernt -->
+        <!-- JETZT STREAMEN -->
+        <section aria-label="Streaming" class="wobble-block">
+          <h2>jetzt streamen</h2>
+
+          <div class="social-section" aria-label="Social Media Links">
+            <div class="social-icons">
+              <a href="https://mx3.ch/b3nn3t"
+                 class="social-link"
+                 aria-label="MX3 – b3nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-solid fa-music social-icon"></i>
+              </a>
+
+              <a href="https://genius.com/artists/B3nn3t"
+                 class="social-link"
+                 aria-label="Genius – b3nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-solid fa-pen-nib social-icon"></i>
+              </a>
+
+              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                 class="social-link"
+                 aria-label="Spotify – b3nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-brands fa-spotify social-icon"></i>
+              </a>
+
+              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                 class="social-link"
+                 aria-label="Apple Music – b3nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-brands fa-apple social-icon"></i>
+              </a>
+
+              <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                 class="social-link"
+                 aria-label="Instagram – b3nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-brands fa-instagram social-icon"></i>
+              </a>
+
+              <a href="https://www.youtube.com/@b333nn3t"
+                 class="social-link"
+                 aria-label="YouTube – @b333nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-brands fa-youtube social-icon"></i>
+              </a>
+
+              <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+                 class="social-link"
+                 aria-label="SoundCloud – b3nn3t"
+                 target="_blank" rel="noopener">
+                <i class="fa-brands fa-soundcloud social-icon"></i>
+              </a>
+            </div>
+          </div>
+
+          <p>
+            Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song und bleib bei neuen Releases direkt am Start.
+          </p>
+          <!-- WICHTIG: der alte Text mit "Bald findest du..." und die Links
+               "alle plattformen / news & aktuell" sind hier bewusst NICHT mehr vorhanden -->
+        </section>
+
+        <!-- MEHR VON B3NN3T -->
+        <section aria-label="Mehr von b3nn3t" class="wobble-block">
+          <h2>mehr von b3nn3t</h2>
+          <p>
+            Mehr Musik. Mehr Kunst. Mehr b3nn3t.
+          </p>
+
+          <!-- Nur Text-Link, kein Button-Pill -->
+          <a class="plain-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
+            b3nn3t
+          </a>
+        </section>
 
       </main>
     </div>
