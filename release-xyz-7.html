@@ -513,6 +513,43 @@
         0 0 18px rgba(0,255,235,0.9);
     }
 
+/* Neon-Button für b3nn3t unten */
+.neon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+  padding: 0.9rem 2.4rem;
+  border-radius: 999px;
+  text-decoration: none;
+  text-transform: lowercase;
+  letter-spacing: 0.18em;
+  background: radial-gradient(circle at 30% 0%, #ffffff 0%, #dfffff 45%, #b5f9ff 100%);
+  color: #001018;
+  border: 2px solid rgba(0, 230, 255, 0.9);
+  box-shadow:
+    0 0 16px rgba(0, 230, 255, 0.9),
+    0 0 40px rgba(0, 120, 255, 0.8);
+  font-weight: 600;
+}
+
+.neon-link span.dot {
+  font-size: 1rem;
+  color: #00e6ff;
+  text-shadow:
+    0 0 8px rgba(0, 230, 255, 1),
+    0 0 18px rgba(0, 120, 255, 0.9);
+}
+
+.neon-link:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 24px rgba(0, 230, 255, 1),
+    0 0 60px rgba(0, 120, 255, 1);
+}
+
+    
     /* Countdown */
     .awb-countdown {
       position: fixed;
@@ -758,9 +795,10 @@
           </p>
 
           <!-- Nur Text-Link, kein Button-Pill -->
-          <a class="plain-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
-            b3nn3t
-          </a>
+<a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
+  <span class="dot">•</span> b3nn3t <span class="dot">•</span>
+</a>
+
         </section>
 
       </main>
