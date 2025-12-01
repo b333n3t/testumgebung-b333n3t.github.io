@@ -420,7 +420,7 @@
       color: #03110a;
       box-shadow:
         0 0 18px rgba(0,0,0,0.9);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      transition: transform 0.18s.ease, box-shadow 0.18s ease, filter 0.18s ease;
     }
 
     .stream-btn i {
@@ -486,7 +486,7 @@
       transition:
         transform 0.2s ease,
         -webkit-text-stroke 0.2s ease,
-        text-stroke 0.2s ease,
+        text-stroke 0.2s.ease,
         filter 0.2s ease;
     }
 
@@ -513,105 +513,53 @@
         0 0 18px rgba(0,255,235,0.9);
     }
 
-/* Neon-Button für b3nn3t unten – gleiche Höhe wie Streaming-Buttons */
-.neon-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-
-  /* exakt wie .stream-btn */
-  padding: 0.7rem 1.4rem;
-  border-radius: 999px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  text-transform: none;       /* NICHT mehr uppercase */
-  letter-spacing: 0.12em;
-  line-height: 1;
-
-  text-decoration: none;
-  background: radial-gradient(circle at 30% 0%, #ffffff 0%, #dfffff 45%, #b5f9ff 100%);
-  color: #001018;
-
-  /* kein Border, damit die Außenhöhe wie bei .stream-btn bleibt */
-  border: none;
-  box-shadow:
-    0 0 18px rgba(0, 230, 255, 0.9),
-    0 0 40px rgba(0, 120, 255, 0.8);
-
-  text-shadow: none;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
-}
-
-.neon-link .dot {
-  font-size: 1rem;
-  color: #00e6ff;
-  text-shadow:
-    0 0 8px rgba(0, 230, 255, 1),
-    0 0 18px rgba(0, 120, 255, 0.9);
-}
-
-.neon-link:hover {
-  transform: translateY(-2px) scale(1.03);
-  filter: brightness(1.05);
-  box-shadow:
-    0 0 26px rgba(0, 230, 255, 1),
-    0 0 60px rgba(0, 120, 255, 1);
-}
-
-
-
-    
-    /* Countdown */
-    .awb-countdown {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 30;
-      padding: 0.6rem 1.1rem;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.8);
-      border: 1px solid rgba(0,200,255,0.9);
-      box-shadow:
-        0 0 22px rgba(0,200,255,0.95),
-        0 0 50px rgba(0,80,255,0.95);
-      display: flex;
-      align-items: baseline;
+    /* Neon-Button für b3nn3t unten – gleiche Höhe wie Streaming-Buttons */
+    .neon-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
       gap: 0.5rem;
-      backdrop-filter: blur(10px);
-      font-family: inherit;
+
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-transform: none;
+      letter-spacing: 0.12em;
+      line-height: 1;
+
+      text-decoration: none;
+      background: radial-gradient(circle at 30% 0%, #ffffff 0%, #dfffff 45%, #b5f9ff 100%);
+      color: #001018;
+
+      border: none;
+      box-shadow:
+        0 0 18px rgba(0, 230, 255, 0.9),
+        0 0 40px rgba(0, 120, 255, 0.8);
+
+      text-shadow: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
     }
 
-    .awb-countdown .label {
-      text-transform: uppercase;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      opacity: 0.8;
-      color: #bdf7ff;
+    .neon-link .dot {
+      font-size: 1rem;
+      color: #00e6ff;
+      text-shadow:
+        0 0 8px rgba(0, 230, 255, 1),
+        0 0 18px rgba(0, 120, 255, 0.9);
     }
 
-    .awb-countdown #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(0,0,0,0.9);
+    .neon-link:hover {
+      transform: translateY(-2px) scale(1.03);
+      filter: brightness(1.05);
+      box-shadow:
+        0 0 26px rgba(0, 230, 255, 1),
+        0 0 60px rgba(0, 120, 255, 1);
     }
 
     @media (max-width: 600px) {
       .background {
         padding-top: 2.2rem;
-      }
-      .awb-countdown {
-        top: 0.75rem;
-        right: 0.7rem;
-        padding: 0.45rem 0.9rem;
-      }
-      .awb-countdown .label {
-        display: none;
-      }
-      .awb-countdown #awb-countdown-timer {
-        font-size: 0.85rem;
       }
       .social-icon {
         font-size: 1.6rem;
@@ -623,12 +571,6 @@
 </head>
 
 <body>
-
-  <!-- COUNTDOWN -->
-  <div class="awb-countdown" aria-label="Release Countdown">
-    <span class="label">release in</span>
-    <span id="awb-countdown-timer">--:--:--</span>
-  </div>
 
   <div class="background">
     <!-- Glow-Punkte -->
@@ -806,55 +748,17 @@
             Mehr Musik. Mehr Kunst. Mehr b3nn3t.
           </p>
 
-          <!-- Nur Text-Link, kein Button-Pill -->
-<a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
-  <span class="dot"></span> b3nn3t <span class="dot"></span>
-</a>
-
-
+          <!-- Neon-Link -->
+          <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
+            <span class="dot"></span> b3nn3t <span class="dot"></span>
+          </a>
         </section>
 
       </main>
     </div>
   </div>
 
-  <!-- COUNTDOWN SCRIPT -->
   <script>
-    (function () {
-      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
-      const el = document.getElementById("awb-countdown-timer");
-      if (!el) return;
-
-      function updateCountdown() {
-        const now = Date.now();
-        let diff = targetDate - now;
-
-        if (diff <= 0) {
-          el.textContent = "OUT NOW";
-          return;
-        }
-
-        const seconds = Math.floor(diff / 1000);
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        if (days > 0) {
-          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
-        } else {
-          el.textContent = hh + ":" + mm + ":" + ss;
-        }
-      }
-
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
-    })();
-
     // Glow-Dots erzeugen
     (function () {
       const layer = document.getElementById('glow-layer');
