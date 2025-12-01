@@ -485,6 +485,53 @@
         0 0 18px rgba(0,255,235,0.9);
     }
 
+/* Neon-Button für b3nn3t unten – gleiche Höhe wie Streaming-Buttons */
+.neon-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  /* exakt wie .stream-btn */
+  padding: 0.7rem 1.4rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: none;       /* NICHT mehr uppercase */
+  letter-spacing: 0.12em;
+  line-height: 1;
+
+  text-decoration: none;
+  background: radial-gradient(circle at 30% 0%, #ffffff 0%, #dfffff 45%, #b5f9ff 100%);
+  color: #001018;
+
+  /* kein Border, damit die Außenhöhe wie bei .stream-btn bleibt */
+  border: none;
+  box-shadow:
+    0 0 18px rgba(0, 230, 255, 0.9),
+    0 0 40px rgba(0, 120, 255, 0.8);
+
+  text-shadow: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+}
+
+.neon-link .dot {
+  font-size: 1rem;
+  color: #00e6ff;
+  text-shadow:
+    0 0 8px rgba(0, 230, 255, 1),
+    0 0 18px rgba(0, 120, 255, 0.9);
+}
+
+.neon-link:hover {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.05);
+  box-shadow:
+    0 0 26px rgba(0, 230, 255, 1),
+    0 0 60px rgba(0, 120, 255, 1);
+}
+
+    
     /* Countdown */
     .awb-countdown {
       position: fixed;
@@ -710,9 +757,10 @@
           </p>
 
           <!-- Nur Text-Link, kein Button-Pill -->
-          <a class="plain-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
-            b3nn3t
-          </a>
+<a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
+  <span class="dot"></span> b3nn3t <span class="dot"></span>
+</a>
+
         </section>
 
       </main>
