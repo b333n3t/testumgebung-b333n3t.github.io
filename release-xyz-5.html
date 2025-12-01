@@ -163,6 +163,62 @@
       animation: glitchShift 2.4s steps(3, end) infinite;
     }
 
+/* ===========================
+   NEON-LINES BACKGROUND
+=========================== */
+
+.neon-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* eine einzelne Linie */
+.neon-line {
+  position: absolute;
+  height: 3px;
+  width: 140%;
+  opacity: 0.85;
+  background: linear-gradient(90deg,
+    rgba(255, 0, 200, 0) 0%,
+    rgba(255, 0, 200, 1) 35%,
+    rgba(255, 255, 0, 1) 55%,
+    rgba(0, 255, 255, 1) 75%,
+    rgba(255, 0, 200, 0) 100%
+  );
+  box-shadow:
+    0 0 15px rgba(255,0,255,.9),
+    0 0 25px rgba(255,200,0,.8),
+    0 0 35px rgba(0,255,255,.8);
+  filter: blur(0.5px);
+  animation: neonFlow 8s linear infinite, neonShift 12s ease-in-out infinite;
+}
+
+@keyframes neonFlow {
+  0%   { transform: translateX(-30%) translateY(0) }
+  100% { transform: translateX(30%)  translateY(0) }
+}
+
+/* leichte vertikale Drift (für Bewegung nach oben/unten) */
+@keyframes neonShift {
+  0%   { transform: translateY(0) }
+  50%  { transform: translateY(18px) }
+  100% { transform: translateY(0) }
+}
+
+/* Farbwechsel */
+.neon-line:nth-child(odd) {
+  animation-duration: 10s;
+  animation-direction: alternate-reverse;
+}
+
+.neon-line:nth-child(even) {
+  animation-duration: 14s;
+}
+
+    
     @keyframes bgShift {
       0% {
         background-position: 0% 40%;
