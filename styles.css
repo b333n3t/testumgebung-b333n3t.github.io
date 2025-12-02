@@ -73,6 +73,20 @@ body{
         url('assets/b3nn3t_bg_mobile.webp') type("image/webp"),
         url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
+
+    /* auf Mobile weiter "cover" – so wie du es gut findest */
+    background-size: cover;
+    background-position: center bottom;
+  }
+}
+
+/* ⬆️ NEU: Desktop-Ansicht – komplettes Bild zeigen (wie vorher) */
+@media (min-width: 1025px){
+  body{
+    /* sorgt dafür, dass das komplette Bild sichtbar ist */
+    background-size: contain;
+    background-position: center bottom;
+    background-repeat: no-repeat;
   }
 }
 
