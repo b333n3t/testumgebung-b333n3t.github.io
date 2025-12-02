@@ -193,20 +193,24 @@
       .termin-row .ort   { opacity: .85; }
     }
 
-    /* ✔ Haken für vergangene Termine */
-    .termin-row.completed .datum {
-      position: relative;
-      padding-left: 1.2em;
-    }
-    .termin-row.completed .datum::before {
-      content: "✔";
-      position: absolute;
-      left: -0.2em;
-      top: 0;
-      color: green;
-      font-weight: 900;
-      font-size: 1.1em;
-    }
+/* ✔ Haken für vergangene Termine – Datum bleibt an gleicher Position */
+.termin-row .datum {
+  position: relative;         /* damit ::before sich daran orientiert */
+  display: inline-block;
+}
+
+.termin-row.completed .datum::before {
+  content: "✔";
+  position: absolute;
+  left: -1.2em;               /* wie weit der Haken links stehen soll */
+  top: 50%;
+  transform: translateY(-50%);/* vertikal mittig neben dem Datum */
+  color: green;
+  font-weight: 900;
+  font-size: 1.1em;
+  pointer-events: none;
+}
+
   </style>
 </head>
 
