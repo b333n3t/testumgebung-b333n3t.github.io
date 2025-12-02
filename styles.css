@@ -16,16 +16,11 @@ html,body{
   color: var(--text);
 }
 
-/* === Hintergrund: wie früher (cover), aber Kopf im Bild === */
+/* === EINHEITLICHER HINTERGRUND (DESKTOP) === */
 body{
   background-color: #000;
 
-  /* Fallback (ältere Browser) */
-  background-image:
-    linear-gradient(var(--bg-tint), var(--bg-tint)),
-    url('assets/b3nn3t_bg.jpg');
-
-  /* Moderne Browser: AVIF > WebP > JPG */
+  /* moderne Browser: AVIF > WebP > JPG */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
     image-set(
@@ -35,8 +30,8 @@ body{
     );
 
   background-repeat: no-repeat;
-  background-size: cover;          /* ✅ wieder wie früher */
-  background-position: center 45%; /* Basis: leicht nach oben geschoben */
+  background-position: center 40%;   /* etwas höher als früher → mehr Kopf */
+  background-size: cover;
   background-attachment: scroll;
   transition: background-position .35s ease;
   min-height: 100vh;
@@ -45,37 +40,29 @@ body{
   flex-direction:column;
 }
 
-/* Querformat: Kopf etwas höher, aber nicht extrem */
+/* Querformat (Landscape): noch ein bisschen höher */
 @media (orientation: landscape){
   body{ background-position: center 36%; }
 }
 
-/* Flache Displays: noch ein bisschen höher */
-@media (max-height: 900px){
+/* Flache Viewports (z.B. 1366×768) */
+@media (max-height: 850px){
+  body{ background-position: center 34%; }
+}
+
+/* Sehr flach (Browser-UI frisst Höhe / kleine Notebooks) */
+@media (max-height: 760px){
   body{ background-position: center 32%; }
 }
 
-@media (max-height: 820px){
-  body{ background-position: center 28%; }
-}
-
-/* Sehr flach (z.B. 1366x768 Laptops): maximal nach oben, damit Kopf drin bleibt */
-@media (max-height: 760px){
-  body{ background-position: center 24%; }
-}
-
-/* Sehr große, hohe Desktops: wieder etwas runter, damit unten nichts abgeschnitten wirkt */
+/* Große, hohe Desktops (z.B. 1920x1200) */
 @media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
   body{ background-position: center 30%; }
 }
 
-/* === Mobiles Hintergrundbild (hier bleibt cover, weil es gut aussieht) === */
+/* === MOBILES HINTERGRUNDBILD === */
 @media (max-width: 768px){
   body{
-    background-image:
-      linear-gradient(var(--bg-tint), var(--bg-tint)),
-      url('assets/b3nn3t_bg_mobile.jpg');
-
     background-image:
       linear-gradient(var(--bg-tint), var(--bg-tint)),
       image-set(
@@ -83,9 +70,8 @@ body{
         url('assets/b3nn3t_bg_mobile.webp') type("image/webp"),
         url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
-
-    background-size: cover;
     background-position: center 45%;
+    background-size: cover;
   }
 }
 
@@ -103,6 +89,7 @@ a:hover{ text-decoration: underline; }
   top: 0;
 }
 
+/* Brand-Text oben links */
 .brand{
   font-weight:700;
   letter-spacing:.04em;
@@ -111,7 +98,7 @@ a:hover{ text-decoration: underline; }
   padding:0;
   box-shadow:none;
   position:absolute;
-  left:25%;
+  left:25%;                    /* wie zuletzt: leicht nach rechts */
   transform:translateX(-50%);
   top:18px;
   text-decoration:none;
@@ -131,28 +118,29 @@ header img[src*="logo"]{
   opacity:0 !important;
 }
 
-/* Navigation arrows */
+/* Navigation arrows – schwarz, ohne Hintergrund */
 .nav-arrow{
   position:fixed;
   top:12px;
   z-index:10;
   padding:8px;
-  background:none;
+  background:none !important;
   border-radius:0;
   backdrop-filter:none;
-  box-shadow:none;
+  box-shadow:none !important;
   font-weight:700;
-  color:#000;
+  color:#000 !important;
   border:none;
+  text-decoration:none;
 }
 .nav-arrow.left{ left:12px; }
 .nav-arrow.right{ right:12px; }
 .nav-arrow:hover{
-  color:#333;
-  background:none;
+  color:#333 !important;
+  background:none !important;
 }
 
-/* Main Container */
+/* Main-Container (Glasbox) */
 .main{
   width: min(1100px, 92vw);
   margin-top: clamp(24px, 5vh, 60px);
@@ -198,19 +186,19 @@ p{ line-height:1.6; color: var(--text-dim); }
   transition: transform .12s ease;
 }
 
-/* Footer Note */
+/* Footer-Note (Startseite) */
 .note{
   margin-top:18px;
   font-size:.95rem;
   color:#333;
 }
 
-/* Home button on inner pages */
+/* Startseiten-Button generell ausblenden */
 .home-btn{
-  display: none !important;
+  display:none !important;
 }
 
-/* Standard-Footer */
+/* === Footer: schlank, eine Zeile, iOS-safe === */
 footer{
   position: fixed;
   left:50%;
@@ -223,6 +211,7 @@ footer{
   justify-content:center;
   gap:.4rem;
   white-space:nowrap;
+  word-break:keep-all;
   text-align:center;
   color:rgba(0,0,0,0.75);
   background:transparent;
@@ -237,13 +226,14 @@ footer{
 footer a{
   color:#000 !important;
   text-decoration:none;
+  white-space:nowrap;
 }
 footer a:hover{
   color:#000 !important;
   text-decoration:underline;
 }
 
-/* Mobile Footer smaller */
+/* Mobile Footer kleiner */
 @media (max-width: 420px){
   footer{
     font-size:0.75rem;
@@ -251,7 +241,7 @@ footer a:hover{
   }
 }
 
-/* Mobile Grid adjustments */
+/* Mobile Grid-Anpassungen */
 @media (max-width: 480px){
   .grid{
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -269,7 +259,7 @@ footer a:hover{
   }
 }
 
-/* Very small screens */
+/* Sehr kleine Geräte */
 @media (max-width: 360px){
   .grid{
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
@@ -285,7 +275,7 @@ footer a:hover{
   }
 }
 
-/* "gesehen" page */
+/* "gesehen"-Seite */
 .grid-seen{
   display:flex;
   justify-content:flex-start;
@@ -305,7 +295,7 @@ footer a:hover{
   }
 }
 
-/* Termine */
+/* Termine-Layout */
 .termine-list{
   display:flex;
   flex-direction:column;
@@ -333,10 +323,12 @@ footer a:hover{
   text-align:right;
 }
 
+/* Termine: mobile Darstellung */
 @media (max-width: 600px){
   .termin-row{
     display:grid !important;
     width:100%;
+    box-sizing:border-box;
     grid-template-columns:110px 1fr !important;
     grid-template-areas:
       "datum veranstaltung"
@@ -351,6 +343,7 @@ footer a:hover{
     grid-area: datum;
     font-weight:700;
     text-align:right !important;
+    white-space:nowrap;
   }
 
   .termin-row .veranstaltung{
