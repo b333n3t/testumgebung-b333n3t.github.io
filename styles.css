@@ -16,7 +16,7 @@ html,body{
   color: var(--text);
 }
 
-/* === Hintergrund === */
+/* === Hintergrund: wie früher (cover), aber Kopf im Bild === */
 body{
   background-color: #000;
 
@@ -35,9 +35,8 @@ body{
     );
 
   background-repeat: no-repeat;
-  background-position: center 45%;
-  /* ⬇️ WICHTIG: Desktop = ganzes Bild sichtbar */
-  background-size: contain;
+  background-size: cover;          /* ✅ wieder wie früher */
+  background-position: center 45%; /* Basis: leicht nach oben geschoben */
   background-attachment: scroll;
   transition: background-position .35s ease;
   min-height: 100vh;
@@ -46,21 +45,31 @@ body{
   flex-direction:column;
 }
 
-/* Querformat */
+/* Querformat: Kopf etwas höher, aber nicht extrem */
 @media (orientation: landscape){
-  body{ background-position: center 40%; }
-}
-
-/* Flache Displays */
-@media (max-height: 850px){
-  body{ background-position: center 38%; }
-}
-
-@media (max-height: 760px){
   body{ background-position: center 36%; }
 }
 
-/* === Mobiles Hintergrundbild (hier wieder vollflächig) === */
+/* Flache Displays: noch ein bisschen höher */
+@media (max-height: 900px){
+  body{ background-position: center 32%; }
+}
+
+@media (max-height: 820px){
+  body{ background-position: center 28%; }
+}
+
+/* Sehr flach (z.B. 1366x768 Laptops): maximal nach oben, damit Kopf drin bleibt */
+@media (max-height: 760px){
+  body{ background-position: center 24%; }
+}
+
+/* Sehr große, hohe Desktops: wieder etwas runter, damit unten nichts abgeschnitten wirkt */
+@media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
+  body{ background-position: center 30%; }
+}
+
+/* === Mobiles Hintergrundbild (hier bleibt cover, weil es gut aussieht) === */
 @media (max-width: 768px){
   body{
     background-image:
@@ -75,7 +84,6 @@ body{
         url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
 
-    /* ⬇️ Handy: wieder wie vorher, vollflächig */
     background-size: cover;
     background-position: center 45%;
   }
