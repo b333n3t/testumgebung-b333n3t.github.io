@@ -1,37 +1,19 @@
-:root{
-  --bg-tint: rgba(255,255,255,.35); /* blasser Hintergrund */
-  --text: #0e0e0e;
-  --text-dim: #2d2d2d;
-  --accent: #0b84ff;
-}
-
-/* Base reset */
-*{ box-sizing:border-box; }
-
-html,body{
-  height:100%;
-  margin:0;
-  font-family: 'Press Start 2P', Arial, sans-serif;
-  letter-spacing: .03em;
-  color: var(--text);
-}
-
 /* === Einheitlicher Hintergrund: ruhiges Scrolling + dynamischer Fokus === */
 body{
   background-color: #000;
 
-  /* Fallback für sehr alte Browser: reines JPG */
+  /* Fallback */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
-    url('assets/b3nn3t.jpg');
+    url('assets/b3nn3t_bg.jpg');
 
   /* Moderne Browser: AVIF > WebP > JPG */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
     image-set(
-      url('assets/b3nn3t.avif') type("image/avif"),
-      url('assets/b3nn3t.webp') type("image/webp"),
-      url('assets/b3nn3t.jpg')  type("image/jpeg")
+      url('assets/b3nn3t_bg.avif') type("image/avif"),
+      url('assets/b3nn3t_bg.webp') type("image/webp"),
+      url('assets/b3nn3t_bg.jpg')  type("image/jpeg")
     );
 
   background-repeat: no-repeat;
@@ -45,35 +27,22 @@ body{
   flex-direction:column;
 }
 
-/* Querformat (Landscape): Bereich nach oben korrigieren */
-@media (orientation: landscape){
-  body{ background-position: center 40%; }
-}
-
-/* Flache Viewports */
-@media (max-height: 850px){
-  body{ background-position: center 38%; }
-}
-
-@media (max-height: 760px){
-  body{ background-position: center 36%; }
-}
-
-/* === Mobiles Hintergrundbild === */
+/* Mobil */
 @media (max-width: 768px){
   body{
+
     /* Fallback */
     background-image:
       linear-gradient(var(--bg-tint), var(--bg-tint)),
-      url('assets/b3nn3t_mobile.jpg');
+      url('assets/b3nn3t_bg_mobile.jpg');
 
-    /* Moderne Browser: AVIF > WebP > JPG */
+    /* Moderne Browser */
     background-image:
       linear-gradient(var(--bg-tint), var(--bg-tint)),
       image-set(
-        url('assets/b3nn3t_mobile.avif') type("image/avif"),
-        url('assets/b3nn3t_mobile.webp') type("image/webp"),
-        url('assets/b3nn3t_mobile.jpg')  type("image/jpeg")
+        url('assets/b3nn3t_bg_mobile.avif') type("image/avif"),
+        url('assets/b3nn3t_bg_mobile.webp') type("image/webp"),
+        url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
   }
 }
