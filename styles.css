@@ -1,5 +1,5 @@
 :root{
-  --bg-tint: rgba(255,255,255,.35);
+  --bg-tint: rgba(255,255,255,.35); /* blasser Hintergrund */
   --text: #0e0e0e;
   --text-dim: #2d2d2d;
   --accent: #0b84ff;
@@ -16,11 +16,16 @@ html,body{
   color: var(--text);
 }
 
-/* === EINHEITLICHER HINTERGRUND (DESKTOP) === */
+/* === Einheitlicher Hintergrund: ruhiges Scrolling + dynamischer Fokus === */
 body{
   background-color: #000;
 
-  /* moderne Browser: AVIF > WebP > JPG */
+  /* Fallback für ältere Browser */
+  background-image:
+    linear-gradient(var(--bg-tint), var(--bg-tint)),
+    url('assets/b3nn3t_bg.jpg');
+
+  /* Moderne Browser: AVIF > WebP > JPG */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
     image-set(
@@ -30,9 +35,9 @@ body{
     );
 
   background-repeat: no-repeat;
-  background-position: center 40%;   /* etwas höher als früher → mehr Kopf */
-  background-size: cover;
-  background-attachment: scroll;
+  background-position: center 45%;   /* Grundfokus etwas höher */
+  background-size: cover;            /* keine Balken links/rechts */
+  background-attachment: scroll;     /* ruhiges Scrolling */
   transition: background-position .35s ease;
   min-height: 100vh;
   min-height: 100svh;
@@ -40,29 +45,30 @@ body{
   flex-direction:column;
 }
 
-/* Querformat (Landscape): noch ein bisschen höher */
+/* Querformat (Landscape): mehr vom unteren Bereich sichtbar machen */
 @media (orientation: landscape){
+  body{ background-position: center 40%; }
+}
+
+/* Sehr flache Viewports (z.B. 1366×768, 1920×800): Fokus noch etwas höher */
+@media (max-height: 850px){
+  body{ background-position: center 38%; }
+}
+
+/* Extrem flache Viewports (sehr schmale Höhe) */
+@media (max-height: 760px){
   body{ background-position: center 36%; }
 }
 
-/* Flache Viewports (z.B. 1366×768) */
-@media (max-height: 850px){
-  body{ background-position: center 34%; }
-}
-
-/* Sehr flach (Browser-UI frisst Höhe / kleine Notebooks) */
-@media (max-height: 760px){
-  body{ background-position: center 32%; }
-}
-
-/* Große, hohe Desktops (z.B. 1920x1200) */
-@media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
-  body{ background-position: center 30%; }
-}
-
-/* === MOBILES HINTERGRUNDBILD === */
+/* Optional: mobiles, leichteres Bild mit neuen Dateien */
 @media (max-width: 768px){
   body{
+    /* Fallback */
+    background-image:
+      linear-gradient(var(--bg-tint), var(--bg-tint)),
+      url('assets/b3nn3t_bg_mobile.jpg');
+
+    /* Moderne Browser */
     background-image:
       linear-gradient(var(--bg-tint), var(--bg-tint)),
       image-set(
@@ -70,8 +76,6 @@ body{
         url('assets/b3nn3t_bg_mobile.webp') type("image/webp"),
         url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
-    background-position: center 45%;
-    background-size: cover;
   }
 }
 
@@ -79,7 +83,7 @@ body{
 a{ color: var(--accent); text-decoration: none; }
 a:hover{ text-decoration: underline; }
 
-/* Header */
+/* Header/Brand */
 .header{
   display:flex;
   align-items:center;
@@ -88,8 +92,6 @@ a:hover{ text-decoration: underline; }
   position: sticky;
   top: 0;
 }
-
-/* Brand-Text oben links */
 .brand{
   font-weight:700;
   letter-spacing:.04em;
@@ -98,55 +100,39 @@ a:hover{ text-decoration: underline; }
   padding:0;
   box-shadow:none;
   position:absolute;
-  left:25%;                    /* wie zuletzt: leicht nach rechts */
-  transform:translateX(-50%);
+  left:25%;                /* Position etwa auf 1/4 der Seitenbreite */
+  transform: translateX(-50%);
   top:18px;
   text-decoration:none;
 }
 .brand:hover{ text-decoration: underline; }
 
-/* Favicon-/Brand-Image verstecken */
-.header img,
-.brand img,
-header img[alt=""],
-header img[src*="favicon"],
-header img[src*="logo"]{
-  display:none !important;
-  width:0 !important;
-  height:0 !important;
-  visibility:hidden !important;
-  opacity:0 !important;
-}
-
-/* Navigation arrows – schwarz, ohne Hintergrund */
+/* navigation arrows */
 .nav-arrow{
   position:fixed;
   top:12px;
   z-index:10;
-  padding:8px;
-  background:none !important;
-  border-radius:0;
-  backdrop-filter:none;
-  box-shadow:none !important;
   font-weight:700;
-  color:#000 !important;
-  border:none;
-  text-decoration:none;
+  padding: 8px;
+  color: #000 !important;       /* schwarze Pfeile */
+  background: none !important;  /* kein Hintergrundfeld */
+  box-shadow: none !important;  /* keine Schatten */
+  border: none;
+  text-decoration: none;
+}
+.nav-arrow:hover {
+  color: #333 !important;
 }
 .nav-arrow.left{ left:12px; }
 .nav-arrow.right{ right:12px; }
-.nav-arrow:hover{
-  color:#333 !important;
-  background:none !important;
-}
 
-/* Main-Container (Glasbox) */
+/* main container */
 .main{
   width: min(1100px, 92vw);
   margin-top: clamp(24px, 5vh, 60px);
   margin-bottom: clamp(24px, 5vh, 60px);
   margin-left: clamp(20px, 3vw, 40px);
-  margin-right:auto;
+  margin-right: auto;
   background: rgba(255,255,255,0.32);
   border-radius: 18px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.08);
@@ -157,7 +143,7 @@ header img[src*="logo"]{
 h1, h2{ margin: .2em 0 .4em; letter-spacing:.02em; }
 p{ line-height:1.6; color: var(--text-dim); }
 
-/* Home Grid */
+/* home grid */
 .grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -167,18 +153,18 @@ p{ line-height:1.6; color: var(--text-dim); }
 
 .card{
   display:block;
-  padding:12px;
+  padding: 12px;
   background: rgba(255,255,255,.9);
   border-radius: 16px;
   box-shadow: 0 10px 20px rgba(0,0,0,.08);
-  font-weight:600;
+  font-weight: 600;
   color: var(--text);
   text-align:center;
 }
 .card small{
   display:block;
   font-weight:400;
-  color:#444;
+  color: #444;
   margin-top:6px;
 }
 .card:hover{
@@ -186,108 +172,108 @@ p{ line-height:1.6; color: var(--text-dim); }
   transition: transform .12s ease;
 }
 
-/* Footer-Note (Startseite) */
+/* home only footer note */
 .note{
-  margin-top:18px;
+  margin-top: 18px;
   font-size:.95rem;
   color:#333;
 }
 
-/* Startseiten-Button generell ausblenden */
+/* home button on inner pages */
 .home-btn{
-  display:none !important;
+  position:fixed;
+  bottom:16px;
+  left:50%;
+  transform: translateX(-50%);
+  padding:12px 16px;
+  background: rgba(255,255,255,.88);
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.1);
+  font-weight:700;
+}
+.home-btn{
+  display:none !important; /* Startseiten-Link ausblenden */
 }
 
-/* === Footer: schlank, eine Zeile, iOS-safe === */
+/* === Footer: eine Zeile + näher am Rand, iOS-safe === */
 footer{
   position: fixed;
-  left:50%;
-  transform:translateX(-50%);
+  left: 50%;
+  transform: translateX(-50%);
   bottom: calc(8px + env(safe-area-inset-bottom));
-  margin:0;
-  padding:2px 8px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:.4rem;
-  white-space:nowrap;
-  word-break:keep-all;
-  text-align:center;
-  color:rgba(0,0,0,0.75);
-  background:transparent;
-  border-radius:0;
-  backdrop-filter:none;
-  font-weight:400;
-  font-size:0.82rem;
-  line-height:1.2;
-  z-index:1000;
+  margin: 0;
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  white-space: nowrap;
+  word-break: keep-all;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.75);
+  background: transparent;
+  border-radius: 0;
+  backdrop-filter: none;
+  font-weight: 400;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  z-index: 1000;
 }
 
+/* Footer-Links schwarz & einzeilig */
 footer a{
-  color:#000 !important;
-  text-decoration:none;
-  white-space:nowrap;
+  color: #000 !important;
+  text-decoration: none;
+  white-space: nowrap;
 }
 footer a:hover{
-  color:#000 !important;
-  text-decoration:underline;
+  color: #000 !important;
+  text-decoration: underline;
 }
 
-/* Mobile Footer kleiner */
+/* Auf sehr schmalen Geräten leicht kleiner */
 @media (max-width: 420px){
   footer{
-    font-size:0.75rem;
-    gap:.3rem;
+    font-size: 0.75rem;
+    gap: .3rem;
   }
 }
 
-/* Mobile Grid-Anpassungen */
-@media (max-width: 480px){
-  .grid{
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap:10px;
-  }
-
-  .card{
-    padding:10px;
-    border-radius:14px;
-  }
-
-  .card small{
-    font-size:0.8rem;
-    margin-top:4px;
-  }
+/* === Logo-Icon im Header ausblenden === */
+.header img,
+.brand img,
+header img[alt=""],
+header img[src*="favicon"],
+header img[src*="logo"]{
+  display: none !important;
 }
 
-/* Sehr kleine Geräte */
-@media (max-width: 360px){
-  .grid{
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap:8px;
-  }
-
-  .card{
-    padding:8px;
-  }
-
-  .card small{
-    font-size:0.78rem;
-  }
+/* === Stronger upward focus so the head is visible in landscape === */
+@media (orientation: landscape){
+  body{ background-position: center 24% !important; }
 }
 
-/* "gesehen"-Seite */
+/* 1920x1200 (16:10) notebooks: even higher focus */
+@media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
+  body{ background-position: center 20% !important; }
+}
+
+/* Very flat viewports: push higher */
+@media (max-height: 820px){
+  body{ background-position: center 18% !important; }
+}
+
+/* "gesehen" Seite */
 .grid-seen{
-  display:flex;
-  justify-content:flex-start;
-  align-items:stretch;
-  gap:14px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 14px;
 }
-
 .grid-seen .card{
-  flex:0 1 180px;
-  max-width:180px;
+  flex: 0 1 180px;
+  max-width: 180px;
 }
-
 @media (max-width: 480px){
   .grid-seen .card{
     flex-basis:120px;
@@ -295,35 +281,36 @@ footer a:hover{
   }
 }
 
-/* Termine-Layout */
+/* Verhindert, dass globale Styles die Startseite überlagern */
+body.home .main{
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Termine */
 .termine-list{
   display:flex;
   flex-direction:column;
   gap:0.35rem;
   margin-top:1rem;
 }
-
 .termin-row{
   display:grid;
   grid-template-columns:200px 1fr auto;
   column-gap:2rem;
   align-items:baseline;
 }
-
-.termin-row .datum{
-  font-weight:700;
-}
-
+.termin-row .datum{ font-weight:700; }
 .termin-row .veranstaltung{
   font-weight:600;
   margin-left:1.5rem;
 }
-
 .termin-row .ort{
   text-align:right;
 }
 
-/* Termine: mobile Darstellung */
+/* Mobile Termine */
 @media (max-width: 600px){
   .termin-row{
     display:grid !important;
@@ -338,14 +325,13 @@ footer a:hover{
     align-items:baseline;
     margin-bottom:0.6rem;
   }
-
   .termin-row .datum{
-    grid-area: datum;
+    grid-area:datum;
     font-weight:700;
     text-align:right !important;
     white-space:nowrap;
+    padding-right:0;
   }
-
   .termin-row .veranstaltung{
     grid-area:veranstaltung;
     font-weight:600;
@@ -353,11 +339,40 @@ footer a:hover{
     text-align:left !important;
     white-space:nowrap;
   }
-
   .termin-row .ort{
     grid-area:ort;
+    display:block !important;
     text-align:left !important;
     font-size:0.9em;
+    margin:0 !important;
     white-space:nowrap !important;
+  }
+}
+
+/* Mobile Grid-Optimierung */
+@media (max-width: 480px){
+  .grid{
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap:10px;
+  }
+  .card{
+    padding:10px;
+    border-radius:14px;
+  }
+  .card small{
+    font-size:0.8rem;
+    margin-top:4px;
+  }
+}
+@media (max-width: 360px){
+  .grid{
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap:8px;
+  }
+  .card{
+    padding:8px;
+  }
+  .card small{
+    font-size:0.78rem;
   }
 }
