@@ -16,7 +16,7 @@ html,body{
   color: var(--text);
 }
 
-/* === Einheitlicher Hintergrund: ruhiges Scrolling + dynamischer Fokus === */
+/* === Hintergrund === */
 body{
   background-color: #000;
 
@@ -36,7 +36,8 @@ body{
 
   background-repeat: no-repeat;
   background-position: center 45%;
-  background-size: cover;
+  /* ⬇️ WICHTIG: Desktop = ganzes Bild sichtbar */
+  background-size: contain;
   background-attachment: scroll;
   transition: background-position .35s ease;
   min-height: 100vh;
@@ -59,7 +60,7 @@ body{
   body{ background-position: center 36%; }
 }
 
-/* === Mobiles Hintergrundbild === */
+/* === Mobiles Hintergrundbild (hier wieder vollflächig) === */
 @media (max-width: 768px){
   body{
     background-image:
@@ -74,19 +75,9 @@ body{
         url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
 
-    /* auf Mobile weiter "cover" – so wie du es gut findest */
+    /* ⬇️ Handy: wieder wie vorher, vollflächig */
     background-size: cover;
-    background-position: center bottom;
-  }
-}
-
-/* ⬆️ NEU: Desktop-Ansicht – komplettes Bild zeigen (wie vorher) */
-@media (min-width: 1025px){
-  body{
-    /* sorgt dafür, dass das komplette Bild sichtbar ist */
-    background-size: contain;
-    background-position: center bottom;
-    background-repeat: no-repeat;
+    background-position: center 45%;
   }
 }
 
