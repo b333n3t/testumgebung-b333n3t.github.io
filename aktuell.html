@@ -104,12 +104,12 @@
   -webkit-backdrop-filter: blur(3px);
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  text-decoration: none !important;
+  text-decoration: none;
   color: black;
   transition: transform .25s ease, box-shadow .45s ease;
 }
 
-/* Glow-Hover */
+/* Dunkler Glow */
 .release-card:hover {
   transform: scale(1.025);
   box-shadow:
@@ -118,7 +118,6 @@
     0 0 45px rgba(0,0,0,0.25);
 }
 
-
 .release-card img {
   width: 120px;
   height: 120px;
@@ -126,8 +125,7 @@
   border-radius: 12px;
 }
 
-/* === TEXT-BEREICH === */
-
+/* Textbereich */
 .release-info {
   display: flex;
   flex-direction: column;
@@ -139,7 +137,7 @@
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: left;
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
 /* Beschreibung – kein Linklook */
@@ -147,10 +145,16 @@
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: center;
-  text-decoration: none !important;
+  text-decoration: none;
 }
 
-/* === SONGTITEL: Wellenbewegung + Unterstrich === */
+/* Standard: nichts in der Card soll wie ein Link unterstrichen sein */
+.release-card *,
+.release-card:hover * {
+  text-decoration: none;
+}
+
+/* === SONGTITEL: Welle + Unterstrich auf Hover === */
 
 .songtitle {
   font-size: 1.45rem;
@@ -159,20 +163,25 @@
   margin: 0.8rem 0;
 }
 
-/* Unterstrich nur bei Songtitel-Buchstaben */
+/* Grundzustand: keine Linie */
 .songtitle span {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
+  text-decoration: none;
 }
 
-/* STARKE Wellenanimation */
+/* Wellenanimation läuft immer */
 .songtitle.wave span {
   display: inline-block;
   animation: wave 1.25s ease-in-out infinite;
 }
 
-/* Verzögerung pro Buchstabe (für starken Wellen-Effekt) */
+/* Unterstrich nur beim Hover über die Card */
+.release-card:hover .songtitle.wave span {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* starke, gut sichtbare Welle */
 .songtitle.wave span:nth-child(1)  { animation-delay: 0s; }
 .songtitle.wave span:nth-child(2)  { animation-delay: 0.07s; }
 .songtitle.wave span:nth-child(3)  { animation-delay: 0.14s; }
@@ -191,8 +200,8 @@
 .songtitle.wave span:nth-child(16) { animation-delay: 1.05s; }
 
 @keyframes wave {
-  0%, 100% { transform: translateY(0); opacity: 0.9; }
-  50%      { transform: translateY(-10px); opacity: 1; } /* ⭐ deutlichere Welle */
+  0%, 100% { transform: translateY(0);   opacity: 0.9; }
+  50%      { transform: translateY(-10px); opacity: 1; }
 }
 
 /* Mobile */
@@ -200,6 +209,7 @@
   .release-card { flex-direction: column; text-align: center; }
   .release-card img { width: 75%; height: auto; }
 }
+
 
 
   </style>
@@ -361,17 +371,19 @@
 
       <!-- ⭐ VARIANTE B: Release-Card mit Cover als Link -->
 <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank">
-
   <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
-
   <div class="release-info">
     <div class="subtitle">🎧 neues release</div>
-    <div class="songtitle">Alles was bleibt</div>
+
+    <div class="songtitle wave">
+      <span>A</span><span>l</span><span>l</span><span>e</span><span>s</span><span>&nbsp;</span>
+      <span>w</span><span>a</span><span>s</span><span>&nbsp;</span>
+      <span>b</span><span>l</span><span>e</span><span>i</span><span>b</span><span>t</span>
+    </div>
+
     <div class="desc">jetzt reinhören & preview-video ansehen!</div>
   </div>
-
 </a>
-
 
       <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen - </p>
     </div>
