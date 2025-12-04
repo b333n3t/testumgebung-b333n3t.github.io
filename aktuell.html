@@ -98,15 +98,25 @@
   margin: 1.5rem auto;
   padding: 1rem;
   width: 100%;
-  max-width: 350px;     /* ⭐ quadratischer */
+  max-width: 420px;
   background: rgba(255,255,255,0.22);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  text-decoration: none;
+  text-decoration: none;          /* 🔹 kein Unterstrich */
   color: black;
   transition: transform .2s ease, box-shadow .2s ease;
+}
+
+/* sicherstellen, dass auch Kinder nicht unterstrichen werden */
+.release-card * {
+  text-decoration: none;
+}
+
+.release-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
 }
 
 .release-card img {
@@ -122,23 +132,26 @@
   justify-content: center;
 }
 
+/* 🎧 Neues Release */
 .release-info .subtitle {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   opacity: 0.75;
   margin-bottom: 0.4rem;
 }
 
+/* 🎵 Songtitel – darf größer sein */
 .release-info .songtitle {
-  font-size: 1.3rem;     /* größer */
+  font-size: 1.3rem;
   font-weight: 700;
-  text-align: center;    /* ⭐ mittig */
-  margin: 0.5rem 0;      /* ⭐ mehr Abstand oben & unten */
+  text-align: center;
+  margin: 0.4rem 0 0.4rem 0;
 }
 
+/* Beschreibung – gleiche Größe wie subtitle */
 .release-info .desc {
-  opacity: 0.85;
   font-size: 0.95rem;
-  text-align: center;    /* optional mittig */
+  opacity: 0.85;
+  text-align: center;
 }
 
     @media(max-width:600px){
@@ -308,9 +321,9 @@
   <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
 
   <div class="release-info">
-    <div class="subtitle">🎧 Neues Release</div>
+    <div class="subtitle">🎧 neues release</div>
     <div class="songtitle">Alles was bleibt</div>
-    <div class="desc">Jetzt reinhören & Preview-Video ansehen!</div>
+    <div class="desc">jetzt reinhören & preview-video ansehen!</div>
   </div>
 
 </a>
