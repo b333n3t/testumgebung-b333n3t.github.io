@@ -95,8 +95,8 @@
   display: flex;
   align-items: center;
   gap: 1.2rem;
-  margin: 1.8rem auto;
-  padding: 1.3rem 1.4rem;          /* mehr Padding -> höher */
+  margin: 1.8rem 0;             /* linksbündig */
+  padding: 1.3rem 1.4rem;
   width: 100%;
   max-width: 420px;
   background: rgba(255,255,255,0.22);
@@ -107,11 +107,6 @@
   text-decoration: none;
   color: black;
   transition: transform .25s ease, box-shadow .45s ease;
-}
-
-/* Kinder nicht unterstrichen */
-.release-card * {
-  text-decoration: none !important;
 }
 
 /* Glow-Hover */
@@ -136,61 +131,71 @@
   justify-content: center;
 }
 
-/* Subtitle: wieder linksbündig */
+/* Subtitle (neues release) – linksbündig, kein Link-Look */
 .release-info .subtitle {
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: left;
+  text-decoration: none;
 }
 
-/* Beschreibung – gleiche Größe, aber mittig lassen */
+/* Beschreibung – mittig, kein Link-Look */
 .release-info .desc {
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: center;
+  text-decoration: none;
 }
 
-/* Songtitel – größer, mehr Abstand, Shine-Effekt */
-.release-info .songtitle {
-  position: relative;
-  display: inline-block;
+/* Songtitel – Basis (Wellen + Unterstreichung) */
+.songtitle {
   font-size: 1.4rem;
   font-weight: 700;
   text-align: center;
-  margin: 0.7rem 0 0.7rem 0;       /* mehr Abstand nach oben & unten */
-  padding: 0 0.4rem;
-  overflow: hidden;
+  margin: 0.7rem 0;
 }
 
-/* Shine-Highlight Animation */
-.release-info .songtitle::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: -120%;
-  width: 120%;
-  height: 100%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.65) 45%,
-    transparent 100%
-  );
-  animation: title-shine 2.4s ease-in-out infinite;
+/* Unterstrichen nur beim Songtitel */
+.songtitle span {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
 }
 
-@keyframes title-shine {
-  0%   { left: -120%; }
-  60%  { left: 120%; }
-  100% { left: 120%; }
+/* Wave-Animation pro Buchstabe */
+.songtitle.wave span {
+  display: inline-block;
+  animation: wave 1.6s ease-in-out infinite;
 }
 
+/* leichte Verzögerung pro Buchstabe */
+.songtitle.wave span:nth-child(1)  { animation-delay: 0s; }
+.songtitle.wave span:nth-child(2)  { animation-delay: 0.05s; }
+.songtitle.wave span:nth-child(3)  { animation-delay: 0.10s; }
+.songtitle.wave span:nth-child(4)  { animation-delay: 0.15s; }
+.songtitle.wave span:nth-child(5)  { animation-delay: 0.20s; }
+.songtitle.wave span:nth-child(6)  { animation-delay: 0.25s; } /* Leerzeichen */
+.songtitle.wave span:nth-child(7)  { animation-delay: 0.30s; }
+.songtitle.wave span:nth-child(8)  { animation-delay: 0.35s; }
+.songtitle.wave span:nth-child(9)  { animation-delay: 0.40s; }
+.songtitle.wave span:nth-child(10) { animation-delay: 0.45s; } /* Leerzeichen */
+.songtitle.wave span:nth-child(11) { animation-delay: 0.50s; }
+.songtitle.wave span:nth-child(12) { animation-delay: 0.55s; }
+.songtitle.wave span:nth-child(13) { animation-delay: 0.60s; }
+.songtitle.wave span:nth-child(14) { animation-delay: 0.65s; }
+.songtitle.wave span:nth-child(15) { animation-delay: 0.70s; }
+.songtitle.wave span:nth-child(16) { animation-delay: 0.75s; }
 
+@keyframes wave {
+  0%, 100% { transform: translateY(0); opacity: 0.95; }
+  50%      { transform: translateY(-4px); opacity: 1; }
+}
 
-    @media(max-width:600px){
-      .release-card { flex-direction: column; text-align: center; }
-      .release-card img { width: 75%; height: auto; }
-    }
+@media(max-width:600px){
+  .release-card { flex-direction: column; text-align: center; }
+  .release-card img { width: 75%; height: auto; }
+}
+
   </style>
 
   <!-- CHAOTISCHE BILDERCOLLAGE -->
