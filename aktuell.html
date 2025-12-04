@@ -94,20 +94,21 @@
 .release-card {
   display: flex;
   align-items: center;
-  gap: 1.2rem;
-  margin: 1.8rem 0;             /* linksbündig */
-  padding: 1.3rem 1.4rem;
+  gap: 1.6rem;                     /* mehr Abstand zwischen Bild & Text */
+  margin: 2.2rem 0;               /* etwas mehr Raum von außen */
+  padding: 1.6rem 1.6rem;         /* ⭐ Card wird höher */
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;               /* leicht breiter, wirkt harmonischer */
   background: rgba(255,255,255,0.22);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
-  border-radius: 14px;
+  border-radius: 16px;            /* runderes Gefühl */
   box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  text-decoration: none;
+  text-decoration: none !important;
   color: black;
   transition: transform .25s ease, box-shadow .45s ease;
 }
+
 
 /* Dunkler Glow */
 .release-card:hover {
