@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>aktuell — b3nn3t</title>
-  <meta name="description" content="aktuell — b3nn3t" />
+  <title>Aktuell – b3nn3t | Neuigkeiten & Termine</title>
+  <meta name="description" content="Aktuelle Neuigkeiten von b3nn3t – Updates zu Musik, Releases, Projekten, Events und besonderen Momenten." />
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
   <link rel="stylesheet" href="styles.css" />
@@ -89,6 +89,68 @@
       color:#000;text-decoration:none;font-size:1rem;font-weight:500;
     }
     .site-menu a:hover{background:rgba(0,0,0,.05);}
+
+    /* 🔔 VARIANTE A – einfacher Hinweis-Block mit Link */
+    .release-hinweis {
+      margin-top: 1.5rem;
+      padding: 1rem 1.2rem;
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+      font-weight: 600;
+    }
+    .release-hinweis a {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: black;
+    }
+    .release-hinweis a:hover {
+      opacity: .7;
+    }
+
+    /* ⭐ VARIANTE B – Release-Card mit Bild */
+    .release-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1.5rem 0 0 0;
+      padding: 1rem;
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      border-radius: 14px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      text-decoration: none;
+      color: black;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .release-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+    .release-card img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+    .release-info h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .release-info p {
+      margin: .2rem 0 0 0;
+      opacity: .85;
+      font-size: .95rem;
+    }
+    @media(max-width:600px){
+      .release-card { flex-direction: column; text-align: center; }
+      .release-card img { width: 75%; height: auto; }
+    }
   </style>
 
   <!-- CHAOTISCHE BILDERCOLLAGE -->
@@ -193,23 +255,23 @@
       .termin-row .ort   { opacity: .85; }
     }
 
-/* ✔ Haken für vergangene Termine – Datum bleibt an gleicher Position */
-.termin-row .datum {
-  position: relative;         /* damit ::before sich daran orientiert */
-  display: inline-block;
-}
+    /* ✔ Haken für vergangene Termine – Datum bleibt an gleicher Position */
+    .termin-row .datum {
+      position: relative;         /* damit ::before sich daran orientiert */
+      display: inline-block;
+    }
 
-.termin-row.completed .datum::before {
-  content: "✔";
-  position: absolute;
-  left: -1.2em;               /* wie weit der Haken links stehen soll */
-  top: 50%;
-  transform: translateY(-50%);/* vertikal mittig neben dem Datum */
-  color: green;
-  font-weight: 900;
-  font-size: 1.1em;
-  pointer-events: none;
-}
+    .termin-row.completed .datum::before {
+      content: "✔";
+      position: absolute;
+      left: -1.2em;               /* wie weit der Haken links stehen soll */
+      top: 50%;
+      transform: translateY(-50%);/* vertikal mittig neben dem Datum */
+      color: green;
+      font-weight: 900;
+      font-size: 1.1em;
+      pointer-events: none;
+    }
 
   </style>
 </head>
@@ -217,7 +279,7 @@
 <body>
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
+      <img src="favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
@@ -244,7 +306,26 @@
 
     <div style="margin-top: 3em;">
       <p><b>neuigkeiten</b></p>
-      <p>- lasst euch überraschen ;) - </p>
+
+      <!-- 🔔 VARIANTE A: einfacher Hinweis mit Link -->
+      <div class="release-hinweis">
+        🎵 Neues Release: <i>Alles was bleibt</i><br>
+        <a href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank">
+          → Jetzt anhören & Preview-Video ansehen
+        </a>
+      </div>
+
+      <!-- ⭐ VARIANTE B: Release-Card mit Cover als Link -->
+      <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank">
+        <!-- TODO: Bildpfad anpassen -->
+        <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
+        <div class="release-info">
+          <h2>🎧 Neues Release: Alles was bleibt</h2>
+          <p>Jetzt reinhören & Preview-Video ansehen!</p>
+        </div>
+      </a>
+
+      <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen - </p>
     </div>
 
     <div style="margin-top: 3em;">
