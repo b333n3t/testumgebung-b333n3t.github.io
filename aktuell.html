@@ -98,7 +98,7 @@
   margin: 1.5rem auto;
   padding: 1rem;
   width: 100%;
-  max-width: 420px;
+  max-width: 350px;     /* ⭐ quadratischer */
   background: rgba(255,255,255,0.22);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
@@ -109,25 +109,38 @@
   transition: transform .2s ease, box-shadow .2s ease;
 }
 
-    .release-card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-    }
-    .release-card img {
-      width: 110px;
-      height: 110px;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-    .release-info h2 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-    .release-info p {
-      margin: .2rem 0 0 0;
-      opacity: .85;
-      font-size: .95rem;
-    }
+.release-card img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.release-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.release-info .subtitle {
+  font-size: 0.85rem;
+  opacity: 0.75;
+  margin-bottom: 0.4rem;
+}
+
+.release-info .songtitle {
+  font-size: 1.3rem;     /* größer */
+  font-weight: 700;
+  text-align: center;    /* ⭐ mittig */
+  margin: 0.5rem 0;      /* ⭐ mehr Abstand oben & unten */
+}
+
+.release-info .desc {
+  opacity: 0.85;
+  font-size: 0.95rem;
+  text-align: center;    /* optional mittig */
+}
+
     @media(max-width:600px){
       .release-card { flex-direction: column; text-align: center; }
       .release-card img { width: 75%; height: auto; }
@@ -290,14 +303,18 @@
 
 
       <!-- ⭐ VARIANTE B: Release-Card mit Cover als Link -->
-      <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank">
-        <!-- TODO: Bildpfad anpassen -->
-        <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
-        <div class="release-info">
-          <h2>🎧 Neues Release: Alles was bleibt</h2>
-          <p>Jetzt reinhören & Preview-Video ansehen!</p>
-        </div>
-      </a>
+<a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank">
+
+  <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
+
+  <div class="release-info">
+    <div class="subtitle">🎧 Neues Release</div>
+    <div class="songtitle">Alles was bleibt</div>
+    <div class="desc">Jetzt reinhören & Preview-Video ansehen!</div>
+  </div>
+
+</a>
+
 
       <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen - </p>
     </div>
