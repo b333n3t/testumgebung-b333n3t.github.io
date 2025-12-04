@@ -90,7 +90,7 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05);}
 
-    /* ⭐ VARIANTE B – Release-Card mit Bild */
+/* ⭐ VARIANTE B – Release-Card mit Bild */
 .release-card {
   display: flex;
   align-items: center;
@@ -104,19 +104,23 @@
   -webkit-backdrop-filter: blur(3px);
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  text-decoration: none;          /* 🔹 kein Unterstrich */
-  color: black;
-  transition: transform .2s ease, box-shadow .2s ease;
-}
-
-/* sicherstellen, dass auch Kinder nicht unterstrichen werden */
-.release-card * {
   text-decoration: none;
+  color: black;
+  transition: transform .25s ease, box-shadow .45s ease;
 }
 
+/* Kinder nicht unterstrichen */
+.release-card * {
+  text-decoration: none !important;
+}
+
+/* Glow-Hover */
 .release-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  transform: scale(1.025);
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.25),
+    0 0 20px rgba(255,255,255,0.18),
+    0 0 40px rgba(255,255,255,0.12);
 }
 
 .release-card img {
@@ -132,27 +136,30 @@
   justify-content: center;
 }
 
-/* 🎧 Neues Release */
-.release-info .subtitle {
-  font-size: 0.95rem;
-  opacity: 0.75;
-  margin-bottom: 0.4rem;
-}
-
-/* 🎵 Songtitel – darf größer sein */
-.release-info .songtitle {
-  font-size: 1.3rem;
-  font-weight: 700;
-  text-align: center;
-  margin: 0.4rem 0 0.4rem 0;
-}
-
-/* Beschreibung – gleiche Größe wie subtitle */
+/* Subtitle + Beschreibung */
+.release-info .subtitle,
 .release-info .desc {
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: center;
 }
+
+/* Songtitel – größer + Pulse-Animation */
+.release-info .songtitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin: 0.4rem 0;
+  animation: titlepulse 3s ease-in-out infinite;
+}
+
+/* Animation */
+@keyframes titlepulse {
+  0% { opacity: 0.92; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-2px); }
+ 100% { opacity: 0.92; transform: translateY(0); }
+}
+
 
     @media(max-width:600px){
       .release-card { flex-direction: column; text-align: center; }
