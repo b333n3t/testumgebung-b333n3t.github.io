@@ -1,0 +1,45 @@
+# ===========================================
+#   B3NN3T Caching-Konfiguration (Hostpoint)
+#   Nur Diskografie + Plattformen + B3NN3T.mp4
+#   werden langfristig gecacht
+# ===========================================
+
+<IfModule mod_headers.c>
+
+  # -------------------------------------------
+  # 1) LANGFRISTIGER CACHE (1 Jahr)
+  # -------------------------------------------
+
+  # Alben
+  <FilesMatch "^assets/diskografie/Alben/.*\.(avif|webp|png|jpe?g)$">
+    Header always set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # EPs
+  <FilesMatch "^assets/diskografie/EPs/.*\.(avif|webp|png|jpe?g)$">
+    Header always set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Singles
+  <FilesMatch "^assets/diskografie/Singles/.*\.(avif|webp|png|jpe?g)$">
+    Header always set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Plattformen (PNG)
+  <FilesMatch "^assets/plattformen/.*\.png$">
+    Header always set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Gesehen → B3NN3T.mp4
+  <Files "assets/gesehen/B3NN3T.mp4">
+    Header always set Cache-Control "public, max-age=31536000, immutable"
+  </Files>
+
+  # -------------------------------------------
+  # 2) HTML nicht hart cachen
+  # -------------------------------------------
+  <FilesMatch "\.(html)$">
+    Header always set Cache-Control "no-cache"
+  </FilesMatch>
+
+</IfModule>
