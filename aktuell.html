@@ -104,26 +104,28 @@
   -webkit-backdrop-filter: blur(3px);
   border-radius: 14px;
   box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  text-decoration: none;
+  text-decoration: none !important;
   color: black;
   transition: transform .25s ease, box-shadow .45s ease;
 }
 
 /* Glow-Hover */
 .release-card:hover {
-  transform: scale(1.025);
+  transform: scale(1.03);
   box-shadow:
-    0 0 10px rgba(255,255,255,0.25),
-    0 0 20px rgba(255,255,255,0.18),
-    0 0 40px rgba(255,255,255,0.12);
+    0 0 14px rgba(255,255,255,0.30),
+    0 0 28px rgba(255,255,255,0.20),
+    0 0 45px rgba(255,255,255,0.15);
 }
 
 .release-card img {
-  width: 120px;                    /* leicht größer */
+  width: 120px;
   height: 120px;
   object-fit: cover;
   border-radius: 12px;
 }
+
+/* === TEXT-BEREICH === */
 
 .release-info {
   display: flex;
@@ -131,70 +133,73 @@
   justify-content: center;
 }
 
-/* Subtitle (neues release) – linksbündig, kein Link-Look */
+/* Subtitle – kein Linklook */
 .release-info .subtitle {
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: left;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
-/* Beschreibung – mittig, kein Link-Look */
+/* Beschreibung – kein Linklook */
 .release-info .desc {
   font-size: 0.95rem;
   opacity: 0.85;
   text-align: center;
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
-/* Songtitel – Basis (Wellen + Unterstreichung) */
+/* === SONGTITEL: Wellenbewegung + Unterstrich === */
+
 .songtitle {
-  font-size: 1.4rem;
+  font-size: 1.45rem;
   font-weight: 700;
   text-align: center;
-  margin: 0.7rem 0;
+  margin: 0.8rem 0;
 }
 
-/* Unterstrichen nur beim Songtitel */
+/* Unterstrich nur bei Songtitel-Buchstaben */
 .songtitle span {
   text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
 }
 
-/* Wave-Animation pro Buchstabe */
+/* STARKE Wellenanimation */
 .songtitle.wave span {
   display: inline-block;
-  animation: wave 1.6s ease-in-out infinite;
+  animation: wave 1.25s ease-in-out infinite;
 }
 
-/* leichte Verzögerung pro Buchstabe */
+/* Verzögerung pro Buchstabe (für starken Wellen-Effekt) */
 .songtitle.wave span:nth-child(1)  { animation-delay: 0s; }
-.songtitle.wave span:nth-child(2)  { animation-delay: 0.05s; }
-.songtitle.wave span:nth-child(3)  { animation-delay: 0.10s; }
-.songtitle.wave span:nth-child(4)  { animation-delay: 0.15s; }
-.songtitle.wave span:nth-child(5)  { animation-delay: 0.20s; }
-.songtitle.wave span:nth-child(6)  { animation-delay: 0.25s; } /* Leerzeichen */
-.songtitle.wave span:nth-child(7)  { animation-delay: 0.30s; }
-.songtitle.wave span:nth-child(8)  { animation-delay: 0.35s; }
-.songtitle.wave span:nth-child(9)  { animation-delay: 0.40s; }
-.songtitle.wave span:nth-child(10) { animation-delay: 0.45s; } /* Leerzeichen */
-.songtitle.wave span:nth-child(11) { animation-delay: 0.50s; }
-.songtitle.wave span:nth-child(12) { animation-delay: 0.55s; }
-.songtitle.wave span:nth-child(13) { animation-delay: 0.60s; }
-.songtitle.wave span:nth-child(14) { animation-delay: 0.65s; }
-.songtitle.wave span:nth-child(15) { animation-delay: 0.70s; }
-.songtitle.wave span:nth-child(16) { animation-delay: 0.75s; }
+.songtitle.wave span:nth-child(2)  { animation-delay: 0.07s; }
+.songtitle.wave span:nth-child(3)  { animation-delay: 0.14s; }
+.songtitle.wave span:nth-child(4)  { animation-delay: 0.21s; }
+.songtitle.wave span:nth-child(5)  { animation-delay: 0.28s; }
+.songtitle.wave span:nth-child(6)  { animation-delay: 0.35s; } /* Leerzeichen */
+.songtitle.wave span:nth-child(7)  { animation-delay: 0.42s; }
+.songtitle.wave span:nth-child(8)  { animation-delay: 0.49s; }
+.songtitle.wave span:nth-child(9)  { animation-delay: 0.56s; }
+.songtitle.wave span:nth-child(10) { animation-delay: 0.63s; } /* Leerzeichen */
+.songtitle.wave span:nth-child(11) { animation-delay: 0.70s; }
+.songtitle.wave span:nth-child(12) { animation-delay: 0.77s; }
+.songtitle.wave span:nth-child(13) { animation-delay: 0.84s; }
+.songtitle.wave span:nth-child(14) { animation-delay: 0.91s; }
+.songtitle.wave span:nth-child(15) { animation-delay: 0.98s; }
+.songtitle.wave span:nth-child(16) { animation-delay: 1.05s; }
 
 @keyframes wave {
-  0%, 100% { transform: translateY(0); opacity: 0.95; }
-  50%      { transform: translateY(-4px); opacity: 1; }
+  0%, 100% { transform: translateY(0); opacity: 0.9; }
+  50%      { transform: translateY(-10px); opacity: 1; } /* ⭐ deutlichere Welle */
 }
 
+/* Mobile */
 @media(max-width:600px){
   .release-card { flex-direction: column; text-align: center; }
   .release-card img { width: 75%; height: auto; }
 }
+
 
   </style>
 
