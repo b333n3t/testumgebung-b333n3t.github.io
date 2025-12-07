@@ -30,7 +30,7 @@
   <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „ALLES WAS BLEIBT“ von b3nn3t.">
   <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg">
 
-  <!-- Strukturierte Daten für das Release -->
+  <!-- Strukturierte Daten -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -48,6 +48,15 @@
     "url": "https://www.b3nn3t.com/release-alles-was-bleibt.html"
   }
   </script>
+
+  <!-- Font Awesome für Social-Logos (wie vorher) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
   <style>
     :root {
@@ -76,7 +85,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 4rem 1.5rem 4rem;   /* mehr Luft oben/unten */
+      padding: 4rem 1.5rem 4rem;
       box-sizing: border-box;
 
       position: relative;
@@ -248,11 +257,10 @@
       display: inline-block;
     }
 
-    /* Hauptlayout: mehr vertikaler Rhythmus */
     .main {
       display: flex;
       flex-direction: column;
-      gap: 3rem;                /* Abstand zwischen Hero & Sektionen */
+      gap: 3rem;
     }
 
     .tagline {
@@ -264,16 +272,15 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
-    /* Hero-Block, damit oben alles zusammengehört */
+    /* Hero: alles untereinander */
     .hero {
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
+      max-width: 720px;
     }
 
-    /* großes Cover zwischen Tagline und H1 */
     .hero-cover {
-      max-width: 720px;
       border-radius: 1.5rem;
       overflow: hidden;
       box-shadow: 0 20px 40px rgba(0,0,0,0.75);
@@ -285,18 +292,18 @@
       height: auto;
     }
 
-    /* H1 – mehr Luft oben/unten */
+    /* H1 über volle Breite – nicht abgeschnitten */
     h1.wave-text {
       font-size: clamp(2.4rem, 5vw + 0.5rem, 3.9rem);
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      margin: 2rem 0 2rem;   /* Abstand zum Cover & Video */
+      margin: 2rem 0 2rem;
       color: #ffffff;
       text-align: left;
       text-shadow:
         0 0 20px rgba(0,0,0,0.9),
         0 0 32px rgba(0,255,235,0.7);
-      display: inline-block;
+      display: block;        /* volle Breite */
       white-space: normal;
       line-height: 1.15;
     }
@@ -343,7 +350,7 @@
       border: 0;
     }
 
-    /* Video im Hero */
+    /* Video UNTER dem Titel */
     .panel-photo {
       border-radius: 1rem;
       overflow: hidden;
@@ -367,7 +374,7 @@
       transform: scale(1.01);
     }
 
-    /* Abschnitts-Cards: mehr Struktur */
+    /* Abschnitts-Cards */
     .section-card {
       max-width: 720px;
       padding: 1.6rem 1.8rem;
@@ -384,7 +391,6 @@
       margin-top: 0.5rem;
     }
 
-    /* H2 + Sterne mit wechselnden Farben */
     h2 {
       margin: 0 0 0.6rem;
       font-size: 1.05rem;
@@ -451,7 +457,7 @@
       100% { transform: translateY(0)    skewX(0deg); }
     }
 
-    /* Social / jetzt streamen */
+    /* Social / jetzt streamen – wieder Font Awesome Icons */
     .social-section {
       margin: 0.4rem 0 0.8rem;
     }
@@ -472,31 +478,24 @@
 
     .social-icon {
       font-size: 1.8rem;
+      color: transparent;
+      -webkit-text-stroke: 1.6px #ffffff;
+      text-stroke: 1.6px #ffffff;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
-      transition: transform 0.2s ease, filter 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        -webkit-text-stroke 0.2s ease,
+        text-stroke 0.2s ease,
+        filter 0.2s ease;
     }
 
     .social-link:hover .social-icon {
       transform: scale(1.15) translateY(-2px);
+      -webkit-text-stroke: 2px #ffffff;
+      text-stroke: 2px #ffffff;
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
     }
 
-    .plain-link {
-      text-decoration: none;
-      color: #ffffff;
-      font-weight: 600;
-      letter-spacing: 0.14em;
-      text-transform: lowercase;
-      text-shadow: 0 0 10px rgba(0,0,0,0.9);
-    }
-
-    .plain-link:hover {
-      text-shadow:
-        0 0 14px rgba(0,0,0,1),
-        0 0 18px rgba(0,255,235,0.9);
-    }
-
-    /* Neon-Button für b3nn3t unten */
     .neon-link {
       display: inline-flex;
       align-items: center;
@@ -603,27 +602,6 @@
         padding: 1.3rem 1.4rem;
       }
     }
-
-    @media (min-width: 900px) {
-      /* Desktop: Hero in zwei Spalten, wirkt entspannter */
-      .hero {
-        flex-direction: row;
-        align-items: flex-start;
-        gap: 2.5rem;
-      }
-
-      .hero-main {
-        flex: 1.2;
-      }
-
-      .hero-media {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1.4rem;
-      }
-    }
   </style>
 </head>
 
@@ -636,78 +614,68 @@
   </div>
 
   <div class="background">
-
-    <!-- Glow-Punkte -->
     <div class="glow-layer" id="glow-layer"></div>
-
-    <!-- Glitch-Layer -->
     <div class="glitch-overlay"></div>
 
     <div class="content">
-
       <header class="header">
         <a class="brand" href="index.html">b3nn3t</a>
       </header>
 
       <main class="main">
 
-        <!-- HERO-BEREICH -->
+        <!-- HERO -->
         <section class="hero" aria-label="ALLES WAS BLEIBT – Hero">
-          <div class="hero-main">
-            <p class="tagline">NEUES RELEASE</p>
+          <p class="tagline">NEUES RELEASE</p>
 
-            <figure class="hero-cover" aria-label="Cover ALLES WAS BLEIBT">
-              <img src="assets/release/alles-was-bleibt-cover.jpg"
-                   alt="Cover des Songs ALLES WAS BLEIBT von b3nn3t">
-            </figure>
+          <figure class="hero-cover" aria-label="Cover ALLES WAS BLEIBT">
+            <img src="assets/release/alles-was-bleibt-cover.jpg"
+                 alt="Cover des Songs ALLES WAS BLEIBT von b3nn3t">
+          </figure>
 
-            <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
-              <span class="wave-word">
-                <span class="wave-letter wave-delay-0">A</span>
-                <span class="wave-letter wave-delay-1">L</span>
-                <span class="wave-letter wave-delay-2">L</span>
-                <span class="wave-letter wave-delay-3">E</span>
-                <span class="wave-letter wave-delay-4">S</span>
-              </span>
-              <span class="wave-space"></span>
-              <span class="wave-word">
-                <span class="wave-letter wave-delay-5">W</span>
-                <span class="wave-letter wave-delay-6">A</span>
-                <span class="wave-letter wave-delay-7">S</span>
-              </span>
-              <span class="wave-space"></span>
-              <span class="wave-word">
-                <span class="wave-letter wave-delay-8">B</span>
-                <span class="wave-letter wave-delay-9">L</span>
-                <span class="wave-letter wave-delay-10">E</span>
-                <span class="wave-letter wave-delay-11">I</span>
-                <span class="wave-letter wave-delay-12">B</span>
-                <span class="wave-letter wave-delay-0">T</span>
-              </span>
-            </h1>
+          <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
+            <span class="wave-word">
+              <span class="wave-letter wave-delay-0">A</span>
+              <span class="wave-letter wave-delay-1">L</span>
+              <span class="wave-letter wave-delay-2">L</span>
+              <span class="wave-letter wave-delay-3">E</span>
+              <span class="wave-letter wave-delay-4">S</span>
+            </span>
+            <span class="wave-space"></span>
+            <span class="wave-word">
+              <span class="wave-letter wave-delay-5">W</span>
+              <span class="wave-letter wave-delay-6">A</span>
+              <span class="wave-letter wave-delay-7">S</span>
+            </span>
+            <span class="wave-space"></span>
+            <span class="wave-word">
+              <span class="wave-letter wave-delay-8">B</span>
+              <span class="wave-letter wave-delay-9">L</span>
+              <span class="wave-letter wave-delay-10">E</span>
+              <span class="wave-letter wave-delay-11">I</span>
+              <span class="wave-letter wave-delay-12">B</span>
+              <span class="wave-letter wave-delay-0">T</span>
+            </span>
+          </h1>
 
-            <!-- SEO-Text: nicht sichtbar -->
-            <p class="visually-hidden">
-              b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
-              loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
-            </p>
-          </div>
+          <p class="visually-hidden">
+            b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
+            loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
+          </p>
 
-          <div class="hero-media">
-            <figure class="panel-photo">
-              <video
-                id="release-video"
-                class="release-video"
-                controls
-                muted
-                playsinline
-                preload="metadata"
-                poster="assets/release/alles-was-bleibt-cover.jpg">
-                <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-                Dein Browser unterstützt dieses Videoformat nicht.
-              </video>
-            </figure>
-          </div>
+          <figure class="panel-photo">
+            <video
+              id="release-video"
+              class="release-video"
+              controls
+              muted
+              playsinline
+              preload="metadata"
+              poster="assets/release/alles-was-bleibt-cover.jpg">
+              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+              Dein Browser unterstützt dieses Videoformat nicht.
+            </video>
+          </figure>
         </section>
 
         <!-- STORY -->
@@ -729,49 +697,49 @@
                  class="social-link"
                  aria-label="MX3 – b3nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">🎵</span>
+                <i class="fa-solid fa-music social-icon"></i>
               </a>
 
               <a href="https://genius.com/artists/B3nn3t"
                  class="social-link"
                  aria-label="Genius – b3nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">✍️</span>
+                <i class="fa-solid fa-pen-nib social-icon"></i>
               </a>
 
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link"
                  aria-label="Spotify – b3nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">🟢</span>
+                <i class="fa-brands fa-spotify social-icon"></i>
               </a>
 
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                  class="social-link"
                  aria-label="Apple Music – b3nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">🍎</span>
+                <i class="fa-brands fa-apple social-icon"></i>
               </a>
 
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
                  class="social-link"
                  aria-label="Instagram – b3nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">📸</span>
+                <i class="fa-brands fa-instagram social-icon"></i>
               </a>
 
               <a href="https://www.youtube.com/@b333nn3t"
                  class="social-link"
                  aria-label="YouTube – @b333nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">▶️</span>
+                <i class="fa-brands fa-youtube social-icon"></i>
               </a>
 
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
                  class="social-link"
                  aria-label="SoundCloud – b3nn3t"
                  target="_blank" rel="noopener">
-                <span class="social-icon">☁️</span>
+                <i class="fa-brands fa-soundcloud social-icon"></i>
               </a>
             </div>
           </div>
@@ -834,18 +802,18 @@
       setInterval(updateCountdown, 1000);
     })();
 
-    // Glow-Dots erzeugen – weniger & etwas kürzer animiert
+    // Glow-Dots erzeugen
     (function () {
       const layer = document.getElementById('glow-layer');
       if (!layer) return;
 
-      const dotCount = 24; // reduziert
+      const dotCount = 24;
 
       for (let i = 0; i < dotCount; i++) {
         const d = document.createElement('div');
         d.className = 'glow-dot';
 
-        const size = 6 + Math.random() * 18; // 6–24px
+        const size = 6 + Math.random() * 18;
         d.style.width = size + 'px';
         d.style.height = size + 'px';
 
@@ -863,7 +831,7 @@
         d.style.top = Math.random() * 100 + '%';
 
         const delay = (Math.random() * 6).toFixed(2);
-        const duration = (5 + Math.random() * 5).toFixed(2); // 5–10s
+        const duration = (5 + Math.random() * 5).toFixed(2);
         d.style.animationDelay = delay + 's';
         d.style.animationDuration = duration + 's';
 
