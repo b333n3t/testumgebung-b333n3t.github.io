@@ -21,26 +21,14 @@
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg">
   <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
   <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „ALLES WAS BLEIBT“ von b3nn3t.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
-
-  <!-- Font Awesome für Social-Logos -->
-  <link
-    rel="preload"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    as="style"
-    onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  </noscript>
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg">
 
   <!-- Strukturierte Daten für das Release -->
   <script type="application/ld+json">
@@ -56,7 +44,7 @@
       "@type": "MusicAlbum",
       "name": "ALLES WAS BLEIBT"
     },
-    "image": "https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg",
+    "image": "https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg",
     "url": "https://www.b3nn3t.com/release-alles-was-bleibt.html"
   }
   </script>
@@ -195,57 +183,6 @@
       mix-blend-mode: screen;
       opacity: 0.28;
       animation: glitchShift 2.4s steps(3, end) infinite;
-    }
-
-    /* ===========================
-       NEON-LINES BACKGROUND
-    ============================ */
-    .neon-lines {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .neon-line {
-      position: absolute;
-      height: 3px;
-      width: 140%;
-      opacity: 0.85;
-      background: linear-gradient(90deg,
-        rgba(255, 0, 200, 0) 0%,
-        rgba(255, 0, 200, 1) 35%,
-        rgba(255, 255, 0, 1) 55%,
-        rgba(0, 255, 255, 1) 75%,
-        rgba(255, 0, 200, 0) 100%
-      );
-      box-shadow:
-        0 0 15px rgba(255,0,255,.9),
-        0 0 25px rgba(255,200,0,.8),
-        0 0 35px rgba(0,255,255,.8);
-      filter: blur(0.5px);
-      animation: neonFlow 8s linear infinite, neonShift 12s ease-in-out infinite;
-    }
-
-    @keyframes neonFlow {
-      0%   { transform: translateX(-30%) translateY(0) }
-      100% { transform: translateX(30%)  translateY(0) }
-    }
-
-    @keyframes neonShift {
-      0%   { transform: translateY(0) }
-      50%  { transform: translateY(18px) }
-      100% { transform: translateY(0) }
-    }
-
-    .neon-line:nth-child(odd) {
-      animation-duration: 10s;
-      animation-direction: alternate-reverse;
-    }
-
-    .neon-line:nth-child(even) {
-      animation-duration: 14s;
     }
 
     @keyframes bgShift {
@@ -515,21 +452,12 @@
 
     .social-icon {
       font-size: 1.8rem;
-      color: transparent;
-      -webkit-text-stroke: 1.6px #ffffff;
-      text-stroke: 1.6px #ffffff;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
-      transition:
-        transform 0.2s ease,
-        -webkit-text-stroke 0.2s ease,
-        text-stroke 0.2s ease,
-        filter 0.2s ease;
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     .social-link:hover .social-icon {
       transform: scale(1.15) translateY(-2px);
-      -webkit-text-stroke: 2px #ffffff;
-      text-stroke: 2px #ffffff;
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
     }
 
@@ -645,8 +573,6 @@
       }
       .social-icon {
         font-size: 1.6rem;
-        -webkit-text-stroke: 1.4px #ffffff;
-        text-stroke: 1.4px #ffffff;
       }
       .hero-cover {
         margin-top: 0.8rem;
@@ -664,16 +590,6 @@
   </div>
 
   <div class="background">
-
-    <!-- Neon-Linien (technisch korrekt im Body) -->
-    <div class="neon-lines">
-      <div class="neon-line" style="top: 10%;"></div>
-      <div class="neon-line" style="top: 25%;"></div>
-      <div class="neon-line" style="top: 40%;"></div>
-      <div class="neon-line" style="top: 55%;"></div>
-      <div class="neon-line" style="top: 70%;"></div>
-      <div class="neon-line" style="top: 85%;"></div>
-    </div>
 
     <!-- Glow-Punkte -->
     <div class="glow-layer" id="glow-layer"></div>
@@ -693,7 +609,7 @@
 
         <!-- großes Coverbild zwischen Tagline und Titel -->
         <figure class="hero-cover" aria-label="Cover ALLES WAS BLEIBT">
-          <img src="assets/releases/alles-was-bleibt/cover.jpg"
+          <img src="assets/release/alles-was-bleibt-cover.jpg"
                alt="Cover des Songs ALLES WAS BLEIBT von b3nn3t">
         </figure>
 
@@ -765,49 +681,49 @@
                  class="social-link"
                  aria-label="MX3 – b3nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-solid fa-music social-icon"></i>
+                <span class="social-icon">🎵</span>
               </a>
 
               <a href="https://genius.com/artists/B3nn3t"
                  class="social-link"
                  aria-label="Genius – b3nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-solid fa-pen-nib social-icon"></i>
+                <span class="social-icon">✍️</span>
               </a>
 
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link"
                  aria-label="Spotify – b3nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-brands fa-spotify social-icon"></i>
+                <span class="social-icon">🟢</span>
               </a>
 
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                  class="social-link"
                  aria-label="Apple Music – b3nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-brands fa-apple social-icon"></i>
+                <span class="social-icon">🍎</span>
               </a>
 
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
                  class="social-link"
                  aria-label="Instagram – b3nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-brands fa-instagram social-icon"></i>
+                <span class="social-icon">📸</span>
               </a>
 
               <a href="https://www.youtube.com/@b333nn3t"
                  class="social-link"
                  aria-label="YouTube – @b333nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-brands fa-youtube social-icon"></i>
+                <span class="social-icon">▶️</span>
               </a>
 
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
                  class="social-link"
                  aria-label="SoundCloud – b3nn3t"
                  target="_blank" rel="noopener">
-                <i class="fa-brands fa-soundcloud social-icon"></i>
+                <span class="social-icon">☁️</span>
               </a>
             </div>
           </div>
@@ -871,7 +787,7 @@
       setInterval(updateCountdown, 1000);
     })();
 
-    // Glow-Dots erzeugen – jetzt weniger & etwas kürzer animiert
+    // Glow-Dots erzeugen – weniger & etwas kürzer animiert
     (function () {
       const layer = document.getElementById('glow-layer');
       if (!layer) return;
