@@ -76,7 +76,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 2.5rem 1.5rem 3rem;
+      padding: 4rem 1.5rem 4rem;   /* mehr Luft oben/unten */
       box-sizing: border-box;
 
       position: relative;
@@ -122,7 +122,7 @@
       mix-blend-mode: multiply;
       filter: blur(6px);
       opacity: 0.65;
-      animation: darkDrift 26s ease-in-out infinite alternate;
+      /* keine Animation mehr -> weniger CLS */
     }
 
     /* Glow-Dots-Layer */
@@ -206,12 +206,6 @@
       100% { transform: translate3d(5%, -3%, 0) scale(1.06); }
     }
 
-    @keyframes darkDrift {
-      0%   { transform: translate3d(0, 0, 0) scale(1.06); opacity: 0.6; }
-      50%  { transform: translate3d(3%, -2%, 0) scale(1.02); opacity: 0.8; }
-      100% { transform: translate3d(-4%, 4%, 0) scale(1.08); opacity: 0.7; }
-    }
-
     @keyframes glitchShift {
       0%   { transform: translate3d(0, 0, 0); opacity: 0.18; }
       10%  { transform: translate3d(4px, -2px, 0); opacity: 0.4; }
@@ -241,17 +235,24 @@
     }
 
     header.header {
-      margin-bottom: 3rem;
+      margin-bottom: 2.5rem;
     }
 
     header.header .brand {
       font-weight: 700;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       color: #000000;
       text-decoration: none;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.04em;
       text-shadow: 0 0 10px rgba(255,255,255,0.95);
       display: inline-block;
+    }
+
+    /* Hauptlayout: mehr vertikaler Rhythmus */
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;                /* Abstand zwischen Hero & Sektionen */
     }
 
     .tagline {
@@ -263,9 +264,15 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
+    /* Hero-Block, damit oben alles zusammengehört */
+    .hero {
+      display: flex;
+      flex-direction: column;
+      gap: 1.8rem;
+    }
+
     /* großes Cover zwischen Tagline und H1 */
     .hero-cover {
-      margin: 1rem 0 1.5rem;
       max-width: 720px;
       border-radius: 1.5rem;
       overflow: hidden;
@@ -278,12 +285,12 @@
       height: auto;
     }
 
-    /* H1 – engeres Letterspacing + automatisch umbrechbar */
+    /* H1 – mehr Luft oben/unten */
     h1.wave-text {
-      font-size: clamp(2.2rem, 5vw + 0.5rem, 3.6rem);
+      font-size: clamp(2.4rem, 5vw + 0.5rem, 3.9rem);
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin: 0 0 0.7rem;
+      letter-spacing: 0.16em;
+      margin: 2rem 0 2rem;   /* Abstand zum Cover & Video */
       color: #ffffff;
       text-align: left;
       text-shadow:
@@ -336,12 +343,12 @@
       border: 0;
     }
 
+    /* Video im Hero */
     .panel-photo {
       border-radius: 1rem;
       overflow: hidden;
       box-shadow: 0 18px 36px rgba(0,0,0,0.7);
-      margin: 0 0 1.8rem;
-      max-width: 520px;
+      max-width: 640px;
       width: 100%;
       background: #000;
     }
@@ -360,15 +367,28 @@
       transform: scale(1.01);
     }
 
-    section {
-      margin-bottom: 2rem;
+    /* Abschnitts-Cards: mehr Struktur */
+    .section-card {
+      max-width: 720px;
+      padding: 1.6rem 1.8rem;
+      border-radius: 1.4rem;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(0, 255, 255, 0.12);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.75),
+        0 0 40px rgba(0, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+    }
+
+    .section-card + .section-card {
+      margin-top: 0.5rem;
     }
 
     /* H2 + Sterne mit wechselnden Farben */
     h2 {
-      margin: 0 0 0.5rem;
-      font-size: 1.1rem;
-      letter-spacing: 0.14em;
+      margin: 0 0 0.6rem;
+      font-size: 1.05rem;
+      letter-spacing: 0.16em;
       text-transform: lowercase;
       color: #ffffff;
       text-shadow: 0 0 10px rgba(0,0,0,0.9);
@@ -410,7 +430,7 @@
       100% { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
     }
 
-    section p {
+    .section-card p {
       margin: 0.2rem 0 0.8rem;
       max-width: 640px;
       line-height: 1.7;
@@ -558,7 +578,8 @@
 
     @media (max-width: 600px) {
       .background {
-        padding-top: 2.2rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
       }
       .awb-countdown {
         top: 0.75rem;
@@ -574,8 +595,33 @@
       .social-icon {
         font-size: 1.6rem;
       }
-      .hero-cover {
-        margin-top: 0.8rem;
+      h1.wave-text {
+        margin: 1.4rem 0 1.6rem;
+        font-size: 2.4rem;
+      }
+      .section-card {
+        padding: 1.3rem 1.4rem;
+      }
+    }
+
+    @media (min-width: 900px) {
+      /* Desktop: Hero in zwei Spalten, wirkt entspannter */
+      .hero {
+        flex-direction: row;
+        align-items: flex-start;
+        gap: 2.5rem;
+      }
+
+      .hero-main {
+        flex: 1.2;
+      }
+
+      .hero-media {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.4rem;
       }
     }
   </style>
@@ -605,65 +651,67 @@
 
       <main class="main">
 
-        <p class="tagline">NEUES RELEASE</p>
+        <!-- HERO-BEREICH -->
+        <section class="hero" aria-label="ALLES WAS BLEIBT – Hero">
+          <div class="hero-main">
+            <p class="tagline">NEUES RELEASE</p>
 
-        <!-- großes Coverbild zwischen Tagline und Titel -->
-        <figure class="hero-cover" aria-label="Cover ALLES WAS BLEIBT">
-          <img src="assets/release/alles-was-bleibt-cover.jpg"
-               alt="Cover des Songs ALLES WAS BLEIBT von b3nn3t">
-        </figure>
+            <figure class="hero-cover" aria-label="Cover ALLES WAS BLEIBT">
+              <img src="assets/release/alles-was-bleibt-cover.jpg"
+                   alt="Cover des Songs ALLES WAS BLEIBT von b3nn3t">
+            </figure>
 
-        <!-- H1 mit Wellen-Wobble -->
-        <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
-          <span class="wave-word">
-            <span class="wave-letter wave-delay-0">A</span>
-            <span class="wave-letter wave-delay-1">L</span>
-            <span class="wave-letter wave-delay-2">L</span>
-            <span class="wave-letter wave-delay-3">E</span>
-            <span class="wave-letter wave-delay-4">S</span>
-          </span>
-          <span class="wave-space"></span>
-          <span class="wave-word">
-            <span class="wave-letter wave-delay-5">W</span>
-            <span class="wave-letter wave-delay-6">A</span>
-            <span class="wave-letter wave-delay-7">S</span>
-          </span>
-          <span class="wave-space"></span>
-          <span class="wave-word">
-            <span class="wave-letter wave-delay-8">B</span>
-            <span class="wave-letter wave-delay-9">L</span>
-            <span class="wave-letter wave-delay-10">E</span>
-            <span class="wave-letter wave-delay-11">I</span>
-            <span class="wave-letter wave-delay-12">B</span>
-            <span class="wave-letter wave-delay-0">T</span>
-          </span>
-        </h1>
+            <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
+              <span class="wave-word">
+                <span class="wave-letter wave-delay-0">A</span>
+                <span class="wave-letter wave-delay-1">L</span>
+                <span class="wave-letter wave-delay-2">L</span>
+                <span class="wave-letter wave-delay-3">E</span>
+                <span class="wave-letter wave-delay-4">S</span>
+              </span>
+              <span class="wave-space"></span>
+              <span class="wave-word">
+                <span class="wave-letter wave-delay-5">W</span>
+                <span class="wave-letter wave-delay-6">A</span>
+                <span class="wave-letter wave-delay-7">S</span>
+              </span>
+              <span class="wave-space"></span>
+              <span class="wave-word">
+                <span class="wave-letter wave-delay-8">B</span>
+                <span class="wave-letter wave-delay-9">L</span>
+                <span class="wave-letter wave-delay-10">E</span>
+                <span class="wave-letter wave-delay-11">I</span>
+                <span class="wave-letter wave-delay-12">B</span>
+                <span class="wave-letter wave-delay-0">T</span>
+              </span>
+            </h1>
 
-        <!-- SEO-Text: nicht sichtbar -->
-        <p class="visually-hidden">
-          b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
-          loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
-        </p>
+            <!-- SEO-Text: nicht sichtbar -->
+            <p class="visually-hidden">
+              b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
+              loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
+            </p>
+          </div>
 
-        <!-- Video -->
-        <section aria-label="Video Preview">
-          <figure class="panel-photo">
-            <video
-              id="release-video"
-              class="release-video"
-              controls
-              muted
-              playsinline
-              preload="metadata"
-              poster="assets/gesehen/B3NN3T-poster.jpg">
-              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-              Dein Browser unterstützt dieses Videoformat nicht.
-            </video>
-          </figure>
+          <div class="hero-media">
+            <figure class="panel-photo">
+              <video
+                id="release-video"
+                class="release-video"
+                controls
+                muted
+                playsinline
+                preload="metadata"
+                poster="assets/release/alles-was-bleibt-cover.jpg">
+                <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+                Dein Browser unterstützt dieses Videoformat nicht.
+              </video>
+            </figure>
+          </div>
         </section>
 
         <!-- STORY -->
-        <section aria-label="Story zum Song" class="wobble-block">
+        <section aria-label="Story zum Song" class="section-card wobble-block">
           <h2 class="star-1">story zum song</h2>
           <p>
             Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
@@ -672,7 +720,7 @@
         </section>
 
         <!-- JETZT STREAMEN -->
-        <section aria-label="Streaming" class="wobble-block">
+        <section aria-label="Streaming" class="section-card wobble-block">
           <h2 class="star-2">jetzt streamen</h2>
 
           <div class="social-section" aria-label="Social Media Links">
@@ -734,7 +782,7 @@
         </section>
 
         <!-- MEHR VON B3NN3T -->
-        <section aria-label="Mehr von b3nn3t" class="wobble-block">
+        <section aria-label="Mehr von b3nn3t" class="section-card wobble-block">
           <h2 class="star-3">mehr von b3nn3t</h2>
           <p>
             Mehr Musik. Mehr Kunst. Mehr b3nn3t.
@@ -743,7 +791,6 @@
           <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
             <span class="dot"></span> b3nn3t <span class="dot"></span>
           </a>
-
         </section>
 
       </main>
@@ -792,7 +839,7 @@
       const layer = document.getElementById('glow-layer');
       if (!layer) return;
 
-      const dotCount = 24; // vorher 40
+      const dotCount = 24; // reduziert
 
       for (let i = 0; i < dotCount; i++) {
         const d = document.createElement('div');
