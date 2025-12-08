@@ -103,11 +103,6 @@
       z-index: 1;
     }
 
-    .background > .content {
-      position: relative;
-      z-index: 1;
-    }
-
     .content {
       width: 100%;
       max-width: 1040px;
@@ -115,11 +110,40 @@
       position: relative;
     }
 
-    header.header {
-      margin-bottom: 2.5rem;
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
     }
 
-    header.header .brand {
+    /* ===========================
+       KACHELN
+    ============================ */
+    .section-card {
+      max-width: 720px;
+      padding: 1.6rem 1.8rem;
+      border-radius: 1.4rem;
+      background: rgba(0,0,0,0.7);
+      border: 1px solid rgba(0, 255, 255, 0.25);
+      box-shadow:
+        0 18px 40px rgba(0,0,0,0.85),
+        0 0 40px rgba(0, 255, 255, 0.25);
+      backdrop-filter: blur(16px);
+    }
+
+    .section-card + .section-card {
+      margin-top: 0.5rem;
+    }
+
+    /* TOP-KACHEL: Logo + Countdown */
+    .section-card--top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
       font-weight: 700;
       font-size: 1.3rem;
       color: #000000;
@@ -130,78 +154,62 @@
       background: rgba(255,255,255,0.9);
       padding: 0.2rem 0.8rem;
       border-radius: 999px;
+      white-space: nowrap;
     }
 
-    .main {
+    .awb-countdown {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.65);
+      border: 1px solid rgba(0,200,255,0.9);
+      box-shadow:
+        0 0 12px rgba(0,200,255,0.7),
+        0 0 30px rgba(0,80,255,0.7);
+      font-family: inherit;
+      margin-left: auto;
+    }
+
+    .awb-countdown .label {
+      text-transform: uppercase;
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      opacity: 0.8;
+      color: #ffffff;
+    }
+
+    .awb-countdown #awb-countdown-timer {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0,0,0,0.9);
+      white-space: nowrap;
+    }
+
+    /* TAGLINE + VIDEO-KACHEL */
+    .hero-card {
       display: flex;
       flex-direction: column;
-      gap: 3rem;
+      gap: 1.2rem;
     }
 
     .tagline {
       text-transform: uppercase;
       letter-spacing: 0.2em;
       font-size: 0.8rem;
-      margin: 0 0 0.6rem;
-      color: #000000;     /* schwarz */
-      text-shadow: none;  /* kein Glow */
-    }
-
-    .hero {
-      display: flex;
-      flex-direction: column;
-      gap: 1.8rem;
-      max-width: 720px;
-    }
-
-    /* Songtitel mit SD-TV / CRT-Effekt */
-    h1.wave-text {
-      font-size: clamp(2.4rem, 5vw + 0.5rem, 3.9rem);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      margin: 2rem 0 2rem;
-      color: #000000;     /* Hauptschrift schwarz */
-      text-align: left;
-      line-height: 1.15;
-
-      /* leichte Unschärfe wie SD-TV */
-      filter: blur(0.6px);
-
-      /* CRT chromatic fringing + ganz dezente „Halos“ */
-      text-shadow:
-        1px 0px 0 rgba(255,255,255,0.18),
-        -1px 0px 0 rgba(255,255,255,0.12),
-        1.5px 0px 1px rgba(255,60,60,0.18),
-        -1.5px 0px 1px rgba(60,140,255,0.18),
-        0px 1px 0 rgba(255,255,255,0.08),
-        0px -1px 0 rgba(255,255,255,0.08);
-    }
-
-    .wave-word { display: inline-block; }
-    .wave-space { display: inline-block; width: 0.45em; }
-
-    .wave-letter {
-      display: inline-block;
-      /* kein Wobble/keine Animation mehr */
-    }
-
-    .visually-hidden {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0,0,0,0);
-      white-space: nowrap;
-      border: 0;
+      margin: 0;
+      color: #ffffff;
+      opacity: 0.9;
     }
 
     .panel-photo {
-      border-radius: 1.5rem;
+      border-radius: 1.2rem;
       overflow: hidden;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.85);
-      max-width: 720px;
+      box-shadow: 0 14px 28px rgba(0,0,0,0.8);
+      max-width: 100%;
       width: 100%;
       background: #000;
     }
@@ -220,22 +228,24 @@
       transform: scale(1.01);
     }
 
-    .section-card {
-      max-width: 720px;
-      padding: 1.6rem 1.8rem;
-      border-radius: 1.4rem;
-      background: rgba(0,0,0,0.7);
-      border: 1px solid rgba(0, 255, 255, 0.25);
-      box-shadow:
-        0 18px 40px rgba(0,0,0,0.85),
-        0 0 40px rgba(0, 255, 255, 0.25);
-      backdrop-filter: blur(16px);
+    /* SONGTITEL-KACHEL */
+    .title-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .section-card + .section-card {
-      margin-top: 0.5rem;
+    .song-title {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-size: clamp(1.4rem, 3vw, 2rem); /* so, dass es einzeilig in die Kachel passt */
+      color: #ffffff;
+      text-align: center;
+      white-space: nowrap;
     }
 
+    /* Übrige Kacheln */
     h2 {
       margin: 0 0 0.6rem;
       font-size: 1.05rem;
@@ -344,39 +354,16 @@
         0 0 60px rgba(0, 120, 255, 1);
     }
 
-    .awb-countdown {
-      position: fixed;
-      top: 1rem;
-      right: 1rem;
-      z-index: 2;
-      padding: 0.6rem 1.1rem;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.8);
-      border: 1px solid rgba(0,200,255,0.9);
-      box-shadow:
-        0 0 22px rgba(0,200,255,0.95),
-        0 0 50px rgba(0,80,255,0.95);
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      backdrop-filter: blur(10px);
-      font-family: inherit;
-    }
-
-    .awb-countdown .label {
-      text-transform: uppercase;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      opacity: 0.8;
-      color: #bdf7ff;
-    }
-
-    .awb-countdown #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(0,0,0,0.9);
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
     }
 
     @media (max-width: 600px) {
@@ -384,26 +371,19 @@
         padding-top: 3rem;
         padding-bottom: 3rem;
       }
-      .awb-countdown {
-        top: 0.75rem;
-        right: 0.7rem;
-        padding: 0.45rem 0.9rem;
-      }
-      .awb-countdown .label {
-        display: none;
-      }
-      .awb-countdown #awb-countdown-timer {
-        font-size: 0.85rem;
-      }
-      .social-icon {
-        font-size: 1.6rem;
-      }
-      h1.wave-text {
-        margin: 1.4rem 0 1.6rem;
-        font-size: 2.4rem;
-      }
       .section-card {
         padding: 1.3rem 1.4rem;
+      }
+      .section-card--top {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .awb-countdown {
+        margin-left: 0;
+      }
+      .song-title {
+        white-space: normal;
+        text-align: left;
       }
     }
   </style>
@@ -414,22 +394,22 @@
   <!-- CANVAS-BACKGROUND -->
   <canvas id="noise-canvas" aria-hidden="true"></canvas>
 
-  <!-- COUNTDOWN -->
-  <div class="awb-countdown" aria-label="Release Countdown">
-    <span class="label">release in</span>
-    <span id="awb-countdown-timer">--:--:--</span>
-  </div>
-
   <div class="background">
     <div class="content">
-      <header class="header">
-        <a class="brand" href="index.html">b3nn3t</a>
-      </header>
-
       <main class="main">
 
-        <!-- HERO -->
-        <section class="hero" aria-label="ALLES WAS BLEIBT – Hero">
+        <!-- KACHEL 1: Logo + Countdown -->
+        <section class="section-card section-card--top" aria-label="Brand und Countdown">
+          <a class="brand" href="index.html">b3nn3t</a>
+
+          <div class="awb-countdown" aria-label="Release Countdown">
+            <span class="label">release in</span>
+            <span id="awb-countdown-timer">--:--:--</span>
+          </div>
+        </section>
+
+        <!-- KACHEL 2: Tagline + Video -->
+        <section class="section-card hero-card" aria-label="ALLES WAS BLEIBT – Video">
           <p class="tagline">NEUES RELEASE</p>
 
           <figure class="panel-photo">
@@ -446,35 +426,15 @@
             </video>
           </figure>
 
-          <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
-            <span class="wave-word">
-              <span class="wave-letter">A</span>
-              <span class="wave-letter">L</span>
-              <span class="wave-letter">L</span>
-              <span class="wave-letter">E</span>
-              <span class="wave-letter">S</span>
-            </span>
-            <span class="wave-space"></span>
-            <span class="wave-word">
-              <span class="wave-letter">W</span>
-              <span class="wave-letter">A</span>
-              <span class="wave-letter">S</span>
-            </span>
-            <span class="wave-space"></span>
-            <span class="wave-word">
-              <span class="wave-letter">B</span>
-              <span class="wave-letter">L</span>
-              <span class="wave-letter">E</span>
-              <span class="wave-letter">I</span>
-              <span class="wave-letter">B</span>
-              <span class="wave-letter">T</span>
-            </span>
-          </h1>
-
           <p class="visually-hidden">
             b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
             loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
           </p>
+        </section>
+
+        <!-- KACHEL 3: Songtitel -->
+        <section class="section-card title-card" aria-label="Songtitel">
+          <h1 class="song-title">ALLES WAS BLEIBT</h1>
         </section>
 
         <!-- STORY -->
@@ -490,21 +450,6 @@
         <section aria-label="Streaming" class="section-card">
           <h2 class="star-2">jetzt streamen</h2>
 
-          <div class="social-section" aria-label="Social Media Links">
-            <div class="social-icons">
-              <a href="https://mx3.ch/b3nn3t"
-                 class="social-link"
-                 aria-label="MX3 – b3nn3t"
-                 target="_blank" rel="noopener">
-                <i class="fa-solid fa-music social-icon"></i>
-              </a>
-
-              <a href="https://genius.com/artists/B3nn3t"
-                 class="social-link"
-                 aria-label="Genius – b3nn3t"
-                 target="_blank" rel="noopener">
-                <i class="fa-solid fa-pen-nib social-icon"></i>
-              </a>
 
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link"
@@ -618,8 +563,8 @@
       window.addEventListener('resize', resize);
       resize();
 
-      var pixelSize = 24; // Größe der „Pixelblöcke“
-      var fps = 10;       // Flimmer-Geschwindigkeit
+      var pixelSize = 40; // Größe der „Pixelblöcke“
+      var fps = 5;       // Flimmer-Geschwindigkeit
 
       function drawFrame() {
         var w = canvas.width;
@@ -653,7 +598,6 @@
       }
 
       drawFrame(); // erste Frame
-
       setInterval(drawFrame, 1000 / fps);
     })();
   </script>
