@@ -62,7 +62,6 @@
     :root {
       --awb-neon-blue: #00e6ff;
       --awb-text-main: #fdfdfd;
-      --wobble-speed: 2.4s;
     }
 
     html, body {
@@ -72,26 +71,26 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: #000000; /* falls Canvas nicht rendert */
+      background: #000000; /* falls Canvas gar nicht geht */
     }
 
     /* ===========================
-       CANVAS-BACKGROUND
+       CANVAS-BACKGROUND (einfach!)
     ============================ */
     #noise-canvas {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;            /* hinter allem Content */
+      z-index: 0;            /* unter dem Content, aber über body-hintergrund */
       display: block;
       pointer-events: none;
+      background: #111111;   /* Debug: sollte NICHT schwarz sein, wenn Canvas da ist */
     }
 
     /* ===========================
        LAYOUT / TYPO
     ============================ */
-
     .background {
       min-height: 100vh;
       width: 100%;
@@ -101,13 +100,13 @@
       padding: 4rem 1.5rem 4rem;
       box-sizing: border-box;
       position: relative;
-      /* kein eigener Hintergrund – Canvas soll sichtbar sein */
-      background: transparent;
+      background: transparent; /* Canvas soll durchscheinen */
+      z-index: 1;
     }
 
     .background > .content {
       position: relative;
-      z-index: 1; /* über dem Canvas */
+      z-index: 1;
     }
 
     .content {
@@ -176,8 +175,7 @@
 
     .wave-letter {
       display: inline-block;
-      /* Wobble AUS */
-      animation: none !important;
+      animation: none !important; /* kein wobbeln */
     }
 
     .visually-hidden {
@@ -354,7 +352,7 @@
       position: fixed;
       top: 1rem;
       right: 1rem;
-      z-index: 30;
+      z-index: 2;
       padding: 0.6rem 1.1rem;
       border-radius: 999px;
       background: rgba(0,0,0,0.8);
@@ -597,7 +595,7 @@
         const ss = String(secs).padStart(2, "0");
 
         if (days > 0) {
-          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
+          el.textContent = days + "d " + hh + ":" + mm ":" + ss;
         } else {
           el.textContent = hh + ":" + mm + ":" + ss;
         }
@@ -608,66 +606,59 @@
     })();
   </script>
 
-  <!-- CANVAS-NOISE SCRIPT -->
+  <!-- SUPER-EINFACHES CANVAS-NOISE -->
   <script>
     (function () {
-      const canvas = document.getElementById('noise-canvas');
+      var canvas = document.getElementById('noise-canvas');
       if (!canvas) return;
-      const ctx = canvas.getContext('2d');
-
-      const pixelSize = 24;   // Größe der „Pixelblocks“
-      const fps = 10;         // Flimmer-Geschwindigkeit
-      const palette = [
-        [255, 255, 255],
-        [250, 250, 250],
-        [255, 0, 170],
-        [0, 255, 210],
-        [255, 255, 0],
-        [0, 120, 255],
-        [0, 0, 0]
-      ];
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
       function resize() {
-        const dpr = window.devicePixelRatio || 1;
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        canvas.style.width = w + 'px';
-        canvas.style.height = h + 'px';
-        canvas.width = w * dpr;
-        canvas.height = h * dpr;
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
       }
 
       window.addEventListener('resize', resize);
       resize();
 
-      function drawFrame() {
-        const width = canvas.width / (window.devicePixelRatio || 1);
-        const height = canvas.height / (window.devicePixelRatio || 1);
-        const cols = Math.ceil(width / pixelSize);
-        const rows = Math.ceil(height / pixelSize);
+      var pixelSize = 24; // „Pixel“-Größe
+      var fps = 10;       // Flimmergeschwindigkeit
 
-        for (let y = 0; y < rows; y++) {
-          for (let x = 0; x < cols; x++) {
-            const [r, g, b] = palette[(Math.random() * palette.length) | 0];
-            ctx.fillStyle = `rgb(${r},${g},${b})`;
+      function drawFrame() {
+        var w = canvas.width;
+        var h = canvas.height;
+        var cols = Math.ceil(w / pixelSize);
+        var rows = Math.ceil(h / pixelSize);
+
+        for (var y = 0; y < rows; y++) {
+          for (var x = 0; x < cols; x++) {
+            // Graustufen + ein bisschen Farbe
+            var r = Math.floor(200 + Math.random() * 55);
+            var g = r + Math.floor(Math.random() * 40 - 20);
+            var b = r + Math.floor(Math.random() * 40 - 20);
+
+            // ab und zu bunte Pixel
+            if (Math.random() < 0.08) {
+              var colors = [
+                [255, 0, 170],
+                [0, 255, 210],
+                [255, 255, 0],
+                [0, 120, 255]
+              ];
+              var c = colors[(Math.random() * colors.length) | 0];
+              r = c[0]; g = c[1]; b = c[2];
+            }
+
+            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
             ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
           }
         }
       }
 
-      let lastTime = 0;
-      const frameDuration = 1000 / fps;
+      drawFrame(); // erstes Bild
 
-      function loop(timestamp) {
-        if (timestamp - lastTime >= frameDuration) {
-          drawFrame();
-          lastTime = timestamp;
-        }
-        requestAnimationFrame(loop);
-      }
-
-      requestAnimationFrame(loop);
+      setInterval(drawFrame, 1000 / fps);
     })();
   </script>
 
