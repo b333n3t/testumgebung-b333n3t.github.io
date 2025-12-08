@@ -22,7 +22,7 @@
   <meta property="og:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -63,7 +63,7 @@
       --awb-neon-blue: #00e6ff;
       --awb-text-main: #fdfdfd;
       --wobble-speed: 2.4s;
-      --pixel-size: 32px; /* HIER stellst du die „Pixelgröße“ ein */
+      --noise-size: 6px; /* „Pixel“-Größe des TV-Rauschens */
     }
 
     html, body {
@@ -73,12 +73,12 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: #050014;
+      background: #000; /* Fallback */
     }
 
     /* ===========================
-       PSYCHEDELISCHER PIXEL-BG
-       (nur CSS, keine Bilder, kein JS)
+       TV-STATIC / NOISE BACKGROUND
+       (nur CSS, animiert)
     ============================ */
     .background {
       min-height: 100vh;
@@ -91,25 +91,56 @@
       position: relative;
       overflow: hidden;
 
-      /* grobe „Pixel“-Kacheln */
       background-image:
+        /* helle/bunte „Körner“ */
         repeating-linear-gradient(
-          45deg,
-          #ff00aa 0,
-          #ff00aa calc(var(--pixel-size) / 2),
-          #00ffd5 calc(var(--pixel-size) / 2),
-          #00ffd5 var(--pixel-size)
+          90deg,
+          rgba(255,255,255,0.9) 0,
+          rgba(255,255,255,0.9) calc(var(--noise-size)/2),
+          rgba(255,0,200,0.9)   calc(var(--noise-size)/2),
+          rgba(255,0,200,0.9)   var(--noise-size)
         ),
         repeating-linear-gradient(
-          -45deg,
-          #ffff00 0,
-          #ffff00 calc(var(--pixel-size) / 2),
-          #0040ff calc(var(--pixel-size) / 2),
-          #0040ff var(--pixel-size)
+          0deg,
+          rgba(0,255,255,0.9) 0,
+          rgba(0,255,255,0.9) calc(var(--noise-size)/2),
+          rgba(255,255,0,0.9)  calc(var(--noise-size)/2),
+          rgba(255,255,0,0.9)  var(--noise-size)
+        ),
+        repeating-linear-gradient(
+          45deg,
+          rgba(0,0,0,0.9) 0,
+          rgba(0,0,0,0.9) calc(var(--noise-size)*1.5),
+          rgba(0,0,0,0.3) calc(var(--noise-size)*1.5),
+          rgba(0,0,0,0.3) calc(var(--noise-size)*2.2)
         );
-      background-size: var(--pixel-size) var(--pixel-size);
-      background-blend-mode: screen;
-      image-rendering: pixelated;
+
+      background-size:
+        var(--noise-size) var(--noise-size),
+        calc(var(--noise-size)*1.1) calc(var(--noise-size)*1.1),
+        calc(var(--noise-size)*2.4) calc(var(--noise-size)*2.4);
+
+      background-blend-mode: screen, screen, multiply;
+
+      animation: tv-static 0.3s steps(2, end) infinite;
+    }
+
+    @keyframes tv-static {
+      0% {
+        background-position: 0 0, 0 0, 0 0;
+      }
+      25% {
+        background-position: 10px -5px, -8px 6px, 4px -12px;
+      }
+      50% {
+        background-position: -12px 12px, 6px -10px, -6px 8px;
+      }
+      75% {
+        background-position: 4px 8px, -14px -6px, 10px 4px;
+      }
+      100% {
+        background-position: 0 0, 0 0, 0 0;
+      }
     }
 
     .background > .content {
@@ -136,7 +167,7 @@
       letter-spacing: 0.04em;
       text-shadow: 0 0 10px rgba(255,255,255,0.95);
       display: inline-block;
-      background: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.9);
       padding: 0.2rem 0.8rem;
       border-radius: 999px;
     }
