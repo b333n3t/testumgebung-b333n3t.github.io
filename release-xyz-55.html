@@ -276,29 +276,11 @@
       font-size: 1.2rem;
     }
 
-    h2.star-1::before { animation: starGlowA 4.2s linear infinite; }
-    h2.star-2::before { animation: starGlowB 4.2s linear infinite; }
-    h2.star-3::before { animation: starGlowC 4.2s linear infinite; }
-
-    @keyframes starGlowA {
-      0%   { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
-      33%  { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
-      66%  { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
-      100% { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
-    }
-
-    @keyframes starGlowB {
-      0%   { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
-      33%  { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
-      66%  { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
-      100% { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
-    }
-
-    @keyframes starGlowC {
-      0%   { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
-      33%  { color: #00f6ff; text-shadow: 0 0 10px #00f6ff, 0 0 22px #00f6ff; }
-      66%  { color: #ff6bff; text-shadow: 0 0 10px #ff6bff, 0 0 22px #ff6bff; }
-      100% { color: #ffff6b; text-shadow: 0 0 10px #ffff6b, 0 0 22px #ffff6b; }
+    /* Glows und Wobble deaktivieren, damit nichts stört */
+    h2.star-1::before,
+    h2.star-2::before,
+    h2.star-3::before {
+      animation: none;
     }
 
     .section-card p {
@@ -309,17 +291,8 @@
     }
 
     .wobble-block {
-      animation: wobbleBlock 5s ease-in-out infinite;
+      animation: none;
       transform-origin: center left;
-    }
-
-    @keyframes wobbleBlock {
-      0%   { transform: translateY(0) skewX(0deg); }
-      20%  { transform: translateY(-3px) skewX(-0.6deg); }
-      40%  { transform: translateY(2px)  skewX(0.4deg); }
-      60%  { transform: translateY(-1px) skewX(-0.3deg); }
-      80%  { transform: translateY(1px)  skewX(0.3deg); }
-      100% { transform: translateY(0)    skewX(0deg); }
     }
 
     /* Social / jetzt streamen */
@@ -685,7 +658,7 @@
          PIXEL SETTINGS
       ======================= */
 
-      const pixelSize = 20; // große, sichtbare Pixel
+      const pixelSize = 32; // noch größere, klar sichtbare Pixel
 
       // Neon / psychedelische Farbpalette
       const colors = [
@@ -716,9 +689,13 @@
             const variation = 45;
             const boost = 30;
 
-            const r = Math.min(255, Math.max(0, rBase + boost + (Math.random() * variation - variation / 2)));
-            const g = Math.min(255, Math.max(0, gBase + boost + (Math.random() * variation - variation / 2)));
-            const b = Math.min(255, Math.max(0, bBase + boost + (Math.random() * variation - variation / 2)));
+            let r = rBase + boost + (Math.random() * variation - variation / 2);
+            let g = gBase + boost + (Math.random() * variation - variation / 2);
+            let b = bBase + boost + (Math.random() * variation - variation / 2);
+
+            r = Math.min(255, Math.max(0, r));
+            g = Math.min(255, Math.max(0, g));
+            b = Math.min(255, Math.max(0, b));
 
             ctx.fillStyle = `rgb(${r},${g},${b})`;
             ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
@@ -742,13 +719,12 @@
         requestAnimationFrame(animate);
       }
 
-      // Reduced-Motion respektieren
       const prefersReducedMotion =
         window.matchMedia &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       if (prefersReducedMotion) {
-        drawFrame(); // nur statischer Frame
+        drawFrame(); // statisch
       } else {
         requestAnimationFrame(animate);
       }
