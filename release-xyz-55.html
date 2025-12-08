@@ -80,50 +80,59 @@
        TV-STATIC / NOISE BACKGROUND
        (nur CSS, animiert)
     ============================ */
-    .background {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 4rem 1.5rem 4rem;
-      box-sizing: border-box;
-      position: relative;
-      overflow: hidden;
+.background {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 1.5rem;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
 
-      background-image:
-        /* helle/bunte „Körner“ */
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,0.9) 0,
-          rgba(255,255,255,0.9) calc(var(--noise-size)/2),
-          rgba(255,0,200,0.9)   calc(var(--noise-size)/2),
-          rgba(255,0,200,0.9)   var(--noise-size)
-        ),
-        repeating-linear-gradient(
-          0deg,
-          rgba(0,255,255,0.9) 0,
-          rgba(0,255,255,0.9) calc(var(--noise-size)/2),
-          rgba(255,255,0,0.9)  calc(var(--noise-size)/2),
-          rgba(255,255,0,0.9)  var(--noise-size)
-        ),
-        repeating-linear-gradient(
-          45deg,
-          rgba(0,0,0,0.9) 0,
-          rgba(0,0,0,0.9) calc(var(--noise-size)*1.5),
-          rgba(0,0,0,0.3) calc(var(--noise-size)*1.5),
-          rgba(0,0,0,0.3) calc(var(--noise-size)*2.2)
-        );
+  /* Grobe Pixelkörner */
+  --p: 28px; /* <<< HIER ÄNDERST DU DIE PIXELGRÖSSE */
 
-      background-size:
-        var(--noise-size) var(--noise-size),
-        calc(var(--noise-size)*1.1) calc(var(--noise-size)*1.1),
-        calc(var(--noise-size)*2.4) calc(var(--noise-size)*2.4);
+  background-image:
+      repeating-linear-gradient(90deg,
+        #ff00aa 0, #ff00aa var(--p),
+        #00ffd5 var(--p), #00ffd5 calc(var(--p) * 2)
+      ),
+      repeating-linear-gradient(0deg,
+        #ffff00 0, #ffff00 var(--p),
+        #0040ff var(--p), #0040ff calc(var(--p) * 2)
+      ),
+      repeating-linear-gradient(135deg,
+        rgba(0,0,0,0.6) 0, rgba(0,0,0,0.6) calc(var(--p) * 2),
+        rgba(0,0,0,0.2) calc(var(--p) * 2), rgba(0,0,0,0.2) calc(var(--p) * 3.2)
+      );
 
-      background-blend-mode: screen, screen, multiply;
+  background-size:
+    calc(var(--p) * 2) calc(var(--p) * 2),
+    calc(var(--p) * 2) calc(var(--p) * 2),
+    calc(var(--p) * 3) calc(var(--p) * 3);
 
-      animation: tv-static 0.3s steps(2, end) infinite;
-    }
+  background-blend-mode: screen, screen, multiply;
+
+  animation: pixelNoise 0.25s steps(2, end) infinite;
+}
+
+@keyframes pixelNoise {
+  0% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  50% {
+    background-position:
+      calc(var(--p) / 2) calc(var(--p) / -2),
+      calc(var(--p) / -3) calc(var(--p) / 3),
+      calc(var(--p)) calc(var(--p) / -1.5);
+  }
+  100% {
+    background-position: 0 0, 0 0, 0 0;
+  }
+}
+
 
     @keyframes tv-static {
       0% {
