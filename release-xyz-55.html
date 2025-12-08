@@ -63,6 +63,7 @@
       --awb-neon-blue: #00e6ff;
       --awb-text-main: #fdfdfd;
       --wobble-speed: 2.4s;
+      --pixel-size: 32px; /* HIER stellst du die „Pixelgröße“ ein */
     }
 
     html, body {
@@ -76,8 +77,8 @@
     }
 
     /* ===========================
-       PSYCHEDELIC BACKGROUND (CSS)
-       – kein Canvas, keine JS-Animation
+       PSYCHEDELISCHER PIXEL-BG
+       (nur CSS, keine Bilder, kein JS)
     ============================ */
     .background {
       min-height: 100vh;
@@ -90,14 +91,25 @@
       position: relative;
       overflow: hidden;
 
-      /* statischer, wilder Verlauf */
-      background:
-        radial-gradient(circle at 40% 20%, #ffff8b 0%, #ffe600 22%, transparent 55%),
-        radial-gradient(circle at 8% 85%, #ff6bff 0%, transparent 60%),
-        radial-gradient(circle at 92% 15%, #00f6ff 0%, transparent 55%),
-        radial-gradient(circle at 15% 75%, #ff9af5 0%, transparent 55%),
-        linear-gradient(135deg, #4300a8, #12003a, #001c40);
-      background-size: 200% 200%;
+      /* grobe „Pixel“-Kacheln */
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          #ff00aa 0,
+          #ff00aa calc(var(--pixel-size) / 2),
+          #00ffd5 calc(var(--pixel-size) / 2),
+          #00ffd5 var(--pixel-size)
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          #ffff00 0,
+          #ffff00 calc(var(--pixel-size) / 2),
+          #0040ff calc(var(--pixel-size) / 2),
+          #0040ff var(--pixel-size)
+        );
+      background-size: var(--pixel-size) var(--pixel-size);
+      background-blend-mode: screen;
+      image-rendering: pixelated;
     }
 
     .background > .content {
@@ -144,7 +156,6 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
-    /* Hero */
     .hero {
       display: flex;
       flex-direction: column;
@@ -152,7 +163,6 @@
       max-width: 720px;
     }
 
-    /* H1 über volle Breite */
     h1.wave-text {
       font-size: clamp(2.4rem, 5vw + 0.5rem, 3.9rem);
       text-transform: uppercase;
@@ -173,7 +183,7 @@
 
     .wave-letter {
       display: inline-block;
-      /* Wobble AUS: keine Animation mehr */
+      /* Wobble AUS */
       animation: none !important;
     }
 
@@ -189,7 +199,6 @@
       border: 0;
     }
 
-    /* Video */
     .panel-photo {
       border-radius: 1.5rem;
       overflow: hidden;
@@ -213,7 +222,6 @@
       transform: scale(1.01);
     }
 
-    /* Cards */
     .section-card {
       max-width: 720px;
       padding: 1.6rem 1.8rem;
@@ -250,7 +258,7 @@
       font-size: 1.2rem;
     }
 
-    /* Glows/Wobble aus Performance-Gründen AUS */
+    /* Glows/Wobble aus */
     h2.star-1::before,
     h2.star-2::before,
     h2.star-3::before {
@@ -269,7 +277,6 @@
       transform-origin: center left;
     }
 
-    /* Social / jetzt streamen */
     .social-section {
       margin: 0.4rem 0 0.8rem;
     }
@@ -351,7 +358,6 @@
         0 0 60px rgba(0, 120, 255, 1);
     }
 
-    /* Countdown */
     .awb-countdown {
       position: fixed;
       top: 1rem;
