@@ -6,12 +6,10 @@
 
   <title>b3nn3t – „ALLES WAS BLEIBT“ | Neues Release</title>
   <meta name="description" content="„ALLES WAS BLEIBT“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
-
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
   <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
 
   <!-- Open Graph -->
@@ -75,7 +73,7 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: #000; /* Fallback */
+      background: #e5e5e5; /* Fallback, wenn Canvas nicht zeichnet */
     }
 
     /* ===========================
@@ -87,14 +85,11 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      display: block;
       image-rendering: pixelated;
       pointer-events: none;
+      display: block;
     }
 
-    /* ===========================
-       LAYOUT
-    ============================ */
     .page-wrap {
       min-height: 100vh;
       width: 100%;
@@ -111,33 +106,13 @@
       position: relative;
     }
 
-    header.header {
-      margin-bottom: 1.5rem;
-    }
-
-    .brand {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #000;
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      background: rgba(255,255,255,0.9);
-      padding: 0.25rem 0.9rem;
-      border-radius: 999px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-    }
-
     main.main {
       display: flex;
       flex-direction: column;
       gap: 1.8rem;
     }
 
-    /* Ein gemeinsamer Card-Style für ALLES */
+    /* Gemeinsamer Card-Style */
     .section-card {
       width: 100%;
       max-width: var(--card-max-width);
@@ -161,7 +136,6 @@
       position: relative;
       padding-left: 1.8rem;
     }
-
     .section-card h2::before {
       content: "✶";
       position: absolute;
@@ -177,32 +151,55 @@
       max-width: 60rem;
     }
 
-    /* COUNTDOWN-KACHEL */
+    /* ===========================
+       TOP-KACHEL: BRAND + COUNTDOWN
+    ============================ */
     .section-countdown {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: baseline;
-      gap: 1rem;
+      gap: 1.5rem;
       padding: 1rem 1.5rem;
     }
-    .section-countdown .label {
+
+    .brand-pill {
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+      color: #000;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.95);
+      padding: 0.25rem 0.9rem;
+      border-radius: 999px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      white-space: nowrap;
+    }
+
+    .count-label {
+      flex: 1;
+      text-align: center;
       text-transform: uppercase;
       font-size: 0.75rem;
       letter-spacing: 0.18em;
       opacity: 0.85;
       color: #dff9ff;
+      white-space: nowrap;
     }
-    .section-countdown #awb-countdown-timer {
+
+    #awb-countdown-timer {
       font-variant-numeric: tabular-nums;
       font-size: 0.98rem;
       font-weight: 700;
       color: #ffffff;
+      white-space: nowrap;
     }
 
-    /* VIDEO-KACHEL */
-    .section-video {
-      padding: 1.6rem;
-    }
+    /* VIDEO */
+    .section-video { padding: 1.6rem; }
     .video-inner {
       border-radius: calc(var(--card-radius) - 6px);
       overflow: hidden;
@@ -216,10 +213,8 @@
       background: #000;
     }
 
-    /* SONGTITEL-KACHEL */
-    .section-title {
-      text-align: center;
-    }
+    /* SONGTITEL */
+    .section-title { text-align: center; }
     .section-title h1 {
       margin: 0;
       text-transform: uppercase;
@@ -234,13 +229,11 @@
     }
 
     /* STREAMING-ICONS */
-    .social-section {
-      margin: 0.4rem 0 0.8rem;
-    }
+    .social-section { margin: 0.4rem 0 0.8rem; }
     .social-icons {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.6rem; /* mehr Abstand */
+      gap: 1.6rem;
       align-items: center;
     }
     .social-link {
@@ -268,7 +261,6 @@
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
     }
 
-    /* Mehr von b3nn3t – Button */
     .neon-link {
       display: inline-flex;
       align-items: center;
@@ -297,48 +289,43 @@
         0 14px 32px rgba(0,0,0,0.95);
     }
 
-    /* RESPONSIVE */
     @media (max-width: 768px) {
-      .page-wrap {
-        padding: 3rem 1rem 3rem;
-      }
-      .section-card {
-        padding: 1.4rem 1.3rem;
-      }
-      .section-video {
-        padding: 1.2rem;
-      }
+      .page-wrap { padding: 3rem 1rem 3rem; }
+      .section-card { padding: 1.4rem 1.3rem; }
+      .section-video { padding: 1.2rem; }
+
       .section-title h1 {
         letter-spacing: 0.24em;
         font-size: clamp(1.2rem, 4.2vw, 1.6rem);
       }
+
       .section-countdown {
-        flex-direction: column;
-        align-items: flex-start;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.8rem 1rem;
       }
-      .social-icons {
-        gap: 1.2rem;
+      .count-label {
+        flex-basis: 100%;
+        text-align: center;
       }
+
+      .social-icons { gap: 1.2rem; }
     }
   </style>
 </head>
 
 <body>
-
   <!-- PIXEL-BACKGROUND -->
   <canvas id="pixel-bg" aria-hidden="true"></canvas>
 
   <div class="page-wrap">
     <div class="content">
-      <header class="header">
-        <a class="brand" href="index.html">b3nn3t</a>
-      </header>
-
       <main class="main">
 
-        <!-- COUNTDOWN-KACHEL -->
+        <!-- TOP-KACHEL: b3nn3t + RELEASE IN + Countdown -->
         <section class="section-card section-countdown" aria-label="Release Countdown">
-          <span class="label">release in</span>
+          <a class="brand-pill" href="index.html">b3nn3t</a>
+          <span class="count-label">release in</span>
           <span id="awb-countdown-timer">--:--:--</span>
         </section>
 
@@ -375,74 +362,49 @@
 
         <!-- JETZT STREAMEN -->
         <section aria-label="Streaming" class="section-card">
-          <h2>jetzt streamen</h2>
+          <h2>jetzt folgen</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
-              <a href="https://mx3.ch/b3nn3t"
-                 class="social-link"
-                 aria-label="MX3 – b3nn3t"
-                 target="_blank" rel="noopener">
+              <a href="https://mx3.ch/b3nn3t" class="social-link" aria-label="MX3 – b3nn3t" target="_blank" rel="noopener">
                 <i class="fa-solid fa-music social-icon"></i>
               </a>
-
-              <a href="https://genius.com/artists/B3nn3t"
-                 class="social-link"
-                 aria-label="Genius – b3nn3t"
-                 target="_blank" rel="noopener">
+              <a href="https://genius.com/artists/B3nn3t" class="social-link" aria-label="Genius – b3nn3t" target="_blank" rel="noopener">
                 <i class="fa-solid fa-pen-nib social-icon"></i>
               </a>
-
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                 class="social-link"
-                 aria-label="Spotify – b3nn3t"
-                 target="_blank" rel="noopener">
+                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
                 <i class="fa-brands fa-spotify social-icon"></i>
               </a>
-
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-                 class="social-link"
-                 aria-label="Apple Music – b3nn3t"
-                 target="_blank" rel="noopener">
+                 class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
                 <i class="fa-brands fa-apple social-icon"></i>
               </a>
-
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-                 class="social-link"
-                 aria-label="Instagram – b3nn3t"
-                 target="_blank" rel="noopener">
+                 class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
                 <i class="fa-brands fa-instagram social-icon"></i>
               </a>
-
               <a href="https://www.youtube.com/@b333nn3t"
-                 class="social-link"
-                 aria-label="YouTube – @b333nn3t"
-                 target="_blank" rel="noopener">
+                 class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
                 <i class="fa-brands fa-youtube social-icon"></i>
               </a>
-
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-                 class="social-link"
-                 aria-label="SoundCloud – b3nn3t"
-                 target="_blank" rel="noopener">
+                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
                 <i class="fa-brands fa-soundcloud social-icon"></i>
               </a>
             </div>
           </div>
 
           <p>
-            Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song und bleib bei neuen
-            Releases direkt am Start.
+            Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song und
+            bleib bei neuen Releases direkt am Start.
           </p>
         </section>
 
         <!-- MEHR VON B3NN3T -->
         <section aria-label="Mehr von b3nn3t" class="section-card">
           <h2>mehr von b3nn3t</h2>
-          <p>
-            Mehr Musik. Mehr Kunst. Mehr b3nn3t.
-          </p>
-
+          <p>Mehr Musik. Mehr Kunst. Mehr b3nn3t.</p>
           <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
             b3nn3t
           </a>
@@ -461,7 +423,7 @@
 
       function updateCountdown() {
         const now = Date.now();
-        let diff = targetDate - now;
+        const diff = targetDate - now;
 
         if (diff <= 0) {
           el.textContent = "OUT NOW";
@@ -504,7 +466,7 @@
       window.addEventListener('resize', resize);
       resize();
 
-      const pixelSize = 60; // große „TV-Pixel“
+      const pixelSize = 40; // große Pixel
 
       const colors = [
         [255, 0, 102],
@@ -514,7 +476,7 @@
         [0, 102, 255],
         [255, 255, 255],
         [220, 220, 220],
-        [0, 0, 0]
+        [200, 200, 210]
       ];
 
       function drawFrame() {
@@ -523,17 +485,12 @@
 
         for (let y = 0; y < rows; y++) {
           for (let x = 0; x < cols; x++) {
-            const useBlack = Math.random() < 0.12;
-            const idx = useBlack
-              ? colors.length - 1
-              : Math.floor(Math.random() * (colors.length - 1));
-
+            const idx = Math.floor(Math.random() * colors.length);
             const [rBase, gBase, bBase] = colors[idx];
-            const jitter = 30;
+            const jitter = 25;
             const r = Math.min(255, Math.max(0, rBase + (Math.random()*2*jitter - jitter)));
             const g = Math.min(255, Math.max(0, gBase + (Math.random()*2*jitter - jitter)));
             const b = Math.min(255, Math.max(0, bBase + (Math.random()*2*jitter - jitter)));
-
             ctx.fillStyle = `rgb(${r},${g},${b})`;
             ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
           }
@@ -544,10 +501,8 @@
         drawFrame();
         requestAnimationFrame(animate);
       }
-
       animate();
     })();
   </script>
-
 </body>
 </html>
