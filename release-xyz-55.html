@@ -72,27 +72,19 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: #000000; /* Fallback, falls Canvas nicht lädt */
+      background: #000000; /* Fallback */
     }
 
-    /* ===========================
-       PIXEL-NOISE-BACKGROUND
-    ============================ */
-
+    /* Canvas-Hintergrund */
     #pixel-bg {
       position: fixed;
       inset: 0;
       width: 100%;
       height: 100%;
-      z-index: -1;          /* hinter allem Content */
-      display: block;
-      image-rendering: pixelated;
+      z-index: -1;
       pointer-events: none;
+      image-rendering: pixelated;
     }
-
-    /* ===========================
-       LAYOUT / TYPO
-    ============================ */
 
     .background {
       min-height: 100vh;
@@ -107,7 +99,7 @@
 
     .background > .content {
       position: relative;
-      z-index: 1; /* über dem Canvas */
+      z-index: 1;
     }
 
     .content {
@@ -149,7 +141,6 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
-    /* Hero */
     .hero {
       display: flex;
       flex-direction: column;
@@ -157,7 +148,6 @@
       max-width: 720px;
     }
 
-    /* H1 über volle Breite */
     h1.wave-text {
       font-size: clamp(2.4rem, 5vw + 0.5rem, 3.9rem);
       text-transform: uppercase;
@@ -215,7 +205,6 @@
       border: 0;
     }
 
-    /* Video – jetzt direkt unter der Tagline */
     .panel-photo {
       border-radius: 1.5rem;
       overflow: hidden;
@@ -239,7 +228,6 @@
       transform: scale(1.01);
     }
 
-    /* Cards */
     .section-card {
       max-width: 720px;
       padding: 1.6rem 1.8rem;
@@ -276,13 +264,6 @@
       font-size: 1.2rem;
     }
 
-    /* Glows und Wobble deaktivieren, damit nichts stört */
-    h2.star-1::before,
-    h2.star-2::before,
-    h2.star-3::before {
-      animation: none;
-    }
-
     .section-card p {
       margin: 0.2rem 0 0.8rem;
       max-width: 640px;
@@ -290,12 +271,8 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
-    .wobble-block {
-      animation: none;
-      transform-origin: center left;
-    }
+    .wobble-block { animation: none; }
 
-    /* Social / jetzt streamen */
     .social-section {
       margin: 0.4rem 0 0.8rem;
     }
@@ -377,7 +354,6 @@
         0 0 60px rgba(0, 120, 255, 1);
     }
 
-    /* Countdown */
     .awb-countdown {
       position: fixed;
       top: 1rem;
@@ -445,10 +421,8 @@
 
 <body>
 
-  <!-- PIXEL-BACKGROUND -->
   <canvas id="pixel-bg" aria-hidden="true"></canvas>
 
-  <!-- COUNTDOWN -->
   <div class="awb-countdown" aria-label="Release Countdown">
     <span class="label">release in</span>
     <span id="awb-countdown-timer">--:--:--</span>
@@ -462,11 +436,9 @@
 
       <main class="main">
 
-        <!-- HERO -->
         <section class="hero" aria-label="ALLES WAS BLEIBT – Hero">
           <p class="tagline">NEUES RELEASE</p>
 
-          <!-- Video zuerst, mit Cover als Poster -->
           <figure class="panel-photo">
             <video
               id="release-video"
@@ -481,7 +453,6 @@
             </video>
           </figure>
 
-          <!-- Songtitel über volle Breite -->
           <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
             <span class="wave-word">
               <span class="wave-letter wave-delay-0">A</span>
@@ -507,14 +478,12 @@
             </span>
           </h1>
 
-          <!-- SEO-Text -->
           <p class="visually-hidden">
             b3nn3t – Deutschrap &amp; Indie-Pop aus der Schweiz. Mit „ALLES WAS BLEIBT“ geht es um Nächte, die nicht
             loslassen, Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
           </p>
         </section>
 
-        <!-- STORY -->
         <section aria-label="Story zum Song" class="section-card wobble-block">
           <h2 class="star-1">story zum song</h2>
           <p>
@@ -523,7 +492,6 @@
           </p>
         </section>
 
-        <!-- JETZT STREAMEN -->
         <section aria-label="Streaming" class="section-card wobble-block">
           <h2 class="star-2">jetzt streamen</h2>
 
@@ -585,7 +553,6 @@
           </p>
         </section>
 
-        <!-- MEHR VON B3NN3T -->
         <section aria-label="Mehr von b3nn3t" class="section-card wobble-block">
           <h2 class="star-3">mehr von b3nn3t</h2>
           <p>
@@ -601,7 +568,7 @@
     </div>
   </div>
 
-  <!-- COUNTDOWN SCRIPT -->
+  <!-- COUNTDOWN -->
   <script>
     (function () {
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
@@ -639,9 +606,9 @@
     })();
   </script>
 
-  <!-- PIXEL-BACKGROUND SCRIPT -->
+  <!-- PIXEL-HINTERGRUND (SUPER EINFACH) -->
   <script>
-    (function () {
+    window.addEventListener('load', function () {
       const canvas = document.getElementById('pixel-bg');
       if (!canvas) return;
 
@@ -654,21 +621,16 @@
       window.addEventListener('resize', resize);
       resize();
 
-      /* =======================
-         PIXEL SETTINGS
-      ======================= */
+      const pixelSize = 40; // große Blöcke
 
-      const pixelSize = 32; // noch größere, klar sichtbare Pixel
-
-      // Neon / psychedelische Farbpalette
       const colors = [
-        [255, 0, 150],    // Neon Pink
-        [0, 255, 220],    // Aqua
-        [255, 255, 0],    // Gelb
-        [120, 255, 0],    // Giftgrün
-        [0, 140, 255],    // Blau
-        [255, 255, 255],  // Weiß
-        [0, 0, 0]         // Schwarz (für Kontrast, selten)
+        [255, 0, 150],
+        [0, 255, 220],
+        [255, 255, 0],
+        [120, 255, 0],
+        [0, 140, 255],
+        [255, 255, 255],
+        [0, 0, 0]
       ];
 
       function drawFrame() {
@@ -678,57 +640,28 @@
         for (let y = 0; y < rows; y++) {
           for (let x = 0; x < cols; x++) {
 
-            // ca. 3% Schwarz, sonst bunte Farben
             const useBlack = Math.random() < 0.03;
-            const idx = useBlack
-              ? colors.length - 1
-              : Math.floor(Math.random() * (colors.length - 1));
+            const idx = useBlack ? 6 : Math.floor(Math.random() * 6);
+            const base = colors[idx];
 
-            const [rBase, gBase, bBase] = colors[idx];
+            let r = base[0];
+            let g = base[1];
+            let b = base[2];
 
-            const variation = 45;
-            const boost = 30;
+            r = Math.min(255, Math.max(0, r + 20 - Math.random() * 40));
+            g = Math.min(255, Math.max(0, g + 20 - Math.random() * 40));
+            b = Math.min(255, Math.max(0, b + 20 - Math.random() * 40));
 
-            let r = rBase + boost + (Math.random() * variation - variation / 2);
-            let g = gBase + boost + (Math.random() * variation - variation / 2);
-            let b = bBase + boost + (Math.random() * variation - variation / 2);
-
-            r = Math.min(255, Math.max(0, r));
-            g = Math.min(255, Math.max(0, g));
-            b = Math.min(255, Math.max(0, b));
-
-            ctx.fillStyle = `rgb(${r},${g},${b})`;
+            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
             ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
           }
         }
       }
 
-      /* =======================
-         FPS-THROTTLING (15 FPS)
-      ======================= */
-
-      const fps = 15;
-      const frameDuration = 1000 / fps;
-      let lastTime = 0;
-
-      function animate(timestamp) {
-        if (timestamp - lastTime >= frameDuration) {
-          drawFrame();
-          lastTime = timestamp;
-        }
-        requestAnimationFrame(animate);
-      }
-
-      const prefersReducedMotion =
-        window.matchMedia &&
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      if (prefersReducedMotion) {
-        drawFrame(); // statisch
-      } else {
-        requestAnimationFrame(animate);
-      }
-    })();
+      // alle 200ms neues Muster – simpel, gut sichtbar
+      drawFrame();
+      setInterval(drawFrame, 200);
+    });
   </script>
 
 </body>
