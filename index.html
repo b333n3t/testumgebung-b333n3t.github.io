@@ -16,9 +16,14 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <!-- Hero-Bild vorladen (LCP-Optimierung) -->
-  <link rel="preload" as="image"
-        href="/assets/index/bennet_index1.webp"
-        imagesizes="(min-width: 900px) 800px, 100vw">
+  <!-- korrigiert: imagesrcset + imagesizes, Desktop 1100px -->
+  <link rel="preload"
+        as="image"
+        href="/assets/index/bennet_index1.jpg"
+        imagesrcset="/assets/index/bennet_index1.avif type(image/avif),
+                     /assets/index/bennet_index1.webp type(image/webp),
+                     /assets/index/bennet_index1.jpg"
+        imagesizes="(min-width: 900px) 1100px, 100vw">
 
   <!-- Canonical & hreflang -->
   <link rel="canonical" href="https://www.b3nn3t.com/">
@@ -238,15 +243,6 @@
     .footer-inline{text-align:center;font-size:.82rem;margin-bottom:1rem}
     .footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
     .footer-inline a:hover { text-decoration: underline; color: #000; }
-
-    /* Neue H2 für “gesehen”-Bereich */
-    .section-headline {
-      font-size: 1.25rem;
-      font-weight: 600;
-      text-align: center;
-      opacity: 0.85;
-      margin: 2rem 0 0.5rem;
-    }
   </style>
 
   <!-- ✅ Nur Performance: Verbindungen vorbereiten (keine Layout-Änderung) -->
@@ -367,14 +363,15 @@
             <source
               srcset="assets/index/bennet_index1.avif"
               type="image/avif"
-              sizes="(min-width: 900px) 800px, 100vw">
+              sizes="(min-width: 900px) 1100px, 100vw">
             <source
               srcset="assets/index/bennet_index1.webp"
               type="image/webp"
-              sizes="(min-width: 900px) 800px, 100vw">
+              sizes="(min-width: 900px) 1100px, 100vw">
             <img
               src="assets/index/bennet_index1.jpg"
-              alt="b3nn3t liegt kopfüber auf dem Boden einer U-Bahn-Station">
+              alt="b3nn3t liegt kopfüber auf dem Boden einer U-Bahn-Station"
+              width="1100" height="1216">
           </picture>
         </figure>
 
@@ -384,15 +381,16 @@
             <source
               srcset="assets/index/bennet_index2.avif"
               type="image/avif"
-              sizes="(min-width: 900px) 800px, 100vw">
+              sizes="(min-width: 900px) 1100px, 100vw">
             <source
               srcset="assets/index/bennet_index2.webp"
               type="image/webp"
-              sizes="(min-width: 900px) 800px, 100vw">
+              sizes="(min-width: 900px) 1100px, 100vw">
             <img
               src="assets/index/bennet_index2.jpg"
               alt="b3nn3t sitzt in Hocke im Profil, mit Lederjacke und Jeans"
-              loading="lazy">
+              loading="lazy"
+              width="1100" height="809">
           </picture>
         </figure>
 
@@ -403,24 +401,20 @@
             <source
               srcset="assets/index/bennet_index3.avif"
               type="image/avif"
-              sizes="(min-width: 900px) 800px, 100vw">
+              sizes="(min-width: 900px) 1100px, 100vw">
             <source
               srcset="assets/index/bennet_index3.webp"
               type="image/webp"
-              sizes="(min-width: 900px) 800px, 100vw">
+              sizes="(min-width: 900px) 1100px, 100vw">
             <img
               src="assets/index/bennet_index3.jpg"
               alt="b3nn3t hängt akrobatisch an einem Drehkreuz in einer U-Bahn-Station"
-              loading="lazy">
+              loading="lazy"
+              width="1100" height="968">
           </picture>
         </figure>
 
-        <!-- H2 jetzt direkt vor der “gesehen”-Kachel -->
-        <h2 class="section-headline">
-          gesehen – Einblicke, Videos & kreative Impulse von b3nn3t
-        </h2>
-
-        <a class="card" href="gesehen.html">gesehen<small>Inspiration & Notizen</small></a>
+        <a class="card" href="intro.html">gesehen<small>Inspiration & Notizen</small></a>
         <a class="card" href="plattformen.html">plattformen<small>Social & Streaming</small></a>
 
         <br><br><br>
