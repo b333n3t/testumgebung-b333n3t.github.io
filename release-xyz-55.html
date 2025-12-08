@@ -72,20 +72,13 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: #000000; /* Fallback */
+      background: #050014;
     }
 
-    /* Canvas-Hintergrund */
-    #pixel-bg {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      pointer-events: none;
-      image-rendering: pixelated;
-    }
-
+    /* ===========================
+       PSYCHEDELIC BACKGROUND (CSS)
+       – kein Canvas, keine JS-Animation
+    ============================ */
     .background {
       min-height: 100vh;
       width: 100%;
@@ -95,6 +88,16 @@
       padding: 4rem 1.5rem 4rem;
       box-sizing: border-box;
       position: relative;
+      overflow: hidden;
+
+      /* statischer, wilder Verlauf */
+      background:
+        radial-gradient(circle at 40% 20%, #ffff8b 0%, #ffe600 22%, transparent 55%),
+        radial-gradient(circle at 8% 85%, #ff6bff 0%, transparent 60%),
+        radial-gradient(circle at 92% 15%, #00f6ff 0%, transparent 55%),
+        radial-gradient(circle at 15% 75%, #ff9af5 0%, transparent 55%),
+        linear-gradient(135deg, #4300a8, #12003a, #001c40);
+      background-size: 200% 200%;
     }
 
     .background > .content {
@@ -141,6 +144,7 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
+    /* Hero */
     .hero {
       display: flex;
       flex-direction: column;
@@ -148,6 +152,7 @@
       max-width: 720px;
     }
 
+    /* H1 über volle Breite */
     h1.wave-text {
       font-size: clamp(2.4rem, 5vw + 0.5rem, 3.9rem);
       text-transform: uppercase;
@@ -168,29 +173,8 @@
 
     .wave-letter {
       display: inline-block;
-      animation: letterWave var(--wobble-speed) ease-in-out infinite;
-    }
-
-    .wave-delay-0  { animation-delay: 0s; }
-    .wave-delay-1  { animation-delay: 0.06s; }
-    .wave-delay-2  { animation-delay: 0.12s; }
-    .wave-delay-3  { animation-delay: 0.18s; }
-    .wave-delay-4  { animation-delay: 0.24s; }
-    .wave-delay-5  { animation-delay: 0.30s; }
-    .wave-delay-6  { animation-delay: 0.36s; }
-    .wave-delay-7  { animation-delay: 0.42s; }
-    .wave-delay-8  { animation-delay: 0.48s; }
-    .wave-delay-9  { animation-delay: 0.54s; }
-    .wave-delay-10 { animation-delay: 0.60s; }
-    .wave-delay-11 { animation-delay: 0.66s; }
-    .wave-delay-12 { animation-delay: 0.72s; }
-
-    @keyframes letterWave {
-      0%   { transform: translateY(0); }
-      20%  { transform: translateY(-8px); }
-      50%  { transform: translateY(0); }
-      80%  { transform: translateY(5px); }
-      100% { transform: translateY(0); }
+      /* Wobble AUS: keine Animation mehr */
+      animation: none !important;
     }
 
     .visually-hidden {
@@ -205,6 +189,7 @@
       border: 0;
     }
 
+    /* Video */
     .panel-photo {
       border-radius: 1.5rem;
       overflow: hidden;
@@ -228,6 +213,7 @@
       transform: scale(1.01);
     }
 
+    /* Cards */
     .section-card {
       max-width: 720px;
       padding: 1.6rem 1.8rem;
@@ -264,6 +250,13 @@
       font-size: 1.2rem;
     }
 
+    /* Glows/Wobble aus Performance-Gründen AUS */
+    h2.star-1::before,
+    h2.star-2::before,
+    h2.star-3::before {
+      animation: none;
+    }
+
     .section-card p {
       margin: 0.2rem 0 0.8rem;
       max-width: 640px;
@@ -271,8 +264,12 @@
       text-shadow: 0 0 8px rgba(0,0,0,0.6);
     }
 
-    .wobble-block { animation: none; }
+    .wobble-block {
+      animation: none;
+      transform-origin: center left;
+    }
 
+    /* Social / jetzt streamen */
     .social-section {
       margin: 0.4rem 0 0.8rem;
     }
@@ -354,6 +351,7 @@
         0 0 60px rgba(0, 120, 255, 1);
     }
 
+    /* Countdown */
     .awb-countdown {
       position: fixed;
       top: 1rem;
@@ -421,8 +419,7 @@
 
 <body>
 
-  <canvas id="pixel-bg" aria-hidden="true"></canvas>
-
+  <!-- COUNTDOWN -->
   <div class="awb-countdown" aria-label="Release Countdown">
     <span class="label">release in</span>
     <span id="awb-countdown-timer">--:--:--</span>
@@ -436,6 +433,7 @@
 
       <main class="main">
 
+        <!-- HERO -->
         <section class="hero" aria-label="ALLES WAS BLEIBT – Hero">
           <p class="tagline">NEUES RELEASE</p>
 
@@ -484,6 +482,7 @@
           </p>
         </section>
 
+        <!-- STORY -->
         <section aria-label="Story zum Song" class="section-card wobble-block">
           <h2 class="star-1">story zum song</h2>
           <p>
@@ -492,6 +491,7 @@
           </p>
         </section>
 
+        <!-- JETZT STREAMEN -->
         <section aria-label="Streaming" class="section-card wobble-block">
           <h2 class="star-2">jetzt streamen</h2>
 
@@ -553,6 +553,7 @@
           </p>
         </section>
 
+        <!-- MEHR VON B3NN3T -->
         <section aria-label="Mehr von b3nn3t" class="section-card wobble-block">
           <h2 class="star-3">mehr von b3nn3t</h2>
           <p>
@@ -568,7 +569,7 @@
     </div>
   </div>
 
-  <!-- COUNTDOWN -->
+  <!-- COUNTDOWN SCRIPT -->
   <script>
     (function () {
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
@@ -604,64 +605,6 @@
       updateCountdown();
       setInterval(updateCountdown, 1000);
     })();
-  </script>
-
-  <!-- PIXEL-HINTERGRUND (SUPER EINFACH) -->
-  <script>
-    window.addEventListener('load', function () {
-      const canvas = document.getElementById('pixel-bg');
-      if (!canvas) return;
-
-      const ctx = canvas.getContext('2d');
-
-      function resize() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-      }
-      window.addEventListener('resize', resize);
-      resize();
-
-      const pixelSize = 40; // große Blöcke
-
-      const colors = [
-        [255, 0, 150],
-        [0, 255, 220],
-        [255, 255, 0],
-        [120, 255, 0],
-        [0, 140, 255],
-        [255, 255, 255],
-        [0, 0, 0]
-      ];
-
-      function drawFrame() {
-        const cols = Math.ceil(canvas.width / pixelSize);
-        const rows = Math.ceil(canvas.height / pixelSize);
-
-        for (let y = 0; y < rows; y++) {
-          for (let x = 0; x < cols; x++) {
-
-            const useBlack = Math.random() < 0.03;
-            const idx = useBlack ? 6 : Math.floor(Math.random() * 6);
-            const base = colors[idx];
-
-            let r = base[0];
-            let g = base[1];
-            let b = base[2];
-
-            r = Math.min(255, Math.max(0, r + 20 - Math.random() * 40));
-            g = Math.min(255, Math.max(0, g + 20 - Math.random() * 40));
-            b = Math.min(255, Math.max(0, b + 20 - Math.random() * 40));
-
-            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
-            ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
-          }
-        }
-      }
-
-      // alle 200ms neues Muster – simpel, gut sichtbar
-      drawFrame();
-      setInterval(drawFrame, 200);
-    });
   </script>
 
 </body>
