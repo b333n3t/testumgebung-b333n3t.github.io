@@ -681,17 +681,21 @@
       window.addEventListener('resize', resize);
       resize();
 
-      const pixelSize = 6; // Größe der Quadrate (kleiner = feinere Pixel)
+      /* =======================
+         PIXEL SETTINGS
+      ======================= */
 
-      // Farbpalette – neon / psychedelisch
+      const pixelSize = 20; // große, sichtbare Pixel
+
+      // Neon / psychedelische Farbpalette
       const colors = [
-        [255, 0, 102],   // neon pink
-        [0, 255, 204],   // aqua
-        [255, 255, 0],   // gelb
-        [0, 255, 0],     // giftgrün
-        [0, 102, 255],   // blau
-        [255, 255, 255], // weiß
-        [0, 0, 0]        // schwarz
+        [255, 0, 150],    // Neon Pink
+        [0, 255, 220],    // Aqua
+        [255, 255, 0],    // Gelb
+        [120, 255, 0],    // Giftgrün
+        [0, 140, 255],    // Blau
+        [255, 255, 255],  // Weiß
+        [0, 0, 0]         // Schwarz (für Kontrast, selten)
       ];
 
       function drawFrame() {
@@ -700,14 +704,21 @@
 
         for (let y = 0; y < rows; y++) {
           for (let x = 0; x < cols; x++) {
-            // leichte Gewichtung auf bunte Farben, Schwarz seltener
-            const idx = Math.random() < 0.1 ? colors.length - 1 : Math.floor(Math.random() * (colors.length - 1));
+
+            // ca. 3% Schwarz, sonst bunte Farben
+            const useBlack = Math.random() < 0.03;
+            const idx = useBlack
+              ? colors.length - 1
+              : Math.floor(Math.random() * (colors.length - 1));
+
             const [rBase, gBase, bBase] = colors[idx];
 
-            // leichte Variation pro Pixel
-            const r = Math.min(255, Math.max(0, rBase + (Math.random() * 60 - 30)));
-            const g = Math.min(255, Math.max(0, gBase + (Math.random() * 60 - 30)));
-            const b = Math.min(255, Math.max(0, bBase + (Math.random() * 60 - 30)));
+            const variation = 45;
+            const boost = 30;
+
+            const r = Math.min(255, Math.max(0, rBase + boost + (Math.random() * variation - variation / 2)));
+            const g = Math.min(255, Math.max(0, gBase + boost + (Math.random() * variation - variation / 2)));
+            const b = Math.min(255, Math.max(0, bBase + boost + (Math.random() * variation - variation / 2)));
 
             ctx.fillStyle = `rgb(${r},${g},${b})`;
             ctx.fillRect(x * pixelSize, y * pixelSize, pixelSize, pixelSize);
@@ -715,12 +726,32 @@
         }
       }
 
-      function animate() {
-        drawFrame();
+      /* =======================
+         FPS-THROTTLING (15 FPS)
+      ======================= */
+
+      const fps = 15;
+      const frameDuration = 1000 / fps;
+      let lastTime = 0;
+
+      function animate(timestamp) {
+        if (timestamp - lastTime >= frameDuration) {
+          drawFrame();
+          lastTime = timestamp;
+        }
         requestAnimationFrame(animate);
       }
 
-      animate();
+      // Reduced-Motion respektieren
+      const prefersReducedMotion =
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      if (prefersReducedMotion) {
+        drawFrame(); // nur statischer Frame
+      } else {
+        requestAnimationFrame(animate);
+      }
     })();
   </script>
 
