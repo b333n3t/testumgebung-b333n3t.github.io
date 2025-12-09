@@ -261,6 +261,7 @@
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
     }
 
+    /* BUTTON „b3nn3t“ – wie ein Icon: schwarzer Kern + weiße Outline */
     .neon-link {
       display: inline-flex;
       align-items: center;
@@ -272,21 +273,22 @@
       font-weight: 600;
       letter-spacing: 0.12em;
       text-decoration: none;
-      background: #ffffff;
-      color: #001018;
-      border: none;
-      box-shadow:
-        0 0 18px rgba(0,0,0,0.7),
-        0 10px 26px rgba(0,0,0,0.85);
+
+      background: #000;
+      color: #fff;
+      border: 2px solid #fff;
+
+      box-shadow: 0 6px 18px rgba(0,0,0,0.7);
       text-shadow: none;
-      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+      transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        filter 0.18s ease;
     }
     .neon-link:hover {
       transform: translateY(-1px);
       filter: brightness(1.02);
-      box-shadow:
-        0 0 22px rgba(0,0,0,0.8),
-        0 14px 32px rgba(0,0,0,0.95);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.9);
     }
 
     @media (max-width: 768px) {
