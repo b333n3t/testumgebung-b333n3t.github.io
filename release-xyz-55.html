@@ -155,11 +155,14 @@
        TOP-KACHEL: BRAND + COUNTDOWN
     ============================ */
     .section-countdown {
+      padding: 1rem 1.5rem;
+    }
+
+    .count-inline {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 1.5rem;
-      padding: 1rem 1.5rem;
+      gap: 0.9rem;
+      white-space: nowrap; /* alles in einer Zeile */
     }
 
     .brand-pill {
@@ -180,22 +183,18 @@
     }
 
     .count-label {
-      flex: 1;
-      text-align: center;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
-      opacity: 0.85;
+      text-transform: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      opacity: 0.9;
       color: #dff9ff;
-      white-space: nowrap;
     }
 
     #awb-countdown-timer {
       font-variant-numeric: tabular-nums;
-      font-size: 0.98rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #ffffff;
-      white-space: nowrap;
     }
 
     /* VIDEO */
@@ -261,50 +260,43 @@
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
     }
 
-/* "b3nn3t" als dezentes Outline-Icon */
-.neon-link {
-  display: inline-flex;
-  align-items: center;
+    /* "b3nn3t" als dezentes Outline-Icon */
+    .neon-link {
+      display: inline-flex;
+      align-items: center;
 
-  /* kleinere Icon-Größe */
-  font-size: 1.45rem;               
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  line-height: 1;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      line-height: 1;
 
-  text-decoration: none;            /* kein Unterstrich */
+      text-decoration: none;
 
-  /* transparenter Text, weiße Outline wie Icons */
-  color: transparent;
-  -webkit-text-stroke: 1.2px #ffffff;
-          text-stroke: 1.2px #ffffff;
+      color: transparent;
+      -webkit-text-stroke: 1.2px #ffffff;
+              text-stroke: 1.2px #ffffff;
 
-  /* dezenter Schatten */
-  text-shadow: 0 0 4px rgba(0,0,0,0.7);
+      text-shadow: 0 0 4px rgba(0,0,0,0.7);
 
-  background: none;
-  border: none;
-  padding: 0;
-  margin-top: 0.4rem;
-  cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-top: 0.4rem;
+      cursor: pointer;
 
-  transition:
-    transform 0.15s ease,
-    -webkit-text-stroke 0.15s ease,
-    text-stroke 0.15s ease,
-    text-shadow 0.15s ease;
-}
+      transition:
+        transform 0.15s ease,
+        -webkit-text-stroke 0.15s ease,
+        text-stroke 0.15s ease,
+        text-shadow 0.15s ease;
+    }
 
-.neon-link:hover {
-  transform: translateY(-1px);
-  -webkit-text-stroke: 1.35px #ffffff;
-          text-stroke: 1.35px #ffffff;
-  text-shadow: 0 0 7px rgba(255,255,255,0.9);
-}
-
-
-
-
+    .neon-link:hover {
+      transform: translateY(-1px);
+      -webkit-text-stroke: 1.35px #ffffff;
+              text-stroke: 1.35px #ffffff;
+      text-shadow: 0 0 7px rgba(255,255,255,0.9);
+    }
 
     @media (max-width: 768px) {
       .page-wrap { padding: 3rem 1rem 3rem; }
@@ -314,16 +306,6 @@
       .section-title h1 {
         letter-spacing: 0.24em;
         font-size: clamp(1.2rem, 4.2vw, 1.6rem);
-      }
-
-      .section-countdown {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 0.8rem 1rem;
-      }
-      .count-label {
-        flex-basis: 100%;
-        text-align: center;
       }
 
       .social-icons { gap: 1.2rem; }
@@ -339,11 +321,13 @@
     <div class="content">
       <main class="main">
 
-        <!-- TOP-KACHEL: b3nn3t + RELEASE IN + Countdown -->
+        <!-- TOP-KACHEL: b3nn3t + neues release in + Countdown -->
         <section class="section-card section-countdown" aria-label="Release Countdown">
-          <a class="brand-pill" href="index.html">b3nn3t</a>
-          <span class="count-label">release in</span>
-          <span id="awb-countdown-timer">--:--:--</span>
+          <div class="count-inline">
+            <a class="brand-pill" href="index.html">b3nn3t</a>
+            <span class="count-label">neues release in</span>
+            <span id="awb-countdown-timer">--:--:--</span>
+          </div>
         </section>
 
         <!-- VIDEO-KACHEL -->
