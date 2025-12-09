@@ -30,6 +30,13 @@
     :root {
       --awb-text-main: #ffffff;
       --max-width: 960px;
+
+      /* Dynamische Spacing-Variablen */
+      --space-xs: clamp(0.25rem, 0.4vw, 0.45rem);
+      --space-s:  clamp(0.5rem, 0.9vw, 0.9rem);
+      --space-m:  clamp(0.9rem, 1.6vw, 1.5rem);
+      --space-l:  clamp(1.4rem, 2.6vw, 2.3rem);
+      --space-xl: clamp(2rem, 4vw, 3.2rem);
     }
 
     /* --- Hintergrund + Vignette --- */
@@ -37,7 +44,7 @@
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: system-ui, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
       color: var(--awb-text-main);
 
       background:
@@ -53,17 +60,27 @@
     .page-wrap {
       max-width: var(--max-width);
       margin: 0 auto;
-      padding: 1.8rem 1.4rem 4rem;
+      padding: var(--space-l) var(--space-m) var(--space-xl);
     }
 
     main {
       display: flex;
       flex-direction: column;
-      gap: 2.2rem;
+      gap: clamp(1.8rem, 3.2vw, 2.6rem);
     }
 
-    h2 { margin: 0.4rem 0 0.25rem 0; font-size: 1.12rem; letter-spacing: 0.12em; text-transform: lowercase; }
-    p  { margin: 0.2rem 0 0.5rem 0; line-height: 1.65; max-width: 58rem; }
+    h2 {
+      margin: var(--space-s) 0 var(--space-xs);
+      font-size: 1.12rem;
+      letter-spacing: 0.12em;
+      text-transform: lowercase;
+    }
+
+    p {
+      margin: var(--space-xs) 0;
+      line-height: 1.65;
+      max-width: 58rem;
+    }
 
     /* --- Countdown-Zeile --- */
     .count-inline {
@@ -72,6 +89,7 @@
       gap: 0.7rem;
       white-space: nowrap;
       font-size: 0.95rem;
+      margin-bottom: clamp(0.7rem, 1.4vw, 1.1rem);
     }
 
     .brand-pill {
@@ -82,6 +100,7 @@
       font-weight: 700;
       font-size: 0.95rem;
       text-decoration: none;
+      letter-spacing: 0.06em;
     }
 
     .count-label {
@@ -99,7 +118,7 @@
     .video-inner {
       border-radius: 18px;
       overflow: hidden;
-      margin-top: 0.6rem;
+      margin-top: var(--space-xs);
       box-shadow: 0 10px 40px rgba(0,0,0,0.55);
     }
 
@@ -108,14 +127,17 @@
       display: block;
     }
 
-    /* --- Titel --- */
+    /* --- Titel (typografisch verfeinert) --- */
     h1 {
-      margin: 0.8rem 0 0.4rem 0;
+      margin: clamp(0.9rem, 1.4vw, 1.3rem) 0 clamp(0.5rem, 1vw, 0.9rem);
       text-transform: uppercase;
-      letter-spacing: 0.32em;
-      font-size: clamp(1.3rem, 2.4vw, 2rem);
-      font-weight: 700;
-      text-shadow: 0 0 1px black, 0 0 6px black;
+      font-weight: 800;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      letter-spacing: clamp(0.22em, 0.9vw, 0.32em);
+      line-height: 1.18;
+      font-optical-sizing: auto;
+      text-rendering: optimizeLegibility;
+      text-shadow: 0 0 1px rgba(0,0,0,0.9), 0 0 6px rgba(0,0,0,0.8);
     }
 
     /* --- Streaming Icons --- */
@@ -123,42 +145,55 @@
       display: flex;
       gap: 1.4rem;
       align-items: center;
-      margin: 0.25rem 0 0.55rem 0;
+      margin: clamp(0.15rem, 0.6vw, 0.35rem) 0 clamp(0.35rem, 0.9vw, 0.6rem);
     }
 
     .social-icon {
       font-size: 1.9rem;
       color: transparent;
       -webkit-text-stroke: 1.7px #ffffff;
+      text-stroke: 1.7px #ffffff;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
     }
 
-    /* --- Dezenterer b3nn3t Outline Button --- */
+    /* --- „Icon-hafter“ b3nn3t-Outline-Button --- */
     .neon-link {
       display: inline-flex;
-      margin-top: 0.3rem;
+      align-items: center;
+      margin-top: clamp(0.15rem, 0.6vw, 0.4rem);
 
-      font-size: 1.15rem;         /* kleiner */
+      font-size: 1.35rem;           /* etwas kleiner als die Icons */
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.08em;
+      text-transform: lowercase;
 
       color: transparent;
-      -webkit-text-stroke: 1px #ffffff;   /* dünnere Outline */
-      text-shadow: 0 0 3px rgba(0,0,0,0.6); /* dezenter Glow */
+      -webkit-text-stroke: 1.4px #ffffff;   /* dünnere, aber klare Outline */
+      text-stroke: 1.4px #ffffff;
+      filter: drop-shadow(0 0 5px rgba(0,0,0,0.8));
 
       text-decoration: none;
+      cursor: pointer;
       transition:
         transform 0.15s ease,
         -webkit-text-stroke 0.15s ease,
-        text-shadow 0.15s ease;
+        text-stroke 0.15s ease,
+        filter 0.15s ease;
     }
 
     .neon-link:hover {
       transform: translateY(-1px);
-      -webkit-text-stroke: 1.15px #ffffff;
-      text-shadow: 0 0 6px rgba(255,255,255,0.85);
+      -webkit-text-stroke: 1.55px #ffffff;
+      text-stroke: 1.55px #ffffff;
+      filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
     }
 
+    @media (max-width: 600px) {
+      .count-inline {
+        flex-wrap: wrap;
+        row-gap: 0.35rem;
+      }
+    }
   </style>
 </head>
 
@@ -178,6 +213,7 @@
         <video class="release-video" controls muted playsinline preload="metadata"
                poster="assets/release/alles-was-bleibt-cover.jpg">
           <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+          Dein Browser unterstützt dieses Videoformat nicht.
         </video>
       </div>
 
@@ -227,24 +263,24 @@
 
       function tick() {
         const now = Date.now();
-        let diff = target - now;
+        const diff = target - now;
 
         if (diff <= 0) {
           el.textContent = "OUT NOW";
           return;
         }
 
-        const s = Math.floor(diff / 1000);
-        const d = Math.floor(s / 86400);
-        const h = Math.floor((s % 86400) / 3600);
-        const m = Math.floor((s % 3600) / 60);
+        const s   = Math.floor(diff / 1000);
+        const d   = Math.floor(s / 86400);
+        const h   = Math.floor((s % 86400) / 3600);
+        const m   = Math.floor((s % 3600) / 60);
         const sec = s % 60;
 
-        el.textContent = 
+        el.textContent =
           d + "d " +
-          String(h).padStart(2,"0") + ":" +
-          String(m).padStart(2,"0") + ":" +
-          String(sec).padStart(2,"0");
+          String(h).padStart(2, "0") + ":" +
+          String(m).padStart(2, "0") + ":" +
+          String(sec).padStart(2, "0");
       }
 
       tick();
