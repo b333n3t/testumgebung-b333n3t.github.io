@@ -261,43 +261,47 @@
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
     }
 
-/* "b3nn3t" exakt wie die Icons (Spotify, Apple, YT etc.) */
+/* "b3nn3t" als dezentes Outline-Icon */
 .neon-link {
   display: inline-flex;
   align-items: center;
 
-  /* exakt gleiche Größe wie Icons */
-  font-size: 1.85rem;            /* Icon-Größe */
+  /* kleinere Icon-Größe */
+  font-size: 1.45rem;               
   font-weight: 800;
-  letter-spacing: 0.05em;
-  line-height: 1;                /* verhindert Abstand nach oben/unten */
+  letter-spacing: 0.06em;
+  line-height: 1;
 
-  color: transparent;            /* innen transparent */
+  text-decoration: none;            /* kein Unterstrich */
+
+  /* transparenter Text, weiße Outline wie Icons */
+  color: transparent;
+  -webkit-text-stroke: 1.2px #ffffff;
+          text-stroke: 1.2px #ffffff;
+
+  /* dezenter Schatten */
+  text-shadow: 0 0 4px rgba(0,0,0,0.7);
+
   background: none;
   border: none;
-
-  /* EXAKT gleiche Stroke-Stärke wie Icons */
-  -webkit-text-stroke: 1.6px #ffffff;
-          text-stroke: 1.6px #ffffff;
-
-  /* EXAKT gleicher Shadow wie Icons */
-  text-shadow: 0 0 6px rgba(0,0,0,0.9);
-
-  padding: 0;                    /* keine künstliche Höhe */
-  margin-top: 0.6rem;            /* perfekter Abstand zum Absatz */
+  padding: 0;
+  margin-top: 0.4rem;
   cursor: pointer;
 
-  transition: transform 0.15s ease,
-              -webkit-text-stroke 0.15s ease,
-              text-stroke 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    -webkit-text-stroke 0.15s ease,
+    text-stroke 0.15s ease,
+    text-shadow 0.15s ease;
 }
 
 .neon-link:hover {
   transform: translateY(-1px);
-  -webkit-text-stroke: 1.8px #ffffff;  /* minimal stärker, wie Icon-Hover */
-          text-stroke: 1.8px #ffffff;
-  text-shadow: 0 0 10px rgba(255,255,255,0.95);
+  -webkit-text-stroke: 1.35px #ffffff;
+          text-stroke: 1.35px #ffffff;
+  text-shadow: 0 0 7px rgba(255,255,255,0.9);
 }
+
 
 
 
