@@ -10,6 +10,7 @@
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="music.song">
@@ -21,106 +22,202 @@
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „ALLES WAS BLEIBT“ von b3nn3t.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg">
 
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <!-- Strukturierte Daten -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicRecording",
+    "name": "ALLES WAS BLEIBT",
+    "byArtist": {
+      "@type": "MusicGroup",
+      "name": "b3nn3t"
+    },
+    "inAlbum": {
+      "@type": "MusicAlbum",
+      "name": "ALLES WAS BLEIBT"
+    },
+    "image": "https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg",
+    "url": "https://www.b3nn3t.com/release-alles-was-bleibt.html"
+  }
+  </script>
+
+  <!-- Font Awesome für Social-Logos -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 
   <style>
     :root {
-      --awb-text-main: #ffffff;
-      --max-width: 960px;
-
-      /* Dynamische Abstände (responsiv) */
-      --space-xs: clamp(0.25rem, 0.35vw, 0.45rem);
-      --space-s:  clamp(0.4rem, 0.7vw, 0.9rem);
-      --space-m:  clamp(0.8rem, 1.4vw, 1.5rem);
-      --space-l:  clamp(1.2rem, 2.2vw, 2.4rem);
-      --space-xl: clamp(1.8rem, 3.8vw, 3.5rem);
+      --awb-text-main: #fdfdfd;
+      --page-padding-y: clamp(2.4rem, 6vh, 4rem);
+      --page-padding-x: clamp(1.5rem, 5vw, 4.2rem);
+      --section-gap: clamp(2.2rem, 4.2vh, 3.4rem);
+      --line-width: 64ch;
     }
 
-    /* --- Hintergrund + Vignette --- */
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont,
-                   "SF Pro Display", "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        -apple-system, sans-serif;
       color: var(--awb-text-main);
-
-      /* Weiche, filmische Vignette */
       background:
-        radial-gradient(circle at center,
-          rgba(255,255,255,0.10) 0%,
-          rgba(0,0,0,0.22) 55%,
-          rgba(0,0,0,0.58) 100%
-        ),
-        #8f1111;
+        radial-gradient(circle at 18% 0%, #c93a3a 0, #8f1111 38%, #3b0505 100%);
+      overflow-x: hidden;
     }
 
-    /* --- Layout --- */
+    /* weiche Vignette */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08) 0, transparent 45%),
+        radial-gradient(circle at 10% 110%, rgba(0, 0, 0, 0.65) 0, transparent 55%),
+        radial-gradient(circle at 90% 110%, rgba(0, 0, 0, 0.75) 0, transparent 60%);
+      z-index: -1;
+    }
+
     .page-wrap {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: var(--space-l) var(--space-m) var(--space-xl);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      box-sizing: border-box;
+      padding: var(--page-padding-y) var(--page-padding-x);
     }
 
-    main {
+    .content {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    main.main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.8rem, 3vw, 2.5rem);
+      gap: var(--section-gap);
     }
 
-    h2 {
-      margin: var(--space-s) 0 var(--space-xs);
-      font-size: 1.12rem;
-      letter-spacing: 0.12em;
-      text-transform: lowercase;
-      font-weight: 600;
+    /* Typografie: Grundlayout */
+
+    h1,
+    h2,
+    p {
+      margin: 0;
     }
 
     p {
-      margin: var(--space-xs) 0 var(--space-s);
-      line-height: 1.65;
-      max-width: 58rem;
+      line-height: 1.7;
+      max-width: var(--line-width);
+      font-size: clamp(0.98rem, 1.9vw, 1.08rem);
     }
 
-    /* --- Countdown-Zeile --- */
+    /* Titel */
+    .title-section {
+      margin-bottom: clamp(1.6rem, 3vh, 2.4rem);
+    }
+
+    .title-section h1 {
+      text-transform: uppercase;
+      letter-spacing: clamp(0.24em, 0.32em, 0.34em);
+      font-weight: 700;
+      font-size: clamp(1.9rem, 4.3vw, 2.7rem);
+      text-shadow:
+        0 0 1px rgba(0, 0, 0, 0.75),
+        0 3px 10px rgba(0, 0, 0, 0.9);
+      max-width: min(20ch, 100%);
+    }
+
+    /* Countdown-Zeile */
+    .count-section {
+      margin-bottom: clamp(1.4rem, 2.6vh, 2rem);
+    }
+
     .count-inline {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-      white-space: nowrap;
+      gap: 0.75rem;
+      flex-wrap: wrap;
       font-size: 0.95rem;
-      margin-bottom: clamp(0.6rem, 1vw, 1rem);
     }
 
     .brand-pill {
-      background: white;
-      color: black;
-      padding: 0.22rem 0.85rem;
-      border-radius: 999px;
       font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
+      font-size: 0.98rem;
       letter-spacing: 0.06em;
+      color: #000;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 9px 24px rgba(0, 0, 0, 0.55);
+      white-space: nowrap;
     }
 
     .count-label {
-      font-size: 0.9rem;
+      text-transform: none;
+      letter-spacing: 0.06em;
       opacity: 0.9;
+      color: #f4fbff;
     }
 
     #awb-countdown-timer {
+      font-variant-numeric: tabular-nums;
       font-weight: 700;
-      font-size: 0.98rem;
     }
 
-    /* --- Video --- */
-    .video-inner {
-      border-radius: 18px;
+    /* Abschnitt-Überschriften */
+    .section-heading {
+      font-size: clamp(1.05rem, 2.1vw, 1.25rem);
+      letter-spacing: 0.12em;
+      text-transform: lowercase;
+      margin-bottom: 0.6rem;
+      position: relative;
+      padding-left: 1.3rem;
+    }
+
+    .section-heading::before {
+      content: "✶";
+      position: absolute;
+      left: 0;
+      top: 0.06rem;
+      font-size: 1.1rem;
+    }
+
+    .section {
+      max-width: var(--line-width);
+    }
+
+    .section + .section {
+      margin-top: clamp(1.8rem, 3.6vh, 2.8rem);
+    }
+
+    /* VIDEO (optional) */
+    .video-section {
+      max-width: min(640px, 100%);
+    }
+
+    .video-shell {
+      border-radius: 16px;
       overflow: hidden;
-      margin-top: var(--space-xs);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.55);
+      background: #000;
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.85),
+        0 0 18px rgba(0, 0, 0, 0.7);
     }
 
     .release-video {
@@ -128,51 +225,67 @@
       display: block;
     }
 
-    /* --- Titel (typografisch verfeinert) --- */
-    h1 {
-      margin: clamp(0.7rem, 1.3vw, 1.1rem) 0 clamp(0.4rem, 0.9vw, 0.7rem);
-      text-transform: uppercase;
-      font-weight: 850;                        /* etwas schwerer für Premium-Look */
-      font-size: clamp(1.45rem, 3vw, 2.35rem); /* dynamisch */
-      letter-spacing: clamp(0.18em, 0.7vw, 0.32em);
-      font-optical-sizing: auto;
-      line-height: 1.18;
-      text-shadow:
-        0 0 2px rgba(0,0,0,0.9),
-        0 0 8px rgba(0,0,0,0.8);
+    /* Social Icons */
+    .social-section {
+      margin-top: 0.7rem;
+      margin-bottom: 0.6rem;
     }
 
-    /* --- Streaming Icons --- */
     .social-icons {
       display: flex;
-      gap: 1.4rem;
+      flex-wrap: wrap;
+      gap: clamp(1.1rem, 2.1vw, 1.7rem);
       align-items: center;
-      margin: var(--space-xs) 0 var(--space-s);
+    }
+
+    .social-link {
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .social-icon {
-      font-size: 1.9rem;
+      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
       color: transparent;
       -webkit-text-stroke: 1.7px #ffffff;
-      filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
+              text-stroke: 1.7px #ffffff;
+      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.9));
+      transition:
+        transform 0.2s ease,
+        -webkit-text-stroke 0.2s ease,
+        text-stroke 0.2s ease,
+        filter 0.2s ease;
     }
 
-    /* --- Optimierter b3nn3t Outline-Button (icon-hafter) --- */
+    .social-link:hover .social-icon {
+      transform: scale(1.12) translateY(-1px);
+      -webkit-text-stroke: 2px #ffffff;
+              text-stroke: 2px #ffffff;
+      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95));
+    }
+
+    /* b3nn3t als Outline-"Icon" */
     .neon-link {
       display: inline-flex;
       align-items: center;
+      margin-top: clamp(0.2rem, 0.7vw, 0.4rem);
 
-      font-size: 1.22rem;                /* exakt Icon-Höhe */
+      font-size: 1.22rem;
       font-weight: 800;
       letter-spacing: 0.05em;
+      line-height: 1;
 
       color: transparent;
-      -webkit-text-stroke: 0.92px #ffffff;   /* Fein wie Spotify Outline */
-              text-stroke: 0.92px #ffffff;
+      -webkit-text-stroke: 0.78px #ffffff;
+              text-stroke: 0.78px #ffffff;
+      filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
 
-      filter: drop-shadow(0 0 3px rgba(0,0,0,0.5)); /* sehr dezent */
       text-decoration: none;
-      margin-top: clamp(0.1rem, 0.5vw, 0.35rem);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
 
       transition:
         transform 0.15s ease,
@@ -183,104 +296,164 @@
 
     .neon-link:hover {
       transform: translateY(-1px);
-      -webkit-text-stroke: 1.05px #ffffff;
-              text-stroke: 1.05px #ffffff;
-      filter: drop-shadow(0 0 7px rgba(255,255,255,0.85));
+      -webkit-text-stroke: 0.95px #ffffff;
+              text-stroke: 0.95px #ffffff;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.85));
     }
 
+    @media (max-width: 720px) {
+      .title-section {
+        margin-bottom: 1.6rem;
+      }
+
+      .section + .section {
+        margin-top: 2rem;
+      }
+
+      .count-inline {
+        gap: 0.55rem;
+      }
+    }
   </style>
 </head>
 
 <body>
-
   <div class="page-wrap">
-    <main>
+    <div class="content">
+      <main class="main">
 
-      <!-- COUNTDOWN -->
-      <div class="count-inline">
-        <a class="brand-pill" href="index.html">b3nn3t</a>
-        <span class="count-label">neues release in</span>
-        <span id="awb-countdown-timer">--:--:--</span>
-      </div>
+        <!-- Countdown-Zeile -->
+        <section class="count-section" aria-label="Release Countdown">
+          <div class="count-inline">
+            <a class="brand-pill" href="index.html">b3nn3t</a>
+            <span class="count-label">neues release in</span>
+            <span id="awb-countdown-timer">--:--:--</span>
+          </div>
+        </section>
 
-      <!-- VIDEO -->
-      <div class="video-inner">
-        <video class="release-video" controls muted playsinline preload="metadata"
-          poster="assets/release/alles-was-bleibt-cover.jpg">
-          <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-        </video>
-      </div>
+        <!-- Titel -->
+        <section class="title-section" aria-label="Songtitel">
+          <h1>ALLES WAS BLEIBT</h1>
+        </section>
 
-      <!-- SONGTITEL -->
-      <h1>ALLES WAS BLEIBT</h1>
+        <!-- OPTIONAL: Video -->
+        <!--
+        <section class="video-section" aria-label="Video zum Song">
+          <div class="video-shell">
+            <video
+              id="release-video"
+              class="release-video"
+              controls
+              muted
+              playsinline
+              preload="metadata"
+              poster="assets/release/alles-was-bleibt-cover.jpg">
+              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+              Dein Browser unterstützt dieses Videoformat nicht.
+            </video>
+          </div>
+        </section>
+        -->
 
-      <!-- STORY -->
-      <section>
-        <h2>story zum song</h2>
-        <p>Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
-        klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.</p>
-      </section>
+        <!-- STORY -->
+        <section class="section" aria-label="Story zum Song">
+          <h2 class="section-heading">story zum song</h2>
+          <p>
+            Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
+            klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
+          </p>
+        </section>
 
-      <!-- STREAMING -->
-      <section>
-        <h2>jetzt folgen</h2>
+        <!-- JETZT FOLGEN -->
+        <section class="section" aria-label="Streaming & Plattformen">
+          <h2 class="section-heading">jetzt folgen</h2>
 
-        <div class="social-icons">
-          <i class="fa-solid fa-music social-icon"></i>
-          <i class="fa-solid fa-pen-nib social-icon"></i>
-          <i class="fa-brands fa-spotify social-icon"></i>
-          <i class="fa-brands fa-apple social-icon"></i>
-          <i class="fa-brands fa-instagram social-icon"></i>
-          <i class="fa-brands fa-youtube social-icon"></i>
-          <i class="fa-brands fa-soundcloud social-icon"></i>
-        </div>
+          <div class="social-section" aria-label="Social Media Links">
+            <div class="social-icons">
+              <a href="https://mx3.ch/b3nn3t" class="social-link" aria-label="MX3 – b3nn3t" target="_blank" rel="noopener">
+                <i class="fa-solid fa-music social-icon"></i>
+              </a>
+              <a href="https://genius.com/artists/B3nn3t" class="social-link" aria-label="Genius – b3nn3t" target="_blank" rel="noopener">
+                <i class="fa-solid fa-pen-nib social-icon"></i>
+              </a>
+              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
+                <i class="fa-brands fa-spotify social-icon"></i>
+              </a>
+              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                 class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
+                <i class="fa-brands fa-apple social-icon"></i>
+              </a>
+              <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                 class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
+                <i class="fa-brands fa-instagram social-icon"></i>
+              </a>
+              <a href="https://www.youtube.com/@b333nn3t"
+                 class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
+                <i class="fa-brands fa-youtube social-icon"></i>
+              </a>
+              <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
+                <i class="fa-brands fa-soundcloud social-icon"></i>
+              </a>
+            </div>
+          </div>
 
-        <p>Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song
-        und bleib bei neuen Releases direkt am Start.</p>
-      </section>
+          <p>
+            Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song und
+            bleib bei neuen Releases direkt am Start.
+          </p>
+        </section>
 
-      <!-- MEHR -->
-      <section>
-        <h2>mehr von b3nn3t</h2>
-        <p>Mehr Musik. Mehr Kunst. Mehr b3nn3t.</p>
-        <a class="neon-link" href="https://www.b3nn3t.com">b3nn3t</a>
-      </section>
+        <!-- MEHR VON B3NN3T -->
+        <section class="section" aria-label="Mehr von b3nn3t">
+          <h2 class="section-heading">mehr von b3nn3t</h2>
+          <p>Mehr Musik. Mehr Kunst. Mehr b3nn3t.</p>
+          <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
+            b3nn3t
+          </a>
+        </section>
 
-    </main>
+      </main>
+    </div>
   </div>
 
   <!-- COUNTDOWN SCRIPT -->
   <script>
     (function () {
-      const target = new Date("2025-12-20T00:00:00+01:00").getTime();
+      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
+      if (!el) return;
 
-      function tick() {
+      function updateCountdown() {
         const now = Date.now();
-        let diff = target - now;
+        const diff = targetDate - now;
 
         if (diff <= 0) {
           el.textContent = "OUT NOW";
           return;
         }
 
-        const s   = Math.floor(diff / 1000);
-        const d   = Math.floor(s / 86400);
-        const h   = Math.floor((s % 86400) / 3600);
-        const m   = Math.floor((s % 3600) / 60);
-        const sec = s % 60;
+        const seconds = Math.floor(diff / 1000);
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
 
-        el.textContent =
-          d + "d " +
-          String(h).padStart(2,"0") + ":" +
-          String(m).padStart(2,"0") + ":" +
-          String(sec).padStart(2,"0");
+        const hh = String(hours).padStart(2, "0");
+        const mm = String(mins).padStart(2, "0");
+        const ss = String(secs).padStart(2, "0");
+
+        if (days > 0) {
+          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
+        } else {
+          el.textContent = hh + ":" + mm + ":" + ss;
+        }
       }
 
-      tick();
-      setInterval(tick, 1000);
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     })();
   </script>
-
 </body>
 </html>
