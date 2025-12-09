@@ -57,183 +57,146 @@
   <style>
     :root {
       --awb-text-main: #fdfdfd;
-      --page-padding-y: clamp(2.4rem, 6vh, 4rem);
-      --page-padding-x: clamp(1.5rem, 5vw, 4.2rem);
-      --section-gap: clamp(2.2rem, 4.2vh, 3.4rem);
-      --line-width: 64ch;
+      --page-max-width: 960px;
     }
 
-    html,
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        -apple-system, sans-serif;
-      color: var(--awb-text-main);
-      background:
-        radial-gradient(circle at 18% 0%, #c93a3a 0, #8f1111 38%, #3b0505 100%);
       overflow-x: hidden;
-    }
-
-    /* weiche Vignette */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      color: var(--awb-text-main);
+      /* Rot + Vignette */
       background:
-        radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.08) 0, transparent 45%),
-        radial-gradient(circle at 10% 110%, rgba(0, 0, 0, 0.65) 0, transparent 55%),
-        radial-gradient(circle at 90% 110%, rgba(0, 0, 0, 0.75) 0, transparent 60%);
-      z-index: -1;
+        radial-gradient(circle at center,
+          rgba(0,0,0,0) 0,
+          rgba(0,0,0,0) 55%,
+          rgba(0,0,0,0.55) 100%),
+        linear-gradient(135deg, #b31a1a, #5e0b0b);
     }
 
     .page-wrap {
       min-height: 100vh;
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
       box-sizing: border-box;
-      padding: var(--page-padding-y) var(--page-padding-x);
     }
 
     .content {
       width: 100%;
-      max-width: 960px;
+      max-width: var(--page-max-width);
+      position: relative;
     }
 
     main.main {
       display: flex;
       flex-direction: column;
-      gap: var(--section-gap);
+      gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
-    h1,
-    h2,
-    p {
-      margin: 0;
-    }
-
-    p {
-      line-height: 1.7;
-      max-width: var(--line-width);
-      font-size: clamp(0.98rem, 1.9vw, 1.08rem);
-    }
-
-    /* Titel */
-    .title-section {
-      margin-bottom: clamp(1.6rem, 3vh, 2.4rem);
-    }
-
-    .title-section h1 {
-      text-transform: uppercase;
-      letter-spacing: clamp(0.24em, 0.32em, 0.34em);
-      font-weight: 700;
-      font-size: clamp(1.9rem, 4.3vw, 2.7rem);
-      text-shadow:
-        0 0 1px rgba(0, 0, 0, 0.75),
-        0 3px 10px rgba(0, 0, 0, 0.9);
-      max-width: min(20ch, 100%);
-    }
-
-    /* Countdown-Zeile */
-    .count-section {
-      margin-bottom: clamp(1.4rem, 2.6vh, 2rem);
-    }
-
-    .count-inline {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
+    /* Obere Zeile: b3nn3t + neues release in + Timer */
+    .topline {
+      display: flex;
       flex-wrap: wrap;
-      font-size: 0.95rem;
+      align-items: baseline;
+      gap: 0.7rem;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
-    .brand-pill {
+    .brand-link {
+      color: #ffffff;
       font-weight: 700;
-      font-size: 0.98rem;
-      letter-spacing: 0.06em;
-      color: #000;
+      letter-spacing: 0.04em;
       text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.3rem 0.95rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.96);
-      box-shadow: 0 9px 24px rgba(0, 0, 0, 0.55);
-      white-space: nowrap;
+      cursor: pointer;
+    }
+    .brand-link:hover {
+      text-decoration: underline;
     }
 
     .count-label {
       text-transform: none;
-      letter-spacing: 0.06em;
       opacity: 0.9;
-      color: #f4fbff;
     }
 
     #awb-countdown-timer {
       font-variant-numeric: tabular-nums;
       font-weight: 700;
+      color: #ffffff;
     }
 
-    /* Abschnitt-Überschriften */
-    .section-heading {
-      font-size: clamp(1.05rem, 2.1vw, 1.25rem);
-      letter-spacing: 0.12em;
-      text-transform: lowercase;
-      margin-bottom: 0.6rem;
-      position: relative;
-      padding-left: 1.3rem;
+    /* Titel */
+    .song-title {
+      margin: 0;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      text-shadow:
+        0 0 2px rgba(0,0,0,0.8),
+        0 0 10px rgba(0,0,0,0.85);
+      margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
     }
 
-    .section-heading::before {
-      content: "✶";
-      position: absolute;
-      left: 0;
-      top: 0.06rem;
-      font-size: 1.1rem;
+    /* Video */
+    .video-wrap {
+      margin-bottom: clamp(2rem, 3vw, 2.8rem);
+      max-width: 100%;
     }
 
-    .section {
-      max-width: var(--line-width);
-    }
-
-    .section + .section {
-      margin-top: clamp(1.8rem, 3.6vh, 2.8rem);
-    }
-
-    /* VIDEO */
-    .video-section {
-      max-width: min(640px, 100%);
-    }
-
-    .video-shell {
-      border-radius: 16px;
+    .video-inner {
+      border-radius: 22px;
       overflow: hidden;
       background: #000;
       box-shadow:
-        0 18px 40px rgba(0, 0, 0, 0.85),
-        0 0 18px rgba(0, 0, 0, 0.7);
+        0 26px 60px rgba(0,0,0,0.9),
+        0 0 40px rgba(0,0,0,0.55);
     }
 
     .release-video {
       width: 100%;
       display: block;
+      border-radius: inherit;
+      background: #000;
     }
 
-    /* Social Icons */
+    /* Sektionen */
+    section.block {
+      margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
+    }
+
+    section.block h2 {
+      margin: 0 0 0.6rem;
+      font-size: 1.06rem;
+      letter-spacing: 0.16em;
+      text-transform: lowercase;
+      font-weight: 700;
+    }
+
+    section.block p {
+      margin: 0.18rem 0 0.4rem;
+      line-height: 1.7;
+      max-width: 60rem;
+      font-size: 1rem;
+    }
+
+    /* Streaming-Icons */
     .social-section {
-      margin-top: 0.7rem;
-      margin-bottom: 0.6rem;
+      margin: 0.4rem 0 0.8rem;
     }
 
     .social-icons {
       display: flex;
       flex-wrap: wrap;
-      gap: clamp(1.1rem, 2.1vw, 1.7rem);
+      gap: clamp(1.1rem, 1.6vw, 1.6rem);
       align-items: center;
+      margin-bottom: 0.4rem;
     }
 
     .social-link {
@@ -244,11 +207,11 @@
     }
 
     .social-icon {
-      font-size: clamp(1.5rem, 2.5vw, 2.1rem);
+      font-size: clamp(1.45rem, 1.3vw + 1rem, 2.1rem);
       color: transparent;
-      -webkit-text-stroke: 1.7px #ffffff;
-              text-stroke: 1.7px #ffffff;
-      filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.9));
+      -webkit-text-stroke: 1.6px #ffffff;
+              text-stroke: 1.6px #ffffff;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
       transition:
         transform 0.2s ease,
         -webkit-text-stroke 0.2s ease,
@@ -258,58 +221,55 @@
 
     .social-link:hover .social-icon {
       transform: scale(1.12) translateY(-1px);
-      -webkit-text-stroke: 2px #ffffff;
-              text-stroke: 2px #ffffff;
-      filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95));
+      -webkit-text-stroke: 1.9px #ffffff;
+              text-stroke: 1.9px #ffffff;
+      filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
     }
 
-    /* b3nn3t als Outline-"Icon" */
+    /* "b3nn3t" unten als sehr feines Outline-"Icon" */
     .neon-link {
       display: inline-flex;
       align-items: center;
-      margin-top: clamp(0.2rem, 0.7vw, 0.4rem);
-
-      font-size: 1.22rem;
+      font-size: clamp(1.05rem, 0.9vw + 0.8rem, 1.25rem);
       font-weight: 800;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.09em;
       line-height: 1;
+      text-decoration: none;
 
       color: transparent;
-      -webkit-text-stroke: 0.78px #ffffff;
-              text-stroke: 0.78px #ffffff;
-      filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.5));
+      -webkit-text-stroke: 0.85px #ffffff;
+              text-stroke: 0.85px #ffffff;
 
-      text-decoration: none;
+      text-shadow: 0 0 3px rgba(0,0,0,0.6);
       background: none;
       border: none;
       padding: 0;
+      margin-top: 0.45rem;
       cursor: pointer;
-
       transition:
         transform 0.15s ease,
         -webkit-text-stroke 0.15s ease,
         text-stroke 0.15s ease,
-        filter 0.15s ease;
+        text-shadow 0.15s ease;
     }
 
     .neon-link:hover {
       transform: translateY(-1px);
-      -webkit-text-stroke: 0.95px #ffffff;
-              text-stroke: 0.95px #ffffff;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.85));
+      -webkit-text-stroke: 1px #ffffff;
+              text-stroke: 1px #ffffff;
+      text-shadow: 0 0 6px rgba(255,255,255,0.9);
     }
 
-    @media (max-width: 720px) {
-      .title-section {
-        margin-bottom: 1.6rem;
+    @media (max-width: 768px) {
+      .page-wrap {
+        padding: 2.4rem 1.2rem 3rem;
       }
-
-      .section + .section {
-        margin-top: 2rem;
+      .topline {
+        font-size: 0.87rem;
+        gap: 0.45rem;
       }
-
-      .count-inline {
-        gap: 0.55rem;
+      .song-title {
+        letter-spacing: 0.26em;
       }
     }
   </style>
@@ -320,23 +280,19 @@
     <div class="content">
       <main class="main">
 
-        <!-- Countdown-Zeile -->
-        <section class="count-section" aria-label="Release Countdown">
-          <div class="count-inline">
-            <a class="brand-pill" href="index.html">b3nn3t</a>
-            <span class="count-label">neues release in</span>
-            <span id="awb-countdown-timer">--:--:--</span>
-          </div>
-        </section>
+        <!-- b3nn3t Wortlink + Countdown -->
+        <div class="topline" aria-label="Release Countdown">
+          <a class="brand-link" href="index.html">b3nn3t</a>
+          <span class="count-label">neues release in</span>
+          <span id="awb-countdown-timer">--:--:--</span>
+        </div>
 
-        <!-- Titel -->
-        <section class="title-section" aria-label="Songtitel">
-          <h1>ALLES WAS BLEIBT</h1>
-        </section>
+        <!-- Songtitel -->
+        <h1 class="song-title">ALLES WAS BLEIBT</h1>
 
-        <!-- VIDEO -->
-        <section class="video-section" aria-label="Video zum Song">
-          <div class="video-shell">
+        <!-- Video -->
+        <section class="video-wrap" aria-label="Video zum Song">
+          <div class="video-inner">
             <video
               id="release-video"
               class="release-video"
@@ -352,17 +308,17 @@
         </section>
 
         <!-- STORY -->
-        <section class="section" aria-label="Story zum Song">
-          <h2 class="section-heading">story zum song</h2>
+        <section aria-label="Story zum Song" class="block">
+          <h2>story zum song</h2>
           <p>
-            Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
+            Beispieltext: ... Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
             klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
           </p>
         </section>
 
         <!-- JETZT FOLGEN -->
-        <section class="section" aria-label="Streaming & Plattformen">
-          <h2 class="section-heading">jetzt folgen</h2>
+        <section aria-label="Streaming" class="block">
+          <h2>jetzt folgen</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
@@ -396,18 +352,19 @@
           </div>
 
           <p>
-            Folge b3nn3t auf deinen Lieblingsplattformen, speichere den Song und
-            bleib bei neuen Releases direkt am Start.
+            folge b3nn3t auf deinen lieblingsplattformen und
+            bleib bei neuen releases direkt am start.
           </p>
         </section>
 
         <!-- MEHR VON B3NN3T -->
-        <section class="section" aria-label="Mehr von b3nn3t">
-          <h2 class="section-heading">mehr von b3nn3t</h2>
-          <p>Mehr Musik. Mehr Kunst. Mehr b3nn3t.</p>
+        <section aria-label="Mehr von b3nn3t" class="block">
+          <h2>mehr von b3nn3t</h2>
+          <p>auf der webseite.</p>
           <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
             b3nn3t
           </a>
+              <p>mehr musik. mehr perspektiven. mehr b3nn3t.</p>
         </section>
 
       </main>
