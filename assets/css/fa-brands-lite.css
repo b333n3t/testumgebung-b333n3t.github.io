@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "FA-Lite";
+  src: url("../fonts/fa-brands-lite.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+.fa {
+  font-family: "FA-Lite";
+  font-weight: normal;
+  font-style: normal;
+  display: inline-block;
+  line-height: 1;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+}
+.fa-spotify:before      { content: "\f1bc"; }
+.fa-apple:before        { content: "\f179"; }
+.fa-instagram:before    { content: "\f16d"; }
+.fa-youtube:before      { content: "\f167"; }
+.fa-soundcloud:before   { content: "\f1be"; }
