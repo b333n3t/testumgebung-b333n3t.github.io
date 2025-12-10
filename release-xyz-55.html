@@ -17,7 +17,6 @@
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <!-- Für Social Media JPG beibehalten, da am kompatibelsten -->
   <meta property="og:image" content="https://www.b3nn3t.com/assets/release/alles-was-bleibt-cover.jpg">
   <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
 
@@ -46,37 +45,11 @@
   }
   </script>
 
-  <!-- LCP-Poster vorladen und priorisieren -->
-  <link
-    rel="preload"
-    as="image"
-    href="assets/release/alles-was-bleibt-cover.webp"
-    fetchpriority="high">
+  <!-- LCP-Optimierung -->
+  <link rel="preload" as="image" href="assets/release/alles-was-bleibt-cover.webp" fetchpriority="high">
 
-  <!-- Font Awesome für Social-Logos – nicht render-blockend laden -->
-  <link
-    rel="preload"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    as="style"
-    crossorigin="anonymous" />
-
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    media="print"
-    onload="this.media='all'">
-
-  <noscript>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer">
-  </noscript>
+  <!-- NEUE FONT-AWESOME LITE VERSION (lokal) -->
+  <link rel="stylesheet" href="assets/css/fa-brands-lite.css">
 
   <style>
     :root {
@@ -91,7 +64,6 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      /* Rot + Vignette */
       background:
         radial-gradient(circle at center,
           rgba(0,0,0,0) 0,
@@ -122,7 +94,6 @@
       gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
-    /* Obere Zeile: b3nn3t + neues release in + Timer */
     .topline {
       display: flex;
       flex-wrap: wrap;
@@ -138,26 +109,18 @@
       font-weight: 700;
       letter-spacing: 0.04em;
       text-decoration: none;
-      cursor: pointer;
     }
     .brand-link:hover {
       text-decoration: underline;
     }
 
-    .count-label {
-      text-transform: none;
-      opacity: 0.9;
-    }
-
     #awb-countdown-timer {
       font-variant-numeric: tabular-nums;
       font-weight: 700;
-      color: #ffffff;
-      min-width: 8ch; /* verhindert Breiten-Shift bei Textwechsel */
+      min-width: 8ch;
       display: inline-block;
     }
 
-    /* Titel */
     .song-title {
       margin: 0;
       font-weight: 700;
@@ -170,7 +133,6 @@
       margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
     }
 
-    /* Video */
     .video-wrap {
       margin-bottom: clamp(2rem, 3vw, 2.8rem);
       max-width: 100%;
@@ -183,7 +145,6 @@
       box-shadow:
         0 26px 60px rgba(0,0,0,0.9),
         0 0 40px rgba(0,0,0,0.55);
-      /* Platz für das Video reservieren → kein CLS */
       aspect-ratio: 16 / 9;
     }
 
@@ -191,12 +152,10 @@
       width: 100%;
       height: 100%;
       display: block;
-      border-radius: inherit;
-      background: #000;
       object-fit: cover;
+      background: #000;
     }
 
-    /* Sektionen */
     section.block {
       margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
@@ -214,11 +173,6 @@
       line-height: 1.7;
       max-width: 60rem;
       font-size: 1rem;
-    }
-
-    /* Streaming-Icons */
-    .social-section {
-      margin: 0.4rem 0 0.8rem;
     }
 
     .social-icons {
@@ -240,76 +194,19 @@
       font-size: clamp(1.45rem, 1.3vw + 1rem, 2.1rem);
       color: transparent;
       -webkit-text-stroke: 1.6px #ffffff;
-              text-stroke: 1.6px #ffffff;
+      text-stroke: 1.6px #ffffff;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
-      transition:
-        transform 0.2s ease,
-        -webkit-text-stroke 0.2s ease,
-        text-stroke 0.2s ease,
-        filter 0.2s ease;
+      transition: transform 0.2s ease,
+                  -webkit-text-stroke 0.2s ease,
+                  text-stroke 0.2s ease,
+                  filter 0.2s ease;
     }
 
     .social-link:hover .social-icon {
       transform: scale(1.12) translateY(-1px);
       -webkit-text-stroke: 1.9px #ffffff;
-              text-stroke: 1.9px #ffffff;
+      text-stroke: 1.9px #ffffff;
       filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
-    }
-
-    /* "b3nn3t" unten als sehr feines Outline-"Icon" */
-    .neon-link {
-      display: inline-flex;
-      align-items: center;
-      font-size: clamp(1.05rem, 0.9vw + 0.8rem, 1.25rem);
-      font-weight: 800;
-      letter-spacing: 0.09em;
-      line-height: 1;
-      text-decoration: none;
-
-      color: transparent;
-      -webkit-text-stroke: 0.85px #ffffff;
-              text-stroke: 0.85px #ffffff;
-
-      text-shadow: 0 0 3px rgba(0,0,0,0.6);
-      background: none;
-      border: none;
-      padding: 0;
-      margin-top: 0.45rem;
-      cursor: pointer;
-      transition:
-        transform 0.15s ease,
-        -webkit-text-stroke 0.15s ease,
-        text-stroke 0.15s ease,
-        text-shadow 0.15s ease;
-    }
-
-    .neon-link:hover {
-      transform: translateY(-1px);
-      -webkit-text-stroke: 1px #ffffff;
-              text-stroke: 1px #ffffff;
-      text-shadow: 0 0 6px rgba(255,255,255,0.9);
-    }
-
-    @media (max-width: 768px) {
-      .page-wrap {
-        padding: 2.4rem 1.2rem 3rem;
-      }
-      .topline {
-        font-size: 0.87rem;
-        gap: 0.45rem;
-      }
-      .song-title {
-        letter-spacing: 0.26em;
-      }
-    }
-
-    /* Font-Display-Override für FA Brands (Layout bleibt gleich) */
-    @font-face {
-      font-family: "Font Awesome 6 Brands";
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/webfonts/fa-brands-400.woff2") format("woff2");
     }
   </style>
 </head>
@@ -322,7 +219,7 @@
         <!-- b3nn3t Wortlink + Countdown -->
         <div class="topline" aria-label="Release Countdown">
           <a class="brand-link" href="index.html">b3nn3t</a>
-          <span class="count-label">  -  neues release in</span>
+          <span class="count-label">- neues release in</span>
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
@@ -346,8 +243,8 @@
           </div>
         </section>
 
-        <!-- SONGTITEL UNTER DEM VIDEO -->
-        <section class="title-section" aria-label="Songtitel">
+        <!-- SONGTITEL -->
+        <section class="title-section">
           <h1 class="song-title">ALLES WAS BLEIBT</h1>
         </section>
 
@@ -364,28 +261,34 @@
         <section aria-label="Streaming" class="block">
           <h2>jetzt folgen</h2>
 
-          <div class="social-section" aria-label="Social Media Links">
+          <div class="social-section">
             <div class="social-icons">
+
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
-                <i class="fa-brands fa-spotify social-icon"></i>
+                <i class="fa fa-spotify social-icon"></i>
               </a>
+
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                  class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
-                <i class="fa-brands fa-apple social-icon"></i>
+                <i class="fa fa-apple social-icon"></i>
               </a>
+
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
                  class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
-                <i class="fa-brands fa-instagram social-icon"></i>
+                <i class="fa fa-instagram social-icon"></i>
               </a>
+
               <a href="https://www.youtube.com/@b333nn3t"
                  class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
-                <i class="fa-brands fa-youtube social-icon"></i>
+                <i class="fa fa-youtube social-icon"></i>
               </a>
+
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
                  class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-                <i class="fa-brands fa-soundcloud social-icon"></i>
+                <i class="fa fa-soundcloud social-icon"></i>
               </a>
+
             </div>
           </div>
 
@@ -396,7 +299,7 @@
         </section>
 
         <!-- MEHR VON B3NN3T -->
-        <section aria-label="Mehr von b3nn3t" class="block">
+        <section class="block">
           <h2>mehr von b3nn3t</h2>
           <p>auf der webseite:</p>
           <a class="brand-link" href="https://www.b3nn3t.com/index.html">b3nn3t</a>
@@ -412,7 +315,6 @@
     (function () {
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
-      if (!el) return;
 
       function updateCountdown() {
         const now = Date.now();
@@ -444,5 +346,6 @@
       setInterval(updateCountdown, 1000);
     })();
   </script>
+
 </body>
 </html>
