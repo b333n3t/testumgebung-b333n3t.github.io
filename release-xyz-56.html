@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t – „ALLES WAS BLEIBT“ | Neues Release (SVG-Test)</title>
+  <title>b3nn3t – „ALLES WAS BLEIBT“ | Neues Release</title>
   <meta name="description" content="„ALLES WAS BLEIBT“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
-  <meta name="robots" content="noindex,follow,max-image-preview:large" />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -127,7 +127,7 @@
       font-variant-numeric: tabular-nums;
       font-weight: 700;
       color: #ffffff;
-      min-width: 8ch; /* verhindert Breiten-Shift bei Textwechsel */
+      min-width: 8ch;
       display: inline-block;
     }
 
@@ -157,7 +157,6 @@
       box-shadow:
         0 26px 60px rgba(0,0,0,0.9),
         0 0 40px rgba(0,0,0,0.55);
-      /* Platz für das Video reservieren → kein CLS */
       aspect-ratio: 16 / 9;
     }
 
@@ -210,20 +209,18 @@
       justify-content: center;
     }
 
-    /* SVG-Icons – Outline-Look wie vorher */
+    /* SVG-Icons – Outline-Look */
     .social-icon {
       width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
       height: auto;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
-      transition:
-        transform 0.2s ease,
-        filter 0.2s ease;
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     .social-icon path {
       fill: transparent;
       stroke: #ffffff;
-      stroke-width: 24; /* relativ zum ViewBox-Coordinate-System */
+      stroke-width: 20;
       stroke-linejoin: round;
       stroke-linecap: round;
     }
