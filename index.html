@@ -129,11 +129,9 @@
         const fromIntro = document.referrer && /tv-intro\.html(?:$|[?#])/.test(document.referrer);
         const bypass    = location.search.includes("nointro=1");
 
-        // einfache Bot-Erkennung über User-Agent (erweitert um Lighthouse & Co.)
         const ua    = navigator.userAgent || "";
         const isBot = /bot|crawl|slurp|spider|preview|Chrome-Lighthouse|Lighthouse|Google-InspectionTool|Google-Site-Verification|Google-PageRenderer|Google-StructuredDataTestingTool/i.test(ua);
 
-        // Nur echte Besucher sehen das Intro
         if (!isBot && !played && !fromIntro && !bypass) {
           const returnUrl =
             (location.pathname || "index.html") +
@@ -141,7 +139,6 @@
             (location.hash || "");
 
           sessionStorage.setItem("introReturn", returnUrl);
-
           location.replace("tv-intro.html");
         }
       } catch (e) {
@@ -278,22 +275,13 @@ body .main::after{
 .grid{
   display:flex;
   flex-direction:column;
-  gap:0.75rem;
+  gap:1rem;           /* symmetrischer Abstand zwischen allen Einträgen */
 }
 
 footer{text-align:center;margin-top:2rem;font-size:.82rem}
 .footer-inline{text-align:center;font-size:.82rem;margin-top:1.5rem}
 .footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
 .footer-inline a:hover { text-decoration: underline; color: #000; }
-
-/* H2 “gesehen”-Bereich */
-.section-headline {
-  font-size: 1.25rem;
-  font-weight: 600;
-  text-align: center;
-  opacity: 0.85;
-  margin: 1.75rem 0 0.5rem;
-}
 
 /* ===== Aufklapp-Menü in der Sidebar ===== */
 .menu-group {
@@ -341,15 +329,15 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
   opacity:0.85;
 }
 
-/* ===== Aufklappbare Seiten im Content (wie Bild 1) ===== */
+/* ===== Aufklappbare Seiten im Content ===== */
 .page-group {
-  margin-bottom: 12px;
+  margin:0; /* Abstand kommt nur über grid-gap */
 }
 
 .page-toggle {
   background:transparent;
   border:none;
-  padding:6px 0;
+  padding:0;
   font-size:1.1rem;
   cursor:pointer;
   display:flex;
@@ -367,7 +355,7 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
 
 .page-submenu {
   list-style:none;
-  margin:6px 0 12px 18px;
+  margin:6px 0 0 18px;
   padding:0;
   display:none;
 }
@@ -407,12 +395,9 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
       }
 
       function startWarmup(){
-        // Datensparen respektieren
         if ('connection' in navigator && navigator.connection && navigator.connection.saveData) {
           return;
         }
-
-        // Tools wie Lighthouse / PageSpeed Insights überspringen
         const ua = navigator.userAgent || "";
         if (/Lighthouse|Chrome-Lighthouse|PageSpeed|Speed Insights/i.test(ua)) {
           return;
@@ -434,7 +419,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
         next();
       }
 
-      // Erst nach vollständigem Laden + kleiner Pause starten
       window.addEventListener('load', function () {
         setTimeout(startWarmup, 1500);
       });
@@ -550,23 +534,8 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
 
   <main class="main">
     <div class="content-offset">
-      <h1>
-        moin und willkommen
-        <span style="opacity:0; display:inline-block; height:0; overflow:hidden;">
-          b3nn3t – Deutschrap & Indie-Pop aus der Schweiz
-        </span>
-      </h1>
 
-      <p>
-        bei <strong>b3nn3t</strong> – bock auf browsen... dann los
-        <span style="opacity:0; display:block; height:0; overflow:hidden;">
-          – Musiker und Songwriter aus der Schweiz.
-          Hier findest du Deutschrap und Indie-Pop, meine Releases, News, Videos
-          und alle Plattformen, auf denen du meine Musik hören kannst.
-        </span>
-      </p>
-
-      <!-- ========= Inhalt wie in Bild 1: Seitennamen + Aufklapp-Pfeil ========= -->
+      <!-- Nur noch die seitennamen mit Pfeil -->
       <section class="grid" aria-label="Seitenübersicht">
 
         <!-- ÜBER MICH -->
@@ -619,11 +588,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
             <li>Termine</li>
           </ul>
         </div>
-
-        <!-- Headline für gesehen -->
-        <h2 class="section-headline">
-          gesehen – Einblicke, Videos & kreative Impulse von b3nn3t
-        </h2>
 
         <!-- GESEHEN -->
         <div class="page-group">
@@ -689,7 +653,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           const submenu = group.querySelector(".submenu");
           const isOpen = group.classList.contains("open");
 
-          // andere schließen
           document.querySelectorAll(".menu-group.open").forEach(g => {
             g.classList.remove("open");
             const sm = g.querySelector(".submenu");
