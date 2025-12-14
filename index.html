@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8" />
@@ -198,7 +198,7 @@ body.menu-open #menu-overlay{display:block}
 .site-menu{
   position:fixed;top:0;right:0;height:auto;max-height:90vh;
   width:min(40vw,150px);
-  background:rgba(255,255,255,.78); /* << angepasst: vorher .32 */
+  background:rgba(255,255,255,.78);
   backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
   box-shadow:0 20px 50px rgba(0,0,0,.08);
   transform:translateX(100%);transition:transform .25s;
@@ -213,88 +213,155 @@ body.menu-open .site-menu{transform:translateX(0)}
   border-top:1px solid rgba(0,0,0,.08)
 }
 
-/* ===== Menü-Links ===== */
+/* ===== Menü-Links (nur noch für Impressum-Link) ===== */
 .site-menu a{
   display:block;
   padding:8px 6px;
   border-radius:10px;
-  color:#222; /* << angepasst: statt #fff */
+  color:#222;
   text-decoration:none;
   font-size:1rem;
   font-weight:500;
-  text-shadow:none; /* << angepasst: statt Schatten */
+  text-shadow:none;
 }
-
 .site-menu a:hover{
-  background:rgba(0,0,0,.06); /* leicht dunkler für sichtbaren Hover */
+  background:rgba(0,0,0,.06);
 }
 
-    /* ===== FIXED Glas-Overlay ===== */
-    #page-glass{
-      position:fixed; left:0; right:0; top:0; bottom:0;
-      pointer-events:none;
-      z-index:0;
-    }
-    #page-glass .glass-fade{
-      position:absolute; left:0; right:0; top:100vh; height:10vh;
-      background:linear-gradient(to bottom,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,.32) 100%);
-      backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
-    }
-    #page-glass .glass-solid{
-      position:absolute; left:0; right:0; top:110vh; bottom:0;
-      background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
-    }
+/* ===== FIXED Glas-Overlay ===== */
+#page-glass{
+  position:fixed; left:0; right:0; top:0; bottom:0;
+  pointer-events:none;
+  z-index:0;
+}
+#page-glass .glass-fade{
+  position:absolute; left:0; right:0; top:100vh; height:10vh;
+  background:linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.32) 100%);
+  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+}
+#page-glass .glass-solid{
+  position:absolute; left:0; right:0; top:110vh; bottom:0;
+  background:rgba(255,255,255,.32);
+  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+}
 
-    body .main,
-    body .main::before,
-    body .main::after{
-      background:transparent !important;
-      backdrop-filter:none !important;
-      -webkit-backdrop-filter:none !important;
-      box-shadow:none !important;
-    }
-    .main{
-      border-radius:12px;
-      padding:1.25rem 1rem;
-      position:relative;
-      z-index:1;
-      overflow:auto;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none; -ms-overflow-style:none;
-    }
-    .main::-webkit-scrollbar{display:none}
-    .main .content-offset{padding-top:105vh}
-    .main{padding-bottom:3.5rem}
+body .main,
+body .main::before,
+body .main::after{
+  background:transparent !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  box-shadow:none !important;
+}
+.main{
+  border-radius:12px;
+  padding:1.25rem 1rem;
+  position:relative;
+  z-index:1;
+  overflow:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; -ms-overflow-style:none;
+}
+.main::-webkit-scrollbar{display:none}
+.main .content-offset{padding-top:105vh}
+.main{padding-bottom:3.5rem}
 
-    .nav-arrow{z-index:1000 !important}
-    .scroll-cue{position:fixed;left:50%;bottom:60px;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.4);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);box-shadow:0 4px 12px rgba(0,0,0,.08);display:grid;place-items:center;z-index:900;opacity:0;transition:opacity .2s;pointer-events:none}
-    .scroll-cue svg{width:16px;height:16px}
-    .scroll-cue.visible{opacity:1}
-    .scroll-cue.hidden{opacity:0}
+.nav-arrow{z-index:1000 !important}
+.scroll-cue{position:fixed;left:50%;bottom:60px;transform:translateX(-50%);width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.4);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);box-shadow:0 4px 12px rgba(0,0,0,.08);display:grid;place-items:center;z-index:900;opacity:0;transition:opacity .2s;pointer-events:none}
+.scroll-cue svg{width:16px;height:16px}
+.scroll-cue.visible{opacity:1}
+.scroll-cue.hidden{opacity:0}
 
-    .grid{
-      display:flex;
-      flex-direction:column;
-      gap:0.75rem; /* etwas enger, da Bilder entfernt wurden */
-    }
-    .grid .card{width:100%}
+/* Grid mit nur Buttons (ohne Bilder) */
+.grid{
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+}
+.grid .card{width:100%}
 
-    footer{text-align:center;margin-top:2rem;font-size:.82rem}
-    .footer-inline{text-align:center;font-size:.82rem;margin-bottom:1rem}
-    .footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
-    .footer-inline a:hover { text-decoration: underline; color: #000; }
+footer{text-align:center;margin-top:2rem;font-size:.82rem}
+.footer-inline{text-align:center;font-size:.82rem;margin-bottom:1rem}
+.footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
+.footer-inline a:hover { text-decoration: underline; color: #000; }
 
-    /* Neue H2 für “gesehen”-Bereich */
-    .section-headline {
-      font-size: 1.25rem;
-      font-weight: 600;
-      text-align: center;
-      opacity: 0.85;
-      margin: 1.75rem 0 0.5rem;
-    }
+/* Neue H2 für “gesehen”-Bereich */
+.section-headline {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  opacity: 0.85;
+  margin: 1.75rem 0 0.5rem;
+}
+
+/* ===== Aufklapp-Menü im Sidebar ===== */
+.menu-group {
+  margin-bottom: 6px;
+}
+
+.menu-toggle {
+  display:flex;
+  align-items:center;
+  gap:6px;
+  width:100%;
+  padding:8px 6px;
+  background:transparent;
+  border:none;
+  font-size:1rem;
+  font-weight:500;
+  color:#222;
+  cursor:pointer;
+  text-align:left;
+}
+
+.menu-toggle:hover {
+  background:rgba(0,0,0,0.06);
+}
+
+/* Pfeil links */
+.menu-toggle .arrow {
+  transition:transform .2s ease;
+}
+
+/* Dreieck zeigt nach rechts standard, nach unten wenn offen */
+.menu-group.open .arrow {
+  transform:rotate(90deg);
+}
+
+/* Untermenü-Liste */
+.submenu {
+  list-style:none;
+  margin:6px 0 10px 22px; /* Einrückung wie im Screenshot */
+  padding:0;
+  animation:fade .2s ease;
+}
+.submenu[hidden] {
+  display:none;
+}
+
+.submenu li {
+  margin:4px 0;
+  font-size:0.9rem;
+  opacity:0.85;
+}
+
+/* optional: später Links draus machen
+.submenu li a {
+  text-decoration:none;
+  color:#222;
+  font-size:0.9rem;
+}
+.submenu li a:hover {
+  text-decoration:underline;
+}
+*/
+
+@keyframes fade {
+  from { opacity:0; transform:translateY(-3px); }
+  to   { opacity:1; transform:translateY(0); }
+}
   </style>
 
   <!-- ✅ Nur Performance: Verbindungen vorbereiten (keine Layout-Änderung) -->
@@ -378,15 +445,97 @@ body.menu-open .site-menu{transform:translateX(0)}
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
+  <!-- ===== NEUES AUFKLAPP-MENÜ ===== -->
   <nav id="site-menu" class="site-menu">
     <ul>
-      <li><a href="ueber-mich.html">über mich</a></li>
-      <li><a href="diskografie.html">diskografie</a></li>
-      <li><a href="kontakt.html">kontakt</a></li>
-      <li><a href="aktuell.html">aktuell</a></li>
-      <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">plattformen</a></li>
+
+      <!-- ÜBER MICH -->
+      <li class="menu-group">
+        <button class="menu-toggle" type="button" aria-expanded="false">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span class="menu-label">über mich</span>
+        </button>
+        <ul class="submenu" hidden>
+          <!-- HIER Inhalt der Seite "über mich" eintragen -->
+          <li>Bio</li>
+          <li>Einblicke</li>
+          <li>Musikalischer Weg</li>
+        </ul>
+      </li>
+
+      <!-- DISKOGRAFIE -->
+      <li class="menu-group">
+        <button class="menu-toggle" type="button" aria-expanded="false">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span class="menu-label">diskografie</span>
+        </button>
+        <ul class="submenu" hidden>
+          <!-- HIER Inhalte der Diskografie-Seite eintragen -->
+          <li>Singles</li>
+          <li>EPs</li>
+          <li>Projekte</li>
+        </ul>
+      </li>
+
+      <!-- KONTAKT -->
+      <li class="menu-group">
+        <button class="menu-toggle" type="button" aria-expanded="false">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span class="menu-label">kontakt</span>
+        </button>
+        <ul class="submenu" hidden>
+          <!-- HIER Inhalte der Kontakt-Seite eintragen -->
+          <li>Booking</li>
+          <li>Mail</li>
+          <li>Social Media</li>
+        </ul>
+      </li>
+
+      <!-- AKTUELL -->
+      <li class="menu-group">
+        <button class="menu-toggle" type="button" aria-expanded="false">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span class="menu-label">aktuell</span>
+        </button>
+        <ul class="submenu" hidden>
+          <!-- HIER Inhalte der Aktuell-Seite eintragen -->
+          <li>News</li>
+          <li>Termine</li>
+        </ul>
+      </li>
+
+      <!-- GESEHEN -->
+      <li class="menu-group">
+        <button class="menu-toggle" type="button" aria-expanded="false">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span class="menu-label">gesehen</span>
+        </button>
+        <ul class="submenu" hidden>
+          <!-- HIER Inhalte der Gesehen-Seite eintragen -->
+          <li>Inspirationen</li>
+          <li>Videos</li>
+          <li>Notizen</li>
+        </ul>
+      </li>
+
+      <!-- PLATTFORMEN -->
+      <li class="menu-group">
+        <button class="menu-toggle" type="button" aria-expanded="false">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span class="menu-label">plattformen</span>
+        </button>
+        <ul class="submenu" hidden>
+          <!-- HIER Inhalte der Plattformen-Seite eintragen -->
+          <li>Spotify</li>
+          <li>Apple Music</li>
+          <li>YouTube</li>
+          <li>Instagram</li>
+        </ul>
+      </li>
+
+      <!-- Impressum bleibt normaler Link -->
       <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
+
     </ul>
   </nav>
 
@@ -410,17 +559,9 @@ body.menu-open .site-menu{transform:translateX(0)}
 
       <section class="grid" aria-label="Seitenübersicht">
         <a class="card" href="ueber-mich.html">über mich<small>Bio & Einblicke</small></a>
-
-        <!-- Bild 1 entfernt -->
-
         <a class="card" href="diskografie.html">diskografie<small>Releases & Projekte</small></a>
-
-        <!-- Bild 2 entfernt -->
-
         <a class="card" href="kontakt.html">kontakt<small>Booking & Mail</small></a>
         <a class="card" href="aktuell.html">aktuell<small>News & Termine</small></a>
-
-        <!-- Bild 3 entfernt -->
 
         <h2 class="section-headline">
           gesehen – Einblicke, Videos & kreative Impulse von b3nn3t
@@ -445,6 +586,7 @@ body.menu-open .site-menu{transform:translateX(0)}
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
+  <!-- Scroll-Hinweis-Logik -->
   <script>
     const cue = document.querySelector('.scroll-cue');
     const scroller = document.querySelector('.main');
@@ -454,6 +596,40 @@ body.menu-open .site-menu{transform:translateX(0)}
     }, {passive:true});
   </script>
 
+  <!-- Aufklapp-Menü-Logik -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll(".menu-toggle").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const group = btn.closest(".menu-group");
+          const submenu = group.querySelector(".submenu");
+          const isOpen = group.classList.contains("open");
+
+          // alle anderen schließen
+          document.querySelectorAll(".menu-group.open").forEach(g => {
+            g.classList.remove("open");
+            const sm = g.querySelector(".submenu");
+            sm.hidden = true;
+            const toggle = g.querySelector(".menu-toggle");
+            toggle.setAttribute("aria-expanded", "false");
+          });
+
+          // aktuellen toggeln
+          if (!isOpen) {
+            group.classList.add("open");
+            submenu.hidden = false;
+            btn.setAttribute("aria-expanded", "true");
+          } else {
+            group.classList.remove("open");
+            submenu.hidden = true;
+            btn.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+    });
+  </script>
+
+  <!-- Glas-Overlay-Positionierung -->
   <script>
     (function () {
       const glass = document.getElementById('page-glass');
