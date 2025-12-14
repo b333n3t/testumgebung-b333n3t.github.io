@@ -9,8 +9,8 @@
   <!-- ✅ Canonical auf die eigentliche Startseite -->
   <link rel="canonical" href="https://www.b3nn3t.com/" />
 
-  <title>TV-Intro – b3nn3t | Intro-Annimation &amp; Visuals</title>
-  <meta name="description" content="Das offizielle Intro von b3nn3t – Sound, Atmosphäre und visuelle Identität. Ein kurzer Einblick in die Welt hinter dem Intro." />
+  <title>Intro – b3nn3t</title>
+  <meta name="description" content="Intro mit bunten Kritzel-Animationen und Übergang zur Hauptseite." />
 
   <!-- (Optional) Spekulations-Regeln: Startseite vorladen/prerendern -->
   <script type="speculationrules">
@@ -24,6 +24,7 @@
     :root{
       --bg: #930010;
       --white: #ffffff;
+      --fade-ms: 1000ms; /* Dauer Ein-/Ausblendung */
     }
 
     html, body {
@@ -36,15 +37,19 @@
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    /* Fullscreen Canvas */
-    #scribbleCanvas{
+    /* Canvas weich ein-/ausblenden */
+    canvas#scribbleCanvas{
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
       display: block;
       z-index: 1;
+      opacity: 0;
+      transition: opacity var(--fade-ms) ease;
     }
+    body.ready canvas#scribbleCanvas { opacity: 1; }   /* Fade-In */
+    body.fadeout canvas#scribbleCanvas { opacity: 0; } /* Fade-Out */
 
     /* Loader UI */
     .center {
@@ -55,7 +60,11 @@
       justify-content: center;
       z-index: 2;
       pointer-events: none;
+      opacity: 0;
+      transition: opacity var(--fade-ms) ease;
     }
+    body.ready .center { opacity: 1; }
+    body.fadeout .center { opacity: 0; }
 
     .loader-wrap { width: min(360px, 80vw); }
     .loader-border {
@@ -74,21 +83,100 @@
       from { width: 0%; }
       to   { width: 100%; }
     }
+
+    /* Skip-Button */
+    .skip {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 10;
+      background: #fff;
+      color: #000;
+      border: 0;
+      border-radius: 999px;
+      padding: .45rem .8rem;
+      font-weight: 700;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity var(--fade-ms) ease;
+    }
+    body.ready .skip { opacity: 1; }
+    body.fadeout .skip { opacity: 0; }
+    .skip:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+    /* Barrierefreiheit: Reduced Motion -> sofort weiter */
+    @media (prefers-reduced-motion: reduce) {
+      canvas#scribbleCanvas, .center, .skip { transition: none; }
+    }
   </style>
+
+  <!-- No-JS-Fallback: sofort weiterleiten -->
+  <noscript>
+    <meta http-equiv="refresh" content="0; url=index.html?nointro=1">
+    <style>
+      body { display:flex; align-items:center; justify-content:center; color:#fff; }
+      a { color:#fff; text-decoration:underline; }
+    </style>
+    <p>Weiter zur <a href="index.html?nointro=1">Startseite</a>…</p>
+  </noscript>
 </head>
 
 <body>
-  <canvas id="scribbleCanvas"></canvas>
 
-  <div class="center">
-    <div class="loader-wrap">
-      <div class="loader-border">
-        <div class="loader-bar"></div>
+  <main role="main">
+    <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+
+    <canvas id="scribbleCanvas" aria-hidden="true"></canvas>
+
+    <div class="center" aria-hidden="true">
+      <div class="loader-wrap">
+        <div class="loader-border">
+          <div class="loader-bar"></div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <!-- Screenreader-Status -->
+    <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+      Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
+    </div>
+  </main>
 
   <script>
+    /* ================== ÜBERGANG / REDIRECT (aus deinem Code übernommen) ================== */
+    const INTRO_RETURN_URL =
+      (sessionStorage.getItem("introReturn") || "index.html") +
+      (location.search.includes('nointro=1')
+        ? ""
+        : (location.search ? "&" : "?") + "nointro=1");
+
+    function startTransition(){
+      try { sessionStorage.setItem("introPlayed","1"); } catch(e){}
+      document.body.classList.add('fadeout');
+      const fadeMs = 1700;
+      const extra  = 300;
+      setTimeout(()=>{ window.location.href = INTRO_RETURN_URL; }, fadeMs + extra);
+    }
+
+    (function setupSkipAndA11y(){
+      const skipBtn = document.querySelector('.skip');
+      function goNow(){
+        try { sessionStorage.setItem("introPlayed","1"); } catch(e){}
+        document.body.classList.add('fadeout');
+        setTimeout(()=>location.replace(INTRO_RETURN_URL), 250);
+      }
+      if (skipBtn) skipBtn.addEventListener('click', goNow);
+
+      // Reduced motion -> sofort weiter
+      try {
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          goNow();
+          return;
+        }
+      } catch(e){}
+    })();
+
+    /* ================== KRITZEL-CANVAS (bunt, gross, "farbstift") ================== */
     const canvas = document.getElementById("scribbleCanvas");
     const ctx = canvas.getContext("2d", { alpha: true });
 
@@ -101,7 +189,6 @@
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       paintBackground();
     }
-
     window.addEventListener("resize", resizeCanvas);
 
     function paintBackground() {
@@ -112,12 +199,21 @@
 
     function rand(min, max) { return Math.random() * (max - min) + min; }
 
-    // Bunte Farbstift-Palette (kräftig, gut sichtbar auf rot)
+    // kräftige Palette
     const palette = [
       "#ffffff", "#00e5ff", "#00ff6a", "#ffe600",
       "#ff7a00", "#ff2bd6", "#7c5cff", "#2bfffa",
       "#ffd1f5", "#a9ff00", "#ffb3a7", "#7dffb2"
     ];
+
+    function hexToRgba(hex, a) {
+      const h = hex.replace("#", "").trim();
+      const full = h.length === 3 ? h.split("").map(ch => ch + ch).join("") : h;
+      const r = parseInt(full.slice(0, 2), 16);
+      const g = parseInt(full.slice(2, 4), 16);
+      const b = parseInt(full.slice(4, 6), 16);
+      return `rgba(${r},${g},${b},${a})`;
+    }
 
     function randomEdgeStart() {
       const w = window.innerWidth, h = window.innerHeight;
@@ -128,73 +224,59 @@
       return { x: -20, y: rand(0, h) };
     }
 
-    // Farbstift-Look: Linie wird in mehreren "weichen" Layern gezeichnet + leichte Körnung
+    // Farbstift-Look: mehrere Layer + Körnung
     function drawPencilStroke(x1, y1, x2, y2, color, baseWidth) {
       ctx.globalCompositeOperation = "source-over";
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
 
-      // Hauptstrich (dicker, kräftig)
-      ctx.strokeStyle = hexToRgba(color, 0.65);
+      // Hauptstrich
+      ctx.strokeStyle = hexToRgba(color, 0.70);
       ctx.lineWidth = baseWidth;
       ctx.beginPath();
       ctx.moveTo(x1, y1);
       ctx.lineTo(x2, y2);
       ctx.stroke();
 
-      // 2–4 zusätzliche "Faser"-Striche leicht versetzt (gibt Farbstift-Textur)
-      const fibers = Math.floor(rand(2, 5));
+      // Faser-Striche
+      const fibers = Math.floor(rand(3, 6));
       for (let i = 0; i < fibers; i++) {
-        const ox1 = x1 + rand(-2.5, 2.5);
-        const oy1 = y1 + rand(-2.5, 2.5);
-        const ox2 = x2 + rand(-2.5, 2.5);
-        const oy2 = y2 + rand(-2.5, 2.5);
+        const ox1 = x1 + rand(-3.5, 3.5);
+        const oy1 = y1 + rand(-3.5, 3.5);
+        const ox2 = x2 + rand(-3.5, 3.5);
+        const oy2 = y2 + rand(-3.5, 3.5);
 
-        ctx.strokeStyle = hexToRgba(color, rand(0.12, 0.28));
-        ctx.lineWidth = Math.max(1, baseWidth * rand(0.35, 0.65));
+        ctx.strokeStyle = hexToRgba(color, rand(0.12, 0.30));
+        ctx.lineWidth = Math.max(1.2, baseWidth * rand(0.35, 0.70));
         ctx.beginPath();
         ctx.moveTo(ox1, oy1);
         ctx.lineTo(ox2, oy2);
         ctx.stroke();
       }
 
-      // Leichte Körnung als Punkte entlang der Strecke (Papier/Farbstift-Effekt)
-      const steps = Math.floor(rand(6, 14));
+      // Körnung
+      const steps = Math.floor(rand(10, 20));
       for (let s = 0; s < steps; s++) {
         const t = s / steps;
-        const px = x1 + (x2 - x1) * t + rand(-1.8, 1.8);
-        const py = y1 + (y2 - y1) * t + rand(-1.8, 1.8);
-
-        ctx.fillStyle = hexToRgba(color, rand(0.10, 0.20));
-        const r = rand(0.6, 1.4);
+        const px = x1 + (x2 - x1) * t + rand(-2.2, 2.2);
+        const py = y1 + (y2 - y1) * t + rand(-2.2, 2.2);
+        ctx.fillStyle = hexToRgba(color, rand(0.10, 0.22));
+        const r = rand(0.7, 1.8);
         ctx.beginPath();
         ctx.arc(px, py, r, 0, Math.PI * 2);
         ctx.fill();
       }
     }
 
-    function hexToRgba(hex, a) {
-      const h = hex.replace("#", "").trim();
-      const full = h.length === 3
-        ? h.split("").map(ch => ch + ch).join("")
-        : h;
-      const r = parseInt(full.slice(0, 2), 16);
-      const g = parseInt(full.slice(2, 4), 16);
-      const b = parseInt(full.slice(4, 6), 16);
-      return `rgba(${r},${g},${b},${a})`;
-    }
-
-    // Kritzel-Agents
     const agents = [];
-    const AGENT_COUNT = 18;     // weniger Agents, aber dickere, prägnantere Striche
-    const SPEED_MIN = 5.0;
-    const SPEED_MAX = 12.0;
+    const AGENT_COUNT = 22;
+    const SPEED_MIN = 6.0;
+    const SPEED_MAX = 14.0;
 
     function makeAgent() {
       const p = randomEdgeStart();
       const angle = rand(0, Math.PI * 2);
       const speed = rand(SPEED_MIN, SPEED_MAX);
-
       const color = palette[Math.floor(rand(0, palette.length))];
 
       return {
@@ -202,25 +284,23 @@
         px: p.x, py: p.y,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
-        jitter: rand(0.8, 2.0),
-        turn: rand(0.05, 0.16),
-        width: rand(7, 16),           // deutlich grösser
+        jitter: rand(1.2, 2.6),
+        turn: rand(0.06, 0.18),
+        width: rand(10, 22),   // dick und prägnant
         color,
-        life: Math.floor(rand(260, 650))
+        life: Math.floor(rand(240, 720))
       };
     }
 
-    function init() {
+    function initScribbles() {
       resizeCanvas();
       agents.length = 0;
       for (let i = 0; i < AGENT_COUNT; i++) agents.push(makeAgent());
     }
 
-    init();
+    initScribbles();
 
-    // Wichtig: KEIN Fade/Overdraw über die ganze Fläche => Verlauf bleibt sichtbar
-    // (Wir zeichnen nur weiter drüber, wie auf Papier)
-    function step() {
+    function stepScribbles() {
       const w = window.innerWidth, h = window.innerHeight;
 
       for (let i = 0; i < agents.length; i++) {
@@ -228,46 +308,44 @@
 
         a.px = a.x; a.py = a.y;
 
-        // starke Richtungswechsel (wild)
-        a.vx += rand(-a.turn, a.turn) * 16;
-        a.vy += rand(-a.turn, a.turn) * 16;
+        // wild drehen
+        a.vx += rand(-a.turn, a.turn) * 18;
+        a.vy += rand(-a.turn, a.turn) * 18;
 
-        // Geschwindigkeit begrenzen
+        // speed cap
         const sp = Math.hypot(a.vx, a.vy) || 1;
-        const maxSp = SPEED_MAX;
-        if (sp > maxSp) {
-          a.vx = (a.vx / sp) * maxSp;
-          a.vy = (a.vy / sp) * maxSp;
+        if (sp > SPEED_MAX) {
+          a.vx = (a.vx / sp) * SPEED_MAX;
+          a.vy = (a.vy / sp) * SPEED_MAX;
         }
 
-        // Bewegung + jitter
         a.x += a.vx + rand(-a.jitter, a.jitter);
         a.y += a.vy + rand(-a.jitter, a.jitter);
 
-        // Zeichnen
         drawPencilStroke(a.px, a.py, a.x, a.y, a.color, a.width);
 
-        // Lebenszeit
         a.life -= 1;
 
-        // neu starten, wenn fertig oder ausserhalb
-        if (a.life <= 0 || a.x < -120 || a.x > w + 120 || a.y < -120 || a.y > h + 120) {
+        if (a.life <= 0 || a.x < -140 || a.x > w + 140 || a.y < -140 || a.y > h + 140) {
           agents[i] = makeAgent();
         }
       }
 
-      requestAnimationFrame(step);
+      requestAnimationFrame(stepScribbles);
     }
 
-    requestAnimationFrame(step);
+    /* ================== START / TIMER FÜR ÜBERGANG ================== */
+    // Intro starten (Fade-In) und Kritzel zeichnen
+    setTimeout(() => {
+      document.body.classList.add('ready');
+      requestAnimationFrame(stepScribbles);
 
-    // Optional: mit Taste "R" alles löschen und neu starten
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "r" || e.key === "R") {
-        paintBackground();
-        for (let i = 0; i < agents.length; i++) agents[i] = makeAgent();
-      }
-    });
+      // Nach 5 Sekunden zur Hauptseite (inkl. Fade-Out)
+      setTimeout(() => {
+        startTransition();
+      }, 5000);
+
+    }, 350); // kurzer Delay fürs saubere Einblenden
   </script>
 </body>
 </html>
