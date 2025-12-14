@@ -275,10 +275,12 @@ body.menu-open .site-menu{transform:translateX(0)}
     .scroll-cue.visible{opacity:1}
     .scroll-cue.hidden{opacity:0}
 
-    .grid{display:flex;flex-direction:column;gap:1rem}
+    .grid{
+      display:flex;
+      flex-direction:column;
+      gap:0.75rem; /* etwas enger, da Bilder entfernt wurden */
+    }
     .grid .card{width:100%}
-    .panel-photo{margin:1rem -1rem 0;border-radius:12px;overflow:hidden;line-height:0;box-shadow:0 6px 24px rgba(0,0,0,.15)}
-    .panel-photo img{display:block;width:100%;height:auto;object-fit:cover;object-position:center}
 
     footer{text-align:center;margin-top:2rem;font-size:.82rem}
     .footer-inline{text-align:center;font-size:.82rem;margin-bottom:1rem}
@@ -291,7 +293,7 @@ body.menu-open .site-menu{transform:translateX(0)}
       font-weight: 600;
       text-align: center;
       opacity: 0.85;
-      margin: 2rem 0 0.5rem;
+      margin: 1.75rem 0 0.5rem;
     }
   </style>
 
@@ -408,68 +410,24 @@ body.menu-open .site-menu{transform:translateX(0)}
 
       <section class="grid" aria-label="Seitenübersicht">
         <a class="card" href="ueber-mich.html">über mich<small>Bio & Einblicke</small></a>
-        <figure class="panel-photo">
-          <picture>
-            <source
-              srcset="assets/index/bennet_index1.avif"
-              type="image/avif"
-              sizes="(min-width: 900px) 800px, 100vw">
-            <source
-              srcset="assets/index/bennet_index1.webp"
-              type="image/webp"
-              sizes="(min-width: 900px) 800px, 100vw">
-            <img
-              src="assets/index/bennet_index1.jpg"
-              alt="b3nn3t liegt kopfüber auf dem Boden einer U-Bahn-Station">
-          </picture>
-        </figure>
+
+        <!-- Bild 1 entfernt -->
 
         <a class="card" href="diskografie.html">diskografie<small>Releases & Projekte</small></a>
-        <figure class="panel-photo">
-          <picture>
-            <source
-              srcset="assets/index/bennet_index2.avif"
-              type="image/avif"
-              sizes="(min-width: 900px) 800px, 100vw">
-            <source
-              srcset="assets/index/bennet_index2.webp"
-              type="image/webp"
-              sizes="(min-width: 900px) 800px, 100vw">
-            <img
-              src="assets/index/bennet_index2.jpg"
-              alt="b3nn3t sitzt in Hocke im Profil, mit Lederjacke und Jeans"
-              loading="lazy">
-          </picture>
-        </figure>
+
+        <!-- Bild 2 entfernt -->
 
         <a class="card" href="kontakt.html">kontakt<small>Booking & Mail</small></a>
         <a class="card" href="aktuell.html">aktuell<small>News & Termine</small></a>
-        <figure class="panel-photo">
-          <picture>
-            <source
-              srcset="assets/index/bennet_index3.avif"
-              type="image/avif"
-              sizes="(min-width: 900px) 800px, 100vw">
-            <source
-              srcset="assets/index/bennet_index3.webp"
-              type="image/webp"
-              sizes="(min-width: 900px) 800px, 100vw">
-            <img
-              src="assets/index/bennet_index3.jpg"
-              alt="b3nn3t hängt akrobatisch an einem Drehkreuz in einer U-Bahn-Station"
-              loading="lazy">
-          </picture>
-        </figure>
 
-        <!-- H2 jetzt direkt vor der “gesehen”-Kachel -->
+        <!-- Bild 3 entfernt -->
+
         <h2 class="section-headline">
           gesehen – Einblicke, Videos & kreative Impulse von b3nn3t
         </h2>
 
         <a class="card" href="gesehen.html">gesehen<small>Inspiration & Notizen</small></a>
         <a class="card" href="plattformen.html">plattformen<small>Social & Streaming</small></a>
-
-        <br><br><br>
 
         <div class="footer-inline">
           © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
