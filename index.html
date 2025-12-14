@@ -163,7 +163,7 @@
   </style>
 
   <style>
-/* ===== Header / Menü ===== */
+/* ===== Header / Menü (wie vorher) ===== */
 .hamburger{
   position:fixed;top:14px;right:18px;width:20px;height:20px;
   border:0;background:transparent;display:grid;place-items:center;
@@ -210,7 +210,7 @@ body.menu-open .site-menu{transform:translateX(0)}
   border-top:1px solid rgba(0,0,0,.08)
 }
 
-/* ===== Menü-Links (nur noch für Impressum-Link) ===== */
+/* Menü-Links */
 .site-menu a{
   display:block;
   padding:8px 6px;
@@ -262,7 +262,12 @@ body .main::after{
   scrollbar-width:none; -ms-overflow-style:none;
 }
 .main::-webkit-scrollbar{display:none}
-.main .content-offset{padding-top:105vh}
+
+/* Inhalt jetzt oben, kein 105vh-Push mehr */
+.main .content-offset{
+  padding-top:1.5rem;  /* kleiner Abstand nach oben, aber kein Scroll-Zwang */
+}
+
 .main{padding-bottom:3.5rem}
 
 .nav-arrow{z-index:1000 !important}
@@ -271,11 +276,11 @@ body .main::after{
 .scroll-cue.visible{opacity:1}
 .scroll-cue.hidden{opacity:0}
 
-/* Grid – jetzt nur noch Textblöcke, keine Cards */
+/* Grid – nur Textblöcke, symmetrischer Abstand */
 .grid{
   display:flex;
   flex-direction:column;
-  gap:1rem;           /* symmetrischer Abstand zwischen allen Einträgen */
+  gap:1rem;
 }
 
 footer{text-align:center;margin-top:2rem;font-size:.82rem}
@@ -283,55 +288,9 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
 .footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
 .footer-inline a:hover { text-decoration: underline; color: #000; }
 
-/* ===== Aufklapp-Menü in der Sidebar ===== */
-.menu-group {
-  margin-bottom: 6px;
-}
-
-.menu-toggle {
-  display:flex;
-  align-items:center;
-  gap:6px;
-  width:100%;
-  padding:8px 6px;
-  background:transparent;
-  border:none;
-  font-size:1rem;
-  font-weight:500;
-  color:#222;
-  cursor:pointer;
-  text-align:left;
-}
-
-.menu-toggle:hover {
-  background:rgba(0,0,0,0.06);
-}
-
-.menu-toggle .arrow {
-  transition:transform .2s ease;
-}
-
-.menu-group.open .arrow {
-  transform:rotate(90deg);
-}
-
-.submenu {
-  list-style:none;
-  margin:6px 0 10px 22px;
-  padding:0;
-}
-.submenu[hidden] {
-  display:none;
-}
-.submenu li {
-  margin:4px 0;
-  font-size:0.9rem;
-  opacity:0.85;
-}
-
 /* ===== Aufklappbare Seiten im Content ===== */
 .page-group {
-  margin:0; /* Abstand kommt nur über grid-gap */
+  margin:0; /* Abstand nur über grid-gap */
 }
 
 .page-toggle {
@@ -444,98 +403,23 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-  <!-- Seitenmenü (mit Untermenüs) -->
+  <!-- Burger-Menü wie vorher: einfache Linkliste -->
   <nav id="site-menu" class="site-menu">
     <ul>
-
-      <!-- ÜBER MICH -->
-      <li class="menu-group">
-        <button class="menu-toggle" type="button" aria-expanded="false">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span class="menu-label">über mich</span>
-        </button>
-        <ul class="submenu" hidden>
-          <li>Bio</li>
-          <li>Einblicke</li>
-          <li>Musikalischer Weg</li>
-        </ul>
-      </li>
-
-      <!-- DISKOGRAFIE -->
-      <li class="menu-group">
-        <button class="menu-toggle" type="button" aria-expanded="false">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span class="menu-label">diskografie</span>
-        </button>
-        <ul class="submenu" hidden>
-          <li>Singles</li>
-          <li>EPs</li>
-          <li>Projekte</li>
-        </ul>
-      </li>
-
-      <!-- KONTAKT -->
-      <li class="menu-group">
-        <button class="menu-toggle" type="button" aria-expanded="false">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span class="menu-label">kontakt</span>
-        </button>
-        <ul class="submenu" hidden>
-          <li>Booking</li>
-          <li>Mail</li>
-          <li>Social Media</li>
-        </ul>
-      </li>
-
-      <!-- AKTUELL -->
-      <li class="menu-group">
-        <button class="menu-toggle" type="button" aria-expanded="false">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span class="menu-label">aktuell</span>
-        </button>
-        <ul class="submenu" hidden>
-          <li>News</li>
-          <li>Termine</li>
-        </ul>
-      </li>
-
-      <!-- GESEHEN -->
-      <li class="menu-group">
-        <button class="menu-toggle" type="button" aria-expanded="false">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span class="menu-label">gesehen</span>
-        </button>
-        <ul class="submenu" hidden>
-          <li>Inspirationen</li>
-          <li>Videos</li>
-          <li>Notizen</li>
-        </ul>
-      </li>
-
-      <!-- PLATTFORMEN -->
-      <li class="menu-group">
-        <button class="menu-toggle" type="button" aria-expanded="false">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span class="menu-label">plattformen</span>
-        </button>
-        <ul class="submenu" hidden>
-          <li>Spotify</li>
-          <li>Apple Music</li>
-          <li>YouTube</li>
-          <li>Instagram</li>
-        </ul>
-      </li>
-
-      <!-- Impressum bleibt normaler Link -->
+      <li><a href="ueber-mich.html">über mich</a></li>
+      <li><a href="diskografie.html">diskografie</a></li>
+      <li><a href="kontakt.html">kontakt</a></li>
+      <li><a href="aktuell.html">aktuell</a></li>
+      <li><a href="gesehen.html">gesehen</a></li>
+      <li><a href="plattformen.html">plattformen</a></li>
       <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-
     </ul>
   </nav>
 
   <main class="main">
     <div class="content-offset">
 
-      <!-- Nur noch die seitennamen mit Pfeil -->
+      <!-- Nur noch Seitennamen mit Pfeil, symmetrisch angeordnet -->
       <section class="grid" aria-label="Seitenübersicht">
 
         <!-- ÜBER MICH -->
@@ -643,37 +527,9 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
     }, {passive:true});
   </script>
 
-  <!-- Aufklapp-Logik für Sidebar + Content -->
+  <!-- Aufklapp-Logik nur für die Seitennamen im Inhalt -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Sidebar-Menü
-      document.querySelectorAll(".menu-toggle").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const group = btn.closest(".menu-group");
-          const submenu = group.querySelector(".submenu");
-          const isOpen = group.classList.contains("open");
-
-          document.querySelectorAll(".menu-group.open").forEach(g => {
-            g.classList.remove("open");
-            const sm = g.querySelector(".submenu");
-            sm.hidden = true;
-            const toggle = g.querySelector(".menu-toggle");
-            toggle.setAttribute("aria-expanded", "false");
-          });
-
-          if (!isOpen) {
-            group.classList.add("open");
-            submenu.hidden = false;
-            btn.setAttribute("aria-expanded", "true");
-          } else {
-            group.classList.remove("open");
-            submenu.hidden = true;
-            btn.setAttribute("aria-expanded", "false");
-          }
-        });
-      });
-
-      // Content-Seiten (Startseite) – mehrere dürfen offen sein
       document.querySelectorAll(".page-toggle").forEach(btn => {
         btn.addEventListener("click", () => {
           const group = btn.closest(".page-group");
