@@ -20,51 +20,199 @@
   }
   </script>
 
-  <style>
-        /* Ganze Seite */
-        body {
-            margin: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #930010;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
+   <style>
+    :root{
+      --bg: #930010;
+      --white: #ffffff;
+    }
 
-        /* Rahmen vom Ladebalken */
-        .loader-container {
-            width: 300px;
-            height: 20px;
-            border: 2px solid #ffffff;
-        }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-        /* Animierter Ladebalken */
-        .loader-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #ffffff;
-            animation: loading 3s ease-in-out forwards;
-        }
+    /* Canvas full screen */
+    #scribbleCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      z-index: 1;
+    }
 
-        /* Animation */
-        @keyframes loading {
-            from {
-                width: 0%;
-            }
-            to {
-                width: 100%;
-            }
-        }
-    </style>
+    /* Loader UI */
+    .center {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .loader-wrap {
+      width: min(360px, 80vw);
+    }
+
+    .loader-border {
+      height: 18px;
+      border: 2px solid var(--white);
+      box-sizing: border-box;
+      background: transparent;
+    }
+
+    .loader-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--white);
+      animation: loading 3.5s ease-in-out forwards;
+    }
+
+    @keyframes loading {
+      from { width: 0%; }
+      to   { width: 100%; }
+    }
+  </style>
 </head>
-
 <body>
 
-    <div class="loader-container">
-        <div class="loader-bar"></div>
-    </div>
+  <canvas id="scribbleCanvas"></canvas>
 
+  <div class="center">
+    <div class="loader-wrap">
+      <div class="loader-border">
+        <div class="loader-bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("scribbleCanvas");
+    const ctx = canvas.getContext("2d", { alpha: true });
+
+    function resizeCanvas() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width  = Math.floor(window.innerWidth * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    // Hintergrund konstant rot
+    function clearToBackground() {
+      ctx.fillStyle = "#930010";
+      ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+    }
+
+    // Kritzel-"Agents" die wild rumfahren und Linien zeichnen
+    const agents = [];
+    const AGENT_COUNT = 24;      // mehr = mehr Kritzel
+    const SPEED_MIN = 2.0;
+    const SPEED_MAX = 6.0;
+
+    function rand(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    function randomEdgeStart() {
+      // Start häufig an Kanten, damit es "von oben nach unten, rechts nach links" wirkt
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const side = Math.floor(rand(0, 4)); // 0 top, 1 right, 2 bottom, 3 left
+      if (side === 0) return { x: rand(0, w), y: -10 };
+      if (side === 1) return { x: w + 10, y: rand(0, h) };
+      if (side === 2) return { x: rand(0, w), y: h + 10 };
+      return { x: -10, y: rand(0, h) };
+    }
+
+    function makeAgent() {
+      const p = randomEdgeStart();
+      const angle = rand(0, Math.PI * 2);
+      const speed = rand(SPEED_MIN, SPEED_MAX);
+
+      return {
+        x: p.x,
+        y: p.y,
+        px: p.x,
+        py: p.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        jitter: rand(0.2, 1.2),       // wie stark es "zittert"
+        turn: rand(0.02, 0.12),       // wie schnell Richtung wechselt
+        life: Math.floor(rand(220, 520))
+      };
+    }
+
+    for (let i = 0; i < AGENT_COUNT; i++) agents.push(makeAgent());
+
+    // einmal sauberer Start
+    clearToBackground();
+
+    function step() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      // leichtes "Nachziehen" statt komplett löschen -> ergibt viele überlagerte Kritzel
+      ctx.fillStyle = "rgba(147, 0, 16, 0.10)";
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+
+      for (let i = 0; i < agents.length; i++) {
+        const a = agents[i];
+
+        a.px = a.x;
+        a.py = a.y;
+
+        // Richtung leicht random verändern (wildes Kritzel-Verhalten)
+        a.vx += rand(-a.turn, a.turn) * 10;
+        a.vy += rand(-a.turn, a.turn) * 10;
+
+        // Geschwindigkeit limitieren
+        const sp = Math.hypot(a.vx, a.vy) || 1;
+        const maxSp = SPEED_MAX;
+        if (sp > maxSp) {
+          a.vx = (a.vx / sp) * maxSp;
+          a.vy = (a.vy / sp) * maxSp;
+        }
+
+        // Jitter hinzufügen
+        a.x += a.vx + rand(-a.jitter, a.jitter);
+        a.y += a.vy + rand(-a.jitter, a.jitter);
+
+        // Linie zeichnen
+        ctx.strokeStyle = "rgba(255,255,255,0.9)";
+        ctx.lineWidth = rand(0.8, 2.2);
+
+        ctx.beginPath();
+        ctx.moveTo(a.px, a.py);
+        ctx.lineTo(a.x, a.y);
+        ctx.stroke();
+
+        // Lebenszeit runterzählen, danach neu starten (damit es immer weiter kritzelt)
+        a.life -= 1;
+
+        // Wenn aus dem Screen raus oder life fertig: neu erstellen
+        if (a.life <= 0 || a.x < -60 || a.x > w + 60 || a.y < -60 || a.y > h + 60) {
+          agents[i] = makeAgent();
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    requestAnimationFrame(step);
+  </script>
 </body>
 </html>
