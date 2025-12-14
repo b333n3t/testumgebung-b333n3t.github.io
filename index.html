@@ -274,20 +274,19 @@ body .main::after{
 .scroll-cue.visible{opacity:1}
 .scroll-cue.hidden{opacity:0}
 
-/* Grid mit nur Buttons (ohne Bilder) */
+/* Grid – jetzt nur noch Textblöcke, keine Cards */
 .grid{
   display:flex;
   flex-direction:column;
   gap:0.75rem;
 }
-.grid .card{width:100%}
 
 footer{text-align:center;margin-top:2rem;font-size:.82rem}
-.footer-inline{text-align:center;font-size:.82rem;margin-bottom:1rem}
+.footer-inline{text-align:center;font-size:.82rem;margin-top:1.5rem}
 .footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
 .footer-inline a:hover { text-decoration: underline; color: #000; }
 
-/* Neue H2 für “gesehen”-Bereich */
+/* H2 “gesehen”-Bereich */
 .section-headline {
   font-size: 1.25rem;
   font-weight: 600;
@@ -296,7 +295,7 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
   margin: 1.75rem 0 0.5rem;
 }
 
-/* ===== Aufklapp-Menü im Sidebar ===== */
+/* ===== Aufklapp-Menü in der Sidebar ===== */
 .menu-group {
   margin-bottom: 6px;
 }
@@ -320,47 +319,63 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
   background:rgba(0,0,0,0.06);
 }
 
-/* Pfeil links */
 .menu-toggle .arrow {
   transition:transform .2s ease;
 }
 
-/* Dreieck zeigt nach rechts standard, nach unten wenn offen */
 .menu-group.open .arrow {
   transform:rotate(90deg);
 }
 
-/* Untermenü-Liste */
 .submenu {
   list-style:none;
-  margin:6px 0 10px 22px; /* Einrückung wie im Screenshot */
+  margin:6px 0 10px 22px;
   padding:0;
-  animation:fade .2s ease;
 }
 .submenu[hidden] {
   display:none;
 }
-
 .submenu li {
   margin:4px 0;
   font-size:0.9rem;
   opacity:0.85;
 }
 
-/* optional: später Links draus machen
-.submenu li a {
-  text-decoration:none;
-  color:#222;
-  font-size:0.9rem;
+/* ===== Aufklappbare Seiten im Content (wie Bild 1) ===== */
+.page-group {
+  margin-bottom: 12px;
 }
-.submenu li a:hover {
-  text-decoration:underline;
-}
-*/
 
-@keyframes fade {
-  from { opacity:0; transform:translateY(-3px); }
-  to   { opacity:1; transform:translateY(0); }
+.page-toggle {
+  background:transparent;
+  border:none;
+  padding:6px 0;
+  font-size:1.1rem;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.page-toggle .arrow {
+  transition:transform .2s ease;
+}
+
+.page-group.open .arrow {
+  transform:rotate(90deg);
+}
+
+.page-submenu {
+  list-style:none;
+  margin:6px 0 12px 18px;
+  padding:0;
+  display:none;
+}
+
+.page-submenu li {
+  margin:3px 0;
+  font-size:0.95rem;
+  opacity:0.8;
 }
   </style>
 
@@ -445,7 +460,7 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-  <!-- ===== NEUES AUFKLAPP-MENÜ ===== -->
+  <!-- Seitenmenü (mit Untermenüs) -->
   <nav id="site-menu" class="site-menu">
     <ul>
 
@@ -456,7 +471,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           <span class="menu-label">über mich</span>
         </button>
         <ul class="submenu" hidden>
-          <!-- HIER Inhalt der Seite "über mich" eintragen -->
           <li>Bio</li>
           <li>Einblicke</li>
           <li>Musikalischer Weg</li>
@@ -470,7 +484,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           <span class="menu-label">diskografie</span>
         </button>
         <ul class="submenu" hidden>
-          <!-- HIER Inhalte der Diskografie-Seite eintragen -->
           <li>Singles</li>
           <li>EPs</li>
           <li>Projekte</li>
@@ -484,7 +497,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           <span class="menu-label">kontakt</span>
         </button>
         <ul class="submenu" hidden>
-          <!-- HIER Inhalte der Kontakt-Seite eintragen -->
           <li>Booking</li>
           <li>Mail</li>
           <li>Social Media</li>
@@ -498,7 +510,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           <span class="menu-label">aktuell</span>
         </button>
         <ul class="submenu" hidden>
-          <!-- HIER Inhalte der Aktuell-Seite eintragen -->
           <li>News</li>
           <li>Termine</li>
         </ul>
@@ -511,7 +522,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           <span class="menu-label">gesehen</span>
         </button>
         <ul class="submenu" hidden>
-          <!-- HIER Inhalte der Gesehen-Seite eintragen -->
           <li>Inspirationen</li>
           <li>Videos</li>
           <li>Notizen</li>
@@ -525,7 +535,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           <span class="menu-label">plattformen</span>
         </button>
         <ul class="submenu" hidden>
-          <!-- HIER Inhalte der Plattformen-Seite eintragen -->
           <li>Spotify</li>
           <li>Apple Music</li>
           <li>YouTube</li>
@@ -557,22 +566,96 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
         </span>
       </p>
 
+      <!-- ========= Inhalt wie in Bild 1: Seitennamen + Aufklapp-Pfeil ========= -->
       <section class="grid" aria-label="Seitenübersicht">
-        <a class="card" href="ueber-mich.html">über mich<small>Bio & Einblicke</small></a>
-        <a class="card" href="diskografie.html">diskografie<small>Releases & Projekte</small></a>
-        <a class="card" href="kontakt.html">kontakt<small>Booking & Mail</small></a>
-        <a class="card" href="aktuell.html">aktuell<small>News & Termine</small></a>
 
+        <!-- ÜBER MICH -->
+        <div class="page-group">
+          <button class="page-toggle" type="button" aria-expanded="false">
+            <span class="arrow" aria-hidden="true">►</span>
+            über mich
+          </button>
+          <ul class="page-submenu">
+            <li>Bio & Einblicke</li>
+            <li>Hintergrund</li>
+            <li>Musikalischer Weg</li>
+          </ul>
+        </div>
+
+        <!-- DISKOGRAFIE -->
+        <div class="page-group">
+          <button class="page-toggle" type="button" aria-expanded="false">
+            <span class="arrow" aria-hidden="true">►</span>
+            diskografie
+          </button>
+          <ul class="page-submenu">
+            <li>Releases</li>
+            <li>Projekte</li>
+            <li>Singles</li>
+          </ul>
+        </div>
+
+        <!-- KONTAKT -->
+        <div class="page-group">
+          <button class="page-toggle" type="button" aria-expanded="false">
+            <span class="arrow" aria-hidden="true">►</span>
+            kontakt
+          </button>
+          <ul class="page-submenu">
+            <li>Booking</li>
+            <li>Mail</li>
+            <li>Socials</li>
+          </ul>
+        </div>
+
+        <!-- AKTUELL -->
+        <div class="page-group">
+          <button class="page-toggle" type="button" aria-expanded="false">
+            <span class="arrow" aria-hidden="true">►</span>
+            aktuell
+          </button>
+          <ul class="page-submenu">
+            <li>News</li>
+            <li>Termine</li>
+          </ul>
+        </div>
+
+        <!-- Headline für gesehen -->
         <h2 class="section-headline">
           gesehen – Einblicke, Videos & kreative Impulse von b3nn3t
         </h2>
 
-        <a class="card" href="gesehen.html">gesehen<small>Inspiration & Notizen</small></a>
-        <a class="card" href="plattformen.html">plattformen<small>Social & Streaming</small></a>
+        <!-- GESEHEN -->
+        <div class="page-group">
+          <button class="page-toggle" type="button" aria-expanded="false">
+            <span class="arrow" aria-hidden="true">►</span>
+            gesehen
+          </button>
+          <ul class="page-submenu">
+            <li>Inspiration</li>
+            <li>Notizen</li>
+            <li>Videos</li>
+          </ul>
+        </div>
+
+        <!-- PLATTFORMEN -->
+        <div class="page-group">
+          <button class="page-toggle" type="button" aria-expanded="false">
+            <span class="arrow" aria-hidden="true">►</span>
+            plattformen
+          </button>
+          <ul class="page-submenu">
+            <li>Spotify</li>
+            <li>Apple Music</li>
+            <li>YouTube</li>
+            <li>Instagram</li>
+          </ul>
+        </div>
 
         <div class="footer-inline">
           © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
         </div>
+
       </section>
     </div>
   </main>
@@ -596,16 +679,17 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
     }, {passive:true});
   </script>
 
-  <!-- Aufklapp-Menü-Logik -->
+  <!-- Aufklapp-Logik für Sidebar + Content -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // Sidebar-Menü
       document.querySelectorAll(".menu-toggle").forEach(btn => {
         btn.addEventListener("click", () => {
           const group = btn.closest(".menu-group");
           const submenu = group.querySelector(".submenu");
           const isOpen = group.classList.contains("open");
 
-          // alle anderen schließen
+          // andere schließen
           document.querySelectorAll(".menu-group.open").forEach(g => {
             g.classList.remove("open");
             const sm = g.querySelector(".submenu");
@@ -614,7 +698,6 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
             toggle.setAttribute("aria-expanded", "false");
           });
 
-          // aktuellen toggeln
           if (!isOpen) {
             group.classList.add("open");
             submenu.hidden = false;
@@ -623,6 +706,25 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
             group.classList.remove("open");
             submenu.hidden = true;
             btn.setAttribute("aria-expanded", "false");
+          }
+        });
+      });
+
+      // Content-Seiten (Startseite) – mehrere dürfen offen sein
+      document.querySelectorAll(".page-toggle").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const group = btn.closest(".page-group");
+          const submenu = group.querySelector(".page-submenu");
+          const isOpen = group.classList.contains("open");
+
+          if (isOpen) {
+            group.classList.remove("open");
+            submenu.style.display = "none";
+            btn.setAttribute("aria-expanded", "false");
+          } else {
+            group.classList.add("open");
+            submenu.style.display = "block";
+            btn.setAttribute("aria-expanded", "true");
           }
         });
       });
