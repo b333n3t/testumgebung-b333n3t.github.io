@@ -6,7 +6,7 @@
 
   <!-- Basis-SEO -->
   <title>b3nn3t – Deutschrap & Indie-Pop aus der Schweiz | Songwriter & Musiker</title>
-  <meta name="description" content="b3nn3t – Deutschrap und Indie-Pop aus der Schweiz. Moderner Sound, starke Texte und authentische Songs. Jetzt Musik, Releases, Videos, News und Termine entdecken." />
+  <meta name="description" content="b3nn3t – Deutschrap und Indie-Pop aus der Schweiz. Moderner Sound, starke Texte und authentische Songs. Jetzt Musik, Releases, Videos, News, Termine entdecken." />
   <meta name="robots" content="index,follow" />
 
   <!-- Favicons: SVG, PNG, ICO, Apple -->
@@ -265,7 +265,7 @@ body .main::after{
 
 /* Inhalt jetzt oben, kein 105vh-Push mehr */
 .main .content-offset{
-  padding-top:1.5rem;  /* kleiner Abstand nach oben, aber kein Scroll-Zwang */
+  padding-top:1.5rem;
 }
 
 .main{padding-bottom:3.5rem}
@@ -283,10 +283,20 @@ body .main::after{
   gap:1rem;
 }
 
-footer{text-align:center;margin-top:2rem;font-size:.82rem}
-.footer-inline{text-align:center;font-size:.82rem;margin-top:1.5rem}
-.footer-inline a { color: rgba(0,0,0,0.65); text-decoration: none; }
-.footer-inline a:hover { text-decoration: underline; color: #000; }
+/* Footer unten im Block, wie bei aktuell.html */
+.footer-inline{
+  text-align:center;
+  font-size:.82rem;
+  margin-top:15em;
+}
+.footer-inline a {
+  color: rgba(0,0,0,0.65);
+  text-decoration: none;
+}
+.footer-inline a:hover {
+  text-decoration: underline;
+  color: #000;
+}
 
 /* ===== Aufklappbare Seiten im Content ===== */
 .page-group {
@@ -419,7 +429,7 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
   <main class="main">
     <div class="content-offset">
 
-      <!-- Nur noch Seitennamen mit Pfeil, symmetrisch angeordnet -->
+      <!-- Seitennamen mit Pfeil -->
       <section class="grid" aria-label="Seitenübersicht">
 
         <!-- ÜBER MICH -->
@@ -500,11 +510,13 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
           </ul>
         </div>
 
-        <div class="footer-inline">
-          © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-        </div>
-
       </section>
+
+      <!-- Footer am Ende des Blocks -->
+      <div class="footer-inline">
+        © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+      </div>
+
     </div>
   </main>
 
@@ -527,7 +539,7 @@ footer{text-align:center;margin-top:2rem;font-size:.82rem}
     }, {passive:true});
   </script>
 
-  <!-- Aufklapp-Logik nur für die Seitennamen im Inhalt -->
+  <!-- Aufklapp-Logik für die Seitennamen im Inhalt -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll(".page-toggle").forEach(btn => {
