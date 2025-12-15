@@ -10,7 +10,7 @@
 <link href="styles_nav_arrows.css" rel="stylesheet"/>
 <link href="swipe-helper.css" rel="stylesheet"/>
 
-  <!-- 👇 Mobile: grauer Container näher am unteren Rand -->
+<!-- 👇 Mobile: grauer Container näher am unteren Rand -->
 <style>
   @media (max-width: 768px) {
     :root {
@@ -19,9 +19,8 @@
   }
 </style>
 
-  
 <style>
-/* === Scroll-Panel (transparent über halbtransparentem Hintergrund) === */
+/* === Scroll-Panel für den Textbereich === */
 .scroll-panel {
   overflow: auto;
   max-height: 75vh;
@@ -30,7 +29,7 @@
   border-radius: 12px;
   box-shadow: none;
   padding: 1.25rem 1rem;
-  margin-top: 1rem;
+  margin-top: .5rem;
   margin-left: 0;
   max-width: 650px;
   scrollbar-width: none;
@@ -124,14 +123,7 @@ body.menu-open .site-menu{transform:translateX(0)}
     border-radius: 12px;
     padding: var(--frame-pad);
     margin-bottom: var(--bottom-gap);
-  }
-
-  .main .scroll-panel{
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    max-width: 650px;
+    max-width: 800px;
   }
 
   .scroll-panel h1{ margin: 0 0 .6rem; }
@@ -152,7 +144,7 @@ html, body { overflow-y: hidden; }
   html, body {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    font-size: 1rem; /* angepasst: gleich wie aktuell.html */
+    font-size: 1rem;
   }
   .main {
     margin-bottom: var(--bottom-gap) !important;
@@ -164,7 +156,7 @@ html, body { overflow-y: hidden; }
 }
 </style>
 
-<!-- ===== NEU: Inline-Footer-Styles (schwarze Linkfarbe) ===== -->
+<!-- Footer-Stil im Panel -->
 <style>
   .footer-inline{
     text-align:center;
@@ -177,6 +169,41 @@ html, body { overflow-y: hidden; }
   }
   .footer-inline a:hover{
     text-decoration:underline;
+  }
+</style>
+
+<!-- Neue Styles für die Seitennamen mit Pfeil -->
+<style>
+  .page-list{
+    display:flex;
+    flex-direction:column;
+    gap:1rem;
+  }
+
+  /* Aktiver Eintrag "über mich" – geöffnet */
+  .page-group-current-title{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:1.1rem;
+    font-weight:normal;
+  }
+
+  /* Links zu den anderen Seiten */
+  .page-link{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:1.1rem;
+    color:inherit;
+    text-decoration:none;
+  }
+  .page-link .arrow{
+    display:inline-block;
+    transition:transform .2s ease;
+  }
+  .page-link:active .arrow{
+    transform:rotate(90deg);
   }
 </style>
 </head>
@@ -209,48 +236,79 @@ html, body { overflow-y: hidden; }
 <a aria-label="Nächste Seite" class="nav-arrow right" href="diskografie.html">→</a>
 
 <main class="main">
-  <div class="scroll-panel">
-    <h1>über mich</h1>
-    <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
+  <div class="page-list">
 
-    <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
-    <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe.
-    über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
+    <!-- GEÖFFNETER Eintrag: über mich -->
+    <section class="page-group-current">
+      <div class="page-group-current-title">
+        <span class="arrow" aria-hidden="true">▾</span>
+        <span>über mich</span>
+      </div>
 
-    <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt.
-    vielleicht findest du dich darin wieder.
-    <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe.
-    dann hat alles sinn gemacht.</p>
+      <div class="scroll-panel">
+        <h1>über mich</h1>
+        <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
 
-    <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
-<p> <p>
-    <p><p>
-    <h3>mein name, mein versprechen</h3>
+        <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
+        <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe.
+        über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
 
-    
-    <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
-    <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
-    <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p> 
-    </p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
+        <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt.
+        vielleicht findest du dich darin wieder.
+        <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe.
+        dann hat alles sinn gemacht.</p>
 
-    <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
+        <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
+        <p></p>
 
-    <!-- ===== Button am Ende des Textes ===== -->
-    <a aria-label="Zur Startseite" class="home-btn" href="index.html">Startseite</a>
+        <h3>mein name, mein versprechen</h3>
 
-    <!-- ===== Drei Zeilen Abstand ===== -->
-    <br><br><br>
+        <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
+        <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
+        <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p> 
+        <p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
 
-    <!-- ===== Inline-Footer im grauen Container ===== -->
-    <div class="footer-inline">
-      © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-    </div>
+        <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
+
+        <!-- Button am Ende des Textes -->
+        <a aria-label="Zur Startseite" class="home-btn" href="index.html">Startseite</a>
+
+        <!-- Abstand + Inline-Footer im Container -->
+        <br><br><br>
+        <div class="footer-inline">
+          © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- DARUNTER: die anderen links wie auf index.html -->
+    <a class="page-link" href="diskografie.html">
+      <span class="arrow" aria-hidden="true">►</span>
+      <span>diskografie</span>
+    </a>
+
+    <a class="page-link" href="kontakt.html">
+      <span class="arrow" aria-hidden="true">►</span>
+      <span>kontakt</span>
+    </a>
+
+    <a class="page-link" href="aktuell.html">
+      <span class="arrow" aria-hidden="true">►</span>
+      <span>aktuell</span>
+    </a>
+
+    <a class="page-link" href="gesehen.html">
+      <span class="arrow" aria-hidden="true">►</span>
+      <span>gesehen</span>
+    </a>
+
+    <a class="page-link" href="plattformen.html">
+      <span class="arrow" aria-hidden="true">►</span>
+      <span>plattformen</span>
+    </a>
+
   </div>
 </main>
-
-<!-- Entfernt: alter separater Button + Footer am Seitenende -->
-<!-- <a aria-label="Zur Startseite" class="home-btn" href="index.html">Startseite</a> -->
-<!-- <footer>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></footer> -->
 
 <script src="script.js"></script>
 <script defer src="swipe-nav.js?v=6"></script>
@@ -262,11 +320,11 @@ html, body { overflow-y: hidden; }
     if (!panel) return;
 
     const header = document.querySelector('.header');
-    const footer = document.querySelector('footer');
+    const footer = null; // es gibt keinen separaten Footer mehr
     const main   = document.querySelector('.main');
 
     const hh = header ? header.offsetHeight : 0;
-    const fh = footer ? footer.offsetHeight : 0; // bleibt 0, da Footer entfernt
+    const fh = footer ? footer.offsetHeight : 0;
     let pt = 0, pb = 0;
     if (main) {
       const cs = getComputedStyle(main);
