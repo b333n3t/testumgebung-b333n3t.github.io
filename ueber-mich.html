@@ -18,7 +18,7 @@
       :root{ --bottom-gap: 20px; }
     }
 
-    /* Hintergrund fix, Seite selbst scrollt nicht */
+    /* Hintergrund fix, nur Panel scrollt */
     html, body{
       overflow: hidden;
     }
@@ -46,7 +46,7 @@
       box-shadow:none !important;
     }
 
-    /* ===== Hamburger-Menü wie auf index ===== */
+    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -104,13 +104,29 @@
 
     .nav-arrow{z-index:1000}
 
-    /* ===== Liste der Seiten-Links (wie index) ===== */
+    /* ===== Halbtransparentes Blickfeld ===== */
+    .scroll-panel{
+      max-width: min(1000px, 94vw);   /* breiter Block */
+      max-height: 75vh;               /* wird per JS angepasst */
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      background:rgba(255,255,255,0.32);
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+      border-radius:12px;
+      padding:1.25rem 1.6rem 1.5rem;
+      box-shadow:0 6px 18px rgba(0,0,0,0.15);
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+    .scroll-panel::-webkit-scrollbar{display:none;}
+
+    /* ==== Inhalt im Panel ==== */
     .grid{
       display:flex;
       flex-direction:column;
       gap:1rem;
-      max-width:700px;
-      margin-bottom:1.5rem;
+      margin:0;
     }
 
     .page-toggle,
@@ -137,43 +153,26 @@
       font-weight:600;
     }
 
-    .page-toggle.open .arrow{
-      transform:rotate(90deg);
-    }
-
-    /* ===== Block mit scrollbarem Text ===== */
-    .page-content-wrapper{
+    .page-group .page-content{
       display:none;
+      margin-left:18px;
+      margin-top:.75rem;
     }
-    .page-content-wrapper.open{
+    .page-group.open .page-content{
       display:block;
     }
-
-    .scroll-panel{
-      max-width: min(1000px, 90vw); /* breiter Block */
-      max-height:75vh;              /* Höhe per JS feinjustiert */
-      overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
-      background:rgba(255,255,255,0.32);
-      backdrop-filter:blur(2px);
-      -webkit-backdrop-filter:blur(2px);
-      border-radius:12px;
-      padding:1.25rem 1.6rem;
-      box-shadow:0 6px 18px rgba(0,0,0,0.15);
-      scrollbar-width:none;
-      -ms-overflow-style:none;
+    .page-group.open .page-toggle .arrow{
+      transform:rotate(90deg); /* aufgeklappt */
     }
-    .scroll-panel::-webkit-scrollbar{display:none;}
 
-    .scroll-panel h1{
+    .page-content h1{
       margin-top:0;
     }
 
-    /* Footer unterhalb des Blocks */
     .page-footer{
       text-align:center;
       font-size:.82rem;
-      margin:2.5rem 0 var(--bottom-gap);
+      margin:2.5rem 0 0;
     }
     .page-footer a{
       color:#000;
@@ -214,99 +213,98 @@
   <a class="nav-arrow right" href="diskografie.html" aria-label="Nächste Seite">→</a>
 
   <main class="main">
-    <!-- LINKS – immer sichtbar -->
-    <section class="grid" aria-label="Seitenübersicht">
-      <button class="page-toggle current open" type="button" aria-expanded="true">
-        <span class="arrow" aria-hidden="true">►</span>
-        <span>über mich</span>
-      </button>
+    <div class="scroll-panel">
+      <section class="grid" aria-label="Seitenübersicht">
 
-      <a class="page-link" href="diskografie.html">
-        <span class="arrow" aria-hidden="true">►</span>
-        <span>diskografie</span>
-      </a>
+        <!-- über mich – auf-/zuklappbar -->
+        <div class="page-group current open">
+          <button class="page-toggle" type="button" aria-expanded="true">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>über mich</span>
+          </button>
 
-      <a class="page-link" href="kontakt.html">
-        <span class="arrow" aria-hidden="true">►</span>
-        <span>kontakt</span>
-      </a>
+          <div class="page-content">
+            <h1>über mich</h1>
 
-      <a class="page-link" href="aktuell.html">
-        <span class="arrow" aria-hidden="true">►</span>
-        <span>aktuell</span>
-      </a>
+            <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
 
-      <a class="page-link" href="gesehen.html">
-        <span class="arrow" aria-hidden="true">►</span>
-        <span>gesehen</span>
-      </a>
+            <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
 
-      <a class="page-link" href="plattformen.html">
-        <span class="arrow" aria-hidden="true">►</span>
-        <span>plattformen</span>
-      </a>
-    </section>
+            <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe – über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
 
-    <!-- SCROLL-FENSTER – erscheint unter den Links -->
-    <div class="page-content-wrapper open">
-      <div class="scroll-panel">
-        <h1>über mich</h1>
+            <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt. vielleicht findest du dich darin wieder.</p>
 
-        <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
+            <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe. dann hat alles sinn gemacht.</p>
 
-        <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
+            <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
 
-        <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe – über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
+            <h3>mein name, mein versprechen</h3>
 
-        <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt. vielleicht findest du dich darin wieder.</p>
+            <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
 
-        <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe. dann hat alles sinn gemacht.</p>
+            <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
 
-        <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
+            <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p>
 
-        <h3>mein name, mein versprechen</h3>
+            <p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
 
-        <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
+            <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
 
-        <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
+            <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+          </div>
+        </div>
 
-        <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p>
+        <!-- restliche Links – gleiche Optik wie index -->
+        <a class="page-link" href="diskografie.html">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span>diskografie</span>
+        </a>
 
-        <p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
+        <a class="page-link" href="kontakt.html">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span>kontakt</span>
+        </a>
 
-        <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
+        <a class="page-link" href="aktuell.html">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span>aktuell</span>
+        </a>
 
-        <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+        <a class="page-link" href="gesehen.html">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span>gesehen</span>
+        </a>
+
+        <a class="page-link" href="plattformen.html">
+          <span class="arrow" aria-hidden="true">►</span>
+          <span>plattformen</span>
+        </a>
+
+      </section>
+
+      <div class="page-footer">
+        © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
       </div>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="page-footer">
-      © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
     </div>
   </main>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=6" defer></script>
 
-  <!-- Toggle + dynamische Höhe fürs Scrollpanel -->
+  <!-- Pfeil-Toggle & dynamische Höhe für das Panel -->
   <script>
     (function(){
-      const toggle = document.querySelector('.page-toggle.current');
-      const wrapper = document.querySelector('.page-content-wrapper');
-      const panel   = document.querySelector('.scroll-panel');
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const content = group?.querySelector('.page-content');
+      const panel  = document.querySelector('.scroll-panel');
 
       function resizePanel(){
         if(!panel) return;
         const header = document.querySelector('.header');
-        const footer = document.querySelector('.page-footer');
         const main   = document.querySelector('.main');
-        const links  = document.querySelector('.grid');
 
         const hh = header ? header.offsetHeight : 0;
-        const fh = footer ? footer.offsetHeight : 0;
-        const lh = links ? links.offsetHeight : 0;
-
         let pt = 0, pb = 0;
         if(main){
           const cs = getComputedStyle(main);
@@ -317,17 +315,15 @@
         const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
         const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
 
-        // Platz für Links oben + Footer unten freilassen
-        let max = vh - hh - fh - lh - pt - pb - gap - 16;
+        let max = vh - hh - pt - pb - gap;
         if(max < 260) max = 260;
         panel.style.maxHeight = max + 'px';
       }
 
-      if(toggle && wrapper){
+      if(toggle && content){
         toggle.addEventListener('click', () => {
-          const isOpen = wrapper.classList.contains('open');
-          wrapper.classList.toggle('open', !isOpen);
-          toggle.classList.toggle('open', !isOpen);
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
           toggle.setAttribute('aria-expanded', String(!isOpen));
         });
       }
