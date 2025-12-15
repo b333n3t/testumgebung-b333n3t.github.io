@@ -87,7 +87,7 @@
           "https://mx3.ch/b3nn3t",
           "https://genius.com/artists/B3nn3t",
           "https://soundcloud.com/b3nn3t-music",
-          "https://www.instagram.com/b333nn3t",
+          "https://www.instagram.com/b3nn3t",
           "https://www.youtube.com/@b333nn3t"
         ]
       },
@@ -281,10 +281,10 @@ body .main::after{
 .main{
   flex:1 0 auto;
   border-radius:12px;
-  padding:0;           /* kein Innenabstand, das macht das Panel */
+  padding:0;
   position:relative;
   z-index:1;
-  overflow:visible;    /* Scrollen passiert im Panel */
+  overflow:visible;
 }
 
 /* UNSICHTBARES Scroll-Panel */
@@ -301,7 +301,7 @@ body .main::after{
   border-radius:0;
   box-shadow:none;
 
-  padding:1.25rem 1rem 1.5rem; /* gleicher Abstand wie vorher */
+  padding:1.25rem 1rem 1.5rem;
 
   scrollbar-width:none;
   -ms-overflow-style:none;
@@ -356,7 +356,7 @@ body .main::after{
   text-decoration:underline;
 }
 
-/* Scroll-Cue bleibt wie gehabt */
+/* Scroll-Cue */
 .nav-arrow{z-index:1000 !important}
 .scroll-cue{
   position:fixed;left:50%;bottom:60px;transform:translateX(-50%);
@@ -503,20 +503,13 @@ body .main::after{
         </section>
 
       </div>
-
-      <!-- Footer im Panel (damit bei viel Inhalt mit scrollt) -->
-      <div style="margin-top: 2.5rem; text-align:center; font-size:.82rem;">
-        © b3nn3t · <a href="impressum.html" style="color:black;text-decoration:none;">Impressum / Datenschutz</a>
-      </div>
     </div>
   </main>
 
-  <!-- (Optional: wenn du den festen Footer bevorzugst, kannst du den oberen Footer
-       im Panel entfernen und stattdessen wieder diesen festen verwenden)
+  <!-- Fester Footer unten -->
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
-  -->
 
   <div class="scroll-cue" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -539,7 +532,7 @@ body .main::after{
     }
   </script>
 
-  <!-- Glas-Overlay-Positionierung (wie vorher) -->
+  <!-- Glas-Overlay-Positionierung -->
   <script>
     (function () {
       const glass = document.getElementById('page-glass');
@@ -567,7 +560,7 @@ body .main::after{
     })();
   </script>
 
-  <!-- Dynamische Höhe des Scroll-Panels (wie bei ueber-mich) -->
+  <!-- Dynamische Höhe des Scroll-Panels -->
   <script>
     (function(){
       const panel = document.querySelector('.scroll-panel');
