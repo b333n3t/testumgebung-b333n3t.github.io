@@ -35,7 +35,7 @@
       flex-direction:column;
     }
 
-    /* main ohne Innenabstand – wie Rahmen, analog index */
+    /* main ohne Innenabstand – wie auf index */
     main.main{
       flex:1 0 auto;
       border-radius:12px;
@@ -105,9 +105,9 @@
 
     .nav-arrow{z-index:1000}
 
-    /* ===== UNSICHTBARES Scroll-Panel (wie index) ===== */
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
-      max-width: min(1000px, 94vw);   /* Textbreite begrenzen */
+      max-width: min(1000px, 94vw);
       max-height: 75vh;               /* wird per JS angepasst */
       margin:0;
       overflow-y:auto;
@@ -126,17 +126,16 @@
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
 
-    /* exakt wie index: Wrapper für den Abstand nach oben */
+    /* exakt wie index: Wrapper mit Abstand nach oben */
     .content-offset{
       padding-top:1.5rem;
     }
 
-    /* ==== Inhalt ==== */
     .grid{
       display:flex;
       flex-direction:column;
       gap:1rem;
-      margin-top:0; /* Abstand kommt von .content-offset */
+      /* kein margin-top mehr – Abstand kommt über .content-offset */
     }
 
     .page-toggle,
@@ -151,7 +150,6 @@
       color:inherit;
       text-decoration:none;
       cursor:pointer;
-      font-weight:400;   /* gleiche Stärke wie index */
     }
 
     .page-toggle .arrow,
@@ -160,8 +158,8 @@
       transition:transform .2s ease;
     }
 
-    /* kein zusätzliches Fett mehr für "current" */
-    /* .page-group.current > .page-toggle span:last-child{ ... } ENTFERNT */
+    /* KEIN extra Fettdruck mehr – gleiche Optik wie index */
+    /* .page-group.current > .page-toggle span:last-child{ font-weight:600; } */
 
     .page-group .page-content{
       display:none;
