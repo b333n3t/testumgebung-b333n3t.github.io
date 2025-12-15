@@ -283,21 +283,6 @@ body .main::after{
   gap:1rem;
 }
 
-/* Footer unten im Block, wie bei aktuell.html */
-.footer-inline{
-  text-align:center;
-  font-size:.82rem;
-  margin-top:15em;
-}
-.footer-inline a {
-  color: rgba(0,0,0,0.65);
-  text-decoration: none;
-}
-.footer-inline a:hover {
-  text-decoration: underline;
-  color: #000;
-}
-
 /* ===== Aufklappbare Seiten im Content ===== */
 .page-group {
   margin:0; /* Abstand nur über grid-gap */
@@ -512,9 +497,12 @@ body .main::after{
 
       </section>
 
-      <!-- Footer am Ende des Blocks -->
-      <div class="footer-inline">
-        © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+      <!-- Footer mit exakt gleichem Abstand wie in aktuell.html -->
+      <div style="margin-top: 15em; color: black; text-align: center;">
+        © b3nn3t ·
+        <a href="impressum.html" style="color: black; text-decoration: none;">
+          Impressum / Datenschutz
+        </a>
       </div>
 
     </div>
