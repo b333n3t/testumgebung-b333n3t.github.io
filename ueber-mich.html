@@ -158,7 +158,7 @@
       transition:transform .2s ease;
     }
 
-    /* KEIN extra Fettdruck mehr – gleiche Optik wie index */
+    /* keine Sonder-Fettschrift für den aktiven Punkt */
     /* .page-group.current > .page-toggle span:last-child{ font-weight:600; } */
 
     .page-group .page-content{
@@ -177,16 +177,22 @@
       margin-top:0;
     }
 
-    .page-footer{
+    /* Fester Footer unten – wie index.html */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
       text-align:center;
+      color:#000;
       font-size:.82rem;
-      margin:2.5rem 0 0;
+      z-index:910;
     }
-    .page-footer a{
+    .footer-inline a{
       color:#000;
       text-decoration:none;
     }
-    .page-footer a:hover{
+    .footer-inline a:hover{
       text-decoration:underline;
     }
   </style>
@@ -290,13 +296,14 @@
           </a>
 
         </section>
-
-        <div class="page-footer">
-          © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-        </div>
       </div>
     </div>
   </main>
+
+  <!-- Fester Footer unten – wie index.html -->
+  <div class="footer-inline">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </div>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=6" defer></script>
