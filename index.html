@@ -154,6 +154,9 @@
 
   <!-- 👇 Mobile: grauer Container näher am unteren Rand -->
   <style>
+    :root { --bottom-gap: 60px; }
+    @media (max-width: 767px){ :root { --bottom-gap: 50px; } }
+
     @media (max-width: 768px) {
       main.main {
         min-height: calc(100dvh - 56px - 20px);
@@ -163,6 +166,13 @@
   </style>
 
   <style>
+/* Body als Flex-Container: Footer immer unten mit Abstand */
+body{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
 /* ===== Header / Menü (wie vorher) ===== */
 .hamburger{
   position:fixed;top:14px;right:18px;width:20px;height:20px;
@@ -253,6 +263,7 @@ body .main::after{
   box-shadow:none !important;
 }
 .main{
+  flex:1 0 auto; /* füllt den Platz zwischen Header und Footer */
   border-radius:12px;
   padding:1.25rem 1rem;
   position:relative;
@@ -318,6 +329,31 @@ body .main::after{
   margin:3px 0;
   font-size:0.95rem;
   opacity:0.8;
+}
+
+/* Untermenü-Einträge als Links */
+.page-submenu a{
+  color:inherit;
+  text-decoration:none;
+}
+.page-submenu a:hover{
+  text-decoration:underline;
+}
+
+/* ===== Footer immer unten mit Abstand ===== */
+.page-footer{
+  flex:0 0 auto;
+  text-align:center;
+  color:black;
+  font-size:.82rem;
+  margin:0 0 var(--bottom-gap);
+}
+.page-footer a{
+  color:black;
+  text-decoration:none;
+}
+.page-footer a:hover{
+  text-decoration:underline;
 }
   </style>
 
@@ -424,9 +460,9 @@ body .main::after{
             über mich
           </button>
           <ul class="page-submenu">
-            <li>Bio & Einblicke</li>
-            <li>Hintergrund</li>
-            <li>Musikalischer Weg</li>
+            <li><a href="ueber-mich.html">Bio & Einblicke</a></li>
+            <li><a href="ueber-mich.html">Hintergrund</a></li>
+            <li><a href="ueber-mich.html">Musikalischer Weg</a></li>
           </ul>
         </div>
 
@@ -437,9 +473,9 @@ body .main::after{
             diskografie
           </button>
           <ul class="page-submenu">
-            <li>Releases</li>
-            <li>Projekte</li>
-            <li>Singles</li>
+            <li><a href="diskografie.html">Releases</a></li>
+            <li><a href="diskografie.html">Projekte</a></li>
+            <li><a href="diskografie.html">Singles</a></li>
           </ul>
         </div>
 
@@ -450,9 +486,9 @@ body .main::after{
             kontakt
           </button>
           <ul class="page-submenu">
-            <li>Booking</li>
-            <li>Mail</li>
-            <li>Socials</li>
+            <li><a href="kontakt.html">Booking</a></li>
+            <li><a href="kontakt.html">Mail</a></li>
+            <li><a href="kontakt.html">Socials</a></li>
           </ul>
         </div>
 
@@ -463,8 +499,8 @@ body .main::after{
             aktuell
           </button>
           <ul class="page-submenu">
-            <li>News</li>
-            <li>Termine</li>
+            <li><a href="aktuell.html">News</a></li>
+            <li><a href="aktuell.html">Termine</a></li>
           </ul>
         </div>
 
@@ -475,9 +511,9 @@ body .main::after{
             gesehen
           </button>
           <ul class="page-submenu">
-            <li>Inspiration</li>
-            <li>Notizen</li>
-            <li>Videos</li>
+            <li><a href="gesehen.html">Inspiration</a></li>
+            <li><a href="gesehen.html">Notizen</a></li>
+            <li><a href="gesehen.html">Videos</a></li>
           </ul>
         </div>
 
@@ -488,25 +524,22 @@ body .main::after{
             plattformen
           </button>
           <ul class="page-submenu">
-            <li>Spotify</li>
-            <li>Apple Music</li>
-            <li>YouTube</li>
-            <li>Instagram</li>
+            <li><a href="plattformen.html">Spotify</a></li>
+            <li><a href="plattformen.html">Apple Music</a></li>
+            <li><a href="plattformen.html">YouTube</a></li>
+            <li><a href="plattformen.html">Instagram</a></li>
           </ul>
         </div>
 
       </section>
 
-      <!-- Footer mit exakt gleichem Abstand wie in aktuell.html -->
-      <div style="margin-top: 15em; color: black; text-align: center;">
-        © b3nn3t ·
-        <a href="impressum.html" style="color: black; text-decoration: none;">
-          Impressum / Datenschutz
-        </a>
-      </div>
-
     </div>
   </main>
+
+  <!-- Footer immer am unteren Rand mit gleichem Abstand -->
+  <footer class="page-footer">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </footer>
 
   <div class="scroll-cue" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
