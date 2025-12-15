@@ -35,7 +35,7 @@
       flex-direction:column;
     }
 
-    /* main ohne Innenabstand – wie Rahmen */
+    /* main ohne Innenabstand – wie Rahmen, analog index */
     main.main{
       flex:1 0 auto;
       border-radius:12px;
@@ -105,7 +105,7 @@
 
     .nav-arrow{z-index:1000}
 
-    /* ===== UNSICHTBARES Scroll-“Panel” ===== */
+    /* ===== UNSICHTBARES Scroll-Panel (wie index) ===== */
     .scroll-panel{
       max-width: min(1000px, 94vw);   /* Textbreite begrenzen */
       max-height: 75vh;               /* wird per JS angepasst */
@@ -113,14 +113,12 @@
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
 
-      /* komplett transparent, kein Block sichtbar */
       background:transparent;
       backdrop-filter:none;
       -webkit-backdrop-filter:none;
       border-radius:0;
       box-shadow:none;
 
-      /* Abstand wie main auf index.html */
       padding:1.25rem 1rem 1.5rem;
 
       scrollbar-width:none;
@@ -128,12 +126,17 @@
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
 
-    /* ==== Inhalt im (unsichtbaren) Panel ==== */
+    /* exakt wie index: Wrapper für den Abstand nach oben */
+    .content-offset{
+      padding-top:1.5rem;
+    }
+
+    /* ==== Inhalt ==== */
     .grid{
       display:flex;
       flex-direction:column;
       gap:1rem;
-      margin-top:1.5rem;  /* wie .content-offset padding-top auf index.html */
+      margin-top:0; /* Abstand kommt von .content-offset */
     }
 
     .page-toggle,
@@ -148,6 +151,7 @@
       color:inherit;
       text-decoration:none;
       cursor:pointer;
+      font-weight:400;   /* gleiche Stärke wie index */
     }
 
     .page-toggle .arrow,
@@ -156,9 +160,8 @@
       transition:transform .2s ease;
     }
 
-    .page-group.current > .page-toggle span:last-child{
-      font-weight:600;
-    }
+    /* kein zusätzliches Fett mehr für "current" */
+    /* .page-group.current > .page-toggle span:last-child{ ... } ENTFERNT */
 
     .page-group .page-content{
       display:none;
@@ -221,76 +224,78 @@
 
   <main class="main">
     <div class="scroll-panel">
-      <section class="grid" aria-label="Seitenübersicht">
+      <div class="content-offset">
+        <section class="grid" aria-label="Seitenübersicht">
 
-        <!-- über mich – auf-/zuklappbar -->
-        <div class="page-group current open">
-          <button class="page-toggle" type="button" aria-expanded="true">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>über mich</span>
-          </button>
+          <!-- über mich – auf-/zuklappbar -->
+          <div class="page-group current open">
+            <button class="page-toggle" type="button" aria-expanded="true">
+              <span class="arrow" aria-hidden="true">►</span>
+              <span>über mich</span>
+            </button>
 
-          <div class="page-content">
-            <h1>über mich</h1>
+            <div class="page-content">
+              <h1>über mich</h1>
 
-            <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
+              <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
 
-            <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
+              <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
 
-            <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe – über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
+              <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe – über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
 
-            <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt. vielleicht findest du dich darin wieder.</p>
+              <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt. vielleicht findest du dich darin wieder.</p>
 
-            <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe. dann hat alles sinn gemacht.</p>
+              <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe. dann hat alles sinn gemacht.</p>
 
-            <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
+              <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
 
-            <h3>mein name, mein versprechen</h3>
+              <h3>mein name, mein versprechen</h3>
 
-            <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
+              <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
 
-            <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
+              <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
 
-            <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p>
+              <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p>
 
-            <p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
+              <p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
 
-            <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
+              <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
 
-            <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+            </div>
           </div>
+
+          <!-- restliche Links – gleiche Optik wie index -->
+          <a class="page-link" href="diskografie.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>diskografie</span>
+          </a>
+
+          <a class="page-link" href="kontakt.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>kontakt</span>
+          </a>
+
+          <a class="page-link" href="aktuell.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>aktuell</span>
+          </a>
+
+          <a class="page-link" href="gesehen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>gesehen</span>
+          </a>
+
+          <a class="page-link" href="plattformen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>plattformen</span>
+          </a>
+
+        </section>
+
+        <div class="page-footer">
+          © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
         </div>
-
-        <!-- restliche Links – gleiche Optik wie index -->
-        <a class="page-link" href="diskografie.html">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span>diskografie</span>
-        </a>
-
-        <a class="page-link" href="kontakt.html">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span>kontakt</span>
-        </a>
-
-        <a class="page-link" href="aktuell.html">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span>aktuell</span>
-        </a>
-
-        <a class="page-link" href="gesehen.html">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span>gesehen</span>
-        </a>
-
-        <a class="page-link" href="plattformen.html">
-          <span class="arrow" aria-hidden="true">►</span>
-          <span>plattformen</span>
-        </a>
-
-      </section>
-
-      <div class="page-footer">
-        © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
       </div>
     </div>
   </main>
