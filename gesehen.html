@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- ✅ SEO-optimiert -->
-  <title>b3nn3t – Gesehen: Videos & Reels | Offizielle Website</title>
-  <meta name="description" content="Schau dir b3nn3ts aktuelle Videos, Reels und Musikclips an – YouTube, Instagram & Intro-Video. Deutscher Indie-Pop-Künstler mit Sitz in der Schweiz." />
+  <title>Gesehen – b3nn3t | Videos & Reels | Medien & Highlights</title>
+  <meta name="description" content="Schau dir b3nn3ts aktuelle Videos, Reels, Auftritte und Musikclips an – YouTube, Instagram. Deutscher Indie-Pop-Künstler mit Sitz in der Schweiz." />
   <meta name="keywords" content="b3nn3t, Videos, Reels, YouTube, Instagram, Indie Pop Deutschland, Musiker Schweiz, b3nn3t.com, b3nn3t.de, b3nn3t.ch, b3nn3t.at" />
   <meta name="robots" content="index,follow" />
 
@@ -35,8 +35,12 @@
 
   <!-- ✅ Favicon -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192.png">
 
-  <!-- ✅ Performance (optional, hilft beim Embed-Laden) -->
+  <!-- ✅ Performance -->
   <link rel="preconnect" href="https://www.youtube.com" crossorigin>
   <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
   <link rel="preconnect" href="https://www.instagram.com" crossorigin>
@@ -86,7 +90,7 @@
         "description": "Kurzes Intro-Video von b3nn3t zur Website.",
         "thumbnailUrl": "https://www.b3nn3t.com/assets/instagram_poster.jpg",
         "contentUrl": "https://www.b3nn3t.com/assets/gesehen/B3NN3T.mp4",
-        "uploadDate": "2025-01-01",
+        "uploadDate": "2025-01-01T00:00:00+01:00",
         "inLanguage": "de",
         "publisher": { "@id": "https://www.b3nn3t.com/#org" }
       },
@@ -97,40 +101,7 @@
         "thumbnailUrl": "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
         "embedUrl": "https://www.youtube.com/embed/ZSaj_FuqPN8",
         "url": "https://www.youtube.com/watch?v=ZSaj_FuqPN8",
-        "uploadDate": "2024-10-15",
-        "inLanguage": "de",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
-      },
-      {
-        "@type": "VideoObject",
-        "name": "YouTube 2",
-        "description": "Zweites Musikvideo von b3nn3t auf YouTube.",
-        "thumbnailUrl": "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
-        "embedUrl": "https://www.youtube.com/embed/DMNl40Tip1w",
-        "url": "https://www.youtube.com/watch?v=DMNl40Tip1w",
-        "uploadDate": "2024-09-20",
-        "inLanguage": "de",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
-      },
-      {
-        "@type": "VideoObject",
-        "name": "YouTube 3",
-        "description": "Weiteres Video von b3nn3t auf YouTube.",
-        "thumbnailUrl": "https://img.youtube.com/vi/K5pKG0Smdfc/hqdefault.jpg",
-        "embedUrl": "https://www.youtube.com/embed/K5pKG0Smdfc",
-        "url": "https://www.youtube.com/watch?v=K5pKG0Smdfc",
-        "uploadDate": "2024-08-10",
-        "inLanguage": "de",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
-      },
-      {
-        "@type": "VideoObject",
-        "name": "Instagram Reel",
-        "description": "Instagram-Reel mit einem kurzen Clip von b3nn3t.",
-        "thumbnailUrl": "https://www.b3nn3t.com/assets/gesehen/insta1.webp",
-        "embedUrl": "https://www.instagram.com/reel/DKHa8SoMzQ-/embed",
-        "url": "https://www.instagram.com/reel/DKHa8SoMzQ-/",
-        "uploadDate": "2024-11-01",
+        "uploadDate": "2024-10-15T00:00:00+01:00",
         "inLanguage": "de",
         "publisher": { "@id": "https://www.b3nn3t.com/#org" }
       }
@@ -142,75 +113,75 @@
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
-  <!-- 👇 Mobile: grauer Container näher am unteren Rand -->
   <style>
-    @media (max-width: 768px) {
-      main.main {
-        min-height: calc(100dvh - 56px - 20px); /* 56 = Headerhöhe, 20 = Abstand unten */
-        height: calc(100dvh - 56px - 20px);
-      }
-    }
-  </style>
+    :root{ --bottom-gap:60px; }
+    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-  <style>
-    .hamburger {
-      position: fixed;
-      top: 14px;
-      right: 18px;
-      width: 20px;
-      height: 20px;
-      border: none;
-      background: transparent;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      z-index: 1200;
-      padding: 0;
+    html, body{ overflow:hidden; }
+    @media (max-width:767px){
+      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
     }
-    .hamburger span {
-      display: block;
-      width: 12px;
-      height: 1.4px;
-      margin: 1.5px 0;
-      background: #000;
-      border-radius: 2px;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
-    body.menu-open .hamburger span:nth-child(2){opacity:0}
-    body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
 
-    .menu-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.08);
-      backdrop-filter: blur(1px);
-      -webkit-backdrop-filter: blur(1px);
-      z-index: 1099;
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
-    body.menu-open #menu-overlay {display:block}
+
+    main.main{
+      flex:1 0 auto;
+      border-radius:12px;
+      padding:0;
+      position:relative;
+      z-index:1;
+      overflow:visible;
+      background:transparent !important;
+      box-shadow:none !important;
+    }
+
+    /* ===== Hamburger-Menü (wie index) ===== */
+    .hamburger{
+      position:fixed;top:14px;right:18px;width:20px;height:20px;
+      border:0;background:transparent;display:grid;place-items:center;
+      cursor:pointer;z-index:1200;padding:0
+    }
+    .hamburger span{
+      display:block;width:12px;height:1.4px;margin:1.5px 0;
+      background:#000;border-radius:2px;
+      transition:transform .2s,opacity .2s
+    }
+    body.menu-open .hamburger span:nth-child(1){
+      transform:translateY(3.5px) rotate(45deg)
+    }
+    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
+    body.menu-open .hamburger span:nth-child(3){
+      transform:translateY(-3.5px) rotate(-45deg)
+    }
+
+    .menu-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.08);
+      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+      z-index:1099
+    }
+    body.menu-open #menu-overlay{display:block}
     #menu-overlay[hidden]{display:none}
 
-    .site-menu {
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: auto;
-      max-height: 90vh;
-      width: min(40vw,150px);
-      background: rgba(255,255,255,.32);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      box-shadow: 0 20px 50px rgba(0,0,0,.08);
-      transform: translateX(100%);
-      transition: transform .25s ease;
-      z-index: 1101;
-      padding: 46px 10px 14px;
+    .site-menu{
+      position:fixed;top:0;right:0;height:auto;max-height:90vh;
+      width:min(40vw,150px);
+      background:rgba(255,255,255,.32);
+      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+      box-shadow:0 20px 50px rgba(0,0,0,.08);
+      transform:translateX(100%);transition:transform .25s;
+      z-index:1101;padding:46px 10px 14px
     }
-    body.menu-open .site-menu {transform: translateX(0)}
+    body.menu-open .site-menu{transform:translateX(0)}
     .site-menu ul{list-style:none;margin:0;padding:0}
-    .site-menu li{margin:0 0 10px 0}
-    .site-menu li.sep{margin-top:18px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08)}
+    .site-menu li{margin:0 0 10px}
+    .site-menu li.sep{
+      margin-top:18px;padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.08)
+    }
     .site-menu a{
       display:block;
       padding:8px 6px;
@@ -221,33 +192,90 @@
       font-weight:500;
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
-    .nav-arrow{z-index:1000}
 
-    :root{--frame-pad:clamp(18px,3vw,28px)}
-    .main{
-      background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px);
-      -webkit-backdrop-filter:blur(2px);
-      border-radius:12px;
-      padding:var(--frame-pad);
-    }
+    .nav-arrow{z-index:1400 !important;}
+
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
-      overflow:auto;
+      max-width:min(1000px,94vw);
       max-height:75vh;
-      -webkit-overflow-scrolling:touch;
-      background:transparent;
-      border-radius:12px;
-      box-shadow:none;
-      padding:0;
       margin:0;
-      max-width:650px;
-      scrollbar-width:none;
-      -ms-overflow-style:none
-    }
-    .scroll-panel::-webkit-scrollbar{display:none}
-    .scroll-panel h1{margin:0 0 .6rem}
-    .scroll-panel p{margin:0 0 1rem}
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
 
+      background:transparent;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      border-radius:0;
+      box-shadow:none;
+
+      padding:1.25rem 1rem 1.5rem;
+
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+    .scroll-panel::-webkit-scrollbar{display:none;}
+
+    .content-offset{ padding-top:1.5rem; }
+
+    .grid{
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+
+    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
+    .page-link{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      text-decoration:none;
+      color:inherit;
+    }
+    .page-link:visited{ color:inherit; }
+
+    .page-link .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-toggle{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      background:transparent;
+      border:none;
+      padding:0;
+      color:inherit;
+      cursor:pointer;
+
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .page-toggle .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-group > .page-content{
+      display:none;
+      margin-left:18px;
+      margin-top:.75rem;
+    }
+    .page-group.open > .page-content{display:block;}
+    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
+
+    .page-content h1{margin-top:0;}
+    .page-content p{margin:0 0 1rem 0;}
+
+    /* ===== Content Styles (dein gesehen-grid, unverändert) ===== */
     .grid-seen{
       display:flex;
       justify-content:flex-start;
@@ -319,11 +347,16 @@
       font-weight:600
     }
 
-    /* ===== Inline-Footer (neu) ===== */
+    /* Fester Footer unten – wie index.html */
     .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
       text-align:center;
+      color:#000;
       font-size:.82rem;
-      margin:2rem 0 1rem 0;
+      z-index:910;
     }
     .footer-inline a{
       color:#000;
@@ -332,16 +365,33 @@
     .footer-inline a:hover{
       text-decoration:underline;
     }
+
+    /* swipe helper */
+    .edge-swipe {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 28px;
+      z-index: 1201;
+      background: transparent;
+      pointer-events: none;
+    }
+    .edge-swipe.left  { left: 0; }
+    .edge-swipe.right { right: 0; }
+    @media (pointer: coarse){
+      .edge-swipe{ pointer-events: auto; }
+    }
   </style>
 </head>
+
 <body>
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg">
-      <strong>b3nn3t</strong>
+      <img src="favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
+  <!-- Burger-Menü -->
   <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
     <span></span><span></span><span></span>
   </button>
@@ -359,55 +409,149 @@
     </ul>
   </nav>
 
+  <!-- Seitenpfeile -->
   <a class="nav-arrow left" aria-label="Vorherige Seite" href="aktuell.html">←</a>
   <a class="nav-arrow right" aria-label="Nächste Seite" href="plattformen.html">→</a>
 
   <main class="main">
     <div class="scroll-panel">
-      <h1>gesehen</h1>
-      <p>schon mal reingeschaut</p>
+      <div class="content-offset">
+        <section class="grid" aria-label="Seitenübersicht">
 
-      <!-- Intro -->
-      <section class="grid grid-seen" aria-label="Intro">
-        <div class="card" id="introVideo" data-embed-src="assets/gesehen/B3NN3T.mp4">
-          ▶︎ Intro-Video
-          <small>Intro & Start</small>
-        </div>
-      </section>
+          <!-- über mich -->
+          <a class="page-link" href="ueber-mich.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>über mich</span>
+          </a>
 
-      <!-- Videos -->
-      <section class="grid grid-seen" aria-label="Videos">
-        <!-- Instagram -->
-        <div class="card" id="video1" data-embed-src="https://www.instagram.com/reel/DKHa8SoMzQ-/embed">▶︎ link<small>Instagram</small></div>
-        <div class="card" id="video2" data-embed-src="https://www.instagram.com/reel/DK9pg-boyA1/embed">▶︎ link<small>Instagram</small></div>
-        <div class="card" id="video3" data-embed-src="https://www.instagram.com/reel/DLqGKqLsY6S/embed">▶︎ link<small>Instagram</small></div>
-        <div class="card" id="video4" data-embed-src="https://www.instagram.com/reel/C40c2qsN_eI/embed">▶︎ link<small>Instagram</small></div>
+          <!-- diskografie -->
+          <a class="page-link" href="diskografie.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>diskografie</span>
+          </a>
 
-        <!-- YouTube -->
-        <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">▶︎ YouTube 1<small>YouTube</small></div>
-        <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">▶︎ YouTube 2<small>YouTube</small></div>
-        <div class="card" id="yt3" data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc">▶︎ YouTube 3<small>YouTube</small></div>
-        <div class="card" id="yt4" data-embed-src="https://www.youtube.com/embed/4I9vlcGvFGQ">▶︎ YouTube 4<small>YouTube</small></div>
-        <div class="card" id="yt5" data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M">▶︎ YouTube 5<small>YouTube</small></div>
-        <div class="card" id="yt6" data-embed-src="https://www.youtube.com/embed/rV1U891RKLo">▶︎ YouTube 6<small>YouTube</small></div>
-        <div class="card" id="yt7" data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0">▶︎ YouTube 7<small>YouTube</small></div>
-      </section>
+          <!-- kontakt -->
+          <a class="page-link" href="kontakt.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>kontakt</span>
+          </a>
 
-      <!-- Drei Zeilen Abstand -->
-      <br><br><br>
+          <!-- aktuell -->
+          <a class="page-link" href="aktuell.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>aktuell</span>
+          </a>
 
-      <!-- Inline-Footer im Container -->
-      <div class="footer-inline">
-        © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+          <!-- gesehen – current open -->
+          <div class="page-group current open">
+            <button class="page-toggle" type="button" aria-expanded="true">
+              <span class="arrow" aria-hidden="true">►</span>
+              <span>gesehen</span>
+            </button>
+
+            <div class="page-content">
+              <h1>gesehen</h1>
+              <p>schon mal reingeschaut
+                <span style="opacity:0; height:0; overflow:hidden; display:block;" aria-hidden="true">
+                  videos, reels und musikclips von b3nn3t – deutschrap und indie-pop aus der schweiz, veröffentlicht auf youtube und instagram.
+                </span>
+              </p>
+
+              <!-- Intro -->
+              <section class="grid grid-seen" aria-label="Intro">
+                <div class="card" id="introVideo" data-embed-src="assets/gesehen/B3NN3T.mp4">
+                  ▶︎ Intro-Video
+                  <small>Intro & Start</small>
+                </div>
+              </section>
+
+              <!-- Videos -->
+              <section class="grid grid-seen" aria-label="Videos">
+                <!-- Instagram -->
+                <div class="card" id="video1" data-embed-src="https://www.instagram.com/reel/DKHa8SoMzQ-/embed">▶︎ link<small>Instagram</small></div>
+                <div class="card" id="video2" data-embed-src="https://www.instagram.com/reel/DK9pg-boyA1/embed">▶︎ link<small>Instagram</small></div>
+                <div class="card" id="video3" data-embed-src="https://www.instagram.com/reel/DLqGKqLsY6S/embed">▶︎ link<small>Instagram</small></div>
+                <div class="card" id="video4" data-embed-src="https://www.instagram.com/reel/C40c2qsN_eI/embed">▶︎ link<small>Instagram</small></div>
+
+                <!-- YouTube -->
+                <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">▶︎ YouTube 1<small>YouTube</small></div>
+                <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">▶︎ YouTube 2<small>YouTube</small></div>
+                <div class="card" id="yt3" data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc">▶︎ YouTube 3<small>YouTube</small></div>
+                <div class="card" id="yt4" data-embed-src="https://www.youtube.com/embed/4I9vlcGvFGQ">▶︎ YouTube 4<small>YouTube</small></div>
+                <div class="card" id="yt5" data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M">▶︎ YouTube 5<small>YouTube</small></div>
+                <div class="card" id="yt6" data-embed-src="https://www.youtube.com/embed/rV1U891RKLo">▶︎ YouTube 6<small>YouTube</small></div>
+                <div class="card" id="yt7" data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0">▶︎ YouTube 7<small>YouTube</small></div>
+
+                <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+              </section>
+            </div>
+          </div>
+
+          <!-- darunter -->
+          <a class="page-link" href="plattformen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>plattformen</span>
+          </a>
+
+        </section>
       </div>
     </div>
   </main>
 
-  <!-- „Startseite“-Button wie gehabt außerhalb des Containers -->
-  <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+  <!-- Footer fix unten -->
+  <div class="footer-inline">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </div>
+
+  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe right" aria-hidden="true"></div>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- Panelhöhe dynamisch (wie über-mich/kontakt) + Accordion toggle -->
+  <script>
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const panel  = document.querySelector('.scroll-panel');
+
+      function resizePanel(){
+        if(!panel) return;
+        const header = document.querySelector('.header');
+        const main   = document.querySelector('.main');
+
+        const hh = header ? header.offsetHeight : 0;
+        let pt = 0, pb = 0;
+        if(main){
+          const cs = getComputedStyle(main);
+          pt = parseFloat(cs.paddingTop)  || 0;
+          pb = parseFloat(cs.paddingBottom) || 0;
+        }
+
+        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
+        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+        let max = vh - hh - pt - pb - gap;
+        if(max < 260) max = 260;
+        panel.style.maxHeight = max + 'px';
+      }
+
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+    })();
+  </script>
 
   <!-- Öffnet Video direkt unter der Karte (volle Breite) + Schließen -->
   <script>
