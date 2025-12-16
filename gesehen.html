@@ -260,43 +260,55 @@
 
 /* ===== Cards: breiter, höher, enger ===== */
 .grid-seen{
-  display:grid;
-  grid-template-columns: repeat(2, minmax(380px, 1fr)); /* ✅ breitere Kacheln */
-  gap: 14px;                                           /* ✅ enger zusammen */
-  width: 100%;
-  max-width: var(--seen-max);
-  margin: .75rem 0 0 0;     /* linksbündig */
+  display: grid;
+
+  /* 🔥 große Cards */
+  grid-template-columns: repeat(2, minmax(360px, 1fr));
+
+  /* 🔥 enger zusammen */
+  gap: 16px;
+
+  /* 🔥 linksbündig, kompakt */
   justify-content: start;
   align-items: start;
+
+  /* 🔥 verhindert Auseinanderziehen */
+  max-width: 760px;
+  margin: 0;
 }
+
 
 @media (max-width: 900px){
   :root{ --seen-max: 760px; }
   .grid-seen{ grid-template-columns: repeat(2, minmax(320px, 1fr)); }
 }
 
-@media (max-width: 700px){
-  :root{ --seen-max: 520px; }
-  .grid-seen{ grid-template-columns: 1fr; }
+@media (max-width: 720px){
+  .grid-seen{
+    grid-template-columns: 1fr;
+    max-width: 520px;
+  }
+}
+.grid-seen .card{
+  background: rgba(255,255,255,.65);
+  border-radius: 22px;
+
+  /* 🔥 mehr Fläche */
+  padding: 20px 20px 18px;
+
+  box-shadow: 0 12px 32px rgba(0,0,0,.10);
+  text-align: center;
 }
 
-.grid-seen .card{
-  cursor:pointer;
-  background: rgba(255,255,255,.62);
-  border-radius: 22px;
-  padding: 22px 20px 18px;      /* ✅ höher (mehr “Body”) */
-  box-shadow: 0 12px 34px rgba(0,0,0,.10);
-  text-align:center;
-}
 
 /* Thumbnail etwas größer -> Card wirkt höher */
 .card .thumb{
-  width:100%;
+  width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 16px;
+  border-radius: 18px;
   margin-bottom: 14px;
-  object-fit: cover;
 }
+
 
 /* Label etwas größer */
 .grid-seen .card .play-label,
@@ -309,25 +321,35 @@
 
 
     /* ========= Player: unter der jeweiligen 2er-Reihe, zentriert im Blockmaß ========= */
-    .video-row{
-      grid-column: 1 / -1;        /* volle Zeile IM Grid */
-      width: 100%;
-      max-width: var(--seen-max); /* gleiche Breite wie Cards-Block */
-      display:flex;
-      justify-content:center;     /* ✅ zentriert unter beiden Cards */
-      margin-top: 6px;
-    }
+.video-row{
+  grid-column: 1 / -1;
 
-    .video-wrapper{
-      width: 100%;
-      max-width: calc(var(--seen-max) - var(--player-inner)); /* optional innen schmaler */
-      aspect-ratio: 16 / 9;
-      position: relative;
-      overflow:hidden;
-      border-radius:14px;
-      background:#000;
-      border:1px solid rgba(0,0,0,.06);
-    }
+  /* exakt gleiche Breite wie Grid */
+  max-width: 760px;
+
+  display: flex;
+  justify-content: center;   /* 🔥 mittig unter beiden Cards */
+
+  margin-top: 8px;
+}
+.video-wrapper{
+  width: min(520px, 100%);
+  aspect-ratio: 16 / 9;
+
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+}
+@media (max-width: 720px){
+  .video-row{
+    justify-content: center;
+    max-width: 520px;
+  }
+  .video-wrapper{
+    width: 100%;
+  }
+}
+
 
     .video-wrapper iframe,
     .video-wrapper video{
