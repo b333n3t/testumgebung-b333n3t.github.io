@@ -89,12 +89,13 @@
     :root{
       --bottom-gap:60px;
 
-      /* ✅ Ziel: wie Bild 2 (etwas kleiner als Bild 1) */
-      --seen-max: 720px;     /* Gesamtbreite vom 2er-Block */
-      --card-min: 340px;     /* Mindestbreite pro Card */
-      --seen-gap: 14px;      /* Abstand zwischen Cards */
+      /* ✅ Ziel: wie Bild 2 */
+      --seen-max: 760px;     /* Gesamtbreite vom 2er-Block */
+      --card-min: 320px;     /* Mindestbreite pro Card */
+      --seen-gap: 18px;      /* Abstand zwischen Cards */
       --card-pad: 18px;      /* Innenabstand Card */
-      --player-w: 500px;     /* Playerbreite unter 2er-Reihe */
+      --thumb-h: 190px;      /* ✅ fix: alle Thumbs gleich hoch */
+      --player-w: 560px;     /* Playerbreite unter 2er-Reihe */
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
@@ -234,68 +235,65 @@
     .page-content h1{margin-top:0;}
     .page-content p{margin:0 0 1rem 0;}
 
-    /* ========= Cards: wie Bild 2 ========= */
-/* ===== Karten-Grid (wie dein Wunschbild) ===== */
-.grid-seen{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(340px, 1fr));
-  gap: 18px;
+    /* ========= Cards: ✅ fix „zu groß / unterschiedlich“ ========= */
+    .grid-seen{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(var(--card-min), 1fr));
+      gap: var(--seen-gap);
+      max-width: var(--seen-max);
+      margin: 0;              /* linksbündig */
+      align-items:start;
+      justify-content:start;
+    }
 
-  max-width: 760px;   /* exakt 2 große Karten nebeneinander */
-  margin: 0;          /* linksbündig */
-  align-items: start;
-}
+    @media (max-width: 720px){
+      .grid-seen{
+        grid-template-columns: 1fr;
+        max-width: 520px;
+      }
+    }
 
-/* Mobile: 1 Spalte */
-@media (max-width: 720px){
-  .grid-seen{
-    grid-template-columns: 1fr;
-    max-width: 520px;
-  }
-}
+    .grid-seen .card{
+      background: rgba(255,255,255,.65);
+      border-radius: 22px;
+      padding: var(--card-pad);
+      box-shadow: 0 12px 28px rgba(0,0,0,.10);
+      text-align: center;
+      cursor:pointer;
+    }
 
-/* ===== Einzelne Karte ===== */
-.grid-seen .card{
-  background: rgba(255,255,255,.65);
-  border-radius: 22px;
-  padding: 18px;
-  box-shadow: 0 12px 28px rgba(0,0,0,.10);
-  text-align: center;
-}
+    /* ✅ alle Thumbnails exakt gleich hoch -> keine „Riesen-Kacheln“ mehr */
+    .grid-seen .card .thumb{
+      width:100%;
+      height: var(--thumb-h);
+      object-fit: cover;
+      display:block;
+      border-radius: 18px;
+      margin-bottom: 12px;
+      background:#000;
+    }
 
-/* ===== Bild IMMER gleich groß ===== */
-.grid-seen .card .thumb{
-  width: 100%;
-  height: 190px;            /* 🔑 DAS war der fehlende Fix */
-  object-fit: cover;        /* schneidet sauber */
-  border-radius: 18px;
-  margin-bottom: 12px;
-  background: #000;
-}
+    .grid-seen .card .play-label,
+    .grid-seen .card .yt-title{
+      display:block;
+      margin-top:6px;
+      font-size:1.05rem;
+      font-weight:600;
+    }
 
-/* Titel / Label */
-.grid-seen .card .play-label,
-.grid-seen .card .yt-title{
-  display:block;
-  margin-top:6px;
-  font-size:1.05rem;
-  font-weight:600;
-}
-
-
-    /* ========= Player: unter der jeweiligen 2er-Reihe, mittig im 2er-Block ========= */
+    /* ========= Player: unter der jeweiligen 2er-Reihe, mittig ========= */
     .video-row{
       grid-column: 1 / -1;
       width:100%;
       max-width: var(--seen-max);
       display:flex;
-      justify-content:center; /* ✅ mittig unter den 2 Cards */
+      justify-content:center;
       margin-top: 8px;
     }
     .video-wrapper{
       width: min(var(--player-w), 100%);
       aspect-ratio: 16 / 9;
-      position: relative;      /* ✅ wichtig für absolute iframe/video + close button */
+      position: relative;
       overflow:hidden;
       border-radius:14px;
       background:#000;
