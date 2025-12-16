@@ -122,23 +122,20 @@
   cursor:pointer;
 }
 
-/* PLAYER-ZEILE: sitzt IM GRID, aber volle Breite unter der gewählten Card */
-.player-row{
-  grid-column: 1 / -1;
-  background:#fff;
-  border:1px solid #ddd;
-  border-radius:12px;
-  padding:12px;
-  box-shadow:0 1px 3px rgba(0,0,0,.06);
+/* Player sitzt IN der Card -> gleiche Breite wie Album/EP/Single */
+.tracklist{
+  margin-top: .75rem;
 }
-
-.player-row[hidden]{ display:none !important; }
-.player-row iframe{
+.tracklist[hidden]{
+  display:none !important;
+}
+.tracklist iframe{
   width:100%;
   height:352px;
   border:0;
   border-radius:8px;
 }
+
     .footer-inline{
       position:fixed;
       left:0;right:0;bottom:40px;
@@ -499,7 +496,7 @@ let playerRow = null;         // die eine Player-Zeile (wird verschoben)
 function ensurePlayerRow(){
   if(playerRow) return playerRow;
   playerRow = document.createElement('div');
-  playerRow.className = 'player-row';
+  playerRow.className = 'tracklist';   // <-- statt player-row
   playerRow.hidden = true;
   return playerRow;
 }
@@ -526,9 +523,6 @@ function openPlayerForCard(card){
   const embed = makeSpotifyEmbed(link.href);
   if(!embed) return;
 
-  const grid = card.closest('.disco-grid');
-  if(!grid) return;
-
   const row = ensurePlayerRow();
 
   // Wenn genau diese Card schon offen ist -> schließen
@@ -540,11 +534,13 @@ function openPlayerForCard(card){
   // sonst: vorherigen Player schließen
   closePlayer();
 
-  // Player-Zeile direkt NACH dieser Card ins gleiche Grid setzen
-const next = card.nextElementSibling;
-if (next) grid.insertBefore(row, next);
-else grid.appendChild(row);
-
+  // Player kommt IN die Card (gleiche Breite)
+  const toggleWrap = card.querySelector('.toggle');
+  if (toggleWrap && toggleWrap.parentElement === card) {
+    toggleWrap.insertAdjacentElement('afterend', row);
+  } else {
+    card.appendChild(row);
+  }
 
   row.innerHTML = `
     <iframe
@@ -560,6 +556,7 @@ else grid.appendChild(row);
 
   openCard = card;
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
