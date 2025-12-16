@@ -236,22 +236,17 @@
     .page-content p{margin:0 0 1rem 0;}
 
     /* ========= Cards: ✅ fix „zu groß / unterschiedlich“ ========= */
-/* ===========================
-   FINAL FIX – GROSSE KACHELN
-   =========================== */
-
 .grid-seen{
   display: grid !important;
- grid-template-columns: repeat(2, minmax(350px, 1fr)) !important;
-  gap: 20px !important;
+  grid-template-columns: repeat(2, minmax(330px, 1fr)) !important;
+  gap: 18px !important;
 
-  max-width: 760px !important;   /* ⬅️ DAS ist der Schlüssel */
+  max-width: 720px !important;
   margin: 0 !important;
   justify-content: start !important;
   align-items: start !important;
 }
 
-/* Mobile */
 @media (max-width: 820px){
   .grid-seen{
     grid-template-columns: 1fr !important;
@@ -259,28 +254,26 @@
   }
 }
 
-/* Karte */
 .grid-seen .card{
   width: 100% !important;
-  max-width: none !important;     /* ⬅️ überschreibt styles.css */
-  min-width: 0 !important;
+  max-width: none !important;
 
-  padding: 18px !important;
+  padding: 16px !important;
   border-radius: 22px !important;
 
   background: rgba(255,255,255,.68) !important;
-  box-shadow: 0 12px 30px rgba(0,0,0,.11) !important;
+  box-shadow: 0 12px 28px rgba(0,0,0,.10) !important;
 }
 
-/* Thumbnail – ALLE gleich groß */
 .grid-seen .card .thumb{
   width: 100% !important;
-  height: 190px !important;       /* ⬅️ verhindert Riesen-/Mini-Karten */
+  height: 175px !important;
   object-fit: cover !important;
 
   border-radius: 16px !important;
-  margin-bottom: 12px !important;
+  margin-bottom: 10px !important;
 }
+
 
 
     .grid-seen .card .play-label,
