@@ -276,56 +276,65 @@
     .page-content p{margin:0 0 1rem 0;}
 
     /* ===== Content Styles (dein gesehen-grid, unverändert) ===== */
+/* ===== Grid statt Flex: immer 2 Cards nebeneinander ===== */
 .grid-seen{
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* <<< 2 nebeneinander */
-  gap: 14px;
-  margin-top: .5rem;
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap:14px;
+  margin-top:.5rem;
+  align-items:start;
 }
 
-.grid-seen .card{
-  width: 100%;
-  cursor: pointer;
-  position: relative;
-}
-
-/* Mobile: 1 Card */
-@media (max-width: 640px){
+/* Mobile: 1 Spalte */
+@media (max-width: 700px){
   .grid-seen{
     grid-template-columns: 1fr;
   }
 }
-    .card .thumb{
-      width:100%;
-      aspect-ratio:16/9;
-      display:block;
-      border-radius:12px;
-      object-fit:cover;
-      background:#000;
-      margin-bottom:8px
-    }
+
+.grid-seen .card{
+  width:100%;
+  cursor:pointer;
+  position:relative;
+  background: rgba(255,255,255,.22);
+  border-radius: 16px;
+  padding: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+}
+
+/* Thumbnail wie vorher */
+.card .thumb{
+  width:100%;
+  aspect-ratio:16/9;
+  display:block;
+  border-radius:12px;
+  object-fit:cover;
+  background:#000;
+  margin-bottom:8px;
+}
+
+/* ===== Player-Zeile: immer volle Breite unter den Cards ===== */
 .video-row{
-  flex: 0 0 100%;
-  display: flex;
-  justify-content: flex-start;
+  grid-column: 1 / -1;     /* <- das ist der Key */
+  width:100%;
+  display:block;
 }
 
+/* Player kleiner wie vorher (max-width begrenzen + zentrieren) */
 .video-wrapper{
-  position: relative;
-  width: 100%;
-  max-width: 600px;        /* <<< HIER: Player kleiner */
-  padding-bottom: 56.25%;
-  height: 0;
-  margin-top: 12px;
-  border-radius: 12px;
-  background: #000;
-  border: 1px solid rgba(0,0,0,0.06);
-}
+  position:relative;
+  padding-bottom:56.25%;
+  height:0;
+  overflow:hidden;
+  margin-top:12px;
 
-@media (max-width: 700px){
-  .video-wrapper{
-    max-width: 100%;       /* mobil wieder volle Breite */
-  }
+  width: min(650px, 100%); /* <- kleiner */
+  margin-left:auto;
+  margin-right:auto;
+
+  border-radius:12px;
+  background:#000;
+  border:1px solid rgba(0,0,0,0.06);
 }
 
 .video-wrapper iframe,
@@ -337,27 +346,29 @@
   border:0;
 }
 
-    .video-close{
-      position:absolute;
-      top:6px;
-      right:10px;
-      font-size:24px;
-      background:rgba(0,0,0,0.6);
-      color:#fff;
-      border:none;
-      border-radius:4px;
-      cursor:pointer;
-      z-index:10;
-      line-height:1;
-      padding:2px 8px
-    }
-    .video-close:hover{background:rgba(255,255,255,0.9);color:#000}
-    .grid-seen .card .yt-title{
-      display:block;
-      margin-top:4px;
-      font-size:.95rem;
-      font-weight:600
-    }
+.video-close{
+  position:absolute;
+  top:6px;
+  right:10px;
+  font-size:24px;
+  background:rgba(0,0,0,0.6);
+  color:#fff;
+  border:none;
+  border-radius:4px;
+  cursor:pointer;
+  z-index:10;
+  line-height:1;
+  padding:2px 8px;
+}
+.video-close:hover{background:rgba(255,255,255,0.9);color:#000}
+
+.grid-seen .card .yt-title{
+  display:block;
+  margin-top:4px;
+  font-size:.95rem;
+  font-weight:600;
+}
+
 
     /* Fester Footer unten – wie index.html */
     .footer-inline{
@@ -612,7 +623,9 @@
               wrapper.appendChild(iframe);
             }
             row.appendChild(wrapper);
-            card.parentNode.insertBefore(row, card.nextSibling);
+            const grid = card.closest('.grid-seen');
+(grid || card.parentNode).insertBefore(row, card.nextSibling);
+
             card.scrollIntoView({ behavior: 'smooth', block: 'center' });
           } catch (err) {
             console.error('Video open error:', err);
