@@ -235,47 +235,53 @@
     .page-content p{margin:0 0 1rem 0;}
 
     /* ========= Cards: wie Bild 2 ========= */
-/* ===== FIX: Cards wirklich groß + 2 Spalten eng zusammen ===== */
+/* ===== Karten-Grid (wie dein Wunschbild) ===== */
 .grid-seen{
-  width: 100% !important;
-  max-width: 860px !important;      /* <— DAS macht die Spalten “zusammen” */
-  margin: 0 !important;             /* linksbündig */
-  display: grid !important;
-  grid-template-columns: repeat(2, minmax(360px, 1fr)) !important;
-  gap: 14px !important;             /* enger */
-  justify-content: start !important;
-  justify-items: stretch !important;/* Cards sollen die Spalte füllen */
-  align-items: start !important;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(340px, 1fr));
+  gap: 18px;
+
+  max-width: 760px;   /* exakt 2 große Karten nebeneinander */
+  margin: 0;          /* linksbündig */
+  align-items: start;
 }
 
-.grid-seen .card{
-  width: 100% !important;           /* <— WICHTIG: Card füllt die Spalte */
-  max-width: none !important;       /* <— killt evtl. Begrenzung aus styles.css */
-  padding: 18px 18px 16px !important;
-  border-radius: 22px !important;
-}
-
-.grid-seen .thumb{
-  border-radius: 18px !important;
-  margin-bottom: 12px !important;
-}
-
-/* Mobile */
+/* Mobile: 1 Spalte */
 @media (max-width: 720px){
   .grid-seen{
-    grid-template-columns: 1fr !important;
-    max-width: 520px !important;
+    grid-template-columns: 1fr;
+    max-width: 520px;
   }
 }
 
+/* ===== Einzelne Karte ===== */
+.grid-seen .card{
+  background: rgba(255,255,255,.65);
+  border-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.10);
+  text-align: center;
+}
 
-    .grid-seen .card .play-label,
-    .grid-seen .card .yt-title{
-      display:block;
-      margin-top:6px;
-      font-size:1.05rem;
-      font-weight:600;
-    }
+/* ===== Bild IMMER gleich groß ===== */
+.grid-seen .card .thumb{
+  width: 100%;
+  height: 190px;            /* 🔑 DAS war der fehlende Fix */
+  object-fit: cover;        /* schneidet sauber */
+  border-radius: 18px;
+  margin-bottom: 12px;
+  background: #000;
+}
+
+/* Titel / Label */
+.grid-seen .card .play-label,
+.grid-seen .card .yt-title{
+  display:block;
+  margin-top:6px;
+  font-size:1.05rem;
+  font-weight:600;
+}
+
 
     /* ========= Player: unter der jeweiligen 2er-Reihe, mittig im 2er-Block ========= */
     .video-row{
