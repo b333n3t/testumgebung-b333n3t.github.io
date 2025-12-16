@@ -18,146 +18,225 @@
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
-  <!-- Mobile: grauer Container näher am unteren Rand -->
   <style>
-    @media (max-width: 768px) {
-      main.main {
-        min-height: calc(100dvh - 56px - 20px);
-        height: calc(100dvh - 56px - 20px);
-      }
-    }
-  </style>
+    :root{ --bottom-gap:60px; }
+    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-  <!-- Schmaleres Hamburger-Menü + Plattform-Layout -->
-  <style>
-    /* === Hamburger-Menü === */
-    .hamburger {
-      position: fixed;
-      top: 14px;
-      right: 18px;
-      width: 20px;
-      height: 20px;
-      border: none;
-      background: transparent;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      z-index: 1200;
-      padding: 0;
+    html, body{ overflow:hidden; }
+    @media (max-width:767px){
+      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
     }
-    .hamburger span {
-      display: block;
-      width: 12px;
-      height: 1.4px;
-      margin: 1.5px 0;
-      background: #000;
-      border-radius: 2px;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    body.menu-open .hamburger span:nth-child(1) { transform: translateY(3.5px) rotate(45deg); }
-    body.menu-open .hamburger span:nth-child(2) { opacity: 0; }
-    body.menu-open .hamburger span:nth-child(3) { transform: translateY(-3.5px) rotate(-45deg); }
 
-    /* Hintergrundüberlagerung */
-    .menu-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,.08);
-      backdrop-filter: blur(1px);
-      z-index: 1099;
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
-    body.menu-open #menu-overlay { display: block; }
-    #menu-overlay[hidden]{ display:none; }
 
-    /* Seitenmenü */
-    .site-menu {
+    main.main{
+      flex:1 0 auto;
+      border-radius:12px;
+      padding:0;
+      position:relative;
+      z-index:1;
+      overflow:visible;
+      background:transparent !important;
+      box-shadow:none !important;
+    }
+
+    /* ===== Hamburger-Menü (wie index) ===== */
+    .hamburger{
+      position:fixed;top:14px;right:18px;width:20px;height:20px;
+      border:0;background:transparent;display:grid;place-items:center;
+      cursor:pointer;z-index:1200;padding:0
+    }
+    .hamburger span{
+      display:block;width:12px;height:1.4px;margin:1.5px 0;
+      background:#000;border-radius:2px;
+      transition:transform .2s,opacity .2s
+    }
+    body.menu-open .hamburger span:nth-child(1){
+      transform:translateY(3.5px) rotate(45deg)
+    }
+    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
+    body.menu-open .hamburger span:nth-child(3){
+      transform:translateY(-3.5px) rotate(-45deg)
+    }
+
+    .menu-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.08);
+      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+      z-index:1099
+    }
+    body.menu-open #menu-overlay{display:block}
+    #menu-overlay[hidden]{display:none}
+
+    .site-menu{
+      position:fixed;top:0;right:0;height:auto;max-height:90vh;
+      width:min(40vw,150px);
+      background:rgba(255,255,255,.32);
+      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+      box-shadow:0 20px 50px rgba(0,0,0,.08);
+      transform:translateX(100%);transition:transform .25s;
+      z-index:1101;padding:46px 10px 14px
+    }
+    body.menu-open .site-menu{transform:translateX(0)}
+    .site-menu ul{list-style:none;margin:0;padding:0}
+    .site-menu li{margin:0 0 10px}
+    .site-menu li.sep{
+      margin-top:18px;padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.08)
+    }
+    .site-menu a{
+      display:block;
+      padding:8px 6px;
+      border-radius:10px;
+      color:#000;
+      text-decoration:none;
+      font-size:1rem;
+      font-weight:500;
+    }
+    .site-menu a:hover{background:rgba(0,0,0,.05)}
+
+    .nav-arrow{z-index:1400 !important;}
+
+    /* ===== UNSICHTBARES Scroll-Panel (wie die anderen Seiten) ===== */
+    .scroll-panel{
+      max-width:min(1000px,94vw);
+      max-height:75vh;
+      margin:0;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+
+      background:transparent;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      border-radius:0;
+      box-shadow:none;
+
+      padding:1.25rem 1rem 1.5rem;
+
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+    .scroll-panel::-webkit-scrollbar{display:none;}
+    .content-offset{ padding-top:1.5rem; }
+
+    .grid{
+      display:flex;
+      flex-direction:column;
+      gap:1rem;
+    }
+
+    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
+    .page-link{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      text-decoration:none;
+      color:inherit;
+    }
+    .page-link:visited{ color:inherit; }
+
+    .page-link .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-toggle{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      background:transparent;
+      border:none;
+      padding:0;
+      color:inherit;
+      cursor:pointer;
+
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .page-toggle .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-group > .page-content{
+      display:none;
+      margin-left:18px;
+      margin-top:.75rem;
+    }
+    .page-group.open > .page-content{display:block;}
+    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
+
+    .page-content h1{margin-top:0;}
+    .page-content p{margin:0 0 1rem 0;}
+
+    /* ===== Plattform-Liste (wie vorher, nur sauber im Panel) ===== */
+    .platform-list{
+      list-style:none;
+      padding:0;
+      margin:1.25rem 0 0 0;
+    }
+    .platform-list li{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin:0 0 12px 0;
+    }
+    .platform-list picture{flex-shrink:0;}
+    .platform-list img{
+      width:28px;height:28px;
+      object-fit:contain;display:block;
+    }
+    .platform-list a{
+      color:#000;
+      text-decoration:none;
+      font-size:1rem;
+      font-weight:400;
+    }
+    .platform-list a:hover{ text-decoration:underline; }
+
+    /* Fester Footer unten – wie index.html */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
+      text-align:center;
+      color:#000;
+      font-size:.82rem;
+      z-index:910;
+    }
+    .footer-inline a{
+      color:#000;
+      text-decoration:none;
+    }
+    .footer-inline a:hover{
+      text-decoration:underline;
+    }
+
+    /* swipe helper */
+    .edge-swipe {
       position: fixed;
       top: 0;
-      right: 0;
-      height: auto;
-      max-height: 90vh;
-      width: min(40vw, 150px);
-      background: rgba(255,255,255,.32);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      box-shadow: 0 20px 50px rgba(0,0,0,.08);
-      transform: translateX(100%);
-      transition: transform .25s ease;
-      z-index: 1101;
-      padding: 46px 10px 14px;
-    }
-    body.menu-open .site-menu { transform: translateX(0); }
-
-    .site-menu ul { list-style: none; margin: 0; padding: 0; }
-    .site-menu li { margin: 0 0 10px 0; }
-    .site-menu li.sep { margin-top: 18px; padding-top: 8px; border-top: 1px solid rgba(0,0,0,.08); }
-    .site-menu a {
-      display: block;
-      padding: 8px 6px;
-      border-radius: 10px;
-      color: #000;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 500;
-    }
-    .site-menu a:hover { background: rgba(0,0,0,.05); }
-
-    /* Plattform-Icons */
-    .platform-list { list-style: none; padding: 0; margin-top: 1.5rem; }
-    .platform-list li {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .platform-list picture { flex-shrink: 0; }
-    .platform-list img {
+      bottom: 0;
       width: 28px;
-      height: 28px;
-      object-fit: contain;
-      display: block;
+      z-index: 1201;
+      background: transparent;
+      pointer-events: none;
     }
-    .platform-list a {
-      display: inline;
-      padding: 0;
-      font-size: 1rem;
-      font-weight: 400;
-      border-radius: 0;
-      background: none;
-      color: #000;
-      text-decoration: none;
-    }
-    .platform-list a:hover { text-decoration: underline; }
-
-    .nav-arrow { z-index: 1000; }
-  </style>
-
-  <!-- Transparenter Textbereich über glasigem Hintergrund -->
-  <style id="transparent-panel-overrides">
-    .main{
-      background: rgba(255,255,255,.32);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      border-radius: 12px;
-      padding: 1.25rem 1rem;
-      position: relative;
-      z-index: 1;
-      margin-bottom: 40px;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    @media (max-width: 767px){
-      .main{ margin-bottom: 20px; }
-    }
-    .main::-webkit-scrollbar{ display: none; }
-
-    .main h1,
-    .main p,
-    .main ul{
-      background: transparent !important;
-      box-shadow: none !important;
+    .edge-swipe.left  { left: 0; }
+    .edge-swipe.right { right: 0; }
+    @media (pointer: coarse){
+      .edge-swipe{ pointer-events: auto; }
     }
   </style>
 </head>
@@ -165,7 +244,7 @@
 <body>
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img src="favicon.svg" alt="b3nn3t Logo"><strong>b3nn3t</strong>
+      <img src="favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
@@ -174,6 +253,7 @@
     <span></span><span></span><span></span>
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
+
   <nav id="site-menu" class="site-menu" aria-hidden="true">
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
@@ -186,115 +266,196 @@
     </ul>
   </nav>
 
-  <!-- Pfeile -->
-  <a class="nav-arrow left" aria-label="Vorherige Seite" href="gesehen.html">&larr;</a>
-  <a class="nav-arrow right" aria-label="Nächste Seite" href="index.html">&rarr;</a>
+  <!-- Seitenpfeile -->
+  <a class="nav-arrow left" aria-label="Vorherige Seite" href="gesehen.html">←</a>
+  <a class="nav-arrow right" aria-label="Nächste Seite" href="index.html">→</a>
 
   <main class="main">
-    <h1>plattformen</h1>
-    <p style="margin-bottom: 4em;">
-      Hier findest du mich online:
-      <span style="opacity:0; height:0; overflow:hidden; display:block;">
-        alle offiziellen profile von b3nn3t – deutschrap & indie-pop aus der schweiz –
-        auf spotify, apple music, youtube, instagram, soundcloud, mx3 und genius.
-      </span>
-    </p>
+    <div class="scroll-panel">
+      <div class="content-offset">
+        <section class="grid" aria-label="Seitenübersicht">
 
-    <ul class="platform-list">
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
-          <img src="assets/plattformen/mx3_128.png"
-               alt="MX3 Logo"
-               width="28" height="28"
-               decoding="async">
-        </picture>
-        <a href="https://mx3.ch/b3nn3t" target="_blank" rel="noopener">MX3 – b3nn3t</a>
-      </li>
+          <!-- plattformen – current open (und sonst nichts darunter) -->
+          <div class="page-group current open">
+            <button class="page-toggle" type="button" aria-expanded="true">
+              <span class="arrow" aria-hidden="true">►</span>
+              <span>plattformen</span>
+            </button>
 
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
-          <img src="assets/plattformen/genius_128.png"
-               alt="Genius Logo"
-               width="28" height="28"
-               decoding="async">
-        </picture>
-        <a href="https://genius.com/artists/B3nn3t" target="_blank" rel="noopener">Genius – b3nn3t</a>
-      </li>
+            <div class="page-content">
+              <h1>plattformen</h1>
+              <p>
+                Hier findest du mich online:
+                <span style="opacity:0; height:0; overflow:hidden; display:block;" aria-hidden="true">
+                  alle offiziellen profile von b3nn3t – deutschrap & indie-pop aus der schweiz –
+                  auf spotify, apple music, youtube, instagram, soundcloud, mx3 und genius.
+                </span>
+              </p>
 
-      <li style="margin-top: 2rem;"></li>
+              <ul class="platform-list">
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
+                    <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="28" height="28" decoding="async">
+                  </picture>
+                  <a href="https://mx3.ch/b3nn3t" target="_blank" rel="noopener">MX3 – b3nn3t</a>
+                </li>
 
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/spotify_128.webp" type="image/webp">
-          <img src="assets/plattformen/spotify_128.png"
-               alt="Spotify Logo"
-               width="28" height="28"
-               loading="lazy" decoding="async">
-        </picture>
-        <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-           target="_blank" rel="noopener">Spotify – b3nn3t</a>
-      </li>
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
+                    <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="28" height="28" decoding="async">
+                  </picture>
+                  <a href="https://genius.com/artists/B3nn3t" target="_blank" rel="noopener">Genius – b3nn3t</a>
+                </li>
 
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
-          <img src="assets/plattformen/apple_music_128.png"
-               alt="Apple Music Logo"
-               width="28" height="28"
-               loading="lazy" decoding="async">
-        </picture>
-        <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-           target="_blank" rel="noopener">Apple Music – b3nn3t</a>
-      </li>
+                <li style="margin-top: 10px;"></li>
 
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
-          <img src="assets/plattformen/instagram_128.png"
-               alt="Instagram Logo"
-               width="28" height="28"
-               loading="lazy" decoding="async">
-        </picture>
-        <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-           target="_blank" rel="noopener">Instagram – b333nn3t</a>
-      </li>
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/spotify_128.webp" type="image/webp">
+                    <img src="assets/plattformen/spotify_128.png" alt="Spotify Logo" width="28" height="28" loading="lazy" decoding="async">
+                  </picture>
+                  <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" target="_blank" rel="noopener">
+                    Spotify – b3nn3t
+                  </a>
+                </li>
 
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/youtube_128.webp" type="image/webp">
-          <img src="assets/plattformen/youtube_128.png"
-               alt="YouTube Logo"
-               width="28" height="28"
-               loading="lazy" decoding="async">
-        </picture>
-        <a href="https://www.youtube.com/@b333nn3t"
-           target="_blank" rel="noopener">YouTube – @b333nn3t</a>
-      </li>
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
+                    <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="28" height="28" loading="lazy" decoding="async">
+                  </picture>
+                  <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" target="_blank" rel="noopener">Apple Music – b3nn3t</a>
+                </li>
 
-      <li>
-        <picture>
-          <source srcset="assets/plattformen/soundcloud_128.webp" type="image/webp">
-          <img src="assets/plattformen/soundcloud_128.png"
-               alt="SoundCloud Logo"
-               width="28" height="28"
-               loading="lazy" decoding="async">
-        </picture>
-        <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-           target="_blank" rel="noopener">SoundCloud – b3nn3t</a>
-      </li>
-    </ul>
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
+                    <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="28" height="28" loading="lazy" decoding="async">
+                  </picture>
+                  <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ==" target="_blank" rel="noopener">Instagram – b333nn3t</a>
+                </li>
 
-    <div style="margin-top: 15em; color: black; text-align: center;">
-      © b3nn3t · <a href="impressum.html" style="color: black; text-decoration: none;">Impressum / Datenschutz</a>
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/youtube_128.webp" type="image/webp">
+                    <img src="assets/plattformen/youtube_128.png" alt="YouTube Logo" width="28" height="28" loading="lazy" decoding="async">
+                  </picture>
+                  <a href="https://www.youtube.com/@b333nn3t" target="_blank" rel="noopener">YouTube – @b333nn3t</a>
+                </li>
+
+                <li>
+                  <picture>
+                    <source srcset="assets/plattformen/soundcloud_128.webp" type="image/webp">
+                    <img src="assets/plattformen/soundcloud_128.png" alt="SoundCloud Logo" width="28" height="28" loading="lazy" decoding="async">
+                  </picture>
+                  <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener">
+                    SoundCloud – b3nn3t
+                  </a>
+                </li>
+              </ul>
+
+              <!-- ⬇️ Form / Funktionen bleiben drin:
+                   Wenn du hier auf der echten plattformen.html noch ein Formular + Script hast,
+                   füge es genau an dieser Stelle wieder ein (unverändert). -->
+              <!-- FORM-START -->
+              <!-- FORM-END -->
+
+            </div>
+          </div>
+
+        </section>
+      </div>
     </div>
   </main>
 
-  <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+  <!-- Footer fix unten -->
+  <div class="footer-inline">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </div>
 
-  <!-- Skripte -->
+  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe right" aria-hidden="true"></div>
+
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- Panelhöhe dynamisch (wie über-mich/kontakt) + Accordion toggle -->
+  <script>
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const panel  = document.querySelector('.scroll-panel');
+
+      function resizePanel(){
+        if(!panel) return;
+        const header = document.querySelector('.header');
+        const main   = document.querySelector('.main');
+
+        const hh = header ? header.offsetHeight : 0;
+        let pt = 0, pb = 0;
+        if(main){
+          const cs = getComputedStyle(main);
+          pt = parseFloat(cs.paddingTop)  || 0;
+          pb = parseFloat(cs.paddingBottom) || 0;
+        }
+
+        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
+        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+        let max = vh - hh - pt - pb - gap;
+        if(max < 260) max = 260;
+        panel.style.maxHeight = max + 'px';
+      }
+
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+    })();
+  </script>
+
+  <!-- Burger-Menü Verhalten (falls nicht schon in script.js enthalten) -->
+  <script>
+    (function(){
+      const btn = document.querySelector('.hamburger');
+      const overlay = document.getElementById('menu-overlay');
+      const menu = document.getElementById('site-menu');
+      if(!btn || !overlay || !menu) return;
+
+      function closeMenu(){
+        document.body.classList.remove('menu-open');
+        btn.setAttribute('aria-expanded','false');
+        menu.setAttribute('aria-hidden','true');
+        overlay.hidden = true;
+      }
+      function openMenu(){
+        document.body.classList.add('menu-open');
+        btn.setAttribute('aria-expanded','true');
+        menu.setAttribute('aria-hidden','false');
+        overlay.hidden = false;
+      }
+
+      btn.addEventListener('click', () => {
+        const isOpen = document.body.classList.contains('menu-open');
+        isOpen ? closeMenu() : openMenu();
+      });
+
+      overlay.addEventListener('click', closeMenu);
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape') closeMenu();
+      });
+    })();
+  </script>
 </body>
 </html>
