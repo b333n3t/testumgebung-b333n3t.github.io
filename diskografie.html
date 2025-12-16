@@ -465,14 +465,96 @@
 <div class="footer-inline">
   © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
 </div>
-
 <script>
-  document.querySelectorAll('.page-toggle').forEach(btn=>{
-    const group = btn.closest('.page-group');
-    btn.addEventListener('click',()=>{
+/* ===============================
+   PLAYER-LOGIK: Mehr-Button
+   =============================== */
+
+function closeAllTracklists(exceptId){
+  document.querySelectorAll('.tracklist.open').forEach(el => {
+    if (!exceptId || el.id !== exceptId) el.classList.remove('open');
+  });
+}
+
+function toggleTracklist(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+
+  const willOpen = !el.classList.contains('open');
+  closeAllTracklists(id);
+  el.classList.toggle('open', willOpen);
+}
+
+/* ===============================
+   AUTOMATISCH „Mehr“-Buttons + Spotify-Player
+   (ergänzt Buttons bei Cards OHNE .toggle)
+   =============================== */
+document.addEventListener('DOMContentLoaded', () => {
+  let idx = 1;
+
+  document.querySelectorAll('.disco-grid .release').forEach(card => {
+    if (card.querySelector('.toggle')) return;
+
+    const link = card.querySelector('.title a');
+    if (!link) return;
+
+    const url = link.href || '';
+    if (!url.includes('open.spotify.com')) return;
+
+    const clean = url.replace('open.spotify.com/intl-de/', 'open.spotify.com/');
+    const m = clean.match(/open\.spotify\.com\/(track|album|playlist|episode|show)\/([A-Za-z0-9]+)/);
+    if (!m) return;
+
+    const embed = `https://open.spotify.com/embed/${m[1]}/${m[2]}`;
+    const id = `tracklist-auto-${idx++}`;
+
+    const meta = card.querySelector('.meta');
+    if (!meta) return;
+
+    const toggle = document.createElement('div');
+    toggle.className = 'toggle';
+    toggle.innerHTML = `<button type="button" onclick="toggleTracklist('${id}')">Mehr</button>`;
+
+    const panel = document.createElement('div');
+    panel.className = 'tracklist';
+    panel.id = id;
+    panel.innerHTML = `
+      <iframe
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        src="${embed}">
+      </iframe>
+    `;
+
+    meta.insertAdjacentElement('afterend', toggle);
+    toggle.insertAdjacentElement('afterend', panel);
+  });
+});
+
+/* ===============================
+   AKKORDEON (DEIN MARKUP):
+   .page-group + .page-toggle
+   =============================== */
+document.addEventListener('DOMContentLoaded', () => {
+  const pageGroups = document.querySelectorAll('.page-group');
+
+  pageGroups.forEach(group => {
+    const toggle = group.querySelector(':scope > .page-toggle');
+    const content = group.querySelector(':scope > .page-content');
+    if (!toggle || !content) return;
+
+    const isTopDiskografie =
+      group.classList.contains('open') &&
+      toggle.textContent.trim().toLowerCase() === 'diskografie';
+
+    if (!isTopDiskografie) group.classList.remove('open');
+
+    toggle.addEventListener('click', () => {
+      const willOpen = !group.classList.contains('open');
+      if (!willOpen) closeAllTracklists(null);
       group.classList.toggle('open');
     });
   });
+});
 </script>
 
 </body>
