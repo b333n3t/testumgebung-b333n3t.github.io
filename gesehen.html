@@ -276,20 +276,25 @@
     .page-content p{margin:0 0 1rem 0;}
 
     /* ===== Content Styles (dein gesehen-grid, unverändert) ===== */
-    .grid-seen{
-      display:flex;
-      justify-content:flex-start;
-      align-items:stretch;
-      gap:14px;
-      margin-top:.5rem;
-      flex-wrap:wrap
-    }
-    .grid-seen .card{
-      flex:0 1 280px;
-      max-width:280px;
-      cursor:pointer;
-      position:relative
-    }
+.grid-seen{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* <<< 2 nebeneinander */
+  gap: 14px;
+  margin-top: .5rem;
+}
+
+.grid-seen .card{
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Mobile: 1 Card */
+@media (max-width: 640px){
+  .grid-seen{
+    grid-template-columns: 1fr;
+  }
+}
     .card .thumb{
       width:100%;
       aspect-ratio:16/9;
@@ -300,35 +305,38 @@
       margin-bottom:8px
     }
 .video-row{
-  flex:0 0 100%;
-  width:100%;
-  display:flex;
-  justify-content:flex-start;
+  flex: 0 0 100%;
+  display: flex;
+  justify-content: flex-start;
 }
 
-/* HIER: Player kleiner machen wie vorher */
 .video-wrapper{
-  position:relative;
-  padding-bottom:56.25%;
-  height:0;
-  overflow:hidden;
-  margin-top:12px;
-  border-radius:12px;
-  background:#000;
-  border:1px solid rgba(0,0,0,0.06);
-
-  width: min(650px, 100%);   /* ✅ war vorher effektiv ~650 */
-  /* alternativ noch kleiner: width: min(560px, 100%); */
+  position: relative;
+  width: 100%;
+  max-width: 600px;        /* <<< HIER: Player kleiner */
+  padding-bottom: 56.25%;
+  height: 0;
+  margin-top: 12px;
+  border-radius: 12px;
+  background: #000;
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
-    .video-wrapper iframe,
-    .video-wrapper video{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      border:0
-    }
+@media (max-width: 700px){
+  .video-wrapper{
+    max-width: 100%;       /* mobil wieder volle Breite */
+  }
+}
+
+.video-wrapper iframe,
+.video-wrapper video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+}
+
     .video-close{
       position:absolute;
       top:6px;
