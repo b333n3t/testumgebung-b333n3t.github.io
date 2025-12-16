@@ -81,21 +81,25 @@
 
     .page-content h1{margin-top:0;}
 
-    /* Cards */
-    .disco-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-      gap:1rem;
-      margin-bottom:2rem;
-    }
+/* Masonry / keine Lücken in Reihen */
+.disco-grid{
+  column-width: 280px;
+  column-gap: 1rem;
+  margin-bottom: 2rem;
+}
 
-    .release{
-      background:#fff;
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:12px;
-      box-shadow:0 1px 3px rgba(0,0,0,.06);
-    }
+.release{
+  background:#fff;
+  border:1px solid #ddd;
+  border-radius:12px;
+  padding:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,.06);
+
+  /* jede Karte soll nicht "zerbrechen" (Masonry/Columns) */
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin: 0 0 1rem;
+}
     .release img{
       width:100%;
       height:220px;
@@ -117,18 +121,9 @@
       cursor:pointer;
     }
 
-.tracklist{
-  display:none;
-  margin-top:.6rem;
-}
-
-.tracklist iframe{
-  width:100%;
-  height:352px;
-  border:0;
-  border-radius:8px;
-}
-
+.tracklist{ margin-top:.6rem; }
+.tracklist[hidden]{ display:none !important; }
+.tracklist iframe{width:100%;height:352px;border:0;border-radius:8px;}
 
     .footer-inline{
       position:fixed;
@@ -478,107 +473,131 @@
   
 <script>
 /* ===============================
-   PLAYER-LOGIK – Spotify sauber stoppen
+   PLAYER / MEHR: robust + stoppt Musik
    =============================== */
 
-function closeAllTracklists(exceptId){
-  document.querySelectorAll('.tracklist').forEach(el => {
-    if (exceptId && el.id === exceptId) return;
+function makeSpotifyEmbed(url){
+  if(!url) return null;
 
-    // iframe entfernen → MUSIK STOPPT
-    el.innerHTML = '';
-    el.style.display = 'none';
-    el.classList.remove('open');
+  // intl-de sauber raus
+  const clean = url.replace('open.spotify.com/intl-de/', 'open.spotify.com/');
+
+  // track/album/playlist support
+  if(!clean.includes('open.spotify.com/')) return null;
+  return clean.replace('open.spotify.com/', 'open.spotify.com/embed/');
+}
+
+function closeAllPlayers(exceptPanel){
+  document.querySelectorAll('.tracklist').forEach(panel => {
+    if (exceptPanel && panel === exceptPanel) return;
+
+    // iframe entfernen => Audio stoppt garantiert
+    panel.querySelectorAll('iframe').forEach(f => f.remove());
+    panel.hidden = true;
+
+    // Button Text zurück
+    const btn = panel.closest('.release')?.querySelector('.toggle button');
+    if (btn) btn.textContent = 'Mehr';
   });
 }
 
-function toggleTracklist(id, embedUrl){
-  const el = document.getElementById(id);
-  if(!el) return;
+function togglePlayer(card){
+  const link = card.querySelector('.title a');
+  if(!link) return;
 
-  const isOpen = el.classList.contains('open');
+  const embed = makeSpotifyEmbed(link.href);
+  if(!embed) return;
 
-  // immer zuerst alles schließen
-  closeAllTracklists(id);
+  // Panel holen/erstellen
+  let panel = card.querySelector('.tracklist');
+  if(!panel){
+    panel = document.createElement('div');
+    panel.className = 'tracklist';
+    panel.hidden = true;
+    card.appendChild(panel);
+  }
 
-  // wenn es offen war → jetzt zu (fertig)
-  if (isOpen) return;
+  const btn = card.querySelector('.toggle button');
+  const isOpen = panel.hidden === false;
 
-  // iframe neu einfügen → startet frisch
-  el.innerHTML = `
+  // Wenn offen -> schließen + stoppen
+  if(isOpen){
+    closeAllPlayers(); // schließt auch diesen
+    return;
+  }
+
+  // Erst alle anderen schließen + stoppen
+  closeAllPlayers(panel);
+
+  // Player rein + öffnen
+  panel.innerHTML = `
     <iframe
       allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      src="${embedUrl}">
+      src="${embed}">
     </iframe>
   `;
-
-  el.style.display = 'block';
-  el.classList.add('open');
+  panel.hidden = false;
+  if (btn) btn.textContent = 'Schließen';
 }
 
 /* ===============================
-   AUTOMATISCH „Mehr“-Buttons + Player
+   AUTOMATISCH Buttons + Panels anlegen
    =============================== */
 document.addEventListener('DOMContentLoaded', () => {
-  let idx = 1;
 
   document.querySelectorAll('.disco-grid .release').forEach(card => {
-    if (card.querySelector('.toggle')) return;
-
     const link = card.querySelector('.title a');
-    const meta = card.querySelector('.meta');
-    if (!link || !meta) return;
+    if(!link) return;
 
-    let url = link.href || '';
-    url = url.replace('open.spotify.com/intl-de/', 'open.spotify.com/');
+    // nur Spotify-Links bekommen "Mehr"
+    if(!link.href.includes('open.spotify.com')) return;
 
-    const m = url.match(/open\.spotify\.com\/(album|track|playlist)\/([A-Za-z0-9]+)/);
-    if (!m) return;
+    // Toggle-Wrapper erstellen, falls fehlt
+    let toggleWrap = card.querySelector('.toggle');
+    if(!toggleWrap){
+      toggleWrap = document.createElement('div');
+      toggleWrap.className = 'toggle';
+      toggleWrap.innerHTML = `<button type="button">Mehr</button>`;
 
-    const embed = `https://open.spotify.com/embed/${m[1]}/${m[2]}`;
-    const id = `tracklist-${idx++}`;
+      // unter meta einfügen
+      const meta = card.querySelector('.meta');
+      if(meta) meta.insertAdjacentElement('afterend', toggleWrap);
+      else card.appendChild(toggleWrap);
+    }
 
-    const toggle = document.createElement('div');
-    toggle.className = 'toggle';
-    toggle.innerHTML = `
-      <button type="button">Mehr</button>
-    `;
+    // Panel erstellen, falls fehlt
+    let panel = card.querySelector('.tracklist');
+    if(!panel){
+      panel = document.createElement('div');
+      panel.className = 'tracklist';
+      panel.hidden = true;
+      toggleWrap.insertAdjacentElement('afterend', panel);
+    } else {
+      // falls irgendwo noch display/open Mist war: reset
+      panel.hidden = true;
+      panel.querySelectorAll('iframe').forEach(f => f.remove());
+    }
 
-    const panel = document.createElement('div');
-    panel.className = 'tracklist';
-    panel.id = id;
-
-    toggle.querySelector('button').addEventListener('click', () => {
-      toggleTracklist(id, embed);
-    });
-
-    meta.insertAdjacentElement('afterend', toggle);
-    toggle.insertAdjacentElement('afterend', panel);
+    // Button handler
+    const btn = toggleWrap.querySelector('button');
+    btn.addEventListener('click', () => togglePlayer(card));
   });
-});
 
-/* ===============================
-   AKKORDEON: Alben / EPs / Singles
-   =============================== */
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.page-group').forEach(group => {
-    const toggle = group.querySelector(':scope > .page-toggle');
-    const content = group.querySelector(':scope > .page-content');
-    if (!toggle || !content) return;
-
-    const isTop =
-      toggle.textContent.trim().toLowerCase() === 'diskografie';
-
-    if (!isTop) group.classList.remove('open');
-
-    toggle.addEventListener('click', () => {
+  // dein Accordion (page-group) bleibt wie vorher:
+  document.querySelectorAll('.page-toggle').forEach(btn=>{
+    const group = btn.closest('.page-group');
+    btn.addEventListener('click',()=>{
       const willOpen = !group.classList.contains('open');
-      if (!willOpen) closeAllTracklists(null);
+
+      // beim ZUKLAPPEN: alle Player schließen + stoppen
+      if(!willOpen) closeAllPlayers();
+
       group.classList.toggle('open');
     });
   });
 });
 </script>
+
 
 
 </body>
