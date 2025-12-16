@@ -312,18 +312,18 @@
   margin-bottom: 10px;
 }
 
-/* ===== Player als volle Zeile UNTER den Cards (spannt beide Spalten) ===== */
+/* ===== Player: unter der Reihe, rechtsbündig, kleiner ===== */
 .video-row{
-  grid-column: 1 / -1;            /* <- wichtig: über beide Spalten */
+  grid-column: 1 / -1;            /* über beide Spalten */
   width: 100%;
-  display: block;
+  display: flex;                  /* für rechtsbündig */
+  justify-content: flex-end;      /* rechts */
 }
 
 .video-wrapper{
-  width: 100%;
-  max-width: 720px;              /* <- macht den Player kleiner (wie vorher) */
-  margin: 12px auto 0;           /* <- zentriert */
-  aspect-ratio: 16 / 9;          /* <- sauberes Seitenverhältnis */
+  width: min(560px, 100%);        /* ✅ kleiner als vorher (720 -> 560) */
+  margin: 12px 0 0 0;             /* kein auto-centering */
+  aspect-ratio: 16 / 9;
   position: relative;
   overflow: hidden;
   border-radius: 14px;
@@ -356,6 +356,11 @@
 }
 .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
+/* Mobile: 1 Spalte -> Player zentriert und volle Breite */
+@media (max-width: 620px){
+  .video-row{ justify-content: center; }
+  .video-wrapper{ width: 100%; }
+}
 
 .grid-seen .card .yt-title{
   display:block;
@@ -571,7 +576,6 @@
     })();
   </script>
 
-  <!-- Öffnet Video direkt unter der Karte (volle Breite) + Schließen -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -580,11 +584,17 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.video-row').forEach(row => row.remove());
   }
 
+  function getCols(){
+    // muss zur CSS-MediaQuery passen (620px)
+    return window.matchMedia('(max-width: 620px)').matches ? 1 : 2;
+  }
+
   cards.forEach(card => {
     card.addEventListener('click', () => {
-      const existing = card.nextElementSibling;
-      if (existing && existing.classList.contains('video-row')) {
-        existing.remove();
+      // Wenn direkt darunter ein Player ist -> schließen
+      const next = card.nextElementSibling;
+      if (next && next.classList.contains('video-row')) {
+        next.remove();
         return;
       }
 
@@ -606,7 +616,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const src = card.getAttribute('data-embed-src') || '';
-
       wrapper.appendChild(closeBtn);
 
       if (src.toLowerCase().endsWith('.mp4')) {
@@ -627,8 +636,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
       row.appendChild(wrapper);
 
-      /* WICHTIG: direkt nach der Card einfügen -> als Grid-Item über beide Spalten */
-      card.insertAdjacentElement('afterend', row);
+      // ✅ Player nach der REIHE einfügen (2er-Reihe)
+      const section = card.closest('section.grid-seen') || card.parentElement;
+
+      // Nur Cards (ohne vorhandene Player-Zeilen)
+      const items = Array.from(section.querySelectorAll('.card[data-embed-src]'));
+      const idx = items.indexOf(card);
+
+      const cols = getCols(); // 1 oder 2
+      const rowStart = idx - (idx % cols);
+      const rowEnd = Math.min(items.length - 1, rowStart + (cols - 1));
+
+      const anchor = items[rowEnd] || card;   // die letzte Card der Reihe
+      anchor.insertAdjacentElement('afterend', row);
 
       row.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
@@ -639,6 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+
 
 
   <!-- Instagram Thumbnails -->
