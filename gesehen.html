@@ -95,7 +95,7 @@
   <style>
     :root{
       --bottom-gap:60px;
-      --seen-max: 760px;         /* Breite des 2er-Blocks (Cards + Player) */
+      --seen-max: 920px;         /* Breite des 2er-Blocks (Cards + Player) */
       --player-inner: 0px;       /* falls du innen Luft willst: z.B. 40px */
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
@@ -254,52 +254,59 @@
     .page-content p{margin:0 0 1rem 0;}
 
     /* ========= Cards (größer + kompakter Block) ========= */
-    .grid-seen{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(320px, 1fr));
-      gap: 20px;
+:root{
+  --seen-max: 920px;      /* ✅ macht den ganzen 2er-Block breiter */
+}
 
-      width: 100%;
-      max-width: var(--seen-max);
-      margin: .85rem 0 0 0;     /* linksbündig */
-      justify-content: start;
-      align-items: start;
-    }
+/* ===== Cards: breiter, höher, enger ===== */
+.grid-seen{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(380px, 1fr)); /* ✅ breitere Kacheln */
+  gap: 14px;                                           /* ✅ enger zusammen */
+  width: 100%;
+  max-width: var(--seen-max);
+  margin: .75rem 0 0 0;     /* linksbündig */
+  justify-content: start;
+  align-items: start;
+}
 
-    @media (max-width: 700px){
-      :root{ --seen-max: 520px; }
-      .grid-seen{
-        grid-template-columns: 1fr;
-        max-width: var(--seen-max);
-      }
-    }
+@media (max-width: 900px){
+  :root{ --seen-max: 760px; }
+  .grid-seen{ grid-template-columns: repeat(2, minmax(320px, 1fr)); }
+}
 
-    .grid-seen .card{
-      cursor:pointer;
-      background: rgba(255,255,255,.62);
-      border-radius: 22px;
-      padding: 18px 18px 16px;
-      box-shadow: 0 12px 34px rgba(0,0,0,.10);
-      text-align:center;
-    }
+@media (max-width: 700px){
+  :root{ --seen-max: 520px; }
+  .grid-seen{ grid-template-columns: 1fr; }
+}
 
-    .card .thumb{
-      width:100%;
-      aspect-ratio: 16 / 9;
-      display:block;
-      border-radius: 16px;
-      object-fit: cover;
-      background:#000;
-      margin-bottom: 12px;
-    }
+.grid-seen .card{
+  cursor:pointer;
+  background: rgba(255,255,255,.62);
+  border-radius: 22px;
+  padding: 22px 20px 18px;      /* ✅ höher (mehr “Body”) */
+  box-shadow: 0 12px 34px rgba(0,0,0,.10);
+  text-align:center;
+}
 
-    .grid-seen .card .play-label,
-    .grid-seen .card .yt-title{
-      display:block;
-      margin-top:6px;
-      font-size:1.05rem;
-      font-weight:600;
-    }
+/* Thumbnail etwas größer -> Card wirkt höher */
+.card .thumb{
+  width:100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 16px;
+  margin-bottom: 14px;
+  object-fit: cover;
+}
+
+/* Label etwas größer */
+.grid-seen .card .play-label,
+.grid-seen .card .yt-title{
+  display:block;
+  margin-top:6px;
+  font-size:1.1rem;
+  font-weight:600;
+}
+
 
     /* ========= Player: unter der jeweiligen 2er-Reihe, zentriert im Blockmaß ========= */
     .video-row{
