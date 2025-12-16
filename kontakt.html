@@ -1,237 +1,581 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>kontakt — b3nn3t</title>
-<meta name="description" content="kontakt — b3nn3t"/>
-<link rel="icon" href="favicon.svg" type="image/svg+xml"/>
-<link rel="stylesheet" href="styles.css"/>
-<link rel="stylesheet" href="styles_nav_arrows.css"/>
-<link rel="stylesheet" href="swipe-helper.css"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<style>
-  html { font-size: 16px; }
+  <!-- ✅ SEO-optimiert -->
+  <title>Kontakt – b3nn3t | Booking & Nachrichten & Anfragen</title>
+  <meta name="description" content="Schreibe b3nn3t für Booking, Kooperationen, Presse oder Fragen. Einfach und direkt über das Kontaktformular." />
+  <meta name="robots" content="index,follow"/>
 
-  :root{
-    --frame-pad: clamp(18px, 3vw, 28px);
-    --bottom-gap: 35px; /* Abstand zum unteren Rand */
+  <!-- ✅ Canonical & hreflang (DACH) -->
+  <link rel="canonical" href="https://www.b3nn3t.com/kontakt.html"/>
+  <link rel="alternate" hreflang="de"    href="https://www.b3nn3t.com/kontakt.html"/>
+  <link rel="alternate" hreflang="de-DE" href="https://www.b3nn3t.de/kontakt.html"/>
+  <link rel="alternate" hreflang="de-CH" href="https://www.b3nn3t.ch/kontakt.html"/>
+  <link rel="alternate" hreflang="de-AT" href="https://www.b3nn3t.at/kontakt.html"/>
+  <link rel="alternate" hreflang="x-default" href="https://www.b3nn3t.com/kontakt.html"/>
+
+  <!-- ✅ Open Graph / Twitter -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.b3nn3t.com/kontakt.html"/>
+  <meta property="og:title" content="b3nn3t – Kontakt"/>
+  <meta property="og:description" content="Booking & Nachrichten an b3nn3t – deutscher Indie-Pop, lebt in der Schweiz."/>
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg"/>
+  <meta property="og:site_name" content="b3nn3t"/>
+  <meta property="og:locale" content="de_DE"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="b3nn3t – Kontakt"/>
+  <meta name="twitter:description" content="Schreib b3nn3t: Booking & Nachrichten."/>
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg"/>
+
+  <!-- ✅ Strukturierte Daten (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.b3nn3t.com/#website",
+        "url": "https://www.b3nn3t.com/",
+        "name": "b3nn3t",
+        "inLanguage": "de-DE",
+        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.b3nn3t.com/kontakt.html",
+        "url": "https://www.b3nn3t.com/kontakt.html",
+        "name": "b3nn3t – Kontakt",
+        "description": "Kontakt & Booking-Anfragen an b3nn3t – Deutschrap & Indie-Pop, deutscher Musiker mit Homebase Schweiz.",
+        "isPartOf": { "@id": "https://www.b3nn3t.com/#website" },
+        "inLanguage": "de-DE"
+      },
+      {
+        "@type": "ContactPage",
+        "name": "Kontakt",
+        "url": "https://www.b3nn3t.com/kontakt.html",
+        "about": { "@id": "https://www.b3nn3t.com/#org" },
+        "inLanguage": "de-DE"
+      },
+      {
+        "@type": "MusicGroup",
+        "@id": "https://www.b3nn3t.com/#org",
+        "name": "b3nn3t",
+        "url": "https://www.b3nn3t.com/",
+        "alternateName": ["b3nn3t.com","b3nn3t.de","b3nn3t.ch","b3nn3t.at"],
+        "genre": ["Deutschrap", "Indie Pop"],
+        "areaServed": ["DE","CH","AT"],
+        "address": { "@type": "PostalAddress", "addressCountry": "CH" },
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "contactType": "Booking",
+          "email": "kontakt@b3nn3t.com",
+          "areaServed": ["DE","CH","AT"],
+          "availableLanguage": ["de"]
+        }]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Kontakt", "item": "https://www.b3nn3t.com/kontakt.html" }
+        ]
+      }
+    ]
   }
+  </script>
 
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-  textarea { overflow: auto; }
+  <!-- Assets -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192.png">
 
-  .main{
-    background: rgba(255,255,255,.32);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-    border-radius: 12px;
-    padding: 0;
-    margin-bottom: var(--bottom-gap);
-  }
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles_nav_arrows.css"/>
+  <link rel="stylesheet" href="swipe-helper.css"/>
 
-  .scroll-panel{
-    overflow: auto;
-    max-height: 75vh;
-    -webkit-overflow-scrolling: touch;
-    background: transparent;
-    box-shadow: none;
-    padding: var(--frame-pad);
-    margin: 0 0 calc(var(--frame-pad) - 6px) 0;
-    max-width: 650px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    overscroll-behavior: contain;
-    touch-action: pan-y;
-  }
-  .scroll-panel::-webkit-scrollbar{ display:none; }
+  <style>
+    :root{ --bottom-gap:60px; }
+    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-  .scroll-panel h1{ margin: 0 0 .75rem 0; }
-  .scroll-panel p{ margin: 0 0 1rem 0; }
+    /* Hintergrund fix, nur Panel scrollt */
+    html, body{ overflow:hidden; }
+    @media (max-width:767px){
+      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
+    }
 
-  form{ margin:0; display:grid; gap:.8rem; }
-  form label{ font-weight:600; }
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
 
-  form input:not([type="checkbox"]), form textarea{
-    width:100%;
-    border:1px solid #ccc;
-    border-radius:8px;
-    padding:.6rem;
-    background:rgba(255,255,255,0.85);
-    font:inherit;
-  }
-  form textarea{ min-height:120px; }
+    /* main ohne Innenabstand – wie index / über mich */
+    main.main{
+      flex:1 0 auto;
+      border-radius:12px;
+      padding:0;
+      position:relative;
+      z-index:1;
+      overflow:visible;
+      background:transparent !important;
+      box-shadow:none !important;
+    }
 
-  form input[type="checkbox"]{
-    width:auto; margin:.25rem .5rem 0 0; padding:0; border:none; vertical-align:top;
-  }
-  form label{ display:block; }
-  form label input[type="checkbox"]{ float:left; }
-  form label input[type="checkbox"] + *{ display:block; }
+    /* ===== Hamburger-Menü (wie index) ===== */
+    .hamburger{
+      position:fixed;top:14px;right:18px;width:20px;height:20px;
+      border:0;background:transparent;display:grid;place-items:center;
+      cursor:pointer;z-index:1200;padding:0
+    }
+    .hamburger span{
+      display:block;width:12px;height:1.4px;margin:1.5px 0;
+      background:#000;border-radius:2px;
+      transition:transform .2s,opacity .2s
+    }
+    body.menu-open .hamburger span:nth-child(1){
+      transform:translateY(3.5px) rotate(45deg)
+    }
+    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
+    body.menu-open .hamburger span:nth-child(3){
+      transform:translateY(-3.5px) rotate(-45deg)
+    }
 
-  form button{
-    margin-top:.6rem; margin-bottom:1.25rem;
-    border:none; border-radius:8px; padding:.6rem 1.2rem;
-    background:#111; color:#fff; font-weight:600; cursor:pointer;
-  }
+    .menu-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.08);
+      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+      z-index:1099
+    }
+    body.menu-open #menu-overlay{display:block}
+    #menu-overlay[hidden]{display:none}
 
-  .hamburger{position:fixed;top:14px;right:18px;width:20px;height:20px;border:none;background:transparent;display:grid;place-items:center;cursor:pointer;z-index:1200;padding:0}
-  .hamburger span{display:block;width:12px;height:1.4px;margin:1.5px 0;background:#000;border-radius:2px;transition:transform .2s ease,opacity .2s ease}
-  body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
-  body.menu-open .hamburger span:nth-child(2){opacity:0}
-  body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
-  .menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,.08);backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);z-index:1099}
-  body.menu-open #menu-overlay{display:block}
-  #menu-overlay[hidden]{display:none}
-  .site-menu{position:fixed;top:0;right:0;height:auto;max-height:90vh;width:min(40vw,150px);background:rgba(255,255,255,.32);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);box-shadow:0 20px 50px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s ease;z-index:1101;padding:46px 10px 14px}
-  body.menu-open .site-menu{transform:translateX(0)}
-  .site-menu ul{list-style:none;margin:0;padding:0}
-  .site-menu li{margin:0 0 10px 0}
-  .site-menu li.sep{margin-top:18px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08)}
-  .site-menu a{display:block;padding:8px 6px;border-radius:10px;color:#000;text-decoration:none;font-size:1rem;font-weight:500}
-  .site-menu a:hover{background:rgba(0,0,0,.05)}
+    .site-menu{
+      position:fixed;top:0;right:0;height:auto;max-height:90vh;
+      width:min(40vw,150px);
+      background:rgba(255,255,255,.32);
+      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+      box-shadow:0 20px 50px rgba(0,0,0,.08);
+      transform:translateX(100%);transition:transform .25s;
+      z-index:1101;padding:46px 10px 14px
+    }
+    body.menu-open .site-menu{transform:translateX(0)}
+    .site-menu ul{list-style:none;margin:0;padding:0}
+    .site-menu li{margin:0 0 10px}
+    .site-menu li.sep{
+      margin-top:18px;padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.08)
+    }
+    .site-menu a{
+      display:block;
+      padding:8px 6px;
+      border-radius:10px;
+      color:#000;
+      text-decoration:none;
+      font-size:1rem;
+      font-weight:500;
+    }
+    .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-  .nav-arrow{ z-index: 1400 !important; }
+    .nav-arrow{z-index:1400 !important;}
 
-  /* ===== Inline-Footer im Container ===== */
-  .footer-inline{
-    text-align:center;
-    font-size:.82rem;
-    margin: 0 0 1rem 0;
-  }
-  .footer-inline a{
-    color:#000;          /* schwarze Linkfarbe */
-    text-decoration:none;
-  }
-  .footer-inline a:hover{
-    text-decoration:underline;
-  }
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
+    .scroll-panel{
+      max-width:min(1000px,94vw);
+      max-height:75vh; /* wird per JS angepasst */
+      margin:0;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
 
-  .edge-swipe {
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    width: 28px;
-    z-index: 1201;
-    background: transparent;
-    pointer-events: none;
-  }
-  .edge-swipe.left  { left: 0; }
-  .edge-swipe.right { right: 0; }
-  @media (pointer: coarse){
-    .edge-swipe{ pointer-events: auto; }
-  }
-</style>
+      background:transparent;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      border-radius:0;
+      box-shadow:none;
+
+      padding:1.25rem 1rem 1.5rem;
+
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+    .scroll-panel::-webkit-scrollbar{display:none;}
+
+    .content-offset{ padding-top:1.5rem; }
+
+    .grid{
+      display:flex;
+      flex-direction:column;
+      gap:1rem; /* exakt wie index */
+    }
+
+    /* ===== Link-/Toggle-Optik 1:1 wie index / über mich ===== */
+    .page-link{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      text-decoration:none;
+      color:inherit;
+    }
+    .page-link:visited{ color:inherit; }
+
+    .page-link .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+    .page-link:active .arrow{
+      transform:rotate(90deg);
+    }
+
+    .page-toggle{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      background:transparent;
+      border:none;
+      padding:0;
+      color:inherit;
+      cursor:pointer;
+
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .page-toggle .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-group > .page-content{
+      display:none;
+      margin-left:18px;
+      margin-top:.75rem;
+    }
+    .page-group.open > .page-content{display:block;}
+    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
+
+    .page-content h1{margin-top:0;}
+    .page-content p{margin:0 0 1rem 0;}
+
+    /* ===== Kontaktformular Styles (aus deinem kontakt übernommen, aber panel-clean) ===== */
+    form{ margin:0; display:grid; gap:.8rem; max-width:650px; }
+    form label{ font-weight:600; }
+
+    form input:not([type="checkbox"]), form textarea{
+      width:100%;
+      border:1px solid #ccc;
+      border-radius:8px;
+      padding:.6rem;
+      background:rgba(255,255,255,0.85);
+      font:inherit;
+    }
+    form textarea{ min-height:120px; overflow:auto; }
+
+    form input[type="checkbox"]{
+      width:auto; margin:.25rem .5rem 0 0; padding:0; border:none; vertical-align:top;
+    }
+    form label{ display:block; }
+    form label input[type="checkbox"]{ float:left; }
+    form label input[type="checkbox"] + *{ display:block; }
+
+    form button{
+      margin-top:.6rem; margin-bottom:0.4rem;
+      border:none; border-radius:8px; padding:.6rem 1.2rem;
+      background:#111; color:#fff; font-weight:600; cursor:pointer;
+    }
+    form button[disabled]{ opacity:0.6; cursor:default; }
+
+    /* ===== Spinner & Status ===== */
+    .sending-indicator{
+      display:none;
+      align-items:center;
+      gap:.4rem;
+      font-size:.9rem;
+    }
+    .sending-indicator.active{ display:flex; }
+    .sending-indicator .spinner{
+      width:14px;height:14px;border-radius:50%;
+      border:2px solid #111;
+      border-top-color:transparent;
+      animation:spin .7s linear infinite;
+    }
+    @keyframes spin{ to{ transform:rotate(360deg); } }
+
+    .form-status{
+      display:none;
+      font-size:.85rem;
+      margin-top:.25rem;
+    }
+    .form-status.error{ display:block; color:#b00020; }
+    .form-status.success{ display:block; color:#0a7a0a; }
+
+    /* Fester Footer unten – wie index.html */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
+      text-align:center;
+      color:#000;
+      font-size:.82rem;
+      z-index:910;
+    }
+    .footer-inline a{
+      color:#000;
+      text-decoration:none;
+    }
+    .footer-inline a:hover{
+      text-decoration:underline;
+    }
+
+    /* swipe helper */
+    .edge-swipe {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 28px;
+      z-index: 1201;
+      background: transparent;
+      pointer-events: none;
+    }
+    .edge-swipe.left  { left: 0; }
+    .edge-swipe.right { right: 0; }
+    @media (pointer: coarse){
+      .edge-swipe{ pointer-events: auto; }
+    }
+  </style>
 </head>
 
 <body>
-<header class="header">
-  <a class="brand" href="index.html" aria-label="b3nn3t Home">
-    <img src="favicon.svg" alt=""/><strong>b3nn3t</strong>
-  </a>
-</header>
+  <header class="header">
+    <a class="brand" href="index.html" aria-label="b3nn3t Home">
+      <img src="favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
+    </a>
+  </header>
 
-<button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
-  <span></span><span></span><span></span>
-</button>
-<div id="menu-overlay" class="menu-overlay" hidden></div>
-<nav id="site-menu" class="site-menu" aria-hidden="true">
-  <ul>
-    <li><a href="ueber-mich.html">über mich</a></li>
-    <li><a href="diskografie.html">diskografie</a></li>
-    <li><a href="kontakt.html">kontakt</a></li>
-    <li><a href="aktuell.html">aktuell</a></li>
-    <li><a href="gesehen.html">gesehen</a></li>
-    <li><a href="plattformen.html">plattformen</a></li>
-    <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-  </ul>
-</nav>
+  <!-- Burger-Menü -->
+  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div id="menu-overlay" class="menu-overlay" hidden></div>
+  <nav id="site-menu" class="site-menu" aria-hidden="true">
+    <ul>
+      <li><a href="ueber-mich.html">über mich</a></li>
+      <li><a href="diskografie.html">diskografie</a></li>
+      <li><a href="kontakt.html">kontakt</a></li>
+      <li><a href="aktuell.html">aktuell</a></li>
+      <li><a href="gesehen.html">gesehen</a></li>
+      <li><a href="plattformen.html">plattformen</a></li>
+      <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
+    </ul>
+  </nav>
 
-<a class="nav-arrow left" aria-label="Vorherige Seite" href="diskografie.html">←</a>
-<a class="nav-arrow right" aria-label="Nächste Seite" href="aktuell.html">→</a>
+  <!-- Seitenpfeile -->
+  <a class="nav-arrow left" aria-label="Vorherige Seite" href="diskografie.html">←</a>
+  <a class="nav-arrow right" aria-label="Nächste Seite" href="aktuell.html">→</a>
 
-<main class="main">
-  <div class="scroll-panel">
-    <h1>kontakt</h1>
-    <p>
-      schreib mir – das formular sendet deine nachricht direkt per e-mail an mich
-           🖤🖤🖤
-    </p>
+  <main class="main">
+    <div class="scroll-panel">
+      <div class="content-offset">
+        <section class="grid" aria-label="Seitenübersicht">
 
-    <form action="https://formsubmit.co/kontakt@b3nn3t.com" method="POST" accept-charset="UTF-8">
-      <input type="hidden" name="_captcha" value="false" />
-      <input type="hidden" name="_next" value="https://b333n3t.github.io/danke.html" />
-      <input type="hidden" name="_subject" value="Neue Nachricht über b3nn3t Website" />
+          <!-- über mich (Link wie auf index) -->
+          <a class="page-link" href="ueber-mich.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>über mich</span>
+          </a>
 
-      <label for="name">Name</label>
-      <input id="name" name="name" placeholder="Dein Name" required />
+          <!-- diskografie (Link wie auf index) -->
+          <a class="page-link" href="diskografie.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>diskografie</span>
+          </a>
 
-      <label for="email">E-Mail</label>
-      <input id="email" name="email" type="email" placeholder="dein@mail.ch" required />
+          <!-- kontakt – aktuell geöffnet -->
+          <div class="page-group current open">
+            <button class="page-toggle" type="button" aria-expanded="true">
+              <span class="arrow" aria-hidden="true">►</span>
+              <span>kontakt</span>
+            </button>
 
-      <label for="subject">Betreff</label>
-      <input id="subject" name="subject" placeholder="Worum geht’s?" />
+            <div class="page-content">
+              <h1>kontakt</h1>
+              <p>
+                schreib mir – das formular sendet deine nachricht direkt per e-mail an mich 🖤🖤🖤
+                <span style="opacity:0; height:0; overflow:hidden; display:block;">
+                  kontakt & booking für b3nn3t – deutschrap & indie-pop aus der schweiz.
+                  hier erreichst du mich für auftritte, anfragen, kollabos und nachrichten.
+                </span>
+              </p>
 
-      <label for="message">Nachricht</label>
-      <textarea id="message" name="message" placeholder="Hi b3nn3t, ..." required></textarea>
+              <form id="kontakt-form">
+                <label for="name">Name</label>
+                <input id="name" name="name" type="text" placeholder="Dein Name" required />
 
-      <label style="font-weight:400">
-        <input type="checkbox" required />
-        Ich stimme zu, dass meine Angaben zur Beantwortung der Anfrage gespeichert werden.
-      </label>
+                <label for="email">E-Mail</label>
+                <input id="email" name="email" type="email" placeholder="dein@mail.ch" required />
 
-      <button type="submit">Nachricht senden</button>
-    </form>
+                <label for="subject">Betreff</label>
+                <input id="subject" name="subject" type="text" placeholder="Worum geht’s?" />
 
-    <!-- === Drei Zeilen Abstand und Inline-Footer innerhalb des Containers === -->
-    <br><br><br>
-    <div class="footer-inline">
-      © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+                <label for="message">Nachricht</label>
+                <textarea id="message" name="message" placeholder="Hi b3nn3t, ..." required></textarea>
+
+                <label style="font-weight:400">
+                  <input type="checkbox" name="privacy" value="zugestimmt" required />
+                  Ich stimme zu, dass meine Angaben zur Beantwortung meiner Anfrage gespeichert und verarbeitet werden.
+                </label>
+
+                <button type="submit" id="kontakt-submit">Nachricht senden</button>
+
+                <div class="sending-indicator" id="sending-indicator" aria-hidden="true">
+                  <div class="spinner"></div>
+                  <span>Sende&nbsp;…</span>
+                </div>
+
+                <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+              </form>
+
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+            </div>
+          </div>
+
+          <!-- darunter die restlichen Seiten -->
+          <a class="page-link" href="aktuell.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>aktuell</span>
+          </a>
+
+          <a class="page-link" href="gesehen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>gesehen</span>
+          </a>
+
+          <a class="page-link" href="plattformen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>plattformen</span>
+          </a>
+
+        </section>
+      </div>
     </div>
-    <!-- === Ende Inline-Footer === -->
+  </main>
 
+  <!-- Fester Footer unten – wie index.html -->
+  <div class="footer-inline">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
-</main>
 
-<!-- Entfernt: ursprünglicher Seiten-Footer -->
-<!-- <footer>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></footer> -->
+  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe right" aria-hidden="true"></div>
 
-<div class="edge-swipe left"  aria-hidden="true"></div>
-<div class="edge-swipe right" aria-hidden="true"></div>
+  <script src="script.js"></script>
+  <script src="swipe-nav.js?v=12" defer></script>
 
-<script src="script.js"></script>
-<script src="swipe-nav.js?v=12" defer></script>
+  <!-- Panelhöhe dynamisch (wie über-mich) + Accordion toggle -->
+  <script>
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const panel  = document.querySelector('.scroll-panel');
 
-<script>
-(function() {
-  function resizePanel() {
-    var panel = document.querySelector('.scroll-panel');
-    if (!panel) return;
-    var header = document.querySelector('.header');
-    var hh = header ? header.offsetHeight : 0;
-    var extra = 32;
-    var gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
-    var max = window.innerHeight - hh - extra - gap;
-    if (max > 240) panel.style.maxHeight = max + 'px';
-  }
-  window.addEventListener('load', resizePanel);
-  window.addEventListener('resize', resizePanel);
-})();
-</script>
+      function resizePanel(){
+        if(!panel) return;
+        const header = document.querySelector('.header');
+        const main   = document.querySelector('.main');
 
-<script>
-(function () {
-  const inForm = el =>
-    el && (el.matches?.('input, textarea, select, [contenteditable="true"]')
-      || el.closest?.('input, textarea, select, [contenteditable="true"]'));
-  window.addEventListener('keydown', function (e) {
-    if (inForm(e.target)) e.stopPropagation();
-  }, true);
-})();
-</script>
+        const hh = header ? header.offsetHeight : 0;
+        let pt = 0, pb = 0;
+        if(main){
+          const cs = getComputedStyle(main);
+          pt = parseFloat(cs.paddingTop)  || 0;
+          pb = parseFloat(cs.paddingBottom) || 0;
+        }
 
+        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
+        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+        let max = vh - hh - pt - pb - gap;
+        if(max < 260) max = 260;
+        panel.style.maxHeight = max + 'px';
+      }
+
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+    })();
+  </script>
+
+  <!-- verhindert, dass swipe-nav in Inputs/Textarea stört -->
+  <script>
+    (function () {
+      const inForm = el =>
+        el && (el.matches?.('input, textarea, select, [contenteditable="true"]')
+          || el.closest?.('input, textarea, select, [contenteditable="true"]'));
+      window.addEventListener('keydown', function (e) {
+        if (inForm(e.target)) e.stopPropagation();
+      }, true);
+    })();
+  </script>
+
+  <!-- 🔧 JS: Formular per fetch an Google Apps Script senden + Spinner + Fehlermeldung -->
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3SfFxFDJQZNL0PxI75Z0O_HyDZl_MoC2b8jcW5PLy0kwPAuiOnK9macrxFTaUboXftg/exec";
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const form   = document.getElementById("kontakt-form");
+      const button = document.getElementById("kontakt-submit");
+      const spinner = document.getElementById("sending-indicator");
+      const statusEl = document.getElementById("form-status");
+
+      if (!form) return;
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        statusEl.textContent = "";
+        statusEl.classList.remove("error", "success");
+
+        button.disabled = true;
+        spinner.classList.add("active");
+
+        const formData = new FormData(form);
+
+        fetch(SCRIPT_URL, {
+          method: "POST",
+          body: formData,
+          mode: "no-cors"
+        })
+        .then(function () {
+          window.location.href = "https://www.b3nn3t.com/danke.html";
+        })
+        .catch(function (err) {
+          console.error("Fehler beim Senden an Apps Script:", err);
+          spinner.classList.remove("active");
+          button.disabled = false;
+          statusEl.textContent = "Da ist etwas schiefgelaufen. Bitte prüfe deine Internetverbindung und versuche es später noch einmal.";
+          statusEl.classList.add("error");
+        });
+      });
+    });
+  </script>
 </body>
 </html>
