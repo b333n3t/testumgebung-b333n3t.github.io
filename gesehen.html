@@ -89,12 +89,10 @@
     :root{
       --bottom-gap:60px;
 
-      /* ✅ Ziel: wie Bild 2 (etwas kleiner als Bild 1) */
-      --seen-max: 900px;     /* Gesamtbreite vom 2er-Block */
-      --card-min: 380px;     /* Mindestbreite pro Card */
-      --seen-gap: 14px;      /* Abstand zwischen Cards */
-      --card-pad: 18px;      /* Innenabstand Card */
-      --player-w: 500px;     /* Playerbreite unter 2er-Reihe */
+      /* 🔥 WICHTIG: jetzt wirklich groß wie Bild 1 */
+      --seen-max: 920px;   /* Gesamtbreite 2er-Block */
+      --card-min: 520px;    /* Mindestbreite je Card */
+      --seen-gap: 10px;     /* enger zusammen */
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
@@ -116,7 +114,7 @@
       box-shadow:none !important;
     }
 
-    /* ===== Hamburger-Menü (wie index) ===== */
+    /* ===== Hamburger-Menü ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -165,138 +163,144 @@
       font-weight:500;
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
-
     .nav-arrow{z-index:1400 !important;}
 
     /* ===== Scroll-Panel ===== */
     .scroll-panel{
-      max-width:min(1000px,94vw);
+      max-width:min(1200px,96vw); /* etwas mehr Platz als vorher */
       max-height:75vh;
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
-
       background:transparent;
-      backdrop-filter:none;
-      -webkit-backdrop-filter:none;
       border-radius:0;
       box-shadow:none;
-
       padding:1.25rem 1rem 1.5rem;
-
       scrollbar-width:none;
       -ms-overflow-style:none;
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
-
     .content-offset{ padding-top:1.5rem; }
 
     .grid{ display:flex; flex-direction:column; gap:1rem; }
 
     .page-link{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:1.1rem;
-      text-decoration:none;
-      color:inherit;
+      display:flex; align-items:center; gap:6px;
+      font-size:1.1rem; text-decoration:none; color:inherit;
     }
     .page-link:visited{ color:inherit; }
     .page-link .arrow{ display:inline-block; transition:transform .2s ease; }
 
     .page-toggle{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:1.1rem;
-      background:transparent;
-      border:none;
-      padding:0;
-      color:inherit;
-      cursor:pointer;
-      font-family: inherit;
-      font-weight: inherit;
-      letter-spacing: inherit;
-      line-height: inherit;
-      appearance:none;
+      display:flex; align-items:center; gap:6px;
+      font-size:1.1rem; background:transparent; border:none;
+      padding:0; color:inherit; cursor:pointer; appearance:none;
       -webkit-appearance:none;
     }
     .page-toggle .arrow{ display:inline-block; transition:transform .2s ease; }
 
-    .page-group > .page-content{
-      display:none;
-      margin-left:18px;
-      margin-top:.75rem;
-    }
+    .page-group > .page-content{ display:none; margin-left:18px; margin-top:.75rem; }
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
     .page-content h1{margin-top:0;}
     .page-content p{margin:0 0 1rem 0;}
 
-    /* ========= Cards: wie Bild 2 ========= */
-    .grid-seen{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(var(--card-min), 1fr));
-      gap: var(--seen-gap);
+    /* =========================================================
+       ✅ FIX: Deine Cards waren “klein”, weil oft externe CSS
+       max-width / margin:auto auf .card setzen.
+       -> Hier überschreiben wir das hart und machen sie wirklich groß.
+       ========================================================= */
 
-      width:100%;
-      max-width: var(--seen-max);
-      margin: 0;               /* linksbündig */
-      justify-content:start;
-      align-items:start;
+    /* Grid = 2 große Spalten, enger Abstand */
+    section.grid-seen{
+      display:grid !important;
+      grid-template-columns: repeat(2, minmax(var(--card-min), 1fr)) !important;
+      gap: var(--seen-gap) !important;
+
+      width: 100% !important;
+      max-width: var(--seen-max) !important;
+      margin: 0 !important;               /* linksbündig */
+      justify-content: start !important;
+      align-items: start !important;
     }
 
+    /* Wenn Bildschirm kleiner wird: Card-Min runter */
+    @media (max-width: 1180px){
+      :root{ --seen-max: 980px; --card-min: 460px; }
+    }
+    @media (max-width: 1020px){
+      :root{ --seen-max: 860px; --card-min: 400px; }
+    }
+    @media (max-width: 860px){
+      :root{ --seen-max: 760px; --card-min: 350px; }
+    }
     @media (max-width: 720px){
-      :root{ --seen-max: 520px; --player-w: 520px; }
-      .grid-seen{ grid-template-columns: 1fr; }
+      section.grid-seen{
+        grid-template-columns: 1fr !important;
+        max-width: 520px !important;
+      }
     }
 
-    .grid-seen .card{
+    /* Cards: volle Spaltenbreite, keine “mini” max-width */
+    section.grid-seen .card{
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+
       cursor:pointer;
       background: rgba(255,255,255,.65);
       border-radius: 22px;
-      padding: var(--card-pad);
+
+      /* bisschen mehr Höhe */
+      padding: 20px 20px 18px !important;
+
       box-shadow: 0 12px 32px rgba(0,0,0,.10);
       text-align:center;
     }
 
-    .card .thumb{
-      width:100%;
+    /* Thumbnail größer = Card wirkt deutlich größer */
+    section.grid-seen .card .thumb{
+      width:100% !important;
+      max-width:none !important;
+
       aspect-ratio: 16 / 9;
       display:block;
       border-radius: 18px;
       object-fit: cover;
       background:#000;
-      margin-bottom: 12px;
+
+      margin-bottom: 14px !important;
     }
 
-    .grid-seen .card .play-label,
-    .grid-seen .card .yt-title{
+    section.grid-seen .card .play-label,
+    section.grid-seen .card .yt-title{
       display:block;
       margin-top:6px;
-      font-size:1.05rem;
+      font-size:1.08rem;
       font-weight:600;
     }
 
-    /* ========= Player: unter der jeweiligen 2er-Reihe, mittig im 2er-Block ========= */
+    /* ========= Player: unter der jeweiligen 2er-Reihe, mittig ========= */
     .video-row{
       grid-column: 1 / -1;
-      width:100%;
+      width: 100%;
       max-width: var(--seen-max);
       display:flex;
-      justify-content:center; /* ✅ mittig unter den 2 Cards */
-      margin-top: 8px;
+      justify-content:center;
+      margin-top: 6px;
     }
+
     .video-wrapper{
-      width: min(var(--player-w), 100%);
+      width: min(720px, 100%);
       aspect-ratio: 16 / 9;
-      position: relative;      /* ✅ wichtig für absolute iframe/video + close button */
+      position: relative;
       overflow:hidden;
       border-radius:14px;
       background:#000;
       border:1px solid rgba(0,0,0,.06);
     }
+
     .video-wrapper iframe,
     .video-wrapper video{
       position:absolute;
@@ -305,6 +309,7 @@
       height:100%;
       border:0;
     }
+
     .video-close{
       position:absolute;
       top:8px;
@@ -320,6 +325,11 @@
       padding:2px 10px;
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
+
+    @media (max-width: 720px){
+      .video-row{ max-width: 520px; }
+      .video-wrapper{ width: 100%; }
+    }
 
     /* Footer */
     .footer-inline{
@@ -413,13 +423,11 @@
 
               <!-- Videos -->
               <section class="grid-seen" aria-label="Videos">
-                <!-- Instagram -->
                 <div class="card" id="video1" data-embed-src="https://www.instagram.com/reel/DKHa8SoMzQ-/embed">▶︎ link<small>Instagram</small></div>
                 <div class="card" id="video2" data-embed-src="https://www.instagram.com/reel/DK9pg-boyA1/embed">▶︎ link<small>Instagram</small></div>
                 <div class="card" id="video3" data-embed-src="https://www.instagram.com/reel/DLqGKqLsY6S/embed">▶︎ link<small>Instagram</small></div>
                 <div class="card" id="video4" data-embed-src="https://www.instagram.com/reel/C40c2qsN_eI/embed">▶︎ link<small>Instagram</small></div>
 
-                <!-- YouTube -->
                 <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">▶︎ YouTube 1<small>YouTube</small></div>
                 <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">▶︎ YouTube 2<small>YouTube</small></div>
                 <div class="card" id="yt3" data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc">▶︎ YouTube 3<small>YouTube</small></div>
@@ -450,7 +458,6 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -494,7 +501,6 @@
     })();
   </script>
 
-  <!-- Player: unter der jeweiligen 2er-Reihe, mittig im 2er-Block -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -504,7 +510,7 @@
     }
 
     function getCols(){
-      return window.matchMedia('(max-width: 720px)').matches ? 1 : 2;
+      return window.matchMedia('(max-width: 700px)').matches ? 1 : 2;
     }
 
     cards.forEach(card => {
@@ -521,7 +527,7 @@
         const anchor = items[rowEnd] || card;
 
         const existing = section.querySelector('.video-row');
-        if(existing && existing.dataset.anchorId === (anchor.id || '')){
+        if(existing && existing.dataset.anchorId === anchor.id){
           existing.remove();
           return;
         }
@@ -530,7 +536,7 @@
 
         const row = document.createElement('div');
         row.className = 'video-row';
-        row.dataset.anchorId = anchor.id || '';
+        row.dataset.anchorId = anchor.id;
 
         const wrapper = document.createElement('div');
         wrapper.className = 'video-wrapper';
@@ -577,7 +583,6 @@
   });
   </script>
 
-  <!-- Instagram Thumbnails -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -605,7 +610,6 @@
   });
   </script>
 
-  <!-- YouTube Thumbnails -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -639,7 +643,6 @@
   });
   </script>
 
-  <!-- YouTube Titel automatisch -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
