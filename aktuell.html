@@ -12,212 +12,302 @@
   <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
-    :root { --bottom-gap: 60px; }
-    @media (max-width: 767px){ :root { --bottom-gap: 50px; } }
-    .main { margin-bottom: var(--bottom-gap); }
+    :root{ --bottom-gap:60px; }
+    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    @media (max-width: 768px) {
-      main.main {
-        min-height: calc(100dvh - 56px - 20px);
-        height: calc(100dvh - 56px - 20px);
-      }
+    /* Hintergrund fix, nur Panel scrollt */
+    html, body{ overflow:hidden; }
+    @media (max-width:767px){
+      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
     }
 
-    /* Glasiger Textbereich */
-    .main{
-      background: rgba(255,255,255,.32);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      border-radius: 12px;
-      padding: 1.25rem 1rem;
-      position: relative;
-      z-index: 1;
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-    }
-    .main::-webkit-scrollbar{ display:none; }
-    .main h1, .main p{
-      background: transparent !important;
-      box-shadow: none !important;
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
     }
 
-    /* Menü */
-    .hamburger {
-      position: fixed;
-      top: 14px; right: 18px;
-      width: 20px; height: 20px;
-      border: none; background: transparent;
-      display: grid; place-items: center;
-      cursor: pointer; z-index: 1200; padding: 0;
+    /* main ohne Innenabstand – wie index/über-mich/kontakt */
+    main.main{
+      flex:1 0 auto;
+      border-radius:12px;
+      padding:0;
+      position:relative;
+      z-index:1;
+      overflow:visible;
+      background:transparent !important;
+      box-shadow:none !important;
     }
-    .hamburger span {
-      display:block; width:12px; height:1.4px;
-      margin:1.5px 0; background:#000; border-radius:2px;
-      transition: transform .2s ease, opacity .2s ease;
+
+    /* ===== Hamburger-Menü (wie index) ===== */
+    .hamburger{
+      position:fixed;top:14px;right:18px;width:20px;height:20px;
+      border:0;background:transparent;display:grid;place-items:center;
+      cursor:pointer;z-index:1200;padding:0
     }
-    body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg);}
-    body.menu-open .hamburger span:nth-child(2){ opacity:0;}
-    body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg);}
-    .menu-overlay {
-      position:fixed; inset:0; background:rgba(0,0,0,.08);
-      backdrop-filter:blur(1px); -webkit-backdrop-filter:blur(1px);
-      z-index:1099;
+    .hamburger span{
+      display:block;width:12px;height:1.4px;margin:1.5px 0;
+      background:#000;border-radius:2px;
+      transition:transform .2s,opacity .2s
     }
-    body.menu-open #menu-overlay{display:block;}
-    #menu-overlay[hidden]{display:none;}
-    .site-menu {
-      position:fixed; top:0; right:0;
-      height:auto; max-height:90vh;
+    body.menu-open .hamburger span:nth-child(1){
+      transform:translateY(3.5px) rotate(45deg)
+    }
+    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
+    body.menu-open .hamburger span:nth-child(3){
+      transform:translateY(-3.5px) rotate(-45deg)
+    }
+
+    .menu-overlay{
+      position:fixed;inset:0;background:rgba(0,0,0,.08);
+      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+      z-index:1099
+    }
+    body.menu-open #menu-overlay{display:block}
+    #menu-overlay[hidden]{display:none}
+
+    .site-menu{
+      position:fixed;top:0;right:0;height:auto;max-height:90vh;
       width:min(40vw,150px);
       background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px);
-      -webkit-backdrop-filter:blur(2px);
+      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
       box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);
-      transition:transform .25s ease;
-      z-index:1101;
-      padding:46px 10px 14px;
+      transform:translateX(100%);transition:transform .25s;
+      z-index:1101;padding:46px 10px 14px
     }
-    body.menu-open .site-menu{transform:translateX(0);}
-    .site-menu ul{list-style:none;margin:0;padding:0;}
-    .site-menu li{margin:0 0 10px 0;}
-    .site-menu li.sep{margin-top:18px;padding-top:8px;border-top:1px solid rgba(0,0,0,.08);}
+    body.menu-open .site-menu{transform:translateX(0)}
+    .site-menu ul{list-style:none;margin:0;padding:0}
+    .site-menu li{margin:0 0 10px}
+    .site-menu li.sep{
+      margin-top:18px;padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.08)
+    }
     .site-menu a{
-      display:block;padding:8px 6px;border-radius:10px;
-      color:#000;text-decoration:none;font-size:1rem;font-weight:500;
+      display:block;
+      padding:8px 6px;
+      border-radius:10px;
+      color:#000;
+      text-decoration:none;
+      font-size:1rem;
+      font-weight:500;
     }
-    .site-menu a:hover{background:rgba(0,0,0,.05);}
+    .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-/* ⭐ VARIANTE B – Release-Card mit Bild */
-.release-card {
-  display: flex;
-  align-items: center;
-  gap: 1.6rem;                     /* mehr Abstand zwischen Bild & Text */
-  margin: 2.2rem 0;               /* etwas mehr Raum von außen */
-  padding: 1.6rem 1.6rem;         /* ⭐ Card wird höher */
-  width: 100%;
-  max-width: 440px;               /* leicht breiter, wirkt harmonischer */
-  background: rgba(255,255,255,0.22);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  border-radius: 16px;            /* runderes Gefühl */
-  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-  text-decoration: none !important;
-  color: black;
-  transition: transform .25s ease, box-shadow .45s ease;
-}
+    .nav-arrow{z-index:1400 !important;}
 
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
+    .scroll-panel{
+      max-width:min(1000px,94vw);
+      max-height:75vh; /* wird per JS angepasst */
+      margin:0;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
 
-/* Dunkler Glow */
-.release-card:hover {
-  transform: scale(1.025);
-  box-shadow:
-    0 0 14px rgba(0,0,0,0.35),
-    0 0 28px rgba(0,0,0,0.30),
-    0 0 45px rgba(0,0,0,0.25);
-}
+      background:transparent;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      border-radius:0;
+      box-shadow:none;
 
-.release-card img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 12px;
-}
+      padding:1.25rem 1rem 1.5rem;
 
-/* Textbereich */
-.release-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+      scrollbar-width:none;
+      -ms-overflow-style:none;
+    }
+    .scroll-panel::-webkit-scrollbar{display:none;}
 
-/* Subtitle – kein Linklook */
-.release-info .subtitle {
-  font-size: 0.95rem;
-  opacity: 0.85;
-  text-align: left;
-  text-decoration: none;
-}
+    .content-offset{ padding-top:1.5rem; }
 
-/* Beschreibung – kein Linklook */
-.release-info .desc {
-  font-size: 0.95rem;
-  opacity: 0.85;
-  text-align: center;
-  text-decoration: none;
-}
+    .grid{
+      display:flex;
+      flex-direction:column;
+      gap:1rem; /* exakt wie index */
+    }
 
-/* Standard: nichts in der Card soll wie ein Link unterstrichen sein */
-.release-card *,
-.release-card:hover * {
-  text-decoration: none;
-}
+    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
+    .page-link{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      text-decoration:none;
+      color:inherit;
+    }
+    .page-link:visited{ color:inherit; }
 
-/* === SONGTITEL: Welle + Unterstrich auf Hover === */
+    .page-link .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+    .page-link:active .arrow{
+      transform:rotate(90deg);
+    }
 
-.songtitle {
-  font-size: 1.55rem;             /* minimal größer */
-  font-weight: 700;
-  text-align: center;
-  margin: 1.1rem 0 1.1rem 0;      /* ⭐ viel mehr Abstand oben & unten */
-}
+    /* Toggle soll identisch aussehen wie Link */
+    .page-toggle{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      background:transparent;
+      border:none;
+      padding:0;
+      color:inherit;
+      cursor:pointer;
 
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
 
-/* Grundzustand: keine Linie */
-.songtitle span {
-  text-decoration: none;
-}
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .page-toggle .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
 
-/* Wellenanimation läuft immer */
-.songtitle.wave span {
-  display: inline-block;
-  animation: wave 1.25s ease-in-out infinite;
-}
+    .page-group > .page-content{
+      display:none;
+      margin-left:18px;
+      margin-top:.75rem;
+    }
+    .page-group.open > .page-content{display:block;}
+    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-/* Unterstrich nur beim Hover über die Card */
-.release-card:hover .songtitle.wave span {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-}
+    .page-content h1{margin-top:0;}
+    .page-content p{margin:0 0 1rem 0;}
 
-/* starke, gut sichtbare Welle */
-.songtitle.wave span:nth-child(1)  { animation-delay: 0s; }
-.songtitle.wave span:nth-child(2)  { animation-delay: 0.07s; }
-.songtitle.wave span:nth-child(3)  { animation-delay: 0.14s; }
-.songtitle.wave span:nth-child(4)  { animation-delay: 0.21s; }
-.songtitle.wave span:nth-child(5)  { animation-delay: 0.28s; }
-.songtitle.wave span:nth-child(6)  { animation-delay: 0.35s; } /* Leerzeichen */
-.songtitle.wave span:nth-child(7)  { animation-delay: 0.42s; }
-.songtitle.wave span:nth-child(8)  { animation-delay: 0.49s; }
-.songtitle.wave span:nth-child(9)  { animation-delay: 0.56s; }
-.songtitle.wave span:nth-child(10) { animation-delay: 0.63s; } /* Leerzeichen */
-.songtitle.wave span:nth-child(11) { animation-delay: 0.70s; }
-.songtitle.wave span:nth-child(12) { animation-delay: 0.77s; }
-.songtitle.wave span:nth-child(13) { animation-delay: 0.84s; }
-.songtitle.wave span:nth-child(14) { animation-delay: 0.91s; }
-.songtitle.wave span:nth-child(15) { animation-delay: 0.98s; }
-.songtitle.wave span:nth-child(16) { animation-delay: 1.05s; }
+    /* Fester Footer unten – wie index.html */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
+      text-align:center;
+      color:#000;
+      font-size:.82rem;
+      z-index:910;
+    }
+    .footer-inline a{
+      color:#000;
+      text-decoration:none;
+    }
+    .footer-inline a:hover{
+      text-decoration:underline;
+    }
 
-@keyframes wave {
-  0%, 100% { transform: translateY(0);   opacity: 0.9; }
-  50%      { transform: translateY(-10px); opacity: 1; }
-}
+    /* swipe helper */
+    .edge-swipe {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 28px;
+      z-index: 1201;
+      background: transparent;
+      pointer-events: none;
+    }
+    .edge-swipe.left  { left: 0; }
+    .edge-swipe.right { right: 0; }
+    @media (pointer: coarse){
+      .edge-swipe{ pointer-events: auto; }
+    }
 
-/* Mobile */
-@media(max-width:600px){
-  .release-card { flex-direction: column; text-align: center; }
-  .release-card img { width: 75%; height: auto; }
-}
+    /* ===== DEIN CONTENT: Release-Card (unverändert) ===== */
+    .release-card {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      margin: 2.2rem 0;
+      padding: 1.6rem 1.6rem;
+      width: 100%;
+      max-width: 440px;
+      background: rgba(255,255,255,0.22);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(3px);
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      text-decoration: none !important;
+      color: black;
+      transition: transform .25s ease, box-shadow .45s ease;
+    }
+    .release-card:hover {
+      transform: scale(1.025);
+      box-shadow:
+        0 0 14px rgba(0,0,0,0.35),
+        0 0 28px rgba(0,0,0,0.30),
+        0 0 45px rgba(0,0,0,0.25);
+    }
+    .release-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+    .release-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .release-info .subtitle {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      text-align: left;
+      text-decoration: none;
+    }
+    .release-info .desc {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      text-align: center;
+      text-decoration: none;
+    }
+    .release-card *,
+    .release-card:hover * {
+      text-decoration: none;
+    }
+    .songtitle {
+      font-size: 1.55rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 1.1rem 0 1.1rem 0;
+    }
+    .songtitle span { text-decoration: none; }
+    .songtitle.wave span {
+      display: inline-block;
+      animation: wave 1.25s ease-in-out infinite;
+    }
+    .release-card:hover .songtitle.wave span {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+    .songtitle.wave span:nth-child(1)  { animation-delay: 0s; }
+    .songtitle.wave span:nth-child(2)  { animation-delay: 0.07s; }
+    .songtitle.wave span:nth-child(3)  { animation-delay: 0.14s; }
+    .songtitle.wave span:nth-child(4)  { animation-delay: 0.21s; }
+    .songtitle.wave span:nth-child(5)  { animation-delay: 0.28s; }
+    .songtitle.wave span:nth-child(6)  { animation-delay: 0.35s; }
+    .songtitle.wave span:nth-child(7)  { animation-delay: 0.42s; }
+    .songtitle.wave span:nth-child(8)  { animation-delay: 0.49s; }
+    .songtitle.wave span:nth-child(9)  { animation-delay: 0.56s; }
+    .songtitle.wave span:nth-child(10) { animation-delay: 0.63s; }
+    .songtitle.wave span:nth-child(11) { animation-delay: 0.70s; }
+    .songtitle.wave span:nth-child(12) { animation-delay: 0.77s; }
+    .songtitle.wave span:nth-child(13) { animation-delay: 0.84s; }
+    .songtitle.wave span:nth-child(14) { animation-delay: 0.91s; }
+    .songtitle.wave span:nth-child(15) { animation-delay: 0.98s; }
+    .songtitle.wave span:nth-child(16) { animation-delay: 1.05s; }
+    @keyframes wave {
+      0%, 100% { transform: translateY(0); opacity: 0.9; }
+      50%      { transform: translateY(-10px); opacity: 1; }
+    }
+    @media(max-width:600px){
+      .release-card { flex-direction: column; text-align: center; }
+      .release-card img { width: 75%; height: auto; }
+    }
 
-
-
-  </style>
-
-  <!-- CHAOTISCHE BILDERCOLLAGE -->
-  <style>
+    /* ===== Collage (unverändert) ===== */
     .collage-window {
       position: relative;
       max-width: 650px;
@@ -254,17 +344,14 @@
       .chaos-collage{height:300px;}
       .chaos-collage img{width:60%;}
     }
-  </style>
 
-  <!-- RESPONSIVE "TABELLEN"-STYLES FÜR TERMINE -->
-  <style>
+    /* ===== Termine (unverändert) ===== */
     .termine-list {
       display: grid;
       gap: 0.75rem;
       max-width: 800px;
       margin: 0 auto;
     }
-
     .termin-row {
       display: grid;
       grid-template-columns: 8ch 1fr auto;
@@ -274,11 +361,12 @@
       border-radius: 12px;
       background: transparent;
     }
-
     .termin-row .datum {
       font-variant-numeric: tabular-nums;
       font-weight: 600;
       white-space: nowrap;
+      position: relative;
+      display: inline-block;
     }
     .termin-row .veranstaltung {
       font-weight: 500;
@@ -289,17 +377,10 @@
       white-space: nowrap;
       text-align: right;
     }
-
     @media (max-width: 800px) {
-      .termin-row {
-        grid-template-columns: 8ch 1fr;
-      }
-      .termin-row .ort {
-        grid-column: 2 / -1;
-        text-align: left;
-      }
+      .termin-row { grid-template-columns: 8ch 1fr; }
+      .termin-row .ort { grid-column: 2 / -1; text-align: left; }
     }
-
     @media (max-width: 480px) {
       .termin-row {
         grid-template-columns: 1fr;
@@ -310,32 +391,21 @@
       }
       .termin-row .datum,
       .termin-row .veranstaltung,
-      .termin-row .ort {
-        text-align: left;
-        white-space: normal;
-      }
+      .termin-row .ort { text-align: left; white-space: normal; }
       .termin-row .datum { opacity: .9; }
       .termin-row .ort   { opacity: .85; }
     }
-
-    /* ✔ Haken für vergangene Termine – Datum bleibt an gleicher Position */
-    .termin-row .datum {
-      position: relative;         /* damit ::before sich daran orientiert */
-      display: inline-block;
-    }
-
     .termin-row.completed .datum::before {
       content: "✔";
       position: absolute;
-      left: -1.2em;               /* wie weit der Haken links stehen soll */
+      left: -1.2em;
       top: 50%;
-      transform: translateY(-50%);/* vertikal mittig neben dem Datum */
+      transform: translateY(-50%);
       color: green;
       font-weight: 900;
       font-size: 1.1em;
       pointer-events: none;
     }
-
   </style>
 </head>
 
@@ -346,11 +416,11 @@
     </a>
   </header>
 
+  <!-- Burger-Menü -->
   <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
     <span></span><span></span><span></span>
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
-
   <nav id="site-menu" class="site-menu" aria-hidden="true">
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
@@ -363,125 +433,215 @@
     </ul>
   </nav>
 
+  <!-- Seitenpfeile -->
+  <a class="nav-arrow left" aria-label="Vorherige Seite" href="kontakt.html">←</a>
+  <a class="nav-arrow right" aria-label="Nächste Seite" href="gesehen.html">→</a>
+
   <main class="main">
-    <h1>aktuell</h1>
-    <p>was steht an...</p>
+    <div class="scroll-panel">
+      <div class="content-offset">
+        <section class="grid" aria-label="Seitenübersicht">
 
-    <div style="margin-top: 3em;">
-      <p><b>neuigkeiten</b></p>
+          <!-- über mich -->
+          <a class="page-link" href="ueber-mich.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>über mich</span>
+          </a>
 
-      <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen - </p>
-    </div>
-    
-      <!-- ⭐ VARIANTE B: Release-Card mit Cover als Link -->
-<a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank">
-  <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
-  <div class="release-info">
-    <div class="subtitle">🎧 neues release</div>
+          <!-- diskografie -->
+          <a class="page-link" href="diskografie.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>diskografie</span>
+          </a>
 
-<div class="songtitle">
-  Alles was bleibt
-</div>
+          <!-- kontakt -->
+          <a class="page-link" href="kontakt.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>kontakt</span>
+          </a>
 
+          <!-- aktuell – current open -->
+          <div class="page-group current open">
+            <button class="page-toggle" type="button" aria-expanded="true">
+              <span class="arrow" aria-hidden="true">►</span>
+              <span>aktuell</span>
+            </button>
 
-    <div class="desc">jetzt reinhören & preview-video ansehen!</div>
-  </div>
-</a>
+            <div class="page-content">
+              <h1>aktuell</h1>
+              <p>was steht an...</p>
 
+              <div style="margin-top: 3em;">
+                <p><b>neuigkeiten</b></p>
+                <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen -</p>
+              </div>
 
+              <!-- ⭐ Release-Card -->
+              <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-5.html" target="_blank" rel="noopener noreferrer">
+                <img src="assets/release/alles-was-bleibt-cover.jpg" alt="Cover: Alles was bleibt">
+                <div class="release-info">
+                  <div class="subtitle">🎧 neues release</div>
+                  <div class="songtitle">Alles was bleibt</div>
+                  <div class="desc">jetzt reinhören & preview-video ansehen!</div>
+                </div>
+              </a>
 
-    <div style="margin-top: 3em;">
-      <p><b>termine</b></p>
-      <p>- - - auftritte - - -</p>
+              <div style="margin-top: 3em;">
+                <p><b>termine</b></p>
+                <p>- - - auftritte - - -</p>
 
-      <div class="termine-responsive" style="margin-top: 2rem;">
-        <div class="termine-list" role="table" aria-label="Termine">
+                <div class="termine-responsive" style="margin-top: 2rem;">
+                  <div class="termine-list" role="table" aria-label="Termine">
 
                     <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
-            <div class="veranstaltung" role="cell">· RAPCITY-Contest - OpenAir Frauenfeld</div>
-            <div class="ort" role="cell">· Frauenfeld · 17:15 Uhr</div>
+                      <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                      <div class="veranstaltung" role="cell">· RAPCITY-Contest - OpenAir Frauenfeld</div>
+                      <div class="ort" role="cell">· Frauenfeld · 17:15 Uhr</div>
+                    </div>
+
+                    <div class="termin-row" role="row">
+                      <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
+                      <div class="veranstaltung" role="cell">· Jugend Festival beim ZAK</div>
+                      <div class="ort" role="cell">· Jona · 18:00 Uhr</div>
+                    </div>
+
+                    <div class="termin-row" role="row">
+                      <div class="datum" role="cell"><time datetime="2025-08-02">08.02.2025</time></div>
+                      <div class="veranstaltung" role="cell">· OYA - OPEN AIR - abgesagt</div>
+                      <div class="ort" role="cell">· Wien · 20:00 Uhr</div>
+                    </div>
+
+                    <div class="termin-row" role="row">
+                      <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                      <div class="veranstaltung" role="cell">· Jugendfistval - Rüti</div>
+                      <div class="ort" role="cell">· Rüti · 17:30 Uhr</div>
+                    </div>
+
+                    <div class="termin-row" role="row">
+                      <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                      <div class="veranstaltung" role="cell">· Full HD - Grün & Gold</div>
+                      <div class="ort" role="cell">· Heidelberg · 20:00 Uhr</div>
+                    </div>
+
+                    <div class="termin-row" role="row">
+                      <div class="datum" role="cell"><time datetime="2026-05-01">xx.05.2026</time></div>
+                      <div class="veranstaltung" role="cell">· Jugendfestival - ZAK</div>
+                      <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
+                    </div>
+
+                    <div class="termin-row" role="row">
+                      <div class="datum" role="cell"><time datetime="2026-12-31">xx.yy.zzzz</time></div>
+                      <div class="veranstaltung" role="cell">· in der mache</div>
+                      <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top: 3em;">
+                <p><b>was mich gerade beschäftigt</b></p>
+                <p>- - - - - -</p>
+              </div>
+
+              <div class="collage-window">
+                <div class="chaos-collage">
+                  <img src="assets/aktuell/er.jpg" alt="style">
+                  <img src="assets/aktuell/qw.jpg" alt="style">
+                </div>
+              </div>
+
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+            </div>
           </div>
 
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
-            <div class="veranstaltung" role="cell">· Jugend Festival beim ZAK</div>
-            <div class="ort" role="cell">· Jona · 18:00 Uhr</div>
-          </div>
+          <!-- darunter -->
+          <a class="page-link" href="gesehen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>gesehen</span>
+          </a>
 
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2025-08-02">08.02.2025</time></div>
-            <div class="veranstaltung" role="cell">· OYA - OPEN AIR - abgesagt </div>
-            <div class="ort" role="cell">· Wien · 20:00 Uhr</div>
-          </div>
+          <a class="page-link" href="plattformen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>plattformen</span>
+          </a>
 
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
-            <div class="veranstaltung" role="cell">· Jugendfistval - Rüti </div>
-            <div class="ort" role="cell">· Rüti · 17:30 Uhr</div>
-          </div>
-          
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
-            <div class="veranstaltung" role="cell">· Full HD - Grün & Gold</div>
-            <div class="ort" role="cell">· Heidelberg · 20:00 Uhr</div>
-          </div>
-
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2026-05-01">xx.05.2026</time></div>
-            <div class="veranstaltung" role="cell">· Jugendfestival - ZAK</div>
-            <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
-          </div>
-
-          <div class="termin-row" role="row">
-            <div class="datum" role="cell"><time datetime="2026-12-31">xx.yy.zzzz</time></div>
-            <div class="veranstaltung" role="cell">· in der mache</div>
-            <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
-          </div>
-
-        </div>
+        </section>
       </div>
-    </div>
-
-    <div style="margin-top: 3em;">
-      <p><b>was mich gerade beschäftigt</b></p>
-      <p>- - - - - -</p>
-    </div>
-
-    <div class="collage-window">
-      <div class="chaos-collage">
-        <img src="assets/aktuell/er.jpg" alt="style">
-        <img src="assets/aktuell/qw.jpg" alt="style">
-      </div>
-    </div>
-
-    <div style="margin-top: 15em; color: black; text-align: center;">
-      © b3nn3t · <a href="impressum.html" style="color: black; text-decoration: none;">Impressum / Datenschutz</a>
     </div>
   </main>
 
-  <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+  <!-- Fester Footer unten -->
+  <div class="footer-inline">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </div>
+
+  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe right" aria-hidden="true"></div>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- AUTOMATISCHER HAKEN FÜR VERGANGENE TERMINE -->
+  <!-- Panelhöhe dynamisch (wie über-mich) + Accordion toggle -->
   <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const today = new Date();
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const panel  = document.querySelector('.scroll-panel');
 
-    document.querySelectorAll('.termin-row').forEach(row => {
-      const timeElem = row.querySelector("time");
-      if (!timeElem) return;
+      function resizePanel(){
+        if(!panel) return;
+        const header = document.querySelector('.header');
+        const main   = document.querySelector('.main');
 
-      const dateString = timeElem.getAttribute("datetime");
-      if (!dateString || dateString.includes("xx")) return;
+        const hh = header ? header.offsetHeight : 0;
+        let pt = 0, pb = 0;
+        if(main){
+          const cs = getComputedStyle(main);
+          pt = parseFloat(cs.paddingTop)  || 0;
+          pb = parseFloat(cs.paddingBottom) || 0;
+        }
 
-      const date = new Date(dateString);
-      if (date < today) row.classList.add("completed");
-    });
-  });
+        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
+        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+        let max = vh - hh - pt - pb - gap;
+        if(max < 260) max = 260;
+        panel.style.maxHeight = max + 'px';
+      }
+
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+    })();
   </script>
 
+  <!-- AUTOMATISCHER HAKEN FÜR VERGANGENE TERMINE -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const today = new Date();
+
+      document.querySelectorAll('.termin-row').forEach(row => {
+        const timeElem = row.querySelector("time");
+        if (!timeElem) return;
+
+        const dateString = timeElem.getAttribute("datetime");
+        if (!dateString || dateString.includes("xx")) return;
+
+        const date = new Date(dateString);
+        if (date < today) row.classList.add("completed");
+      });
+    });
+  </script>
 </body>
 </html>
