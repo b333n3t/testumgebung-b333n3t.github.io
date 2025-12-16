@@ -4,24 +4,31 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- SEO -->
+  <!-- ✅ SEO -->
   <title>Plattformen – b3nn3t | Streaming & Socials</title>
   <meta name="description" content="Alle offiziellen Profile & Streaming-Plattformen von b3nn3t: Spotify, Apple Music, YouTube, Instagram, SoundCloud, MX3 & Genius." />
   <meta name="robots" content="index,follow" />
   <link rel="canonical" href="https://www.b3nn3t.com/plattformen.html" />
 
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <!-- ✅ Favicon -->
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192.png">
 
-  <!-- Haupt-Styles -->
+  <!-- ✅ Styles (wie deine anderen Seiten) -->
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
-    :root{ --bottom-gap:60px; }
+    :root{
+      --bottom-gap:60px;
+    }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
+    /* Desktop: keine Body-Scrollbars, Mobile darf scrollen */
     html, body{ overflow:hidden; }
     @media (max-width:767px){
       html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
@@ -55,13 +62,9 @@
       background:#000;border-radius:2px;
       transition:transform .2s,opacity .2s
     }
-    body.menu-open .hamburger span:nth-child(1){
-      transform:translateY(3.5px) rotate(45deg)
-    }
-    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
-    body.menu-open .hamburger span:nth-child(3){
-      transform:translateY(-3.5px) rotate(-45deg)
-    }
+    body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
+    body.menu-open .hamburger span:nth-child(2){opacity:0}
+    body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
 
     .menu-overlay{
       position:fixed;inset:0;background:rgba(0,0,0,.08);
@@ -100,7 +103,7 @@
 
     .nav-arrow{z-index:1400 !important;}
 
-    /* ===== UNSICHTBARES Scroll-Panel (wie die anderen Seiten) ===== */
+    /* ===== UNSICHTBARES Scroll-Panel (wie bei den anderen) ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
       max-height:75vh;
@@ -120,6 +123,7 @@
       -ms-overflow-style:none;
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
+
     .content-offset{ padding-top:1.5rem; }
 
     .grid{
@@ -128,7 +132,7 @@
       gap:1rem;
     }
 
-    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
+    /* ===== Link-/Toggle-Optik (wie index) ===== */
     .page-link{
       display:flex;
       align-items:center;
@@ -138,7 +142,6 @@
       color:inherit;
     }
     .page-link:visited{ color:inherit; }
-
     .page-link .arrow{
       display:inline-block;
       transition:transform .2s ease;
@@ -179,22 +182,25 @@
     .page-content h1{margin-top:0;}
     .page-content p{margin:0 0 1rem 0;}
 
-    /* ===== Plattform-Liste (wie vorher, nur sauber im Panel) ===== */
+    /* ===== Plattform-Liste ===== */
     .platform-list{
       list-style:none;
       padding:0;
       margin:1.25rem 0 0 0;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
     }
     .platform-list li{
       display:flex;
       align-items:center;
       gap:10px;
-      margin:0 0 12px 0;
     }
     .platform-list picture{flex-shrink:0;}
     .platform-list img{
       width:28px;height:28px;
-      object-fit:contain;display:block;
+      object-fit:contain;
+      display:block;
     }
     .platform-list a{
       color:#000;
@@ -204,7 +210,7 @@
     }
     .platform-list a:hover{ text-decoration:underline; }
 
-    /* Fester Footer unten – wie index.html */
+    /* Fester Footer unten (wie bei index/über-mich/...) */
     .footer-inline{
       position:fixed;
       left:0;
@@ -215,28 +221,25 @@
       font-size:.82rem;
       z-index:910;
     }
-    .footer-inline a{
-      color:#000;
-      text-decoration:none;
-    }
-    .footer-inline a:hover{
-      text-decoration:underline;
+    .footer-inline a{ color:#000; text-decoration:none; }
+    .footer-inline a:hover{ text-decoration:underline; }
+    @media (max-width:767px){
+      .footer-inline{ bottom:20px; }
     }
 
     /* swipe helper */
-    .edge-swipe {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 28px;
-      z-index: 1201;
-      background: transparent;
-      pointer-events: none;
+    .edge-swipe{
+      position:fixed;
+      top:0; bottom:0;
+      width:28px;
+      z-index:1201;
+      background:transparent;
+      pointer-events:none;
     }
-    .edge-swipe.left  { left: 0; }
-    .edge-swipe.right { right: 0; }
-    @media (pointer: coarse){
-      .edge-swipe{ pointer-events: auto; }
+    .edge-swipe.left{ left:0; }
+    .edge-swipe.right{ right:0; }
+    @media (pointer:coarse){
+      .edge-swipe{ pointer-events:auto; }
     }
   </style>
 </head>
@@ -275,7 +278,14 @@
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- plattformen – current open (und sonst nichts darunter) -->
+          <!-- ✅ Links wie bei index -->
+          <a class="page-link" href="ueber-mich.html"><span class="arrow" aria-hidden="true">►</span><span>über mich</span></a>
+          <a class="page-link" href="diskografie.html"><span class="arrow" aria-hidden="true">►</span><span>diskografie</span></a>
+          <a class="page-link" href="kontakt.html"><span class="arrow" aria-hidden="true">►</span><span>kontakt</span></a>
+          <a class="page-link" href="aktuell.html"><span class="arrow" aria-hidden="true">►</span><span>aktuell</span></a>
+          <a class="page-link" href="gesehen.html"><span class="arrow" aria-hidden="true">►</span><span>gesehen</span></a>
+
+          <!-- ✅ plattformen – current open -->
           <div class="page-group current open">
             <button class="page-toggle" type="button" aria-expanded="true">
               <span class="arrow" aria-hidden="true">►</span>
@@ -287,8 +297,7 @@
               <p>
                 Hier findest du mich online:
                 <span style="opacity:0; height:0; overflow:hidden; display:block;" aria-hidden="true">
-                  alle offiziellen profile von b3nn3t – deutschrap & indie-pop aus der schweiz –
-                  auf spotify, apple music, youtube, instagram, soundcloud, mx3 und genius.
+                  alle offiziellen profile von b3nn3t – auf spotify, apple music, youtube, instagram, soundcloud, mx3 und genius.
                 </span>
               </p>
 
@@ -309,16 +318,15 @@
                   <a href="https://genius.com/artists/B3nn3t" target="_blank" rel="noopener">Genius – b3nn3t</a>
                 </li>
 
-                <li style="margin-top: 10px;"></li>
+                <li style="height:10px;"></li>
 
                 <li>
                   <picture>
                     <source srcset="assets/plattformen/spotify_128.webp" type="image/webp">
                     <img src="assets/plattformen/spotify_128.png" alt="Spotify Logo" width="28" height="28" loading="lazy" decoding="async">
                   </picture>
-                  <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" target="_blank" rel="noopener">
-                    Spotify – b3nn3t
-                  </a>
+                  <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                     target="_blank" rel="noopener">Spotify – b3nn3t</a>
                 </li>
 
                 <li>
@@ -326,7 +334,8 @@
                     <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
                     <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="28" height="28" loading="lazy" decoding="async">
                   </picture>
-                  <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" target="_blank" rel="noopener">Apple Music – b3nn3t</a>
+                  <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                     target="_blank" rel="noopener">Apple Music – b3nn3t</a>
                 </li>
 
                 <li>
@@ -334,7 +343,8 @@
                     <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
                     <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="28" height="28" loading="lazy" decoding="async">
                   </picture>
-                  <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ==" target="_blank" rel="noopener">Instagram – b333nn3t</a>
+                  <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                     target="_blank" rel="noopener">Instagram – b333nn3t</a>
                 </li>
 
                 <li>
@@ -350,18 +360,12 @@
                     <source srcset="assets/plattformen/soundcloud_128.webp" type="image/webp">
                     <img src="assets/plattformen/soundcloud_128.png" alt="SoundCloud Logo" width="28" height="28" loading="lazy" decoding="async">
                   </picture>
-                  <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" target="_blank" rel="noopener">
-                    SoundCloud – b3nn3t
-                  </a>
+                  <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+                     target="_blank" rel="noopener">SoundCloud – b3nn3t</a>
                 </li>
               </ul>
 
-              <!-- ⬇️ Form / Funktionen bleiben drin:
-                   Wenn du hier auf der echten plattformen.html noch ein Formular + Script hast,
-                   füge es genau an dieser Stelle wieder ein (unverändert). -->
-              <!-- FORM-START -->
-              <!-- FORM-END -->
-
+              <!-- ✅ KEINE weiteren Links/Akkordeons darunter -->
             </div>
           </div>
 
@@ -375,13 +379,14 @@
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
 
-  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe left" aria-hidden="true"></div>
   <div class="edge-swipe right" aria-hidden="true"></div>
 
+  <!-- Skripte (wie gehabt) -->
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Panelhöhe dynamisch (wie über-mich/kontakt) + Accordion toggle -->
+  <!-- ✅ ResizePanel + Accordion Toggle (wie bei deinen anderen Seiten) -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -425,36 +430,24 @@
     })();
   </script>
 
-  <!-- Burger-Menü Verhalten (falls nicht schon in script.js enthalten) -->
+  <!-- ✅ Burger-Menü Fallback (falls script.js das nicht already macht) -->
   <script>
     (function(){
       const btn = document.querySelector('.hamburger');
-      const overlay = document.getElementById('menu-overlay');
       const menu = document.getElementById('site-menu');
-      if(!btn || !overlay || !menu) return;
+      const overlay = document.getElementById('menu-overlay');
+      if(!btn || !menu || !overlay) return;
 
-      function closeMenu(){
-        document.body.classList.remove('menu-open');
-        btn.setAttribute('aria-expanded','false');
-        menu.setAttribute('aria-hidden','true');
-        overlay.hidden = true;
-      }
-      function openMenu(){
-        document.body.classList.add('menu-open');
-        btn.setAttribute('aria-expanded','true');
-        menu.setAttribute('aria-hidden','false');
-        overlay.hidden = false;
+      function setOpen(open){
+        document.body.classList.toggle('menu-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+        menu.setAttribute('aria-hidden', String(!open));
+        overlay.hidden = !open;
       }
 
-      btn.addEventListener('click', () => {
-        const isOpen = document.body.classList.contains('menu-open');
-        isOpen ? closeMenu() : openMenu();
-      });
-
-      overlay.addEventListener('click', closeMenu);
-      document.addEventListener('keydown', (e) => {
-        if(e.key === 'Escape') closeMenu();
-      });
+      btn.addEventListener('click', () => setOpen(!document.body.classList.contains('menu-open')));
+      overlay.addEventListener('click', () => setOpen(false));
+      document.addEventListener('keydown', (e) => { if(e.key === 'Escape') setOpen(false); });
     })();
   </script>
 </body>
