@@ -299,24 +299,28 @@
       background:#000;
       margin-bottom:8px
     }
+.video-row{
+  flex:0 0 100%;
+  width:100%;
+  display:flex;
+  justify-content:flex-start;
+}
 
-    .video-row{
-      flex:0 0 100%;
-      width:100%;
-      display:flex;
-      justify-content:flex-start
-    }
-    .video-wrapper{
-      position:relative;
-      padding-bottom:56.25%;
-      height:0;
-      overflow:hidden;
-      margin-top:12px;
-      border-radius:12px;
-      background:#000;
-      border:1px solid rgba(0,0,0,0.06);
-      width:100%
-    }
+/* HIER: Player kleiner machen wie vorher */
+.video-wrapper{
+  position:relative;
+  padding-bottom:56.25%;
+  height:0;
+  overflow:hidden;
+  margin-top:12px;
+  border-radius:12px;
+  background:#000;
+  border:1px solid rgba(0,0,0,0.06);
+
+  width: min(650px, 100%);   /* ✅ war vorher effektiv ~650 */
+  /* alternativ noch kleiner: width: min(560px, 100%); */
+}
+
     .video-wrapper iframe,
     .video-wrapper video{
       position:absolute;
