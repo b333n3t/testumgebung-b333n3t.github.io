@@ -83,27 +83,6 @@
           { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" },
           { "@type": "ListItem", "position": 2, "name": "Gesehen", "item": "https://www.b3nn3t.com/gesehen.html" }
         ]
-      },
-      {
-        "@type": "VideoObject",
-        "name": "Intro-Video",
-        "description": "Kurzes Intro-Video von b3nn3t zur Website.",
-        "thumbnailUrl": "https://www.b3nn3t.com/assets/instagram_poster.jpg",
-        "contentUrl": "https://www.b3nn3t.com/assets/gesehen/B3NN3T.mp4",
-        "uploadDate": "2025-01-01T00:00:00+01:00",
-        "inLanguage": "de",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
-      },
-      {
-        "@type": "VideoObject",
-        "name": "YouTube 1",
-        "description": "YouTube-Video von b3nn3t auf dem offiziellen Kanal.",
-        "thumbnailUrl": "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
-        "embedUrl": "https://www.youtube.com/embed/ZSaj_FuqPN8",
-        "url": "https://www.youtube.com/watch?v=ZSaj_FuqPN8",
-        "uploadDate": "2024-10-15T00:00:00+01:00",
-        "inLanguage": "de",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
       }
     ]
   }
@@ -150,13 +129,9 @@
       background:#000;border-radius:2px;
       transition:transform .2s,opacity .2s
     }
-    body.menu-open .hamburger span:nth-child(1){
-      transform:translateY(3.5px) rotate(45deg)
-    }
+    body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg) }
     body.menu-open .hamburger span:nth-child(2){ opacity:0 }
-    body.menu-open .hamburger span:nth-child(3){
-      transform:translateY(-3.5px) rotate(-45deg)
-    }
+    body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg) }
 
     .menu-overlay{
       position:fixed;inset:0;background:rgba(0,0,0,.08);
@@ -275,112 +250,105 @@
     .page-content h1{margin-top:0;}
     .page-content p{margin:0 0 1rem 0;}
 
-/* ===== Cards als echtes 2-Spalten-Grid ===== */
-.grid-seen{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  align-items: start;
+    /* ========= FIX: Cards größer + dichter wie Bild 1 ========= */
+    .grid-seen{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(320px, 1fr));
+      gap: 20px;
 
-  justify-content: start;   /* ✅ links ausrichten */
-  margin-left: 0;           /* ✅ kein Auto-Zentrieren */
-  margin-right: 0;
-  max-width: 900px;
-}
+      width: 100%;
+      max-width: 760px;           /* ✅ verhindert „auseinandergezogen“ */
+      margin: .85rem 0 0 0;       /* ✅ linksbündig */
+      justify-content: start;
+      align-items: start;
+    }
 
+    @media (max-width: 700px){
+      .grid-seen{
+        grid-template-columns: 1fr;
+        max-width: 520px;
+      }
+    }
 
+    .grid-seen .card{
+      cursor:pointer;
+      background: rgba(255,255,255,.62);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 12px 34px rgba(0,0,0,.10);
+      text-align:center;
+    }
 
-/* Mobile: 1 Spalte */
-@media (max-width: 620px){
-  .grid-seen{
-    grid-template-columns: 1fr;
-  }
-}
+    .card .thumb{
+      width:100%;
+      aspect-ratio: 16 / 9;
+      display:block;
+      border-radius: 16px;
+      object-fit: cover;
+      background:#000;
+      margin-bottom: 12px;
+    }
 
-/* Card-Optik */
-.grid-seen .card{
-  cursor: pointer;
-  background: rgba(255,255,255,.6);
-  border-radius: 22px;
-  padding: 18px 18px 16px;     /* 🔥 mehr Innenraum */
-  box-shadow: 0 12px 34px rgba(0,0,0,.10);
-  text-align: center;
-}
-.grid-seen .card span.play-label,
-.grid-seen .card .yt-title{
-  display:block;
-  margin-top:6px;
-  font-size:1.05rem;     /* 🔥 größer */
-  font-weight:600;
-}
+    .grid-seen .card .play-label,
+    .grid-seen .card .yt-title{
+      display:block;
+      margin-top:6px;
+      font-size:1.05rem;
+      font-weight:600;
+    }
 
+    /* ========= FIX: Player kleiner + rechtsbündig + unter der REIHE ========= */
+    .video-row{
+      grid-column: 1 / -1;        /* immer volle Zeile im Grid */
+      width: 100%;
+      max-width: 760px;           /* ✅ gleiche Breite wie Cards-Grid */
+      display:flex;
+      justify-content:flex-end;   /* ✅ rechtsbündig */
+      margin-top: 6px;
+    }
 
-/* Thumbnail */
-.card .thumb{
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 16px;
-  margin-bottom: 14px;   /* mehr Abstand */
-}
+    .video-wrapper{
+      width: min(520px, 100%);    /* ✅ kleiner als vorher */
+      aspect-ratio: 16 / 9;
+      position: relative;
+      overflow:hidden;
+      border-radius:14px;
+      background:#000;
+      border:1px solid rgba(0,0,0,.06);
+    }
 
+    .video-wrapper iframe,
+    .video-wrapper video{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
 
-/* ===== Player: unter der Reihe, rechtsbündig, kleiner ===== */
-.video-row{
-  grid-column: 1 / -1;            /* über beide Spalten */
-  width: 100%;
-  display: flex;                  /* für rechtsbündig */
-  justify-content: flex-end;      /* rechts */
-}
+    .video-close{
+      position:absolute;
+      top:8px;
+      right:10px;
+      font-size:24px;
+      background:rgba(0,0,0,0.6);
+      color:#fff;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      z-index:10;
+      line-height:1;
+      padding:2px 10px;
+    }
+    .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-.video-wrapper{
-  width: min(560px, 100%);        /* ✅ kleiner als vorher (720 -> 560) */
-  margin: 12px 0 0 0;             /* kein auto-centering */
-  aspect-ratio: 16 / 9;
-  position: relative;
-  overflow: hidden;
-  border-radius: 14px;
-  background: #000;
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-.video-wrapper iframe,
-.video-wrapper video{
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-
-.video-close{
-  position:absolute;
-  top:8px;
-  right:10px;
-  font-size:24px;
-  background:rgba(0,0,0,0.6);
-  color:#fff;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  z-index:10;
-  line-height:1;
-  padding:2px 10px;
-}
-.video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
-
-/* Mobile: 1 Spalte -> Player zentriert und volle Breite */
-@media (max-width: 620px){
-  .video-row{ justify-content: center; }
-  .video-wrapper{ width: 100%; }
-}
-
-.grid-seen .card .yt-title{
-  display:block;
-  margin-top:4px;
-  font-size:.95rem;
-  font-weight:600;
-}
-
+    @media (max-width: 700px){
+      .video-row{
+        justify-content: center;
+        max-width: 520px;
+      }
+      .video-wrapper{ width: 100%; }
+    }
 
     /* Fester Footer unten – wie index.html */
     .footer-inline{
@@ -393,28 +361,22 @@
       font-size:.82rem;
       z-index:910;
     }
-    .footer-inline a{
-      color:#000;
-      text-decoration:none;
-    }
-    .footer-inline a:hover{
-      text-decoration:underline;
-    }
+    .footer-inline a{ color:#000; text-decoration:none; }
+    .footer-inline a:hover{ text-decoration:underline; }
 
     /* swipe helper */
-    .edge-swipe {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 28px;
-      z-index: 1201;
-      background: transparent;
-      pointer-events: none;
+    .edge-swipe{
+      position:fixed;
+      top:0; bottom:0;
+      width:28px;
+      z-index:1201;
+      background:transparent;
+      pointer-events:none;
     }
-    .edge-swipe.left  { left: 0; }
-    .edge-swipe.right { right: 0; }
-    @media (pointer: coarse){
-      .edge-swipe{ pointer-events: auto; }
+    .edge-swipe.left{ left:0; }
+    .edge-swipe.right{ right:0; }
+    @media (pointer:coarse){
+      .edge-swipe{ pointer-events:auto; }
     }
   </style>
 </head>
@@ -453,29 +415,10 @@
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- über mich -->
-          <a class="page-link" href="ueber-mich.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>über mich</span>
-          </a>
-
-          <!-- diskografie -->
-          <a class="page-link" href="diskografie.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>diskografie</span>
-          </a>
-
-          <!-- kontakt -->
-          <a class="page-link" href="kontakt.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>kontakt</span>
-          </a>
-
-          <!-- aktuell -->
-          <a class="page-link" href="aktuell.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>aktuell</span>
-          </a>
+          <a class="page-link" href="ueber-mich.html"><span class="arrow" aria-hidden="true">►</span><span>über mich</span></a>
+          <a class="page-link" href="diskografie.html"><span class="arrow" aria-hidden="true">►</span><span>diskografie</span></a>
+          <a class="page-link" href="kontakt.html"><span class="arrow" aria-hidden="true">►</span><span>kontakt</span></a>
+          <a class="page-link" href="aktuell.html"><span class="arrow" aria-hidden="true">►</span><span>aktuell</span></a>
 
           <!-- gesehen – current open -->
           <div class="page-group current open">
@@ -493,7 +436,7 @@
               </p>
 
               <!-- Intro -->
-              <section class="grid grid-seen" aria-label="Intro">
+              <section class="grid-seen" aria-label="Intro">
                 <div class="card" id="introVideo" data-embed-src="assets/gesehen/B3NN3T.mp4">
                   ▶︎ Intro-Video
                   <small>Intro & Start</small>
@@ -501,7 +444,7 @@
               </section>
 
               <!-- Videos -->
-              <section class="grid grid-seen" aria-label="Videos">
+              <section class="grid-seen" aria-label="Videos">
                 <!-- Instagram -->
                 <div class="card" id="video1" data-embed-src="https://www.instagram.com/reel/DKHa8SoMzQ-/embed">▶︎ link<small>Instagram</small></div>
                 <div class="card" id="video2" data-embed-src="https://www.instagram.com/reel/DK9pg-boyA1/embed">▶︎ link<small>Instagram</small></div>
@@ -516,17 +459,14 @@
                 <div class="card" id="yt5" data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M">▶︎ YouTube 5<small>YouTube</small></div>
                 <div class="card" id="yt6" data-embed-src="https://www.youtube.com/embed/rV1U891RKLo">▶︎ YouTube 6<small>YouTube</small></div>
                 <div class="card" id="yt7" data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0">▶︎ YouTube 7<small>YouTube</small></div>
-
-                <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
               </section>
+
+              <!-- Startseite-Button außerhalb vom Grid (wichtig fürs Layout) -->
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
             </div>
           </div>
 
-          <!-- darunter -->
-          <a class="page-link" href="plattformen.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>plattformen</span>
-          </a>
+          <a class="page-link" href="plattformen.html"><span class="arrow" aria-hidden="true">►</span><span>plattformen</span></a>
 
         </section>
       </div>
@@ -538,13 +478,13 @@
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
 
-  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe left" aria-hidden="true"></div>
   <div class="edge-swipe right" aria-hidden="true"></div>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Panelhöhe dynamisch (wie über-mich/kontakt) + Accordion toggle -->
+  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -588,91 +528,94 @@
     })();
   </script>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const cards = document.querySelectorAll('.card[data-embed-src]');
+  <!-- Player: unter der jeweiligen 2er-Reihe -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cards = document.querySelectorAll('.card[data-embed-src]');
 
-  function closeAllVideos() {
-    document.querySelectorAll('.video-row').forEach(row => row.remove());
-  }
+    function closeAllVideos() {
+      document.querySelectorAll('.video-row').forEach(row => row.remove());
+    }
 
-  function getCols(){
-    // muss zur CSS-MediaQuery passen (620px)
-    return window.matchMedia('(max-width: 620px)').matches ? 1 : 2;
-  }
+    function getCols(section){
+      // passt zur CSS Umschaltung (700px)
+      return window.matchMedia('(max-width: 700px)').matches ? 1 : 2;
+    }
 
-  cards.forEach(card => {
-    card.addEventListener('click', () => {
-      // Wenn direkt darunter ein Player ist -> schließen
-      const next = card.nextElementSibling;
-      if (next && next.classList.contains('video-row')) {
-        next.remove();
-        return;
-      }
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        // Wenn direkt danach ein Player (nach der Reihe) sitzt, schließen wir alles neu
+        // (einfach & robust: immer nur 1 Player offen)
+        const existingAny = document.querySelector('.video-row');
+        if (existingAny){
+          // Wenn derselbe Card-Click den Player schließen soll:
+          // wir prüfen, ob der Player "zur Reihe" gehört, indem wir nur schließen und return,
+          // falls der Player in derselben Section steht UND der Card-Click wieder auf dieselbe Reihe war.
+          // (Pragmatisch: zweiter Klick schließt immer.)
+          existingAny.remove();
+          // falls du willst: return;  -> dann 2. Klick schließt
+          // wir machen "toggle": wenn Player offen war -> schließen und fertig
+          return;
+        }
 
-      closeAllVideos();
+        closeAllVideos();
 
-      const row = document.createElement('div');
-      row.className = 'video-row';
+        const row = document.createElement('div');
+        row.className = 'video-row';
 
-      const wrapper = document.createElement('div');
-      wrapper.className = 'video-wrapper';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'video-wrapper';
 
-      const closeBtn = document.createElement('button');
-      closeBtn.type = 'button';
-      closeBtn.textContent = '×';
-      closeBtn.className = 'video-close';
-      closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        row.remove();
+        const closeBtn = document.createElement('button');
+        closeBtn.type = 'button';
+        closeBtn.textContent = '×';
+        closeBtn.className = 'video-close';
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          row.remove();
+        });
+
+        const src = card.getAttribute('data-embed-src') || '';
+        wrapper.appendChild(closeBtn);
+
+        if (src.toLowerCase().endsWith('.mp4')) {
+          const video = document.createElement('video');
+          video.src = src;
+          video.controls = true;
+          video.autoplay = true;
+          video.playsInline = true;
+          wrapper.appendChild(video);
+        } else {
+          const iframe = document.createElement('iframe');
+          iframe.src = src;
+          iframe.allowFullscreen = true;
+          iframe.loading = 'lazy';
+          iframe.title = 'Video';
+          wrapper.appendChild(iframe);
+        }
+
+        row.appendChild(wrapper);
+
+        // ✅ Player nach der REIHE einfügen
+        const section = card.closest('section.grid-seen');
+        const items = Array.from(section.querySelectorAll('.card[data-embed-src]'));
+        const idx = items.indexOf(card);
+
+        const cols = getCols(section);
+        const rowStart = idx - (idx % cols);
+        const rowEnd = Math.min(items.length - 1, rowStart + (cols - 1));
+        const anchor = items[rowEnd] || card;
+
+        anchor.insertAdjacentElement('afterend', row);
+        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
+    });
 
-      const src = card.getAttribute('data-embed-src') || '';
-      wrapper.appendChild(closeBtn);
-
-      if (src.toLowerCase().endsWith('.mp4')) {
-        const video = document.createElement('video');
-        video.src = src;
-        video.controls = true;
-        video.autoplay = true;
-        video.playsInline = true;
-        wrapper.appendChild(video);
-      } else {
-        const iframe = document.createElement('iframe');
-        iframe.src = src;
-        iframe.allowFullscreen = true;
-        iframe.loading = 'lazy';
-        iframe.title = 'Video';
-        wrapper.appendChild(iframe);
-      }
-
-      row.appendChild(wrapper);
-
-      // ✅ Player nach der REIHE einfügen (2er-Reihe)
-      const section = card.closest('section.grid-seen') || card.parentElement;
-
-      // Nur Cards (ohne vorhandene Player-Zeilen)
-      const items = Array.from(section.querySelectorAll('.card[data-embed-src]'));
-      const idx = items.indexOf(card);
-
-      const cols = getCols(); // 1 oder 2
-      const rowStart = idx - (idx % cols);
-      const rowEnd = Math.min(items.length - 1, rowStart + (cols - 1));
-
-      const anchor = items[rowEnd] || card;   // die letzte Card der Reihe
-      anchor.insertAdjacentElement('afterend', row);
-
-      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllVideos();
     });
   });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeAllVideos();
-  });
-});
-</script>
-
-
+  </script>
 
   <!-- Instagram Thumbnails -->
   <script>
@@ -736,7 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   </script>
 
-  <!-- YouTube Titel automatisch (oEmbed, DOM-sicher) -->
+  <!-- YouTube Titel automatisch -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -773,8 +716,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             Array.from(card.childNodes).forEach(node => {
               if (node === thumb || node === small) return;
-              if (thumb && node === thumb.previousSibling) return;
-              if (thumb && thumb.contains && thumb.contains(node)) return;
               card.removeChild(node);
             });
 
