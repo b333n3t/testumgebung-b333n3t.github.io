@@ -95,7 +95,8 @@
   <style>
     :root{
       --bottom-gap:60px;
-      --seen-max: 760px; /* ✅ Breite des 2er-Kachel-Blocks (wie Bild 1) */
+      --seen-max: 760px;         /* Breite des 2er-Blocks (Cards + Player) */
+      --player-inner: 0px;       /* falls du innen Luft willst: z.B. 40px */
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
@@ -202,7 +203,7 @@
       gap:1rem;
     }
 
-    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
+    /* ===== Link-/Toggle-Optik ===== */
     .page-link{
       display:flex;
       align-items:center;
@@ -252,7 +253,7 @@
     .page-content h1{margin-top:0;}
     .page-content p{margin:0 0 1rem 0;}
 
-    /* ========= Cards (wie Bild 1: größer + enger Block) ========= */
+    /* ========= Cards (größer + kompakter Block) ========= */
     .grid-seen{
       display:grid;
       grid-template-columns: repeat(2, minmax(320px, 1fr));
@@ -300,34 +301,25 @@
       font-weight:600;
     }
 
-    /* ========= Player: zentriert/linksbündig unter den 2 Kacheln (Blockbreite = Cards) ========= */
+    /* ========= Player: unter der jeweiligen 2er-Reihe, zentriert im Blockmaß ========= */
     .video-row{
-      grid-column: 1 / -1;       /* volle Zeile IM Grid */
+      grid-column: 1 / -1;        /* volle Zeile IM Grid */
       width: 100%;
-      max-width: var(--seen-max); /* gleiche Blockbreite wie Kacheln */
+      max-width: var(--seen-max); /* gleiche Breite wie Cards-Block */
       display:flex;
-      justify-content: center;    /* ✅ zentriert unter beiden Cards */
+      justify-content:center;     /* ✅ zentriert unter beiden Cards */
       margin-top: 6px;
     }
 
-    /* Wenn du lieber linksbündig willst: ersetze oben justify-content:center; durch flex-start; */
-
     .video-wrapper{
-      width: 100%;               /* nimmt die Blockbreite */
-      max-width: var(--seen-max);
+      width: 100%;
+      max-width: calc(var(--seen-max) - var(--player-inner)); /* optional innen schmaler */
       aspect-ratio: 16 / 9;
       position: relative;
       overflow:hidden;
       border-radius:14px;
       background:#000;
       border:1px solid rgba(0,0,0,.06);
-    }
-
-    /* Player innen etwas „kleiner“ wie Bild 1 (mehr Rand) */
-    @media (min-width: 701px){
-      .video-wrapper{
-        max-width: calc(var(--seen-max) - 0px); /* falls du innen Luft willst: -40px */
-      }
     }
 
     .video-wrapper iframe,
@@ -355,7 +347,7 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* Fester Footer unten – wie index.html */
+    /* Fester Footer unten */
     .footer-inline{
       position:fixed;
       left:0;
@@ -466,7 +458,7 @@
                 <div class="card" id="yt7" data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0">▶︎ YouTube 7<small>YouTube</small></div>
               </section>
 
-              <!-- Startseite-Button außerhalb vom Grid (wichtig fürs Layout) -->
+              <!-- Startseite-Button außerhalb vom Grid -->
               <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
             </div>
           </div>
@@ -533,7 +525,7 @@
     })();
   </script>
 
-  <!-- Player: unter der jeweiligen 2er-Reihe (zentriert unter 2 Kacheln) -->
+  <!-- Player: unter der jeweiligen 2er-Reihe, zentriert im 2er-Block -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -543,7 +535,6 @@
     }
 
     function getCols(){
-      // muss zur CSS-MediaQuery passen (700px)
       return window.matchMedia('(max-width: 700px)').matches ? 1 : 2;
     }
 
@@ -560,14 +551,12 @@
         const rowEnd = Math.min(items.length - 1, rowStart + (cols - 1));
         const anchor = items[rowEnd] || card;
 
-        // Toggle: wenn Player offen und gehört zu dieser Reihe -> schließen
         const existing = section.querySelector('.video-row');
         if(existing && existing.dataset.anchorId === anchor.id){
           existing.remove();
           return;
         }
 
-        // sonst: alle Player schließen und neuen öffnen
         closeAllVideos();
 
         const row = document.createElement('div');
@@ -607,9 +596,8 @@
         }
 
         row.appendChild(wrapper);
-
-        // ✅ Player nach der REIHE einfügen
         anchor.insertAdjacentElement('afterend', row);
+
         row.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
@@ -686,7 +674,6 @@
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
-      window.YT_TITLES = window.YT_TITLES || {};
       const ytCards = Array.from(document.querySelectorAll('.card[data-embed-src*="youtube.com/embed/"]'));
 
       function extractId(src){
@@ -706,8 +693,6 @@
             const title = (data && data.title) ? data.title : '';
             if (!title) return;
 
-            window.YT_TITLES[id] = title;
-
             const thumb = card.querySelector('img.thumb');
             let small  = card.querySelector('small');
 
@@ -717,7 +702,6 @@
               card.appendChild(small);
             }
 
-            // alles außer thumb+small entfernen
             Array.from(card.childNodes).forEach(node => {
               if (node === thumb || node === small) return;
               if (thumb && node === thumb.previousSibling) return;
