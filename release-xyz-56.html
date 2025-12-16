@@ -56,6 +56,7 @@
     :root {
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
+      --awb-bg: #930010;
     }
 
     html, body {
@@ -65,13 +66,7 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      /* Rot + Vignette */
-      background:
-        radial-gradient(circle at center,
-          rgba(0,0,0,0) 0,
-          rgba(0,0,0,0) 55%,
-          rgba(0,0,0,0.55) 100%),
-        linear-gradient(135deg, #930010, #930010);
+      background: var(--awb-bg); /* nur #930010, keine Verläufe/Vignette */
     }
 
     .page-wrap {
@@ -96,7 +91,7 @@
       gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
-    /* Obere Zeile: b3nn3t + neues release in + Timer */
+    /* Obere Zeile: b3nn3t + neues release in + (statischer) Countdown */
     .topline {
       display: flex;
       flex-wrap: wrap;
@@ -113,9 +108,6 @@
       letter-spacing: 0.04em;
       text-decoration: none;
       cursor: pointer;
-    }
-    .brand-link:hover {
-      text-decoration: underline;
     }
 
     .count-label {
@@ -138,9 +130,6 @@
       text-transform: uppercase;
       letter-spacing: 0.32em;
       font-size: clamp(1.7rem, 3vw, 2.4rem);
-      text-shadow:
-        0 0 2px rgba(0,0,0,0.8),
-        0 0 10px rgba(0,0,0,0.85);
       margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
     }
 
@@ -154,9 +143,6 @@
       border-radius: 22px;
       overflow: hidden;
       background: #000;
-      box-shadow:
-        0 26px 60px rgba(0,0,0,0.9),
-        0 0 40px rgba(0,0,0,0.55);
       aspect-ratio: 16 / 9;
     }
 
@@ -209,12 +195,10 @@
       justify-content: center;
     }
 
-    /* SVG-Icons – Outline-Look */
+    /* SVG-Icons – ohne Schatten/Animationen */
     .social-icon {
       width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
       height: auto;
-      filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
-      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     .social-icon path {
@@ -225,12 +209,7 @@
       stroke-linecap: round;
     }
 
-    .social-link:hover .social-icon {
-      transform: scale(1.12) translateY(-1px);
-      filter: drop-shadow(0 0 10px rgba(255,255,255,0.95));
-    }
-
-    /* "b3nn3t" unten als sehr feines Outline-"Icon" */
+    /* "b3nn3t" unten als feines Outline – ohne Schatten/Animationen */
     .neon-link {
       display: inline-flex;
       align-items: center;
@@ -244,24 +223,11 @@
       -webkit-text-stroke: 0.85px #ffffff;
               text-stroke: 0.85px #ffffff;
 
-      text-shadow: 0 0 3px rgba(0,0,0,0.6);
       background: none;
       border: none;
       padding: 0;
       margin-top: 0.45rem;
       cursor: pointer;
-      transition:
-        transform 0.15s ease,
-        -webkit-text-stroke 0.15s ease,
-        text-stroke 0.15s ease,
-        text-shadow 0.15s ease;
-    }
-
-    .neon-link:hover {
-      transform: translateY(-1px);
-      -webkit-text-stroke: 1px #ffffff;
-              text-stroke: 1px #ffffff;
-      text-shadow: 0 0 6px rgba(255,255,255,0.9);
     }
 
     @media (max-width: 768px) {
@@ -291,7 +257,7 @@
     <div class="content">
       <main class="main">
 
-        <!-- b3nn3t Wortlink + Countdown -->
+        <!-- b3nn3t Wortlink + Countdown (ohne laufende Aktualisierung) -->
         <div class="topline" aria-label="Release Countdown">
           <a class="brand-link" href="index.html">b3nn3t</a>
           <span class="count-label">  -  neues release in</span>
@@ -400,41 +366,32 @@
     </div>
   </div>
 
-  <!-- COUNTDOWN SCRIPT -->
+  <!-- COUNTDOWN (einmalig berechnet, keine laufende Aktualisierung) -->
   <script>
     (function () {
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
-      function updateCountdown() {
-        const now = Date.now();
-        const diff = targetDate - now;
+      const now = Date.now();
+      const diff = targetDate - now;
 
-        if (diff <= 0) {
-          el.textContent = "OUT NOW";
-          return;
-        }
-
-        const seconds = Math.floor(diff / 1000);
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        if (days > 0) {
-          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
-        } else {
-          el.textContent = hh + ":" + mm + ":" + ss;
-        }
+      if (diff <= 0) {
+        el.textContent = "OUT NOW";
+        return;
       }
 
-      updateCountdown();
-      setInterval(updateCountdown, 1000);
+      const seconds = Math.floor(diff / 1000);
+      const days = Math.floor(seconds / (3600 * 24));
+      const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+      const mins = Math.floor((seconds % 3600) / 60);
+      const secs = seconds % 60;
+
+      const hh = String(hours).padStart(2, "0");
+      const mm = String(mins).padStart(2, "0");
+      const ss = String(secs).padStart(2, "0");
+
+      el.textContent = (days > 0) ? (days + "d " + hh + ":" + mm + ":" + ss) : (hh + ":" + mm + ":" + ss);
     })();
   </script>
 </body>
