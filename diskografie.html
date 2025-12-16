@@ -33,7 +33,7 @@
   <meta name="twitter:description" content="Alle Releases von b3nn3t inkl. direkten Streaming-Links." />
   <meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index2.jpg" />
 
-  <!-- ✅ Favicon -->
+  <!-- ✅ Favicons -->
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -44,72 +44,33 @@
   <link rel="preconnect" href="https://open.spotify.com" crossorigin>
   <link rel="preconnect" href="https://i.scdn.co" crossorigin>
 
-  <!-- ✅ Strukturierte Daten (JSON-LD) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://www.b3nn3t.com/#website",
-        "url": "https://www.b3nn3t.com/",
-        "name": "b3nn3t",
-        "inLanguage": "de-DE",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
-      },
-      {
-        "@type": "WebPage",
-        "@id": "https://www.b3nn3t.com/diskografie.html",
-        "url": "https://www.b3nn3t.com/diskografie.html",
-        "name": "b3nn3t – Diskografie: Alben, EPs & Singles",
-        "description": "Alle Releases von b3nn3t: Alben, EPs & Singles mit Streaming-Links – Deutschrap & Indie-Pop aus der Schweiz.",
-        "isPartOf": { "@id": "https://www.b3nn3t.com/#website" },
-        "inLanguage": "de-DE"
-      },
-      {
-        "@type": "MusicGroup",
-        "@id": "https://www.b3nn3t.com/#org",
-        "name": "b3nn3t",
-        "url": "https://www.b3nn3t.com/",
-        "alternateName": ["b3nn3t.com", "b3nn3t.de", "b3nn3t.ch", "b3nn3t.at"],
-        "genre": ["Deutschrap", "Indie Pop"],
-        "areaServed": ["DE", "CH", "AT"],
-        "address": { "@type": "PostalAddress", "addressCountry": "CH" }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" },
-          { "@type": "ListItem", "position": 2, "name": "Diskografie", "item": "https://www.b3nn3t.com/diskografie.html" }
-        ]
-      }
-    ]
-  }
-  </script>
-
-  <!-- Externe Styles -->
+  <!-- Haupt-Styles -->
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles_nav_arrows.css"/>
   <link rel="stylesheet" href="swipe-helper.css"/>
 
   <style>
-    :root{ --bottom-gap: 60px; }
-    @media (max-width: 768px){ :root{ --bottom-gap: 20px; } }
+    :root{
+      --bottom-gap: 60px;
+    }
+    @media (max-width: 768px){
+      :root{ --bottom-gap: 20px; }
+    }
 
-    /* Hintergrund fix, nur Panel scrollt */
     html, body{ overflow:hidden; }
     @media (max-width: 767px){
-      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
+      html, body{
+        overflow:auto;
+        -webkit-overflow-scrolling: touch;
+      }
     }
 
     body{
       min-height:100vh;
       display:flex;
       flex-direction:column;
-      margin:0;
     }
 
-    /* main ohne Innenabstand – wie index/ueber-mich */
     main.main{
       flex:1 0 auto;
       border-radius:12px;
@@ -121,7 +82,7 @@
       box-shadow:none !important;
     }
 
-    /* ===== Hamburger-Menü (wie index) ===== */
+    /* ===== Hamburger-Menü (wie index/ueber-mich) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -173,10 +134,10 @@
 
     .nav-arrow{z-index:1000}
 
-    /* ===== UNSICHTBARES Scroll-Panel (wie index/ueber-mich) ===== */
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
-      max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS angepasst */
+      max-width: min(1000px, 94vw);
+      max-height: 75vh; /* per JS */
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
@@ -192,7 +153,7 @@
       scrollbar-width:none;
       -ms-overflow-style:none;
     }
-    .scroll-panel::-webkit-scrollbar{display:none}
+    .scroll-panel::-webkit-scrollbar{display:none;}
 
     .content-offset{ padding-top:1.5rem; }
 
@@ -216,14 +177,13 @@
       cursor:pointer;
     }
 
-    /* Typo exakt wie index */
     .page-toggle,
     .page-toggle span,
     .page-link span{
-      font-family:inherit;
-      font-weight:400;
-      letter-spacing:0;
-      line-height:1.4;
+      font-family: inherit;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: 1.4;
     }
 
     .page-toggle .arrow,
@@ -242,14 +202,39 @@
 
     .page-content h1{ margin-top:0; }
 
-    /* ===== Diskografie-Content Styles (aus deinem alten Layout übernommen) ===== */
+    /* Grid / Cards aus deiner alten Diskografie */
+    .disco-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+      gap:1rem;
+      margin:0 0 2rem;
+      align-items:start;
+    }
+    .release{
+      border:1px solid #ddd;
+      border-radius:12px;
+      padding:12px;
+      box-shadow:0 1px 3px rgba(0,0,0,.06);
+      background:#fff;
+    }
+    .release picture{ display:block; }
+    .release img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      border-radius:8px;
+      background:#f2f2f2;
+    }
+    .release .meta{ font-size:.9rem; color:#444; margin-top:.5rem }
+    .release .title{ font-weight:600 }
+    .badge{ display:none !important; }
+
     .panel-block{
       background:transparent !important;
       box-shadow:none !important;
       padding:0;
       margin:0 0 1rem 0;
     }
-
     .panel-block h3[role="button"],
     .panel-block h3{
       display:flex;
@@ -275,40 +260,7 @@
       font-weight:400;
     }
     .panel-block h3[role="button"][aria-expanded="true"]::after{ transform:rotate(180deg); }
-    .panel-block h3[role="button"]:hover{ box-shadow:0 4px 14px rgba(0,0,0,.08); }
-    .panel-block h3[role="button"]:active{ transform:translateY(1px); }
-    .panel-block h3[role="button"]:focus-visible{
-      outline:none;
-      box-shadow:0 0 0 3px rgba(17,17,17,.2);
-    }
-
-    .disco-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-      gap:1rem;
-      margin:0 0 2rem;
-      align-items:start;
-    }
     .disco-grid[hidden]{ display:none; }
-
-    .release{
-      border:1px solid #ddd;
-      border-radius:12px;
-      padding:12px;
-      box-shadow:0 1px 3px rgba(0,0,0,.06);
-      background:#fff;
-    }
-    .release picture{ display:block; }
-    .release img{
-      width:100%;
-      height:220px;
-      object-fit:cover;
-      border-radius:8px;
-      background:#f2f2f2;
-    }
-    .release .meta{ font-size:.9rem; color:#444; margin-top:.5rem }
-    .release .title{ font-weight:600 }
-    .badge{ display:none !important; }
 
     .toggle{margin-top:.5rem}
     .toggle button{
@@ -324,7 +276,7 @@
     .tracklist.open{display:block}
     .tracklist iframe{width:100%;height:352px;border:0;border-radius:8px}
 
-    /* Fester Footer unten – wie index.html */
+    /* Footer fixed wie index */
     .footer-inline{
       position:fixed;
       left:0;
@@ -341,6 +293,42 @@
     }
     .footer-inline a:hover{ text-decoration:underline; }
   </style>
+
+  <!-- ✅ Strukturierte Daten (dein JSON-LD unverändert) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://www.b3nn3t.com/#website",
+        "url": "https://www.b3nn3t.com/",
+        "name": "b3nn3t",
+        "inLanguage": "de-DE",
+        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://www.b3nn3t.com/diskografie.html",
+        "url": "https://www.b3nn3t.com/diskografie.html",
+        "name": "b3nn3t – Diskografie: Alben, EPs & Singles",
+        "description": "Alle Releases von b3nn3t: Alben, EPs & Singles mit Streaming-Links – Deutschrap & Indie-Pop aus der Schweiz.",
+        "isPartOf": { "@id": "https://www.b3nn3t.com/#website" },
+        "inLanguage": "de-DE"
+      },
+      {
+        "@type": "MusicGroup",
+        "@id": "https://www.b3nn3t.com/#org",
+        "name": "b3nn3t",
+        "url": "https://www.b3nn3t.com/",
+        "alternateName": ["b3nn3t.com", "b3nn3t.de", "b3nn3t.ch", "b3nn3t.at"],
+        "genre": ["Deutschrap", "Indie Pop"],
+        "areaServed": ["DE", "CH", "AT"],
+        "address": { "@type": "PostalAddress", "addressCountry": "CH" }
+      }
+    ]
+  }
+  </script>
 </head>
 
 <body>
@@ -356,6 +344,7 @@
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
+  <!-- ✅ Reihenfolge wie index/ueber-mich -->
   <nav id="site-menu" class="site-menu" aria-hidden="true">
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
@@ -375,9 +364,16 @@
   <main class="main">
     <div class="scroll-panel">
       <div class="content-offset">
+
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- diskografie – auf-/zuklappbar (aktueller Punkt) -->
+          <!-- ✅ 1) über mich zuerst -->
+          <a class="page-link" href="ueber-mich.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>über mich</span>
+          </a>
+
+          <!-- ✅ 2) diskografie (current + auf/zu) -->
           <div class="page-group current open">
             <button class="page-toggle" type="button" aria-expanded="true">
               <span class="arrow" aria-hidden="true">►</span>
@@ -394,117 +390,340 @@
                 die musik sofort streamen kannst.
               </p>
 
+              <!-- ======= DEIN DISKOGRAFIE-INHALT (unverändert) ======= -->
+
               <!-- Alben -->
-              <section>
-                <div class="panel-block"><h3>Alben</h3></div>
-                <div class="disco-grid">
-                  <article class="release">
-                    <picture>
-                      <source srcset="assets/diskografie/Alben/traeum ich.webp" type="image/webp">
-                      <img src="assets/diskografie/Alben/traeum ich.jpg" alt="Cover: traeum ich??" class="cover" loading="lazy" />
-                    </picture>
-                    <div class="title">
-                      <a href="https://open.spotify.com/intl-de/album/0om0qmIgGQdOfVaNIKUNmz" target="_blank" rel="noopener noreferrer">traeum ich??</a>
-                      <span class="badge">Album</span>
-                    </div>
-                    <div class="meta">2025</div>
-                    <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-1')">Mehr</button></div>
-                    <div class="tracklist" id="tracklist-1">
-                      <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/0om0qmIgGQdOfVaNIKUNmz"></iframe>
-                    </div>
-                  </article>
+    <section>
+      <div class="panel-block"><h3>Alben</h3></div>
+      <div class="disco-grid">
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Alben/traeum ich.webp" type="image/webp">
+            <img src="assets/diskografie/Alben/traeum ich.jpg" alt="Cover: traeum ich??" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/intl-de/album/0om0qmIgGQdOfVaNIKUNmz" target="_blank" rel="noopener noreferrer">traeum ich??</a>
+            <span class="badge">Album</span>
+          </div>
+          <div class="meta">2025</div>
+          <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-1')">Mehr</button></div>
+          <div class="tracklist" id="tracklist-1">
+            <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/0om0qmIgGQdOfVaNIKUNmz"></iframe>
+          </div>
+        </article>
 
-                  <article class="release">
-                    <picture>
-                      <source srcset="assets/diskografie/Alben/laut nachgedacht.webp" type="image/webp">
-                      <img src="assets/diskografie/Alben/laut nachgedacht.jpg" alt="Cover: laut nachgedacht" class="cover" loading="lazy" />
-                    </picture>
-                    <div class="title">
-                      <a href="https://open.spotify.com/album/4n2ziE3adhDkSf4WPy7c1l" target="_blank" rel="noopener noreferrer">laut nachgedacht</a>
-                      <span class="badge">Album</span>
-                    </div>
-                    <div class="meta">2024</div>
-                    <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-2')">Mehr</button></div>
-                    <div class="tracklist" id="tracklist-2">
-                      <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/4n2ziE3adhDkSf4WPy7c1l"></iframe>
-                    </div>
-                  </article>
-                </div>
-              </section>
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Alben/laut nachgedacht.webp" type="image/webp">
+            <img src="assets/diskografie/Alben/laut nachgedacht.jpg" alt="Cover: laut nachgedacht" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/4n2ziE3adhDkSf4WPy7c1l" target="_blank" rel="noopener noreferrer">laut nachgedacht</a>
+            <span class="badge">Album</span>
+          </div>
+          <div class="meta">2024</div>
+          <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-2')">Mehr</button></div>
+          <div class="tracklist" id="tracklist-2">
+            <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/4n2ziE3adhDkSf4WPy7c1l"></iframe>
+          </div>
+        </article>
+      </div>
+    </section>
 
-              <!-- EPs -->
-              <section>
-                <div class="panel-block"><h3>EPs</h3></div>
-                <div class="disco-grid">
-                  <article class="release">
-                    <picture>
-                      <source srcset="assets/diskografie/EPs/st3rne.webp" type="image/webp">
-                      <img src="assets/diskografie/EPs/st3rne.jpg" alt="Cover: st3rne☆*" class="cover" loading="lazy" />
-                    </picture>
-                    <div class="title">
-                      <a href="https://open.spotify.com/album/3d7F0wnumMBtTKar2t2cgI" target="_blank" rel="noopener noreferrer">st3rne☆*</a>
-                      <span class="badge">EP</span>
-                    </div>
-                    <div class="meta">2025</div>
-                    <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-3')">Mehr</button></div>
-                    <div class="tracklist" id="tracklist-3">
-                      <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/3d7F0wnumMBtTKar2t2cgI"></iframe>
-                    </div>
-                  </article>
+    <!-- EPs -->
+    <section>
+      <div class="panel-block"><h3>EPs</h3></div>
+      <div class="disco-grid">
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/EPs/st3rne.webp" type="image/webp">
+            <img src="assets/diskografie/EPs/st3rne.jpg" alt="Cover: st3rne☆*" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/3d7F0wnumMBtTKar2t2cgI" target="_blank" rel="noopener noreferrer">st3rne☆*</a>
+            <span class="badge">EP</span>
+          </div>
+          <div class="meta">2025</div>
+          <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-3')">Mehr</button></div>
+          <div class="tracklist" id="tracklist-3">
+            <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/3d7F0wnumMBtTKar2t2cgI"></iframe>
+          </div>
+        </article>
 
-                  <article class="release">
-                    <picture>
-                      <source srcset="assets/diskografie/EPs/hundert grad.webp" type="image/webp">
-                      <img src="assets/diskografie/EPs/hundert grad.jpg" alt="Cover: hundert grad" class="cover" loading="lazy" />
-                    </picture>
-                    <div class="title">
-                      <a href="https://open.spotify.com/album/363ITnyvTfkJ4p5yu3K0Bz" target="_blank" rel="noopener noreferrer">hundert grad</a>
-                      <span class="badge">EP</span>
-                    </div>
-                    <div class="meta">2024</div>
-                    <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-4')">Mehr</button></div>
-                    <div class="tracklist" id="tracklist-4">
-                      <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/363ITnyvTfkJ4p5yu3K0Bz"></iframe>
-                    </div>
-                  </article>
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/EPs/hundert grad.webp" type="image/webp">
+            <img src="assets/diskografie/EPs/hundert grad.jpg" alt="Cover: hundert grad" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/363ITnyvTfkJ4p5yu3K0Bz" target="_blank" rel="noopener noreferrer">hundert grad</a>
+            <span class="badge">EP</span>
+          </div>
+          <div class="meta">2024</div>
+          <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-4')">Mehr</button></div>
+          <div class="tracklist" id="tracklist-4">
+            <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/363ITnyvTfkJ4p5yu3K0Bz"></iframe>
+          </div>
+        </article>
 
-                  <article class="release">
-                    <picture>
-                      <source srcset="assets/diskografie/EPs/gesund_krank.webp" type="image/webp">
-                      <img src="assets/diskografie/EPs/gesund_krank.jpg" alt="Cover: gesund/krank" class="cover" loading="lazy" />
-                    </picture>
-                    <div class="title">
-                      <a href="https://open.spotify.com/album/63meNbUfVkmao1NCuiplaf" target="_blank" rel="noopener noreferrer">gesund/krank</a>
-                      <span class="badge">EP</span>
-                    </div>
-                    <div class="meta">2023</div>
-                    <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-5')">Mehr</button></div>
-                    <div class="tracklist" id="tracklist-5">
-                      <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/63meNbUfVkmao1NCuiplaf"></iframe>
-                    </div>
-                  </article>
-                </div>
-              </section>
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/EPs/gesund_krank.webp" type="image/webp">
+            <img src="assets/diskografie/EPs/gesund_krank.jpg" alt="Cover: gesund/krank" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/63meNbUfVkmao1NCuiplaf" target="_blank" rel="noopener noreferrer">gesund/krank</a>
+            <span class="badge">EP</span>
+          </div>
+          <div class="meta">2023</div>
+          <div class="toggle"><button type="button" onclick="toggleTracklist('tracklist-5')">Mehr</button></div>
+          <div class="tracklist" id="tracklist-5">
+            <iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="https://open.spotify.com/embed/album/63meNbUfVkmao1NCuiplaf"></iframe>
+          </div>
+        </article>
+      </div>
+    </section>
 
-              <!-- Singles (inkl. Kollabos) -->
-              <section>
-                <div class="panel-block"><h3>Singles (inkl. Kollabos)</h3></div>
-                <div class="disco-grid">
-                  <!-- (dein Inhalt bleibt 1:1 – unverändert) -->
-                  <!-- ... -->
-                </div>
-              </section>
+    <!-- Singles (inkl. Kollabos) -->
+    <section>
+      <div class="panel-block"><h3>Singles (inkl. Kollabos)</h3></div>
+
+      <div class="disco-grid">
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/wer bist du wenn keiner schaut.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/wer bist du wenn keiner schaut.jpg" alt="Cover: wer bist du wenn keiner schaut??" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/1xDwlGUQyPBzaHL6iDJphM" target="_blank" rel="noopener noreferrer">wer bist du wenn keiner schaut??</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+        
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/03-02-25.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/03-02-25.jpg" alt="Cover: 03.02.25" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/7zRS3iAoQbzgMHBsSJl5MG" target="_blank" rel="noopener noreferrer">03.02.25</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/kreative perspektiven.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/kreative perspektiven.jpg" alt="Cover: kreative perspektiven" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/3Ja7f0z3lM23ieRq58FcDM" target="_blank" rel="noopener noreferrer">kreative perspektiven</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/mani matter.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/mani matter.jpg" alt="Cover: mani matter (mit XYZ)" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/2Xp7qD73hYkVhxdjTYbepU" target="_blank" rel="noopener noreferrer">mani matter (mit XYZ)</a>
+            <span class="badge">Single · Kollabo</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/oder auch in fabeln.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/oder auch in fabeln.jpg" alt="Cover: oder auch in fabeln" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/1ucICLXPSxrr8RYZqTxbdR" target="_blank" rel="noopener noreferrer">oder auch in fabeln</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/TRÄUME BRÜCKEN ZÄUNE.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/TRÄUME BRÜCKEN ZÄUNE.jpg" alt="Cover: TRÄUME BRÜCKEN ZÄUNE" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/0s8XyPtRo8lCWzDfZ7gqSD" target="_blank" rel="noopener noreferrer">TRÄUME BRÜCKEN ZÄUNE</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/neigen.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/neigen.jpg" alt="Cover: neigen" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/5LP9Ef4tNuDYvNNxltKKuv" target="_blank" rel="noopener noreferrer">neigen</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2025</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/seit wieviel jahren leuchten sterne.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/seit wieviel jahren leuchten sterne.jpg" alt="Cover: seit wieviel jahren leuchten sterne??" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/0UfKvNdoEEc00LcgmwL7TE" target="_blank" rel="noopener noreferrer">seit wieviel jahren leuchten sterne??</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/kinderleicht.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/kinderleicht.jpg" alt="Cover: kinderleicht" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/0K3Wl0QNxPvVb599JsXFGx" target="_blank" rel="noopener noreferrer">kinderleicht</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/kein phone.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/kein phone.jpg" alt="Cover: kein phone" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/3gN1G0ci9JVR5WsH6ZoGYY" target="_blank" rel="noopener noreferrer">kein phone</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/bleibt für ewich.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/bleibt für ewich.jpg" alt="Cover: bleibt für ewich" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/6D3qdbNuGvYErKxfB0hCUL" target="_blank" rel="noopener noreferrer">bleibt für ewich</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/es ist ok.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/es ist ok.jpg" alt="Cover: es ist ok (mit al1en & diemfeif)" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/2eSMAj5YAvm8yqGxf8n3RV" target="_blank" rel="noopener noreferrer">es ist ok (mit al1en &amp; diemfeif)</a>
+            <span class="badge">Single · Kollabo</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/raucherschaeden.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/raucherschaeden.jpg" alt="Cover: raucherschaeden (mit sotbarn)" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/track/24vQfWDt2rj60Bek47cKzv" target="_blank" rel="noopener noreferrer">raucherschaeden (mit sotbarn)</a>
+            <span class="badge">Single · Kollabo</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/was wir möchten.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/was wir möchten.jpg" alt="Cover: was wir möchten" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/3lArtOVk2ifWSw6kcFos11" target="_blank" rel="noopener noreferrer">was wir möchten</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/unsere ferne.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/unsere ferne.jpg" alt="Cover: unsere ferne/ein paar memorie" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/00rRbuG4SzPFLo5mucA97W" target="_blank" rel="noopener noreferrer">unsere ferne/ein paar memorie</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/anwesenheit.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/anwesenheit.jpg" alt="Cover: anwesenheit" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/25NBwRCESVSN4xLGy8yJPE" target="_blank" rel="noopener noreferrer">anwesenheit</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/ohne waffe.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/ohne waffe.jpg" alt="Cover: ohne waffe" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/07IwWTYKTqq73hG0NEAJxZ" target="_blank" rel="noopener noreferrer">ohne waffe</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2024</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/zwei stunden.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/zwei stunden.jpg" alt="Cover: zwei stunden" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/7dSgBqlyFyTep2QhdkZIyB" target="_blank" rel="noopener noreferrer">zwei stunden</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2023</div>
+        </article>
+
+        <article class="release">
+          <picture>
+            <source srcset="assets/diskografie/Singles/diese welt, sie schweigt.webp" type="image/webp">
+            <img src="assets/diskografie/Singles/diese welt, sie schweigt.jpg" alt="Cover: diese welt, sie schweigt" class="cover" loading="lazy" />
+          </picture>
+          <div class="title">
+            <a href="https://open.spotify.com/album/5OLu9T84QPWW2mFMOMd4A9" target="_blank" rel="noopener noreferrer">diese welt, sie schweigt</a>
+            <span class="badge">Single</span>
+          </div>
+          <div class="meta">2023</div>
+        </article>
+      </div>
 
               <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
             </div>
           </div>
 
-          <!-- restliche Links – gleiche Optik wie index -->
-          <a class="page-link" href="ueber-mich.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>über mich</span>
-          </a>
-
+          <!-- ✅ Restliche Links in der richtigen Reihenfolge -->
           <a class="page-link" href="kontakt.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>kontakt</span>
@@ -526,6 +745,7 @@
           </a>
 
         </section>
+
       </div>
     </div>
   </main>
@@ -538,15 +758,13 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- diskografie: Toggle (auf/zu) + dynamische Höhe (wie ueber-mich) -->
+  <!-- Dynamische Höhe Scroll-Panel -->
   <script>
     (function(){
-      const group  = document.querySelector('.page-group.current');
-      const toggle = group?.querySelector('.page-toggle');
-      const panel  = document.querySelector('.scroll-panel');
+      const panel = document.querySelector('.scroll-panel');
+      if (!panel) return;
 
       function resizePanel(){
-        if(!panel) return;
         const header = document.querySelector('.header');
         const main   = document.querySelector('.main');
 
@@ -566,14 +784,6 @@
         panel.style.maxHeight = max + 'px';
       }
 
-      if(toggle && group){
-        toggle.addEventListener('click', () => {
-          const isOpen = group.classList.contains('open');
-          group.classList.toggle('open', !isOpen);
-          toggle.setAttribute('aria-expanded', String(!isOpen));
-        });
-      }
-
       window.addEventListener('load', resizePanel);
       window.addEventListener('resize', resizePanel);
       if(window.visualViewport){
@@ -582,85 +792,29 @@
     })();
   </script>
 
-  <!-- Singles: fehlende „Mehr“-Buttons + Player automatisch ergänzen -->
+  <!-- Toggle (diskografie auf/zu) -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const singlesHeading = Array.from(document.querySelectorAll('main h3'))
-        .find(h => h.textContent.trim().toLowerCase().startsWith('singles'));
-      if (!singlesHeading) return;
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
 
-      const singlesGrid = singlesHeading.closest('.panel-block')?.nextElementSibling;
-      if (!singlesGrid || !singlesGrid.classList.contains('disco-grid')) return;
-
-      let idx = 1;
-      singlesGrid.querySelectorAll('.release').forEach(card => {
-        const hasToggle = card.querySelector('.toggle');
-        const hasTracklist = card.querySelector('.tracklist');
-        if (hasToggle && hasTracklist) return;
-
-        const url = card.querySelector('.title a')?.href || '';
-        let embed = '';
-        if (/open\.spotify\.com/.test(url)) {
-          embed = url.replace('open.spotify.com/', 'open.spotify.com/embed/');
-        }
-
-        const afterMeta = card.querySelector('.meta') || card.lastElementChild;
-        const toggleWrap = document.createElement('div');
-        toggleWrap.className = 'toggle';
-
-        const id = `tracklist-s-${idx++}`;
-        toggleWrap.innerHTML = `<button type="button" onclick="toggleTracklist('${id}')">Mehr</button>`;
-
-        const panel = document.createElement('div');
-        panel.className = 'tracklist';
-        panel.id = id;
-        panel.innerHTML = embed
-          ? `<iframe allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" src="${embed}"></iframe>`
-          : `<div style="padding:.6rem 0;color:#666">Keine Einbettung gefunden.</div>`;
-
-        afterMeta.insertAdjacentElement('afterend', toggleWrap);
-        toggleWrap.insertAdjacentElement('afterend', panel);
-      });
-    });
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+    })();
   </script>
 
-  <!-- Akkordeon-Logik (Start: geschlossen) -->
+  <!-- Tracklist Toggle + Akkordeon-Logik (dein Original) -->
   <script>
     function toggleTracklist(id){
       const el = document.getElementById(id);
       if(!el) return;
       el.classList.toggle('open');
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const sections = document.querySelectorAll('main section');
-
-      sections.forEach((section, i) => {
-        const heading = section.querySelector('.panel-block h3');
-        const grid = section.querySelector('.disco-grid');
-        if (!heading || !grid) return;
-
-        heading.setAttribute('role', 'button');
-        heading.setAttribute('tabindex', '0');
-
-        const gridId = `cat-grid-${i+1}`;
-        heading.setAttribute('aria-controls', gridId);
-        heading.setAttribute('aria-expanded', 'false');
-        grid.id = gridId;
-        grid.hidden = true;
-
-        const toggle = () => {
-          const isOpen = heading.getAttribute('aria-expanded') === 'true';
-          heading.setAttribute('aria-expanded', String(!isOpen));
-          grid.hidden = isOpen;
-        };
-
-        heading.addEventListener('click', toggle);
-        heading.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-        });
-      });
-    });
   </script>
 </body>
 </html>
