@@ -1,8 +1,8 @@
 :root{
-  --bg-tint: rgba(255,255,255,.35); /* blasser Hintergrund */
-  --text: #0e0e0e;
-  --text-dim: #2d2d2d;
-  --accent: #0b84ff;
+  --bg-tint: rgba(0,0,0,.15);          /* leichter Dunkel-Tint fürs Bild */
+  --text: #ffffff;                     /* Haupttext weiß */
+  --text-dim: rgba(255,255,255,.80);   /* sekundärer Text */
+  --accent: #ffffff;                   /* Links ebenfalls weiß */
 }
 
 /* Base reset */
@@ -20,12 +20,12 @@ html,body{
 body{
   background-color: #000;
 
-  /* Fallback für ältere Browser */
+  /* Fallback */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
     url('assets/b3nn3t_bg.jpg');
 
-  /* Moderne Browser: AVIF > WebP > JPG */
+  /* Moderne Browser */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
     image-set(
@@ -75,7 +75,7 @@ body{
 a{ color: var(--accent); text-decoration: none; }
 a:hover{ text-decoration: underline; }
 
-/* Header/Brand */
+/* Header / Brand */
 .header{
   display:flex;
   align-items:center;
@@ -87,7 +87,7 @@ a:hover{ text-decoration: underline; }
 .brand{
   font-weight:700;
   letter-spacing:.04em;
-  color:#000;
+  color:#fff;                /* ✔ weiß */
   background:none;
   padding:0;
   box-shadow:none;
@@ -98,7 +98,7 @@ a:hover{ text-decoration: underline; }
 }
 .brand:hover{ text-decoration: underline; }
 
-/* navigation arrows */
+/* navigation arrows (unverändert) */
 .nav-arrow{
   position:fixed;
   top:12px;
@@ -120,7 +120,7 @@ a:hover{ text-decoration: underline; }
   margin-bottom: clamp(24px, 5vh, 60px);
   margin-left: clamp(20px, 3vw, 40px);
   margin-right: auto;
-  background: rgba(255,255,255,0.32);
+  background: rgba(255,255,255,0.32); /* unverändert */
   border-radius: 18px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.08);
   padding: clamp(18px, 2vw, 28px);
@@ -139,7 +139,7 @@ p{ line-height:1.6; color: var(--text-dim); }
   margin-top:10px;
 }
 
-/* Cards */
+/* Cards (bewusst unverändert) */
 .card{
   display:block;
   padding:12px;
@@ -170,8 +170,11 @@ footer{
   font-size:0.82rem;
   line-height:1.2;
   z-index:1000;
+  color:#fff;                /* ✔ weiß */
 }
-footer a{ color:#000 !important; }
+footer a{
+  color:#fff !important;     /* ✔ weiß */
+}
 
 /* Logo ausblenden */
 .header img,
@@ -182,7 +185,7 @@ header img[src*="logo"]{
   display:none !important;
 }
 
-/* ===== ✅ H1 SCHRIFTGRÖSSE (FINAL & GARANTIERT) ===== */
+/* ===== H1 Schriftgröße (wie vorher) ===== */
 body h1{
   font-size: 2rem !important;
   line-height: 1.15;
@@ -194,4 +197,3 @@ body h1{
     line-height: 1.2;
   }
 }
-
