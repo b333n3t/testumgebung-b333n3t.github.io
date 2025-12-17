@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="de">
 <head>
   <meta charset="utf-8" />
@@ -82,15 +82,12 @@
   </script>
 
   <link rel="stylesheet" href="styles.css" />
-  <!-- bleibt drin, aber Pfeile werden gezielt kontrolliert -->
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
     :root{
       --bottom-gap:60px;
-
-      /* ✅ Ziel: wie Bild 2 */
       --seen-max: 760px;
       --card-min: 320px;
       --seen-gap: 18px;
@@ -118,17 +115,14 @@
       box-shadow:none !important;
     }
 
-    /* ✅✅✅ Pfeile: links AUS, unten AUS, rechts AN (und nur rechts) */
-    .nav-arrow{
-      z-index:1400 !important;
-    }
+    /* ✅ Pfeile: links AUS, unten AUS, rechts AN */
+    .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left{
       display:none !important;
       opacity:0 !important;
       visibility:hidden !important;
       pointer-events:none !important;
     }
-    /* falls es irgendwo ein "unten" Element gibt */
     .scroll-cue{
       display:none !important;
       opacity:0 !important;
@@ -256,7 +250,6 @@
       display:grid !important;
       grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
       gap:18px !important;
-
       max-width:700px !important;
       margin:0 !important;
       justify-content:start !important;
@@ -274,7 +267,6 @@
       max-width:none !important;
       padding:14px !important;
       border-radius:22px !important;
-
       background:rgba(255,255,255,.68) !important;
       box-shadow:0 12px 28px rgba(0,0,0,.10) !important;
       text-align:center;
@@ -297,7 +289,7 @@
       font-weight:600;
     }
 
-    /* ========= Player: unter der jeweiligen 2er-Reihe, mittig ========= */
+    /* ========= Player ========= */
     .video-row{
       grid-column: 1 / -1;
       width:100%;
@@ -394,9 +386,6 @@
     </ul>
   </nav>
 
-  <!-- ✅ links entfernt -->
-  <!-- <a class="nav-arrow left" aria-label="Vorherige Seite" href="aktuell.html">←</a> -->
-
   <!-- ✅ rechts bleibt & zeigt auf intro.html -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
@@ -470,6 +459,54 @@
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- ✅ EXTRA: Swipe nach links => intro.html (zuverlässig, auch wenn swipe-nav.js was anderes macht) -->
+  <script>
+    (function(){
+      const NEXT_URL = 'intro.html';
+
+      let sx = 0, sy = 0, tracking = false;
+
+      function shouldIgnoreTarget(t){
+        if(!t) return false;
+        return !!(t.closest?.('.site-menu, .hamburger, #menu-overlay, iframe, video, .video-wrapper, .card'));
+      }
+
+      window.addEventListener('touchstart', (e) => {
+        const t = e.target;
+        if(shouldIgnoreTarget(t)) return;
+
+        const touch = e.touches && e.touches[0];
+        if(!touch) return;
+
+        tracking = true;
+        sx = touch.clientX;
+        sy = touch.clientY;
+      }, { passive: true });
+
+      window.addEventListener('touchend', (e) => {
+        if(!tracking) return;
+        tracking = false;
+
+        const touch = e.changedTouches && e.changedTouches[0];
+        if(!touch) return;
+
+        const dx = touch.clientX - sx;
+        const dy = touch.clientY - sy;
+
+        const absX = Math.abs(dx);
+        const absY = Math.abs(dy);
+
+        // Horizontaler Swipe
+        if(absX > 60 && absX > absY * 1.2){
+          // Swipe nach links = next
+          if(dx < 0){
+            window.location.href = NEXT_URL;
+          }
+        }
+      }, { passive: true });
+    })();
+  </script>
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
