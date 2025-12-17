@@ -141,13 +141,6 @@ a:hover{ text-decoration: underline; }
 }
 
 h1, h2{ margin: .2em 0 .4em; letter-spacing:.02em; }
-
-/* ✅ NEU: H1 generell kleiner (Desktop) */
-h1{
-  font-size: 2rem;      /* passe an: z.B. 1.8rem wenn noch kleiner soll */
-  line-height: 1.15;
-}
-
 p{ line-height:1.6; color: var(--text-dim); }
 
 /* home grid */
@@ -371,15 +364,6 @@ body.home .main{
     margin-top:4px;
   }
 }
-
-/* ✅ NEU: H1 auch auf Handy kleiner */
-@media (max-width: 768px){
-  h1{
-    font-size: 1.6rem;
-    line-height: 1.2;
-  }
-}
-
 @media (max-width: 360px){
   .grid{
     grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
