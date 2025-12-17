@@ -8,6 +8,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
   <link rel="stylesheet" href="styles.css" />
+  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
@@ -37,6 +38,15 @@
       overflow:visible;
       background:transparent !important;
       box-shadow:none !important;
+    }
+
+    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
+    .nav-arrow,
+    .scroll-cue{
+      display:none !important;
+      opacity:0 !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
     }
 
     /* ===== Hamburger-Menü (wie index) ===== */
@@ -93,8 +103,6 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    .nav-arrow{z-index:1400 !important;}
-
     /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
@@ -134,7 +142,6 @@
       color:inherit;
     }
     .page-link:visited{ color:inherit; }
-
     .page-link .arrow{
       display:inline-block;
       transition:transform .2s ease;
@@ -143,7 +150,6 @@
       transform:rotate(90deg);
     }
 
-    /* Toggle soll identisch aussehen wie Link */
     .page-toggle{
       display:flex;
       align-items:center;
@@ -433,28 +439,23 @@
     </ul>
   </nav>
 
-  <!-- Seitenpfeile -->
-  <a class="nav-arrow left" aria-label="Vorherige Seite" href="kontakt.html">←</a>
-  <a class="nav-arrow right" aria-label="Nächste Seite" href="gesehen.html">→</a>
+  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
 
   <main class="main">
     <div class="scroll-panel">
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- über mich -->
           <a class="page-link" href="ueber-mich.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>über mich</span>
           </a>
 
-          <!-- diskografie -->
           <a class="page-link" href="diskografie.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>diskografie</span>
           </a>
 
-          <!-- kontakt -->
           <a class="page-link" href="kontakt.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>kontakt</span>
@@ -555,7 +556,6 @@
             </div>
           </div>
 
-          <!-- darunter -->
           <a class="page-link" href="gesehen.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>gesehen</span>
@@ -571,7 +571,6 @@
     </div>
   </main>
 
-  <!-- Fester Footer unten -->
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
@@ -582,7 +581,7 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Panelhöhe dynamisch (wie über-mich) + Accordion toggle -->
+  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
