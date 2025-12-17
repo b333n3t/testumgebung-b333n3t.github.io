@@ -102,17 +102,59 @@
       html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
     }
 
-    body{ min-height:100vh; display:flex; flex-direction:column; }
+    /* ✅ Schriftart + alles weiß (wie bei den anderen Seiten) */
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      color:#fff !important;
+      font-family:'Press Start 2P', Arial, sans-serif !important;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.03em;
+      line-height: 1.6;
+    }
 
+    /* ✅ b3nn3t im Header weiß */
+    .header .brand,
+    .header .brand strong{
+      color:#fff !important;
+    }
+
+    /* ✅ Footer weiß */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
+      text-align:center;
+      color:#fff !important;
+      font-size:.82rem;
+      z-index:910;
+    }
+    .footer-inline a{ color:#fff !important; text-decoration:none; }
+    .footer-inline a:hover{ text-decoration:underline; }
+
+    /* ✅ Zusätzlich: Kein Glas/Blur-Schleier über main (wie von dir vorgegeben) */
     main.main{
+      background: transparent !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+      opacity: 1 !important;
+
       flex:1 0 auto;
       border-radius:12px;
       padding:0;
       position:relative;
       z-index:1;
       overflow:visible;
-      background:transparent !important;
-      box-shadow:none !important;
+    }
+    main.main::before,
+    main.main::after{
+      content: none !important;
+      display: none !important;
     }
 
     /* ✅ Pfeile: links AUS, unten AUS, rechts AN */
@@ -138,7 +180,7 @@
     }
     .hamburger span{
       display:block;width:12px;height:1.4px;margin:1.5px 0;
-      background:#000;border-radius:2px;
+      background:#000;border-radius:2px; /* ✅ Burger-Menü schwarz */
       transition:transform .2s,opacity .2s
     }
     body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
@@ -177,6 +219,11 @@
       text-decoration:none;
       font-size:1rem;
       font-weight:500;
+
+      /* Menü bleibt lesbar */
+      font-family: Arial, sans-serif;
+      letter-spacing: 0;
+      line-height: 1.2;
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
@@ -242,8 +289,13 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    .page-content h1{margin-top:0;}
-    .page-content p{margin:0 0 1rem 0;}
+    /* Inhalt ebenfalls weiß */
+    .page-content h1,
+    .page-content p{
+      color:#fff !important;
+      margin:0 0 1rem 0;
+    }
+    .page-content h1{ margin-bottom:0.4rem; }
 
     /* ========= Cards ========= */
     .grid-seen{
@@ -270,7 +322,14 @@
       background:rgba(255,255,255,.68) !important;
       box-shadow:0 12px 28px rgba(0,0,0,.10) !important;
       text-align:center;
+
+      /* Lesbarkeit auf hellen Cards */
+      color:#000 !important;
+      font-family: Arial, sans-serif !important;
+      letter-spacing: 0 !important;
+      line-height: 1.2 !important;
     }
+    .grid-seen .card small{ color:#000 !important; opacity:.8; }
 
     .grid-seen .card .thumb{
       width:100% !important;
@@ -330,20 +389,6 @@
       padding:2px 10px;
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
-
-    /* Footer */
-    .footer-inline{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:40px;
-      text-align:center;
-      color:#000;
-      font-size:.82rem;
-      z-index:910;
-    }
-    .footer-inline a{ color:#000; text-decoration:none; }
-    .footer-inline a:hover{ text-decoration:underline; }
 
     /* swipe helper */
     .edge-swipe{
@@ -497,9 +542,7 @@
         const absX = Math.abs(dx);
         const absY = Math.abs(dy);
 
-        // Horizontaler Swipe
         if(absX > 60 && absX > absY * 1.2){
-          // Swipe nach links = next
           if(dx < 0){
             window.location.href = NEXT_URL;
           }
