@@ -17,15 +17,14 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192.png">
 
-  <!-- ✅ Styles (wie deine anderen Seiten) -->
+  <!-- ✅ Styles -->
   <link rel="stylesheet" href="styles.css" />
+  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
-    :root{
-      --bottom-gap:60px;
-    }
+    :root{ --bottom-gap:60px; }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
     /* Desktop: keine Body-Scrollbars, Mobile darf scrollen */
@@ -49,6 +48,15 @@
       overflow:visible;
       background:transparent !important;
       box-shadow:none !important;
+    }
+
+    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
+    .nav-arrow,
+    .scroll-cue{
+      display:none !important;
+      opacity:0 !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
     }
 
     /* ===== Hamburger-Menü (wie index) ===== */
@@ -101,9 +109,7 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    .nav-arrow{z-index:1400 !important;}
-
-    /* ===== UNSICHTBARES Scroll-Panel (wie bei den anderen) ===== */
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
       max-height:75vh;
@@ -210,7 +216,7 @@
     }
     .platform-list a:hover{ text-decoration:underline; }
 
-    /* Fester Footer unten (wie bei index/über-mich/...) */
+    /* Footer */
     .footer-inline{
       position:fixed;
       left:0;
@@ -269,23 +275,20 @@
     </ul>
   </nav>
 
-  <!-- Seitenpfeile -->
-  <a class="nav-arrow left" aria-label="Vorherige Seite" href="gesehen.html">←</a>
-  <a class="nav-arrow right" aria-label="Nächste Seite" href="index.html">→</a>
+  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
 
   <main class="main">
     <div class="scroll-panel">
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- ✅ Links wie bei index -->
           <a class="page-link" href="ueber-mich.html"><span class="arrow" aria-hidden="true">►</span><span>über mich</span></a>
           <a class="page-link" href="diskografie.html"><span class="arrow" aria-hidden="true">►</span><span>diskografie</span></a>
           <a class="page-link" href="kontakt.html"><span class="arrow" aria-hidden="true">►</span><span>kontakt</span></a>
           <a class="page-link" href="aktuell.html"><span class="arrow" aria-hidden="true">►</span><span>aktuell</span></a>
           <a class="page-link" href="gesehen.html"><span class="arrow" aria-hidden="true">►</span><span>gesehen</span></a>
 
-          <!-- ✅ plattformen – current open -->
+          <!-- plattformen – current open -->
           <div class="page-group current open">
             <button class="page-toggle" type="button" aria-expanded="true">
               <span class="arrow" aria-hidden="true">►</span>
@@ -364,8 +367,6 @@
                      target="_blank" rel="noopener">SoundCloud – b3nn3t</a>
                 </li>
               </ul>
-
-              <!-- ✅ KEINE weiteren Links/Akkordeons darunter -->
             </div>
           </div>
 
@@ -374,7 +375,6 @@
     </div>
   </main>
 
-  <!-- Footer fix unten -->
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
@@ -382,11 +382,10 @@
   <div class="edge-swipe left" aria-hidden="true"></div>
   <div class="edge-swipe right" aria-hidden="true"></div>
 
-  <!-- Skripte (wie gehabt) -->
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- ✅ ResizePanel + Accordion Toggle (wie bei deinen anderen Seiten) -->
+  <!-- ResizePanel + Accordion Toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -427,27 +426,6 @@
       if(window.visualViewport){
         window.visualViewport.addEventListener('resize', resizePanel);
       }
-    })();
-  </script>
-
-  <!-- ✅ Burger-Menü Fallback (falls script.js das nicht already macht) -->
-  <script>
-    (function(){
-      const btn = document.querySelector('.hamburger');
-      const menu = document.getElementById('site-menu');
-      const overlay = document.getElementById('menu-overlay');
-      if(!btn || !menu || !overlay) return;
-
-      function setOpen(open){
-        document.body.classList.toggle('menu-open', open);
-        btn.setAttribute('aria-expanded', String(open));
-        menu.setAttribute('aria-hidden', String(!open));
-        overlay.hidden = !open;
-      }
-
-      btn.addEventListener('click', () => setOpen(!document.body.classList.contains('menu-open')));
-      overlay.addEventListener('click', () => setOpen(false));
-      document.addEventListener('keydown', (e) => { if(e.key === 'Escape') setOpen(false); });
     })();
   </script>
 </body>
