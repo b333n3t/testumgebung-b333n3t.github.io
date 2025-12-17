@@ -113,7 +113,7 @@
         const bypass    = location.search.includes("nointro=1");
 
         const ua    = navigator.userAgent || "";
-        const isBot = /bot|crawl|slurp|spider|preview|Chrome-Lighthouse|Lighthouse|Google-InspectionTool|Google-Site-Verification|Google-PageRenderer|Google-StructuredDataTestingTool/i.test(ua);
+        const isBot = /bot|crawl|slurp|spider|preview|Chrome-Lighthouse|Lighthouse|Google-InspectionTool|Google-Site-Verification|Google-PageRenderer|Google-StructuredDataTestingTool|Google-StructuredDataTestingTool/i.test(ua);
 
         if (!isBot && !played && !fromIntro && !bypass) {
           const returnUrl =
@@ -318,6 +318,32 @@ body .main::after{
 .nav-arrow,
 .scroll-cue{
   display:none !important;
+}
+
+/* =========================================================
+   ✅ WHITE THEME OVERRIDES (wie ueber-mich/diskografie/etc.)
+   ========================================================= */
+body{ color:#fff; }
+
+/* Header Brand (b3nn3t) weiß */
+.header .brand,
+.header .brand strong{
+  color:#fff !important;
+}
+
+/* Startseiten-Links weiß */
+.page-link,
+.page-link:visited{
+  color:#fff !important;
+}
+
+/* Footer weiß */
+.footer-inline,
+.footer-inline a,
+.footer-inline a:visited,
+.footer-inline a:active,
+.footer-inline a:focus{
+  color:#fff !important;
 }
   </style>
 
