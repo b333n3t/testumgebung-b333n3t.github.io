@@ -289,13 +289,25 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    /* Inhalt ebenfalls weiß */
+    /* ✅✅✅ Schrift wie bei den anderen Seiten (Akkordeon-Niveau) */
     .page-content h1,
+    .page-content h2,
     .page-content p{
-      color:#fff !important;
-      margin:0 0 1rem 0;
+      font-family: 'Press Start 2P', Arial, sans-serif !important;
+      font-size: 1.1rem !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.03em !important;
+      line-height: 1.6 !important;
+      color: #fff !important;
+      margin:0 0 1rem 0 !important;
     }
-    .page-content h1{ margin-bottom:0.4rem; }
+    .page-content h1{
+      margin-bottom: 0.4rem !important;
+    }
+    .page-content p{
+      margin-top: 0 !important;
+      margin-bottom: 1rem !important;
+    }
 
     /* ========= Cards ========= */
     .grid-seen{
