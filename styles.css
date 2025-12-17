@@ -35,9 +35,9 @@ body{
     );
 
   background-repeat: no-repeat;
-  background-position: center 45%;   /* Grundfokus etwas höher */
-  background-size: cover;            /* keine Balken links/rechts */
-  background-attachment: scroll;     /* ruhiges Scrolling */
+  background-position: center 45%;
+  background-size: cover;
+  background-attachment: scroll;
   transition: background-position .35s ease;
   min-height: 100vh;
   min-height: 100svh;
@@ -45,30 +45,22 @@ body{
   flex-direction:column;
 }
 
-/* Querformat (Landscape): mehr vom unteren Bereich sichtbar machen */
+/* Querformat */
 @media (orientation: landscape){
   body{ background-position: center 40%; }
 }
 
-/* Sehr flache Viewports (z.B. 1366×768, 1920×800): Fokus noch etwas höher */
+/* Flache Viewports */
 @media (max-height: 850px){
   body{ background-position: center 38%; }
 }
-
-/* Extrem flache Viewports (sehr schmale Höhe) */
 @media (max-height: 760px){
   body{ background-position: center 36%; }
 }
 
-/* Optional: mobiles, leichteres Bild mit neuen Dateien */
+/* Mobile Background */
 @media (max-width: 768px){
   body{
-    /* Fallback */
-    background-image:
-      linear-gradient(var(--bg-tint), var(--bg-tint)),
-      url('assets/b3nn3t_bg_mobile.jpg');
-
-    /* Moderne Browser */
     background-image:
       linear-gradient(var(--bg-tint), var(--bg-tint)),
       image-set(
@@ -100,10 +92,9 @@ a:hover{ text-decoration: underline; }
   padding:0;
   box-shadow:none;
   position:absolute;
-  left:25%;                /* Position etwa auf 1/4 der Seitenbreite */
+  left:25%;
   transform: translateX(-50%);
   top:18px;
-  text-decoration:none;
 }
 .brand:hover{ text-decoration: underline; }
 
@@ -113,15 +104,11 @@ a:hover{ text-decoration: underline; }
   top:12px;
   z-index:10;
   font-weight:700;
-  padding: 8px;
-  color: #000 !important;       /* schwarze Pfeile */
-  background: none !important;  /* kein Hintergrundfeld */
-  box-shadow: none !important;  /* keine Schatten */
-  border: none;
-  text-decoration: none;
-}
-.nav-arrow:hover {
-  color: #333 !important;
+  padding:8px;
+  color:#000 !important;
+  background:none !important;
+  box-shadow:none !important;
+  border:none;
 }
 .nav-arrow.left{ left:12px; }
 .nav-arrow.right{ right:12px; }
@@ -140,239 +127,70 @@ a:hover{ text-decoration: underline; }
   backdrop-filter: blur(2px);
 }
 
+/* Typografie */
 h1, h2{ margin: .2em 0 .4em; letter-spacing:.02em; }
 p{ line-height:1.6; color: var(--text-dim); }
 
-/* home grid */
+/* Grid */
 .grid{
   display:grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 12px;
-  margin-top: 10px;
+  gap:12px;
+  margin-top:10px;
 }
 
+/* Cards */
 .card{
   display:block;
-  padding: 12px;
+  padding:12px;
   background: rgba(255,255,255,.9);
-  border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0,0,0,.08);
-  font-weight: 600;
-  color: var(--text);
+  border-radius:16px;
+  box-shadow:0 10px 20px rgba(0,0,0,.08);
+  font-weight:600;
   text-align:center;
 }
 .card small{
   display:block;
   font-weight:400;
-  color: #444;
+  color:#444;
   margin-top:6px;
 }
-.card:hover{
-  transform: translateY(-2px);
-  transition: transform .12s ease;
-}
 
-/* home only footer note */
-.note{
-  margin-top: 18px;
-  font-size:.95rem;
-  color:#333;
-}
-
-/* home button on inner pages */
+/* home button (hidden) */
 .home-btn{
-  position:fixed;
-  bottom:16px;
-  left:50%;
-  transform: translateX(-50%);
-  padding:12px 16px;
-  background: rgba(255,255,255,.88);
-  border-radius: 16px;
-  box-shadow: 0 10px 20px rgba(0,0,0,.1);
-  font-weight:700;
-}
-.home-btn{
-  display:none !important; /* Startseiten-Link ausblenden */
+  display:none !important;
 }
 
-/* === Footer: eine Zeile + näher am Rand, iOS-safe === */
+/* Footer */
 footer{
-  position: fixed;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: calc(8px + env(safe-area-inset-bottom));
-  margin: 0;
-  padding: 2px 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: .4rem;
-  white-space: nowrap;
-  word-break: keep-all;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.75);
-  background: transparent;
-  border-radius: 0;
-  backdrop-filter: none;
-  font-weight: 400;
-  font-size: 0.82rem;
-  line-height: 1.2;
-  z-index: 1000;
+  position:fixed;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:calc(8px + env(safe-area-inset-bottom));
+  font-size:0.82rem;
+  line-height:1.2;
+  z-index:1000;
 }
+footer a{ color:#000 !important; }
 
-/* Footer-Links schwarz & einzeilig */
-footer a{
-  color: #000 !important;
-  text-decoration: none;
-  white-space: nowrap;
-}
-footer a:hover{
-  color: #000 !important;
-  text-decoration: underline;
-}
-
-/* Auf sehr schmalen Geräten leicht kleiner */
-@media (max-width: 420px){
-  footer{
-    font-size: 0.75rem;
-    gap: .3rem;
-  }
-}
-
-/* === Logo-Icon im Header ausblenden === */
+/* Logo ausblenden */
 .header img,
 .brand img,
 header img[alt=""],
 header img[src*="favicon"],
 header img[src*="logo"]{
-  display: none !important;
+  display:none !important;
 }
 
-/* === Stronger upward focus so the head is visible in landscape === */
-@media (orientation: landscape){
-  body{ background-position: center 24% !important; }
+/* ===== ✅ H1 SCHRIFTGRÖSSE (FINAL & GARANTIERT) ===== */
+body h1{
+  font-size: 2rem !important;
+  line-height: 1.15;
 }
 
-/* 1920x1200 (16:10) notebooks: even higher focus */
-@media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
-  body{ background-position: center 20% !important; }
-}
-
-/* Very flat viewports: push higher */
-@media (max-height: 820px){
-  body{ background-position: center 18% !important; }
-}
-
-/* "gesehen" Seite */
-.grid-seen{
-  display: flex;
-  justify-content: flex-start;
-  align-items: stretch;
-  gap: 14px;
-}
-.grid-seen .card{
-  flex: 0 1 180px;
-  max-width: 180px;
-}
-@media (max-width: 480px){
-  .grid-seen .card{
-    flex-basis:120px;
-    max-width:120px;
-  }
-}
-
-/* Verhindert, dass globale Styles die Startseite überlagern */
-body.home .main{
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* Termine */
-.termine-list{
-  display:flex;
-  flex-direction:column;
-  gap:0.35rem;
-  margin-top:1rem;
-}
-.termin-row{
-  display:grid;
-  grid-template-columns:200px 1fr auto;
-  column-gap:2rem;
-  align-items:baseline;
-}
-.termin-row .datum{ font-weight:700; }
-.termin-row .veranstaltung{
-  font-weight:600;
-  margin-left:1.5rem;
-}
-.termin-row .ort{
-  text-align:right;
-}
-
-/* Mobile Termine */
-@media (max-width: 600px){
-  .termin-row{
-    display:grid !important;
-    width:100%;
-    box-sizing:border-box;
-    grid-template-columns:110px 1fr !important;
-    grid-template-areas:
-      "datum veranstaltung"
-      "datum ort";
-    column-gap:12px;
-    row-gap:2px;
-    align-items:baseline;
-    margin-bottom:0.6rem;
-  }
-  .termin-row .datum{
-    grid-area:datum;
-    font-weight:700;
-    text-align:right !important;
-    white-space:nowrap;
-    padding-right:0;
-  }
-  .termin-row .veranstaltung{
-    grid-area:veranstaltung;
-    font-weight:600;
-    margin-left:0 !important;
-    text-align:left !important;
-    white-space:nowrap;
-  }
-  .termin-row .ort{
-    grid-area:ort;
-    display:block !important;
-    text-align:left !important;
-    font-size:0.9em;
-    margin:0 !important;
-    white-space:nowrap !important;
-  }
-}
-
-/* Mobile Grid-Optimierung */
-@media (max-width: 480px){
-  .grid{
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap:10px;
-  }
-  .card{
-    padding:10px;
-    border-radius:14px;
-  }
-  .card small{
-    font-size:0.8rem;
-    margin-top:4px;
-  }
-}
-@media (max-width: 360px){
-  .grid{
-    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-    gap:8px;
-  }
-  .card{
-    padding:8px;
-  }
-  .card small{
-    font-size:0.78rem;
+@media (max-width: 768px){
+  body h1{
+    font-size: 1.6rem !important;
+    line-height: 1.2;
   }
 }
