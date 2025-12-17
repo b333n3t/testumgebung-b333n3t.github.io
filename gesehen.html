@@ -37,7 +37,7 @@
 
   <link rel="preconnect" href="https://www.youtube.com" crossorigin>
   <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-  <!-- Instagram preconnect entfernt, weil keine IG Cards mehr -->
+  <link rel="preconnect" href="https://www.instagram.com" crossorigin>
 
   <script type="application/ld+json">
   {
@@ -359,44 +359,6 @@
     @media (pointer:coarse){
       .edge-swipe{ pointer-events:auto; }
     }
-    /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
-    .page-content h1,
-    .page-content h2,
-    .page-content p{
-      font-family: 'Press Start 2P', Arial, sans-serif;
-      font-size: 1.1rem !important;
-      font-weight: 400 !important;
-      letter-spacing: 0.03em !important;
-      line-height: 1.6 !important;
-      color: #0e0e0e;
-    }
-
-    /* etwas Abstand zwischen Titel und Unterzeile */
-    .page-content h1{
-      margin-bottom: 0.4rem;
-    }
-    .page-content p{
-      margin-top: 0;
-      margin-bottom: 1rem;
-    }
-    /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
-    main.main{
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-      opacity: 1 !important;
-    }
-
-    /* falls der "milchige" Look über Pseudo-Elemente kommt */
-    main.main::before,
-    main.main::after{
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-      opacity: 0 !important;   /* <- nimmt den Schleier raus */
-    }
   </style>
 </head>
 
@@ -419,12 +381,12 @@
       <li><a href="kontakt.html">kontakt</a></li>
       <li><a href="aktuell.html">aktuell</a></li>
       <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">links</a></li>
+      <li><a href="plattformen.html">plattformen</a></li>
       <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
     </ul>
   </nav>
 
-  <!-- ✅ rechter Pfeil: MUSS intro.html sein -->
+  <!-- ✅ rechts bleibt & zeigt auf intro.html -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
   <main class="main">
@@ -444,15 +406,29 @@
             </button>
 
             <div class="page-content">
-              <h1>und nicht übersehen...</h1>
-              <p>schau rein, nicht zurück
+              <h1>gesehen</h1>
+              <p>schon mal reingeschaut
                 <span style="opacity:0; height:0; overflow:hidden; display:block;" aria-hidden="true">
                   videos, reels und musikclips von b3nn3t – deutschrap und indie-pop aus der schweiz, veröffentlicht auf youtube und instagram.
                 </span>
               </p>
 
+              <!-- Intro -->
+              <section class="grid-seen" aria-label="Intro">
+                <div class="card" id="introVideo" data-embed-src="assets/gesehen/B3NN3T.mp4">
+                  ▶︎ Intro-Video
+                  <small>Intro & Start</small>
+                </div>
+              </section>
+
               <!-- Videos -->
               <section class="grid-seen" aria-label="Videos">
+                <!-- Instagram -->
+                <div class="card" id="video1" data-embed-src="https://www.instagram.com/reel/DKHa8SoMzQ-/embed">▶︎ link<small>Instagram</small></div>
+                <div class="card" id="video2" data-embed-src="https://www.instagram.com/reel/DK9pg-boyA1/embed">▶︎ link<small>Instagram</small></div>
+                <div class="card" id="video3" data-embed-src="https://www.instagram.com/reel/DLqGKqLsY6S/embed">▶︎ link<small>Instagram</small></div>
+                <div class="card" id="video4" data-embed-src="https://www.instagram.com/reel/C40c2qsN_eI/embed">▶︎ link<small>Instagram</small></div>
+
                 <!-- YouTube -->
                 <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">▶︎ YouTube 1<small>YouTube</small></div>
                 <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">▶︎ YouTube 2<small>YouTube</small></div>
@@ -467,7 +443,7 @@
             </div>
           </div>
 
-          <a class="page-link" href="plattformen.html"><span class="arrow" aria-hidden="true">►</span><span>links</span></a>
+          <a class="page-link" href="plattformen.html"><span class="arrow" aria-hidden="true">►</span><span>plattformen</span></a>
 
         </section>
       </div>
@@ -484,40 +460,29 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- ✅✅✅ HARD OVERRIDE: rechter Pfeil + Swipe -> intro.html (nachdem swipe-nav.js gelaufen ist) -->
+  <!-- ✅ EXTRA: Swipe nach links => intro.html (zuverlässig, auch wenn swipe-nav.js was anderes macht) -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
+    (function(){
       const NEXT_URL = 'intro.html';
 
-      // 1) Pfeil rechts: href fix + Click erzwingen (falls JS überschreibt)
-      const rightArrow = document.querySelector('.nav-arrow.right');
-      if (rightArrow) {
-        rightArrow.setAttribute('href', NEXT_URL);
-
-        // capture=true: wir gewinnen auch, wenn andere Click-Handler existieren
-        rightArrow.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopImmediatePropagation();
-          window.location.href = NEXT_URL;
-        }, true);
-      }
-
-      // 2) Swipe: nach links => intro.html (und andere Swipe-Handler blocken)
       let sx = 0, sy = 0, tracking = false;
 
       function shouldIgnoreTarget(t){
         if(!t) return false;
-        return !!(t.closest?.('.site-menu, .hamburger, #menu-overlay, iframe, video, .video-wrapper'));
+        return !!(t.closest?.('.site-menu, .hamburger, #menu-overlay, iframe, video, .video-wrapper, .card'));
       }
 
       window.addEventListener('touchstart', (e) => {
-        if (shouldIgnoreTarget(e.target)) return;
+        const t = e.target;
+        if(shouldIgnoreTarget(t)) return;
+
         const touch = e.touches && e.touches[0];
         if(!touch) return;
+
         tracking = true;
         sx = touch.clientX;
         sy = touch.clientY;
-      }, { capture: true, passive: true });
+      }, { passive: true });
 
       window.addEventListener('touchend', (e) => {
         if(!tracking) return;
@@ -536,14 +501,11 @@
         if(absX > 60 && absX > absY * 1.2){
           // Swipe nach links = next
           if(dx < 0){
-            // andere Swipe-Listener aushebeln
-            e.preventDefault?.();
-            e.stopImmediatePropagation?.();
             window.location.href = NEXT_URL;
           }
         }
-      }, { capture: true, passive: false });
-    });
+      }, { passive: true });
+    })();
   </script>
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
@@ -673,6 +635,34 @@
   });
   </script>
 
+  <!-- Instagram Thumbnails -->
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const map = {
+        video1: 'assets/gesehen/insta1.webp',
+        video2: 'assets/gesehen/insta2.webp',
+        video3: 'assets/gesehen/insta3.webp',
+        video4: 'assets/gesehen/insta4.webp'
+      };
+      Object.entries(map).forEach(([id, src]) => {
+        const card = document.getElementById(id);
+        if (!card || card.querySelector('img.thumb')) return;
+        const img = new Image();
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        img.className = 'thumb';
+        img.alt = 'Instagram-Vorschau';
+        img.src = src;
+        img.onerror = () => { img.onerror = null; img.src = 'assets/gesehen/instagram_poster.jpg'; };
+        card.insertBefore(img, card.firstChild);
+      });
+    } catch (err) {
+      console.error('IG thumbs error:', err);
+    }
+  });
+  </script>
+
   <!-- YouTube Thumbnails -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -697,7 +687,7 @@
         img.src = cfg.file;
         img.onerror = () => {
           img.onerror = null;
-          img.src = https://img.youtube.com/vi/${cfg.id}/hqdefault.jpg;
+          img.src = `https://img.youtube.com/vi/${cfg.id}/hqdefault.jpg`;
         };
         card.insertBefore(img, card.firstChild);
       });
@@ -723,7 +713,7 @@
         const id  = extractId(src);
         if (!id) return;
 
-        const url = https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json;
+        const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
         fetch(url, { mode: 'cors' })
           .then(res => res.ok ? res.json() : Promise.reject('oEmbed failed'))
           .then(data => {
@@ -747,7 +737,7 @@
 
             const label = document.createElement('span');
             label.className = 'play-label';
-            label.textContent = ▶︎ ${title};
+            label.textContent = `▶︎ ${title}`;
             card.insertBefore(label, small);
           })
           .catch(() => {});
