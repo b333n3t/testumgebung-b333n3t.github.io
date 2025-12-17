@@ -192,6 +192,118 @@
 
     .footer-inline a{ text-decoration: none; }
     .footer-inline a:hover{ text-decoration: underline; }
+
+    /* =========================
+       ✅ Bürger-Menü (Burger)
+       ========================= */
+    .header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .burger-btn{
+      width:44px;
+      height:44px;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:10px;
+    }
+    .burger-btn:focus{
+      outline:2px solid #111;
+      outline-offset:2px;
+    }
+
+    .burger-icon{
+      width:22px;
+      height:16px;
+      position:relative;
+      display:block;
+    }
+    .burger-icon span{
+      position:absolute;
+      left:0;
+      right:0;
+      height:2px;
+      background:#111;
+      border-radius:999px;
+      transition:transform .2s ease, top .2s ease, opacity .2s ease;
+    }
+    .burger-icon span:nth-child(1){ top:0; }
+    .burger-icon span:nth-child(2){ top:7px; }
+    .burger-icon span:nth-child(3){ top:14px; }
+
+    /* open state */
+    .burger-btn[aria-expanded="true"] .burger-icon span:nth-child(1){
+      top:7px; transform:rotate(45deg);
+    }
+    .burger-btn[aria-expanded="true"] .burger-icon span:nth-child(2){
+      opacity:0;
+    }
+    .burger-btn[aria-expanded="true"] .burger-icon span:nth-child(3){
+      top:7px; transform:rotate(-45deg);
+    }
+
+    .burger-overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.25);
+      display:none;
+      z-index:999;
+    }
+    .burger-overlay.open{ display:block; }
+
+    .burger-menu{
+      position:fixed;
+      top:14px;
+      right:14px;
+      width:min(320px, 92vw);
+      background:#fff;
+      border:1px solid #ddd;
+      border-radius:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,.12);
+      padding:14px 14px 10px;
+      transform:translateY(-6px);
+      opacity:0;
+      pointer-events:none;
+      transition:transform .18s ease, opacity .18s ease;
+      z-index:1000;
+    }
+    .burger-menu.open{
+      transform:translateY(0);
+      opacity:1;
+      pointer-events:auto;
+    }
+
+    .burger-nav{
+      display:flex;
+      flex-direction:column;
+      gap:.35rem;
+      padding:6px 2px 2px;
+    }
+    .burger-nav a{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 10px;
+      border-radius:12px;
+      text-decoration:none;
+      color:inherit;
+      font-size:1.05rem;
+    }
+    .burger-nav a:hover{
+      background:#f5f5f5;
+    }
+    .burger-nav a.active{
+      background:#111;
+      color:#fff;
+    }
+    .burger-nav a .arrow{ transform:none; }
   </style>
 </head>
 
@@ -199,23 +311,29 @@
 
 <header class="header">
   <a class="brand" href="index.html"><strong>b3nn3t</strong></a>
-</header>
-  <!-- Burger-Menü -->
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
-    <span></span><span></span><span></span>
+
+  <!-- ✅ Burger Button -->
+  <button class="burger-btn" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="burgerMenu">
+    <span class="burger-icon" aria-hidden="true">
+      <span></span><span></span><span></span>
+    </span>
   </button>
-  <div id="menu-overlay" class="menu-overlay" hidden></div>
-  <nav id="site-menu" class="site-menu" aria-hidden="true">
-    <ul>
-      <li><a href="ueber-mich.html">über mich</a></li>
-      <li><a href="diskografie.html">diskografie</a></li>
-      <li><a href="kontakt.html">kontakt</a></li>
-      <li><a href="aktuell.html">aktuell</a></li>
-      <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">links</a></li>
-      <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-    </ul>
-  </nav>
+</header>
+
+<!-- ✅ Overlay + Menü -->
+<div class="burger-overlay" id="burgerOverlay" hidden></div>
+
+<nav class="burger-menu" id="burgerMenu" aria-label="Bürger-Menü" hidden>
+  <div class="burger-nav">
+    <a href="ueber-mich.html"><span class="arrow">►</span><span>über mich</span></a>
+    <a href="diskografie.html" class="active"><span class="arrow">►</span><span>diskografie</span></a>
+    <a href="kontakt.html"><span class="arrow">►</span><span>kontakt</span></a>
+    <a href="aktuell.html"><span class="arrow">►</span><span>aktuell</span></a>
+    <a href="gesehen.html"><span class="arrow">►</span><span>gesehen</span></a>
+    <a href="plattformen.html"><span class="arrow">►</span><span>links</span></a>
+  </div>
+</nav>
+
 <main class="main">
   <div class="scroll-panel">
     <div class="content-offset">
@@ -611,7 +729,63 @@ function openPlayerForCard(card){
   openCard = card;
 }
 
+/* ✅ Burger-Menü Logik */
+function setupBurgerMenu(){
+  const btn = document.querySelector('.burger-btn');
+  const menu = document.getElementById('burgerMenu');
+  const overlay = document.getElementById('burgerOverlay');
+  if(!btn || !menu || !overlay) return;
+
+  function openMenu(){
+    btn.setAttribute('aria-expanded','true');
+    btn.setAttribute('aria-label','Menü schließen');
+    overlay.hidden = false;
+    menu.hidden = false;
+
+    // next frame for transitions
+    requestAnimationFrame(()=>{
+      overlay.classList.add('open');
+      menu.classList.add('open');
+    });
+  }
+
+  function closeMenu(){
+    btn.setAttribute('aria-expanded','false');
+    btn.setAttribute('aria-label','Menü öffnen');
+
+    overlay.classList.remove('open');
+    menu.classList.remove('open');
+
+    // wait for transition end-ish
+    setTimeout(()=>{
+      overlay.hidden = true;
+      menu.hidden = true;
+    }, 200);
+  }
+
+  function toggleMenu(){
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  }
+
+  btn.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true'){
+      closeMenu();
+    }
+  });
+
+  // Beim Klick auf einen Link im Menü: schließen
+  menu.querySelectorAll('a').forEach(a=>{
+    a.addEventListener('click', closeMenu);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  setupBurgerMenu();
+
   document.querySelectorAll('.disco-grid .release').forEach(card => {
     const link = card.querySelector('.title a');
     if(!link) return;
