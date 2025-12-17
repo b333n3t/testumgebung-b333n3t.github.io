@@ -124,14 +124,13 @@
           sessionStorage.setItem("introReturn", returnUrl);
           location.replace("tv-intro.html");
         }
-      } catch (e) {
-        /* Fehler ignorieren */
-      }
+      } catch (e) {}
     })();
   </script>
 
   <!-- Externe Styles -->
   <link rel="stylesheet" href="styles.css" />
+  <!-- ✅ styles_nav_arrows.css bleibt drin, aber wir überschreiben unten ALLES -->
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
@@ -146,171 +145,187 @@
   </style>
 
   <style>
-    :root{ --bottom-gap: 60px; }
-    @media (max-width: 768px){ :root{ --bottom-gap: 20px; } }
+:root{
+  --bottom-gap: 60px;
+}
+@media (max-width: 768px){
+  :root{ --bottom-gap: 20px; }
+}
 
-    /* Seite selbst scrollt nicht – nur das Panel */
-    html, body{ overflow: hidden; }
-    @media (max-width: 767px){
-      html, body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-    }
+/* Seite selbst scrollt nicht – nur das Panel */
+html, body{ overflow: hidden; }
+@media (max-width: 767px){
+  html, body{ overflow: auto; -webkit-overflow-scrolling: touch; }
+}
 
-    /* Body als Flex-Container */
-    body{ min-height:100vh; display:flex; flex-direction:column; }
+/* Body als Flex-Container */
+body{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
 
-    /* ===== Header / Menü ===== */
-    .hamburger{
-      position:fixed;top:14px;right:18px;width:20px;height:20px;
-      border:0;background:transparent;display:grid;place-items:center;
-      cursor:pointer;z-index:1200;padding:0
-    }
-    .hamburger span{
-      display:block;width:12px;height:1.4px;margin:1.5px 0;
-      background:#000;border-radius:2px;
-      transition:transform .2s,opacity .2s
-    }
-    body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg) }
-    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
-    body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg) }
+/* ===== Header / Menü ===== */
+.hamburger{
+  position:fixed;top:14px;right:18px;width:20px;height:20px;
+  border:0;background:transparent;display:grid;place-items:center;
+  cursor:pointer;z-index:1200;padding:0
+}
+.hamburger span{
+  display:block;width:12px;height:1.4px;margin:1.5px 0;
+  background:#000;border-radius:2px;
+  transition:transform .2s,opacity .2s
+}
+body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg) }
+body.menu-open .hamburger span:nth-child(2){ opacity:0 }
+body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg) }
 
-    .menu-overlay{
-      position:fixed;inset:0;background:rgba(0,0,0,.08);
-      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
-      z-index:1099
-    }
-    body.menu-open #menu-overlay{display:block}
-    #menu-overlay[hidden]{display:none}
+.menu-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.08);
+  backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
+  z-index:1099
+}
+body.menu-open #menu-overlay{display:block}
+#menu-overlay[hidden]{display:none}
 
-    .site-menu{
-      position:fixed;top:0;right:0;height:auto;max-height:90vh;
-      width:min(40vw,150px);
-      background:rgba(255,255,255,.78);
-      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
-      box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);transition:transform .25s;
-      z-index:1101;padding:46px 10px 14px
-    }
-    body.menu-open .site-menu{transform:translateX(0)}
+.site-menu{
+  position:fixed;top:0;right:0;height:auto;max-height:90vh;
+  width:min(40vw,150px);
+  background:rgba(255,255,255,.78);
+  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+  box-shadow:0 20px 50px rgba(0,0,0,.08);
+  transform:translateX(100%);transition:transform .25s;
+  z-index:1101;padding:46px 10px 14px
+}
+body.menu-open .site-menu{transform:translateX(0)}
 
-    .site-menu ul{list-style:none;margin:0;padding:0}
-    .site-menu li{margin:0 0 10px}
-    .site-menu li.sep{
-      margin-top:18px;padding-top:8px;
-      border-top:1px solid rgba(0,0,0,.08)
-    }
+.site-menu ul{list-style:none;margin:0;padding:0}
+.site-menu li{margin:0 0 10px}
+.site-menu li.sep{
+  margin-top:18px;padding-top:8px;
+  border-top:1px solid rgba(0,0,0,.08)
+}
+.site-menu a{
+  display:block;
+  padding:8px 6px;
+  border-radius:10px;
+  color:#222;
+  text-decoration:none;
+  font-size:1rem;
+  font-weight:500;
+  text-shadow:none;
+}
+.site-menu a:hover{ background:rgba(0,0,0,.06); }
 
-    .site-menu a{
-      display:block;
-      padding:8px 6px;
-      border-radius:10px;
-      color:#222;
-      text-decoration:none;
-      font-size:1rem;
-      font-weight:500;
-      text-shadow:none;
-    }
-    .site-menu a:hover{ background:rgba(0,0,0,.06); }
+/* ===== FIXED Glas-Overlay ===== */
+#page-glass{
+  position:fixed; left:0; right:0; top:0; bottom:0;
+  pointer-events:none;
+  z-index:0;
+}
+#page-glass .glass-fade{
+  position:absolute; left:0; right:0; top:100vh; height:10vh;
+  background:linear-gradient(to bottom,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,.32) 100%);
+  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+}
+#page-glass .glass-solid{
+  position:absolute; left:0; right:0; top:110vh; bottom:0;
+  background:rgba(255,255,255,.32);
+  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
+}
 
-    /* ===== FIXED Glas-Overlay ===== */
-    #page-glass{
-      position:fixed; left:0; right:0; top:0; bottom:0;
-      pointer-events:none;
-      z-index:0;
-    }
-    #page-glass .glass-fade{
-      position:absolute; left:0; right:0; top:100vh; height:10vh;
-      background:linear-gradient(to bottom,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,.32) 100%);
-      backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
-    }
-    #page-glass .glass-solid{
-      position:absolute; left:0; right:0; top:110vh; bottom:0;
-      background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
-    }
+/* main selbst ist nur Rahmen – kein Scroll-Container */
+body .main,
+body .main::before,
+body .main::after{
+  background:transparent !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  box-shadow:none !important;
+}
+.main{
+  flex:1 0 auto;
+  border-radius:12px;
+  padding:0;
+  position:relative;
+  z-index:1;
+  overflow:visible;
+}
 
-    /* main selbst ist nur Rahmen – kein Scroll-Container */
-    body .main,
-    body .main::before,
-    body .main::after{
-      background:transparent !important;
-      backdrop-filter:none !important;
-      -webkit-backdrop-filter:none !important;
-      box-shadow:none !important;
-    }
-    .main{
-      flex:1 0 auto;
-      border-radius:12px;
-      padding:0;
-      position:relative;
-      z-index:1;
-      overflow:visible;
-    }
+/* UNSICHTBARES Scroll-Panel */
+.scroll-panel{
+  max-width:min(1000px,94vw);
+  max-height:75vh; /* wird per JS korrigiert */
+  margin:0;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
 
-    /* UNSICHTBARES Scroll-Panel */
-    .scroll-panel{
-      max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS korrigiert */
-      margin:0;
-      overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
+  background:transparent;
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  border-radius:0;
+  box-shadow:none;
 
-      background:transparent;
-      backdrop-filter:none;
-      -webkit-backdrop-filter:none;
-      border-radius:0;
-      box-shadow:none;
+  padding:1.25rem 1rem 1.5rem;
 
-      padding:1.25rem 1rem 1.5rem;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.scroll-panel::-webkit-scrollbar{display:none}
 
-      scrollbar-width:none;
-      -ms-overflow-style:none;
-    }
-    .scroll-panel::-webkit-scrollbar{display:none}
+/* Inhalt oben */
+.content-offset{ padding-top:1.5rem; }
 
-    .content-offset{ padding-top:1.5rem; }
+/* Grid – nur Textblöcke */
+.grid{
+  display:flex;
+  flex-direction:column;
+  gap:1rem;
+}
 
-    .grid{
-      display:flex;
-      flex-direction:column;
-      gap:1rem;
-    }
+/* Seitennamen mit Pfeil */
+.page-link{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  font-size:1.1rem;
+  text-decoration:none;
+  color:inherit;
+}
+.page-link .arrow{
+  display:inline-block;
+  transition:transform .2s ease;
+}
+.page-link:active .arrow{ transform:rotate(90deg); }
 
-    .page-link{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:1.1rem;
-      text-decoration:none;
-      color:inherit;
-    }
-    .page-link .arrow{
-      display:inline-block;
-      transition:transform .2s ease;
-    }
-    .page-link:active .arrow{ transform:rotate(90deg); }
+/* Footer immer unten */
+.footer-inline{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:40px;
+  text-align:center;
+  color:black;
+  font-size:.82rem;
+  z-index:910;
+}
+.footer-inline a{ color:black; text-decoration:none; }
+.footer-inline a:hover{ text-decoration:underline; }
 
-    /* Footer immer unten */
-    .footer-inline{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:40px;
-      text-align:center;
-      color:black;
-      font-size:.82rem;
-      z-index:910;
-    }
-    .footer-inline a{ color:black; text-decoration:none; }
-    .footer-inline a:hover{ text-decoration:underline; }
+/* ✅✅✅ WICHTIG: Pfeile links/rechts/unten IMMER aus (Desktop & Mobile) */
+.nav-arrow,
+.scroll-cue{
+  display:none !important;
+}
   </style>
 
   <!-- ✅ Nur Performance: Verbindungen vorbereiten -->
   <link rel="preconnect" href="https://open.spotify.com" crossorigin>
   <link rel="preconnect" href="https://i.scdn.co" crossorigin>
 
-  <!-- ✅ Spotify-Warmup: Lighthouse-safe mode (Start nach 1,5 s) -->
+  <!-- ✅ Spotify-Warmup -->
   <script>
     (function(){
       const DISCO_SPOTIFY_URLS = [
@@ -335,7 +350,6 @@
 
       function startWarmup(){
         if ('connection' in navigator && navigator.connection && navigator.connection.saveData) return;
-
         const ua = navigator.userAgent || "";
         if (/Lighthouse|Chrome-Lighthouse|PageSpeed|Speed Insights/i.test(ua)) return;
 
@@ -359,6 +373,7 @@
       });
     })();
   </script>
+
 </head>
 
 <body ontouchstart="">
@@ -378,6 +393,7 @@
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
+  <!-- Burger-Menü -->
   <nav id="site-menu" class="site-menu">
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
@@ -395,35 +411,44 @@
       <div class="content-offset">
 
         <section class="grid" aria-label="Seitenübersicht">
+
           <a class="page-link" href="ueber-mich.html">
-            <span class="arrow" aria-hidden="true">►</span><span>über mich</span>
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>über mich</span>
           </a>
 
           <a class="page-link" href="diskografie.html">
-            <span class="arrow" aria-hidden="true">►</span><span>diskografie</span>
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>diskografie</span>
           </a>
 
           <a class="page-link" href="kontakt.html">
-            <span class="arrow" aria-hidden="true">►</span><span>kontakt</span>
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>kontakt</span>
           </a>
 
           <a class="page-link" href="aktuell.html">
-            <span class="arrow" aria-hidden="true">►</span><span>aktuell</span>
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>aktuell</span>
           </a>
 
           <a class="page-link" href="gesehen.html">
-            <span class="arrow" aria-hidden="true">►</span><span>gesehen</span>
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>gesehen</span>
           </a>
 
           <a class="page-link" href="plattformen.html">
-            <span class="arrow" aria-hidden="true">►</span><span>plattformen</span>
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>plattformen</span>
           </a>
+
         </section>
 
       </div>
     </div>
   </main>
 
+  <!-- Fester Footer unten -->
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
