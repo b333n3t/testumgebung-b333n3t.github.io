@@ -214,43 +214,61 @@
       text-decoration:underline;
     }
     /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
-.page-content h1,
-.page-content h2,
-.page-content p{
-  font-family: 'Press Start 2P', Arial, sans-serif;
-  font-size: 1.1rem !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.03em !important;
-  line-height: 1.6 !important;
-  color: #0e0e0e;
-}
+    .page-content h1,
+    .page-content h2,
+    .page-content p{
+      font-family: 'Press Start 2P', Arial, sans-serif;
+      font-size: 1.1rem !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.03em !important;
+      line-height: 1.6 !important;
+      color: #fff;
+    }
 
-/* etwas Abstand zwischen Titel und Unterzeile */
-.page-content h1{
-  margin-bottom: 0.4rem;
-}
-.page-content p{
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-/* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
-main.main{
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
-  opacity: 1 !important;
-}
+    /* etwas Abstand zwischen Titel und Unterzeile */
+    .page-content h1{
+      margin-bottom: 0.4rem;
+    }
+    .page-content p{
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
+    main.main{
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+      opacity: 1 !important;
+    }
 
-/* falls der "milchige" Look über Pseudo-Elemente kommt */
-main.main::before,
-main.main::after{
-  background: transparent !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  filter: none !important;
-  opacity: 0 !important;   /* <- nimmt den Schleier raus */
-}
+    /* falls der "milchige" Look über Pseudo-Elemente kommt */
+    main.main::before,
+    main.main::after{
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+      opacity: 0 !important;   /* <- nimmt den Schleier raus */
+    }
+
+    /* ===================================================
+       PRO SEITE: WHITE TEXT (MENÜ AUSGENOMMEN)
+       =================================================== */
+
+    body{ color:#fff; }
+
+    /* Links generell weiß – Menü bleibt trotzdem schwarz wegen .site-menu a {color:#000;} */
+    a{ color:#fff; }
+
+    .footer-inline,
+    .footer-inline a{
+      color:#fff !important;
+    }
+
+    .hamburger span{
+      background:#fff;
+    }
 
   </style>
 </head>
