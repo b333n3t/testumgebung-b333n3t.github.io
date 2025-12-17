@@ -386,7 +386,7 @@
     </ul>
   </nav>
 
-  <!-- ✅ rechts bleibt & zeigt auf intro.html -->
+  <!-- ✅ rechter Pfeil: MUSS intro.html sein -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
   <main class="main">
@@ -460,29 +460,40 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- ✅ EXTRA: Swipe nach links => intro.html (zuverlässig, auch wenn swipe-nav.js was anderes macht) -->
+  <!-- ✅✅✅ HARD OVERRIDE: rechter Pfeil + Swipe -> intro.html (nachdem swipe-nav.js gelaufen ist) -->
   <script>
-    (function(){
+    document.addEventListener('DOMContentLoaded', () => {
       const NEXT_URL = 'intro.html';
 
+      // 1) Pfeil rechts: href fix + Click erzwingen (falls JS überschreibt)
+      const rightArrow = document.querySelector('.nav-arrow.right');
+      if (rightArrow) {
+        rightArrow.setAttribute('href', NEXT_URL);
+
+        // capture=true: wir gewinnen auch, wenn andere Click-Handler existieren
+        rightArrow.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          window.location.href = NEXT_URL;
+        }, true);
+      }
+
+      // 2) Swipe: nach links => intro.html (und andere Swipe-Handler blocken)
       let sx = 0, sy = 0, tracking = false;
 
       function shouldIgnoreTarget(t){
         if(!t) return false;
-        return !!(t.closest?.('.site-menu, .hamburger, #menu-overlay, iframe, video, .video-wrapper, .card'));
+        return !!(t.closest?.('.site-menu, .hamburger, #menu-overlay, iframe, video, .video-wrapper'));
       }
 
       window.addEventListener('touchstart', (e) => {
-        const t = e.target;
-        if(shouldIgnoreTarget(t)) return;
-
+        if (shouldIgnoreTarget(e.target)) return;
         const touch = e.touches && e.touches[0];
         if(!touch) return;
-
         tracking = true;
         sx = touch.clientX;
         sy = touch.clientY;
-      }, { passive: true });
+      }, { capture: true, passive: true });
 
       window.addEventListener('touchend', (e) => {
         if(!tracking) return;
@@ -501,11 +512,14 @@
         if(absX > 60 && absX > absY * 1.2){
           // Swipe nach links = next
           if(dx < 0){
+            // andere Swipe-Listener aushebeln
+            e.preventDefault?.();
+            e.stopImmediatePropagation?.();
             window.location.href = NEXT_URL;
           }
         }
-      }, { passive: true });
-    })();
+      }, { capture: true, passive: false });
+    });
   </script>
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
