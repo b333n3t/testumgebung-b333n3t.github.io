@@ -23,37 +23,53 @@
       filter: none !important;
     }
 
-    /* Footer wie bei deinen anderen Seiten (falls styles.css keinen fixen Footer hat) */
+    /* Danke-Seite: Textfeld selbst darf nicht milchig sein */
+    main.main{
+      background: transparent !important;
+      box-shadow: none !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+    }
+
+    /* ===== ✅ WHITE THEME (wie deine anderen Seiten) ===== */
+    body{ color:#fff !important; }
+
+    /* b3nn3t im Header weiß */
+    .header .brand,
+    .header .brand strong{
+      color:#fff !important;
+    }
+
+    /* Buttons/Links auf der Seite weiß (ohne Menü zu beeinflussen) */
+    main.main a,
+    main.main a:visited{
+      color:#fff !important;
+    }
+
+    /* Burger-Menü bleibt schwarz (falls es hier mal eingeblendet wird) */
+    .hamburger span{
+      background:#000 !important;
+    }
+
+    /* Footer wie bei deinen anderen Seiten, aber in weiß */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
       bottom:40px;
       text-align:center;
-      color:#000;
       font-size:.82rem;
       z-index:910;
+      color:#fff !important;
     }
-    .footer-inline a{
-      color:#000;
+    .footer-inline a,
+    .footer-inline a:visited,
+    .footer-inline a:active,
+    .footer-inline a:focus{
+      color:#fff !important;
       text-decoration:none;
     }
-    .footer-inline a:hover{ text-decoration:underline; }
-    /* Danke-Seite: Textfeld selbst darf nicht milchig sein */
-main.main{
-  background: transparent !important;
-  box-shadow: none !important;            /* optional, falls Schatten auch "milchig" wirkt */
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-}
-
-/* falls styles.css ein Overlay über main baut */
-main.main::before,
-main.main::after{
-  content: none !important;
-  display: none !important;
-}
-
+    .footer-inline a:hover{ text-decoration: underline; }
   </style>
 </head>
 
