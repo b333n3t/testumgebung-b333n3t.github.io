@@ -289,7 +289,7 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    /* ✅✅✅ Schrift wie bei den anderen Seiten (Akkordeon-Niveau) */
+    /* ✅ Schriftart/Typo in page-content identisch (wie auf den anderen Seiten) */
     .page-content h1,
     .page-content h2,
     .page-content p{
@@ -299,10 +299,10 @@
       letter-spacing: 0.03em !important;
       line-height: 1.6 !important;
       color: #fff !important;
-      margin:0 0 1rem 0 !important;
     }
     .page-content h1{
       margin-bottom: 0.4rem !important;
+      margin-top: 0 !important;
     }
     .page-content p{
       margin-top: 0 !important;
@@ -326,16 +326,20 @@
       }
     }
 
+    /* ✅ Cards wie diskografie: WEISS (nicht transparent) */
     .grid-seen .card{
       width:100% !important;
       max-width:none !important;
       padding:14px !important;
       border-radius:22px !important;
-      background:rgba(255,255,255,.68) !important;
+
+      background:#fff !important;                 /* <- jetzt wirklich weiss */
+      border:1px solid rgba(0,0,0,.06) !important;
       box-shadow:0 12px 28px rgba(0,0,0,.10) !important;
+
       text-align:center;
 
-      /* Lesbarkeit auf hellen Cards */
+      /* Lesbarkeit auf weissen Cards */
       color:#000 !important;
       font-family: Arial, sans-serif !important;
       letter-spacing: 0 !important;
@@ -358,6 +362,7 @@
       margin-top:6px;
       font-size:1.05rem;
       font-weight:600;
+      color:#000;
     }
 
     /* ========= Player ========= */
