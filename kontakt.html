@@ -95,6 +95,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="android-chrome-192.png">
 
   <link rel="stylesheet" href="styles.css"/>
+  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css"/>
   <link rel="stylesheet" href="swipe-helper.css"/>
 
@@ -124,6 +125,15 @@
       overflow:visible;
       background:transparent !important;
       box-shadow:none !important;
+    }
+
+    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
+    .nav-arrow,
+    .scroll-cue{
+      display:none !important;
+      opacity:0 !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
     }
 
     /* ===== Hamburger-Menü (wie index) ===== */
@@ -180,8 +190,6 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    .nav-arrow{z-index:1400 !important;}
-
     /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
@@ -208,7 +216,7 @@
     .grid{
       display:flex;
       flex-direction:column;
-      gap:1rem; /* exakt wie index */
+      gap:1rem;
     }
 
     /* ===== Link-/Toggle-Optik 1:1 wie index / über mich ===== */
@@ -221,7 +229,6 @@
       color:inherit;
     }
     .page-link:visited{ color:inherit; }
-
     .page-link .arrow{
       display:inline-block;
       transition:transform .2s ease;
@@ -265,7 +272,7 @@
     .page-content h1{margin-top:0;}
     .page-content p{margin:0 0 1rem 0;}
 
-    /* ===== Kontaktformular Styles (aus deinem kontakt übernommen, aber panel-clean) ===== */
+    /* ===== Kontaktformular ===== */
     form{ margin:0; display:grid; gap:.8rem; max-width:650px; }
     form label{ font-weight:600; }
 
@@ -378,22 +385,18 @@
     </ul>
   </nav>
 
-  <!-- Seitenpfeile -->
-  <a class="nav-arrow left" aria-label="Vorherige Seite" href="diskografie.html">←</a>
-  <a class="nav-arrow right" aria-label="Nächste Seite" href="aktuell.html">→</a>
+  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
 
   <main class="main">
     <div class="scroll-panel">
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- über mich (Link wie auf index) -->
           <a class="page-link" href="ueber-mich.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>über mich</span>
           </a>
 
-          <!-- diskografie (Link wie auf index) -->
           <a class="page-link" href="diskografie.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>diskografie</span>
@@ -448,7 +451,6 @@
             </div>
           </div>
 
-          <!-- darunter die restlichen Seiten -->
           <a class="page-link" href="aktuell.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>aktuell</span>
@@ -469,7 +471,6 @@
     </div>
   </main>
 
-  <!-- Fester Footer unten – wie index.html -->
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
@@ -480,7 +481,7 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Panelhöhe dynamisch (wie über-mich) + Accordion toggle -->
+  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -536,7 +537,7 @@
     })();
   </script>
 
-  <!-- 🔧 JS: Formular per fetch an Google Apps Script senden + Spinner + Fehlermeldung -->
+  <!-- 🔧 Formular per fetch an Google Apps Script senden -->
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby3SfFxFDJQZNL0PxI75Z0O_HyDZl_MoC2b8jcW5PLy0kwPAuiOnK9macrxFTaUboXftg/exec";
 
