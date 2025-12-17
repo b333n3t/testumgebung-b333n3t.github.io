@@ -7,6 +7,7 @@
   <meta name="description" content="über mich — b3nn3t"/>
   <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="styles.css">
+  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css"/>
   <link rel="stylesheet" href="swipe-helper.css"/>
 
@@ -19,14 +20,9 @@
     }
 
     /* Hintergrund fix, nur Panel scrollt */
-    html, body{
-      overflow: hidden;
-    }
+    html, body{ overflow: hidden; }
     @media (max-width: 767px){
-      html, body{
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
-      }
+      html, body{ overflow: auto; -webkit-overflow-scrolling: touch; }
     }
 
     body{
@@ -45,6 +41,15 @@
       overflow:visible;
       background:transparent !important;
       box-shadow:none !important;
+    }
+
+    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
+    .nav-arrow,
+    .scroll-cue{
+      display:none !important;
+      opacity:0 !important;
+      visibility:hidden !important;
+      pointer-events:none !important;
     }
 
     /* ===== Hamburger-Menü (wie index) ===== */
@@ -102,8 +107,6 @@
       font-weight:500;
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
-
-    .nav-arrow{z-index:1000}
 
     /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
@@ -166,7 +169,6 @@
       color:inherit;
       cursor:pointer;
 
-      /* WICHTIG: keine extra Typo-Regeln -> exakt wie index */
       font-family: inherit;
       font-weight: inherit;
       letter-spacing: inherit;
@@ -186,7 +188,7 @@
       display:block;
     }
     .page-group.open .page-toggle .arrow{
-      transform:rotate(90deg); /* aufgeklappt */
+      transform:rotate(90deg);
     }
 
     .page-content h1{
@@ -238,9 +240,7 @@
     </ul>
   </nav>
 
-  <!-- Seitenpfeile -->
-  <a class="nav-arrow left" href="index.html" aria-label="Vorherige Seite">←</a>
-  <a class="nav-arrow right" href="diskografie.html" aria-label="Nächste Seite">→</a>
+  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
 
   <main class="main">
     <div class="scroll-panel">
@@ -324,7 +324,7 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=6" defer></script>
 
-  <!-- Pfeil-Toggle & dynamische Höhe für das (unsichtbare) Panel -->
+  <!-- Accordion toggle & dynamische Höhe für das Panel -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
