@@ -194,16 +194,4 @@ body h1{
     line-height: 1.2;
   }
 }
-/* H1 kleiner (global) */
-body h1{
-  font-size: 2rem !important;
-  line-height: 1.15 !important;
-}
-
-@media (max-width: 768px){
-  body h1{
-    font-size: 1.6rem !important;
-    line-height: 1.2 !important;
-  }
-}
 
