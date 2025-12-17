@@ -1,62 +1,81 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Danke — b3nn3t</title>
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-<header class="header">
-  <a class="brand" href="index.html" aria-label="b3nn3t Home">
-    <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
-  </a>
-</header><!DOCTYPE html>
-<html lang="de">
-<head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Danke — b3nn3t</title>
+
+  <meta name="robots" content="noindex">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css" />
 
   <style>
-    /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
+    /* ===== DANKE-SEITE: main OHNE Glass-/Pseudo-Panel ===== */
+
     main.main{
-      background: transparent !important;
+      max-width: 720px;
+      margin: 90px auto 60px;
+      padding: 28px 30px;
+
+      background: rgba(255,255,255,0.95);
+      border-radius: 18px;
+
+      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
       filter: none !important;
       opacity: 1 !important;
     }
 
-    /* falls der "milchige" Look über Pseudo-Elemente kommt */
+    /* ❌ Pseudo-Glass-Panel aus styles.css komplett deaktivieren */
     main.main::before,
     main.main::after{
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-      opacity: 0 !important; /* <- nimmt den Schleier raus */
+      content: none !important;
+      display: none !important;
+    }
+
+    main.main h1{
+      margin-top: 0;
+    }
+
+    footer{
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 32px;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    footer,
+    footer a{
+      color: #000;
+      text-decoration: none;
+    }
+    footer a:hover{
+      text-decoration: underline;
     }
   </style>
 </head>
+
 <body>
+
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg"><strong>b3nn3t</strong>
+      <img src="favicon.svg" alt="" aria-hidden="true">
+      <strong>b3nn3t</strong>
     </a>
   </header>
 
   <main class="main">
     <h1>danke!</h1>
     <p>deine nachricht wurde erfolgreich gesendet. ich melde mich so bald wie möglich zurück.</p>
-    <a class="btn" href="index.html">Zurück zur Startseite</a>
+    <a class="btn" href="index.html">zurück zur startseite</a>
   </main>
 
-  <footer>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></footer>
+  <footer>
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </footer>
+
 </body>
 </html>
-
-
