@@ -1,5 +1,5 @@
 :root{
-  --bg-tint: rgba(255,255,255,.35);
+  --bg-tint: rgba(255,255,255,.35); /* blasser Hintergrund */
   --text: #0e0e0e;
   --text-dim: #2d2d2d;
   --accent: #0b84ff;
@@ -16,9 +16,16 @@ html,body{
   color: var(--text);
 }
 
-/* === Einheitlicher Hintergrund === */
+/* === Einheitlicher Hintergrund: ruhiges Scrolling + dynamischer Fokus === */
 body{
-  background-color:#000;
+  background-color: #000;
+
+  /* Fallback für ältere Browser */
+  background-image:
+    linear-gradient(var(--bg-tint), var(--bg-tint)),
+    url('assets/b3nn3t_bg.jpg');
+
+  /* Moderne Browser: AVIF > WebP > JPG */
   background-image:
     linear-gradient(var(--bg-tint), var(--bg-tint)),
     image-set(
@@ -26,123 +33,362 @@ body{
       url('assets/b3nn3t_bg.webp') type("image/webp"),
       url('assets/b3nn3t_bg.jpg')  type("image/jpeg")
     );
-  background-repeat:no-repeat;
-  background-position:center 45%;
-  background-size:cover;
-  background-attachment:scroll;
-  min-height:100vh;
-  min-height:100svh;
+
+  background-repeat: no-repeat;
+  background-position: center 45%;   /* Grundfokus etwas höher */
+  background-size: cover;            /* keine Balken links/rechts */
+  background-attachment: scroll;     /* ruhiges Scrolling */
+  transition: background-position .35s ease;
+  min-height: 100vh;
+  min-height: 100svh;
   display:flex;
   flex-direction:column;
 }
 
-/* Querformat */
+/* Querformat (Landscape): mehr vom unteren Bereich sichtbar machen */
 @media (orientation: landscape){
-  body{ background-position:center 40%; }
+  body{ background-position: center 40%; }
 }
 
-/* === TYPOGRAFIE === */
-
-/* 🔽 H1 bewusst kleiner & ruhiger */
-h1{
-  font-size: 2rem;       /* vorher Browser-Default (~2.5–3rem) */
-  line-height: 1.15;
-  margin: .2em 0 .4em;
-  letter-spacing: .02em;
+/* Sehr flache Viewports (z.B. 1366×768, 1920×800): Fokus noch etwas höher */
+@media (max-height: 850px){
+  body{ background-position: center 38%; }
 }
 
-/* H2 leicht darunter */
-h2{
-  font-size: 1.4rem;
-  line-height: 1.25;
-  margin: .2em 0 .4em;
-  letter-spacing: .02em;
+/* Extrem flache Viewports (sehr schmale Höhe) */
+@media (max-height: 760px){
+  body{ background-position: center 36%; }
 }
 
-/* 📱 Mobile Feinschliff */
+/* Optional: mobiles, leichteres Bild mit neuen Dateien */
 @media (max-width: 768px){
-  h1{
-    font-size: 1.6rem;
-    line-height: 1.2;
-  }
-  h2{
-    font-size: 1.25rem;
-  }
-}
+  body{
+    /* Fallback */
+    background-image:
+      linear-gradient(var(--bg-tint), var(--bg-tint)),
+      url('assets/b3nn3t_bg_mobile.jpg');
 
-p{
-  line-height:1.6;
-  color:var(--text-dim);
+    /* Moderne Browser */
+    background-image:
+      linear-gradient(var(--bg-tint), var(--bg-tint)),
+      image-set(
+        url('assets/b3nn3t_bg_mobile.avif') type("image/avif"),
+        url('assets/b3nn3t_bg_mobile.webp') type("image/webp"),
+        url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
+      );
+  }
 }
 
 /* Links */
-a{ color:var(--accent); text-decoration:none; }
-a:hover{ text-decoration:underline; }
+a{ color: var(--accent); text-decoration: none; }
+a:hover{ text-decoration: underline; }
 
-/* Header */
+/* Header/Brand */
 .header{
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:10px 14px;
-  position:sticky;
-  top:0;
+  padding: 10px 14px;
+  position: sticky;
+  top: 0;
 }
 .brand{
   font-weight:700;
   letter-spacing:.04em;
   color:#000;
+  background:none;
+  padding:0;
+  box-shadow:none;
   position:absolute;
-  left:25%;
-  transform:translateX(-50%);
+  left:25%;                /* Position etwa auf 1/4 der Seitenbreite */
+  transform: translateX(-50%);
   top:18px;
+  text-decoration:none;
 }
+.brand:hover{ text-decoration: underline; }
 
-/* Main */
+/* navigation arrows */
+.nav-arrow{
+  position:fixed;
+  top:12px;
+  z-index:10;
+  font-weight:700;
+  padding: 8px;
+  color: #000 !important;       /* schwarze Pfeile */
+  background: none !important;  /* kein Hintergrundfeld */
+  box-shadow: none !important;  /* keine Schatten */
+  border: none;
+  text-decoration: none;
+}
+.nav-arrow:hover {
+  color: #333 !important;
+}
+.nav-arrow.left{ left:12px; }
+.nav-arrow.right{ right:12px; }
+
+/* main container */
 .main{
-  width:min(1100px,92vw);
-  margin:clamp(24px,5vh,60px) auto;
-  background:rgba(255,255,255,.32);
-  border-radius:18px;
-  box-shadow:0 20px 50px rgba(0,0,0,.08);
-  padding:clamp(18px,2vw,28px);
-  backdrop-filter:blur(2px);
+  width: min(1100px, 92vw);
+  margin-top: clamp(24px, 5vh, 60px);
+  margin-bottom: clamp(24px, 5vh, 60px);
+  margin-left: clamp(20px, 3vw, 40px);
+  margin-right: auto;
+  background: rgba(255,255,255,0.32);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  padding: clamp(18px, 2vw, 28px);
+  backdrop-filter: blur(2px);
 }
 
-/* Grid */
+h1, h2{ margin: .2em 0 .4em; letter-spacing:.02em; }
+
+/* ✅ NEU: H1 generell kleiner (Desktop) */
+h1{
+  font-size: 2rem;      /* passe an: z.B. 1.8rem wenn noch kleiner soll */
+  line-height: 1.15;
+}
+
+p{ line-height:1.6; color: var(--text-dim); }
+
+/* home grid */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
-  gap:12px;
-  margin-top:10px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 10px;
 }
 
-/* Cards */
 .card{
   display:block;
-  padding:12px;
-  background:rgba(255,255,255,.9);
-  border-radius:16px;
-  box-shadow:0 10px 20px rgba(0,0,0,.08);
-  font-weight:600;
+  padding: 12px;
+  background: rgba(255,255,255,.9);
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.08);
+  font-weight: 600;
+  color: var(--text);
   text-align:center;
 }
-
-/* Footer */
-footer{
-  position:fixed;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:calc(8px + env(safe-area-inset-bottom));
-  font-size:.82rem;
-  line-height:1.2;
-  z-index:1000;
+.card small{
+  display:block;
+  font-weight:400;
+  color: #444;
+  margin-top:6px;
+}
+.card:hover{
+  transform: translateY(-2px);
+  transition: transform .12s ease;
 }
 
-/* Mobile Grid */
-@media (max-width:480px){
+/* home only footer note */
+.note{
+  margin-top: 18px;
+  font-size:.95rem;
+  color:#333;
+}
+
+/* home button on inner pages */
+.home-btn{
+  position:fixed;
+  bottom:16px;
+  left:50%;
+  transform: translateX(-50%);
+  padding:12px 16px;
+  background: rgba(255,255,255,.88);
+  border-radius: 16px;
+  box-shadow: 0 10px 20px rgba(0,0,0,.1);
+  font-weight:700;
+}
+.home-btn{
+  display:none !important; /* Startseiten-Link ausblenden */
+}
+
+/* === Footer: eine Zeile + näher am Rand, iOS-safe === */
+footer{
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(8px + env(safe-area-inset-bottom));
+  margin: 0;
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  white-space: nowrap;
+  word-break: keep-all;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.75);
+  background: transparent;
+  border-radius: 0;
+  backdrop-filter: none;
+  font-weight: 400;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  z-index: 1000;
+}
+
+/* Footer-Links schwarz & einzeilig */
+footer a{
+  color: #000 !important;
+  text-decoration: none;
+  white-space: nowrap;
+}
+footer a:hover{
+  color: #000 !important;
+  text-decoration: underline;
+}
+
+/* Auf sehr schmalen Geräten leicht kleiner */
+@media (max-width: 420px){
+  footer{
+    font-size: 0.75rem;
+    gap: .3rem;
+  }
+}
+
+/* === Logo-Icon im Header ausblenden === */
+.header img,
+.brand img,
+header img[alt=""],
+header img[src*="favicon"],
+header img[src*="logo"]{
+  display: none !important;
+}
+
+/* === Stronger upward focus so the head is visible in landscape === */
+@media (orientation: landscape){
+  body{ background-position: center 24% !important; }
+}
+
+/* 1920x1200 (16:10) notebooks: even higher focus */
+@media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
+  body{ background-position: center 20% !important; }
+}
+
+/* Very flat viewports: push higher */
+@media (max-height: 820px){
+  body{ background-position: center 18% !important; }
+}
+
+/* "gesehen" Seite */
+.grid-seen{
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 14px;
+}
+.grid-seen .card{
+  flex: 0 1 180px;
+  max-width: 180px;
+}
+@media (max-width: 480px){
+  .grid-seen .card{
+    flex-basis:120px;
+    max-width:120px;
+  }
+}
+
+/* Verhindert, dass globale Styles die Startseite überlagern */
+body.home .main{
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Termine */
+.termine-list{
+  display:flex;
+  flex-direction:column;
+  gap:0.35rem;
+  margin-top:1rem;
+}
+.termin-row{
+  display:grid;
+  grid-template-columns:200px 1fr auto;
+  column-gap:2rem;
+  align-items:baseline;
+}
+.termin-row .datum{ font-weight:700; }
+.termin-row .veranstaltung{
+  font-weight:600;
+  margin-left:1.5rem;
+}
+.termin-row .ort{
+  text-align:right;
+}
+
+/* Mobile Termine */
+@media (max-width: 600px){
+  .termin-row{
+    display:grid !important;
+    width:100%;
+    box-sizing:border-box;
+    grid-template-columns:110px 1fr !important;
+    grid-template-areas:
+      "datum veranstaltung"
+      "datum ort";
+    column-gap:12px;
+    row-gap:2px;
+    align-items:baseline;
+    margin-bottom:0.6rem;
+  }
+  .termin-row .datum{
+    grid-area:datum;
+    font-weight:700;
+    text-align:right !important;
+    white-space:nowrap;
+    padding-right:0;
+  }
+  .termin-row .veranstaltung{
+    grid-area:veranstaltung;
+    font-weight:600;
+    margin-left:0 !important;
+    text-align:left !important;
+    white-space:nowrap;
+  }
+  .termin-row .ort{
+    grid-area:ort;
+    display:block !important;
+    text-align:left !important;
+    font-size:0.9em;
+    margin:0 !important;
+    white-space:nowrap !important;
+  }
+}
+
+/* Mobile Grid-Optimierung */
+@media (max-width: 480px){
   .grid{
-    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap:10px;
+  }
+  .card{
+    padding:10px;
+    border-radius:14px;
+  }
+  .card small{
+    font-size:0.8rem;
+    margin-top:4px;
+  }
+}
+
+/* ✅ NEU: H1 auch auf Handy kleiner */
+@media (max-width: 768px){
+  h1{
+    font-size: 1.6rem;
+    line-height: 1.2;
+  }
+}
+
+@media (max-width: 360px){
+  .grid{
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap:8px;
+  }
+  .card{
+    padding:8px;
+  }
+  .card small{
+    font-size:0.78rem;
   }
 }
