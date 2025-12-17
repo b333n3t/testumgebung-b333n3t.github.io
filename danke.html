@@ -5,77 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Danke — b3nn3t</title>
 
-  <meta name="robots" content="noindex">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css" />
 
   <style>
-    /* ===== DANKE-SEITE: main OHNE Glass-/Pseudo-Panel ===== */
-
-    main.main{
-      max-width: 720px;
-      margin: 90px auto 60px;
-      padding: 28px 30px;
-
-      background: rgba(255,255,255,0.95);
-      border-radius: 18px;
-
-      box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-      opacity: 1 !important;
-    }
-
-    /* ❌ Pseudo-Glass-Panel aus styles.css komplett deaktivieren */
+    /* NUR: Glas-/Milch-Layer vom main abschalten (Layout aus styles.css bleibt!) */
     main.main::before,
     main.main::after{
       content: none !important;
       display: none !important;
     }
 
-    main.main h1{
-      margin-top: 0;
+    /* optional: falls styles.css dem main selbst blur/filter gibt */
+    main.main{
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
     }
 
-    footer{
-      position: fixed;
-      left: 0;
-      right: 0;
-      bottom: 32px;
-      text-align: center;
-      font-size: 0.85rem;
+    /* Footer wie bei deinen anderen Seiten (falls styles.css keinen fixen Footer hat) */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
+      text-align:center;
+      color:#000;
+      font-size:.82rem;
+      z-index:910;
     }
-    footer,
-    footer a{
-      color: #000;
-      text-decoration: none;
+    .footer-inline a{
+      color:#000;
+      text-decoration:none;
     }
-    footer a:hover{
-      text-decoration: underline;
-    }
+    .footer-inline a:hover{ text-decoration:underline; }
   </style>
 </head>
 
 <body>
-
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img src="favicon.svg" alt="" aria-hidden="true">
-      <strong>b3nn3t</strong>
+      <img alt="" src="favicon.svg" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
   <main class="main">
-    <h1>danke!</h1>
-    <p>deine nachricht wurde erfolgreich gesendet. ich melde mich so bald wie möglich zurück.</p>
-    <a class="btn" href="index.html">zurück zur startseite</a>
+    <h1>Danke!</h1>
+    <p>Deine Nachricht wurde erfolgreich gesendet. Ich melde mich so bald wie möglich zurück.</p>
+    <a class="btn" href="index.html">Zurück zur Startseite</a>
   </main>
 
-  <footer>
+  <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-  </footer>
-
+  </div>
 </body>
 </html>
