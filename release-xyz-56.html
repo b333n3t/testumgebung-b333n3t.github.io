@@ -57,6 +57,10 @@
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
       --awb-bg: #930010;
+
+      /* NEU: einheitliche Abstände */
+      --block-title-gap: 0.95rem;   /* Abstand unter h2 */
+      --block-par-gap: 0.7rem;      /* Abstand zwischen Absätzen */
     }
 
     html, body {
@@ -66,7 +70,7 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: var(--awb-bg); /* nur #930010, keine Verläufe/Vignette */
+      background: var(--awb-bg);
     }
 
     .page-wrap {
@@ -91,7 +95,7 @@
       gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
-    /* Obere Zeile: b3nn3t + neues release in + (statischer) Countdown */
+    /* Obere Zeile */
     .topline {
       display: flex;
       flex-wrap: wrap;
@@ -133,7 +137,7 @@
       margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
     }
 
-    /* Video (NEU: max 720px und zentriert) */
+    /* Video */
     .video-wrap {
       margin: 0 auto clamp(2rem, 3vw, 2.8rem);
       max-width: 720px;
@@ -161,30 +165,38 @@
       margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
 
+    /* NEU: Abstand nach h2 überall gleich */
     section.block h2 {
-      margin: 0 0 0.6rem;
+      margin: 0 0 var(--block-title-gap);
       font-size: 1.06rem;
       letter-spacing: 0.16em;
       text-transform: lowercase;
       font-weight: 700;
     }
 
+    /* NEU: keine extra Top-Margins mehr -> saubere Symmetrie */
     section.block p {
-      margin: 0.18rem 0 0.4rem;
+      margin: 0;
       line-height: 1.7;
       max-width: 60rem;
       font-size: 1rem;
     }
 
-    /* Streaming-Icons */
-    .social-section {
-      margin: 0.4rem 0 0.8rem;
+    /* Abstand zwischen mehreren Absätzen innerhalb eines Blocks */
+    section.block p + p {
+      margin-top: var(--block-par-gap);
     }
 
-    /* NEU: mehr Abstand zwischen "jetzt folgen" und Icons */
+    /* Streaming-Icons */
+    .social-section {
+      margin: 0 0 0.8rem; /* NEU: keine Top-Margin -> kommt vom h2 */
+    }
+
+    /* Mehr Abstand zwischen "jetzt folgen" und Icons (über h2 geregelt),
+       zusätzlich kleiner Feinschliff falls der Block mal anders gebaut wird */
     section.block > h2 + .social-section,
     section.block > h2 + .social-icons {
-      margin-top: 0.8rem;
+      margin-top: 0;
     }
 
     .social-icons {
@@ -202,14 +214,12 @@
       justify-content: center;
     }
 
-    /* NEU: Bild-Icons (lokale Assets) */
     .social-icon-img {
       width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
       height: auto;
       display: block;
     }
 
-    /* "b3nn3t" unten als feines Outline – ohne Schatten/Animationen */
     .neon-link {
       display: inline-flex;
       align-items: center;
@@ -257,14 +267,12 @@
     <div class="content">
       <main class="main">
 
-        <!-- b3nn3t Wortlink + Countdown (ohne laufende Aktualisierung) -->
         <div class="topline" aria-label="Release Countdown">
           <a class="brand-link" href="index.html">b3nn3t</a>
           <span class="count-label">  -  neues release in</span>
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- VIDEO -->
         <section class="video-wrap" aria-label="Video zum Song">
           <div class="video-inner">
             <video
@@ -284,12 +292,10 @@
           </div>
         </section>
 
-        <!-- SONGTITEL UNTER DEM VIDEO -->
         <section class="title-section" aria-label="Songtitel">
           <h1 class="song-title">ALLES WAS BLEIBT</h1>
         </section>
 
-        <!-- STORY -->
         <section aria-label="Story zum Song" class="block">
           <h2>story zum song</h2>
           <p>
@@ -298,14 +304,12 @@
           </p>
         </section>
 
-        <!-- JETZT FOLGEN (lokale Icons) -->
         <section aria-label="Streaming" class="block">
           <h2>jetzt folgen</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
 
-              <!-- Spotify -->
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -314,7 +318,6 @@
                 </picture>
               </a>
 
-              <!-- Apple Music -->
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                  class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -323,7 +326,6 @@
                 </picture>
               </a>
 
-              <!-- Instagram -->
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
                  class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -332,7 +334,6 @@
                 </picture>
               </a>
 
-              <!-- YouTube -->
               <a href="https://www.youtube.com/@b333nn3t"
                  class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -341,7 +342,6 @@
                 </picture>
               </a>
 
-              <!-- SoundCloud -->
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
                  class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -359,7 +359,6 @@
           </p>
         </section>
 
-        <!-- MEHR VON B3NN3T -->
         <section aria-label="Mehr von b3nn3t" class="block">
           <h2>mehr von b3nn3t</h2>
           <p>auf der webseite:</p>
@@ -371,7 +370,6 @@
     </div>
   </div>
 
-  <!-- COUNTDOWN (einmalig berechnet, keine laufende Aktualisierung) -->
   <script>
     (function () {
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
