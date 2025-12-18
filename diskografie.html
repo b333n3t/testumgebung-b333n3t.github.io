@@ -232,21 +232,28 @@
       border-radius:8px;
     }
 
+    /* ===== Footer: rechtsbündig + rot (#930010) ===== */
     .footer-inline{
       position:fixed;
-      left:0;right:0;bottom:40px;
-      text-align:center;
+      left:0;
+      right:0;
+      bottom:40px;
+
+      text-align:right;
+      padding-right:18px;
+      padding-left:18px;
+
       font-size:.82rem;
+      z-index:910;
+      color:#930010;
     }
-    .footer-inline,
     .footer-inline a,
     .footer-inline a:visited,
     .footer-inline a:active,
     .footer-inline a:focus{
-      color:#000 !important;
+      color:#930010;
+      text-decoration:none;
     }
-
-    .footer-inline a{ text-decoration: none; }
     .footer-inline a:hover{ text-decoration: underline; }
 
     /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
@@ -301,15 +308,6 @@
 
     /* Brand im Header weiß */
     .brand{ color:#fff !important; }
-
-    /* Footer unten weiß (überschreibt das vorherige #000 !important) */
-    .footer-inline,
-    .footer-inline a,
-    .footer-inline a:visited,
-    .footer-inline a:active,
-    .footer-inline a:focus{
-      color:#fff !important;
-    }
 
     /* Cards bewusst lesbar lassen */
     .release{ color:#000; }
