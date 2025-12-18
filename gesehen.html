@@ -29,10 +29,22 @@
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
     /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
-    html{
-      overflow-y: scroll;         /* reserviert konstant Scrollbar-Platz */
-      scrollbar-gutter: stable;   /* moderne Ergänzung */
-    }
+/* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
+html{
+  scrollbar-gutter: stable;
+}
+
+/* WebKit / Blink (Chrome, Safari, Edge) */
+html::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}
+
+/* Firefox */
+html{
+  scrollbar-width: none;
+}
+
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
     body{ overflow:hidden; }
