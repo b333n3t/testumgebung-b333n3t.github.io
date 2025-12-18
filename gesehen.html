@@ -28,23 +28,10 @@
     :root{ --bottom-gap:60px; }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
-/* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
-html{
-  scrollbar-gutter: stable;
-}
-
-/* WebKit / Blink (Chrome, Safari, Edge) */
-html::-webkit-scrollbar{
-  width: 0;
-  height: 0;
-}
-
-/* Firefox */
-html{
-  scrollbar-width: none;
-}
-
+    /* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
+    html{ scrollbar-gutter: stable; }
+    html::-webkit-scrollbar{ width:0; height:0; }
+    html{ scrollbar-width:none; }
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
     body{ overflow:hidden; }
@@ -123,9 +110,7 @@ html{
       padding: 46px 10px 14px;
     }
 
-    body.menu-open .site-menu{
-      right: 0;
-    }
+    body.menu-open .site-menu{ right:0; }
 
     .site-menu ul{list-style:none;margin:0;padding:0}
     .site-menu li{margin:0 0 10px}
@@ -396,7 +381,8 @@ html{
     </ul>
   </nav>
 
-<a class="nav-arrow right manual" href="intro.html" aria-label="Intro öffnen">→</a>
+  <!-- EINZIGER PFEIL: soll NUR intro.html öffnen -->
+  <a class="nav-arrow right" href="intro.html" aria-label="Intro öffnen">→</a>
 
   <main class="main">
     <div class="scroll-panel">
@@ -447,29 +433,41 @@ html{
   <div class="edge-swipe right" aria-hidden="true"></div>
 
   <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- WICHTIG: Cache-Buster hochsetzen, damit du wirklich die aktuelle swipe-nav Datei lädst -->
+  <script src="swipe-nav.js?v=15" defer></script>
+
+  <!-- FIX: Pfeil-Klick darf NICHT von swipe-nav.js auf ORDER (plattformen.html) umgeleitet werden -->
   <script>
-     /*-- ---------------------------------------------------------------------------------------------->*/
-<script>
-/* gesehen.html: Pfeil soll NUR intro.html öffnen (Swipe ignorieren) */
-(function () {
-  const arrow = document.querySelector('.nav-arrow.right.manual');
-  if (!arrow) return;
+    (function () {
+      function forceIntro(a, e) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.location.href = a.getAttribute('href') || a.href;
+      }
 
-  // verhindere, dass swipe-nav.js diesen Pfeil umdeutet
-  arrow.addEventListener('click', function (e) {
-    e.stopPropagation();
-    // KEIN preventDefault → normales href-Navigieren
-  }, true);
+      // click
+      document.addEventListener('click', function (e) {
+        const a = e.target.closest('a.nav-arrow.right');
+        if (!a) return;
+        forceIntro(a, e);
+      }, true);
 
-  // Swipe-Gesten auf dieser Seite neutralisieren
-  document.addEventListener('touchend', function (e) {
-    if (e.target.closest('.nav-arrow.right.manual')) return;
-  }, true);
-})();
-</script>
+      // touchend (falls swipe-nav schon hier navigiert)
+      document.addEventListener('touchend', function (e) {
+        const a = e.target.closest('a.nav-arrow.right');
+        if (!a) return;
+        forceIntro(a, e);
+      }, true);
 
- /*- ---------------------------------------------------------------------------------------------->*/
+      // pointerup (touch pointer devices)
+      document.addEventListener('pointerup', function (e) {
+        const a = e.target.closest('a.nav-arrow.right');
+        if (!a) return;
+        forceIntro(a, e);
+      }, true);
+    })();
+  </script>
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
@@ -517,153 +515,153 @@ html{
 
   <!-- Player -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.card[data-embed-src]');
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = document.querySelectorAll('.card[data-embed-src]');
 
-    function closeAllVideos() {
-      document.querySelectorAll('.video-row').forEach(row => row.remove());
-    }
+      function closeAllVideos() {
+        document.querySelectorAll('.video-row').forEach(row => row.remove());
+      }
 
-    function getCols(){
-      return window.matchMedia('(max-width: 720px)').matches ? 1 : 2;
-    }
+      function getCols(){
+        return window.matchMedia('(max-width: 720px)').matches ? 1 : 2;
+      }
 
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        const section = card.closest('section.grid-seen');
-        if(!section) return;
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const section = card.closest('section.grid-seen');
+          if(!section) return;
 
-        const items = Array.from(section.querySelectorAll('.card[data-embed-src]'));
-        const idx = items.indexOf(card);
+          const items = Array.from(section.querySelectorAll('.card[data-embed-src]'));
+          const idx = items.indexOf(card);
 
-        const cols = getCols();
-        const rowStart = idx - (idx % cols);
-        const rowEnd = Math.min(items.length - 1, rowStart + (cols - 1));
-        const anchor = items[rowEnd] || card;
+          const cols = getCols();
+          const rowStart = idx - (idx % cols);
+          const rowEnd = Math.min(items.length - 1, rowStart + (cols - 1));
+          const anchor = items[rowEnd] || card;
 
-        const existing = section.querySelector('.video-row');
-        if(existing && existing.dataset.anchorId === (anchor.id || '')){
-          existing.remove();
-          return;
-        }
+          const existing = section.querySelector('.video-row');
+          if(existing && existing.dataset.anchorId === (anchor.id || '')){
+            existing.remove();
+            return;
+          }
 
-        closeAllVideos();
+          closeAllVideos();
 
-        const row = document.createElement('div');
-        row.className = 'video-row';
-        row.dataset.anchorId = anchor.id || '';
+          const row = document.createElement('div');
+          row.className = 'video-row';
+          row.dataset.anchorId = anchor.id || '';
 
-        const wrapper = document.createElement('div');
-        wrapper.className = 'video-wrapper';
+          const wrapper = document.createElement('div');
+          wrapper.className = 'video-wrapper';
 
-        const closeBtn = document.createElement('button');
-        closeBtn.type = 'button';
-        closeBtn.textContent = '×';
-        closeBtn.className = 'video-close';
-        closeBtn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          row.remove();
+          const closeBtn = document.createElement('button');
+          closeBtn.type = 'button';
+          closeBtn.textContent = '×';
+          closeBtn.className = 'video-close';
+          closeBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            row.remove();
+          });
+
+          const src = card.getAttribute('data-embed-src') || '';
+          wrapper.appendChild(closeBtn);
+
+          const iframe = document.createElement('iframe');
+          iframe.src = src;
+          iframe.allowFullscreen = true;
+          iframe.loading = 'lazy';
+          iframe.title = 'Video';
+          iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          wrapper.appendChild(iframe);
+
+          row.appendChild(wrapper);
+          anchor.insertAdjacentElement('afterend', row);
+
+          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
+      });
 
-        const src = card.getAttribute('data-embed-src') || '';
-        wrapper.appendChild(closeBtn);
-
-        const iframe = document.createElement('iframe');
-        iframe.src = src;
-        iframe.allowFullscreen = true;
-        iframe.loading = 'lazy';
-        iframe.title = 'Video';
-        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-        wrapper.appendChild(iframe);
-
-        row.appendChild(wrapper);
-        anchor.insertAdjacentElement('afterend', row);
-
-        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAllVideos();
       });
     });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeAllVideos();
-    });
-  });
   </script>
 
   <!-- YouTube Thumbnails -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    try {
-      const map = {
-        yt1: { file: 'assets/gesehen/reel1.avif', id: 'ZSaj_FuqPN8' },
-        yt2: { file: 'assets/gesehen/reel2.avif', id: 'DMNl40Tip1w' },
-        yt3: { file: 'assets/gesehen/reel3.avif', id: 'K5pKG0Smdfc' },
-        yt4: { file: 'assets/gesehen/reel4.avif', id: '4I9vlcGvFGQ' },
-        yt5: { file: 'assets/gesehen/reel5.avif', id: 'w0pNdnlb96M' },
-        yt6: { file: 'assets/gesehen/reel6.avif', id: 'rV1U891RKLo' },
-        yt7: { file: 'assets/gesehen/reel7.avif', id: 'fq8zhAQMam0' }
-      };
-      Object.entries(map).forEach(([id, cfg]) => {
-        const card = document.getElementById(id);
-        if (!card || card.querySelector('img.thumb')) return;
-        const img = new Image();
-        img.loading = 'lazy';
-        img.decoding = 'async';
-        img.className = 'thumb';
-        img.alt = 'YouTube-Vorschau';
-        img.src = cfg.file;
-        img.onerror = () => {
-          img.onerror = null;
-          img.src = `https://img.youtube.com/vi/${cfg.id}/hqdefault.jpg`;
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const map = {
+          yt1: { file: 'assets/gesehen/reel1.avif', id: 'ZSaj_FuqPN8' },
+          yt2: { file: 'assets/gesehen/reel2.avif', id: 'DMNl40Tip1w' },
+          yt3: { file: 'assets/gesehen/reel3.avif', id: 'K5pKG0Smdfc' },
+          yt4: { file: 'assets/gesehen/reel4.avif', id: '4I9vlcGvFGQ' },
+          yt5: { file: 'assets/gesehen/reel5.avif', id: 'w0pNdnlb96M' },
+          yt6: { file: 'assets/gesehen/reel6.avif', id: 'rV1U891RKLo' },
+          yt7: { file: 'assets/gesehen/reel7.avif', id: 'fq8zhAQMam0' }
         };
-        card.insertBefore(img, card.firstChild);
-      });
-    } catch (err) {}
-  });
+        Object.entries(map).forEach(([id, cfg]) => {
+          const card = document.getElementById(id);
+          if (!card || card.querySelector('img.thumb')) return;
+          const img = new Image();
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          img.className = 'thumb';
+          img.alt = 'YouTube-Vorschau';
+          img.src = cfg.file;
+          img.onerror = () => {
+            img.onerror = null;
+            img.src = `https://img.youtube.com/vi/${cfg.id}/hqdefault.jpg`;
+          };
+          card.insertBefore(img, card.firstChild);
+        });
+      } catch (err) {}
+    });
   </script>
 
   <!-- YouTube Titel automatisch -->
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    try {
-      const ytCards = Array.from(document.querySelectorAll('.card[data-embed-src*="youtube.com/embed/"]'));
-      function extractId(src){
-        const m = (src||'').match(/\/embed\/([a-zA-Z0-9_-]{6,})/);
-        return m ? m[1] : null;
-      }
-      ytCards.forEach((card) => {
-        const src = card.getAttribute('data-embed-src');
-        const id  = extractId(src);
-        if (!id) return;
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const ytCards = Array.from(document.querySelectorAll('.card[data-embed-src*="youtube.com/embed/"]'));
+        function extractId(src){
+          const m = (src||'').match(/\/embed\/([a-zA-Z0-9_-]{6,})/);
+          return m ? m[1] : null;
+        }
+        ytCards.forEach((card) => {
+          const src = card.getAttribute('data-embed-src');
+          const id  = extractId(src);
+          if (!id) return;
 
-        const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
-        fetch(url, { mode: 'cors' })
-          .then(res => res.ok ? res.json() : Promise.reject())
-          .then(data => {
-            const title = (data && data.title) ? data.title : '';
-            if (!title) return;
+          const url = `https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${id}&format=json`;
+          fetch(url, { mode: 'cors' })
+            .then(res => res.ok ? res.json() : Promise.reject())
+            .then(data => {
+              const title = (data && data.title) ? data.title : '';
+              if (!title) return;
 
-            const thumb = card.querySelector('img.thumb');
-            let small  = card.querySelector('small');
-            if (!small) {
-              small = document.createElement('small');
-              small.textContent = 'YouTube';
-              card.appendChild(small);
-            }
+              const thumb = card.querySelector('img.thumb');
+              let small  = card.querySelector('small');
+              if (!small) {
+                small = document.createElement('small');
+                small.textContent = 'YouTube';
+                card.appendChild(small);
+              }
 
-            Array.from(card.childNodes).forEach(node => {
-              if (node === thumb || node === small) return;
-              card.removeChild(node);
-            });
+              Array.from(card.childNodes).forEach(node => {
+                if (node === thumb || node === small) return;
+                card.removeChild(node);
+              });
 
-            const label = document.createElement('span');
-            label.className = 'play-label';
-            label.textContent = `▶︎ ${title}`;
-            card.insertBefore(label, small);
-          })
-          .catch(() => {});
-      });
-    } catch (err) {}
-  });
+              const label = document.createElement('span');
+              label.className = 'play-label';
+              label.textContent = `▶︎ ${title}`;
+              card.insertBefore(label, small);
+            })
+            .catch(() => {});
+        });
+      } catch (err) {}
+    });
   </script>
 </body>
 </html>
