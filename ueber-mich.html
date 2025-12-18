@@ -7,25 +7,31 @@
   <meta name="description" content="über mich — b3nn3t"/>
   <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="styles.css">
+  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css"/>
   <link rel="stylesheet" href="swipe-helper.css"/>
 
   <style>
-    :root{ --bottom-gap:60px; }
-    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
+    :root{
+      --bottom-gap: 60px;
+    }
+    @media (max-width: 768px){
+      :root{ --bottom-gap: 20px; }
+    }
 
-    html, body{ overflow:hidden; }
-    @media (max-width:767px){
-      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
+    /* Hintergrund fix, nur Panel scrollt */
+    html, body{ overflow: hidden; }
+    @media (max-width: 767px){
+      html, body{ overflow: auto; -webkit-overflow-scrolling: touch; }
     }
 
     body{
       min-height:100vh;
       display:flex;
       flex-direction:column;
-      color:#fff;
     }
 
+    /* main ohne Innenabstand – wie auf index */
     main.main{
       flex:1 0 auto;
       border-radius:12px;
@@ -37,6 +43,7 @@
       box-shadow:none !important;
     }
 
+    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
     .nav-arrow,
     .scroll-cue{
       display:none !important;
@@ -45,7 +52,7 @@
       pointer-events:none !important;
     }
 
-    /* ===== Hamburger ===== */
+    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -56,28 +63,32 @@
       background:#000;border-radius:2px;
       transition:transform .2s,opacity .2s
     }
-    body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
-    body.menu-open .hamburger span:nth-child(2){opacity:0}
-    body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
+    body.menu-open .hamburger span:nth-child(1){
+      transform:translateY(3.5px) rotate(45deg)
+    }
+    body.menu-open .hamburger span:nth-child(2){
+      opacity:0
+    }
+    body.menu-open .hamburger span:nth-child(3){
+      transform:translateY(-3.5px) rotate(-45deg)
+    }
 
     .menu-overlay{
       position:fixed;inset:0;background:rgba(0,0,0,.08);
-      backdrop-filter:blur(1px);
+      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
       z-index:1099
     }
     body.menu-open #menu-overlay{display:block}
     #menu-overlay[hidden]{display:none}
 
     .site-menu{
-      position:fixed;top:0;right:0;max-height:90vh;
+      position:fixed;top:0;right:0;height:auto;max-height:90vh;
       width:min(40vw,150px);
       background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px);
+      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
       box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);
-      transition:transform .25s;
-      z-index:1101;
-      padding:46px 10px 14px
+      transform:translateX(100%);transition:transform .25s;
+      z-index:1101;padding:46px 10px 14px
     }
     body.menu-open .site-menu{transform:translateX(0)}
     .site-menu ul{list-style:none;margin:0;padding:0}
@@ -97,27 +108,56 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
+    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
-      max-width:min(1000px,94vw);
-      max-height:75vh;
+      max-width: min(1000px, 94vw);
+      max-height: 75vh;               /* wird per JS angepasst */
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
+
       background:transparent;
+      backdrop-filter:none;
+      -webkit-backdrop-filter:none;
+      border-radius:0;
+      box-shadow:none;
+
       padding:1.25rem 1rem 1.5rem;
+
       scrollbar-width:none;
+      -ms-overflow-style:none;
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
 
-    .content-offset{ padding-top:1.5rem; }
+    /* exakt wie index: Wrapper mit Abstand nach oben */
+    .content-offset{
+      padding-top:1.5rem;
+    }
 
     .grid{
       display:flex;
       flex-direction:column;
-      gap:1rem;
+      gap:1rem; /* exakt wie index */
     }
 
-    .page-link,
+    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
+    .page-link{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      text-decoration:none;
+      color:inherit;
+    }
+    .page-link .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+    .page-link:active .arrow{
+      transform:rotate(90deg);
+    }
+
+    /* Toggle soll identisch aussehen wie page-link */
     .page-toggle{
       display:flex;
       align-items:center;
@@ -128,65 +168,128 @@
       padding:0;
       color:inherit;
       cursor:pointer;
-      font-family:'Press Start 2P', Arial, sans-serif;
-    }
-    .page-link{ text-decoration:none; }
-    .arrow{ transition:transform .2s ease; }
 
-    .page-group > .page-content{
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+    }
+    .page-toggle .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-group .page-content{
       display:none;
       margin-left:18px;
       margin-top:.75rem;
     }
-    .page-group.open > .page-content{display:block;}
-    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
-
-    .page-content h1,
-    .page-content p{
-      font-family:'Press Start 2P', Arial, sans-serif;
-      font-size:1.1rem;
-      line-height:1.6;
-      color:#fff;
+    .page-group.open .page-content{
+      display:block;
+    }
+    .page-group.open .page-toggle .arrow{
+      transform:rotate(90deg);
     }
 
-    /* ===== FOOTER (IDENTISCH) ===== */
+    .page-content h1{
+      margin-top:0;
+    }
+
+    /* Fester Footer unten – wie index.html */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:var(--bottom-gap);
-
-      text-align:right;
-      padding-right:18px;
-      padding-left:18px;
-
-      color:#930010;
+      bottom:40px;
+      text-align:center;
+      color:#000;
       font-size:.82rem;
       z-index:910;
     }
     .footer-inline a{
-      color:#930010 !important;
+      color:#000;
       text-decoration:none;
     }
-    .footer-inline a:hover{ text-decoration:underline; }
+    .footer-inline a:hover{
+      text-decoration:underline;
+    }
+    /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
+    .page-content h1,
+    .page-content h2,
+    .page-content p{
+      font-family: 'Press Start 2P', Arial, sans-serif;
+      font-size: 1.1rem !important;
+      font-weight: 400 !important;
+      letter-spacing: 0.03em !important;
+      line-height: 1.6 !important;
+      color: #fff;
+    }
 
-    .brand{ color:#fff !important; }
+    /* etwas Abstand zwischen Titel und Unterzeile */
+    .page-content h1{
+      margin-bottom: 0.4rem;
+    }
+    .page-content p{
+      margin-top: 0;
+      margin-bottom: 1rem;
+    }
+    /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
+    main.main{
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+      opacity: 1 !important;
+    }
+
+    /* falls der "milchige" Look über Pseudo-Elemente kommt */
+    main.main::before,
+    main.main::after{
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      filter: none !important;
+      opacity: 0 !important;   /* <- nimmt den Schleier raus */
+    }
+
+    /* ===================================================
+       PRO SEITE: WHITE TEXT (MENÜ AUSGENOMMEN)
+       =================================================== */
+
+    body{ color:#fff; }
+
+    /* Links generell weiß – Menü bleibt trotzdem schwarz wegen .site-menu a {color:#000;} */
+    a{ color:#fff; }
+
+    .footer-inline,
+    .footer-inline a{
+      color:#fff !important;
+    }
+
+    .hamburger span{
+      background:#000;
+    }
+/* Brand / Logo-Text im Header */
+.brand{
+  color:#fff !important;
+}
+
   </style>
 </head>
 
 <body>
   <header class="header">
-    <a class="brand" href="index.html">
-      <img src="favicon.svg" alt="" aria-hidden="true"><strong>b3nn3t</strong>
+    <a class="brand" href="index.html" aria-label="b3nn3t Home">
+      <img src="favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
-  <button class="hamburger" aria-label="Menü öffnen">
+  <!-- Burger-Menü -->
+  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
     <span></span><span></span><span></span>
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
-
-  <nav id="site-menu" class="site-menu">
+  <nav id="site-menu" class="site-menu" aria-hidden="true">
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
       <li><a href="diskografie.html">diskografie</a></li>
@@ -198,44 +301,132 @@
     </ul>
   </nav>
 
+  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
+
   <main class="main">
     <div class="scroll-panel">
       <div class="content-offset">
-        <section class="grid">
+        <section class="grid" aria-label="Seitenübersicht">
 
+          <!-- über mich – auf-/zuklappbar -->
           <div class="page-group current open">
-            <button class="page-toggle">
-              <span class="arrow">►</span><span>über mich</span>
+            <button class="page-toggle" type="button" aria-expanded="true">
+              <span class="arrow" aria-hidden="true">►</span>
+              <span>über mich</span>
             </button>
 
             <div class="page-content">
               <h1>und so...</h1>
 
               <p>hey, ich bin <strong>b3nn3t</strong> – geboren 2006 im norden deutschlands, aufgewachsen zwischen schweizer bergen und gedanken, die manchmal lauter sind als worte.</p>
-              <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
-              <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt.</p>
-              <p>danke, dass du da bist. 🖤</p>
 
-              <a class="home-btn" href="index.html">Startseite</a>
+              <p>musik ist für mich mehr als klang – sie ist mein tagebuch, mein spiegel, mein zuhause.</p>
+
+              <p>ich schreibe über das, was bleibt, wenn alles andere still wird: zweifel, sehnsucht, hoffnung, liebe – über nächte, in denen die welt zu groß wirkt, und momente, in denen musik für mich spricht.</p>
+
+              <p>jeder song ist ein stück von mir – ehrlich, ungeschliffen, echt. vielleicht findest du dich darin wieder.</p>
+
+              <p>vielleicht hilft dir ein satz, den ich eigentlich für mich geschrieben habe. dann hat alles sinn gemacht.</p>
+
+              <p>danke, dass du da bist und meine welt mit deiner zeit berührst. 🖤</p>
+
+              <h3>mein name, mein versprechen</h3>
+
+              <p><strong>b3nn3t</strong> ist für mich mehr als nur ein künstlername – er steht für alles, was ich bin, was ich fühle und erschaffe.</p>
+
+              <p>aus einer idee wurde etwas echtes, etwas, das mit mir gewachsen ist.</p>
+
+              <p>heute ist <strong>b3nn3t®</strong> offiziell als marke in der schweiz eingetragen – ein kleiner meilenstein.</p>
+
+              <p>für mich ist das mehr als ein papier – es ist ein versprechen: weiterzumachen, zu wachsen und echt zu bleiben.</p>
+
+              <p>danke, dass ihr mich auf diesem weg begleitet. ohne euch wäre all das nicht möglich. 🖤</p>
+
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
             </div>
           </div>
 
-          <a class="page-link" href="diskografie.html"><span class="arrow">►</span><span>diskografie</span></a>
-          <a class="page-link" href="kontakt.html"><span class="arrow">►</span><span>kontakt</span></a>
-          <a class="page-link" href="aktuell.html"><span class="arrow">►</span><span>aktuell</span></a>
-          <a class="page-link" href="gesehen.html"><span class="arrow">►</span><span>gesehen</span></a>
-          <a class="page-link" href="plattformen.html"><span class="arrow">►</span><span>links</span></a>
+          <!-- restliche Links – gleiche Optik wie index -->
+          <a class="page-link" href="diskografie.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>diskografie</span>
+          </a>
+
+          <a class="page-link" href="kontakt.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>kontakt</span>
+          </a>
+
+          <a class="page-link" href="aktuell.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>aktuell</span>
+          </a>
+
+          <a class="page-link" href="gesehen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>gesehen</span>
+          </a>
+
+          <a class="page-link" href="plattformen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>links</span>
+          </a>
 
         </section>
       </div>
     </div>
   </main>
 
+  <!-- Fester Footer unten – wie index.html -->
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=6" defer></script>
+
+  <!-- Accordion toggle & dynamische Höhe für das Panel -->
+  <script>
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const panel  = document.querySelector('.scroll-panel');
+
+      function resizePanel(){
+        if(!panel) return;
+        const header = document.querySelector('.header');
+        const main   = document.querySelector('.main');
+
+        const hh = header ? header.offsetHeight : 0;
+        let pt = 0, pb = 0;
+        if(main){
+          const cs = getComputedStyle(main);
+          pt = parseFloat(cs.paddingTop)  || 0;
+          pb = parseFloat(cs.paddingBottom) || 0;
+        }
+
+        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
+        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+        let max = vh - hh - pt - pb - gap;
+        if(max < 260) max = 260;
+        panel.style.maxHeight = max + 'px';
+      }
+
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+    })();
+  </script>
 </body>
 </html>
