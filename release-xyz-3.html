@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>b3nn3t „drei“ | neuer release</title>
   <meta name="description" content="„DREI“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -87,7 +88,6 @@
       gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
-    /* Obere Zeile */
     .topline {
       display: flex;
       flex-wrap: wrap;
@@ -106,10 +106,7 @@
       cursor: pointer;
     }
 
-    .count-label {
-      text-transform: none;
-      opacity: 0.9;
-    }
+    .count-label { text-transform: none; opacity: 0.9; }
 
     #awb-countdown-timer {
       font-variant-numeric: tabular-nums;
@@ -123,12 +120,11 @@
     .song-title {
       margin: 0;
       font-weight: 600;
-      text-transform: lowercase; /* ✅ 1) "drei" bleibt klein */
+      text-transform: lowercase;
       font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem); /* ✅ 2) Abstand halbiert */
+      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
     }
 
-    /* Video */
     .video-wrap {
       margin: 0 auto clamp(2rem, 3vw, 2.8rem);
       max-width: 720px;
@@ -151,7 +147,6 @@
       object-fit: cover;
     }
 
-    /* Sektionen */
     section.block {
       margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
@@ -176,20 +171,12 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* ✅ 3) Kein Abstand zwischen den beiden erklärbär-Sätzen */
+    /* kein Abstand zwischen erklärbär-Absätzen */
     section.block p.no-gap + p {
       margin-top: 0 !important;
     }
 
-    /* Streaming-Icons */
-    .social-section {
-      margin: 0 0 0.8rem;
-    }
-
-    section.block > h2 + .social-section,
-    section.block > h2 + .social-icons {
-      margin-top: 0;
-    }
+    .social-section { margin: 0 0 0.8rem; }
 
     .social-icons {
       display: flex;
@@ -210,24 +197,6 @@
       width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
       height: auto;
       display: block;
-    }
-
-    .neon-link {
-      display: inline-flex;
-      align-items: center;
-      font-size: clamp(1.05rem, 0.9vw + 0.8rem, 1.25rem);
-      font-weight: 800;
-      letter-spacing: 0.09em;
-      line-height: 1;
-      text-decoration: none;
-      color: transparent;
-      -webkit-text-stroke: 0.85px #ffffff;
-      text-stroke: 0.85px #ffffff;
-      background: none;
-      border: none;
-      padding: 0;
-      margin-top: 0.45rem;
-      cursor: pointer;
     }
 
     .more-link {
@@ -262,10 +231,17 @@
 
         <section class="video-wrap" aria-label="Video zum Song">
           <div class="video-inner">
-            <video id="release-video" class="release-video"
-              controls muted playsinline preload="metadata"
+            <video
+              id="release-video"
+              class="release-video"
+              controls
+              muted
+              playsinline
+              preload="metadata"
               poster="assets/release/drei-cover.webp"
-              fetchpriority="high" width="1280" height="720">
+              fetchpriority="high"
+              width="1280"
+              height="720">
               <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
               Dein Browser unterstützt dieses Videoformat nicht.
             </video>
@@ -287,6 +263,7 @@
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
+
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -326,6 +303,7 @@
                   <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
                 </picture>
               </a>
+
             </div>
           </div>
         </section>
@@ -339,33 +317,40 @@
     </div>
   </div>
 
+  <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
       const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
-      const now = Date.now();
-      const diff = targetDate - now;
+      function updateCountdown() {
+        const now = Date.now();
+        const diff = targetDate - now;
 
-      if (diff <= 0) {
-        el.textContent = "OUT NOW";
-        return;
+        if (diff <= 0) {
+          el.textContent = "OUT NOW";
+          clearInterval(timer);
+          return;
+        }
+
+        const seconds = Math.floor(diff / 1000);
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+
+        const hh = String(hours).padStart(2, "0");
+        const mm = String(mins).padStart(2, "0");
+        const ss = String(secs).padStart(2, "0");
+
+        el.textContent = (days > 0)
+          ? (days + "d " + hh + ":" + mm + ":" + ss)
+          : (hh + ":" + mm + ":" + ss);
       }
 
-      const seconds = Math.floor(diff / 1000);
-      const days = Math.floor(seconds / (3600 * 24));
-      const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-      const mins = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
-
-      const hh = String(hours).padStart(2, "0");
-      const mm = String(mins).padStart(2, "0");
-      const ss = String(secs).padStart(2, "0");
-
-      el.textContent = (days > 0)
-        ? (days + "d " + hh + ":" + mm + ":" + ss)
-        : (hh + ":" + mm + ":" + ss);
+      updateCountdown();
+      const timer = setInterval(updateCountdown, 1000);
     })();
   </script>
 </body>
