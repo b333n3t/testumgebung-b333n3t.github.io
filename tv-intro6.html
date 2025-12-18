@@ -18,64 +18,54 @@
   </script>
 
   <style>
-    :root {
-      --fade-ms: 1000ms;
-      --bg: #930010;
-    }
+    :root { --fade-ms: 1000ms; --bg:#930010; }
 
-    html,body {
-      margin:0;
-      height:100%;
+    html,body{
+      margin:0;height:100%;
       background:var(--bg);
       overflow:hidden;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     canvas#c{
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
       display:block;
-      width:100vw;
-      height:100vh;
       image-rendering:pixelated;
       image-rendering:crisp-edges;
       opacity:0;
-      transition: opacity var(--fade-ms) ease;
+      transition:opacity var(--fade-ms) ease;
       z-index:1;
     }
-    body.ready canvas#c  { opacity:1; }
-    body.fadeout canvas#c{ opacity:0; }
+    body.ready canvas#c{opacity:1;}
+    body.fadeout canvas#c{opacity:0;}
 
-    .skip {
+    .skip{
       position:fixed; top:14px; right:14px; z-index:10;
       background:#fff; color:#000; border:0; border-radius:999px;
       padding:.45rem .8rem; font-weight:700; cursor:pointer;
     }
-    .skip:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+    .skip:focus-visible{outline:2px solid #fff; outline-offset:2px;}
 
     .loaderWrap{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
       opacity:0;
-      transition: opacity var(--fade-ms) ease;
+      transition:opacity var(--fade-ms) ease;
       z-index:5;
       pointer-events:none;
     }
-    body.ready .loaderWrap{ opacity:1; }
-    body.fadeout .loaderWrap{ opacity:0; }
+    body.ready .loaderWrap{opacity:1;}
+    body.fadeout .loaderWrap{opacity:0;}
 
     .loader{
-      width:min(720px, 78vw);
+      width:min(720px,78vw);
       padding:18px 18px 16px;
       box-sizing:border-box;
     }
 
     .barFrame{
-      width:100%;
-      height:16px;
+      width:100%; height:16px;
       border:2px solid #fff;
       border-radius:0;
       padding:2px;
@@ -101,48 +91,46 @@
 
     .hint{
       margin-top:10px;
-      color:rgba(255,255,255,.85);
+      color:rgba(255,255,255,.9);
       font-size:14px;
       letter-spacing:.2px;
       text-align:center;
       user-select:none;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      body { animation:none !important; }
-      canvas#c, .loaderWrap { transition:none; }
+    @media (prefers-reduced-motion: reduce){
+      body{animation:none !important;}
+      canvas#c,.loaderWrap{transition:none;}
     }
   </style>
 
   <noscript>
     <meta http-equiv="refresh" content="0; url=index.html?nointro=1">
     <style>
-      body { display:flex; align-items:center; justify-content:center; color:#fff; }
-      a { color:#fff; text-decoration:underline; }
+      body{display:flex;align-items:center;justify-content:center;color:#fff;}
+      a{color:#fff;text-decoration:underline;}
     </style>
     <p>Weiter zur <a href="index.html?nointro=1">Startseite</a>…</p>
   </noscript>
 </head>
 <body>
 
-  <main role="main">
-    <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+<main role="main">
+  <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+  <canvas id="c" aria-hidden="true"></canvas>
 
-    <canvas id="c" aria-hidden="true"></canvas>
-
-    <div class="loaderWrap" aria-hidden="true">
-      <div class="loader">
-        <div class="barFrame">
-          <div class="bar" id="bar"></div>
-        </div>
-        <div class="hint">Loading…</div>
-      </div>
+  <div class="loaderWrap" aria-hidden="true">
+    <div class="loader">
+      <div class="barFrame"><div class="bar" id="bar"></div></div>
+      <div class="hint">Loading…</div>
     </div>
+  </div>
 
-    <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
-      Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
-    </div>
-  </main>
+  <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
+  </div>
+</main>
 
 <script>
 /* ================== Redirect Ziel ================== */
@@ -221,85 +209,199 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* ================== "Hand-drawn" Helpers (deterministisch, kein Flimmern) ================== */
+/* ================== Krakelig Weiß (dünner) ================== */
 const snap = (v)=>Math.round(v);
+const clamp01 = (t)=>Math.max(0,Math.min(1,t));
 
-// schneller Hash -> 0..1
 function hash01(n){
-  // deterministic pseudo-random
   const x = Math.sin(n * 127.1) * 43758.5453123;
   return x - Math.floor(x);
 }
-
-// glatter Wert (0..1) über "t" (damit Linien nicht hart knicken)
 function smoothstep(t){
-  t = Math.max(0, Math.min(1, t));
+  t = clamp01(t);
   return t*t*(3 - 2*t);
 }
+function noise1D(seed, t){
+  const s = t * 12;
+  const i = Math.floor(s);
+  const f = s - i;
+  const a = hash01(seed*1000 + i*17.17);
+  const b = hash01(seed*1000 + (i+1)*17.17);
+  const u = smoothstep(f);
+  return (a*(1-u) + b*u) * 2 - 1;
+}
 
-// krakelige Linie als Polyline mit kleinen Perp-Offsets
-function scribbleLine(x1,y1,x2,y2,seed,ampPx, wobbleNow){
-  // wobbleNow: kleiner Drift, aber stabil (kein jitter)
+function scribbleStroke(x1,y1,x2,y2,seed,amp){
   const dx = x2-x1, dy = y2-y1;
   const len = Math.hypot(dx,dy) || 1;
-  const nx = -dy/len, ny = dx/len; // perpendicular
+  const nx = -dy/len, ny = dx/len;
 
-  // Segmente abhängig von Länge (aber gedeckelt)
-  const segs = Math.max(6, Math.min(18, Math.floor(len / (28*DPR))));
+  const segs = Math.max(10, Math.min(34, Math.floor(len/(14*DPR))));
 
   ctx.beginPath();
-
   for(let i=0;i<=segs;i++){
-    const t = i / segs;
+    const t = i/segs;
 
-    // Basis-Punkt
     let x = x1 + dx*t;
     let y = y1 + dy*t;
 
-    // deterministisches "Hand"-Offset pro Segment
-    const r = (hash01(seed*1000 + i*17.7) * 2 - 1);     // -1..1
-    const r2 = (hash01(seed*2000 + i*9.3) * 2 - 1);    // -1..1
+    const n  = noise1D(seed, t);
+    const n2 = noise1D(seed+9.3, t);
 
-    // sanft zur Mitte stärker, an Enden weniger
-    const m = smoothstep(t) * (1 - smoothstep(t));
-    const a = ampPx * (0.55 + 0.45*m);
+    const mid = smoothstep(t) * (1 - smoothstep(t));
+    const a = amp * (0.55 + 1.25*mid);
 
-    // leichter zeitlicher Drift (wie "Hand bewegt sich"), aber gleichmäßig
-    const drift = Math.sin(wobbleNow + seed*3.1 + i*0.7) * (0.25*DPR);
+    x += nx*(n*a) + dx/len*(n2*0.45*DPR);
+    y += ny*(n*a) + dy/len*(n2*0.45*DPR);
 
-    x += nx * (r*a + drift) + (r2*0.35*DPR);
-    y += ny * (r*a + drift) + (r2*0.35*DPR);
+    x = snap(x); y = snap(y);
 
-    if(i===0) ctx.moveTo(snap(x), snap(y));
-    else      ctx.lineTo(snap(x), snap(y));
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
   }
-
   ctx.stroke();
 }
 
-/* ================== Tunnel-Grid (4 Seiten, "Raum" in der Mitte) ================== */
+function inkLine(x1,y1,x2,y2,seed,amp,alpha){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+
+  ctx.lineWidth = Math.max(0.75, 0.75 * DPR);
+  scribbleStroke(x1,y1,x2,y2,seed,amp);
+
+  ctx.globalAlpha = alpha*0.65;
+  ctx.lineWidth = Math.max(0.65, 0.65 * DPR);
+  scribbleStroke(x1+0.35*DPR,y1+0.18*DPR,x2+0.35*DPR,y2+0.18*DPR,seed+111,amp*0.72);
+
+  ctx.restore();
+}
+
+/* ================== “Buntstift”-Rechtecke (3–5), gestrichelt, nicht komplett ================== */
+const PENCIL_COLORS = [
+  [255, 80, 190],   // pink
+  [90, 210, 255],   // cyan
+  [255, 230, 80],   // yellow
+  [160, 255, 120],  // green
+  [200, 140, 255],  // purple
+  [255, 140, 80],   // orange
+  [255, 255, 255]   // white
+];
+
+let doodleRects = []; // wird pro Run 1x erzeugt
+
+function rngFrom(seed){
+  let s = seed >>> 0;
+  return function(){
+    s ^= s << 13; s >>>= 0;
+    s ^= s >>> 17; s >>>= 0;
+    s ^= s << 5;  s >>>= 0;
+    return (s >>> 0) / 4294967296;
+  };
+}
+
+function buildDoodleRects(seed){
+  const r = rngFrom(seed);
+  const count = 3 + Math.floor(r()*3); // 3..5
+  const rects = [];
+  for(let i=0;i<count;i++){
+    const w = (0.10 + r()*0.18) * W;
+    const h = (0.06 + r()*0.14) * H;
+
+    const x = (0.07 + r()*0.86) * W - w*0.5;
+    const y = (0.08 + r()*0.84) * H - h*0.5;
+
+    const ci = Math.floor(r()*PENCIL_COLORS.length);
+    const [cr,cg,cb] = PENCIL_COLORS[ci];
+
+    // gestrichelt
+    const dashA = 6 + Math.floor(r()*10);  // dash
+    const dashB = 4 + Math.floor(r()*10);  // gap
+
+    // pro Seite: nur ein paar Segmente malen (nicht komplett)
+    const segs = 5 + Math.floor(r()*4);    // 5..8 mögliche Teilstücke
+    const keep = 2 + Math.floor(r()*3);    // 2..4 Teilstücke werden gezeichnet
+
+    rects.push({
+      x,y,w,h,
+      color:`rgba(${cr},${cg},${cb},0.55)`,
+      dash:[dashA*DPR, dashB*DPR],
+      segs,
+      keep,
+      seed: seed + i*999
+    });
+  }
+  return rects;
+}
+
+function drawPartialDashedRect(R){
+  // “Buntstift”-Look: 2–3 feine Pässe leicht versetzt
+  ctx.save();
+  ctx.strokeStyle = R.color;
+  ctx.lineWidth = Math.max(0.55, 0.55 * DPR); // fein
+  ctx.setLineDash(R.dash);
+  ctx.lineDashOffset = -((performance.now()*0.02) % (R.dash[0]+R.dash[1])); // minimal “lebendig”, aber ohne Flimmern
+
+  const r = rngFrom((R.seed*2654435761)>>>0);
+
+  // Kanten definieren
+  const x1=R.x, y1=R.y, x2=R.x+R.w, y2=R.y+R.h;
+  const edges = [
+    {ax:x1, ay:y1, bx:x2, by:y1}, // top
+    {ax:x2, ay:y1, bx:x2, by:y2}, // right
+    {ax:x2, ay:y2, bx:x1, by:y2}, // bottom
+    {ax:x1, ay:y2, bx:x1, by:y1}  // left
+  ];
+
+  // pro Kante: in R.segs “Slots” unterteilen, aber nur R.keep Slots zeichnen
+  for(let e=0;e<edges.length;e++){
+    const E = edges[e];
+    const dx = E.bx - E.ax;
+    const dy = E.by - E.ay;
+
+    // welche Slots zeichnen?
+    const picks = new Set();
+    while(picks.size < R.keep){
+      picks.add(Math.floor(r()*R.segs));
+    }
+
+    for(const k of picks){
+      // Slot Bereich (t0..t1), mit random “Lücke” damit nicht sauber wirkt
+      const t0 = (k / R.segs) + (r()*0.06);
+      const t1 = ((k+1) / R.segs) - (r()*0.06);
+      if(t1 <= t0) continue;
+
+      const sx = E.ax + dx*t0;
+      const sy = E.ay + dy*t0;
+      const ex = E.ax + dx*t1;
+      const ey = E.ay + dy*t1;
+
+      // leicht krakelig zeichnen
+      ctx.globalAlpha = 0.55;
+      inkLine(sx,sy,ex,ey, R.seed + e*31 + k*17, 1.5*DPR, 0.55);
+
+      // 2. pass minimal versetzt (Buntstift)
+      ctx.globalAlpha = 0.35;
+      inkLine(sx+0.25*DPR, sy+0.15*DPR, ex+0.25*DPR, ey+0.15*DPR, R.seed + 999 + e*31 + k*17, 1.25*DPR, 0.40);
+    }
+  }
+
+  ctx.restore();
+}
+
+/* ================== Tunnel-Grid (weiß, dünner) + Doodle-Rechtecke ================== */
 function drawTunnelGrid(now, reveal01){
-  // background
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
-  // Stil
-  ctx.save();
-  ctx.lineWidth = Math.max(1, Math.round(DPR));
-  ctx.strokeStyle = 'rgba(0,0,0,0.30)';
-
-  // Outer quad
   const outer = [
     {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
 
-  // Inner quad (Portal)
   const cx = W*0.5, cy = H*0.5;
-  const innerW = W*0.42;
-  const innerH = H*0.30;
-
+  const innerW = W*0.44;
+  const innerH = H*0.32;
   const inner = [
     {x:cx - innerW/2, y:cy - innerH/2},
     {x:cx + innerW/2, y:cy - innerH/2},
@@ -310,57 +412,49 @@ function drawTunnelGrid(now, reveal01){
   const lerp = (a,b,t)=>a+(b-a)*t;
   const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
 
-  // counts
-  const RINGS = 30;
-  const RAD   = 22;
+  const RINGS = 34;
+  const RAD   = 26;
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
-  // Bewegung (stabil)
-  const speed = 0.00035;
+  const speed = 0.00038;
   const phase = (now*speed) % 1;
-  const wobbleNow = now * 0.002; // für hand-drift, aber smooth
 
-  // Hand-Parameter
-  const baseAmp = 1.6 * DPR; // "wie krakelig" (erhöhe für mehr Hand-Look)
+  ctx.strokeStyle = 'rgba(255,255,255,0.52)';
 
-  // --- 1) Radiale Linien von allen 4 Seiten ---
-  // Oben + Unten
+  const AMP = 3.0 * DPR;
+  const AMP_RING = AMP * 0.92;
+  const AMP_RAD  = AMP * 1.00;
+
+  // Radials
   for(let i=0;i<=radCount;i++){
-    const t = i / radCount;
+    const t = i/radCount;
 
-    // oben
     const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
     const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    scribbleLine(A.x,A.y,B.x,B.y, 10 + i*0.11, baseAmp, wobbleNow);
+    inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.50);
 
-    // unten
     const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
     const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    scribbleLine(C.x,C.y,D.x,D.y, 20 + i*0.11, baseAmp, wobbleNow);
+    inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.50);
   }
-
-  // Links + Rechts
   for(let i=0;i<=radCount;i++){
-    const t = i / radCount;
+    const t = i/radCount;
 
-    // links
     const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
     const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    scribbleLine(A.x,A.y,B.x,B.y, 30 + i*0.11, baseAmp, wobbleNow);
+    inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.50);
 
-    // rechts
     const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
     const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    scribbleLine(C.x,C.y,D.x,D.y, 40 + i*0.11, baseAmp, wobbleNow);
+    inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.50);
   }
 
-  // --- 2) Tiefen-Ringe (Quads) ---
+  // Rings
   for(let i=0;i<ringCount;i++){
-    const u = (i / (RINGS-1));
-
-    let z = u*u;                 // dichter zum Zentrum
-    z = (z + phase*0.18) % 1;    // Bewegung nach vorne
+    const u = (i/(RINGS-1));
+    let z = u*u;
+    z = (z + phase*0.22) % 1;
     z = z*z;
 
     const q0 = lerpP(outer[0], inner[0], z);
@@ -368,29 +462,36 @@ function drawTunnelGrid(now, reveal01){
     const q2 = lerpP(outer[2], inner[2], z);
     const q3 = lerpP(outer[3], inner[3], z);
 
-    // weiter hinten weniger "Hand", vorne etwas mehr
-    const depthAmp = baseAmp * (0.65 + 0.55*(1 - z));
+    const front = (1 - z);
+    const alpha = 0.10 + 0.22*front;
+    const a = AMP_RING * (0.55 + 0.70*front);
 
-    scribbleLine(q0.x,q0.y,q1.x,q1.y, 100 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q1.x,q1.y,q2.x,q2.y, 200 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q2.x,q2.y,q3.x,q3.y, 300 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q3.x,q3.y,q0.x,q0.y, 400 + i*0.21, depthAmp, wobbleNow);
+    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, alpha);
+    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, alpha);
+    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, alpha);
+    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, alpha);
   }
 
-  // Inneres Frame etwas kräftiger
-  ctx.strokeStyle = 'rgba(0,0,0,0.45)';
-  const portalAmp = baseAmp * 1.2;
-  scribbleLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, portalAmp, wobbleNow);
-  scribbleLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, portalAmp, wobbleNow);
-  scribbleLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, portalAmp, wobbleNow);
-  scribbleLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, portalAmp, wobbleNow);
+  // Portal
+  inkLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, AMP*1.05, 0.62);
+  inkLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, AMP*1.05, 0.62);
+  inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.05, 0.62);
+  inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.05, 0.62);
 
-  ctx.restore();
+  // ✅ Buntstift-Kritzel-Rechtecke (nur teilweise, gestrichelt)
+  // erscheinen sanft über die Zeit
+  const doodleAlpha = Math.min(1, Math.max(0, (reveal01 - 0.15) / 0.85));
+  if(doodleRects.length){
+    ctx.save();
+    ctx.globalAlpha = 0.9 * doodleAlpha;
+    for(const R of doodleRects) drawPartialDashedRect(R);
+    ctx.restore();
+  }
 }
 
 /* ================== Loader Timing ================== */
 const START_DELAY_MS = 1000;
-const INTRO_MS = 3500;   // ✅ 3–4 Sekunden => 3.5s
+const INTRO_MS = 3500;
 const FADEOUT_MS = 1700;
 const EXTRA_MS = 300;
 
@@ -406,17 +507,16 @@ function startProgressAndTunnel(){
   const bar = document.getElementById('bar');
   const start = performance.now();
 
+  // ✅ Rechtecke 1x pro Run generieren (kein Flimmern)
+  doodleRects = buildDoodleRects(((start|0) ^ (W<<1) ^ (H<<2)) >>> 0);
+
   function frame(now){
     const t = (now - start) / INTRO_MS;
     const clamped = Math.max(0, Math.min(1, t));
+    const reveal = Math.min(1, clamped * 1.20);
 
-    // "Strich-für-Strich" Aufbau
-    const reveal = Math.min(1, clamped * 1.15);
-
-    // Tunnel zeichnen
     drawTunnelGrid(now, reveal);
 
-    // Arcade-Steps
     const steps = 32;
     const stepped = Math.floor(clamped * steps) / steps;
     bar.style.width = (stepped * 100).toFixed(2) + "%";
