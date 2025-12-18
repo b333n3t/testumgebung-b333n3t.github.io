@@ -207,6 +207,19 @@
     .sub-group.open > .sub-content{display:block;}
     .sub-group.open > .sub-toggle .arrow{transform:rotate(90deg);}
 
+    /* ✅✅✅ NEU: Abstände der 3 Akkordeons wie bei "diskografie" (eng + gleichmäßig) */
+    .sub-group{
+      margin-top: 0.75rem !important;   /* enger als vorher (statt 3em) */
+    }
+    /* optional: erstes Akkordeon etwas Abstand nach oben, damit es nicht klebt */
+    .sub-group:first-of-type{
+      margin-top: 1.2rem !important;
+    }
+    /* wenn ein Akkordeon aufklappt, soll der Content nicht riesig Abstand erzeugen */
+    .sub-group > .sub-content p:first-child{
+      margin-top: 0.6rem;
+    }
+
     .footer-inline{
       position:fixed;
       left:0;
@@ -466,8 +479,8 @@
               <h1>relevant und geplant</h1>
               <p>was steht an...</p>
 
-              <!-- ✅ NEU: "neuigkeiten" als Akkordeon (OFFEN) -->
-              <div style="margin-top: 3em;" class="sub-group open" id="acc-neuigkeiten">
+              <!-- neuigkeiten (OFFEN) -->
+              <div class="sub-group open" id="acc-neuigkeiten">
                 <button class="sub-toggle" type="button" aria-expanded="true" aria-controls="neuigkeiten-content">
                   <span class="arrow" aria-hidden="true">►</span>
                   <span>neuigkeiten</span>
@@ -476,7 +489,6 @@
                 <div class="sub-content" id="neuigkeiten-content">
                   <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen -</p>
 
-                  <!-- ⭐ Release-Card -->
                   <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-56.html" target="_blank" rel="noopener noreferrer">
                     <img src="assets/release/drei-cover.webp" alt="Cover: 3">
                     <div class="release-info">
@@ -488,8 +500,8 @@
                 </div>
               </div>
 
-              <!-- ✅ Termine als Akkordeon (GESCHLOSSEN) -->
-              <div style="margin-top: 3em;" class="sub-group" id="acc-termine">
+              <!-- termine (GESCHLOSSEN) -->
+              <div class="sub-group" id="acc-termine">
                 <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="termine-content">
                   <span class="arrow" aria-hidden="true">►</span>
                   <span>termine</span>
@@ -548,8 +560,8 @@
                 </div>
               </div>
 
-              <!-- ✅ "was mich gerade beschäftigt" als Akkordeon (GESCHLOSSEN) -->
-              <div style="margin-top: 3em;" class="sub-group" id="acc-beschaeftigt">
+              <!-- beschäftigt (GESCHLOSSEN) -->
+              <div class="sub-group" id="acc-beschaeftigt">
                 <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="beschaeftigt-content">
                   <span class="arrow" aria-hidden="true">►</span>
                   <span>was mich gerade beschäftigt</span>
@@ -631,7 +643,6 @@
         });
       }
 
-      /* Unter-Akkordeons */
       document.querySelectorAll('.sub-group').forEach(subGroup => {
         const btn = subGroup.querySelector('.sub-toggle');
         if(!btn) return;
