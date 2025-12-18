@@ -7,31 +7,20 @@
   <meta name="description" content="über mich — b3nn3t"/>
   <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
   <link rel="stylesheet" href="styles.css">
-  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css"/>
   <link rel="stylesheet" href="swipe-helper.css"/>
 
   <style>
-    :root{
-      --bottom-gap: 60px;
-    }
-    @media (max-width: 768px){
-      :root{ --bottom-gap: 20px; }
-    }
+    :root{ --bottom-gap: 60px; }
+    @media (max-width: 768px){ :root{ --bottom-gap: 20px; } }
 
-    /* Hintergrund fix, nur Panel scrollt */
     html, body{ overflow: hidden; }
     @media (max-width: 767px){
       html, body{ overflow: auto; -webkit-overflow-scrolling: touch; }
     }
 
-    body{
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-    }
+    body{ min-height:100vh; display:flex; flex-direction:column; }
 
-    /* main ohne Innenabstand – wie auf index */
     main.main{
       flex:1 0 auto;
       border-radius:12px;
@@ -43,16 +32,13 @@
       box-shadow:none !important;
     }
 
-    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
-    .nav-arrow,
-    .scroll-cue{
+    .nav-arrow, .scroll-cue{
       display:none !important;
       opacity:0 !important;
       visibility:hidden !important;
       pointer-events:none !important;
     }
 
-    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -63,15 +49,9 @@
       background:#000;border-radius:2px;
       transition:transform .2s,opacity .2s
     }
-    body.menu-open .hamburger span:nth-child(1){
-      transform:translateY(3.5px) rotate(45deg)
-    }
-    body.menu-open .hamburger span:nth-child(2){
-      opacity:0
-    }
-    body.menu-open .hamburger span:nth-child(3){
-      transform:translateY(-3.5px) rotate(-45deg)
-    }
+    body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg) }
+    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
+    body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg) }
 
     .menu-overlay{
       position:fixed;inset:0;background:rgba(0,0,0,.08);
@@ -108,10 +88,9 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
       max-width: min(1000px, 94vw);
-      max-height: 75vh;               /* wird per JS angepasst */
+      max-height: 75vh;
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
@@ -129,18 +108,14 @@
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
 
-    /* exakt wie index: Wrapper mit Abstand nach oben */
-    .content-offset{
-      padding-top:1.5rem;
-    }
+    .content-offset{ padding-top:1.5rem; }
 
     .grid{
       display:flex;
       flex-direction:column;
-      gap:1rem; /* exakt wie index */
+      gap:1rem;
     }
 
-    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
     .page-link{
       display:flex;
       align-items:center;
@@ -153,11 +128,8 @@
       display:inline-block;
       transition:transform .2s ease;
     }
-    .page-link:active .arrow{
-      transform:rotate(90deg);
-    }
+    .page-link:active .arrow{ transform:rotate(90deg); }
 
-    /* Toggle soll identisch aussehen wie page-link */
     .page-toggle{
       display:flex;
       align-items:center;
@@ -184,44 +156,29 @@
       margin-left:18px;
       margin-top:.75rem;
     }
-    .page-group.open .page-content{
-      display:block;
-    }
-    .page-group.open .page-toggle .arrow{
-      transform:rotate(90deg);
-    }
+    .page-group.open .page-content{ display:block; }
+    .page-group.open .page-toggle .arrow{ transform:rotate(90deg); }
 
-    .page-content h1{
-      margin-top:0;
-    }
+    .page-content h1{ margin-top:0; }
 
-    /* ✅ Footer WIE die anderen Seiten: rechts + rot + bottom 40/20 */
     .footer-inline{
       position:fixed;
-      left:0;
-      right:0;
+      left:0; right:0;
       bottom:40px;
-
       text-align:right;
       padding-right:18px;
       padding-left:18px;
-
       color:#930010 !important;
       font-size:.82rem;
       z-index:910;
     }
-    @media (max-width:767px){
-      .footer-inline{ bottom:20px; }
-    }
+    @media (max-width:767px){ .footer-inline{ bottom:20px; } }
     .footer-inline a{
       color:#930010 !important;
       text-decoration:none;
     }
-    .footer-inline a:hover{
-      text-decoration:underline;
-    }
+    .footer-inline a:hover{ text-decoration:underline; }
 
-    /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
     .page-content h1,
     .page-content h2,
     .page-content p{
@@ -233,16 +190,19 @@
       color: #fff;
     }
 
-    /* etwas Abstand zwischen Titel und Unterzeile */
-    .page-content h1{
-      margin-bottom: 0.4rem;
-    }
+    .page-content h1{ margin-bottom: 0.4rem; }
+
+    /* Standard-Abstand zwischen Absätzen */
     .page-content p{
       margin-top: 0;
       margin-bottom: 1rem;
     }
 
-    /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
+    /* ✅ Wenn du nach einem Absatz keinen Abstand willst */
+    .page-content p.no-gap{
+      margin-bottom: 0 !important;
+    }
+
     main.main{
       background: transparent !important;
       backdrop-filter: none !important;
@@ -250,34 +210,21 @@
       filter: none !important;
       opacity: 1 !important;
     }
-
-    /* falls der "milchige" Look über Pseudo-Elemente kommt */
     main.main::before,
     main.main::after{
       background: transparent !important;
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
       filter: none !important;
-      opacity: 0 !important;   /* <- nimmt den Schleier raus */
+      opacity: 0 !important;
     }
-
-    /* ===================================================
-       PRO SEITE: WHITE TEXT (MENÜ AUSGENOMMEN)
-       =================================================== */
 
     body{ color:#fff; }
-
-    /* Links generell weiß – Menü bleibt trotzdem schwarz wegen .site-menu a {color:#000;} */
     a{ color:#fff; }
 
-    .hamburger span{
-      background:#000;
-    }
+    .hamburger span{ background:#000; }
 
-    /* Brand / Logo-Text im Header */
-    .brand{
-      color:#fff !important;
-    }
+    .brand{ color:#fff !important; }
   </style>
 </head>
 
@@ -288,7 +235,6 @@
     </a>
   </header>
 
-  <!-- Burger-Menü -->
   <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
     <span></span><span></span><span></span>
   </button>
@@ -305,14 +251,11 @@
     </ul>
   </nav>
 
-  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
-
   <main class="main">
     <div class="scroll-panel">
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <!-- über mich – auf-/zuklappbar -->
           <div class="page-group current open">
             <button class="page-toggle" type="button" aria-expanded="true">
               <span class="arrow" aria-hidden="true">►</span>
@@ -321,23 +264,20 @@
 
             <div class="page-content">
 
-              <!-- ===== TEXT START ===== -->
               <h1>( ◡́.◡̀)(^◡^ )</h1>
 
-              <p>hallo ich bin bennet, 19 jahre und artist (oder so) aus st. gallen.
-              ++ich gib ratschläge, die      ich eigentlich     selber bräuchte.</p>
-        
-              <p>irgendjemandem      wirds        schon helfen     so        yk. :p</p>
-              
-              <p>liebe grüsse <3333³3³³33³</p>
+              <!-- ✅ kein Abstand zwischen diesen beiden Absätzen -->
+              <p class="no-gap">hallo ich bin bennet, 19 jahre und artist (oder so) aus st. gallen.</p>
+              <p>++ich gib ratschläge, die      ich eigentlich     selber bräuchte.</p>
 
-              <!-- ===== TEXT ENDE ===== -->
+              <p>irgendjemandem      wirds        schon helfen     so        yk. :p</p>
+
+              <p>liebe grüsse &lt;3333³3³³33³</p>
 
               <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
             </div>
           </div>
 
-          <!-- restliche Links – gleiche Optik wie index -->
           <a class="page-link" href="diskografie.html">
             <span class="arrow" aria-hidden="true">►</span>
             <span>diskografie</span>
@@ -375,7 +315,6 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=6" defer></script>
 
-  <!-- Accordion toggle & dynamische Höhe für das Panel -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
