@@ -316,8 +316,7 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* ✅ Footer hochkant rechts (Desktop), normal unten (Mobile)
-       Desktop: nach oben geschoben bis etwa Oberkante 1. Card-Reihe */
+    /* ✅ Footer hochkant rechts (Desktop + Mobile) */
     .footer-inline{
       position: fixed;
       right: 0.2px;
@@ -340,19 +339,19 @@
     }
     .footer-inline a:hover{ text-decoration: underline; }
 
-    /* Mobile: wieder normal unten */
+    /* Mobile: bleibt hochkant rechts (nur Position ggf. leicht anpassen) */
     @media (max-width: 768px){
       .footer-inline{
-        left: 0;
-        right: 0;
-        bottom: 18px;
-        top: auto;
+        right: 0.2px;
+        top: 430px;     /* ← Mobile ggf. anpassen */
+        bottom: auto;
+        left: auto;
 
-        writing-mode: horizontal-tb;
-        text-orientation: initial;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
 
-        text-align: right;
-        padding: 0 18px;
+        text-align: initial;
+        padding: 6px 4px;
       }
     }
 
@@ -389,13 +388,13 @@
     }
 
     /* =======================================================================================
-       NEUER KLEINER INTRO-PFEIL (hellgrauer Halbkreis) – höher gesetzt
+       NEUER KLEINER INTRO-PFEIL (hellgrauer Halbkreis)
        ======================================================================================= */
     #intro-arrow{
       position: fixed;
       right: 0;
-      top: 360px;                 /* ← höher (zwischen "gesehen" und "und nicht übersehen") */
-      transform: none;           /* ← kein Centering mehr */
+      top: 360px;
+      transform: none;
       z-index: 9999;
 
       width: 24px;
@@ -444,7 +443,7 @@
 
     /* Mobile: Pfeil etwas tiefer, damit er nicht in Header/Hamburger kollidiert */
     @media (max-width: 768px){
-      #intro-arrow{ top: 64px; }
+      #intro-arrow{ top: 390px; } /* ← von dir gewünscht */
     }
   </style>
 </head>
