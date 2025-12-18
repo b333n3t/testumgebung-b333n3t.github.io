@@ -32,17 +32,13 @@
     /* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
     html{
       scrollbar-gutter: stable;
+      scrollbar-width: none; /* Firefox */
     }
 
     /* WebKit / Blink (Chrome, Safari, Edge) */
     html::-webkit-scrollbar{
       width: 0;
       height: 0;
-    }
-
-    /* Firefox */
-    html{
-      scrollbar-width: none;
     }
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
@@ -68,7 +64,7 @@
       box-shadow:none !important;
     }
 
-    /* Pfeile: links AUS, unten AUS, rechts AN */
+    /* Pfeile: links AUS, unten AUS, rechts AN (wie von dir) */
     .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left,
     .scroll-cue{
@@ -368,6 +364,7 @@
       letter-spacing:.03em !important;
       line-height:1.6 !important;
     }
+
     /* =======================================================================================
        NEUER KLEINER INTRO-PFEIL (hellgrauer Halbkreis, wie vorher – aber kleiner)
        ======================================================================================= */
@@ -504,6 +501,46 @@
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- ✅ Burger-Menü (wie index.html: body.menu-open) -->
+  <script>
+  (function(){
+    const btn = document.querySelector('.hamburger');
+    const overlay = document.getElementById('menu-overlay');
+    const menu = document.getElementById('site-menu');
+    if(!btn || !overlay || !menu) return;
+
+    function openMenu(){
+      document.body.classList.add('menu-open');
+      overlay.hidden = false;
+      btn.setAttribute('aria-expanded','true');
+      btn.setAttribute('aria-label','Menü schließen');
+    }
+
+    function closeMenu(){
+      document.body.classList.remove('menu-open');
+      overlay.hidden = true;
+      btn.setAttribute('aria-expanded','false');
+      btn.setAttribute('aria-label','Menü öffnen');
+    }
+
+    function toggleMenu(){
+      document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
+    }
+
+    btn.addEventListener('click', toggleMenu);
+    overlay.addEventListener('click', closeMenu);
+
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape') closeMenu();
+    });
+
+    // Klick auf Menü-Link -> schließen
+    menu.querySelectorAll('a').forEach(a=>{
+      a.addEventListener('click', closeMenu);
+    });
+  })();
+  </script>
 
   <!-- NEU: Intro-Button gewinnt immer gegen swipe-nav -->
   <script>
