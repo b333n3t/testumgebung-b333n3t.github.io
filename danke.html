@@ -31,7 +31,7 @@
       -webkit-backdrop-filter: none !important;
     }
 
-    /* ===== ✅ WHITE THEME (wie deine anderen Seiten) ===== */
+    /* ===== WHITE THEME ===== */
     body{ color:#fff !important; }
 
     /* b3nn3t im Header weiß */
@@ -40,36 +40,42 @@
       color:#fff !important;
     }
 
-    /* Buttons/Links auf der Seite weiß (ohne Menü zu beeinflussen) */
+    /* Buttons/Links im Content weiß */
     main.main a,
     main.main a:visited{
       color:#fff !important;
     }
 
-    /* Burger-Menü bleibt schwarz (falls es hier mal eingeblendet wird) */
+    /* Burger-Menü (falls vorhanden) bleibt schwarz */
     .hamburger span{
       background:#000 !important;
     }
 
-    /* Footer wie bei deinen anderen Seiten, aber in weiß */
+    /* ===== FOOTER: rechtsbündig + rot (#930010) ===== */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
       bottom:40px;
-      text-align:center;
+
+      text-align:right;        /* ← rechtsbündig */
+      padding-right:18px;      /* ← Abstand zum Rand */
+      padding-left:18px;
+
       font-size:.82rem;
       z-index:910;
-      color:#fff !important;
+      color:#930010;
     }
     .footer-inline a,
     .footer-inline a:visited,
     .footer-inline a:active,
     .footer-inline a:focus{
-      color:#fff !important;
+      color:#930010;
       text-decoration:none;
     }
-    .footer-inline a:hover{ text-decoration: underline; }
+    .footer-inline a:hover{
+      text-decoration: underline;
+    }
   </style>
 </head>
 
