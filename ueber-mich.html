@@ -11,8 +11,19 @@
   <link rel="stylesheet" href="swipe-helper.css"/>
 
   <style>
-    :root{ --bottom-gap: 60px; }
-    @media (max-width: 768px){ :root{ --bottom-gap: 20px; } }
+    :root{
+      --bottom-gap: 60px;
+
+      /* ✅ Footer (hochkant rechts) – feinjustierbar */
+      --footer-top-desktop: 430px;
+      --footer-right-desktop: 0px;
+
+      --footer-top-mobile: 520px;   /* ← höher = kleinerer Wert */
+      --footer-right-mobile: 12px;  /* ← näher rechts = kleinerer Wert */
+    }
+    @media (max-width: 768px){
+      :root{ --bottom-gap: 20px; }
+    }
 
     html, body{ overflow: hidden; }
     @media (max-width: 767px){
@@ -161,23 +172,59 @@
 
     .page-content h1{ margin-top:0; }
 
+    /* ✅ Footer hochkant rechts (Desktop + Mobile), ohne Umbruch */
     .footer-inline{
-      position:fixed;
-      left:0; right:0;
-      bottom:40px;
-      text-align:right;
-      padding-right:18px;
-      padding-left:18px;
+      position: fixed;
+      right: var(--footer-right-desktop);
+      top: var(--footer-top-desktop);
+      bottom: auto;
+      z-index: 1300; /* ✅ über swipe-zone */
+
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+
       color:#930010 !important;
       font-size:.82rem;
-      z-index:910;
+      padding: 6px 4px;
+
+      white-space: nowrap;
     }
-    /* @media (max-width:767px){ .footer-inline{ bottom:20px; } }*/
-    .footer-inline a{
+    .footer-inline a,
+    .footer-inline a:visited,
+    .footer-inline a:active,
+    .footer-inline a:focus{
       color:#930010 !important;
       text-decoration:none;
+      white-space: nowrap;
+
+      display:inline-block; /* ✅ größere Tap-Fläche */
+      padding:6px 6px;      /* ✅ iOS-friendly */
     }
     .footer-inline a:hover{ text-decoration:underline; }
+
+    /* Mobile: Footer bleibt hochkant rechts, aber AUF den Cards */
+    @media (max-width: 768px){
+      .footer-inline{
+        right: var(--footer-right-mobile);
+        top: var(--footer-top-mobile);
+      }
+    }
+
+    /* swipe helper */
+    .edge-swipe{
+      position:fixed;
+      top:0; bottom:0;
+      width:28px;
+      z-index:1201;
+      background:transparent;
+      pointer-events:none;
+    }
+    .edge-swipe.left{ left:0; }
+    .edge-swipe.right{ right:0; }
+    @media (pointer:coarse){
+      .edge-swipe{ pointer-events:auto; }
+      .edge-swipe.right{ pointer-events:none !important; } /* ✅ blockiert Footer nicht */
+    }
 
     .page-content h1,
     .page-content h2,
@@ -311,6 +358,9 @@
   <div class="footer-inline">
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
+
+  <div class="edge-swipe left" aria-hidden="true"></div>
+  <div class="edge-swipe right" aria-hidden="true"></div>
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=6" defer></script>
