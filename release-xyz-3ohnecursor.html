@@ -215,50 +215,6 @@
     @media (min-width: 1024px) {
       .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
-
-    /* =========================================================
-       ✅ FULLSCREEN CROSSHAIR (lange linien)
-       ========================================================= */
-    #crosshair{
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 99999;
-    }
-
-    /* horizontale Linie */
-    #crosshair .line-x{
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100vw;
-      height: 1px;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateY(-0.5px);
-    }
-
-    /* vertikale Linie */
-    #crosshair .line-y{
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 1px;
-      height: 100vh;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateX(-0.5px);
-    }
-
-    /* auf touch aus */
-    @media (pointer: coarse){
-      #crosshair{ display:none; }
-    }
-
-    /* reduced motion respektieren */
-    @media (prefers-reduced-motion: reduce){
-      #crosshair{ display:none; }
-    }
   </style>
 </head>
 
@@ -361,16 +317,10 @@
     </div>
   </div>
 
-  <!-- ✅ Fullscreen Crosshair Element -->
-  <div id="crosshair" aria-hidden="true">
-    <div class="line-x"></div>
-    <div class="line-y"></div>
-  </div>
-
   <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
-      const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
+      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
@@ -401,48 +351,6 @@
 
       updateCountdown();
       const timer = setInterval(updateCountdown, 1000);
-    })();
-  </script>
-
-  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
-  <script>
-    (function(){
-      const cross = document.getElementById('crosshair');
-      const lineX = cross?.querySelector('.line-x');
-      const lineY = cross?.querySelector('.line-y');
-      if(!cross || !lineX || !lineY) return;
-
-      // nur desktop (maus), kein touch
-      if(!window.matchMedia('(pointer: fine)').matches){
-        cross.style.display = 'none';
-        return;
-      }
-
-      // reduced motion -> aus
-      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-        cross.style.display = 'none';
-        return;
-      }
-
-      let x = -9999, y = -9999;
-      let raf = null;
-
-      function render(){
-        lineX.style.top = y + 'px';
-        lineY.style.left = x + 'px';
-        raf = null;
-      }
-
-      window.addEventListener('mousemove', (e) => {
-        x = e.clientX;
-        y = e.clientY;
-        if(!raf) raf = requestAnimationFrame(render);
-      }, { passive: true });
-
-      window.addEventListener('mouseleave', () => {
-        x = -9999; y = -9999;
-        render();
-      });
     })();
   </script>
 </body>
