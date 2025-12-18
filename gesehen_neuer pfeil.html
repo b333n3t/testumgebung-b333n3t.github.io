@@ -320,14 +320,14 @@
       right: var(--footer-right-desktop);
       top: var(--footer-top-desktop);
       bottom: auto;
-      z-index: 910;
+      z-index: 1300;
 
       writing-mode: vertical-rl;
       text-orientation: mixed;
 
       color:#930010;
       font-size:.82rem;
-      padding: 6px 4px;
+      padding: 6px 6px;
 
       white-space: nowrap;
     }
@@ -358,7 +358,7 @@
     .edge-swipe.left{ left:0; }
     .edge-swipe.right{ right:0; }
     @media (pointer:coarse){
-      .edge-swipe{ pointer-events:auto; }
+      .edge-swipe.right{ pointer-events:none !important; }
     }
 
     /* White theme */
