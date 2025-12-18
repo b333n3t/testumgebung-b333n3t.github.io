@@ -195,12 +195,12 @@
       margin-top:0;
     }
 
-    /* Fester Footer unten – wie index.html */
+    /* ✅ Footer wie die anderen Seiten: bottom über --bottom-gap (Desktop 60px / Mobile 20px) */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:40px;
+      bottom:var(--bottom-gap);
       text-align:center;
       color:#000;
       font-size:.82rem;
@@ -213,6 +213,7 @@
     .footer-inline a:hover{
       text-decoration:underline;
     }
+
     /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
     .page-content h1,
     .page-content h2,
@@ -233,6 +234,7 @@
       margin-top: 0;
       margin-bottom: 1rem;
     }
+
     /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
     main.main{
       background: transparent !important;
@@ -269,11 +271,11 @@
     .hamburger span{
       background:#000;
     }
-/* Brand / Logo-Text im Header */
-.brand{
-  color:#fff !important;
-}
 
+    /* Brand / Logo-Text im Header */
+    .brand{
+      color:#fff !important;
+    }
   </style>
 </head>
 
