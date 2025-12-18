@@ -121,12 +121,12 @@
       color:#fff !important;
     }
 
-    /* ✅ Footer: rechtsbündig + rot (#930010) + unten identisch zu allen Seiten */
+    /* ✅ Footer: rechtsbündig + rot (#930010) + bottom wie alle anderen Seiten (40/20) */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:var(--bottom-gap);
+      bottom:40px;
 
       text-align:right;
       padding-right:18px;
@@ -135,6 +135,9 @@
       color:#930010;
       font-size:.82rem;
       z-index:910;
+    }
+    @media (max-width:767px){
+      .footer-inline{ bottom:20px; }
     }
     .footer-inline a{
       color:#930010 !important;
@@ -526,14 +529,12 @@
   document.addEventListener('DOMContentLoaded', () => {
     const NEXT_URL = 'intro.html';
 
-    // nach dem aktuellen Tick + nach "load" nochmal fixen (falls swipe-nav.js später überschreibt)
     function applyArrowOverride(){
       const rightArrow = document.querySelector('.nav-arrow.right');
       if (!rightArrow) return;
 
       rightArrow.setAttribute('href', NEXT_URL);
 
-      // capture=true: gewinnt gegen andere Click-Handler
       if (!rightArrow.dataset.forced) {
         rightArrow.dataset.forced = '1';
         rightArrow.addEventListener('click', (e) => {
@@ -549,7 +550,6 @@
     setTimeout(applyArrowOverride, 0);
     setTimeout(applyArrowOverride, 120);
 
-    // 2) Swipe: nach links => intro.html (und andere Swipe-Handler blocken)
     let sx = 0, sy = 0, tracking = false;
 
     function shouldIgnoreTarget(t){
@@ -568,7 +568,6 @@
       sx = touch.clientX;
       sy = touch.clientY;
 
-      // andere Handler möglichst aushebeln
       if (e.stopImmediatePropagation) e.stopImmediatePropagation();
     }, { passive: true, capture: true });
 
