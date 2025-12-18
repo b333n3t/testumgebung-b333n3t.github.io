@@ -96,14 +96,12 @@
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    /* ✅✅✅ WICHTIG: verhindert horizontale Scrollbar (sonst Footer „höher“) */
+    /* ✅ verhindert horizontale Scrollbar (kann Footer "verschieben") */
     *, *::before, *::after{ box-sizing:border-box; }
     html, body{ overflow-x:hidden; }
 
     /* Desktop: kein Window-Scroll, nur Panel */
     html, body{ overflow-y:hidden; }
-
-    /* Mobile: normal scrollbar, aber X bleibt hidden */
     @media (max-width:767px){
       html, body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
     }
@@ -118,35 +116,47 @@
       font-weight: 400;
       letter-spacing: 0.03em;
       line-height: 1.6;
+      margin:0;
     }
 
+    /* ✅ b3nn3t im Header weiß */
     .header .brand,
     .header .brand strong{
       color:#fff !important;
     }
 
-    /* Footer (rechts + rot, identisch) */
+    /* ✅ WICHTIG: falls irgendwo ein echtes <footer> existiert -> ausblenden */
+    footer{ display:none !important; }
+
+    /* ✅✅✅ Footer EXAKT wie plattformen.html: rechts + rot + bottom 40/20 (+ safe-area) */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:40px;
+      bottom:calc(40px + env(safe-area-inset-bottom));
 
       text-align:right;
-      padding-right:18px;
       padding-left:18px;
+      padding-right:18px;
 
       color:#930010;
       font-size:.82rem;
-      z-index:910;
+      line-height:1.2;
+      z-index:1000;
+      pointer-events:auto;
+    }
+    @media (max-width:767px){
+      .footer-inline{
+        bottom:calc(20px + env(safe-area-inset-bottom));
+      }
     }
     .footer-inline a{
       color:#930010 !important;
       text-decoration:none;
     }
-    .footer-inline a:hover{ text-decoration: underline; }
+    .footer-inline a:hover{ text-decoration:underline; }
 
-
+    /* ✅ Kein Glas/Blur-Schleier über main */
     main.main{
       background: transparent !important;
       box-shadow: none !important;
@@ -168,6 +178,7 @@
       display: none !important;
     }
 
+    /* ✅ Pfeile: links AUS, unten AUS, rechts AN */
     .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left{
       display:none !important;
@@ -182,6 +193,7 @@
       pointer-events:none !important;
     }
 
+    /* ===== Hamburger-Menü ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -234,7 +246,7 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    /* ✅ X-overflow auch im Panel killen */
+    /* ===== Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
       max-height:75vh;
@@ -259,6 +271,7 @@
     .content-offset{ padding-top:1.5rem; }
     .grid{ display:flex; flex-direction:column; gap:1rem; }
 
+    /* Akkordeon wie andere Seiten */
     .page-link,
     .page-toggle{
       font-family:'Press Start 2P', Arial, sans-serif !important;
@@ -322,6 +335,7 @@
       margin-bottom: 1rem !important;
     }
 
+    /* Cards */
     .grid-seen{
       display:grid !important;
       grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
@@ -355,6 +369,7 @@
       font-family: Arial, sans-serif !important;
       letter-spacing: 0 !important;
       line-height: 1.2 !important;
+      cursor:pointer;
     }
     .grid-seen .card small{ color:#000 !important; opacity:.8; }
 
@@ -377,6 +392,7 @@
       color:#000;
     }
 
+    /* Player */
     .video-row{
       grid-column: 1 / -1;
       width:100%;
@@ -418,6 +434,7 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
+    /* swipe helper */
     .edge-swipe{
       position:fixed;
       top:0; bottom:0;
@@ -458,6 +475,7 @@
     </ul>
   </nav>
 
+  <!-- rechts bleibt & zeigt auf intro.html -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
   <main class="main">
@@ -515,6 +533,7 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
+  <!-- HARD OVERRIDE: rechter Pfeil + Swipe -> intro.html -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const NEXT_URL = 'intro.html';
@@ -585,6 +604,7 @@
   });
   </script>
 
+  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -628,6 +648,7 @@
     })();
   </script>
 
+  <!-- Player -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -710,6 +731,7 @@
   });
   </script>
 
+  <!-- YouTube Thumbnails -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -743,6 +765,7 @@
   });
   </script>
 
+  <!-- YouTube Titel automatisch -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
