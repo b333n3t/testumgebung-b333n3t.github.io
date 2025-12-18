@@ -448,6 +448,19 @@ html{
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+  <script>
+     /*-- ---------------------------------------------------------------------------------------------->*/
+/* FIX: Nav-Pfeil darf nicht von swipe-nav.js blockiert werden */
+document.addEventListener('click', function (e) {
+  const arrow = e.target.closest('a.nav-arrow');
+  if (!arrow) return;
+
+  e.preventDefault();
+  e.stopImmediatePropagation();   // blockt swipe-nav.js & Co.
+  window.location.href = arrow.href;
+}, true); // capture-phase = vor allen anderen Handlern
+</script>
+ /*- ---------------------------------------------------------------------------------------------->*/
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
