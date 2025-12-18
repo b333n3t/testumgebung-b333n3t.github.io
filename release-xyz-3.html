@@ -217,33 +217,38 @@
     }
 
     /* =========================================================
-       ✅ CROSSHAIR (weiss)
+       ✅ FULLSCREEN CROSSHAIR (lange linien)
        ========================================================= */
     #crosshair{
       position: fixed;
-      left: 0;
-      top: 0;
-      width: 18px;
-      height: 18px;
-      border: 2px solid #fff;
-      border-radius: 999px;
-      transform: translate3d(-9999px, -9999px, 0);
+      inset: 0;
       pointer-events: none;
       z-index: 99999;
     }
 
-    /* optional: plus in der mitte */
-    #crosshair::before,
-    #crosshair::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      top:50%;
-      background:#fff;
-      transform: translate(-50%, -50%);
+    /* horizontale Linie */
+    #crosshair .line-x{
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100vw;
+      height: 1px;
+      background: #ffffff;
+      opacity: 0.9;
+      transform: translateY(-0.5px);
     }
-    #crosshair::before{ width: 12px; height: 2px; }
-    #crosshair::after{ width: 2px; height: 12px; }
+
+    /* vertikale Linie */
+    #crosshair .line-y{
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100vh;
+      background: #ffffff;
+      opacity: 0.9;
+      transform: translateX(-0.5px);
+    }
 
     /* auf touch aus */
     @media (pointer: coarse){
@@ -356,8 +361,11 @@
     </div>
   </div>
 
-  <!-- ✅ Crosshair Element -->
-  <div id="crosshair" aria-hidden="true"></div>
+  <!-- ✅ Fullscreen Crosshair Element -->
+  <div id="crosshair" aria-hidden="true">
+    <div class="line-x"></div>
+    <div class="line-y"></div>
+  </div>
 
   <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
@@ -396,11 +404,13 @@
     })();
   </script>
 
-  <!-- ✅ Crosshair folgt der Maus -->
+  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
   <script>
     (function(){
       const cross = document.getElementById('crosshair');
-      if(!cross) return;
+      const lineX = cross?.querySelector('.line-x');
+      const lineY = cross?.querySelector('.line-y');
+      if(!cross || !lineX || !lineY) return;
 
       // nur desktop (maus), kein touch
       if(!window.matchMedia('(pointer: fine)').matches){
@@ -414,12 +424,12 @@
         return;
       }
 
-      const size = 18; // muss zu width/height passen
       let x = -9999, y = -9999;
       let raf = null;
 
       function render(){
-        cross.style.transform = `translate3d(${x - size/2}px, ${y - size/2}px, 0)`;
+        lineX.style.top = y + 'px';
+        lineY.style.left = x + 'px';
         raf = null;
       }
 
