@@ -312,24 +312,27 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* ✅ Footer: per Variablen positioniert (wie dein fehlendes :root gedacht) */
+    /* ✅✅✅ Footer hochkant + rechts am Rand (variabel einstellbar) */
     .footer-inline{
       position:fixed;
       top: var(--footer-top-desktop);
       right: var(--footer-right-desktop);
-      left: auto;
-      bottom: auto;
+      left:auto;
+      bottom:auto;
 
-      text-align:right;
-      padding-right:18px;
-      padding-left:18px;
-
+      z-index:910;
       color:#930010;
       font-size:.82rem;
-      z-index:910;
 
-      width:auto;
-      max-width: calc(100vw - 12px);
+      /* hochkant */
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+
+      /* kleine Innenabstände */
+      padding: 10px 6px;
+
+      /* verhindert Umbruch */
       white-space: nowrap;
     }
     @media (max-width:768px){
@@ -723,3 +726,4 @@
   </script>
 </body>
 </html>
+
