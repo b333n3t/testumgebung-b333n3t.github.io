@@ -207,18 +207,12 @@
     .sub-group.open > .sub-content{display:block;}
     .sub-group.open > .sub-toggle .arrow{transform:rotate(90deg);}
 
-    /* ✅✅✅ NEU: Abstände der 3 Akkordeons wie bei "diskografie" (eng + gleichmäßig) */
-    .sub-group{
-      margin-top: 0.75rem !important;   /* enger als vorher (statt 3em) */
-    }
-    /* optional: erstes Akkordeon etwas Abstand nach oben, damit es nicht klebt */
-    .sub-group:first-of-type{
-      margin-top: 1.2rem !important;
-    }
-    /* wenn ein Akkordeon aufklappt, soll der Content nicht riesig Abstand erzeugen */
-    .sub-group > .sub-content p:first-child{
-      margin-top: 0.6rem;
-    }
+    /* ✅✅✅ Abstände der 3 Akkordeons wie bei diskografie (größer + synchron)
+       -> Abstand kommt vom Toggle (nicht vom Wrapper) */
+    .sub-group{ margin:0 !important; }
+    .sub-toggle{ margin-top: 1.6rem; }
+    .sub-group:first-of-type .sub-toggle{ margin-top: 1.2rem; }
+    .sub-group > .sub-content{ margin-top: 0.6rem; }
 
     .footer-inline{
       position:fixed;
@@ -297,8 +291,7 @@
       text-align: center;
       text-decoration: none;
     }
-    .release-card *,
-    .release-card:hover * { text-decoration: none; }
+    .release-card *,.release-card:hover * { text-decoration: none; }
     .songtitle {
       font-size: 1.55rem;
       font-weight: 700;
