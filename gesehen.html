@@ -396,7 +396,7 @@ html{
     </ul>
   </nav>
 
-  <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
+<a class="nav-arrow right manual" href="intro.html" aria-label="Intro öffnen">→</a>
 
   <main class="main">
     <div class="scroll-panel">
@@ -450,16 +450,25 @@ html{
   <script src="swipe-nav.js?v=12" defer></script>
   <script>
      /*-- ---------------------------------------------------------------------------------------------->*/
-/* FIX: Nav-Pfeil darf nicht von swipe-nav.js blockiert werden */
-document.addEventListener('click', function (e) {
-  const arrow = e.target.closest('a.nav-arrow');
+<script>
+/* gesehen.html: Pfeil soll NUR intro.html öffnen (Swipe ignorieren) */
+(function () {
+  const arrow = document.querySelector('.nav-arrow.right.manual');
   if (!arrow) return;
 
-  e.preventDefault();
-  e.stopImmediatePropagation();   // blockt swipe-nav.js & Co.
-  window.location.href = arrow.href;
-}, true); // capture-phase = vor allen anderen Handlern
+  // verhindere, dass swipe-nav.js diesen Pfeil umdeutet
+  arrow.addEventListener('click', function (e) {
+    e.stopPropagation();
+    // KEIN preventDefault → normales href-Navigieren
+  }, true);
+
+  // Swipe-Gesten auf dieser Seite neutralisieren
+  document.addEventListener('touchend', function (e) {
+    if (e.target.closest('.nav-arrow.right.manual')) return;
+  }, true);
+})();
 </script>
+
  /*- ---------------------------------------------------------------------------------------------->*/
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
