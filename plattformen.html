@@ -216,22 +216,26 @@
     }
     .platform-list a:hover{ text-decoration:underline; }
 
-    /* Footer */
+    /* Footer (rechts + rot, identisch) */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
       bottom:40px;
-      text-align:center;
-      color:#000;
+
+      text-align:right;
+      padding-right:18px;
+      padding-left:18px;
+
+      color:#930010;
       font-size:.82rem;
       z-index:910;
     }
-    .footer-inline a{ color:#000; text-decoration:none; }
-    .footer-inline a:hover{ text-decoration:underline; }
-    @media (max-width:767px){
-      .footer-inline{ bottom:20px; }
+    .footer-inline a{
+      color:#930010 !important;
+      text-decoration:none;
     }
+    .footer-inline a:hover{ text-decoration: underline; }
 
     /* swipe helper */
     .edge-swipe{
@@ -312,14 +316,7 @@
       color:#fff !important;
     }
 
-    /* Footer weiß */
-    .footer-inline,
-    .footer-inline a,
-    .footer-inline a:visited,
-    .footer-inline a:active,
-    .footer-inline a:focus{
-      color:#fff !important;
-    }
+    /* ✅ Footer-Override auf weiß entfernt (damit rot bleibt) */
   </style>
 </head>
 
