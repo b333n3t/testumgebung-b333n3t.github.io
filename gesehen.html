@@ -37,7 +37,6 @@
 
   <link rel="preconnect" href="https://www.youtube.com" crossorigin>
   <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-  <!-- Instagram preconnect entfernt (keine IG Cards mehr) -->
 
   <script type="application/ld+json">
   {
@@ -97,12 +96,18 @@
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    html, body{ overflow:hidden; }
+    /* ✅✅✅ WICHTIG: verhindert horizontale Scrollbar (sonst Footer „höher“) */
+    *, *::before, *::after{ box-sizing:border-box; }
+    html, body{ overflow-x:hidden; }
+
+    /* Desktop: kein Window-Scroll, nur Panel */
+    html, body{ overflow-y:hidden; }
+
+    /* Mobile: normal scrollbar, aber X bleibt hidden */
     @media (max-width:767px){
-      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
+      html, body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
     }
 
-    /* ✅ Schriftart + alles weiß (wie bei den anderen Seiten) */
     body{
       min-height:100vh;
       display:flex;
@@ -115,38 +120,36 @@
       line-height: 1.6;
     }
 
-    /* ✅ b3nn3t im Header weiß */
     .header .brand,
     .header .brand strong{
       color:#fff !important;
     }
 
-/* ✅ Footer: exakt wie die anderen Seiten (Desktop 40px / Mobile 20px) */
-.footer-inline{
-  position:fixed;
-  left:0;
-  right:0;
-  bottom:40px !important;
+    /* ✅ Footer: rechtsbündig + rot (#930010) + bottom wie alle anderen Seiten */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
 
-  text-align:right;
-  padding-right:18px;
-  padding-left:18px;
+      text-align:right;
+      padding-right:18px;
+      padding-left:18px;
 
-  color:#930010;
-  font-size:.82rem;
-  z-index:910;
-}
-@media (max-width:767px){
-  .footer-inline{ bottom:20px !important; }
-}
-.footer-inline a{
-  color:#930010 !important;
-  text-decoration:none;
-}
-.footer-inline a:hover{ text-decoration:underline; }
+      color:#930010;
+      font-size:.82rem;
+      z-index:910;
+      overflow:hidden; /* extra safety */
+    }
+    @media (max-width:767px){
+      .footer-inline{ bottom:20px; }
+    }
+    .footer-inline a{
+      color:#930010 !important;
+      text-decoration:none;
+    }
+    .footer-inline a:hover{ text-decoration:underline; }
 
-
-    /* ✅ Zusätzlich: Kein Glas/Blur-Schleier über main */
     main.main{
       background: transparent !important;
       box-shadow: none !important;
@@ -168,7 +171,6 @@
       display: none !important;
     }
 
-    /* ✅ Pfeile: links AUS, unten AUS, rechts AN */
     .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left{
       display:none !important;
@@ -183,7 +185,6 @@
       pointer-events:none !important;
     }
 
-    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -191,7 +192,7 @@
     }
     .hamburger span{
       display:block;width:12px;height:1.4px;margin:1.5px 0;
-      background:#000;border-radius:2px; /* ✅ Burger-Menü schwarz */
+      background:#000;border-radius:2px;
       transition:transform .2s,opacity .2s
     }
     body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
@@ -230,20 +231,19 @@
       text-decoration:none;
       font-size:1rem;
       font-weight:500;
-
-      /* Menü bleibt lesbar */
       font-family: Arial, sans-serif;
       letter-spacing: 0;
       line-height: 1.2;
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    /* ===== Scroll-Panel ===== */
+    /* ✅ X-overflow auch im Panel killen */
     .scroll-panel{
       max-width:min(1000px,94vw);
       max-height:75vh;
       margin:0;
       overflow-y:auto;
+      overflow-x:hidden;
       -webkit-overflow-scrolling:touch;
 
       background:transparent;
@@ -262,7 +262,6 @@
     .content-offset{ padding-top:1.5rem; }
     .grid{ display:flex; flex-direction:column; gap:1rem; }
 
-    /* ✅✅✅ Akkordeon (Links + Toggle) exakt wie auf den anderen Seiten */
     .page-link,
     .page-toggle{
       font-family:'Press Start 2P', Arial, sans-serif !important;
@@ -293,7 +292,6 @@
       padding:0;
       color:inherit;
       cursor:pointer;
-
       appearance:none;
       -webkit-appearance:none;
       margin:0;
@@ -308,7 +306,6 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    /* ✅ Schriftart/Typo in page-content identisch */
     .page-content h1,
     .page-content h2,
     .page-content p{
@@ -328,7 +325,6 @@
       margin-bottom: 1rem !important;
     }
 
-    /* ========= Cards ========= */
     .grid-seen{
       display:grid !important;
       grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
@@ -337,6 +333,7 @@
       margin:0 !important;
       justify-content:start !important;
       align-items:start !important;
+      overflow-x:hidden;
     }
     @media (max-width: 820px){
       .grid-seen{
@@ -345,7 +342,6 @@
       }
     }
 
-    /* ✅ Cards wie diskografie: WEISS */
     .grid-seen .card{
       width:100% !important;
       max-width:none !important;
@@ -372,6 +368,7 @@
       border-radius:16px !important;
       margin-bottom:10px !important;
       background:#000;
+      display:block;
     }
 
     .grid-seen .card .play-label,
@@ -383,7 +380,6 @@
       color:#000;
     }
 
-    /* ========= Player ========= */
     .video-row{
       grid-column: 1 / -1;
       width:100%;
@@ -425,7 +421,6 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* swipe helper */
     .edge-swipe{
       position:fixed;
       top:0; bottom:0;
@@ -466,7 +461,6 @@
     </ul>
   </nav>
 
-  <!-- ✅ rechts bleibt & zeigt auf intro.html -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
   <main class="main">
@@ -493,7 +487,6 @@
                 </span>
               </p>
 
-              <!-- Videos (nur YouTube) -->
               <section class="grid-seen" aria-label="Videos">
                 <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">▶︎ YouTube 1<small>YouTube</small></div>
                 <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">▶︎ YouTube 2<small>YouTube</small></div>
@@ -525,7 +518,6 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- ✅✅✅ HARD OVERRIDE: rechter Pfeil + Swipe -> intro.html (nachdem swipe-nav.js gelaufen ist) -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const NEXT_URL = 'intro.html';
@@ -596,7 +588,6 @@
   });
   </script>
 
-  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -640,7 +631,6 @@
     })();
   </script>
 
-  <!-- Player: unter der jeweiligen 2er-Reihe, mittig im 2er-Block -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -723,7 +713,6 @@
   });
   </script>
 
-  <!-- YouTube Thumbnails -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -757,7 +746,6 @@
   });
   </script>
 
-  <!-- YouTube Titel automatisch -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
