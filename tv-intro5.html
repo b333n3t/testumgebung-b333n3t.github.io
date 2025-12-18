@@ -18,64 +18,54 @@
   </script>
 
   <style>
-    :root {
-      --fade-ms: 1000ms;
-      --bg: #930010;
-    }
+    :root { --fade-ms: 1000ms; --bg:#930010; }
 
-    html,body {
-      margin:0;
-      height:100%;
+    html,body{
+      margin:0;height:100%;
       background:var(--bg);
       overflow:hidden;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     canvas#c{
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
       display:block;
-      width:100vw;
-      height:100vh;
       image-rendering:pixelated;
       image-rendering:crisp-edges;
       opacity:0;
-      transition: opacity var(--fade-ms) ease;
+      transition:opacity var(--fade-ms) ease;
       z-index:1;
     }
-    body.ready canvas#c  { opacity:1; }
-    body.fadeout canvas#c{ opacity:0; }
+    body.ready canvas#c{opacity:1;}
+    body.fadeout canvas#c{opacity:0;}
 
-    .skip {
+    .skip{
       position:fixed; top:14px; right:14px; z-index:10;
       background:#fff; color:#000; border:0; border-radius:999px;
       padding:.45rem .8rem; font-weight:700; cursor:pointer;
     }
-    .skip:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+    .skip:focus-visible{outline:2px solid #fff; outline-offset:2px;}
 
     .loaderWrap{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
       opacity:0;
-      transition: opacity var(--fade-ms) ease;
+      transition:opacity var(--fade-ms) ease;
       z-index:5;
       pointer-events:none;
     }
-    body.ready .loaderWrap{ opacity:1; }
-    body.fadeout .loaderWrap{ opacity:0; }
+    body.ready .loaderWrap{opacity:1;}
+    body.fadeout .loaderWrap{opacity:0;}
 
     .loader{
-      width:min(720px, 78vw);
+      width:min(720px,78vw);
       padding:18px 18px 16px;
       box-sizing:border-box;
     }
 
     .barFrame{
-      width:100%;
-      height:16px;
+      width:100%; height:16px;
       border:2px solid #fff;
       border-radius:0;
       padding:2px;
@@ -101,48 +91,46 @@
 
     .hint{
       margin-top:10px;
-      color:rgba(255,255,255,.85);
+      color:rgba(255,255,255,.9);
       font-size:14px;
       letter-spacing:.2px;
       text-align:center;
       user-select:none;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      body { animation:none !important; }
-      canvas#c, .loaderWrap { transition:none; }
+    @media (prefers-reduced-motion: reduce){
+      body{animation:none !important;}
+      canvas#c,.loaderWrap{transition:none;}
     }
   </style>
 
   <noscript>
     <meta http-equiv="refresh" content="0; url=index.html?nointro=1">
     <style>
-      body { display:flex; align-items:center; justify-content:center; color:#fff; }
-      a { color:#fff; text-decoration:underline; }
+      body{display:flex;align-items:center;justify-content:center;color:#fff;}
+      a{color:#fff;text-decoration:underline;}
     </style>
     <p>Weiter zur <a href="index.html?nointro=1">Startseite</a>…</p>
   </noscript>
 </head>
 <body>
 
-  <main role="main">
-    <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+<main role="main">
+  <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+  <canvas id="c" aria-hidden="true"></canvas>
 
-    <canvas id="c" aria-hidden="true"></canvas>
-
-    <div class="loaderWrap" aria-hidden="true">
-      <div class="loader">
-        <div class="barFrame">
-          <div class="bar" id="bar"></div>
-        </div>
-        <div class="hint">Loading…</div>
-      </div>
+  <div class="loaderWrap" aria-hidden="true">
+    <div class="loader">
+      <div class="barFrame"><div class="bar" id="bar"></div></div>
+      <div class="hint">Loading…</div>
     </div>
+  </div>
 
-    <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
-      Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
-    </div>
-  </main>
+  <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
+  </div>
+</main>
 
 <script>
 /* ================== Redirect Ziel ================== */
@@ -221,85 +209,113 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* ================== "Hand-drawn" Helpers (deterministisch, kein Flimmern) ================== */
+/* ================== Kritzel (feine Striche, bunt) ================== */
 const snap = (v)=>Math.round(v);
+const clamp01 = (t)=>Math.max(0,Math.min(1,t));
 
-// schneller Hash -> 0..1
 function hash01(n){
-  // deterministic pseudo-random
   const x = Math.sin(n * 127.1) * 43758.5453123;
   return x - Math.floor(x);
 }
-
-// glatter Wert (0..1) über "t" (damit Linien nicht hart knicken)
 function smoothstep(t){
-  t = Math.max(0, Math.min(1, t));
+  t = clamp01(t);
   return t*t*(3 - 2*t);
 }
-
-// krakelige Linie als Polyline mit kleinen Perp-Offsets
-function scribbleLine(x1,y1,x2,y2,seed,ampPx, wobbleNow){
-  // wobbleNow: kleiner Drift, aber stabil (kein jitter)
-  const dx = x2-x1, dy = y2-y1;
-  const len = Math.hypot(dx,dy) || 1;
-  const nx = -dy/len, ny = dx/len; // perpendicular
-
-  // Segmente abhängig von Länge (aber gedeckelt)
-  const segs = Math.max(6, Math.min(18, Math.floor(len / (28*DPR))));
-
-  ctx.beginPath();
-
-  for(let i=0;i<=segs;i++){
-    const t = i / segs;
-
-    // Basis-Punkt
-    let x = x1 + dx*t;
-    let y = y1 + dy*t;
-
-    // deterministisches "Hand"-Offset pro Segment
-    const r = (hash01(seed*1000 + i*17.7) * 2 - 1);     // -1..1
-    const r2 = (hash01(seed*2000 + i*9.3) * 2 - 1);    // -1..1
-
-    // sanft zur Mitte stärker, an Enden weniger
-    const m = smoothstep(t) * (1 - smoothstep(t));
-    const a = ampPx * (0.55 + 0.45*m);
-
-    // leichter zeitlicher Drift (wie "Hand bewegt sich"), aber gleichmäßig
-    const drift = Math.sin(wobbleNow + seed*3.1 + i*0.7) * (0.25*DPR);
-
-    x += nx * (r*a + drift) + (r2*0.35*DPR);
-    y += ny * (r*a + drift) + (r2*0.35*DPR);
-
-    if(i===0) ctx.moveTo(snap(x), snap(y));
-    else      ctx.lineTo(snap(x), snap(y));
-  }
-
-  ctx.stroke();
+function noise1D(seed, t){
+  // höherfrequent = "kritzeliger"
+  const s = t * 14.0;
+  const i = Math.floor(s);
+  const f = s - i;
+  const a = hash01(seed*1000 + i*17.17);
+  const b = hash01(seed*1000 + (i+1)*17.17);
+  const u = smoothstep(f);
+  return (a*(1-u) + b*u) * 2 - 1;
 }
 
-/* ================== Tunnel-Grid (4 Seiten, "Raum" in der Mitte) ================== */
+// Neon-Kritzel-Palette
+const PALETTE = [
+  [255,  80, 190], // pink
+  [ 90, 210, 255], // cyan
+  [255, 230,  80], // yellow
+  [160, 255, 120], // green
+  [200, 140, 255], // purple
+  [255, 140,  80]  // orange
+];
+function pickColor(seed, a){
+  const i = Math.floor(hash01(seed*3.7) * PALETTE.length) % PALETTE.length;
+  const [r,g,b] = PALETTE[i];
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// Kritzel: viele sehr feine Mikro-Linien entlang der Strecke (wie schnell hingekritzelt)
+function scribbleFine(x1,y1,x2,y2,seed,amp,alpha){
+  const dx = x2-x1, dy = y2-y1;
+  const len = Math.hypot(dx,dy) || 1;
+  const nx = -dy/len, ny = dx/len;
+
+  // “Haar”-Striche: Anzahl abhängig von Länge
+  const hairs = Math.max(6, Math.min(22, Math.floor(len/(38*DPR))));
+  const segs  = Math.max(12, Math.min(44, Math.floor(len/(10*DPR))));
+
+  // Grundfarbe + leichte Farbvarianz pro Linie
+  const basePick = Math.floor(hash01(seed*9.1)*PALETTE.length);
+
+  for(let h=0; h<hairs; h++){
+    // pro hair: mini-offset und leicht andere Farbe/Alpha
+    const off = (hash01(seed*100 + h*7.7)*2-1) * (0.55*DPR);
+    const aMul = 0.55 + 0.45*hash01(seed*200 + h*3.3);
+
+    const pi = (basePick + h) % PALETTE.length;
+    const [r,g,b] = PALETTE[pi];
+    ctx.strokeStyle = `rgba(${r},${g},${b},${alpha*aMul})`;
+
+    ctx.lineWidth = 1; // ✅ fein
+
+    ctx.beginPath();
+    for(let i=0;i<=segs;i++){
+      const t = i/segs;
+
+      let x = x1 + dx*t;
+      let y = y1 + dy*t;
+
+      const n  = noise1D(seed + h*0.91, t);
+      const n2 = noise1D(seed + 9.3 + h*0.77, t);
+
+      // Mitte minimal stärker
+      const mid = smoothstep(t) * (1 - smoothstep(t));
+      const a = amp * (0.20 + 0.55*mid);
+
+      // Kritzel: normal + ein bisschen entlang
+      x += nx*(n*a + off) + (dx/len)*(n2*0.35*DPR);
+      y += ny*(n*a + off) + (dy/len)*(n2*0.35*DPR);
+
+      // winzige “Papier”-Unruhe
+      x += (hash01(seed*300 + h*13 + i*1.9)-0.5)*0.25*DPR;
+      y += (hash01(seed*310 + h*17 + i*1.7)-0.5)*0.25*DPR;
+
+      x = snap(x); y = snap(y);
+
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  }
+}
+
+/* ================== Tunnel-Grid (Kritzel fein) ================== */
 function drawTunnelGrid(now, reveal01){
-  // background
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
-  // Stil
-  ctx.save();
-  ctx.lineWidth = Math.max(1, Math.round(DPR));
-  ctx.strokeStyle = 'rgba(0,0,0,0.30)';
-
-  // Outer quad
   const outer = [
     {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
 
-  // Inner quad (Portal)
   const cx = W*0.5, cy = H*0.5;
-  const innerW = W*0.42;
-  const innerH = H*0.30;
-
+  const innerW = W*0.44;
+  const innerH = H*0.32;
   const inner = [
     {x:cx - innerW/2, y:cy - innerH/2},
     {x:cx + innerW/2, y:cy - innerH/2},
@@ -310,57 +326,46 @@ function drawTunnelGrid(now, reveal01){
   const lerp = (a,b,t)=>a+(b-a)*t;
   const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
 
-  // counts
   const RINGS = 30;
-  const RAD   = 22;
+  const RAD   = 20;
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
-  // Bewegung (stabil)
-  const speed = 0.00035;
+  const speed = 0.00033;
   const phase = (now*speed) % 1;
-  const wobbleNow = now * 0.002; // für hand-drift, aber smooth
 
-  // Hand-Parameter
-  const baseAmp = 1.6 * DPR; // "wie krakelig" (erhöhe für mehr Hand-Look)
+  // ✅ fein & kritzelig
+  const AMP = 2.2 * DPR;
 
-  // --- 1) Radiale Linien von allen 4 Seiten ---
-  // Oben + Unten
+  // Radials
   for(let i=0;i<=radCount;i++){
-    const t = i / radCount;
+    const t = i/radCount;
 
-    // oben
     const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
     const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    scribbleLine(A.x,A.y,B.x,B.y, 10 + i*0.11, baseAmp, wobbleNow);
+    scribbleFine(A.x,A.y,B.x,B.y, 10+i*0.19, AMP, 0.32);
 
-    // unten
     const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
     const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    scribbleLine(C.x,C.y,D.x,D.y, 20 + i*0.11, baseAmp, wobbleNow);
+    scribbleFine(C.x,C.y,D.x,D.y, 20+i*0.19, AMP, 0.32);
   }
-
-  // Links + Rechts
   for(let i=0;i<=radCount;i++){
-    const t = i / radCount;
+    const t = i/radCount;
 
-    // links
     const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
     const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    scribbleLine(A.x,A.y,B.x,B.y, 30 + i*0.11, baseAmp, wobbleNow);
+    scribbleFine(A.x,A.y,B.x,B.y, 30+i*0.19, AMP, 0.32);
 
-    // rechts
     const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
     const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    scribbleLine(C.x,C.y,D.x,D.y, 40 + i*0.11, baseAmp, wobbleNow);
+    scribbleFine(C.x,C.y,D.x,D.y, 40+i*0.19, AMP, 0.32);
   }
 
-  // --- 2) Tiefen-Ringe (Quads) ---
+  // Rings
   for(let i=0;i<ringCount;i++){
-    const u = (i / (RINGS-1));
-
-    let z = u*u;                 // dichter zum Zentrum
-    z = (z + phase*0.18) % 1;    // Bewegung nach vorne
+    const u = (i/(RINGS-1));
+    let z = u*u;
+    z = (z + phase*0.20) % 1;
     z = z*z;
 
     const q0 = lerpP(outer[0], inner[0], z);
@@ -368,29 +373,26 @@ function drawTunnelGrid(now, reveal01){
     const q2 = lerpP(outer[2], inner[2], z);
     const q3 = lerpP(outer[3], inner[3], z);
 
-    // weiter hinten weniger "Hand", vorne etwas mehr
-    const depthAmp = baseAmp * (0.65 + 0.55*(1 - z));
+    const front = (1 - z);
+    const alpha = 0.10 + 0.22*front;
+    const a = AMP * (0.70 + 0.70*front);
 
-    scribbleLine(q0.x,q0.y,q1.x,q1.y, 100 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q1.x,q1.y,q2.x,q2.y, 200 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q2.x,q2.y,q3.x,q3.y, 300 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q3.x,q3.y,q0.x,q0.y, 400 + i*0.21, depthAmp, wobbleNow);
+    scribbleFine(q0.x,q0.y,q1.x,q1.y, 100+i*0.27, a, alpha);
+    scribbleFine(q1.x,q1.y,q2.x,q2.y, 200+i*0.27, a, alpha);
+    scribbleFine(q2.x,q2.y,q3.x,q3.y, 300+i*0.27, a, alpha);
+    scribbleFine(q3.x,q3.y,q0.x,q0.y, 400+i*0.27, a, alpha);
   }
 
-  // Inneres Frame etwas kräftiger
-  ctx.strokeStyle = 'rgba(0,0,0,0.45)';
-  const portalAmp = baseAmp * 1.2;
-  scribbleLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, portalAmp, wobbleNow);
-  scribbleLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, portalAmp, wobbleNow);
-  scribbleLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, portalAmp, wobbleNow);
-  scribbleLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, portalAmp, wobbleNow);
-
-  ctx.restore();
+  // Portal: minimal heller
+  scribbleFine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, AMP*1.1, 0.36);
+  scribbleFine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, AMP*1.1, 0.36);
+  scribbleFine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.1, 0.36);
+  scribbleFine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.1, 0.36);
 }
 
 /* ================== Loader Timing ================== */
 const START_DELAY_MS = 1000;
-const INTRO_MS = 3500;   // ✅ 3–4 Sekunden => 3.5s
+const INTRO_MS = 3500;
 const FADEOUT_MS = 1700;
 const EXTRA_MS = 300;
 
@@ -410,13 +412,10 @@ function startProgressAndTunnel(){
     const t = (now - start) / INTRO_MS;
     const clamped = Math.max(0, Math.min(1, t));
 
-    // "Strich-für-Strich" Aufbau
-    const reveal = Math.min(1, clamped * 1.15);
+    const reveal = Math.min(1, clamped * 1.20);
 
-    // Tunnel zeichnen
     drawTunnelGrid(now, reveal);
 
-    // Arcade-Steps
     const steps = 32;
     const stepped = Math.floor(clamped * steps) / steps;
     bar.style.width = (stepped * 100).toFixed(2) + "%";
