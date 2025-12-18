@@ -266,11 +266,9 @@ function inkLine(x1,y1,x2,y2,seed,amp,alpha){
   ctx.save();
   ctx.globalAlpha = alpha;
 
-  // feiner
   ctx.lineWidth = Math.max(0.75, 0.75 * DPR);
   scribbleStroke(x1,y1,x2,y2,seed,amp);
 
-  // noch feiner + versetzt
   ctx.globalAlpha = alpha*0.65;
   ctx.lineWidth = Math.max(0.65, 0.65 * DPR);
   scribbleStroke(x1+0.35*DPR,y1+0.18*DPR,x2+0.35*DPR,y2+0.18*DPR,seed+111,amp*0.72);
@@ -278,8 +276,8 @@ function inkLine(x1,y1,x2,y2,seed,amp,alpha){
   ctx.restore();
 }
 
-/* ================== Buntstift-Kritzel in bestehenden Grid-Flächen ================== */
-const COLOR_PENCIL = [
+/* ================== Echter Grid-Cell "Buntstift"-Fill (3–5 Felder) ================== */
+const PENCIL = [
   [255,  80, 190], // pink
   [ 90, 210, 255], // cyan
   [255, 230,  80], // yellow
@@ -298,119 +296,122 @@ function rngFrom(seed){
   };
 }
 
-function rgbaFrom(rgb, a){
-  return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`;
-}
+function rgba(rgb, a){ return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
 
-// bilinear mapping in a quad: u (0..1) left->right, v (0..1) near->far (or top->bottom)
-function quadPoint(q00,q10,q11,q01,u,v){
-  const ax = q00.x + (q10.x - q00.x) * u;
-  const ay = q00.y + (q10.y - q00.y) * u;
-  const bx = q01.x + (q11.x - q01.x) * u;
-  const by = q01.y + (q11.y - q01.y) * u;
+// bilinear mapping in quad corners (a,b,c,d) with u (0..1) left->right, v (0..1) near->far
+function quadPoint(a,b,c,d,u,v){
+  const ax = a.x + (b.x - a.x) * u;
+  const ay = a.y + (b.y - a.y) * u;
+  const bx = d.x + (c.x - d.x) * u;
+  const by = d.y + (c.y - d.y) * u;
   return { x: ax + (bx-ax)*v, y: ay + (by-ay)*v };
 }
 
-let colorPatches = []; // stabil (kein flimmern)
+function cellQuad(surfaceQuad, u0,u1, v0,v1){
+  const a = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u0, v0);
+  const b = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u1, v0);
+  const c = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u1, v1);
+  const d = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u0, v1);
+  return {a,b,c,d};
+}
 
-function buildColorPatches(seed, RINGS){
+// 1x generiert (stabil)
+let cellFills = [];
+
+function buildCellFills(seed, UDIV, VDIV){
   const r = rngFrom(seed);
   const count = 3 + Math.floor(r()*3); // 3..5
-  const patches = [];
-  for(let i=0;i<count;i++){
-    const ring = Math.max(0, Math.min(RINGS-3, Math.floor(r()*(RINGS-2)))); // zwischen ring und ring+1
-    const side = Math.floor(r()*4); // 0 top,1 right,2 bottom,3 left
-    const col = COLOR_PENCIL[Math.floor(r()*COLOR_PENCIL.length)];
-    const alpha = 0.12 + r()*0.18;
+  const fills = [];
 
-    // strokes: nicht voll, nur einige Schraffuren
-    const strokesN = 14 + Math.floor(r()*14); // 14..27
+  for(let i=0;i<count;i++){
+    const surface = Math.floor(r()*4); // 0 ceiling,1 floor,2 left,3 right
+    const ui = Math.floor(r()*(UDIV-1)); // cell index
+    const vi = Math.floor(r()*(VDIV-1));
+
+    const col = PENCIL[Math.floor(r()*PENCIL.length)];
+    const a = 0.18 + r()*0.20;
+
+    const strokesN = 18 + Math.floor(r()*18); // 18..35 (nicht voll)
     const strokes = [];
     for(let s=0;s<strokesN;s++){
       strokes.push({
-        u: r(),                // position in quad
-        v: r(),
-        len: 0.10 + r()*0.30,  // relative
-        ang: (-0.9 + r()*1.8), // -0.9..+0.9 rad (leicht schräg)
-        jitter: 0.008 + r()*0.018,
-        seed: (seed + i*999 + s*77)>>>0
+        u: r(), v: r(),
+        len: 0.18 + r()*0.55,             // Anteil innerhalb Zelle
+        ang: (-0.9 + r()*1.8),            // leicht random
+        seed: (seed + i*999 + s*77)>>>0,
+        skip: r() < 0.28                  // bewusst Lücken lassen
       });
     }
 
-    patches.push({
-      ring, side,
-      color: rgbaFrom(col, alpha),
-      color2: rgbaFrom(col, alpha*0.55),
+    fills.push({
+      surface, ui, vi,
+      color1: rgba(col, a),
+      color2: rgba(col, a*0.55),
       strokes
     });
   }
-  return patches;
+  return fills;
 }
 
-function drawPatchScribble(patch, quad){
-  // quad = {a,b,c,d} (im Uhrzeigersinn)
-  const a=quad.a, b=quad.b, c=quad.c, d=quad.d;
-
-  // Clip auf Fläche
-  ctx.save();
+function clipQuad(q){
   ctx.beginPath();
-  ctx.moveTo(a.x,a.y);
-  ctx.lineTo(b.x,b.y);
-  ctx.lineTo(c.x,c.y);
-  ctx.lineTo(d.x,d.y);
+  ctx.moveTo(q.a.x,q.a.y);
+  ctx.lineTo(q.b.x,q.b.y);
+  ctx.lineTo(q.c.x,q.c.y);
+  ctx.lineTo(q.d.x,q.d.y);
   ctx.closePath();
   ctx.clip();
+}
 
-  // leichte "Papier"-Überlagerung durch 2 Passes
+function drawCellFill(q, fill){
+  ctx.save();
+  clipQuad(q);
+
+  // Schraffur (2 Pässe -> buntstiftig)
   for(let pass=0; pass<2; pass++){
-    ctx.strokeStyle = (pass===0) ? patch.color : patch.color2;
-    for(let i=0;i<patch.strokes.length;i++){
-      const st = patch.strokes[i];
+    ctx.strokeStyle = (pass===0) ? fill.color1 : fill.color2;
 
-      // Ausgangspunkt im Quad
-      const p0 = quadPoint(a,b,c,d, st.u, st.v);
+    for(const st of fill.strokes){
+      if(st.skip) continue;
 
-      // Richtung: angle im lokalen Screen, plus bisschen random
-      const r = rngFrom(st.seed + pass*999);
-      const ang = st.ang + (r()-0.5)*0.35;
+      // Startpunkt im Zell-Quad
+      const p0 = quadPoint(q.a,q.b,q.c,q.d, st.u, st.v);
 
-      // Länge in Pixel (abhängig von Quad-Größe)
-      const w = Math.hypot(b.x-a.x, b.y-a.y);
-      const h = Math.hypot(d.x-a.x, d.y-a.y);
-      const L = st.len * Math.max(28*DPR, Math.min(w,h));
+      const rr = rngFrom(st.seed + pass*1337);
+      const ang = st.ang + (rr()-0.5)*0.35;
 
-      const x1 = p0.x;
-      const y1 = p0.y;
-      const x2 = p0.x + Math.cos(ang)*L;
-      const y2 = p0.y + Math.sin(ang)*L;
+      // Zellgröße als Basis
+      const w = Math.hypot(q.b.x-q.a.x, q.b.y-q.a.y);
+      const h = Math.hypot(q.d.x-q.a.x, q.d.y-q.a.y);
+      const L = st.len * Math.max(18*DPR, Math.min(w,h));
 
-      // Kritzel: feiner als Grid
-      const amp = (1.1 + (r()*0.7)) * DPR;
-      const alpha = 0.55;
+      const x1 = p0.x + (pass?0.22*DPR:0);
+      const y1 = p0.y + (pass?0.16*DPR:0);
+      const x2 = x1 + Math.cos(ang)*L;
+      const y2 = y1 + Math.sin(ang)*L;
 
-      // pass 0 und pass 1 leicht versetzt, damit “Buntstift” wirkt
-      if(pass===0){
-        inkLine(x1,y1,x2,y2, st.seed, amp, alpha*0.55);
-      } else {
-        inkLine(x1+0.25*DPR,y1+0.18*DPR,x2+0.25*DPR,y2+0.18*DPR, st.seed+333, amp*0.85, alpha*0.40);
-      }
+      // feiner als Grid
+      const amp = (1.0 + rr()*0.7) * DPR;
+      const alpha = pass===0 ? 0.55 : 0.40;
+
+      inkLine(x1,y1,x2,y2, st.seed + pass*999, amp, alpha);
     }
   }
 
   ctx.restore();
 }
 
-/* ================== Tunnel-Grid (weiß, dünner, krakelig) ================== */
+/* ================== Tunnel-Grid (weiß, dünner) + echte Zell-Fills ================== */
 function drawTunnelGrid(now, reveal01){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
+  // Outer / Inner
   const outer = [
     {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
-
   const cx = W*0.5, cy = H*0.5;
   const innerW = W*0.44;
   const innerH = H*0.32;
@@ -421,78 +422,85 @@ function drawTunnelGrid(now, reveal01){
     {x:cx - innerW/2, y:cy + innerH/2}
   ];
 
-  const lerp = (a,b,t)=>a+(b-a)*t;
-  const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
+  // Surfaces als bilinear-Quads
+  const surfaces = [
+    // 0 ceiling
+    { a: outer[0], b: outer[1], c: inner[1], d: inner[0] },
+    // 1 floor
+    { a: outer[3], b: outer[2], c: inner[2], d: inner[3] },
+    // 2 left wall
+    { a: outer[0], b: inner[0], c: inner[3], d: outer[3] },
+    // 3 right wall
+    { a: inner[1], b: outer[1], c: outer[2], d: inner[2] }
+  ];
 
   const RINGS = 34;
   const RAD   = 26;
+
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
   const speed = 0.00038;
   const phase = (now*speed) % 1;
 
+  // ✅ Weißes Grid
   ctx.strokeStyle = 'rgba(255,255,255,0.52)';
 
   const AMP = 3.0 * DPR;
   const AMP_RING = AMP * 0.92;
   const AMP_RAD  = AMP * 1.00;
 
-  // Radials
+  // Radials über alle Flächen (wie vorher, aber als Linien)
+  // Top & Bottom
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
-    const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
-    const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
+    // ceiling: outer top -> inner top
+    const A = { x: outer[0].x + (outer[1].x-outer[0].x)*t, y: outer[0].y };
+    const B = { x: inner[0].x + (inner[1].x-inner[0].x)*t, y: inner[0].y };
     inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.50);
 
-    const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
-    const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
+    // floor: outer bottom -> inner bottom
+    const C = { x: outer[3].x + (outer[2].x-outer[3].x)*t, y: outer[3].y };
+    const D = { x: inner[3].x + (inner[2].x-inner[3].x)*t, y: inner[3].y };
     inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.50);
   }
+
+  // Left & Right
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
-    const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
-    const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
+    const A = { x: outer[0].x, y: outer[0].y + (outer[3].y-outer[0].y)*t };
+    const B = { x: inner[0].x, y: inner[0].y + (inner[3].y-inner[0].y)*t };
     inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.50);
 
-    const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
-    const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
+    const C = { x: outer[1].x, y: outer[1].y + (outer[2].y-outer[1].y)*t };
+    const D = { x: inner[1].x, y: inner[1].y + (inner[2].y-inner[1].y)*t };
     inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.50);
   }
 
-  // Helper: ring points at a given z
-  function ringPointsAt(z){
-    return {
-      q0: lerpP(outer[0], inner[0], z),
-      q1: lerpP(outer[1], inner[1], z),
-      q2: lerpP(outer[2], inner[2], z),
-      q3: lerpP(outer[3], inner[3], z),
-    };
-  }
-
-  // Rings + (optional) farbige Kritzel-Patches in Flächen
-  // Wir brauchen die Ring-Geometrie auch für die Patches:
-  // -> Patches referenzieren ring i und ring i+1 und eine Seite (top/right/bottom/left)
-  // -> dadurch entstehen exakt die “Rechtecke/Flächen” im Grid.
-  const ringZ = [];
+  // Rings (als “Frames” in Tiefe)
+  // Wir zeichnen sie weiterhin wie vorher (visuell nice), aber:
+  // Für Zell-Fills nutzen wir v-Subdivision (0..1) direkt.
   for(let i=0;i<ringCount;i++){
     const u = (i/(RINGS-1));
     let z = u*u;
     z = (z + phase*0.22) % 1;
     z = z*z;
-    ringZ.push(z);
 
-    const P = ringPointsAt(z);
+    const q0 = { x: outer[0].x + (inner[0].x-outer[0].x)*z, y: outer[0].y + (inner[0].y-outer[0].y)*z };
+    const q1 = { x: outer[1].x + (inner[1].x-outer[1].x)*z, y: outer[1].y + (inner[1].y-outer[1].y)*z };
+    const q2 = { x: outer[2].x + (inner[2].x-outer[2].x)*z, y: outer[2].y + (inner[2].y-outer[2].y)*z };
+    const q3 = { x: outer[3].x + (inner[3].x-outer[3].x)*z, y: outer[3].y + (inner[3].y-outer[3].y)*z };
+
     const front = (1 - z);
     const alpha = 0.10 + 0.22*front;
     const a = AMP_RING * (0.55 + 0.70*front);
 
-    inkLine(P.q0.x,P.q0.y,P.q1.x,P.q1.y, 100+i*0.21, a, alpha);
-    inkLine(P.q1.x,P.q1.y,P.q2.x,P.q2.y, 200+i*0.21, a, alpha);
-    inkLine(P.q2.x,P.q2.y,P.q3.x,P.q3.y, 300+i*0.21, a, alpha);
-    inkLine(P.q3.x,P.q3.y,P.q0.x,P.q0.y, 400+i*0.21, a, alpha);
+    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, alpha);
+    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, alpha);
+    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, alpha);
+    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, alpha);
   }
 
   // Portal
@@ -501,34 +509,24 @@ function drawTunnelGrid(now, reveal01){
   inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.05, 0.62);
   inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.05, 0.62);
 
-  // ✅ Farb-Kritzel in ausgewählten Grid-Flächen
-  // erscheinen sanft erst nach etwas Zeit
-  const paintAlpha = Math.min(1, Math.max(0, (reveal01 - 0.18) / 0.82));
-  if(colorPatches.length && ringZ.length >= 3 && paintAlpha > 0){
+  // ✅ Jetzt: echte Grid-Zellen farbig bekritzeln
+  // UDIV/RAD = quer, VDIV/RINGS = Tiefe
+  const paintAlpha = Math.min(1, Math.max(0, (reveal01 - 0.15) / 0.85));
+  if(cellFills.length && paintAlpha > 0){
     ctx.save();
     ctx.globalAlpha = paintAlpha;
 
-    for(const patch of colorPatches){
-      const i = Math.max(0, Math.min(ringZ.length-2, patch.ring));
-      const zA = ringZ[i];
-      const zB = ringZ[i+1];
+    for(const f of cellFills){
+      const u0 = f.ui / RAD;
+      const u1 = (f.ui+1) / RAD;
+      const v0 = f.vi / RINGS;
+      const v1 = (f.vi+1) / RINGS;
 
-      const A = ringPointsAt(zA);
-      const B = ringPointsAt(zB);
+      // nur wenn diese Tiefe schon “da” ist
+      if(v1 > reveal01) continue;
 
-      // Side -> quad zwischen Ring i und i+1
-      let quad;
-      if(patch.side === 0){ // top: q0-q1
-        quad = { a:A.q0, b:A.q1, c:B.q1, d:B.q0 };
-      } else if(patch.side === 1){ // right: q1-q2
-        quad = { a:A.q1, b:A.q2, c:B.q2, d:B.q1 };
-      } else if(patch.side === 2){ // bottom: q3-q2 (umdrehen für cw)
-        quad = { a:A.q3, b:A.q2, c:B.q2, d:B.q3 };
-      } else { // left: q0-q3
-        quad = { a:A.q0, b:A.q3, c:B.q3, d:B.q0 };
-      }
-
-      drawPatchScribble(patch, quad);
+      const q = cellQuad(surfaces[f.surface], u0,u1, v0,v1);
+      drawCellFill(q, f);
     }
 
     ctx.restore();
@@ -553,9 +551,9 @@ function startProgressAndTunnel(){
   const bar = document.getElementById('bar');
   const start = performance.now();
 
-  // ✅ Patches 1x generieren (stabil, kein Flimmern)
+  // ✅ 1x stabil generieren (kein Flimmern)
   const seed = (((start|0) ^ (W<<1) ^ (H<<2)) >>> 0) || 12345;
-  colorPatches = buildColorPatches(seed, 34);
+  cellFills = buildCellFills(seed, 26, 34); // RAD, RINGS
 
   function frame(now){
     const t = (now - start) / INTRO_MS;
