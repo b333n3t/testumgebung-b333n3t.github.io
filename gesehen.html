@@ -25,21 +25,24 @@
   <link rel="stylesheet" href="swipe-helper.css" />
 
   <style>
-    :root{ --bottom-gap:60px; }
+    :root{
+      --bottom-gap:60px;
+
+      /* ✅ Footer (hochkant rechts) – feinjustierbar */
+      --footer-top-desktop: 430px;
+      --footer-right-desktop: 0px;
+
+      --footer-top-mobile: 520px;    /* ← höher = kleinerer Wert */
+      --footer-right-mobile: 0.2px;  /* ← näher rechts = kleinerer Wert */
+    }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
     /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
-    /* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
     html{
       scrollbar-gutter: stable;
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: none;
     }
-
-    /* WebKit / Blink (Chrome, Safari, Edge) */
-    html::-webkit-scrollbar{
-      width: 0;
-      height: 0;
-    }
+    html::-webkit-scrollbar{ width:0; height:0; }
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
     body{ overflow:hidden; }
@@ -64,7 +67,7 @@
       box-shadow:none !important;
     }
 
-    /* Pfeile: links AUS, unten AUS, rechts AN (wie von dir) */
+    /* Pfeile: links AUS, unten AUS, rechts AN */
     .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left,
     .scroll-cue{
@@ -101,7 +104,7 @@
     .site-menu{
       position: fixed;
       top: 0;
-      right: -160px;                 /* außerhalb des Viewports */
+      right: -160px;
       height: auto;
       max-height: 90vh;
 
@@ -117,10 +120,7 @@
       z-index: 1101;
       padding: 46px 10px 14px;
     }
-
-    body.menu-open .site-menu{
-      right: 0;
-    }
+    body.menu-open .site-menu{ right: 0; }
 
     .site-menu ul{list-style:none;margin:0;padding:0}
     .site-menu li{margin:0 0 10px}
@@ -312,12 +312,13 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* ✅ Footer wieder wie „plattformen“ (volle Breite + rechtsbündig) */
+    /* ✅ Footer: per Variablen positioniert (wie dein fehlendes :root gedacht) */
     .footer-inline{
       position:fixed;
-      left:0;
-      right:0;
-      bottom:40px;
+      top: var(--footer-top-desktop);
+      right: var(--footer-right-desktop);
+      left: auto;
+      bottom: auto;
 
       text-align:right;
       padding-right:18px;
@@ -326,6 +327,16 @@
       color:#930010;
       font-size:.82rem;
       z-index:910;
+
+      width:auto;
+      max-width: calc(100vw - 12px);
+      white-space: nowrap;
+    }
+    @media (max-width:768px){
+      .footer-inline{
+        top: var(--footer-top-mobile);
+        right: var(--footer-right-mobile);
+      }
     }
     .footer-inline a{
       color:#930010 !important;
@@ -375,13 +386,13 @@
       transform: translateY(-50%);
       z-index: 9999;
 
-      width: 24px;     /* kleiner */
-      height: 40px;    /* kleiner */
+      width: 24px;
+      height: 40px;
 
       display: grid;
       place-items: center;
 
-      background: rgba(220,220,220,0.55);   /* hellgrau */
+      background: rgba(220,220,220,0.55);
       border: 1px solid rgba(255,255,255,0.35);
       border-right: 0;
       border-radius: 999px 0 0 999px;
@@ -394,7 +405,7 @@
       -webkit-backdrop-filter: blur(4px);
 
       color: rgba(0,0,0,0.7);
-      font-size: 14px;   /* kleiner */
+      font-size: 14px;
       line-height: 1;
 
       cursor: pointer;
@@ -502,53 +513,12 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- ✅ Burger-Menü (wie index.html: body.menu-open) -->
-  <script>
-  (function(){
-    const btn = document.querySelector('.hamburger');
-    const overlay = document.getElementById('menu-overlay');
-    const menu = document.getElementById('site-menu');
-    if(!btn || !overlay || !menu) return;
-
-    function openMenu(){
-      document.body.classList.add('menu-open');
-      overlay.hidden = false;
-      btn.setAttribute('aria-expanded','true');
-      btn.setAttribute('aria-label','Menü schließen');
-    }
-
-    function closeMenu(){
-      document.body.classList.remove('menu-open');
-      overlay.hidden = true;
-      btn.setAttribute('aria-expanded','false');
-      btn.setAttribute('aria-label','Menü öffnen');
-    }
-
-    function toggleMenu(){
-      document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
-    }
-
-    btn.addEventListener('click', toggleMenu);
-    overlay.addEventListener('click', closeMenu);
-
-    document.addEventListener('keydown', (e)=>{
-      if(e.key === 'Escape') closeMenu();
-    });
-
-    // Klick auf Menü-Link -> schließen
-    menu.querySelectorAll('a').forEach(a=>{
-      a.addEventListener('click', closeMenu);
-    });
-  })();
-  </script>
-
   <!-- NEU: Intro-Button gewinnt immer gegen swipe-nav -->
   <script>
   (function(){
     const btn = document.getElementById('intro-arrow');
     if(!btn) return;
 
-    // pointerdown kommt vor swipe-nav (touchend/pointerup/wheel) → sicherer
     btn.addEventListener('pointerdown', function(e){
       e.preventDefault();
       e.stopImmediatePropagation();
