@@ -18,64 +18,54 @@
   </script>
 
   <style>
-    :root {
-      --fade-ms: 1000ms;
-      --bg: #930010;
-    }
+    :root { --fade-ms: 1000ms; --bg:#930010; }
 
-    html,body {
-      margin:0;
-      height:100%;
+    html,body{
+      margin:0;height:100%;
       background:var(--bg);
       overflow:hidden;
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
     canvas#c{
-      position:fixed;
-      inset:0;
+      position:fixed; inset:0;
+      width:100vw; height:100vh;
       display:block;
-      width:100vw;
-      height:100vh;
       image-rendering:pixelated;
       image-rendering:crisp-edges;
       opacity:0;
-      transition: opacity var(--fade-ms) ease;
+      transition:opacity var(--fade-ms) ease;
       z-index:1;
     }
-    body.ready canvas#c  { opacity:1; }
-    body.fadeout canvas#c{ opacity:0; }
+    body.ready canvas#c{opacity:1;}
+    body.fadeout canvas#c{opacity:0;}
 
-    .skip {
+    .skip{
       position:fixed; top:14px; right:14px; z-index:10;
       background:#fff; color:#000; border:0; border-radius:999px;
       padding:.45rem .8rem; font-weight:700; cursor:pointer;
     }
-    .skip:focus-visible { outline:2px solid #fff; outline-offset:2px; }
+    .skip:focus-visible{outline:2px solid #fff; outline-offset:2px;}
 
     .loaderWrap{
-      position:fixed;
-      inset:0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      position:fixed; inset:0;
+      display:flex; align-items:center; justify-content:center;
       opacity:0;
-      transition: opacity var(--fade-ms) ease;
+      transition:opacity var(--fade-ms) ease;
       z-index:5;
       pointer-events:none;
     }
-    body.ready .loaderWrap{ opacity:1; }
-    body.fadeout .loaderWrap{ opacity:0; }
+    body.ready .loaderWrap{opacity:1;}
+    body.fadeout .loaderWrap{opacity:0;}
 
     .loader{
-      width:min(720px, 78vw);
+      width:min(720px,78vw);
       padding:18px 18px 16px;
       box-sizing:border-box;
     }
 
     .barFrame{
-      width:100%;
-      height:16px;
+      width:100%; height:16px;
       border:2px solid #fff;
       border-radius:0;
       padding:2px;
@@ -101,48 +91,46 @@
 
     .hint{
       margin-top:10px;
-      color:rgba(255,255,255,.85);
+      color:rgba(255,255,255,.88);
       font-size:14px;
       letter-spacing:.2px;
       text-align:center;
       user-select:none;
+      text-shadow: 0 1px 0 rgba(0,0,0,0.35);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      body { animation:none !important; }
-      canvas#c, .loaderWrap { transition:none; }
+    @media (prefers-reduced-motion: reduce){
+      body{animation:none !important;}
+      canvas#c,.loaderWrap{transition:none;}
     }
   </style>
 
   <noscript>
     <meta http-equiv="refresh" content="0; url=index.html?nointro=1">
     <style>
-      body { display:flex; align-items:center; justify-content:center; color:#fff; }
-      a { color:#fff; text-decoration:underline; }
+      body{display:flex;align-items:center;justify-content:center;color:#fff;}
+      a{color:#fff;text-decoration:underline;}
     </style>
     <p>Weiter zur <a href="index.html?nointro=1">Startseite</a>…</p>
   </noscript>
 </head>
 <body>
 
-  <main role="main">
-    <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+<main role="main">
+  <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
+  <canvas id="c" aria-hidden="true"></canvas>
 
-    <canvas id="c" aria-hidden="true"></canvas>
-
-    <div class="loaderWrap" aria-hidden="true">
-      <div class="loader">
-        <div class="barFrame">
-          <div class="bar" id="bar"></div>
-        </div>
-        <div class="hint">Loading…</div>
-      </div>
+  <div class="loaderWrap" aria-hidden="true">
+    <div class="loader">
+      <div class="barFrame"><div class="bar" id="bar"></div></div>
+      <div class="hint">Loading…</div>
     </div>
+  </div>
 
-    <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
-      Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
-    </div>
-  </main>
+  <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
+  </div>
+</main>
 
 <script>
 /* ================== Redirect Ziel ================== */
@@ -221,85 +209,103 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* ================== "Hand-drawn" Helpers (deterministisch, kein Flimmern) ================== */
+/* ================== Comic/Krakelig Tools (deterministisch) ================== */
 const snap = (v)=>Math.round(v);
+const clamp01 = (t)=>Math.max(0,Math.min(1,t));
 
-// schneller Hash -> 0..1
 function hash01(n){
-  // deterministic pseudo-random
   const x = Math.sin(n * 127.1) * 43758.5453123;
   return x - Math.floor(x);
 }
-
-// glatter Wert (0..1) über "t" (damit Linien nicht hart knicken)
 function smoothstep(t){
-  t = Math.max(0, Math.min(1, t));
+  t = clamp01(t);
   return t*t*(3 - 2*t);
 }
 
-// krakelige Linie als Polyline mit kleinen Perp-Offsets
-function scribbleLine(x1,y1,x2,y2,seed,ampPx, wobbleNow){
-  // wobbleNow: kleiner Drift, aber stabil (kein jitter)
+// 1D "noise" über t (0..1), deterministisch und smooth
+function noise1D(seed, t){
+  const s = t * 12;              // Frequenz (höher => mehr Zacken)
+  const i = Math.floor(s);
+  const f = s - i;
+  const a = hash01(seed*1000 + i*17.17);
+  const b = hash01(seed*1000 + (i+1)*17.17);
+  const u = smoothstep(f);
+  return (a*(1-u) + b*u) * 2 - 1; // -1..1
+}
+
+function scribbleStroke(x1,y1,x2,y2,seed,amp){
   const dx = x2-x1, dy = y2-y1;
   const len = Math.hypot(dx,dy) || 1;
-  const nx = -dy/len, ny = dx/len; // perpendicular
+  const nx = -dy/len, ny = dx/len;
 
-  // Segmente abhängig von Länge (aber gedeckelt)
-  const segs = Math.max(6, Math.min(18, Math.floor(len / (28*DPR))));
+  // mehr Segmente => "comic"
+  const segs = Math.max(10, Math.min(34, Math.floor(len/(14*DPR))));
 
   ctx.beginPath();
-
   for(let i=0;i<=segs;i++){
-    const t = i / segs;
+    const t = i/segs;
 
-    // Basis-Punkt
+    // Basis
     let x = x1 + dx*t;
     let y = y1 + dy*t;
 
-    // deterministisches "Hand"-Offset pro Segment
-    const r = (hash01(seed*1000 + i*17.7) * 2 - 1);     // -1..1
-    const r2 = (hash01(seed*2000 + i*9.3) * 2 - 1);    // -1..1
+    // Hand-Noise (smooth), plus kleines "zitter" (aber deterministisch)
+    const n = noise1D(seed, t);
+    const n2 = noise1D(seed+9.3, t);
 
-    // sanft zur Mitte stärker, an Enden weniger
-    const m = smoothstep(t) * (1 - smoothstep(t));
-    const a = ampPx * (0.55 + 0.45*m);
+    // Mitte stärker, Enden weniger (wie Handdruck)
+    const mid = smoothstep(t) * (1 - smoothstep(t));
+    const a = amp * (0.55 + 1.25*mid);
 
-    // leichter zeitlicher Drift (wie "Hand bewegt sich"), aber gleichmäßig
-    const drift = Math.sin(wobbleNow + seed*3.1 + i*0.7) * (0.25*DPR);
+    // Offset in Normalrichtung + bisschen entlang der Linie
+    x += nx*(n*a) + dx/len*(n2*0.6*DPR);
+    y += ny*(n*a) + dy/len*(n2*0.6*DPR);
 
-    x += nx * (r*a + drift) + (r2*0.35*DPR);
-    y += ny * (r*a + drift) + (r2*0.35*DPR);
+    // Pixel-snap
+    x = snap(x); y = snap(y);
 
-    if(i===0) ctx.moveTo(snap(x), snap(y));
-    else      ctx.lineTo(snap(x), snap(y));
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
   }
-
   ctx.stroke();
 }
 
-/* ================== Tunnel-Grid (4 Seiten, "Raum" in der Mitte) ================== */
+// “Ink” Look: doppelt zeichnen (dicker + dünner), leicht versetzt
+function inkLine(x1,y1,x2,y2,seed,amp,baseAlpha){
+  // dunkler Unterstrich
+  ctx.save();
+  ctx.globalAlpha = baseAlpha;
+  ctx.lineWidth = Math.max(1, Math.round(DPR*2));
+  scribbleStroke(x1,y1,x2,y2,seed,amp*1.05);
+
+  // heller/dünner drüber (gibt Comic-Edge)
+  ctx.globalAlpha = baseAlpha*0.85;
+  ctx.lineWidth = Math.max(1, Math.round(DPR));
+  scribbleStroke(x1+0.6*DPR,y1+0.4*DPR,x2+0.6*DPR,y2+0.4*DPR,seed+111,amp*0.85);
+  ctx.restore();
+}
+
+/* ================== Tunnel-Grid (Comic/Krakelig) ================== */
 function drawTunnelGrid(now, reveal01){
-  // background
+  // Hintergrund
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
-  // Stil
-  ctx.save();
-  ctx.lineWidth = Math.max(1, Math.round(DPR));
-  ctx.strokeStyle = 'rgba(0,0,0,0.30)';
+  // Farben wie "hand ink"
+  const ink = 'rgba(0,0,0,0.55)';
+  const inkSoft = 'rgba(0,0,0,0.35)';
 
-  // Outer quad
+  // Outer = ganze Fläche
   const outer = [
     {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
 
-  // Inner quad (Portal)
+  // Inner = Portal/Room
   const cx = W*0.5, cy = H*0.5;
-  const innerW = W*0.42;
-  const innerH = H*0.30;
-
+  const innerW = W*0.44;
+  const innerH = H*0.32;
   const inner = [
     {x:cx - innerW/2, y:cy - innerH/2},
     {x:cx + innerW/2, y:cy - innerH/2},
@@ -310,57 +316,57 @@ function drawTunnelGrid(now, reveal01){
   const lerp = (a,b,t)=>a+(b-a)*t;
   const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
 
-  // counts
-  const RINGS = 30;
-  const RAD   = 22;
+  // Reveal -> Anzahl Linien
+  const RINGS = 34;
+  const RAD   = 26;
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
-  // Bewegung (stabil)
-  const speed = 0.00035;
+  // Bewegung (nur Ring-Index shift, kein jitter)
+  const speed = 0.00038;
   const phase = (now*speed) % 1;
-  const wobbleNow = now * 0.002; // für hand-drift, aber smooth
 
-  // Hand-Parameter
-  const baseAmp = 1.6 * DPR; // "wie krakelig" (erhöhe für mehr Hand-Look)
+  // “richtig krakelig”
+  const AMP = 4.6 * DPR;        // <- Haupt-Regler (mehr = krakeliger)
+  const AMP_RING = AMP * 0.92;
+  const AMP_RAD  = AMP * 1.05;
 
-  // --- 1) Radiale Linien von allen 4 Seiten ---
-  // Oben + Unten
+  // --- Radials (4 Seiten) ---
+  ctx.strokeStyle = inkSoft;
+
+  // Top/Bottom
   for(let i=0;i<=radCount;i++){
-    const t = i / radCount;
+    const t = i/radCount;
 
-    // oben
     const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
     const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    scribbleLine(A.x,A.y,B.x,B.y, 10 + i*0.11, baseAmp, wobbleNow);
+    inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.9);
 
-    // unten
     const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
     const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    scribbleLine(C.x,C.y,D.x,D.y, 20 + i*0.11, baseAmp, wobbleNow);
+    inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.9);
   }
 
-  // Links + Rechts
+  // Left/Right
   for(let i=0;i<=radCount;i++){
-    const t = i / radCount;
+    const t = i/radCount;
 
-    // links
     const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
     const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    scribbleLine(A.x,A.y,B.x,B.y, 30 + i*0.11, baseAmp, wobbleNow);
+    inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.9);
 
-    // rechts
     const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
     const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    scribbleLine(C.x,C.y,D.x,D.y, 40 + i*0.11, baseAmp, wobbleNow);
+    inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.9);
   }
 
-  // --- 2) Tiefen-Ringe (Quads) ---
+  // --- Rings (Depth frames) ---
+  // Die Ringe zeichnen wir “von hinten nach vorne” für Comic-Layering
   for(let i=0;i<ringCount;i++){
-    const u = (i / (RINGS-1));
+    const u = (i/(RINGS-1));
 
-    let z = u*u;                 // dichter zum Zentrum
-    z = (z + phase*0.18) % 1;    // Bewegung nach vorne
+    let z = u*u;               // dichter am Zentrum
+    z = (z + phase*0.22) % 1;  // Fahrt nach vorne
     z = z*z;
 
     const q0 = lerpP(outer[0], inner[0], z);
@@ -368,29 +374,49 @@ function drawTunnelGrid(now, reveal01){
     const q2 = lerpP(outer[2], inner[2], z);
     const q3 = lerpP(outer[3], inner[3], z);
 
-    // weiter hinten weniger "Hand", vorne etwas mehr
-    const depthAmp = baseAmp * (0.65 + 0.55*(1 - z));
+    // vorne dicker/dunkler
+    const front = (1 - z);
+    const alpha = 0.22 + 0.30*front; // 0.22..0.52
 
-    scribbleLine(q0.x,q0.y,q1.x,q1.y, 100 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q1.x,q1.y,q2.x,q2.y, 200 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q2.x,q2.y,q3.x,q3.y, 300 + i*0.21, depthAmp, wobbleNow);
-    scribbleLine(q3.x,q3.y,q0.x,q0.y, 400 + i*0.21, depthAmp, wobbleNow);
+    ctx.strokeStyle = ink;
+    ctx.globalAlpha = alpha;
+
+    // Ring-Krakel: vorne mehr Amp, hinten weniger
+    const a = AMP_RING * (0.55 + 0.85*front);
+
+    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, 1);
+    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, 1);
+    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, 1);
+    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, 1);
+
+    ctx.globalAlpha = 1;
   }
 
-  // Inneres Frame etwas kräftiger
-  ctx.strokeStyle = 'rgba(0,0,0,0.45)';
-  const portalAmp = baseAmp * 1.2;
-  scribbleLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, portalAmp, wobbleNow);
-  scribbleLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, portalAmp, wobbleNow);
-  scribbleLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, portalAmp, wobbleNow);
-  scribbleLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, portalAmp, wobbleNow);
+  // --- Portal (inner frame) kräftig, comic outline ---
+  ctx.strokeStyle = 'rgba(0,0,0,0.70)';
+  ctx.globalAlpha = 1;
 
-  ctx.restore();
+  const portalAmp = AMP * 1.15;
+  ctx.lineWidth = Math.max(1, Math.round(DPR*2.2));
+  inkLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, portalAmp, 1);
+  inkLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, portalAmp, 1);
+  inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, portalAmp, 1);
+  inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, portalAmp, 1);
+
+  // Optional: Mini-"Comic Hatching" am Rand (80s Print-Feel)
+  const hatchCount = Math.floor(8 + reveal01*10);
+  ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+  for(let i=0;i<hatchCount;i++){
+    const t = i/(hatchCount-1 || 1);
+    const y = lerp(0, H, t);
+    inkLine(0, y, 0.12*W, y-0.08*H, 1200+i*0.5, AMP*0.35, 0.6);
+    inkLine(W, y, 0.88*W, y-0.08*H, 1300+i*0.5, AMP*0.35, 0.6);
+  }
 }
 
 /* ================== Loader Timing ================== */
 const START_DELAY_MS = 1000;
-const INTRO_MS = 3500;   // ✅ 3–4 Sekunden => 3.5s
+const INTRO_MS = 3500;   // 3–4 Sekunden => 3.5s
 const FADEOUT_MS = 1700;
 const EXTRA_MS = 300;
 
@@ -410,8 +436,8 @@ function startProgressAndTunnel(){
     const t = (now - start) / INTRO_MS;
     const clamped = Math.max(0, Math.min(1, t));
 
-    // "Strich-für-Strich" Aufbau
-    const reveal = Math.min(1, clamped * 1.15);
+    // Reveal: Aufbau "Strich für Strich"
+    const reveal = Math.min(1, clamped * 1.20);
 
     // Tunnel zeichnen
     drawTunnelGrid(now, reveal);
