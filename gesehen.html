@@ -29,22 +29,21 @@
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
     /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
-/* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
-html{
-  scrollbar-gutter: stable;
-}
+    /* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
+    html{
+      scrollbar-gutter: stable;
+    }
 
-/* WebKit / Blink (Chrome, Safari, Edge) */
-html::-webkit-scrollbar{
-  width: 0;
-  height: 0;
-}
+    /* WebKit / Blink (Chrome, Safari, Edge) */
+    html::-webkit-scrollbar{
+      width: 0;
+      height: 0;
+    }
 
-/* Firefox */
-html{
-  scrollbar-width: none;
-}
-
+    /* Firefox */
+    html{
+      scrollbar-width: none;
+    }
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
     body{ overflow:hidden; }
@@ -369,6 +368,59 @@ html{
       letter-spacing:.03em !important;
       line-height:1.6 !important;
     }
+    /* =======================================================================================
+       NEUER KLEINER INTRO-PFEIL (hellgrauer Halbkreis, wie vorher – aber kleiner)
+       ======================================================================================= */
+    #intro-arrow{
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 9999;
+
+      width: 24px;     /* kleiner */
+      height: 40px;    /* kleiner */
+
+      display: grid;
+      place-items: center;
+
+      background: rgba(220,220,220,0.55);   /* hellgrau */
+      border: 1px solid rgba(255,255,255,0.35);
+      border-right: 0;
+      border-radius: 999px 0 0 999px;
+
+      box-shadow:
+        0 10px 22px rgba(0,0,0,0.28),
+        inset 0 0 0 1px rgba(255,255,255,0.22);
+
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+
+      color: rgba(0,0,0,0.7);
+      font-size: 14px;   /* kleiner */
+      line-height: 1;
+
+      cursor: pointer;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+
+      padding: 0;
+      outline: none;
+    }
+
+    #intro-arrow:hover{
+      background: rgba(235,235,235,0.65);
+    }
+
+    #intro-arrow:active{
+      transform: translateY(-50%) scale(0.98);
+    }
+
+    /* alten Link-Pfeil ausblenden (nur auf dieser Seite) */
+    a.nav-arrow.right[aria-label="Nächste Seite"]{
+      display:none !important;
+    }
   </style>
 </head>
 
@@ -396,7 +448,11 @@ html{
     </ul>
   </nav>
 
+  <!-- ALTER PFEIL (wird per CSS ausgeblendet, bleibt aber im Code unverändert) -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
+
+  <!-- NEUER PFEIL (klein, hellgrauer Halbkreis) -->
+  <button id="intro-arrow" type="button" aria-label="Intro öffnen">→</button>
 
   <main class="main">
     <div class="scroll-panel">
@@ -448,6 +504,21 @@ html{
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- NEU: Intro-Button gewinnt immer gegen swipe-nav -->
+  <script>
+  (function(){
+    const btn = document.getElementById('intro-arrow');
+    if(!btn) return;
+
+    // pointerdown kommt vor swipe-nav (touchend/pointerup/wheel) → sicherer
+    btn.addEventListener('pointerdown', function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.location.assign('intro.html');
+    }, true);
+  })();
+  </script>
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
