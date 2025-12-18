@@ -211,6 +211,13 @@
     .sub-group:first-of-type .sub-toggle{ margin-top: 1.1rem; }  /* vorher 0.85rem -> zu groß */
     .sub-group > .sub-content{ margin-top: 0.6rem; }   /* etwas kompakter vorher 0.45*/
 
+/* ➕ kleiner Extra-Abstand nach dem letzten Unter-Akkordeon
+   ("was mich gerade beschäftigt") zum nächsten Link ("gesehen") */
+.page-group.current.open > .page-content > .sub-group:last-of-type.open{
+  margin-bottom: 8px; /* klein */
+}
+
+    
     .footer-inline{
       position:fixed;
       left:0;
