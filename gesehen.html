@@ -121,12 +121,12 @@
       color:#fff !important;
     }
 
-    /* ✅ Footer: rechtsbündig + rot (#930010) */
+    /* ✅ Footer: rechtsbündig + rot (#930010) + unten identisch zu allen Seiten */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:40px;
+      bottom:var(--bottom-gap);
 
       text-align:right;
       padding-right:18px;
@@ -136,10 +136,6 @@
       font-size:.82rem;
       z-index:910;
     }
-    @media (max-width:767px){
-  .footer-inline{ bottom:20px; }
-}
-
     .footer-inline a{
       color:#930010 !important;
       text-decoration:none;
@@ -269,7 +265,7 @@
       font-size:1.1rem !important;
       font-weight:400 !important;
       letter-spacing:0.03em !important;
-      line-height:1.2 !important;          /* <- wichtig: macht die Zeilen/Abstände wie Bild 1 */
+      line-height:1.2 !important;
     }
 
     .page-link{
@@ -278,8 +274,8 @@
       gap:6px;
       text-decoration:none;
       color:inherit;
-      margin:0;                            /* <- sicherheitshalber */
-      padding:0;                           /* <- sicherheitshalber */
+      margin:0;
+      padding:0;
     }
     .page-link:visited{ color:inherit; }
     .page-link .arrow{ display:inline-block; transition:transform .2s ease; }
@@ -296,7 +292,7 @@
 
       appearance:none;
       -webkit-appearance:none;
-      margin:0;                            /* <- sicherheitshalber */
+      margin:0;
     }
     .page-toggle .arrow{ display:inline-block; transition:transform .2s ease; }
 
@@ -308,7 +304,7 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    /* ✅ Schriftart/Typo in page-content identisch (wie auf den anderen Seiten) */
+    /* ✅ Schriftart/Typo in page-content identisch */
     .page-content h1,
     .page-content h2,
     .page-content p{
@@ -345,7 +341,7 @@
       }
     }
 
-    /* ✅ Cards wie diskografie: WEISS (nicht transparent) */
+    /* ✅ Cards wie diskografie: WEISS */
     .grid-seen .card{
       width:100% !important;
       max-width:none !important;
