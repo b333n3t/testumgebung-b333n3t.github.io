@@ -61,6 +61,10 @@
       /* NEU: einheitliche Abstände */
       --block-title-gap: 0.95rem;   /* Abstand unter h2 */
       --block-par-gap: 0.7rem;      /* Abstand zwischen Absätzen */
+
+      /* NEU: Abstände um den b3nn3t-Link im "mehr von b3nn3t"-Block */
+      --more-link-gap-top: 0.85rem;
+      --more-link-gap-bottom: 0.95rem;
     }
 
     html, body {
@@ -192,8 +196,6 @@
       margin: 0 0 0.8rem; /* NEU: keine Top-Margin -> kommt vom h2 */
     }
 
-    /* Mehr Abstand zwischen "jetzt folgen" und Icons (über h2 geregelt),
-       zusätzlich kleiner Feinschliff falls der Block mal anders gebaut wird */
     section.block > h2 + .social-section,
     section.block > h2 + .social-icons {
       margin-top: 0;
@@ -238,6 +240,14 @@
       padding: 0;
       margin-top: 0.45rem;
       cursor: pointer;
+    }
+
+    /* NEU: macht den b3nn3t-Link im "mehr von b3nn3t"-Block markanter (mehr Abstand oben/unten) */
+    .more-link {
+      display: inline-block;
+      margin-top: var(--more-link-gap-top);
+      margin-bottom: var(--more-link-gap-bottom);
+       margin-left: 0.8rem; /* ← NEU: leichte Einrückung nach rechts */
     }
 
     @media (max-width: 768px) {
@@ -362,7 +372,7 @@
         <section aria-label="Mehr von b3nn3t" class="block">
           <h2>mehr von b3nn3t</h2>
           <p>auf der webseite:</p>
-          <a class="brand-link" href="https://www.b3nn3t.com/index.html">b3nn3t</a>
+          <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t</a>
           <p>mehr impulse. mehr perspektiven. mehr blickwinkel.</p>
         </section>
 
