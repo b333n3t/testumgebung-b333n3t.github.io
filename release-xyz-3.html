@@ -5,184 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>b3nn3t „drei“ | neuer release</title>
-  <meta name="description" content="„DREI“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
-  <meta name="robots" content="index,follow,max-image-preview:large" />
-
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
-
-  <!-- Open Graph -->
-  <meta property="og:type" content="music.song">
-  <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„DREI“ – neues Release von b3nn3t">
-  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="„DREI“ – neues Release von b3nn3t">
-  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „DREI“ von b3nn3t.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
-
-  <!-- Strukturierte Daten -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MusicRecording",
-    "name": "DREI",
-    "byArtist": {
-      "@type": "MusicGroup",
-      "name": "b3nn3t"
-    },
-    "inAlbum": {
-      "@type": "MusicAlbum",
-      "name": "DREI"
-    },
-    "image": "https://www.b3nn3t.com/assets/release/drei-cover.png",
-    "url": "https://www.b3nn3t.com/release-alles-was-bleibt.html"
-  }
-  </script>
-
-  <!-- LCP-Poster vorladen und priorisieren -->
-  <link
-    rel="preload"
-    as="image"
-    href="assets/release/drei-cover.png"
-    fetchpriority="high">
 
   <style>
     :root {
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
       --awb-bg: #930010;
-
-      /* NEU: einheitliche Abstände */
-      --block-title-gap: 0.95rem;   /* Abstand unter h2 */
-      --block-par-gap: 0.7rem;      /* Abstand zwischen Absätzen */
-
-      /* FEINJUSTIERUNG: weniger Abstand, dafür leicht nach rechts */
-      --more-link-gap-top: 0.65rem;
-      --more-link-gap-bottom: 0.75rem;
-      --more-link-indent: 0.25rem; /* "ein Tick" nach rechts */
+      --block-title-gap: 0.95rem;
+      --block-par-gap: 0.7rem;
     }
 
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
       background: var(--awb-bg);
     }
 
-    .page-wrap {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
-      box-sizing: border-box;
-    }
-
-    .content {
-      width: 100%;
-      max-width: var(--page-max-width);
-      position: relative;
-    }
-
     main.main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.6rem, 2.4vw, 2.2rem);
+      gap: 2rem;
     }
 
-    /* Obere Zeile */
-    .topline {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 0.7rem;
-      font-size: 0.92rem;
-      letter-spacing: 0.04em;
-      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
-    }
-
-    .brand-link {
-      color: #ffffff;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .count-label {
-      text-transform: none;
-      opacity: 0.9;
-    }
-
-    #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
-      color: #ffffff;
-      min-width: 8ch;
-      display: inline-block;
-    }
-
-    /* Titel */
+    /* 🔽 Titel: Abstand halbiert */
     .song-title {
       margin: 0;
       font-weight: 600;
-      text-transform: uppercase;
+      text-transform: lowercase;
       font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem); /* ← halb */
     }
 
-    /* Video */
-    .video-wrap {
-      margin: 0 auto clamp(2rem, 3vw, 2.8rem);
-      max-width: 720px;
-      width: 100%;
-    }
-
-    .video-inner {
-      border-radius: 22px;
-      overflow: hidden;
-      background: #000;
-      aspect-ratio: 16 / 9;
-    }
-
-    .release-video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border-radius: inherit;
-      background: #000;
-      object-fit: cover;
-    }
-
-    /* Sektionen */
-    section.block {
-      margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
-    }
-
-    /* Abstand nach h2 überall gleich */
     section.block h2 {
       margin: 0 0 var(--block-title-gap);
       font-size: 1.06rem;
-      letter-spacing: 0.04em;
       text-transform: lowercase;
-      font-weight: 600;
     }
 
     section.block p {
       margin: 0;
       line-height: 1.7;
-      letter-spacing: 0.04em;
-      max-width: 60rem;
       font-size: 1rem;
     }
 
@@ -190,209 +53,31 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* Streaming-Icons */
-    .social-section {
-      margin: 0 0 0.8rem;
-    }
-
-    section.block > h2 + .social-section,
-    section.block > h2 + .social-icons {
-      margin-top: 0;
-    }
-
-    .social-icons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: clamp(1.1rem, 1.6vw, 1.6rem);
-      align-items: center;
-      margin-bottom: 0.4rem;
-    }
-
-    .social-link {
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .social-icon-img {
-      width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
-      height: auto;
-      display: block;
-    }
-
-    .neon-link {
-      display: inline-flex;
-      align-items: center;
-      font-size: clamp(1.05rem, 0.9vw + 0.8rem, 1.25rem);
-      font-weight: 800;
-      letter-spacing: 0.09em;
-      line-height: 1;
-      text-decoration: none;
-
-      color: transparent;
-      -webkit-text-stroke: 0.85px #ffffff;
-              text-stroke: 0.85px #ffffff;
-
-      background: none;
-      border: none;
-      padding: 0;
-      margin-top: 0.45rem;
-      cursor: pointer;
-    }
-
-    /* FEINJUSTIERUNG: Link im "mehr von b3nn3t"-Block */
-    .more-link {
-      display: inline-block;
-      margin-top: var(--more-link-gap-top);
-      margin-bottom: var(--more-link-gap-bottom);
-      padding-left: var(--more-link-indent);
-    }
-
-    @media (max-width: 768px) {
-      .page-wrap {
-        padding: 2.4rem 1.2rem 3rem;
-      }
-      .topline {
-        font-size: 0.87rem;
-        gap: 0.45rem;
-      }
-      .song-title {
-        letter-spacing: 0.26em;
-      }
-    }
-
-    @media (min-width: 1024px) {
-      .page-wrap {
-        padding-top: 4rem;
-        padding-bottom: 5rem;
-      }
+    /* 🔽 kein Abstand zwischen erklärbär-Sätzen */
+    section.block p.no-gap{
+      margin-bottom: 0;
     }
   </style>
 </head>
 
 <body>
-  <div class="page-wrap">
-    <div class="content">
-      <main class="main">
+  <main class="main">
 
-        <div class="topline" aria-label="Release Countdown">
-          <a class="brand-link" href="index.html">b3nn3t</a>
-          <span class="count-label">released in</span>
-          <span id="awb-countdown-timer">--:--:--</span>
-        </div>
+    <section class="title-section">
+      <h1 class="song-title">drei</h1>
+    </section>
 
-        <section class="video-wrap" aria-label="Video zum Song">
-          <div class="video-inner">
-            <video
-              id="release-video"
-              class="release-video"
-              controls
-              muted
-              playsinline
-              preload="metadata"
-              poster="assets/release/drei-cover.webp"
-              fetchpriority="high"
-              width="1280"
-              height="720">
-              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-              Dein Browser unterstützt dieses Videoformat nicht.
-            </video>
-          </div>
-        </section>
+    <section class="block">
+      <h2>erklärbär</h2>
 
-        <section class="title-section" aria-label="Songtitel">
-          <h1 class="song-title">drei</h1></section>
+      <p class="no-gap">
+        drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.
+      </p>
+      <p>
+        vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3
+      </p>
+    </section>
 
-        <section aria-label="Story zum Song" class="block">
-          <h2>erklärbär</h2>
-            <p class="no-gap"> drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
-          <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
-        </section>
-
-        <section aria-label="Streaming" class="block">
-          <h2>kuck hier</h2>
-
-          <div class="social-section" aria-label="Social Media Links">
-            <div class="social-icons">
-
-              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/spotify_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
-                </picture>
-              </a>
-
-              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-                 class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/apple_music_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
-                </picture>
-              </a>
-
-              <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-                 class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/instagram_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
-                </picture>
-              </a>
-
-              <a href="https://www.youtube.com/@b333nn3t"
-                 class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/youtube_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
-                </picture>
-              </a>
-
-              <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-                </picture>
-              </a>
-          </div>
-            </div>
-        </section>
-        <section aria-label="Mehr von b3nn3t" class="block">
-          <p>mehr auf meiner webseite :p</p>
-          <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
-        </section>
-
-      </main>
-    </div>
-  </div>
-
-  <script>
-    (function () {
-      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
-      const el = document.getElementById("awb-countdown-timer");
-      if (!el) return;
-
-      const now = Date.now();
-      const diff = targetDate - now;
-
-      if (diff <= 0) {
-        el.textContent = "OUT NOW";
-        return;
-      }
-
-      const seconds = Math.floor(diff / 1000);
-      const days = Math.floor(seconds / (3600 * 24));
-      const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-      const mins = Math.floor((seconds % 3600) / 60);
-      const secs = seconds % 60;
-
-      const hh = String(hours).padStart(2, "0");
-      const mm = String(mins).padStart(2, "0");
-      const ss = String(secs).padStart(2, "0");
-
-      el.textContent = (days > 0) ? (days + "d " + hh + ":" + mm + ":" + ss) : (hh + ":" + mm + ":" + ss);
-    })();
-  </script>
+  </main>
 </body>
 </html>
