@@ -28,8 +28,14 @@
     :root{ --bottom-gap:60px; }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    /* GENAU wie plattformen/kontakt */
-    html, body{ overflow:hidden; }
+    /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
+    html{
+      overflow-y: scroll;         /* reserviert konstant Scrollbar-Platz */
+      scrollbar-gutter: stable;   /* moderne Ergänzung */
+    }
+
+    /* Desktop: Body nicht scrollen; Mobile darf scrollen */
+    body{ overflow:hidden; }
     @media (max-width:767px){
       html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
     }
@@ -84,51 +90,50 @@
     body.menu-open #menu-overlay{display:block}
     #menu-overlay[hidden]{display:none}
 
-.site-menu{
-  position: fixed;
-  top: 0;
-  right: -160px;                 /* außerhalb des Viewports */
-  height: auto;
-  max-height: 90vh;
+    /* ✅ Menü ohne transform (reduziert Fixed-Glitches) */
+    .site-menu{
+      position: fixed;
+      top: 0;
+      right: -160px;                 /* außerhalb des Viewports */
+      height: auto;
+      max-height: 90vh;
 
-  width: min(40vw,150px);
+      width: min(40vw,150px);
 
-  background: rgba(255,255,255,.32);
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
+      background: rgba(255,255,255,.32);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
 
-  box-shadow: 0 20px 50px rgba(0,0,0,.08);
+      box-shadow: 0 20px 50px rgba(0,0,0,.08);
 
-  transition: right .25s;        /* KEIN transform */
-  z-index: 1101;
-  padding: 46px 10px 14px;
-}
+      transition: right .25s;
+      z-index: 1101;
+      padding: 46px 10px 14px;
+    }
 
-body.menu-open .site-menu{
-  right: 0;
-}
+    body.menu-open .site-menu{
+      right: 0;
+    }
 
-/* alles darunter bleibt unverändert */
-.site-menu ul{list-style:none;margin:0;padding:0}
-.site-menu li{margin:0 0 10px}
-.site-menu li.sep{
-  margin-top:18px;padding-top:8px;
-  border-top:1px solid rgba(0,0,0,.08)
-}
-.site-menu a{
-  display:block;
-  padding:8px 6px;
-  border-radius:10px;
-  color:#000;
-  text-decoration:none;
-  font-size:1rem;
-  font-weight:500;
-  font-family: Arial, sans-serif;
-  letter-spacing:0;
-  line-height:1.2;
-}
-.site-menu a:hover{background:rgba(0,0,0,.05)}
-
+    .site-menu ul{list-style:none;margin:0;padding:0}
+    .site-menu li{margin:0 0 10px}
+    .site-menu li.sep{
+      margin-top:18px;padding-top:8px;
+      border-top:1px solid rgba(0,0,0,.08)
+    }
+    .site-menu a{
+      display:block;
+      padding:8px 6px;
+      border-radius:10px;
+      color:#000;
+      text-decoration:none;
+      font-size:1rem;
+      font-weight:500;
+      font-family: Arial, sans-serif;
+      letter-spacing:0;
+      line-height:1.2;
+    }
+    .site-menu a:hover{background:rgba(0,0,0,.05)}
 
     /* ===== Scroll-Panel (wie plattformen) ===== */
     .scroll-panel{
@@ -299,48 +304,27 @@ body.menu-open .site-menu{
       padding:2px 10px;
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
-/* ===== ✅ FINALER FIX: Footer IMMER exakt gleich positioniert ===== */
-.footer-inline{
-  position: fixed !important;
 
-  right: 18px !important;
-  bottom: 40px !important;
+    /* ✅ Footer wieder wie „plattformen“ (volle Breite + rechtsbündig) */
+    .footer-inline{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:40px;
 
-  left: auto !important;
-  width: max-content !important;
+      text-align:right;
+      padding-right:18px;
+      padding-left:18px;
 
-  padding: 0 !important;
-  margin: 0 !important;
-
-  text-align: left !important;
-
-  color: #930010 !important;
-  font-size: .82rem !important;
-  line-height: 1.2 !important;
-  z-index: 910 !important;
-
-  /* kill mögliche Störquellen */
-  transform: none !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-
-  font-family: 'Press Start 2P', Arial, sans-serif !important;
-  font-weight: 400 !important;
-  letter-spacing: .03em !important;
-  -webkit-font-smoothing: auto !important;
-  text-rendering: auto !important;
-}
-
-.footer-inline a{
-  color: #930010 !important;
-  text-decoration: none !important;
-}
-.footer-inline a:hover{
-  text-decoration: underline !important;
-}
-
-
+      color:#930010;
+      font-size:.82rem;
+      z-index:910;
+    }
+    .footer-inline a{
+      color:#930010 !important;
+      text-decoration:none;
+    }
+    .footer-inline a:hover{ text-decoration: underline; }
 
     /* swipe helper */
     .edge-swipe{
