@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="utf-8" />
@@ -86,7 +86,7 @@
 
   <style>
     :root{
-      --bottom-gap:60px;
+      --bottom-gap:60px; /* nur für Panel-Höhe */
       --seen-max: 760px;
       --card-min: 320px;
       --seen-gap: 18px;
@@ -96,12 +96,13 @@
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    /* ✅ verhindert horizontale Scrollbar (kann Footer "verschieben") */
+    /* verhindert horizontale Scrollbars (können Layout/Pixel-Offsets erzeugen) */
     *, *::before, *::after{ box-sizing:border-box; }
     html, body{ overflow-x:hidden; }
 
     /* Desktop: kein Window-Scroll, nur Panel */
     html, body{ overflow-y:hidden; }
+    /* Mobile: normal scroll */
     @media (max-width:767px){
       html, body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
     }
@@ -116,39 +117,29 @@
       font-weight: 400;
       letter-spacing: 0.03em;
       line-height: 1.6;
-      margin:0;
     }
 
-    /* ✅ b3nn3t im Header weiß */
     .header .brand,
     .header .brand strong{
       color:#fff !important;
     }
 
-    /* ✅ WICHTIG: falls irgendwo ein echtes <footer> existiert -> ausblenden */
-    footer{ display:none !important; }
-
-    /* ✅✅✅ Footer EXAKT wie plattformen.html: rechts + rot + bottom 40/20 (+ safe-area) */
+    /* ✅✅✅ FOOTER: exakt wie die anderen Seiten (dein styles.css footer), aber rot + rechts */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:calc(40px + env(safe-area-inset-bottom));
+      bottom:calc(8px + env(safe-area-inset-bottom)) !important;
 
       text-align:right;
-      padding-left:18px;
-      padding-right:18px;
+      padding:0 18px;
 
-      color:#930010;
-      font-size:.82rem;
-      line-height:1.2;
+      color:#930010 !important;
+      font-family:'Press Start 2P', Arial, sans-serif !important;
+      font-size:0.82rem !important;
+      line-height:1.2 !important;
+
       z-index:1000;
-      pointer-events:auto;
-    }
-    @media (max-width:767px){
-      .footer-inline{
-        bottom:calc(20px + env(safe-area-inset-bottom));
-      }
     }
     .footer-inline a{
       color:#930010 !important;
@@ -156,7 +147,7 @@
     }
     .footer-inline a:hover{ text-decoration:underline; }
 
-    /* ✅ Kein Glas/Blur-Schleier über main */
+    /* main: kein Glas */
     main.main{
       background: transparent !important;
       box-shadow: none !important;
@@ -178,7 +169,7 @@
       display: none !important;
     }
 
-    /* ✅ Pfeile: links AUS, unten AUS, rechts AN */
+    /* Pfeile: links AUS, unten AUS, rechts AN */
     .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left{
       display:none !important;
@@ -193,7 +184,7 @@
       pointer-events:none !important;
     }
 
-    /* ===== Hamburger-Menü ===== */
+    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -249,7 +240,7 @@
     /* ===== Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
-      max-height:75vh;
+      max-height:75vh; /* wird per JS angepasst */
       margin:0;
       overflow-y:auto;
       overflow-x:hidden;
@@ -271,7 +262,6 @@
     .content-offset{ padding-top:1.5rem; }
     .grid{ display:flex; flex-direction:column; gap:1rem; }
 
-    /* Akkordeon wie andere Seiten */
     .page-link,
     .page-toggle{
       font-family:'Press Start 2P', Arial, sans-serif !important;
@@ -335,7 +325,7 @@
       margin-bottom: 1rem !important;
     }
 
-    /* Cards */
+    /* ========= Cards ========= */
     .grid-seen{
       display:grid !important;
       grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
@@ -369,7 +359,6 @@
       font-family: Arial, sans-serif !important;
       letter-spacing: 0 !important;
       line-height: 1.2 !important;
-      cursor:pointer;
     }
     .grid-seen .card small{ color:#000 !important; opacity:.8; }
 
@@ -392,7 +381,7 @@
       color:#000;
     }
 
-    /* Player */
+    /* ========= Player ========= */
     .video-row{
       grid-column: 1 / -1;
       width:100%;
