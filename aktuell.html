@@ -220,7 +220,7 @@
       .edge-swipe{ pointer-events: auto; }
     }
 
-    /* ===== DEIN CONTENT: Release-Card (unverändert) ===== */
+    /* ===== DEIN CONTENT: Release-Card (✅ von milchig -> weiss) ===== */
     .release-card {
       display: flex;
       align-items: center;
@@ -229,13 +229,19 @@
       padding: 1.6rem 1.6rem;
       width: 100%;
       max-width: 440px;
-      background: rgba(255,255,255,0.22);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
+
+      /* vorher: rgba(255,255,255,0.22) + blur */
+      background: #fff;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+
       border-radius: 16px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.15);
       text-decoration: none !important;
-      color: black;
+
+      /* Text auf weisser Card schwarz */
+      color: #000;
+
       transition: transform .25s ease, box-shadow .45s ease;
     }
     .release-card:hover {
@@ -472,8 +478,8 @@
       color:#fff !important;
     }
 
-    /* Release Card Text weiß (Card selbst bleibt wie definiert) */
-    .release-card{ color:#fff; }
+    /* Release Card Text (✅ auf weisser Card schwarz) */
+    .release-card{ color:#000; }
     .release-card *{ color:inherit; }
 
     /* Termine: Texte weiß */
