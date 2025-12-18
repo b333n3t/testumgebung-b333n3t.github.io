@@ -312,7 +312,8 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* ✅✅✅ Footer hochkant + rechts am Rand (variabel einstellbar) */
+    /* ✅✅✅ Footer hochkant + rechts am Rand (variabel einstellbar)
+       FIX: Unterkante nach INNEN (statt nach außen) -> rotate(0deg) */
     .footer-inline{
       position:fixed;
       top: var(--footer-top-desktop);
@@ -324,15 +325,11 @@
       color:#930010;
       font-size:.82rem;
 
-      /* hochkant */
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      transform: rotate(180deg);
+      transform: rotate(0deg); /* ✅ Unterseite zeigt nach innen */
 
-      /* kleine Innenabstände */
       padding: 10px 6px;
-
-      /* verhindert Umbruch */
       white-space: nowrap;
     }
     @media (max-width:768px){
@@ -726,4 +723,3 @@
   </script>
 </body>
 </html>
-
