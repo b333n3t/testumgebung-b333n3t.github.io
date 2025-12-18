@@ -29,22 +29,21 @@
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
     /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
-/* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
-html{
-  scrollbar-gutter: stable;
-}
+    /* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
+    html{
+      scrollbar-gutter: stable;
+    }
 
-/* WebKit / Blink (Chrome, Safari, Edge) */
-html::-webkit-scrollbar{
-  width: 0;
-  height: 0;
-}
+    /* WebKit / Blink (Chrome, Safari, Edge) */
+    html::-webkit-scrollbar{
+      width: 0;
+      height: 0;
+    }
 
-/* Firefox */
-html{
-  scrollbar-width: none;
-}
-
+    /* Firefox */
+    html{
+      scrollbar-width: none;
+    }
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
     body{ overflow:hidden; }
@@ -317,43 +316,46 @@ html{
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-/* ✅ Footer hochkant rechts (Desktop), normal unten (Mobile) */
-.footer-inline{
-  position: fixed;
-  right: 10px;
-  bottom: 24px;
-  z-index: 910;
+    /* ✅ Footer hochkant rechts (Desktop), normal unten (Mobile)
+       Desktop: nach oben geschoben bis etwa Oberkante 1. Card-Reihe */
+    .footer-inline{
+      position: fixed;
+      right: 10px;
+      top: 220px;     /* ← ggf. feinjustieren */
+      bottom: auto;
+      z-index: 910;
 
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
 
-  color:#930010;
-  font-size:.82rem;
+      color:#930010;
+      font-size:.82rem;
 
-  /* etwas Luft und bessere Lesbarkeit */
-  padding: 6px 4px;
-}
+      padding: 6px 4px;
+    }
 
-.footer-inline a{
-  color:#930010 !important;
-  text-decoration:none;
-}
-.footer-inline a:hover{ text-decoration: underline; }
+    .footer-inline a{
+      color:#930010 !important;
+      text-decoration:none;
+    }
+    .footer-inline a:hover{ text-decoration: underline; }
 
-/* Mobile: wieder normal unten */
-@media (max-width: 768px){
-  .footer-inline{
-    left: 0;
-    right: 0;
-    bottom: 18px;
+    /* Mobile: wieder normal unten */
+    @media (max-width: 768px){
+      .footer-inline{
+        left: 0;
+        right: 0;
+        bottom: 18px;
+        top: auto;
 
-    writing-mode: horizontal-tb;
-    text-orientation: initial;
+        writing-mode: horizontal-tb;
+        text-orientation: initial;
 
-    text-align: right;
-    padding: 0 18px;
-  }
-}
+        text-align: right;
+        padding: 0 18px;
+      }
+    }
+
     /* swipe helper */
     .edge-swipe{
       position:fixed;
@@ -385,6 +387,65 @@ html{
       letter-spacing:.03em !important;
       line-height:1.6 !important;
     }
+
+    /* =======================================================================================
+       NEUER KLEINER INTRO-PFEIL (hellgrauer Halbkreis) – höher gesetzt
+       ======================================================================================= */
+    #intro-arrow{
+      position: fixed;
+      right: 0;
+      top: 78px;                 /* ← höher (zwischen "gesehen" und "und nicht übersehen") */
+      transform: none;           /* ← kein Centering mehr */
+      z-index: 9999;
+
+      width: 24px;
+      height: 40px;
+
+      display: grid;
+      place-items: center;
+
+      background: rgba(220,220,220,0.55);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-right: 0;
+      border-radius: 999px 0 0 999px;
+
+      box-shadow:
+        0 10px 22px rgba(0,0,0,0.28),
+        inset 0 0 0 1px rgba(255,255,255,0.22);
+
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+
+      color: rgba(0,0,0,0.7);
+      font-size: 14px;
+      line-height: 1;
+
+      cursor: pointer;
+      pointer-events: auto;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+
+      padding: 0;
+      outline: none;
+    }
+
+    #intro-arrow:hover{
+      background: rgba(235,235,235,0.65);
+    }
+
+    #intro-arrow:active{
+      transform: scale(0.98);
+    }
+
+    /* alten Link-Pfeil ausblenden (nur auf dieser Seite) */
+    a.nav-arrow.right[aria-label="Nächste Seite"]{
+      display:none !important;
+    }
+
+    /* Mobile: Pfeil etwas tiefer, damit er nicht in Header/Hamburger kollidiert */
+    @media (max-width: 768px){
+      #intro-arrow{ top: 64px; }
+    }
   </style>
 </head>
 
@@ -412,7 +473,11 @@ html{
     </ul>
   </nav>
 
+  <!-- ALTER PFEIL (wird per CSS ausgeblendet, bleibt aber im Code unverändert) -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
+
+  <!-- NEUER PFEIL (klein, hellgrauer Halbkreis) -->
+  <button id="intro-arrow" type="button" aria-label="Intro öffnen">→</button>
 
   <main class="main">
     <div class="scroll-panel">
@@ -464,6 +529,21 @@ html{
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- NEU: Intro-Button gewinnt immer gegen swipe-nav -->
+  <script>
+  (function(){
+    const btn = document.getElementById('intro-arrow');
+    if(!btn) return;
+
+    // pointerdown kommt vor swipe-nav (touchend/pointerup/wheel) → sicherer
+    btn.addEventListener('pointerdown', function(e){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      window.location.assign('intro.html');
+    }, true);
+  })();
+  </script>
 
   <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
