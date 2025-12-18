@@ -133,32 +133,18 @@
 </main>
 
 <script>
-/* ================== Redirect Ziel ================== */
 const INTRO_RETURN_URL =
   (sessionStorage.getItem("introReturn") || "index.html") +
   (location.search.includes('nointro=1') ? "" : (location.search ? "&" : "?") + "nointro=1");
 
-/* ================== PRELOAD bleibt drin ================== */
+/* PRELOAD */
 const preloadImages = [
-  "assets/index/bennet_index1.avif",
-  "assets/index/bennet_index1.webp",
-  "assets/index/bennet_index2.avif",
-  "assets/index/bennet_index2.webp",
-  "assets/index/bennet_index3.avif",
-  "assets/index/bennet_index3.webp",
-
-  "assets/gesehen/insta1.webp",
-  "assets/gesehen/insta2.webp",
-  "assets/gesehen/insta3.webp",
-  "assets/gesehen/insta4.webp",
-
-  "assets/gesehen/reel1.avif",
-  "assets/gesehen/reel2.avif",
-  "assets/gesehen/reel3.avif",
-  "assets/gesehen/reel4.avif",
-  "assets/gesehen/reel5.avif",
-  "assets/gesehen/reel6.avif",
-  "assets/gesehen/reel7.avif",
+  "assets/index/bennet_index1.avif","assets/index/bennet_index1.webp",
+  "assets/index/bennet_index2.avif","assets/index/bennet_index2.webp",
+  "assets/index/bennet_index3.avif","assets/index/bennet_index3.webp",
+  "assets/gesehen/insta1.webp","assets/gesehen/insta2.webp","assets/gesehen/insta3.webp","assets/gesehen/insta4.webp",
+  "assets/gesehen/reel1.avif","assets/gesehen/reel2.avif","assets/gesehen/reel3.avif","assets/gesehen/reel4.avif",
+  "assets/gesehen/reel5.avif","assets/gesehen/reel6.avif","assets/gesehen/reel7.avif",
   "assets/gesehen/instagram_poster.jpg",
   "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
   "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
@@ -169,333 +155,244 @@ const preloadImages = [
   "https://img.youtube.com/vi/fq8zhAQMam0/hqdefault.jpg"
 ];
 const preloadVideos = [ "assets/gesehen/B3NN3T.mp4" ];
+function preloadAllImages(urls){ urls.forEach(url=>{ const img=new Image(); img.referrerPolicy="no-referrer"; img.src=url; }); }
+function preloadAllVideos(urls){ urls.forEach(url=>{ const v=document.createElement('video'); v.preload='auto'; v.muted=true; v.src=url; v.load(); }); }
+if(!window._preloaded){ window._preloaded=true; preloadAllImages(preloadImages); preloadAllVideos(preloadVideos); }
 
-function preloadAllImages(urls){
-  urls.forEach(url=>{
-    const img = new Image();
-    img.referrerPolicy = "no-referrer";
-    img.src = url;
-  });
-}
-function preloadAllVideos(urls){
-  urls.forEach(url=>{
-    const v = document.createElement('video');
-    v.preload = 'auto';
-    v.muted = true;
-    v.src = url;
-    v.load();
-  });
-}
-if(!window._preloaded){
-  window._preloaded=true;
-  preloadAllImages(preloadImages);
-  preloadAllVideos(preloadVideos);
-}
-
-/* ================== Canvas Setup ================== */
-const c = document.getElementById('c');
-const ctx = c.getContext('2d');
-
+/* Canvas */
+const c=document.getElementById('c');
+const ctx=c.getContext('2d');
 let W=0,H=0,DPR=1;
-
 function resize(){
-  DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1));
-  W = c.width  = Math.floor(innerWidth * DPR);
-  H = c.height = Math.floor(innerHeight * DPR);
-  c.style.width  = innerWidth + 'px';
-  c.style.height = innerHeight + 'px';
-  ctx.imageSmoothingEnabled = false;
+  DPR=Math.max(1,Math.floor(window.devicePixelRatio||1));
+  W=c.width=Math.floor(innerWidth*DPR);
+  H=c.height=Math.floor(innerHeight*DPR);
+  c.style.width=innerWidth+'px';
+  c.style.height=innerHeight+'px';
+  ctx.imageSmoothingEnabled=false;
 }
-addEventListener('resize', resize);
-resize();
+addEventListener('resize',resize); resize();
 
-/* ================== Krakelig Weiß (dünner) ================== */
-const snap = (v)=>Math.round(v);
-const clamp01 = (t)=>Math.max(0,Math.min(1,t));
-
-function hash01(n){
-  const x = Math.sin(n * 127.1) * 43758.5453123;
-  return x - Math.floor(x);
+/* Krakelig Weiß */
+const snap=(v)=>Math.round(v);
+const clamp01=(t)=>Math.max(0,Math.min(1,t));
+function hash01(n){ const x=Math.sin(n*127.1)*43758.5453123; return x-Math.floor(x); }
+function smoothstep(t){ t=clamp01(t); return t*t*(3-2*t); }
+function noise1D(seed,t){
+  const s=t*12, i=Math.floor(s), f=s-i;
+  const a=hash01(seed*1000+i*17.17), b=hash01(seed*1000+(i+1)*17.17);
+  const u=smoothstep(f);
+  return (a*(1-u)+b*u)*2-1;
 }
-function smoothstep(t){
-  t = clamp01(t);
-  return t*t*(3 - 2*t);
-}
-function noise1D(seed, t){
-  const s = t * 12;
-  const i = Math.floor(s);
-  const f = s - i;
-  const a = hash01(seed*1000 + i*17.17);
-  const b = hash01(seed*1000 + (i+1)*17.17);
-  const u = smoothstep(f);
-  return (a*(1-u) + b*u) * 2 - 1;
-}
-
 function scribbleStroke(x1,y1,x2,y2,seed,amp){
-  const dx = x2-x1, dy = y2-y1;
-  const len = Math.hypot(dx,dy) || 1;
-  const nx = -dy/len, ny = dx/len;
-
-  const segs = Math.max(10, Math.min(34, Math.floor(len/(14*DPR))));
-
+  const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
+  const nx=-dy/len, ny=dx/len;
+  const segs=Math.max(10,Math.min(34,Math.floor(len/(14*DPR))));
   ctx.beginPath();
   for(let i=0;i<=segs;i++){
-    const t = i/segs;
-
-    let x = x1 + dx*t;
-    let y = y1 + dy*t;
-
-    const n  = noise1D(seed, t);
-    const n2 = noise1D(seed+9.3, t);
-
-    const mid = smoothstep(t) * (1 - smoothstep(t));
-    const a = amp * (0.55 + 1.25*mid);
-
-    x += nx*(n*a) + dx/len*(n2*0.45*DPR);
-    y += ny*(n*a) + dy/len*(n2*0.45*DPR);
-
-    x = snap(x); y = snap(y);
-
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
+    const t=i/segs;
+    let x=x1+dx*t, y=y1+dy*t;
+    const n=noise1D(seed,t), n2=noise1D(seed+9.3,t);
+    const mid=smoothstep(t)*(1-smoothstep(t));
+    const a=amp*(0.55+1.25*mid);
+    x += nx*(n*a) + (dx/len)*(n2*0.45*DPR);
+    y += ny*(n*a) + (dy/len)*(n2*0.45*DPR);
+    x=snap(x); y=snap(y);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
   }
   ctx.stroke();
 }
-
 function inkLine(x1,y1,x2,y2,seed,amp,alpha){
   ctx.save();
-  ctx.globalAlpha = alpha;
-
-  ctx.lineWidth = Math.max(0.75, 0.75 * DPR);
+  ctx.globalAlpha=alpha;
+  ctx.lineWidth=Math.max(0.75,0.75*DPR);
   scribbleStroke(x1,y1,x2,y2,seed,amp);
-
-  ctx.globalAlpha = alpha*0.65;
-  ctx.lineWidth = Math.max(0.65, 0.65 * DPR);
+  ctx.globalAlpha=alpha*0.65;
+  ctx.lineWidth=Math.max(0.65,0.65*DPR);
   scribbleStroke(x1+0.35*DPR,y1+0.18*DPR,x2+0.35*DPR,y2+0.18*DPR,seed+111,amp*0.72);
-
   ctx.restore();
 }
 
-/* ================== Echter Grid-Cell "Buntstift"-Fill (3–5 Felder) ================== */
-const PENCIL = [
-  [255,  80, 190], // pink
-  [ 90, 210, 255], // cyan
-  [255, 230,  80], // yellow
-  [160, 255, 120], // green
-  [200, 140, 255], // purple
-  [255, 140,  80]  // orange
+/* --- Buntstift “Kreis-Kritzel” für Zellen --- */
+const PENCIL=[
+  [255,  80, 190],[ 90, 210, 255],[255, 230,  80],
+  [160, 255, 120],[200, 140, 255],[255, 140,  80]
 ];
-
 function rngFrom(seed){
-  let s = (seed>>>0) || 1;
-  return function(){
-    s ^= s << 13; s >>>= 0;
-    s ^= s >>> 17; s >>>= 0;
-    s ^= s << 5;  s >>>= 0;
-    return (s>>>0) / 4294967296;
-  };
+  let s=(seed>>>0)||1;
+  return function(){ s^=s<<13; s>>>=0; s^=s>>>17; s>>>=0; s^=s<<5; s>>>=0; return (s>>>0)/4294967296; };
 }
-
-function rgba(rgb, a){ return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
-
-// bilinear mapping in quad corners (a,b,c,d) with u (0..1) left->right, v (0..1) near->far
+function rgba(rgb,a){ return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
 function quadPoint(a,b,c,d,u,v){
-  const ax = a.x + (b.x - a.x) * u;
-  const ay = a.y + (b.y - a.y) * u;
-  const bx = d.x + (c.x - d.x) * u;
-  const by = d.y + (c.y - d.y) * u;
-  return { x: ax + (bx-ax)*v, y: ay + (by-ay)*v };
+  const ax=a.x+(b.x-a.x)*u, ay=a.y+(b.y-a.y)*u;
+  const bx=d.x+(c.x-d.x)*u, by=d.y+(c.y-d.y)*u;
+  return { x: ax+(bx-ax)*v, y: ay+(by-ay)*v };
 }
-
-function cellQuad(surfaceQuad, u0,u1, v0,v1){
-  const a = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u0, v0);
-  const b = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u1, v0);
-  const c = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u1, v1);
-  const d = quadPoint(surfaceQuad.a, surfaceQuad.b, surfaceQuad.c, surfaceQuad.d, u0, v1);
+function cellQuad(surfaceQuad,u0,u1,v0,v1){
+  const a=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u0,v0);
+  const b=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u1,v0);
+  const c=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u1,v1);
+  const d=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u0,v1);
   return {a,b,c,d};
 }
+function clipQuad(q){
+  ctx.beginPath();
+  ctx.moveTo(q.a.x,q.a.y); ctx.lineTo(q.b.x,q.b.y); ctx.lineTo(q.c.x,q.c.y); ctx.lineTo(q.d.x,q.d.y);
+  ctx.closePath(); ctx.clip();
+}
 
-// 1x generiert (stabil)
-let cellFills = [];
-
+let cellFills=[];
 function buildCellFills(seed, UDIV, VDIV){
-  const r = rngFrom(seed);
-  const count = 3 + Math.floor(r()*3); // 3..5
-  const fills = [];
-
+  const r=rngFrom(seed);
+  const count=3+Math.floor(r()*3); // 3..5
+  const fills=[];
   for(let i=0;i<count;i++){
-    const surface = Math.floor(r()*4); // 0 ceiling,1 floor,2 left,3 right
-    const ui = Math.floor(r()*(UDIV-1)); // cell index
-    const vi = Math.floor(r()*(VDIV-1));
+    const surface=Math.floor(r()*4);         // alle Flächen
+    const ui=Math.floor(r()*(UDIV-1));
+    const vi=Math.floor(r()*(VDIV-1));
+    const col=PENCIL[Math.floor(r()*PENCIL.length)];
+    const a=0.16+r()*0.18;
 
-    const col = PENCIL[Math.floor(r()*PENCIL.length)];
-    const a = 0.18 + r()*0.20;
-
-    const strokesN = 18 + Math.floor(r()*18); // 18..35 (nicht voll)
-    const strokes = [];
-    for(let s=0;s<strokesN;s++){
-      strokes.push({
-        u: r(), v: r(),
-        len: 0.18 + r()*0.55,             // Anteil innerhalb Zelle
-        ang: (-0.9 + r()*1.8),            // leicht random
-        seed: (seed + i*999 + s*77)>>>0,
-        skip: r() < 0.28                  // bewusst Lücken lassen
+    // “Loops”: viele kleine Kreisbewegungen, aber Lücken
+    const loops=22+Math.floor(r()*26); // 22..47
+    const points=[];
+    for(let L=0;L<loops;L++){
+      points.push({
+        u:r(), v:r(),
+        rad:(0.02+r()*0.06),
+        turns:(2+Math.floor(r()*4)),       // 2..5
+        seed:(seed+i*999+L*77)>>>0,
+        skip:r()<0.22
       });
     }
-
-    fills.push({
-      surface, ui, vi,
-      color1: rgba(col, a),
-      color2: rgba(col, a*0.55),
-      strokes
-    });
+    fills.push({surface,ui,vi,color1:rgba(col,a),color2:rgba(col,a*0.55),points});
   }
   return fills;
 }
 
-function clipQuad(q){
-  ctx.beginPath();
-  ctx.moveTo(q.a.x,q.a.y);
-  ctx.lineTo(q.b.x,q.b.y);
-  ctx.lineTo(q.c.x,q.c.y);
-  ctx.lineTo(q.d.x,q.d.y);
-  ctx.closePath();
-  ctx.clip();
-}
-
-function drawCellFill(q, fill){
+function drawCellLoops(q, fill){
   ctx.save();
   clipQuad(q);
 
-  // Schraffur (2 Pässe -> buntstiftig)
+  // Zellgröße
+  const w=Math.hypot(q.b.x-q.a.x, q.b.y-q.a.y);
+  const h=Math.hypot(q.d.x-q.a.x, q.d.y-q.a.y);
+  const base=Math.max(10*DPR, Math.min(w,h));
+
   for(let pass=0; pass<2; pass++){
-    ctx.strokeStyle = (pass===0) ? fill.color1 : fill.color2;
+    ctx.strokeStyle = pass===0 ? fill.color1 : fill.color2;
+    ctx.globalAlpha = pass===0 ? 0.75 : 0.45;
 
-    for(const st of fill.strokes){
-      if(st.skip) continue;
+    // feinere Linie für loops
+    ctx.lineWidth = Math.max(0.55, 0.55*DPR);
 
-      // Startpunkt im Zell-Quad
-      const p0 = quadPoint(q.a,q.b,q.c,q.d, st.u, st.v);
+    for(const p of fill.points){
+      if(p.skip) continue;
+      const rr=rngFrom(p.seed+pass*1337);
 
-      const rr = rngFrom(st.seed + pass*1337);
-      const ang = st.ang + (rr()-0.5)*0.35;
+      const center=quadPoint(q.a,q.b,q.c,q.d, p.u, p.v);
+      const R=p.rad * base * (0.9 + rr()*0.5);
 
-      // Zellgröße als Basis
-      const w = Math.hypot(q.b.x-q.a.x, q.b.y-q.a.y);
-      const h = Math.hypot(q.d.x-q.a.x, q.d.y-q.a.y);
-      const L = st.len * Math.max(18*DPR, Math.min(w,h));
+      const turns = p.turns;
+      const steps = 18 + Math.floor(rr()*18); // 18..35
+      const wob = (0.8 + rr()*0.9) * DPR;
 
-      const x1 = p0.x + (pass?0.22*DPR:0);
-      const y1 = p0.y + (pass?0.16*DPR:0);
-      const x2 = x1 + Math.cos(ang)*L;
-      const y2 = y1 + Math.sin(ang)*L;
+      ctx.beginPath();
+      for(let i=0;i<=steps;i++){
+        const t=i/steps;
+        const ang = t * Math.PI * 2 * turns;
 
-      // feiner als Grid
-      const amp = (1.0 + rr()*0.7) * DPR;
-      const alpha = pass===0 ? 0.55 : 0.40;
+        // “Buntstift” unruhig
+        const rx = R*(1 + (rr()-0.5)*0.35);
+        const ry = R*(1 + (rr()-0.5)*0.35);
 
-      inkLine(x1,y1,x2,y2, st.seed + pass*999, amp, alpha);
+        let x = center.x + Math.cos(ang)*rx;
+        let y = center.y + Math.sin(ang)*ry;
+
+        // wackel
+        x += (rr()-0.5)*wob;
+        y += (rr()-0.5)*wob;
+
+        x=snap(x); y=snap(y);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      }
+      ctx.stroke();
     }
   }
 
   ctx.restore();
 }
 
-/* ================== Tunnel-Grid (weiß, dünner) + echte Zell-Fills ================== */
+/* Tunnel */
 function drawTunnelGrid(now, reveal01){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle = '#930010';
+  ctx.fillStyle='#930010';
   ctx.fillRect(0,0,W,H);
 
-  // Outer / Inner
-  const outer = [
-    {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
-  ];
-  const cx = W*0.5, cy = H*0.5;
-  const innerW = W*0.44;
-  const innerH = H*0.32;
-  const inner = [
-    {x:cx - innerW/2, y:cy - innerH/2},
-    {x:cx + innerW/2, y:cy - innerH/2},
-    {x:cx + innerW/2, y:cy + innerH/2},
-    {x:cx - innerW/2, y:cy + innerH/2}
+  const outer=[{x:0,y:0},{x:W,y:0},{x:W,y:H},{x:0,y:H}];
+  const cx=W*0.5, cy=H*0.5;
+  const innerW=W*0.44, innerH=H*0.32;
+  const inner=[
+    {x:cx-innerW/2,y:cy-innerH/2},
+    {x:cx+innerW/2,y:cy-innerH/2},
+    {x:cx+innerW/2,y:cy+innerH/2},
+    {x:cx-innerW/2,y:cy+innerH/2}
   ];
 
-  // Surfaces als bilinear-Quads
-  const surfaces = [
-    // 0 ceiling
-    { a: outer[0], b: outer[1], c: inner[1], d: inner[0] },
-    // 1 floor
-    { a: outer[3], b: outer[2], c: inner[2], d: inner[3] },
-    // 2 left wall
-    { a: outer[0], b: inner[0], c: inner[3], d: outer[3] },
-    // 3 right wall
-    { a: inner[1], b: outer[1], c: outer[2], d: inner[2] }
+  const surfaces=[
+    { a: outer[0], b: outer[1], c: inner[1], d: inner[0] }, // ceiling
+    { a: outer[3], b: outer[2], c: inner[2], d: inner[3] }, // floor
+    { a: outer[0], b: inner[0], c: inner[3], d: outer[3] }, // left
+    { a: inner[1], b: outer[1], c: outer[2], d: inner[2] }  // right
   ];
 
-  const RINGS = 34;
-  const RAD   = 26;
+  const RINGS=34, RAD=26;
+  const ringCount=Math.max(1,Math.floor(reveal01*RINGS));
+  const radCount=Math.max(2,Math.floor(reveal01*RAD));
+  const speed=0.00038;
+  const phase=(now*speed)%1;
 
-  const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
-  const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
+  ctx.strokeStyle='rgba(255,255,255,0.52)';
+  const AMP=3.0*DPR, AMP_RING=AMP*0.92, AMP_RAD=AMP;
 
-  const speed = 0.00038;
-  const phase = (now*speed) % 1;
-
-  // ✅ Weißes Grid
-  ctx.strokeStyle = 'rgba(255,255,255,0.52)';
-
-  const AMP = 3.0 * DPR;
-  const AMP_RING = AMP * 0.92;
-  const AMP_RAD  = AMP * 1.00;
-
-  // Radials über alle Flächen (wie vorher, aber als Linien)
-  // Top & Bottom
+  // Radials
   for(let i=0;i<=radCount;i++){
-    const t = i/radCount;
-
-    // ceiling: outer top -> inner top
-    const A = { x: outer[0].x + (outer[1].x-outer[0].x)*t, y: outer[0].y };
-    const B = { x: inner[0].x + (inner[1].x-inner[0].x)*t, y: inner[0].y };
+    const t=i/radCount;
+    const A={x:outer[0].x+(outer[1].x-outer[0].x)*t, y:outer[0].y};
+    const B={x:inner[0].x+(inner[1].x-inner[0].x)*t, y:inner[0].y};
     inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.50);
 
-    // floor: outer bottom -> inner bottom
-    const C = { x: outer[3].x + (outer[2].x-outer[3].x)*t, y: outer[3].y };
-    const D = { x: inner[3].x + (inner[2].x-inner[3].x)*t, y: inner[3].y };
+    const C={x:outer[3].x+(outer[2].x-outer[3].x)*t, y:outer[3].y};
+    const D={x:inner[3].x+(inner[2].x-inner[3].x)*t, y:inner[3].y};
     inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.50);
   }
-
-  // Left & Right
   for(let i=0;i<=radCount;i++){
-    const t = i/radCount;
-
-    const A = { x: outer[0].x, y: outer[0].y + (outer[3].y-outer[0].y)*t };
-    const B = { x: inner[0].x, y: inner[0].y + (inner[3].y-inner[0].y)*t };
+    const t=i/radCount;
+    const A={x:outer[0].x, y:outer[0].y+(outer[3].y-outer[0].y)*t};
+    const B={x:inner[0].x, y:inner[0].y+(inner[3].y-inner[0].y)*t};
     inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.50);
 
-    const C = { x: outer[1].x, y: outer[1].y + (outer[2].y-outer[1].y)*t };
-    const D = { x: inner[1].x, y: inner[1].y + (inner[2].y-inner[1].y)*t };
+    const C={x:outer[1].x, y:outer[1].y+(outer[2].y-outer[1].y)*t};
+    const D={x:inner[1].x, y:inner[1].y+(inner[2].y-inner[1].y)*t};
     inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.50);
   }
 
-  // Rings (als “Frames” in Tiefe)
-  // Wir zeichnen sie weiterhin wie vorher (visuell nice), aber:
-  // Für Zell-Fills nutzen wir v-Subdivision (0..1) direkt.
+  // Rings
   for(let i=0;i<ringCount;i++){
-    const u = (i/(RINGS-1));
-    let z = u*u;
-    z = (z + phase*0.22) % 1;
-    z = z*z;
+    const u=(i/(RINGS-1));
+    let z=u*u;
+    z=(z+phase*0.22)%1;
+    z=z*z;
 
-    const q0 = { x: outer[0].x + (inner[0].x-outer[0].x)*z, y: outer[0].y + (inner[0].y-outer[0].y)*z };
-    const q1 = { x: outer[1].x + (inner[1].x-outer[1].x)*z, y: outer[1].y + (inner[1].y-outer[1].y)*z };
-    const q2 = { x: outer[2].x + (inner[2].x-outer[2].x)*z, y: outer[2].y + (inner[2].y-outer[2].y)*z };
-    const q3 = { x: outer[3].x + (inner[3].x-outer[3].x)*z, y: outer[3].y + (inner[3].y-outer[3].y)*z };
+    const q0={x:outer[0].x+(inner[0].x-outer[0].x)*z, y:outer[0].y+(inner[0].y-outer[0].y)*z};
+    const q1={x:outer[1].x+(inner[1].x-outer[1].x)*z, y:outer[1].y+(inner[1].y-outer[1].y)*z};
+    const q2={x:outer[2].x+(inner[2].x-outer[2].x)*z, y:outer[2].y+(inner[2].y-outer[2].y)*z};
+    const q3={x:outer[3].x+(inner[3].x-outer[3].x)*z, y:outer[3].y+(inner[3].y-outer[3].y)*z};
 
-    const front = (1 - z);
-    const alpha = 0.10 + 0.22*front;
-    const a = AMP_RING * (0.55 + 0.70*front);
+    const front=(1-z);
+    const alpha=0.10+0.22*front;
+    const a=AMP_RING*(0.55+0.70*front);
 
     inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, alpha);
     inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, alpha);
@@ -509,93 +406,82 @@ function drawTunnelGrid(now, reveal01){
   inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.05, 0.62);
   inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.05, 0.62);
 
-  // ✅ Jetzt: echte Grid-Zellen farbig bekritzeln
-  // UDIV/RAD = quer, VDIV/RINGS = Tiefe
-  const paintAlpha = Math.min(1, Math.max(0, (reveal01 - 0.15) / 0.85));
-  if(cellFills.length && paintAlpha > 0){
+  // ✅ Loops in Zellen
+  const paintAlpha=Math.min(1,Math.max(0,(reveal01-0.15)/0.85));
+  if(cellFills.length && paintAlpha>0){
     ctx.save();
-    ctx.globalAlpha = paintAlpha;
+    ctx.globalAlpha=paintAlpha;
 
     for(const f of cellFills){
-      const u0 = f.ui / RAD;
-      const u1 = (f.ui+1) / RAD;
-      const v0 = f.vi / RINGS;
-      const v1 = (f.vi+1) / RINGS;
+      const u0=f.ui/RAD, u1=(f.ui+1)/RAD;
+      const v0=f.vi/RINGS, v1=(f.vi+1)/RINGS;
+      if(v1>reveal01) continue;
 
-      // nur wenn diese Tiefe schon “da” ist
-      if(v1 > reveal01) continue;
-
-      const q = cellQuad(surfaces[f.surface], u0,u1, v0,v1);
-      drawCellFill(q, f);
+      const q=cellQuad(surfaces[f.surface], u0,u1, v0,v1);
+      drawCellLoops(q,f);
     }
 
     ctx.restore();
   }
 }
 
-/* ================== Loader Timing ================== */
-const START_DELAY_MS = 1000;
-const INTRO_MS = 3500;
-const FADEOUT_MS = 1700;
-const EXTRA_MS = 300;
-
-let rafId = null;
+/* Timing */
+const START_DELAY_MS=1000;
+const INTRO_MS=3500;
+const FADEOUT_MS=1700;
+const EXTRA_MS=300;
 
 function startTransition(){
   sessionStorage.setItem("introPlayed","1");
   document.body.classList.add('fadeout');
-  setTimeout(()=>{ window.location.href = INTRO_RETURN_URL; }, FADEOUT_MS + EXTRA_MS);
+  setTimeout(()=>{ window.location.href=INTRO_RETURN_URL; }, FADEOUT_MS+EXTRA_MS);
 }
-
 function startProgressAndTunnel(){
-  const bar = document.getElementById('bar');
-  const start = performance.now();
+  const bar=document.getElementById('bar');
+  const start=performance.now();
 
-  // ✅ 1x stabil generieren (kein Flimmern)
-  const seed = (((start|0) ^ (W<<1) ^ (H<<2)) >>> 0) || 12345;
-  cellFills = buildCellFills(seed, 26, 34); // RAD, RINGS
+  const seed=(((start|0)^(W<<1)^(H<<2))>>>0)||12345;
+  cellFills = buildCellFills(seed, 26, 34);
 
   function frame(now){
-    const t = (now - start) / INTRO_MS;
-    const clamped = Math.max(0, Math.min(1, t));
-    const reveal = Math.min(1, clamped * 1.20);
+    const t=(now-start)/INTRO_MS;
+    const clamped=Math.max(0,Math.min(1,t));
+    const reveal=Math.min(1,clamped*1.20);
 
-    drawTunnelGrid(now, reveal);
+    drawTunnelGrid(now,reveal);
 
-    const steps = 32;
-    const stepped = Math.floor(clamped * steps) / steps;
-    bar.style.width = (stepped * 100).toFixed(2) + "%";
+    const steps=32;
+    const stepped=Math.floor(clamped*steps)/steps;
+    bar.style.width=(stepped*100).toFixed(2)+"%";
 
-    if(clamped >= 1){
-      bar.style.width = "100%";
+    if(clamped>=1){
+      bar.style.width="100%";
       startTransition();
       return;
     }
-    rafId = requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
-  rafId = requestAnimationFrame(frame);
+  requestAnimationFrame(frame);
 }
 
-/* ================== Skip & A11y ================== */
-(function setupSkipAndA11y(){
-  const skipBtn = document.querySelector('.skip');
+/* Skip & A11y */
+(function(){
+  const skipBtn=document.querySelector('.skip');
   function goNow(){
-    try { sessionStorage.setItem("introPlayed","1"); } catch(e){}
+    try{ sessionStorage.setItem("introPlayed","1"); }catch(e){}
     document.body.classList.add('fadeout');
-    setTimeout(()=>location.replace(INTRO_RETURN_URL), 250);
+    setTimeout(()=>location.replace(INTRO_RETURN_URL),250);
   }
-  if (skipBtn) skipBtn.addEventListener('click', goNow);
-
-  try {
-    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      goNow();
-      return;
+  if(skipBtn) skipBtn.addEventListener('click',goNow);
+  try{
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+      goNow(); return;
     }
-  } catch(e){}
+  }catch(e){}
 })();
 
-/* ================== Start ================== */
-setTimeout(() => {
+/* Start */
+setTimeout(()=>{
   document.body.classList.add('ready');
   startProgressAndTunnel();
 }, START_DELAY_MS);
