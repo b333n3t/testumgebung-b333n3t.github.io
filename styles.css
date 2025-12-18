@@ -18,9 +18,10 @@ html,body{
 }
 
 /* ===============================
-   BACKGROUND – KEIN GRAUSCHLEIER
+   🔒 GLOBALER HINTERGRUND (KRITISCH)
+   → iOS Overscroll zieht IMMER hierher
    =============================== */
-body{
+html{
   background-color:#000;
 
   background-image:
@@ -34,19 +35,11 @@ body{
   background-position:center 45%;
   background-size:cover;
   background-attachment:scroll;
-
-  /* wie bei der weißen Version (optional, schadet nicht) */
-  transition: background-position .35s ease;
-
-  min-height:100vh;
-  min-height:100svh;
-  display:flex;
-  flex-direction:column;
 }
 
 /* Mobile Background */
 @media (max-width: 768px){
-  body{
+  html{
     background-image:
       image-set(
         url('assets/b3nn3t_bg_mobile.avif') type("image/avif"),
@@ -54,6 +47,20 @@ body{
         url('assets/b3nn3t_bg_mobile.jpg')  type("image/jpeg")
       );
   }
+}
+
+/* ===============================
+   BODY – transparent, damit html sichtbar bleibt
+   =============================== */
+body{
+  background:transparent;
+  min-height:100vh;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
+
+  /* optional, schadet nicht */
+  transition: background-position .35s ease;
 }
 
 /* ===============================
@@ -90,7 +97,7 @@ a:hover{ text-decoration:underline; }
 .brand:hover{ text-decoration:underline; }
 
 /* ===============================
-   Navigation arrows (falls vorhanden)
+   Navigation arrows
    =============================== */
 .nav-arrow{
   position:fixed;
@@ -108,7 +115,7 @@ a:hover{ text-decoration:underline; }
 .nav-arrow.right{ right:12px; }
 
 /* ===============================
-   MAIN – KEIN GLAS, KEIN GRAU
+   MAIN – clean
    =============================== */
 .main{
   width:min(1100px, 92vw);
@@ -151,7 +158,7 @@ p{
 }
 
 /* ===============================
-   Cards – clean, kein Grau
+   Cards
    =============================== */
 .card{
   display:block;
@@ -171,7 +178,7 @@ p{
 }
 
 /* ===============================
-   Home Button (hidden)
+   Home Button
    =============================== */
 .home-btn{
   display:none !important;
@@ -204,7 +211,7 @@ header img[src*="logo"]{
 }
 
 /* ===============================
-   H1 Schriftgröße FINAL
+   H1 Größen
    =============================== */
 body h1{
   font-size:2rem !important;
@@ -219,7 +226,7 @@ body h1{
 }
 
 /* ===============================
-   🔥 ABSOLUTER GRAU-/GLAS-KILL
+   🔥 ABSOLUTER GLAS-/GRAU-KILL
    =============================== */
 .main,
 .main::before,
@@ -234,21 +241,16 @@ body h1{
 }
 
 /* ===============================
-   ✅ Hintergrund-Fokus wie bei der weißen Version
-   (diese Overrides müssen am ENDE stehen)
+   Hintergrund-Fokus
    =============================== */
-
-/* Querformat: deutlich höher, damit der Kopf sichtbar ist */
 @media (orientation: landscape){
-  body{ background-position: center 24% !important; }
+  html{ background-position: center 24% !important; }
 }
 
-/* 16:10 Notebooks / große Landscape-Displays: noch etwas höher */
 @media (min-width: 1600px) and (min-height: 1100px) and (orientation: landscape){
-  body{ background-position: center 20% !important; }
+  html{ background-position: center 20% !important; }
 }
 
-/* Sehr flache Viewports: weiter nach oben */
 @media (max-height: 820px){
-  body{ background-position: center 18% !important; }
+  html{ background-position: center 18% !important; }
 }
