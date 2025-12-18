@@ -84,35 +84,51 @@
     body.menu-open #menu-overlay{display:block}
     #menu-overlay[hidden]{display:none}
 
-    .site-menu{
-      position:fixed;top:0;right:0;height:auto;max-height:90vh;
-      width:min(40vw,150px);
-      background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
-      box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);transition:transform .25s;
-      z-index:1101;padding:46px 10px 14px
-    }
-    body.menu-open .site-menu{transform:translateX(0)}
-    .site-menu ul{list-style:none;margin:0;padding:0}
-    .site-menu li{margin:0 0 10px}
-    .site-menu li.sep{
-      margin-top:18px;padding-top:8px;
-      border-top:1px solid rgba(0,0,0,.08)
-    }
-    .site-menu a{
-      display:block;
-      padding:8px 6px;
-      border-radius:10px;
-      color:#000;
-      text-decoration:none;
-      font-size:1rem;
-      font-weight:500;
-      font-family: Arial, sans-serif;
-      letter-spacing:0;
-      line-height:1.2;
-    }
-    .site-menu a:hover{background:rgba(0,0,0,.05)}
+.site-menu{
+  position: fixed;
+  top: 0;
+  right: -160px;                 /* außerhalb des Viewports */
+  height: auto;
+  max-height: 90vh;
+
+  width: min(40vw,150px);
+
+  background: rgba(255,255,255,.32);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+
+  box-shadow: 0 20px 50px rgba(0,0,0,.08);
+
+  transition: right .25s;        /* KEIN transform */
+  z-index: 1101;
+  padding: 46px 10px 14px;
+}
+
+body.menu-open .site-menu{
+  right: 0;
+}
+
+/* alles darunter bleibt unverändert */
+.site-menu ul{list-style:none;margin:0;padding:0}
+.site-menu li{margin:0 0 10px}
+.site-menu li.sep{
+  margin-top:18px;padding-top:8px;
+  border-top:1px solid rgba(0,0,0,.08)
+}
+.site-menu a{
+  display:block;
+  padding:8px 6px;
+  border-radius:10px;
+  color:#000;
+  text-decoration:none;
+  font-size:1rem;
+  font-weight:500;
+  font-family: Arial, sans-serif;
+  letter-spacing:0;
+  line-height:1.2;
+}
+.site-menu a:hover{background:rgba(0,0,0,.05)}
+
 
     /* ===== Scroll-Panel (wie plattformen) ===== */
     .scroll-panel{
@@ -287,15 +303,16 @@
 .footer-inline{
   position: fixed !important;
 
-  right: 18px !important;   /* ← EINZIGE horizontale Referenz */
-  left: auto !important;
+  right: 18px !important;
   bottom: 40px !important;
 
+  left: auto !important;
   width: max-content !important;
-  text-align: left !important;
 
-  margin: 0 !important;
   padding: 0 !important;
+  margin: 0 !important;
+
+  text-align: left !important;
 
   color: #930010 !important;
   font-size: .82rem !important;
@@ -322,6 +339,7 @@
 .footer-inline a:hover{
   text-decoration: underline !important;
 }
+
 
 
     /* swipe helper */
