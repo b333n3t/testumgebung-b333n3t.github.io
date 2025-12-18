@@ -13,7 +13,16 @@
   <link rel="stylesheet" href="swipe-helper.css"/>
 
   <style>
-    :root{ --bottom-gap:60px; }
+    :root{
+      --bottom-gap:60px;
+
+      /* ✅ Footer (hochkant rechts) – feinjustierbar */
+      --footer-top-desktop: 430px;
+      --footer-right-desktop: 0px;
+
+      --footer-top-mobile: 520px;   /* ← höher = kleinerer Wert */
+      --footer-right-mobile: 12px;  /* ← näher rechts = kleinerer Wert */
+    }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
     html, body{ overflow:hidden; }
@@ -32,6 +41,9 @@
       padding:0;
       background:transparent!important;
       box-shadow:none!important;
+      position:relative;
+      z-index:1;
+      overflow:visible;
     }
 
     /* =========================
@@ -176,10 +188,10 @@
     .page-content > .page-group.open{
       margin-bottom: 10px;
     }
-/* ➕ kleiner Extra-Abstand NUR zwischen "Singles" und "kontakt" */
-.page-group.open > .page-content > .page-group:last-of-type.open{
-  margin-bottom: 8px; /* klein */
-}
+    /* ➕ kleiner Extra-Abstand NUR zwischen "Singles" und "kontakt" */
+    .page-group.open > .page-content > .page-group:last-of-type.open{
+      margin-bottom: 8px; /* klein */
+    }
 
     /* Cards: Reihenfolge bleibt stabil (CSS Grid) */
     .disco-grid{
@@ -236,20 +248,22 @@
       border-radius:8px;
     }
 
-    /* ===== Footer: rechtsbündig + rot (#930010) ===== */
+    /* ✅ Footer hochkant rechts (Desktop + Mobile), ohne Umbruch */
     .footer-inline{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:40px;
+      position: fixed;
+      right: var(--footer-right-desktop);
+      top: var(--footer-top-desktop);
+      bottom: auto;
+      z-index: 1300; /* ✅ über swipe-zone */
 
-      text-align:right;
-      padding-right:18px;
-      padding-left:18px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
 
-      font-size:.82rem;
-      z-index:910;
       color:#930010;
+      font-size:.82rem;
+      padding: 6px 4px;
+
+      white-space: nowrap;
     }
     .footer-inline a,
     .footer-inline a:visited,
@@ -257,8 +271,36 @@
     .footer-inline a:focus{
       color:#930010;
       text-decoration:none;
+      white-space: nowrap;
+
+      display:inline-block; /* ✅ größere Tap-Fläche */
+      padding:6px 6px;      /* ✅ iOS-friendly */
     }
     .footer-inline a:hover{ text-decoration: underline; }
+
+    /* Mobile: Footer bleibt hochkant rechts, aber AUF den Cards */
+    @media (max-width: 768px){
+      .footer-inline{
+        right: var(--footer-right-mobile);
+        top: var(--footer-top-mobile);
+      }
+    }
+
+    /* swipe helper */
+    .edge-swipe{
+      position:fixed;
+      top:0; bottom:0;
+      width:28px;
+      z-index:1201;
+      background:transparent;
+      pointer-events:none;
+    }
+    .edge-swipe.left{ left:0; }
+    .edge-swipe.right{ right:0; }
+    @media (pointer:coarse){
+      .edge-swipe{ pointer-events:auto; }
+      .edge-swipe.right{ pointer-events:none !important; } /* ✅ blockiert Footer nicht */
+    }
 
     /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
     .page-content h1,
@@ -280,6 +322,7 @@
       margin-top: 0;
       margin-bottom: 1rem;
     }
+
     /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
     main.main{
       background: transparent !important;
@@ -673,6 +716,9 @@
 <div class="footer-inline">
   © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
 </div>
+
+<div class="edge-swipe left" aria-hidden="true"></div>
+<div class="edge-swipe right" aria-hidden="true"></div>
 
 <script>
 function makeSpotifyEmbed(url){
