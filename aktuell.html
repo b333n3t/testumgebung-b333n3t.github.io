@@ -8,7 +8,6 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 
   <link rel="stylesheet" href="styles.css" />
-  <!-- bleibt drin, aber Pfeile werden unten zuverlässig deaktiviert -->
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
@@ -16,7 +15,6 @@
     :root{ --bottom-gap:60px; }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    /* Hintergrund fix, nur Panel scrollt */
     html, body{ overflow:hidden; }
     @media (max-width:767px){
       html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
@@ -26,9 +24,9 @@
       min-height:100vh;
       display:flex;
       flex-direction:column;
+      color:#fff;
     }
 
-    /* main ohne Innenabstand – wie index/über-mich/kontakt */
     main.main{
       flex:1 0 auto;
       border-radius:12px;
@@ -38,9 +36,20 @@
       overflow:visible;
       background:transparent !important;
       box-shadow:none !important;
+      backdrop-filter:none !important;
+      -webkit-backdrop-filter:none !important;
+      filter:none !important;
+      opacity:1 !important;
+    }
+    main.main::before,
+    main.main::after{
+      background:transparent !important;
+      backdrop-filter:none !important;
+      -webkit-backdrop-filter:none !important;
+      filter:none !important;
+      opacity:0 !important;
     }
 
-    /* ✅✅✅ Pfeile links/rechts/unten: komplett AUS (Desktop & Mobile) */
     .nav-arrow,
     .scroll-cue{
       display:none !important;
@@ -49,7 +58,6 @@
       pointer-events:none !important;
     }
 
-    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -60,13 +68,9 @@
       background:#000;border-radius:2px;
       transition:transform .2s,opacity .2s
     }
-    body.menu-open .hamburger span:nth-child(1){
-      transform:translateY(3.5px) rotate(45deg)
-    }
-    body.menu-open .hamburger span:nth-child(2){ opacity:0 }
-    body.menu-open .hamburger span:nth-child(3){
-      transform:translateY(-3.5px) rotate(-45deg)
-    }
+    body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
+    body.menu-open .hamburger span:nth-child(2){opacity:0}
+    body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
 
     .menu-overlay{
       position:fixed;inset:0;background:rgba(0,0,0,.08);
@@ -103,36 +107,30 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    /* ===== UNSICHTBARES Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS angepasst */
+      max-height:75vh;
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
-
       background:transparent;
       backdrop-filter:none;
       -webkit-backdrop-filter:none;
       border-radius:0;
       box-shadow:none;
-
       padding:1.25rem 1rem 1.5rem;
-
       scrollbar-width:none;
       -ms-overflow-style:none;
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
-
     .content-offset{ padding-top:1.5rem; }
 
     .grid{
       display:flex;
       flex-direction:column;
-      gap:1rem; /* exakt wie index */
+      gap:1rem;
     }
 
-    /* ===== Link-/Toggle-Optik 1:1 wie index ===== */
     .page-link{
       display:flex;
       align-items:center;
@@ -146,11 +144,40 @@
       display:inline-block;
       transition:transform .2s ease;
     }
-    .page-link:active .arrow{
-      transform:rotate(90deg);
-    }
+    .page-link:active .arrow{ transform:rotate(90deg); }
 
     .page-toggle{
+      display:flex;
+      align-items:center;
+      gap:6px;
+      font-size:1.1rem;
+      background:transparent;
+      border:none;
+      padding:0;
+      color:inherit;
+      cursor:pointer;
+      font-family: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      appearance:none;
+      -webkit-appearance:none;
+    }
+    .page-toggle .arrow{
+      display:inline-block;
+      transition:transform .2s ease;
+    }
+
+    .page-group > .page-content{
+      display:none;
+      margin-left:18px;
+      margin-top:.75rem;
+    }
+    .page-group.open > .page-content{display:block;}
+    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
+
+    /* ===== NEU: Akkordeon-Optik für Untersektionen (termine / beschäftigt) ===== */
+    .sub-toggle{
       display:flex;
       align-items:center;
       gap:6px;
@@ -169,46 +196,33 @@
       appearance:none;
       -webkit-appearance:none;
     }
-    .page-toggle .arrow{
+    .sub-toggle .arrow{
       display:inline-block;
       transition:transform .2s ease;
     }
-
-    .page-group > .page-content{
+    .sub-group > .sub-content{
       display:none;
       margin-left:18px;
       margin-top:.75rem;
     }
-    .page-group.open > .page-content{display:block;}
-    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
+    .sub-group.open > .sub-content{display:block;}
+    .sub-group.open > .sub-toggle .arrow{transform:rotate(90deg);}
 
-    .page-content h1{margin-top:0;}
-    .page-content p{margin:0 0 1rem 0;}
-
-    /* ===== Footer unten: rechtsbündig + Farbe #930010 ===== */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
       bottom:40px;
-
-      text-align:right;         /* <- rechts an den Rand */
-      padding-right:18px;       /* <- kleiner Abstand zum Rand */
+      text-align:right;
+      padding-right:18px;
       padding-left:18px;
-
       color:#930010;
       font-size:.82rem;
       z-index:910;
     }
-    .footer-inline a{
-      color:#930010;
-      text-decoration:none;
-    }
-    .footer-inline a:hover{
-      text-decoration:underline;
-    }
+    .footer-inline a{ color:#930010; text-decoration:none; }
+    .footer-inline a:hover{ text-decoration:underline; }
 
-    /* swipe helper */
     .edge-swipe {
       position: fixed;
       top: 0;
@@ -224,7 +238,6 @@
       .edge-swipe{ pointer-events: auto; }
     }
 
-    /* ===== DEIN CONTENT: Release-Card (weiss) ===== */
     .release-card {
       display: flex;
       align-items: center;
@@ -233,17 +246,13 @@
       padding: 1.6rem 1.6rem;
       width: 100%;
       max-width: 440px;
-
       background: #fff;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-
       border-radius: 16px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.15);
       text-decoration: none !important;
-
       color: #000;
-
       transition: transform .25s ease, box-shadow .45s ease;
     }
     .release-card:hover {
@@ -277,72 +286,29 @@
       text-decoration: none;
     }
     .release-card *,
-    .release-card:hover * {
-      text-decoration: none;
-    }
+    .release-card:hover * { text-decoration: none; }
     .songtitle {
       font-size: 1.55rem;
       font-weight: 700;
       text-align: center;
       margin: 1.1rem 0 1.1rem 0;
     }
-    .songtitle span { text-decoration: none; }
-    .songtitle.wave span {
-      display: inline-block;
-      animation: wave 1.25s ease-in-out infinite;
-    }
-    .release-card:hover .songtitle.wave span {
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
-      text-underline-offset: 4px;
-    }
-    .songtitle.wave span:nth-child(1)  { animation-delay: 0s; }
-    .songtitle.wave span:nth-child(2)  { animation-delay: 0.07s; }
-    .songtitle.wave span:nth-child(3)  { animation-delay: 0.14s; }
-    .songtitle.wave span:nth-child(4)  { animation-delay: 0.21s; }
-    .songtitle.wave span:nth-child(5)  { animation-delay: 0.28s; }
-    .songtitle.wave span:nth-child(6)  { animation-delay: 0.35s; }
-    .songtitle.wave span:nth-child(7)  { animation-delay: 0.42s; }
-    .songtitle.wave span:nth-child(8)  { animation-delay: 0.49s; }
-    .songtitle.wave span:nth-child(9)  { animation-delay: 0.56s; }
-    .songtitle.wave span:nth-child(10) { animation-delay: 0.63s; }
-    .songtitle.wave span:nth-child(11) { animation-delay: 0.70s; }
-    .songtitle.wave span:nth-child(12) { animation-delay: 0.77s; }
-    .songtitle.wave span:nth-child(13) { animation-delay: 0.84s; }
-    .songtitle.wave span:nth-child(14) { animation-delay: 0.91s; }
-    .songtitle.wave span:nth-child(15) { animation-delay: 0.98s; }
-    .songtitle.wave span:nth-child(16) { animation-delay: 1.05s; }
-    @keyframes wave {
-      0%, 100% { transform: translateY(0); opacity: 0.9; }
-      50%      { transform: translateY(-10px); opacity: 1; }
-    }
     @media(max-width:600px){
       .release-card { flex-direction: column; text-align: center; }
       .release-card img { width: 75%; height: auto; }
     }
 
-    /* ===== Collage (JETZT: 100% transparent + linksbündig) ===== */
+    /* ===== Collage: transparent + linksbündig ===== */
     .collage-window {
       position: relative;
       max-width: 650px;
-
-      /* linksbündig statt zentriert */
       margin: 2rem 0;
-
-      /* 100% transparent (kein milchiges Fenster) */
       background: transparent !important;
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
-
-      /* Schatten/Glas komplett weg */
       box-shadow: none !important;
-
-      /* optional: kein Innenabstand, damit wirklich nichts "Fenster" wirkt */
       padding: 0;
-
-      /* Radius ist egal bei transparent, kann bleiben oder 0 sein */
       border-radius: 0;
-
       overflow: visible;
     }
     .chaos-collage {
@@ -372,7 +338,6 @@
       .chaos-collage img{width:60%;}
     }
 
-    /* ===== Termine (unverändert) ===== */
     .termine-list {
       display: grid;
       gap: 0.75rem;
@@ -395,15 +360,8 @@
       position: relative;
       display: inline-block;
     }
-    .termin-row .veranstaltung {
-      font-weight: 500;
-      min-width: 10rem;
-    }
-    .termin-row .ort {
-      opacity: .85;
-      white-space: nowrap;
-      text-align: right;
-    }
+    .termin-row .veranstaltung { font-weight: 500; min-width: 10rem; }
+    .termin-row .ort { opacity: .85; white-space: nowrap; text-align: right; }
     @media (max-width: 800px) {
       .termin-row { grid-template-columns: 8ch 1fr; }
       .termin-row .ort { grid-column: 2 / -1; text-align: left; }
@@ -434,7 +392,6 @@
       pointer-events: none;
     }
 
-    /* ===== Titel + Untertitel auf Akkordeon-Niveau ===== */
     .page-content h1,
     .page-content h2,
     .page-content p{
@@ -443,57 +400,17 @@
       font-weight: 400 !important;
       letter-spacing: 0.03em !important;
       line-height: 1.6 !important;
-      color: #fff; /* <- weiss */
+      color: #fff;
     }
+    .page-content h1{ margin-bottom: 0.4rem; }
+    .page-content p{ margin-top: 0; margin-bottom: 1rem; }
 
-    /* etwas Abstand zwischen Titel und Unterzeile */
-    .page-content h1{
-      margin-bottom: 0.4rem;
-    }
-    .page-content p{
-      margin-top: 0;
-      margin-bottom: 1rem;
-    }
-
-    /* NUR der große Content-Block (main) soll keinen Glas-Schleier haben */
-    main.main{
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-      opacity: 1 !important;
-    }
-
-    /* falls der "milchige" Look über Pseudo-Elemente kommt */
-    main.main::before,
-    main.main::after{
-      background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
-      filter: none !important;
-      opacity: 0 !important;   /* <- nimmt den Schleier raus */
-    }
-
-    /* ===================================================
-       PRO SEITE: WHITE TEXT (wie ueber-mich / diskografie / kontakt)
-       - Menü bleibt schwarz
-       - Hamburger bleibt schwarz
-       =================================================== */
-    body{ color:#fff; }
-
-    /* Links auf der Seite weiß (Menü bleibt schwarz, weil .site-menu a spezifischer ist) */
     a{ color:#fff; }
-
-    /* Brand im Header weiß */
     .brand{ color:#fff !important; }
 
-    /* Footer-Farbe ist oben gesetzt (nicht mehr auf weiß überschreiben) */
-
-    /* Release Card Text (auf weisser Card schwarz) */
     .release-card{ color:#000; }
     .release-card *{ color:inherit; }
 
-    /* Termine: Texte weiß */
     .termine-list, .termin-row, .termin-row *{ color:#fff; }
 
   </style>
@@ -506,7 +423,6 @@
     </a>
   </header>
 
-  <!-- Burger-Menü -->
   <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
     <span></span><span></span><span></span>
   </button>
@@ -522,8 +438,6 @@
       <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
     </ul>
   </nav>
-
-  <!-- ✅ Seitenpfeile komplett entfernt (kein HTML mehr) -->
 
   <main class="main">
     <div class="scroll-panel">
@@ -545,7 +459,6 @@
             <span>kontakt</span>
           </a>
 
-          <!-- aktuell – current open -->
           <div class="page-group current open">
             <button class="page-toggle" type="button" aria-expanded="true">
               <span class="arrow" aria-hidden="true">►</span>
@@ -561,7 +474,6 @@
                 <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen -</p>
               </div>
 
-              <!-- ⭐ Release-Card -->
               <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-56.html" target="_blank" rel="noopener noreferrer">
                 <img src="assets/release/drei-cover.webp" alt="Cover: 3">
                 <div class="release-info">
@@ -571,68 +483,82 @@
                 </div>
               </a>
 
-              <div style="margin-top: 3em;">
-                <p><b>termine</b></p>
-                <p>- - - auftritte - - -</p>
+              <!-- ✅✅✅ NEU: Termine als Akkordeon -->
+              <div style="margin-top: 3em;" class="sub-group open" id="acc-termine">
+                <button class="sub-toggle" type="button" aria-expanded="true" aria-controls="termine-content">
+                  <span class="arrow" aria-hidden="true">►</span>
+                  <span>termine</span>
+                </button>
 
-                <div class="termine-responsive" style="margin-top: 2rem;">
-                  <div class="termine-list" role="table" aria-label="Termine">
+                <div class="sub-content" id="termine-content">
+                  <p>- - - auftritte - - -</p>
 
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
-                      <div class="veranstaltung" role="cell">· RAPCITY-Contest - OpenAir Frauenfeld</div>
-                      <div class="ort" role="cell">· Frauenfeld · 17:15 Uhr</div>
+                  <div class="termine-responsive" style="margin-top: 2rem;">
+                    <div class="termine-list" role="table" aria-label="Termine">
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                        <div class="veranstaltung" role="cell">· RAPCITY-Contest - OpenAir Frauenfeld</div>
+                        <div class="ort" role="cell">· Frauenfeld · 17:15 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
+                        <div class="veranstaltung" role="cell">· Jugend Festival beim ZAK</div>
+                        <div class="ort" role="cell">· Jona · 18:00 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-08-02">08.02.2025</time></div>
+                        <div class="veranstaltung" role="cell">· OYA - OPEN AIR - abgesagt</div>
+                        <div class="ort" role="cell">· Wien · 20:00 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                        <div class="veranstaltung" role="cell">· Jugendfistval - Rüti</div>
+                        <div class="ort" role="cell">· Rüti · 17:30 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                        <div class="veranstaltung" role="cell">· Full HD - Grün & Gold</div>
+                        <div class="ort" role="cell">· Heidelberg · 20:00 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2026-05-01">xx.05.2026</time></div>
+                        <div class="veranstaltung" role="cell">· Jugendfestival - ZAK</div>
+                        <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2026-12-31">xx.yy.zzzz</time></div>
+                        <div class="veranstaltung" role="cell">· in der mache</div>
+                        <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
+                      </div>
+
                     </div>
-
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
-                      <div class="veranstaltung" role="cell">· Jugend Festival beim ZAK</div>
-                      <div class="ort" role="cell">· Jona · 18:00 Uhr</div>
-                    </div>
-
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2025-08-02">08.02.2025</time></div>
-                      <div class="veranstaltung" role="cell">· OYA - OPEN AIR - abgesagt</div>
-                      <div class="ort" role="cell">· Wien · 20:00 Uhr</div>
-                    </div>
-
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
-                      <div class="veranstaltung" role="cell">· Jugendfistval - Rüti</div>
-                      <div class="ort" role="cell">· Rüti · 17:30 Uhr</div>
-                    </div>
-
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
-                      <div class="veranstaltung" role="cell">· Full HD - Grün & Gold</div>
-                      <div class="ort" role="cell">· Heidelberg · 20:00 Uhr</div>
-                    </div>
-
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2026-05-01">xx.05.2026</time></div>
-                      <div class="veranstaltung" role="cell">· Jugendfestival - ZAK</div>
-                      <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
-                    </div>
-
-                    <div class="termin-row" role="row">
-                      <div class="datum" role="cell"><time datetime="2026-12-31">xx.yy.zzzz</time></div>
-                      <div class="veranstaltung" role="cell">· in der mache</div>
-                      <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
-                    </div>
-
                   </div>
                 </div>
               </div>
 
-              <div style="margin-top: 3em;">
-                <p><b>was mich gerade beschäftigt</b></p>
-                <p>- - - - - -</p>
-              </div>
+              <!-- ✅✅✅ NEU: "was mich gerade beschäftigt" als Akkordeon -->
+              <div style="margin-top: 3em;" class="sub-group open" id="acc-beschaeftigt">
+                <button class="sub-toggle" type="button" aria-expanded="true" aria-controls="beschaeftigt-content">
+                  <span class="arrow" aria-hidden="true">►</span>
+                  <span>was mich gerade beschäftigt</span>
+                </button>
 
-              <div class="collage-window">
-                <div class="chaos-collage">
-                  <img src="assets/aktuell/er.jpg" alt="style">
-                  <img src="assets/aktuell/qw.jpg" alt="style">
+                <div class="sub-content" id="beschaeftigt-content">
+                  <p>- - - - - -</p>
+
+                  <div class="collage-window">
+                    <div class="chaos-collage">
+                      <img src="assets/aktuell/er.jpg" alt="style">
+                      <img src="assets/aktuell/qw.jpg" alt="style">
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -665,7 +591,6 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -701,6 +626,18 @@
         });
       }
 
+      /* ✅ NEU: Unter-Akkordeons (termine / beschäftigt) */
+      document.querySelectorAll('.sub-group').forEach(subGroup => {
+        const btn = subGroup.querySelector('.sub-toggle');
+        if(!btn) return;
+
+        btn.addEventListener('click', () => {
+          const isOpen = subGroup.classList.contains('open');
+          subGroup.classList.toggle('open', !isOpen);
+          btn.setAttribute('aria-expanded', String(!isOpen));
+        });
+      });
+
       window.addEventListener('load', resizePanel);
       window.addEventListener('resize', resizePanel);
       if(window.visualViewport){
@@ -709,7 +646,6 @@
     })();
   </script>
 
-  <!-- AUTOMATISCHER HAKEN FÜR VERGANGENE TERMINE -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const today = new Date();
