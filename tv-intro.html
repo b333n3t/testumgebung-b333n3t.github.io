@@ -4,15 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <!-- ✅ SEO: Intro soll nicht indexiert werden -->
   <meta name="robots" content="noindex,follow" />
-  <!-- ✅ Canonical auf die eigentliche Startseite -->
   <link rel="canonical" href="https://www.b3nn3t.com/" />
 
   <title>TV-Intro – b3nn3t | Intro-Annimation &amp; Visuals</title>
   <meta name="description" content="Das offizielle Intro von b3nn3t – Sound, Atmosphäre und visuelle Identität. Ein kurzer Einblick in die Welt hinter dem Intro." />
 
-  <!-- (Optional) Spekulations-Regeln: Startseite vorladen/prerendern -->
   <script type="speculationrules">
   {
     "prefetch": [{ "source": "document", "urls": ["index.html"] }],
@@ -22,7 +19,7 @@
 
   <style>
     :root {
-      --fade-ms: 1000ms; /* Dauer der Ein-/Ausblendung */
+      --fade-ms: 1000ms;
       --bg: #930010;
     }
 
@@ -34,7 +31,6 @@
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
 
-    /* ✅ Canvas sichtbar (Tunnel-Grid) */
     canvas#c{
       position:fixed;
       inset:0;
@@ -47,10 +43,9 @@
       transition: opacity var(--fade-ms) ease;
       z-index:1;
     }
-    body.ready canvas#c  { opacity:1; }  /* Fade-In */
-    body.fadeout canvas#c{ opacity:0; }  /* Fade-Out */
+    body.ready canvas#c  { opacity:1; }
+    body.fadeout canvas#c{ opacity:0; }
 
-    /* Skip-Button (Intro überspringen) */
     .skip {
       position:fixed; top:14px; right:14px; z-index:10;
       background:#fff; color:#000; border:0; border-radius:999px;
@@ -58,7 +53,6 @@
     }
     .skip:focus-visible { outline:2px solid #fff; outline-offset:2px; }
 
-    /* ✅ Loader Overlay */
     .loaderWrap{
       position:fixed;
       inset:0;
@@ -70,8 +64,8 @@
       z-index:5;
       pointer-events:none;
     }
-    body.ready .loaderWrap{ opacity:1; }     /* Fade-In */
-    body.fadeout .loaderWrap{ opacity:0; }   /* Fade-Out */
+    body.ready .loaderWrap{ opacity:1; }
+    body.fadeout .loaderWrap{ opacity:0; }
 
     .loader{
       width:min(720px, 78vw);
@@ -79,7 +73,6 @@
       box-sizing:border-box;
     }
 
-    /* ✅ 80s / eckig / CRT-Frame */
     .barFrame{
       width:100%;
       height:16px;
@@ -92,7 +85,6 @@
         inset 0 0 0 1px rgba(0,0,0,0.6);
     }
 
-    /* ✅ 80s Pixel-Fill */
     .bar{
       height:100%;
       width:0%;
@@ -116,14 +108,12 @@
       user-select:none;
     }
 
-    /* Barrierefreiheit: Nutzer mit reduzierter Bewegung -> sofort weiter */
     @media (prefers-reduced-motion: reduce) {
       body { animation:none !important; }
       canvas#c, .loaderWrap { transition:none; }
     }
   </style>
 
-  <!-- No-JS-Fallback: sofort weiterleiten -->
   <noscript>
     <meta http-equiv="refresh" content="0; url=index.html?nointro=1">
     <style>
@@ -135,15 +125,11 @@
 </head>
 <body>
 
-  <!-- 🔽 Hauptinhalt semantisch markiert -->
   <main role="main">
-    <!-- Skip-Button -->
     <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
 
-    <!-- ✅ Tunnel Canvas -->
     <canvas id="c" aria-hidden="true"></canvas>
 
-    <!-- ✅ Progress -->
     <div class="loaderWrap" aria-hidden="true">
       <div class="loader">
         <div class="barFrame">
@@ -153,14 +139,13 @@
       </div>
     </div>
 
-    <!-- Kurze Status-Anzeige für Screenreader -->
     <div aria-live="polite" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
       Intro läuft. Du kannst „Skip“ drücken, um direkt zur Startseite zu wechseln.
     </div>
   </main>
 
 <script>
-/* ================== Redirect Ziel (wie vorher) ================== */
+/* ================== Redirect Ziel ================== */
 const INTRO_RETURN_URL =
   (sessionStorage.getItem("introReturn") || "index.html") +
   (location.search.includes('nointro=1') ? "" : (location.search ? "&" : "?") + "nointro=1");
@@ -195,7 +180,6 @@ const preloadImages = [
   "https://img.youtube.com/vi/rV1U891RKLo/hqdefault.jpg",
   "https://img.youtube.com/vi/fq8zhAQMam0/hqdefault.jpg"
 ];
-
 const preloadVideos = [ "assets/gesehen/B3NN3T.mp4" ];
 
 function preloadAllImages(urls){
@@ -205,7 +189,6 @@ function preloadAllImages(urls){
     img.src = url;
   });
 }
-
 function preloadAllVideos(urls){
   urls.forEach(url=>{
     const v = document.createElement('video');
@@ -215,8 +198,6 @@ function preloadAllVideos(urls){
     v.load();
   });
 }
-
-/* 🔥 Preload sofort beim Start */
 if(!window._preloaded){
   window._preloaded=true;
   preloadAllImages(preloadImages);
@@ -240,110 +221,146 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
+/* ================== "Hand-drawn" Helpers (deterministisch, kein Flimmern) ================== */
+const snap = (v)=>Math.round(v);
+
+// schneller Hash -> 0..1
+function hash01(n){
+  // deterministic pseudo-random
+  const x = Math.sin(n * 127.1) * 43758.5453123;
+  return x - Math.floor(x);
+}
+
+// glatter Wert (0..1) über "t" (damit Linien nicht hart knicken)
+function smoothstep(t){
+  t = Math.max(0, Math.min(1, t));
+  return t*t*(3 - 2*t);
+}
+
+// krakelige Linie als Polyline mit kleinen Perp-Offsets
+function scribbleLine(x1,y1,x2,y2,seed,ampPx, wobbleNow){
+  // wobbleNow: kleiner Drift, aber stabil (kein jitter)
+  const dx = x2-x1, dy = y2-y1;
+  const len = Math.hypot(dx,dy) || 1;
+  const nx = -dy/len, ny = dx/len; // perpendicular
+
+  // Segmente abhängig von Länge (aber gedeckelt)
+  const segs = Math.max(6, Math.min(18, Math.floor(len / (28*DPR))));
+
+  ctx.beginPath();
+
+  for(let i=0;i<=segs;i++){
+    const t = i / segs;
+
+    // Basis-Punkt
+    let x = x1 + dx*t;
+    let y = y1 + dy*t;
+
+    // deterministisches "Hand"-Offset pro Segment
+    const r = (hash01(seed*1000 + i*17.7) * 2 - 1);     // -1..1
+    const r2 = (hash01(seed*2000 + i*9.3) * 2 - 1);    // -1..1
+
+    // sanft zur Mitte stärker, an Enden weniger
+    const m = smoothstep(t) * (1 - smoothstep(t));
+    const a = ampPx * (0.55 + 0.45*m);
+
+    // leichter zeitlicher Drift (wie "Hand bewegt sich"), aber gleichmäßig
+    const drift = Math.sin(wobbleNow + seed*3.1 + i*0.7) * (0.25*DPR);
+
+    x += nx * (r*a + drift) + (r2*0.35*DPR);
+    y += ny * (r*a + drift) + (r2*0.35*DPR);
+
+    if(i===0) ctx.moveTo(snap(x), snap(y));
+    else      ctx.lineTo(snap(x), snap(y));
+  }
+
+  ctx.stroke();
+}
+
 /* ================== Tunnel-Grid (4 Seiten, "Raum" in der Mitte) ================== */
 function drawTunnelGrid(now, reveal01){
-  // reveal01: 0..1 (wieviel "gezeichnet" werden soll)
-
-  // Hintergrund
+  // background
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
-  // Pixel-snapping gegen Flimmern
-  const snap = (v)=>Math.round(v);
-
+  // Stil
   ctx.save();
   ctx.lineWidth = Math.max(1, Math.round(DPR));
   ctx.strokeStyle = 'rgba(0,0,0,0.30)';
 
-  // Outer quad = volle Fläche
+  // Outer quad
   const outer = [
-    {x:0, y:0},   // TL
-    {x:W, y:0},   // TR
-    {x:W, y:H},   // BR
-    {x:0, y:H}    // BL
+    {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
 
-  // Inner quad = "Raum" (Portal) in der Mitte
+  // Inner quad (Portal)
   const cx = W*0.5, cy = H*0.5;
   const innerW = W*0.42;
   const innerH = H*0.30;
 
   const inner = [
-    {x:cx - innerW/2, y:cy - innerH/2}, // TL
-    {x:cx + innerW/2, y:cy - innerH/2}, // TR
-    {x:cx + innerW/2, y:cy + innerH/2}, // BR
-    {x:cx - innerW/2, y:cy + innerH/2}  // BL
+    {x:cx - innerW/2, y:cy - innerH/2},
+    {x:cx + innerW/2, y:cy - innerH/2},
+    {x:cx + innerW/2, y:cy + innerH/2},
+    {x:cx - innerW/2, y:cy + innerH/2}
   ];
 
-  // Helpers
   const lerp = (a,b,t)=>a+(b-a)*t;
   const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
 
-  // "Strich-für-Strich": wie viele Elemente sichtbar?
-  const RINGS = 30;  // Tiefe
-  const RAD   = 22;  // Strahlen pro Seite
-
+  // counts
+  const RINGS = 30;
+  const RAD   = 22;
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
-  // Bewegung: wir verschieben die Ring-Indexierung (stabil, kein Zittern)
+  // Bewegung (stabil)
   const speed = 0.00035;
   const phase = (now*speed) % 1;
+  const wobbleNow = now * 0.002; // für hand-drift, aber smooth
 
-  // --- 1) Radiale Linien von allen vier Seiten ---
-  // Oben & Unten
+  // Hand-Parameter
+  const baseAmp = 1.6 * DPR; // "wie krakelig" (erhöhe für mehr Hand-Look)
+
+  // --- 1) Radiale Linien von allen 4 Seiten ---
+  // Oben + Unten
   for(let i=0;i<=radCount;i++){
     const t = i / radCount;
 
     // oben
     const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
     const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    ctx.beginPath();
-    ctx.moveTo(snap(A.x), snap(A.y));
-    ctx.lineTo(snap(B.x), snap(B.y));
-    ctx.stroke();
+    scribbleLine(A.x,A.y,B.x,B.y, 10 + i*0.11, baseAmp, wobbleNow);
 
     // unten
     const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
     const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    ctx.beginPath();
-    ctx.moveTo(snap(C.x), snap(C.y));
-    ctx.lineTo(snap(D.x), snap(D.y));
-    ctx.stroke();
+    scribbleLine(C.x,C.y,D.x,D.y, 20 + i*0.11, baseAmp, wobbleNow);
   }
 
-  // Links & Rechts
+  // Links + Rechts
   for(let i=0;i<=radCount;i++){
     const t = i / radCount;
 
     // links
     const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
     const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    ctx.beginPath();
-    ctx.moveTo(snap(A.x), snap(A.y));
-    ctx.lineTo(snap(B.x), snap(B.y));
-    ctx.stroke();
+    scribbleLine(A.x,A.y,B.x,B.y, 30 + i*0.11, baseAmp, wobbleNow);
 
     // rechts
     const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
     const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    ctx.beginPath();
-    ctx.moveTo(snap(C.x), snap(C.y));
-    ctx.lineTo(snap(D.x), snap(D.y));
-    ctx.stroke();
+    scribbleLine(C.x,C.y,D.x,D.y, 40 + i*0.11, baseAmp, wobbleNow);
   }
 
   // --- 2) Tiefen-Ringe (Quads) ---
   for(let i=0;i<ringCount;i++){
     const u = (i / (RINGS-1));
 
-    // mehr Dichte Richtung Zentrum
-    let z = u*u;
-
-    // leicht "fahren": verschiebt die Tiefe, nicht die Geometrie
-    z = (z + phase*0.18) % 1;
+    let z = u*u;                 // dichter zum Zentrum
+    z = (z + phase*0.18) % 1;    // Bewegung nach vorne
     z = z*z;
 
     const q0 = lerpP(outer[0], inner[0], z);
@@ -351,24 +368,22 @@ function drawTunnelGrid(now, reveal01){
     const q2 = lerpP(outer[2], inner[2], z);
     const q3 = lerpP(outer[3], inner[3], z);
 
-    ctx.beginPath();
-    ctx.moveTo(snap(q0.x), snap(q0.y));
-    ctx.lineTo(snap(q1.x), snap(q1.y));
-    ctx.lineTo(snap(q2.x), snap(q2.y));
-    ctx.lineTo(snap(q3.x), snap(q3.y));
-    ctx.closePath();
-    ctx.stroke();
+    // weiter hinten weniger "Hand", vorne etwas mehr
+    const depthAmp = baseAmp * (0.65 + 0.55*(1 - z));
+
+    scribbleLine(q0.x,q0.y,q1.x,q1.y, 100 + i*0.21, depthAmp, wobbleNow);
+    scribbleLine(q1.x,q1.y,q2.x,q2.y, 200 + i*0.21, depthAmp, wobbleNow);
+    scribbleLine(q2.x,q2.y,q3.x,q3.y, 300 + i*0.21, depthAmp, wobbleNow);
+    scribbleLine(q3.x,q3.y,q0.x,q0.y, 400 + i*0.21, depthAmp, wobbleNow);
   }
 
   // Inneres Frame etwas kräftiger
   ctx.strokeStyle = 'rgba(0,0,0,0.45)';
-  ctx.beginPath();
-  ctx.moveTo(snap(inner[0].x), snap(inner[0].y));
-  ctx.lineTo(snap(inner[1].x), snap(inner[1].y));
-  ctx.lineTo(snap(inner[2].x), snap(inner[2].y));
-  ctx.lineTo(snap(inner[3].x), snap(inner[3].y));
-  ctx.closePath();
-  ctx.stroke();
+  const portalAmp = baseAmp * 1.2;
+  scribbleLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, portalAmp, wobbleNow);
+  scribbleLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, portalAmp, wobbleNow);
+  scribbleLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, portalAmp, wobbleNow);
+  scribbleLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, portalAmp, wobbleNow);
 
   ctx.restore();
 }
@@ -395,13 +410,13 @@ function startProgressAndTunnel(){
     const t = (now - start) / INTRO_MS;
     const clamped = Math.max(0, Math.min(1, t));
 
-    // Reveal: "Strich-für-Strich" Aufbau
+    // "Strich-für-Strich" Aufbau
     const reveal = Math.min(1, clamped * 1.15);
 
     // Tunnel zeichnen
     drawTunnelGrid(now, reveal);
 
-    // Arcade-Steps (80s)
+    // Arcade-Steps
     const steps = 32;
     const stepped = Math.floor(clamped * steps) / steps;
     bar.style.width = (stepped * 100).toFixed(2) + "%";
@@ -426,7 +441,6 @@ function startProgressAndTunnel(){
   }
   if (skipBtn) skipBtn.addEventListener('click', goNow);
 
-  // Reduced motion => sofort weiter
   try {
     if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       goNow();
@@ -435,12 +449,11 @@ function startProgressAndTunnel(){
   } catch(e){}
 })();
 
-/* ================== Start (wie vorher) ================== */
+/* ================== Start ================== */
 setTimeout(() => {
-  document.body.classList.add('ready'); // sanft einblenden
-  startProgressAndTunnel();             // Tunnel + Balken starten
+  document.body.classList.add('ready');
+  startProgressAndTunnel();
 }, START_DELAY_MS);
 </script>
 </body>
 </html>
-
