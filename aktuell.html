@@ -482,4 +482,188 @@
                     <img src="assets/release/drei-cover.webp" alt="Cover: 3">
                     <div class="release-info">
                       <div class="subtitle">🎧 neues release</div>
-                      <div class="song
+                      <div class="songtitle"> drei </div>
+                      <div class="desc">jetzt reinhören & preview-video ansehen!</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+
+              <div class="sub-group" id="acc-termine">
+                <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="termine-content">
+                  <span class="arrow" aria-hidden="true">►</span>
+                  <span>termine</span>
+                </button>
+
+                <div class="sub-content" id="termine-content">
+                  <p>- - - auftritte - - -</p>
+
+                  <div class="termine-responsive" style="margin-top: 2rem;">
+                    <div class="termine-list" role="table" aria-label="Termine">
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                        <div class="veranstaltung" role="cell">· RAPCITY-Contest - OpenAir Frauenfeld</div>
+                        <div class="ort" role="cell">· Frauenfeld · 17:15 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
+                        <div class="veranstaltung" role="cell">· Jugend Festival beim ZAK</div>
+                        <div class="ort" role="cell">· Jona · 18:00 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-08-02">08.02.2025</time></div>
+                        <div class="veranstaltung" role="cell">· OYA - OPEN AIR - abgesagt</div>
+                        <div class="ort" role="cell">· Wien · 20:00 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                        <div class="veranstaltung" role="cell">· Jugendfistval - Rüti</div>
+                        <div class="ort" role="cell">· Rüti · 17:30 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                        <div class="veranstaltung" role="cell">· Full HD - Grün & Gold</div>
+                        <div class="ort" role="cell">· Heidelberg · 20:00 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2026-05-01">xx.05.2026</time></div>
+                        <div class="veranstaltung" role="cell">· Jugendfestival - ZAK</div>
+                        <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2026-12-31">xx.yy.zzzz</time></div>
+                        <div class="veranstaltung" role="cell">· in der mache</div>
+                        <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="sub-group" id="acc-beschaeftigt">
+                <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="beschaeftigt-content">
+                  <span class="arrow" aria-hidden="true">►</span>
+                  <span>was mich gerade beschäftigt</span>
+                </button>
+
+                <div class="sub-content" id="beschaeftigt-content">
+                  <p>- - - - - -</p>
+
+                  <div class="collage-window">
+                    <div class="chaos-collage">
+                      <img src="assets/aktuell/er.jpg" alt="style">
+                      <img src="assets/aktuell/qw.jpg" alt="style">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+            </div>
+          </div>
+
+          <a class="page-link" href="gesehen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>gesehen</span>
+          </a>
+
+          <a class="page-link" href="plattformen.html">
+            <span class="arrow" aria-hidden="true">►</span>
+            <span>links</span>
+          </a>
+
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="footer-inline">
+    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+  </div>
+
+  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe right" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+  <script src="swipe-nav.js?v=12" defer></script>
+
+  <script>
+    (function(){
+      const group  = document.querySelector('.page-group.current');
+      const toggle = group?.querySelector('.page-toggle');
+      const panel  = document.querySelector('.scroll-panel');
+
+      function resizePanel(){
+        if(!panel) return;
+        const header = document.querySelector('.header');
+        const main   = document.querySelector('.main');
+
+        const hh = header ? header.offsetHeight : 0;
+        let pt = 0, pb = 0;
+        if(main){
+          const cs = getComputedStyle(main);
+          pt = parseFloat(cs.paddingTop)  || 0;
+          pb = parseFloat(cs.paddingBottom) || 0;
+        }
+
+        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
+        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+
+        let max = vh - hh - pt - pb - gap;
+        if(max < 260) max = 260;
+        panel.style.maxHeight = max + 'px';
+      }
+
+      if(toggle && group){
+        toggle.addEventListener('click', () => {
+          const isOpen = group.classList.contains('open');
+          group.classList.toggle('open', !isOpen);
+          toggle.setAttribute('aria-expanded', String(!isOpen));
+        });
+      }
+
+      document.querySelectorAll('.sub-group').forEach(subGroup => {
+        const btn = subGroup.querySelector('.sub-toggle');
+        if(!btn) return;
+
+        btn.addEventListener('click', () => {
+          const isOpen = subGroup.classList.contains('open');
+          subGroup.classList.toggle('open', !isOpen);
+          btn.setAttribute('aria-expanded', String(!isOpen));
+        });
+      });
+
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+    })();
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const today = new Date();
+
+      document.querySelectorAll('.termin-row').forEach(row => {
+        const timeElem = row.querySelector("time");
+        if (!timeElem) return;
+
+        const dateString = timeElem.getAttribute("datetime");
+        if (!dateString || dateString.includes("xx")) return;
+
+        const date = new Date(dateString);
+        if (date < today) row.classList.add("completed");
+      });
+    });
+  </script>
+</body>
+</html>
