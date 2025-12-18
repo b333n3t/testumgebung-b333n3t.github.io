@@ -116,7 +116,7 @@
 </head>
 <body>
 
-<main role="main">
+<main role="="main">
   <button class="skip" type="button" aria-label="Intro überspringen">Skip</button>
   <canvas id="c" aria-hidden="true"></canvas>
 
@@ -133,11 +133,12 @@
 </main>
 
 <script>
+/* ================== Redirect Ziel ================== */
 const INTRO_RETURN_URL =
   (sessionStorage.getItem("introReturn") || "index.html") +
   (location.search.includes('nointro=1') ? "" : (location.search ? "&" : "?") + "nointro=1");
 
-/* PRELOAD */
+/* ================== PRELOAD bleibt drin ================== */
 const preloadImages = [
   "assets/index/bennet_index1.avif","assets/index/bennet_index1.webp",
   "assets/index/bennet_index2.avif","assets/index/bennet_index2.webp",
@@ -155,366 +156,242 @@ const preloadImages = [
   "https://img.youtube.com/vi/fq8zhAQMam0/hqdefault.jpg"
 ];
 const preloadVideos = [ "assets/gesehen/B3NN3T.mp4" ];
-function preloadAllImages(urls){ urls.forEach(url=>{ const img=new Image(); img.referrerPolicy="no-referrer"; img.src=url; }); }
-function preloadAllVideos(urls){ urls.forEach(url=>{ const v=document.createElement('video'); v.preload='auto'; v.muted=true; v.src=url; v.load(); }); }
-if(!window._preloaded){ window._preloaded=true; preloadAllImages(preloadImages); preloadAllVideos(preloadVideos); }
 
-/* Canvas */
-const c=document.getElementById('c');
-const ctx=c.getContext('2d');
+function preloadAllImages(urls){
+  urls.forEach(url=>{
+    const img=new Image();
+    img.referrerPolicy="no-referrer";
+    img.src=url;
+  });
+}
+function preloadAllVideos(urls){
+  urls.forEach(url=>{
+    const v=document.createElement('video');
+    v.preload='auto';
+    v.muted=true;
+    v.src=url;
+    v.load();
+  });
+}
+if(!window._preloaded){
+  window._preloaded=true;
+  preloadAllImages(preloadImages);
+  preloadAllVideos(preloadVideos);
+}
+
+/* ================== Canvas Setup ================== */
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+
 let W=0,H=0,DPR=1;
+
 function resize(){
-  DPR=Math.max(1,Math.floor(window.devicePixelRatio||1));
-  W=c.width=Math.floor(innerWidth*DPR);
-  H=c.height=Math.floor(innerHeight*DPR);
-  c.style.width=innerWidth+'px';
-  c.style.height=innerHeight+'px';
-  ctx.imageSmoothingEnabled=false;
+  DPR = Math.max(1, Math.floor(window.devicePixelRatio || 1));
+  W = c.width  = Math.floor(innerWidth * DPR);
+  H = c.height = Math.floor(innerHeight * DPR);
+  c.style.width  = innerWidth + 'px';
+  c.style.height = innerHeight + 'px';
+  ctx.imageSmoothingEnabled = false;
 }
-addEventListener('resize',resize); resize();
+addEventListener('resize', resize);
+resize();
 
-/* Krakelig Weiß (Grid) */
-const snap=(v)=>Math.round(v);
-const clamp01=(t)=>Math.max(0,Math.min(1,t));
+/* ================== Chalk / Scanline Style ==================
+   - Linien bestehen aus vielen kleinen Segmenten + Körnung
+   - keine starken Wellen, eher “trocken” wie Kreide auf Glas
+   - stabil: RNG aus seed, kein Frame-flimmern
+*/
+const snap = (v)=>Math.round(v);
+const clamp01 = (t)=>Math.max(0,Math.min(1,t));
 function hash01(n){ const x=Math.sin(n*127.1)*43758.5453123; return x-Math.floor(x); }
-function smoothstep(t){ t=clamp01(t); return t*t*(3-2*t); }
-function noise1D(seed,t){
-  const s=t*12, i=Math.floor(s), f=s-i;
-  const a=hash01(seed*1000+i*17.17), b=hash01(seed*1000+(i+1)*17.17);
-  const u=smoothstep(f);
-  return (a*(1-u)+b*u)*2-1;
-}
-function scribbleStroke(x1,y1,x2,y2,seed,amp){
-  const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1;
-  const nx=-dy/len, ny=dx/len;
-  const segs=Math.max(10,Math.min(34,Math.floor(len/(14*DPR))));
-  ctx.beginPath();
-  for(let i=0;i<=segs;i++){
-    const t=i/segs;
-    let x=x1+dx*t, y=y1+dy*t;
-    const n=noise1D(seed,t), n2=noise1D(seed+9.3,t);
-    const mid=smoothstep(t)*(1-smoothstep(t));
-    const a=amp*(0.55+1.25*mid);
-    x += nx*(n*a) + (dx/len)*(n2*0.45*DPR);
-    y += ny*(n*a) + (dy/len)*(n2*0.45*DPR);
-    x=snap(x); y=snap(y);
-    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-  }
-  ctx.stroke();
-}
-function inkLine(x1,y1,x2,y2,seed,amp,alpha){
-  ctx.save();
-  ctx.globalAlpha=alpha;
-  ctx.lineWidth=Math.max(0.75,0.75*DPR);
-  scribbleStroke(x1,y1,x2,y2,seed,amp);
-  ctx.globalAlpha=alpha*0.65;
-  ctx.lineWidth=Math.max(0.65,0.65*DPR);
-  scribbleStroke(x1+0.35*DPR,y1+0.18*DPR,x2+0.35*DPR,y2+0.18*DPR,seed+111,amp*0.72);
-  ctx.restore();
-}
 
-/* RNG */
 function rngFrom(seed){
   let s=(seed>>>0)||1;
-  return function(){ s^=s<<13; s>>>=0; s^=s>>>17; s>>>=0; s^=s<<5; s>>>=0; return (s>>>0)/4294967296; };
+  return function(){
+    s^=s<<13; s>>>=0;
+    s^=s>>>17; s>>>=0;
+    s^=s<<5;  s>>>=0;
+    return (s>>>0)/4294967296;
+  };
 }
 
-/* --- Wachsmalstift / Crayon Zell-Fill --- */
-const CRAYON = [
-  [255,  80, 190],[ 90, 210, 255],[255, 230,  80],
-  [160, 255, 120],[200, 140, 255],[255, 140,  80]
-];
-function rgba(rgb,a){ return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${a})`; }
-
-function quadPoint(a,b,c,d,u,v){
-  const ax=a.x+(b.x-a.x)*u, ay=a.y+(b.y-a.y)*u;
-  const bx=d.x+(c.x-d.x)*u, by=d.y+(c.y-d.y)*u;
-  return { x: ax+(bx-ax)*v, y: ay+(by-ay)*v };
-}
-function cellQuad(surfaceQuad,u0,u1,v0,v1){
-  const a=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u0,v0);
-  const b=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u1,v0);
-  const c=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u1,v1);
-  const d=quadPoint(surfaceQuad.a,surfaceQuad.b,surfaceQuad.c,surfaceQuad.d,u0,v1);
-  return {a,b,c,d};
-}
-function clipQuad(q){
-  ctx.beginPath();
-  ctx.moveTo(q.a.x,q.a.y); ctx.lineTo(q.b.x,q.b.y); ctx.lineTo(q.c.x,q.c.y); ctx.lineTo(q.d.x,q.d.y);
-  ctx.closePath(); ctx.clip();
-}
-
-let cellFills=[];
-
-/* 3–5 Zellen, stabil */
-function buildCellFills(seed, UDIV, VDIV){
-  const r=rngFrom(seed);
-  const count=3+Math.floor(r()*3); // 3..5
-  const fills=[];
-  for(let i=0;i<count;i++){
-    const surface=Math.floor(r()*4);
-    const ui=Math.floor(r()*(UDIV-1));
-    const vi=Math.floor(r()*(VDIV-1));
-
-    const col=CRAYON[Math.floor(r()*CRAYON.length)];
-    const a=0.14+r()*0.18;
-
-    // viele kleine “Crayon-Schwünge” (nicht voll)
-    const strokes=28+Math.floor(r()*30); // 28..57
-    const pts=[];
-    for(let s=0;s<strokes;s++){
-      pts.push({
-        u:r(), v:r(),
-        len:0.18+r()*0.70,
-        ang:(-1.0+r()*2.0),
-        seed:(seed+i*999+s*77)>>>0,
-        skip:r()<0.24
-      });
-    }
-
-    fills.push({
-      surface, ui, vi,
-      col1: rgba(col,a),
-      col2: rgba(col,a*0.55),
-      dots: rgba(col, Math.min(0.22, a*0.9)),
-      pts
-    });
-  }
-  return fills;
-}
-
-/* Crayon: mehrere “krümelige” Passes + Stipple */
-function crayonStroke(x1,y1,x2,y2,seed,baseW,alpha){
-  const r=rngFrom(seed);
+function chalkDashedLine(x1,y1,x2,y2,seed,alpha){
+  const r = rngFrom(seed);
   const dx=x2-x1, dy=y2-y1;
   const len=Math.hypot(dx,dy)||1;
-  const nx=-dy/len, ny=dx/len;
+  const ux=dx/len, uy=dy/len;
+  const nx=-uy, ny=ux;
 
-  // segmentiert -> wirkt wie Wachs
-  const segs=Math.max(10, Math.min(44, Math.floor(len/(10*DPR))));
-  const wob = (0.9 + r()*1.2) * DPR;
+  // Segment-Länge + Lücke (in Pixeln)
+  const segLen = (7 + r()*9) * DPR;     // 7..16
+  const gapLen = (3 + r()*6) * DPR;     // 3..9
 
-  // 2–3 parallele Striche
-  const passes = 2 + (r()<0.45 ? 1 : 0);
-  for(let p=0;p<passes;p++){
-    const off = (r()-0.5) * (baseW*0.9);
-    ctx.globalAlpha = alpha * (0.75 + r()*0.35);
-    ctx.lineWidth   = Math.max(0.9*DPR, baseW * (0.75 + r()*0.55));
-    ctx.lineCap     = 'round';
-    ctx.lineJoin    = 'round';
+  // “Trockenheit” / Kreide-Rand
+  const jitter = (0.25 + r()*0.55) * DPR;
 
-    ctx.beginPath();
-    for(let i=0;i<=segs;i++){
-      const t=i/segs;
-      let x=x1+dx*t, y=y1+dy*t;
+  // Grundstrich (dünn)
+  const baseW = Math.max(0.7, 0.85*DPR);
 
-      // unregelmäßig + "Wachs-Rauheit"
-      const n = noise1D(seed + p*41.7, t);
-      x += nx*(off + n*wob) + (r()-0.5)*0.45*DPR;
-      y += ny*(off + n*wob) + (r()-0.5)*0.45*DPR;
-
-      x=snap(x); y=snap(y);
-      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
-    }
-    ctx.stroke();
-  }
-}
-
-/* Stipple / Krümel entlang der Linie */
-function crayonStipple(x1,y1,x2,y2,seed,intensity){
-  const r=rngFrom(seed);
-  const dx=x2-x1, dy=y2-y1;
-  const len=Math.hypot(dx,dy)||1;
-  const nx=-dy/len, ny=dx/len;
-
-  const dots = Math.max(6, Math.floor((len/(14*DPR)) * intensity));
-  for(let i=0;i<dots;i++){
-    const t=r();
-    const spread=(r()-0.5) * 2.4 * DPR;
-    const x = snap(x1 + dx*t + nx*spread);
-    const y = snap(y1 + dy*t + ny*spread);
-    const s = Math.max(1, Math.floor((0.8 + r()*1.8) * DPR));
-    ctx.fillRect(x,y,s,s);
-  }
-}
-
-function drawCellCrayon(q, fill){
   ctx.save();
-  clipQuad(q);
+  ctx.globalAlpha = alpha;
 
-  const w=Math.hypot(q.b.x-q.a.x, q.b.y-q.a.y);
-  const h=Math.hypot(q.d.x-q.a.x, q.d.y-q.a.y);
-  const base = Math.max(18*DPR, Math.min(w,h));
-  const baseW = Math.max(1.2*DPR, 1.8*DPR + base*0.018); // “Wachs”
-
-  // 2 Farben übereinander -> Buntstift-Look
+  // Mehrfach-Pass -> kreidig (aber nicht dick)
   for(let pass=0; pass<2; pass++){
-    ctx.strokeStyle = (pass===0) ? fill.col1 : fill.col2;
-    ctx.fillStyle   = fill.dots;
+    const passA = pass===0 ? 1.0 : 0.55;
+    ctx.globalAlpha = alpha * passA;
 
-    for(const st of fill.pts){
-      if(st.skip) continue;
+    ctx.strokeStyle = pass===0 ? 'rgba(255,255,255,0.58)' : 'rgba(255,255,255,0.40)';
+    ctx.lineWidth   = pass===0 ? baseW : Math.max(0.6, baseW*0.85);
+    ctx.lineCap='round';
 
-      const rr=rngFrom(st.seed + pass*9991);
-      const p0=quadPoint(q.a,q.b,q.c,q.d, st.u, st.v);
+    let t=0;
+    while(t < len){
+      const L = Math.min(segLen, len - t);
+      const s0 = t;
+      const s1 = t + L;
 
-      const ang = st.ang + (rr()-0.5)*0.45;
-      const L = st.len * base * (0.55 + rr()*0.85);
+      const ox = (r()-0.5) * jitter + (pass? (r()-0.5)*0.35*DPR : 0);
+      const oy = (r()-0.5) * jitter + (pass? (r()-0.5)*0.35*DPR : 0);
 
-      const x1 = p0.x + (pass?0.26*DPR:0);
-      const y1 = p0.y + (pass?0.18*DPR:0);
-      const x2 = x1 + Math.cos(ang)*L;
-      const y2 = y1 + Math.sin(ang)*L;
+      const ax = x1 + ux*s0 + nx*ox;
+      const ay = y1 + uy*s0 + ny*oy;
+      const bx = x1 + ux*s1 + nx*ox;
+      const by = y1 + uy*s1 + ny*oy;
 
-      // "Wachs" Stroke + Krümel
-      ctx.save();
-      crayonStroke(x1,y1,x2,y2, st.seed + pass*1337, baseW*(pass?0.85:1.0), pass===0 ? 0.55 : 0.38);
-      ctx.restore();
+      ctx.beginPath();
+      ctx.moveTo(snap(ax), snap(ay));
+      ctx.lineTo(snap(bx), snap(by));
+      ctx.stroke();
 
-      // Stipple
-      ctx.save();
-      ctx.globalAlpha = pass===0 ? 0.22 : 0.14;
-      crayonStipple(x1,y1,x2,y2, st.seed + pass*733, 0.9 + rr()*0.7);
-      ctx.restore();
+      // “Kreide-Krümel” am Segment
+      const crumbs = 1 + Math.floor(r()*3);
+      ctx.fillStyle = 'rgba(255,255,255,0.16)';
+      for(let k=0;k<crumbs;k++){
+        const tt = r();
+        const px = ax + (bx-ax)*tt + (r()-0.5)*2.2*DPR;
+        const py = ay + (by-ay)*tt + (r()-0.5)*2.2*DPR;
+        const s  = Math.max(1, Math.floor((0.9 + r()*1.8)*DPR));
+        ctx.fillRect(snap(px), snap(py), s, s);
+      }
+
+      t += segLen + gapLen;
     }
   }
 
   ctx.restore();
 }
 
-/* Tunnel */
+/* ================== Tunnel-Grid (Chalk) ================== */
 function drawTunnelGrid(now, reveal01){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
-  ctx.fillStyle='#930010';
+  ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
-  const outer=[{x:0,y:0},{x:W,y:0},{x:W,y:H},{x:0,y:H}];
-  const cx=W*0.5, cy=H*0.5;
-  const innerW=W*0.44, innerH=H*0.32;
-  const inner=[
-    {x:cx-innerW/2,y:cy-innerH/2},
-    {x:cx+innerW/2,y:cy-innerH/2},
-    {x:cx+innerW/2,y:cy+innerH/2},
-    {x:cx-innerW/2,y:cy+innerH/2}
+  const outer = [
+    {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
 
-  const surfaces=[
-    { a: outer[0], b: outer[1], c: inner[1], d: inner[0] }, // ceiling
-    { a: outer[3], b: outer[2], c: inner[2], d: inner[3] }, // floor
-    { a: outer[0], b: inner[0], c: inner[3], d: outer[3] }, // left
-    { a: inner[1], b: outer[1], c: outer[2], d: inner[2] }  // right
+  const cx = W*0.5, cy = H*0.5;
+  const innerW = W*0.44;
+  const innerH = H*0.32;
+  const inner = [
+    {x:cx - innerW/2, y:cy - innerH/2},
+    {x:cx + innerW/2, y:cy - innerH/2},
+    {x:cx + innerW/2, y:cy + innerH/2},
+    {x:cx - innerW/2, y:cy + innerH/2}
   ];
 
-  const RINGS=34, RAD=26;
-  const ringCount=Math.max(1,Math.floor(reveal01*RINGS));
-  const radCount=Math.max(2,Math.floor(reveal01*RAD));
-  const speed=0.00038;
-  const phase=(now*speed)%1;
+  const RINGS = 34;
+  const RAD   = 26;
 
-  ctx.strokeStyle='rgba(255,255,255,0.52)';
-  const AMP=3.0*DPR, AMP_RING=AMP*0.92, AMP_RAD=AMP;
+  const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
+  const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
+
+  const speed = 0.00038;
+  const phase = (now*speed) % 1;
 
   // Radials
   for(let i=0;i<=radCount;i++){
-    const t=i/radCount;
-    const A={x:outer[0].x+(outer[1].x-outer[0].x)*t, y:outer[0].y};
-    const B={x:inner[0].x+(inner[1].x-inner[0].x)*t, y:inner[0].y};
-    inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.50);
+    const t = i/radCount;
 
-    const C={x:outer[3].x+(outer[2].x-outer[3].x)*t, y:outer[3].y};
-    const D={x:inner[3].x+(inner[2].x-inner[3].x)*t, y:inner[3].y};
-    inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.50);
+    const A = { x: outer[0].x + (outer[1].x-outer[0].x)*t, y: outer[0].y };
+    const B = { x: inner[0].x + (inner[1].x-inner[0].x)*t, y: inner[0].y };
+    chalkDashedLine(A.x,A.y,B.x,B.y, 10+i*0.19, 0.62);
+
+    const C = { x: outer[3].x + (outer[2].x-outer[3].x)*t, y: outer[3].y };
+    const D = { x: inner[3].x + (inner[2].x-inner[3].x)*t, y: inner[3].y };
+    chalkDashedLine(C.x,C.y,D.x,D.y, 20+i*0.19, 0.62);
   }
   for(let i=0;i<=radCount;i++){
-    const t=i/radCount;
-    const A={x:outer[0].x, y:outer[0].y+(outer[3].y-outer[0].y)*t};
-    const B={x:inner[0].x, y:inner[0].y+(inner[3].y-inner[0].y)*t};
-    inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.50);
+    const t = i/radCount;
 
-    const C={x:outer[1].x, y:outer[1].y+(outer[2].y-outer[1].y)*t};
-    const D={x:inner[1].x, y:inner[1].y+(inner[2].y-inner[1].y)*t};
-    inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.50);
+    const A = { x: outer[0].x, y: outer[0].y + (outer[3].y-outer[0].y)*t };
+    const B = { x: inner[0].x, y: inner[0].y + (inner[3].y-inner[0].y)*t };
+    chalkDashedLine(A.x,A.y,B.x,B.y, 30+i*0.19, 0.62);
+
+    const C = { x: outer[1].x, y: outer[1].y + (outer[2].y-outer[1].y)*t };
+    const D = { x: inner[1].x, y: inner[1].y + (inner[2].y-inner[1].y)*t };
+    chalkDashedLine(C.x,C.y,D.x,D.y, 40+i*0.19, 0.62);
   }
 
-  // Rings
+  // Rings (Tiefe)
   for(let i=0;i<ringCount;i++){
-    const u=(i/(RINGS-1));
-    let z=u*u;
-    z=(z+phase*0.22)%1;
-    z=z*z;
+    const u = (i/(RINGS-1));
+    let z = u*u;
+    z = (z + phase*0.22) % 1;
+    z = z*z;
 
-    const q0={x:outer[0].x+(inner[0].x-outer[0].x)*z, y:outer[0].y+(inner[0].y-outer[0].y)*z};
-    const q1={x:outer[1].x+(inner[1].x-outer[1].x)*z, y:outer[1].y+(inner[1].y-outer[1].y)*z};
-    const q2={x:outer[2].x+(inner[2].x-outer[2].x)*z, y:outer[2].y+(inner[2].y-outer[2].y)*z};
-    const q3={x:outer[3].x+(inner[3].x-outer[3].x)*z, y:outer[3].y+(inner[3].y-outer[3].y)*z};
+    const q0 = { x: outer[0].x + (inner[0].x-outer[0].x)*z, y: outer[0].y + (inner[0].y-outer[0].y)*z };
+    const q1 = { x: outer[1].x + (inner[1].x-outer[1].x)*z, y: outer[1].y + (inner[1].y-outer[1].y)*z };
+    const q2 = { x: outer[2].x + (inner[2].x-outer[2].x)*z, y: outer[2].y + (inner[2].y-outer[2].y)*z };
+    const q3 = { x: outer[3].x + (inner[3].x-outer[3].x)*z, y: outer[3].y + (inner[3].y-outer[3].y)*z };
 
-    const front=(1-z);
-    const alpha=0.10+0.22*front;
-    const a=AMP_RING*(0.55+0.70*front);
+    const front = (1 - z);
+    const alpha = 0.10 + 0.26*front;
 
-    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, alpha);
-    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, alpha);
-    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, alpha);
-    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, alpha);
+    chalkDashedLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.31, alpha);
+    chalkDashedLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.31, alpha);
+    chalkDashedLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.31, alpha);
+    chalkDashedLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.31, alpha);
   }
 
-  // Portal
-  inkLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, AMP*1.05, 0.62);
-  inkLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, AMP*1.05, 0.62);
-  inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.05, 0.62);
-  inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.05, 0.62);
-
-  // ✅ Crayon-Zellen (mehr Fläche, “Wachs”)
-  const paintAlpha=Math.min(1,Math.max(0,(reveal01-0.15)/0.85));
-  if(cellFills.length && paintAlpha>0){
-    ctx.save();
-    ctx.globalAlpha=paintAlpha;
-
-    for(const f of cellFills){
-      const u0=f.ui/RAD, u1=(f.ui+1)/RAD;
-      const v0=f.vi/RINGS, v1=(f.vi+1)/RINGS;
-      if(v1>reveal01) continue;
-
-      const q=cellQuad(surfaces[f.surface], u0,u1, v0,v1);
-      drawCellCrayon(q,f);
-    }
-
-    ctx.restore();
-  }
+  // Portal Outline etwas kräftiger
+  chalkDashedLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, 0.78);
+  chalkDashedLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, 0.78);
+  chalkDashedLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, 0.78);
+  chalkDashedLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, 0.78);
 }
 
-/* Timing */
-const START_DELAY_MS=1000;
-const INTRO_MS=3500;
-const FADEOUT_MS=1700;
-const EXTRA_MS=300;
+/* ================== Loader Timing ================== */
+const START_DELAY_MS = 1000;
+const INTRO_MS = 3500;
+const FADEOUT_MS = 1700;
+const EXTRA_MS = 300;
 
 function startTransition(){
   sessionStorage.setItem("introPlayed","1");
   document.body.classList.add('fadeout');
-  setTimeout(()=>{ window.location.href=INTRO_RETURN_URL; }, FADEOUT_MS+EXTRA_MS);
+  setTimeout(()=>{ window.location.href = INTRO_RETURN_URL; }, FADEOUT_MS + EXTRA_MS);
 }
-function startProgressAndTunnel(){
-  const bar=document.getElementById('bar');
-  const start=performance.now();
 
-  const seed=(((start|0)^(W<<1)^(H<<2))>>>0)||12345;
-  cellFills = buildCellFills(seed, 26, 34);
+function startProgressAndTunnel(){
+  const bar = document.getElementById('bar');
+  const start = performance.now();
 
   function frame(now){
-    const t=(now-start)/INTRO_MS;
-    const clamped=Math.max(0,Math.min(1,t));
-    const reveal=Math.min(1,clamped*1.20);
+    const t = (now - start) / INTRO_MS;
+    const clamped = Math.max(0, Math.min(1, t));
+    const reveal = Math.min(1, clamped * 1.20);
 
-    drawTunnelGrid(now,reveal);
+    drawTunnelGrid(now, reveal);
 
-    const steps=32;
-    const stepped=Math.floor(clamped*steps)/steps;
-    bar.style.width=(stepped*100).toFixed(2)+"%";
+    const steps = 32;
+    const stepped = Math.floor(clamped * steps) / steps;
+    bar.style.width = (stepped * 100).toFixed(2) + "%";
 
-    if(clamped>=1){
-      bar.style.width="100%";
+    if(clamped >= 1){
+      bar.style.width = "100%";
       startTransition();
       return;
     }
@@ -523,24 +400,26 @@ function startProgressAndTunnel(){
   requestAnimationFrame(frame);
 }
 
-/* Skip & A11y */
-(function(){
-  const skipBtn=document.querySelector('.skip');
+/* ================== Skip & A11y ================== */
+(function setupSkipAndA11y(){
+  const skipBtn = document.querySelector('.skip');
   function goNow(){
-    try{ sessionStorage.setItem("introPlayed","1"); }catch(e){}
+    try { sessionStorage.setItem("introPlayed","1"); } catch(e){}
     document.body.classList.add('fadeout');
-    setTimeout(()=>location.replace(INTRO_RETURN_URL),250);
+    setTimeout(()=>location.replace(INTRO_RETURN_URL), 250);
   }
-  if(skipBtn) skipBtn.addEventListener('click',goNow);
-  try{
-    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-      goNow(); return;
+  if (skipBtn) skipBtn.addEventListener('click', goNow);
+
+  try {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      goNow();
+      return;
     }
-  }catch(e){}
+  } catch(e){}
 })();
 
-/* Start */
-setTimeout(()=>{
+/* ================== Start ================== */
+setTimeout(() => {
   document.body.classList.add('ready');
   startProgressAndTunnel();
 }, START_DELAY_MS);
