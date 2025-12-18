@@ -209,7 +209,7 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* ================== Kritzel (feine Striche, bunt) ================== */
+/* ================== Comic/Krakelig Tools (weiß, dünner) ================== */
 const snap = (v)=>Math.round(v);
 const clamp01 = (t)=>Math.max(0,Math.min(1,t));
 
@@ -222,8 +222,7 @@ function smoothstep(t){
   return t*t*(3 - 2*t);
 }
 function noise1D(seed, t){
-  // höherfrequent = "kritzeliger"
-  const s = t * 14.0;
+  const s = t * 12;
   const i = Math.floor(s);
   const f = s - i;
   const a = hash01(seed*1000 + i*17.17);
@@ -232,77 +231,55 @@ function noise1D(seed, t){
   return (a*(1-u) + b*u) * 2 - 1;
 }
 
-// Neon-Kritzel-Palette
-const PALETTE = [
-  [255,  80, 190], // pink
-  [ 90, 210, 255], // cyan
-  [255, 230,  80], // yellow
-  [160, 255, 120], // green
-  [200, 140, 255], // purple
-  [255, 140,  80]  // orange
-];
-function pickColor(seed, a){
-  const i = Math.floor(hash01(seed*3.7) * PALETTE.length) % PALETTE.length;
-  const [r,g,b] = PALETTE[i];
-  return `rgba(${r},${g},${b},${a})`;
-}
-
-// Kritzel: viele sehr feine Mikro-Linien entlang der Strecke (wie schnell hingekritzelt)
-function scribbleFine(x1,y1,x2,y2,seed,amp,alpha){
+function scribbleStroke(x1,y1,x2,y2,seed,amp){
   const dx = x2-x1, dy = y2-y1;
   const len = Math.hypot(dx,dy) || 1;
   const nx = -dy/len, ny = dx/len;
 
-  // “Haar”-Striche: Anzahl abhängig von Länge
-  const hairs = Math.max(6, Math.min(22, Math.floor(len/(38*DPR))));
-  const segs  = Math.max(12, Math.min(44, Math.floor(len/(10*DPR))));
+  const segs = Math.max(10, Math.min(34, Math.floor(len/(14*DPR))));
 
-  // Grundfarbe + leichte Farbvarianz pro Linie
-  const basePick = Math.floor(hash01(seed*9.1)*PALETTE.length);
+  ctx.beginPath();
+  for(let i=0;i<=segs;i++){
+    const t = i/segs;
 
-  for(let h=0; h<hairs; h++){
-    // pro hair: mini-offset und leicht andere Farbe/Alpha
-    const off = (hash01(seed*100 + h*7.7)*2-1) * (0.55*DPR);
-    const aMul = 0.55 + 0.45*hash01(seed*200 + h*3.3);
+    let x = x1 + dx*t;
+    let y = y1 + dy*t;
 
-    const pi = (basePick + h) % PALETTE.length;
-    const [r,g,b] = PALETTE[pi];
-    ctx.strokeStyle = `rgba(${r},${g},${b},${alpha*aMul})`;
+    const n  = noise1D(seed, t);
+    const n2 = noise1D(seed+9.3, t);
 
-    ctx.lineWidth = 1; // ✅ fein
+    const mid = smoothstep(t) * (1 - smoothstep(t));
+    const a = amp * (0.55 + 1.25*mid);
 
-    ctx.beginPath();
-    for(let i=0;i<=segs;i++){
-      const t = i/segs;
+    x += nx*(n*a) + dx/len*(n2*0.45*DPR);
+    y += ny*(n*a) + dy/len*(n2*0.45*DPR);
 
-      let x = x1 + dx*t;
-      let y = y1 + dy*t;
+    x = snap(x); y = snap(y);
 
-      const n  = noise1D(seed + h*0.91, t);
-      const n2 = noise1D(seed + 9.3 + h*0.77, t);
-
-      // Mitte minimal stärker
-      const mid = smoothstep(t) * (1 - smoothstep(t));
-      const a = amp * (0.20 + 0.55*mid);
-
-      // Kritzel: normal + ein bisschen entlang
-      x += nx*(n*a + off) + (dx/len)*(n2*0.35*DPR);
-      y += ny*(n*a + off) + (dy/len)*(n2*0.35*DPR);
-
-      // winzige “Papier”-Unruhe
-      x += (hash01(seed*300 + h*13 + i*1.9)-0.5)*0.25*DPR;
-      y += (hash01(seed*310 + h*17 + i*1.7)-0.5)*0.25*DPR;
-
-      x = snap(x); y = snap(y);
-
-      if(i===0) ctx.moveTo(x,y);
-      else ctx.lineTo(x,y);
-    }
-    ctx.stroke();
+    if(i===0) ctx.moveTo(x,y);
+    else ctx.lineTo(x,y);
   }
+  ctx.stroke();
 }
 
-/* ================== Tunnel-Grid (Kritzel fein) ================== */
+/* ✅ geändert: wirklich dünner, auch auf DPR=2/3 */
+function inkLine(x1,y1,x2,y2,seed,amp,alpha){
+  ctx.save();
+  ctx.globalAlpha = alpha;
+
+  // Pass 1 (feiner)
+  ctx.lineWidth = Math.max(0.75, 0.75 * DPR);  // ✅ dünner als vorher
+  scribbleStroke(x1,y1,x2,y2,seed,amp);
+
+  // Pass 2 (noch feiner / minimal versetzt)
+  ctx.globalAlpha = alpha*0.65;               // ✅ etwas leichter
+  ctx.lineWidth = Math.max(0.65, 0.65 * DPR); // ✅ noch dünner
+  scribbleStroke(x1+0.35*DPR,y1+0.18*DPR,x2+0.35*DPR,y2+0.18*DPR,seed+111,amp*0.72);
+
+  ctx.restore();
+}
+
+/* ================== Tunnel-Grid (weiß, dünner, krakelig) ================== */
 function drawTunnelGrid(now, reveal01){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
@@ -326,16 +303,20 @@ function drawTunnelGrid(now, reveal01){
   const lerp = (a,b,t)=>a+(b-a)*t;
   const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
 
-  const RINGS = 30;
-  const RAD   = 20;
+  const RINGS = 34;
+  const RAD   = 26;
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
-  const speed = 0.00033;
+  const speed = 0.00038;
   const phase = (now*speed) % 1;
 
-  // ✅ fein & kritzelig
-  const AMP = 2.2 * DPR;
+  // ✅ Weiß, etwas feiner
+  ctx.strokeStyle = 'rgba(255,255,255,0.52)';
+
+  const AMP = 3.0 * DPR;
+  const AMP_RING = AMP * 0.92;
+  const AMP_RAD  = AMP * 1.00;
 
   // Radials
   for(let i=0;i<=radCount;i++){
@@ -343,29 +324,29 @@ function drawTunnelGrid(now, reveal01){
 
     const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
     const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    scribbleFine(A.x,A.y,B.x,B.y, 10+i*0.19, AMP, 0.32);
+    inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.52);
 
     const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
     const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    scribbleFine(C.x,C.y,D.x,D.y, 20+i*0.19, AMP, 0.32);
+    inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.52);
   }
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
     const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
     const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    scribbleFine(A.x,A.y,B.x,B.y, 30+i*0.19, AMP, 0.32);
+    inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.52);
 
     const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
     const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    scribbleFine(C.x,C.y,D.x,D.y, 40+i*0.19, AMP, 0.32);
+    inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.52);
   }
 
   // Rings
   for(let i=0;i<ringCount;i++){
     const u = (i/(RINGS-1));
     let z = u*u;
-    z = (z + phase*0.20) % 1;
+    z = (z + phase*0.22) % 1;
     z = z*z;
 
     const q0 = lerpP(outer[0], inner[0], z);
@@ -375,19 +356,19 @@ function drawTunnelGrid(now, reveal01){
 
     const front = (1 - z);
     const alpha = 0.10 + 0.22*front;
-    const a = AMP * (0.70 + 0.70*front);
+    const a = AMP_RING * (0.55 + 0.70*front);
 
-    scribbleFine(q0.x,q0.y,q1.x,q1.y, 100+i*0.27, a, alpha);
-    scribbleFine(q1.x,q1.y,q2.x,q2.y, 200+i*0.27, a, alpha);
-    scribbleFine(q2.x,q2.y,q3.x,q3.y, 300+i*0.27, a, alpha);
-    scribbleFine(q3.x,q3.y,q0.x,q0.y, 400+i*0.27, a, alpha);
+    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, alpha);
+    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, alpha);
+    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, alpha);
+    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, alpha);
   }
 
-  // Portal: minimal heller
-  scribbleFine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, AMP*1.1, 0.36);
-  scribbleFine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, AMP*1.1, 0.36);
-  scribbleFine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.1, 0.36);
-  scribbleFine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.1, 0.36);
+  // Portal minimal kräftiger, aber immer noch fein
+  inkLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, AMP*1.05, 0.62);
+  inkLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, AMP*1.05, 0.62);
+  inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.05, 0.62);
+  inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.05, 0.62);
 }
 
 /* ================== Loader Timing ================== */
