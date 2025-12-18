@@ -140,25 +140,12 @@ const INTRO_RETURN_URL =
 
 /* ================== PRELOAD bleibt drin ================== */
 const preloadImages = [
-  "assets/index/bennet_index1.avif",
-  "assets/index/bennet_index1.webp",
-  "assets/index/bennet_index2.avif",
-  "assets/index/bennet_index2.webp",
-  "assets/index/bennet_index3.avif",
-  "assets/index/bennet_index3.webp",
-
-  "assets/gesehen/insta1.webp",
-  "assets/gesehen/insta2.webp",
-  "assets/gesehen/insta3.webp",
-  "assets/gesehen/insta4.webp",
-
-  "assets/gesehen/reel1.avif",
-  "assets/gesehen/reel2.avif",
-  "assets/gesehen/reel3.avif",
-  "assets/gesehen/reel4.avif",
-  "assets/gesehen/reel5.avif",
-  "assets/gesehen/reel6.avif",
-  "assets/gesehen/reel7.avif",
+  "assets/index/bennet_index1.avif","assets/index/bennet_index1.webp",
+  "assets/index/bennet_index2.avif","assets/index/bennet_index2.webp",
+  "assets/index/bennet_index3.avif","assets/index/bennet_index3.webp",
+  "assets/gesehen/insta1.webp","assets/gesehen/insta2.webp","assets/gesehen/insta3.webp","assets/gesehen/insta4.webp",
+  "assets/gesehen/reel1.avif","assets/gesehen/reel2.avif","assets/gesehen/reel3.avif","assets/gesehen/reel4.avif",
+  "assets/gesehen/reel5.avif","assets/gesehen/reel6.avif","assets/gesehen/reel7.avif",
   "assets/gesehen/instagram_poster.jpg",
   "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
   "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
@@ -172,17 +159,17 @@ const preloadVideos = [ "assets/gesehen/B3NN3T.mp4" ];
 
 function preloadAllImages(urls){
   urls.forEach(url=>{
-    const img = new Image();
-    img.referrerPolicy = "no-referrer";
-    img.src = url;
+    const img=new Image();
+    img.referrerPolicy="no-referrer";
+    img.src=url;
   });
 }
 function preloadAllVideos(urls){
   urls.forEach(url=>{
-    const v = document.createElement('video');
-    v.preload = 'auto';
-    v.muted = true;
-    v.src = url;
+    const v=document.createElement('video');
+    v.preload='auto';
+    v.muted=true;
+    v.src=url;
     v.load();
   });
 }
@@ -209,186 +196,81 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* ================== Krakelig Weiß (dünner) ================== */
+/* ================== Line Helpers (fein, stabil) ================== */
 const snap = (v)=>Math.round(v);
 const clamp01 = (t)=>Math.max(0,Math.min(1,t));
-
-function hash01(n){
-  const x = Math.sin(n * 127.1) * 43758.5453123;
-  return x - Math.floor(x);
-}
-function smoothstep(t){
-  t = clamp01(t);
-  return t*t*(3 - 2*t);
-}
+function hash01(n){ const x=Math.sin(n*127.1)*43758.5453123; return x-Math.floor(x); }
+function smoothstep(t){ t=clamp01(t); return t*t*(3-2*t); }
 function noise1D(seed, t){
-  const s = t * 12;
-  const i = Math.floor(s);
-  const f = s - i;
-  const a = hash01(seed*1000 + i*17.17);
-  const b = hash01(seed*1000 + (i+1)*17.17);
-  const u = smoothstep(f);
-  return (a*(1-u) + b*u) * 2 - 1;
+  const s=t*10, i=Math.floor(s), f=s-i;
+  const a=hash01(seed*1000+i*19.19), b=hash01(seed*1000+(i+1)*19.19);
+  const u=smoothstep(f);
+  return (a*(1-u)+b*u)*2-1;
 }
 
-function scribbleStroke(x1,y1,x2,y2,seed,amp){
-  const dx = x2-x1, dy = y2-y1;
-  const len = Math.hypot(dx,dy) || 1;
-  const nx = -dy/len, ny = dx/len;
+/* ============== 80s Vector-Scope Drift ==============
+   - Linien bleiben “sauberer” als Kritzel
+   - Aber bekommen Oszilloskop-Drift: leicht sinus + leicht noise
+   - Drift ist zeitabhängig, aber langsam -> kein Flimmern
+*/
+function scopeLine(x1,y1,x2,y2,seed,alpha,width){
+  const dx=x2-x1, dy=y2-y1;
+  const len=Math.hypot(dx,dy)||1;
+  const nx=-dy/len, ny=dx/len;
 
-  const segs = Math.max(10, Math.min(34, Math.floor(len/(14*DPR))));
+  // segmentiert, aber smooth
+  const segs=Math.max(16, Math.min(90, Math.floor(len/(10*DPR))));
+  const tNow = performance.now()*0.001;
 
+  // “Scope”-Parameter (ruhig)
+  const freq = 1.2 + (hash01(seed*3.3))*1.1;   // 1.2..2.3
+  const wob  = (0.7 + hash01(seed*7.7))*1.8;   // 0.7..2.5
+  const amp  = (0.55 + hash01(seed*11.1))*2.2 * DPR; // 1.2..~4.0px
+  const phase = (hash01(seed*5.5))*Math.PI*2;
+
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.lineWidth = width;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+
+  // Weißer Kern
+  ctx.strokeStyle = 'rgba(255,255,255,0.58)';
   ctx.beginPath();
   for(let i=0;i<=segs;i++){
-    const t = i/segs;
+    const t=i/segs;
 
-    let x = x1 + dx*t;
-    let y = y1 + dy*t;
+    let x=x1+dx*t;
+    let y=y1+dy*t;
 
-    const n  = noise1D(seed, t);
-    const n2 = noise1D(seed+9.3, t);
+    // Drift: sinus entlang der Linie + sehr leichte noise
+    const sin = Math.sin((t*freq*2*Math.PI) + phase + tNow*0.55*wob);
+    const n   = noise1D(seed, t + tNow*0.06);
 
-    const mid = smoothstep(t) * (1 - smoothstep(t));
-    const a = amp * (0.55 + 1.25*mid);
+    const off = (sin*0.70 + n*0.30) * amp;
 
-    x += nx*(n*a) + dx/len*(n2*0.45*DPR);
-    y += ny*(n*a) + dy/len*(n2*0.45*DPR);
-
-    x = snap(x); y = snap(y);
+    x = snap(x + nx*off);
+    y = snap(y + ny*off);
 
     if(i===0) ctx.moveTo(x,y);
     else ctx.lineTo(x,y);
   }
   ctx.stroke();
-}
 
-function inkLine(x1,y1,x2,y2,seed,amp,alpha){
-  ctx.save();
-  ctx.globalAlpha = alpha;
+  // Neon “afterglow” (subtil, 80s)
+  ctx.globalCompositeOperation='lighter';
+  ctx.strokeStyle = 'rgba(0,255,255,0.10)';
+  ctx.lineWidth = width + 0.8*DPR;
+  ctx.stroke();
 
-  ctx.lineWidth = Math.max(0.75, 0.75 * DPR);
-  scribbleStroke(x1,y1,x2,y2,seed,amp);
-
-  ctx.globalAlpha = alpha*0.65;
-  ctx.lineWidth = Math.max(0.65, 0.65 * DPR);
-  scribbleStroke(x1+0.35*DPR,y1+0.18*DPR,x2+0.35*DPR,y2+0.18*DPR,seed+111,amp*0.72);
+  ctx.strokeStyle = 'rgba(255,0,200,0.08)';
+  ctx.lineWidth = width + 1.3*DPR;
+  ctx.stroke();
 
   ctx.restore();
 }
 
-/* ================== “Buntstift”-Rechtecke (3–5), gestrichelt, nicht komplett ================== */
-const PENCIL_COLORS = [
-  [255, 80, 190],   // pink
-  [90, 210, 255],   // cyan
-  [255, 230, 80],   // yellow
-  [160, 255, 120],  // green
-  [200, 140, 255],  // purple
-  [255, 140, 80],   // orange
-  [255, 255, 255]   // white
-];
-
-let doodleRects = []; // wird pro Run 1x erzeugt
-
-function rngFrom(seed){
-  let s = seed >>> 0;
-  return function(){
-    s ^= s << 13; s >>>= 0;
-    s ^= s >>> 17; s >>>= 0;
-    s ^= s << 5;  s >>>= 0;
-    return (s >>> 0) / 4294967296;
-  };
-}
-
-function buildDoodleRects(seed){
-  const r = rngFrom(seed);
-  const count = 3 + Math.floor(r()*3); // 3..5
-  const rects = [];
-  for(let i=0;i<count;i++){
-    const w = (0.10 + r()*0.18) * W;
-    const h = (0.06 + r()*0.14) * H;
-
-    const x = (0.07 + r()*0.86) * W - w*0.5;
-    const y = (0.08 + r()*0.84) * H - h*0.5;
-
-    const ci = Math.floor(r()*PENCIL_COLORS.length);
-    const [cr,cg,cb] = PENCIL_COLORS[ci];
-
-    // gestrichelt
-    const dashA = 6 + Math.floor(r()*10);  // dash
-    const dashB = 4 + Math.floor(r()*10);  // gap
-
-    // pro Seite: nur ein paar Segmente malen (nicht komplett)
-    const segs = 5 + Math.floor(r()*4);    // 5..8 mögliche Teilstücke
-    const keep = 2 + Math.floor(r()*3);    // 2..4 Teilstücke werden gezeichnet
-
-    rects.push({
-      x,y,w,h,
-      color:`rgba(${cr},${cg},${cb},0.55)`,
-      dash:[dashA*DPR, dashB*DPR],
-      segs,
-      keep,
-      seed: seed + i*999
-    });
-  }
-  return rects;
-}
-
-function drawPartialDashedRect(R){
-  // “Buntstift”-Look: 2–3 feine Pässe leicht versetzt
-  ctx.save();
-  ctx.strokeStyle = R.color;
-  ctx.lineWidth = Math.max(0.55, 0.55 * DPR); // fein
-  ctx.setLineDash(R.dash);
-  ctx.lineDashOffset = -((performance.now()*0.02) % (R.dash[0]+R.dash[1])); // minimal “lebendig”, aber ohne Flimmern
-
-  const r = rngFrom((R.seed*2654435761)>>>0);
-
-  // Kanten definieren
-  const x1=R.x, y1=R.y, x2=R.x+R.w, y2=R.y+R.h;
-  const edges = [
-    {ax:x1, ay:y1, bx:x2, by:y1}, // top
-    {ax:x2, ay:y1, bx:x2, by:y2}, // right
-    {ax:x2, ay:y2, bx:x1, by:y2}, // bottom
-    {ax:x1, ay:y2, bx:x1, by:y1}  // left
-  ];
-
-  // pro Kante: in R.segs “Slots” unterteilen, aber nur R.keep Slots zeichnen
-  for(let e=0;e<edges.length;e++){
-    const E = edges[e];
-    const dx = E.bx - E.ax;
-    const dy = E.by - E.ay;
-
-    // welche Slots zeichnen?
-    const picks = new Set();
-    while(picks.size < R.keep){
-      picks.add(Math.floor(r()*R.segs));
-    }
-
-    for(const k of picks){
-      // Slot Bereich (t0..t1), mit random “Lücke” damit nicht sauber wirkt
-      const t0 = (k / R.segs) + (r()*0.06);
-      const t1 = ((k+1) / R.segs) - (r()*0.06);
-      if(t1 <= t0) continue;
-
-      const sx = E.ax + dx*t0;
-      const sy = E.ay + dy*t0;
-      const ex = E.ax + dx*t1;
-      const ey = E.ay + dy*t1;
-
-      // leicht krakelig zeichnen
-      ctx.globalAlpha = 0.55;
-      inkLine(sx,sy,ex,ey, R.seed + e*31 + k*17, 1.5*DPR, 0.55);
-
-      // 2. pass minimal versetzt (Buntstift)
-      ctx.globalAlpha = 0.35;
-      inkLine(sx+0.25*DPR, sy+0.15*DPR, ex+0.25*DPR, ey+0.15*DPR, R.seed + 999 + e*31 + k*17, 1.25*DPR, 0.40);
-    }
-  }
-
-  ctx.restore();
-}
-
-/* ================== Tunnel-Grid (weiß, dünner) + Doodle-Rechtecke ================== */
+/* ================== Tunnel-Grid (Vector-Scope) ================== */
 function drawTunnelGrid(now, reveal01){
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
@@ -409,84 +291,68 @@ function drawTunnelGrid(now, reveal01){
     {x:cx - innerW/2, y:cy + innerH/2}
   ];
 
-  const lerp = (a,b,t)=>a+(b-a)*t;
-  const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
-
   const RINGS = 34;
   const RAD   = 26;
+
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
   const speed = 0.00038;
   const phase = (now*speed) % 1;
 
-  ctx.strokeStyle = 'rgba(255,255,255,0.52)';
-
-  const AMP = 3.0 * DPR;
-  const AMP_RING = AMP * 0.92;
-  const AMP_RAD  = AMP * 1.00;
+  // Breite minimal, “vector” look
+  const baseW = Math.max(0.75, 0.85*DPR);
 
   // Radials
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
-    const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
-    const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.50);
+    const A = { x: outer[0].x + (outer[1].x-outer[0].x)*t, y: outer[0].y };
+    const B = { x: inner[0].x + (inner[1].x-inner[0].x)*t, y: inner[0].y };
+    scopeLine(A.x,A.y,B.x,B.y, 10+i*0.13, 0.62, baseW);
 
-    const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
-    const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.50);
+    const C = { x: outer[3].x + (outer[2].x-outer[3].x)*t, y: outer[3].y };
+    const D = { x: inner[3].x + (inner[2].x-inner[3].x)*t, y: inner[3].y };
+    scopeLine(C.x,C.y,D.x,D.y, 20+i*0.13, 0.62, baseW);
   }
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
-    const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
-    const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.50);
+    const A = { x: outer[0].x, y: outer[0].y + (outer[3].y-outer[0].y)*t };
+    const B = { x: inner[0].x, y: inner[0].y + (inner[3].y-inner[0].y)*t };
+    scopeLine(A.x,A.y,B.x,B.y, 30+i*0.13, 0.62, baseW);
 
-    const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
-    const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.50);
+    const C = { x: outer[1].x, y: outer[1].y + (outer[2].y-outer[1].y)*t };
+    const D = { x: inner[1].x, y: inner[1].y + (inner[2].y-inner[1].y)*t };
+    scopeLine(C.x,C.y,D.x,D.y, 40+i*0.13, 0.62, baseW);
   }
 
-  // Rings
+  // Rings (Tiefe)
   for(let i=0;i<ringCount;i++){
     const u = (i/(RINGS-1));
     let z = u*u;
     z = (z + phase*0.22) % 1;
     z = z*z;
 
-    const q0 = lerpP(outer[0], inner[0], z);
-    const q1 = lerpP(outer[1], inner[1], z);
-    const q2 = lerpP(outer[2], inner[2], z);
-    const q3 = lerpP(outer[3], inner[3], z);
+    const q0 = { x: outer[0].x + (inner[0].x-outer[0].x)*z, y: outer[0].y + (inner[0].y-outer[0].y)*z };
+    const q1 = { x: outer[1].x + (inner[1].x-outer[1].x)*z, y: outer[1].y + (inner[1].y-outer[1].y)*z };
+    const q2 = { x: outer[2].x + (inner[2].x-outer[2].x)*z, y: outer[2].y + (inner[2].y-outer[2].y)*z };
+    const q3 = { x: outer[3].x + (inner[3].x-outer[3].x)*z, y: outer[3].y + (inner[3].y-outer[3].y)*z };
 
     const front = (1 - z);
-    const alpha = 0.10 + 0.22*front;
-    const a = AMP_RING * (0.55 + 0.70*front);
+    const alpha = 0.10 + 0.26*front;
 
-    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, alpha);
-    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, alpha);
-    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, alpha);
-    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, alpha);
+    scopeLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, alpha, baseW);
+    scopeLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, alpha, baseW);
+    scopeLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, alpha, baseW);
+    scopeLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, alpha, baseW);
   }
 
-  // Portal
-  inkLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, AMP*1.05, 0.62);
-  inkLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, AMP*1.05, 0.62);
-  inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, AMP*1.05, 0.62);
-  inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, AMP*1.05, 0.62);
-
-  // ✅ Buntstift-Kritzel-Rechtecke (nur teilweise, gestrichelt)
-  // erscheinen sanft über die Zeit
-  const doodleAlpha = Math.min(1, Math.max(0, (reveal01 - 0.15) / 0.85));
-  if(doodleRects.length){
-    ctx.save();
-    ctx.globalAlpha = 0.9 * doodleAlpha;
-    for(const R of doodleRects) drawPartialDashedRect(R);
-    ctx.restore();
-  }
+  // Portal Outline etwas kräftiger
+  scopeLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, 0.78, baseW+0.2*DPR);
+  scopeLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, 0.78, baseW+0.2*DPR);
+  scopeLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, 0.78, baseW+0.2*DPR);
+  scopeLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, 0.78, baseW+0.2*DPR);
 }
 
 /* ================== Loader Timing ================== */
@@ -494,8 +360,6 @@ const START_DELAY_MS = 1000;
 const INTRO_MS = 3500;
 const FADEOUT_MS = 1700;
 const EXTRA_MS = 300;
-
-let rafId = null;
 
 function startTransition(){
   sessionStorage.setItem("introPlayed","1");
@@ -506,9 +370,6 @@ function startTransition(){
 function startProgressAndTunnel(){
   const bar = document.getElementById('bar');
   const start = performance.now();
-
-  // ✅ Rechtecke 1x pro Run generieren (kein Flimmern)
-  doodleRects = buildDoodleRects(((start|0) ^ (W<<1) ^ (H<<2)) >>> 0);
 
   function frame(now){
     const t = (now - start) / INTRO_MS;
@@ -526,9 +387,9 @@ function startProgressAndTunnel(){
       startTransition();
       return;
     }
-    rafId = requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
-  rafId = requestAnimationFrame(frame);
+  requestAnimationFrame(frame);
 }
 
 /* ================== Skip & A11y ================== */
