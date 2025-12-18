@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="de">
 <head>
   <meta charset="utf-8" />
@@ -86,7 +86,7 @@
 
   <style>
     :root{
-      --bottom-gap:60px; /* nur für Panel-Höhe */
+      --bottom-gap:60px;
       --seen-max: 760px;
       --card-min: 320px;
       --seen-gap: 18px;
@@ -96,13 +96,14 @@
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
-    /* verhindert horizontale Scrollbars (können Layout/Pixel-Offsets erzeugen) */
+    /* ✅✅✅ WICHTIG: verhindert horizontale Scrollbar (sonst Footer „höher“) */
     *, *::before, *::after{ box-sizing:border-box; }
     html, body{ overflow-x:hidden; }
 
     /* Desktop: kein Window-Scroll, nur Panel */
     html, body{ overflow-y:hidden; }
-    /* Mobile: normal scroll */
+
+    /* Mobile: normal scrollbar, aber X bleibt hidden */
     @media (max-width:767px){
       html, body{ overflow-y:auto; -webkit-overflow-scrolling:touch; }
     }
@@ -124,30 +125,28 @@
       color:#fff !important;
     }
 
-    /* ✅✅✅ FOOTER: exakt wie die anderen Seiten (dein styles.css footer), aber rot + rechts */
+    /* Footer (rechts + rot, identisch) */
     .footer-inline{
       position:fixed;
       left:0;
       right:0;
-      bottom:calc(8px + env(safe-area-inset-bottom)) !important;
+      bottom:40px;
 
       text-align:right;
-      padding:0 18px;
+      padding-right:18px;
+      padding-left:18px;
 
-      color:#930010 !important;
-      font-family:'Press Start 2P', Arial, sans-serif !important;
-      font-size:0.82rem !important;
-      line-height:1.2 !important;
-
-      z-index:1000;
+      color:#930010;
+      font-size:.82rem;
+      z-index:910;
     }
     .footer-inline a{
       color:#930010 !important;
       text-decoration:none;
     }
-    .footer-inline a:hover{ text-decoration:underline; }
+    .footer-inline a:hover{ text-decoration: underline; }
 
-    /* main: kein Glas */
+
     main.main{
       background: transparent !important;
       box-shadow: none !important;
@@ -169,7 +168,6 @@
       display: none !important;
     }
 
-    /* Pfeile: links AUS, unten AUS, rechts AN */
     .nav-arrow{ z-index:1400 !important; }
     .nav-arrow.left{
       display:none !important;
@@ -184,7 +182,6 @@
       pointer-events:none !important;
     }
 
-    /* ===== Hamburger-Menü (wie index) ===== */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -237,10 +234,10 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
-    /* ===== Scroll-Panel ===== */
+    /* ✅ X-overflow auch im Panel killen */
     .scroll-panel{
       max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS angepasst */
+      max-height:75vh;
       margin:0;
       overflow-y:auto;
       overflow-x:hidden;
@@ -325,7 +322,6 @@
       margin-bottom: 1rem !important;
     }
 
-    /* ========= Cards ========= */
     .grid-seen{
       display:grid !important;
       grid-template-columns: repeat(2, minmax(320px, 1fr)) !important;
@@ -381,7 +377,6 @@
       color:#000;
     }
 
-    /* ========= Player ========= */
     .video-row{
       grid-column: 1 / -1;
       width:100%;
@@ -423,7 +418,6 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* swipe helper */
     .edge-swipe{
       position:fixed;
       top:0; bottom:0;
@@ -464,7 +458,6 @@
     </ul>
   </nav>
 
-  <!-- rechts bleibt & zeigt auf intro.html -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
   <main class="main">
@@ -522,7 +515,6 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- HARD OVERRIDE: rechter Pfeil + Swipe -> intro.html -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const NEXT_URL = 'intro.html';
@@ -593,7 +585,6 @@
   });
   </script>
 
-  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -637,7 +628,6 @@
     })();
   </script>
 
-  <!-- Player -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -720,7 +710,6 @@
   });
   </script>
 
-  <!-- YouTube Thumbnails -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
@@ -754,7 +743,6 @@
   });
   </script>
 
-  <!-- YouTube Titel automatisch -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
