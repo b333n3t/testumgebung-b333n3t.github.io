@@ -73,20 +73,32 @@
       box-sizing:border-box;
     }
 
+    /* ✅ 80s / eckig / CRT-Frame */
     .barFrame{
       width:100%;
-      height:14px;
+      height:16px;
       border:2px solid #fff;
-      border-radius:999px;
+      border-radius:0;              /* ✅ eckig */
       padding:2px;
       box-sizing:border-box;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.6),
+        inset 0 0 0 1px rgba(0,0,0,0.6);
     }
 
+    /* ✅ 80s Pixel-Fill */
     .bar{
       height:100%;
       width:0%;
-      background:#fff;
-      border-radius:999px;
+      border-radius:0;              /* ✅ eckig */
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #fff 0px,
+          #fff 6px,
+          rgba(255,255,255,0.65) 6px,
+          rgba(255,255,255,0.65) 8px
+        );
     }
 
     .hint{
@@ -200,6 +212,7 @@ const preloadImages = [
   "assets/gesehen/instagram_poster.jpg",
   "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
   "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
+  "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
   "https://img.youtube.com/vi/K5pKG0Smdfc/hqdefault.jpg",
   "https://img.youtube.com/vi/4I9vlcGvFGQ/hqdefault.jpg",
   "https://img.youtube.com/vi/w0pNdnlb96M/hqdefault.jpg",
@@ -292,12 +305,9 @@ function removeBGSmart(image,{tolerance=60,softness=.4,cutoff=.1,despeckle=1}={}
 
 /* ================== Loader (neu) ================== */
 
-/* Timing: wie vorherer Start: 1000ms warten, dann "ready".
-   Danach: über INTRO_MS den Balken füllen, dann fadeout + redirect.
-   Setz INTRO_MS auf deine gewünschte Intro-Länge (ohne Start-Delay).
-*/
+/* Timing: 1000ms warten, dann Balken 3.5s füllen */
 const START_DELAY_MS = 1000;
-const INTRO_MS = 7500;   // <- falls du die exakte Dauer willst: hier anpassen
+const INTRO_MS = 3500;   // ✅ 3–4 Sekunden => 3.5s
 const FADEOUT_MS = 1700;
 const EXTRA_MS = 300;
 
@@ -316,9 +326,17 @@ function startProgress(){
   function frame(now){
     const t = (now - start) / INTRO_MS;
     const clamped = Math.max(0, Math.min(1, t));
-    bar.style.width = (clamped * 100).toFixed(2) + "%";
+
+    /* optional: Retro-Step-Look (32 Schritte) – wirkt mehr Arcade
+       -> wenn du es NICHT willst: einfach die nächste Zeile auf "clamped" setzen
+    */
+    const steps = 32;
+    const stepped = Math.floor(clamped * steps) / steps;
+
+    bar.style.width = (stepped * 100).toFixed(2) + "%";
 
     if(clamped >= 1){
+      bar.style.width = "100%";
       startTransition();
       return;
     }
