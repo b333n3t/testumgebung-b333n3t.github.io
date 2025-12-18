@@ -215,6 +215,45 @@
     @media (min-width: 1024px) {
       .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
+
+    /* =========================================================
+       ✅ CROSSHAIR (weiss)
+       ========================================================= */
+    #crosshair{
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      transform: translate3d(-9999px, -9999px, 0);
+      pointer-events: none;
+      z-index: 99999;
+    }
+
+    /* optional: plus in der mitte */
+    #crosshair::before,
+    #crosshair::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:50%;
+      background:#fff;
+      transform: translate(-50%, -50%);
+    }
+    #crosshair::before{ width: 12px; height: 2px; }
+    #crosshair::after{ width: 2px; height: 12px; }
+
+    /* auf touch aus */
+    @media (pointer: coarse){
+      #crosshair{ display:none; }
+    }
+
+    /* reduced motion respektieren */
+    @media (prefers-reduced-motion: reduce){
+      #crosshair{ display:none; }
+    }
   </style>
 </head>
 
@@ -317,6 +356,9 @@
     </div>
   </div>
 
+  <!-- ✅ Crosshair Element -->
+  <div id="crosshair" aria-hidden="true"></div>
+
   <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
@@ -351,6 +393,46 @@
 
       updateCountdown();
       const timer = setInterval(updateCountdown, 1000);
+    })();
+  </script>
+
+  <!-- ✅ Crosshair folgt der Maus -->
+  <script>
+    (function(){
+      const cross = document.getElementById('crosshair');
+      if(!cross) return;
+
+      // nur desktop (maus), kein touch
+      if(!window.matchMedia('(pointer: fine)').matches){
+        cross.style.display = 'none';
+        return;
+      }
+
+      // reduced motion -> aus
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        cross.style.display = 'none';
+        return;
+      }
+
+      const size = 18; // muss zu width/height passen
+      let x = -9999, y = -9999;
+      let raf = null;
+
+      function render(){
+        cross.style.transform = `translate3d(${x - size/2}px, ${y - size/2}px, 0)`;
+        raf = null;
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        if(!raf) raf = requestAnimationFrame(render);
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        x = -9999; y = -9999;
+        render();
+      });
     })();
   </script>
 </body>
