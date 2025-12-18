@@ -28,21 +28,27 @@
     :root{
       --bottom-gap:60px;
 
-      /* ✅ Footer (hochkant rechts) – feinjustierbar */
-      --footer-top-desktop: 430px;
-      --footer-right-desktop: 0px;
+      /* Feinjustierbare Positionen */
+      --footer-top-desktop: 440px;
+      --footer-right-desktop: 0.2px;
 
-      --footer-top-mobile: 520px;    /* ← höher = kleinerer Wert */
-      --footer-right-mobile: 0.2px;  /* ← näher rechts = kleinerer Wert */
-    }
-    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
+      /* Mobile: Footer soll AUF den weißen Kacheln liegen */
+      --footer-top-mobile: 318px;     /* ← wenn noch nicht genau: +/- 20px */
+      --footer-right-mobile: 0.4px;    /* ← nach innen, damit er über den Cards liegt */
 
-    /* ✅ FIX: Scrollbar-Platz stabilisieren (verhindert Pixel-Shift im Footer) */
-    html{
-      scrollbar-gutter: stable;
-      scrollbar-width: none;
+      /* Pfeil: Desktop / Mobile */
+      --arrow-top-desktop: 340px;
+      --arrow-top-mobile: 260px;      /* ← Schulterhöhe (ggf. +/- 20px) */
     }
-    html::-webkit-scrollbar{ width:0; height:0; }
+
+    @media (max-width:768px){
+      :root{ --bottom-gap:20px; }
+    }
+
+    /* ✅ Scrollbar-Platz reservieren, aber NICHT anzeigen */
+    html{ scrollbar-gutter: stable; }
+    html::-webkit-scrollbar{ width: 0; height: 0; }
+    html{ scrollbar-width: none; }
 
     /* Desktop: Body nicht scrollen; Mobile darf scrollen */
     body{ overflow:hidden; }
@@ -107,15 +113,11 @@
       right: -160px;
       height: auto;
       max-height: 90vh;
-
       width: min(40vw,150px);
-
       background: rgba(255,255,255,.32);
       backdrop-filter: blur(2px);
       -webkit-backdrop-filter: blur(2px);
-
       box-shadow: 0 20px 50px rgba(0,0,0,.08);
-
       transition: right .25s;
       z-index: 1101;
       padding: 46px 10px 14px;
@@ -145,7 +147,7 @@
     /* ===== Scroll-Panel (wie plattformen) ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS angepasst */
+      max-height:75vh;
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
@@ -312,37 +314,37 @@
     }
     .video-close:hover{background:rgba(255,255,255,0.9);color:#000;}
 
-    /* ✅✅✅ Footer hochkant + rechts am Rand (variabel einstellbar)
-       FIX: Unterkante nach INNEN (statt nach außen) -> rotate(0deg) */
+    /* ✅ Footer hochkant rechts (Desktop + Mobile), ohne Umbruch */
     .footer-inline{
-      position:fixed;
-      top: var(--footer-top-desktop);
+      position: fixed;
       right: var(--footer-right-desktop);
-      left:auto;
-      bottom:auto;
-
-      z-index:910;
-      color:#930010;
-      font-size:.82rem;
+      top: var(--footer-top-desktop);
+      bottom: auto;
+      z-index: 1300;
 
       writing-mode: vertical-rl;
       text-orientation: mixed;
-      transform: rotate(0deg); /* ✅ Unterseite zeigt nach innen */
 
-      padding: 10px 6px;
+      color:#930010;
+      font-size:.82rem;
+      padding: 6px 6px;
+
       white-space: nowrap;
-    }
-    @media (max-width:768px){
-      .footer-inline{
-        top: var(--footer-top-mobile);
-        right: var(--footer-right-mobile);
-      }
     }
     .footer-inline a{
       color:#930010 !important;
       text-decoration:none;
+      white-space: nowrap;
     }
     .footer-inline a:hover{ text-decoration: underline; }
+
+    /* Mobile: Footer bleibt hochkant rechts, aber AUF den Cards */
+    @media (max-width: 768px){
+      .footer-inline{
+        right: var(--footer-right-mobile);
+        top: var(--footer-top-mobile);
+      }
+    }
 
     /* swipe helper */
     .edge-swipe{
@@ -356,7 +358,7 @@
     .edge-swipe.left{ left:0; }
     .edge-swipe.right{ right:0; }
     @media (pointer:coarse){
-      .edge-swipe{ pointer-events:auto; }
+      .edge-swipe.right{ pointer-events:none !important; }
     }
 
     /* White theme */
@@ -377,17 +379,17 @@
     }
 
     /* =======================================================================================
-       NEUER KLEINER INTRO-PFEIL (hellgrauer Halbkreis, wie vorher – aber kleiner)
+       Intro-Pfeil – kleiner + höher (Mobile: Schulterhöhe)
        ======================================================================================= */
     #intro-arrow{
       position: fixed;
       right: 0;
-      top: 50%;
-      transform: translateY(-50%);
+      top: var(--arrow-top-desktop);
+      transform: none;
       z-index: 9999;
 
-      width: 24px;
-      height: 40px;
+      width: 16px;        /* kleiner */
+      height: 26px;       /* kleiner */
 
       display: grid;
       place-items: center;
@@ -405,7 +407,7 @@
       -webkit-backdrop-filter: blur(4px);
 
       color: rgba(0,0,0,0.7);
-      font-size: 14px;
+      font-size: 11px;    /* Pfeil kleiner */
       line-height: 1;
 
       cursor: pointer;
@@ -416,18 +418,17 @@
       padding: 0;
       outline: none;
     }
-
-    #intro-arrow:hover{
-      background: rgba(235,235,235,0.65);
-    }
-
-    #intro-arrow:active{
-      transform: translateY(-50%) scale(0.98);
-    }
+    #intro-arrow:hover{ background: rgba(235,235,235,0.65); }
+    #intro-arrow:active{ transform: scale(0.98); }
 
     /* alten Link-Pfeil ausblenden (nur auf dieser Seite) */
     a.nav-arrow.right[aria-label="Nächste Seite"]{
       display:none !important;
+    }
+
+    /* Mobile: Pfeil höher (Schulterhöhe) */
+    @media (max-width: 768px){
+      #intro-arrow{ top: var(--arrow-top-mobile); }
     }
   </style>
 </head>
