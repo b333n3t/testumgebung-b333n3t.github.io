@@ -121,29 +121,30 @@
       color:#fff !important;
     }
 
-    /* ✅ Footer: rechtsbündig + rot (#930010) + bottom wie alle anderen Seiten (40/20) */
-    .footer-inline{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:40px;
+/* ✅ Footer: exakt wie die anderen Seiten (Desktop 40px / Mobile 20px) */
+.footer-inline{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:40px !important;
 
-      text-align:right;
-      padding-right:18px;
-      padding-left:18px;
+  text-align:right;
+  padding-right:18px;
+  padding-left:18px;
 
-      color:#930010;
-      font-size:.82rem;
-      z-index:910;
-    }
-    @media (max-width:767px){
-      .footer-inline{ bottom:20px; }
-    }
-    .footer-inline a{
-      color:#930010 !important;
-      text-decoration:none;
-    }
-    .footer-inline a:hover{ text-decoration:underline; }
+  color:#930010;
+  font-size:.82rem;
+  z-index:910;
+}
+@media (max-width:767px){
+  .footer-inline{ bottom:20px !important; }
+}
+.footer-inline a{
+  color:#930010 !important;
+  text-decoration:none;
+}
+.footer-inline a:hover{ text-decoration:underline; }
+
 
     /* ✅ Zusätzlich: Kein Glas/Blur-Schleier über main */
     main.main{
