@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -91,7 +92,7 @@
 
     .hint{
       margin-top:10px;
-      color:rgba(255,255,255,.88);
+      color:rgba(255,255,255,.9);
       font-size:14px;
       letter-spacing:.2px;
       text-align:center;
@@ -140,25 +141,12 @@ const INTRO_RETURN_URL =
 
 /* ================== PRELOAD bleibt drin ================== */
 const preloadImages = [
-  "assets/index/bennet_index1.avif",
-  "assets/index/bennet_index1.webp",
-  "assets/index/bennet_index2.avif",
-  "assets/index/bennet_index2.webp",
-  "assets/index/bennet_index3.avif",
-  "assets/index/bennet_index3.webp",
-
-  "assets/gesehen/insta1.webp",
-  "assets/gesehen/insta2.webp",
-  "assets/gesehen/insta3.webp",
-  "assets/gesehen/insta4.webp",
-
-  "assets/gesehen/reel1.avif",
-  "assets/gesehen/reel2.avif",
-  "assets/gesehen/reel3.avif",
-  "assets/gesehen/reel4.avif",
-  "assets/gesehen/reel5.avif",
-  "assets/gesehen/reel6.avif",
-  "assets/gesehen/reel7.avif",
+  "assets/index/bennet_index1.avif","assets/index/bennet_index1.webp",
+  "assets/index/bennet_index2.avif","assets/index/bennet_index2.webp",
+  "assets/index/bennet_index3.avif","assets/index/bennet_index3.webp",
+  "assets/gesehen/insta1.webp","assets/gesehen/insta2.webp","assets/gesehen/insta3.webp","assets/gesehen/insta4.webp",
+  "assets/gesehen/reel1.avif","assets/gesehen/reel2.avif","assets/gesehen/reel3.avif","assets/gesehen/reel4.avif",
+  "assets/gesehen/reel5.avif","assets/gesehen/reel6.avif","assets/gesehen/reel7.avif",
   "assets/gesehen/instagram_poster.jpg",
   "https://img.youtube.com/vi/ZSaj_FuqPN8/hqdefault.jpg",
   "https://img.youtube.com/vi/DMNl40Tip1w/hqdefault.jpg",
@@ -172,17 +160,17 @@ const preloadVideos = [ "assets/gesehen/B3NN3T.mp4" ];
 
 function preloadAllImages(urls){
   urls.forEach(url=>{
-    const img = new Image();
-    img.referrerPolicy = "no-referrer";
-    img.src = url;
+    const img=new Image();
+    img.referrerPolicy="no-referrer";
+    img.src=url;
   });
 }
 function preloadAllVideos(urls){
   urls.forEach(url=>{
-    const v = document.createElement('video');
-    v.preload = 'auto';
-    v.muted = true;
-    v.src = url;
+    const v=document.createElement('video');
+    v.preload='auto';
+    v.muted=true;
+    v.src=url;
     v.load();
   });
 }
@@ -209,100 +197,91 @@ function resize(){
 addEventListener('resize', resize);
 resize();
 
-/* ================== Comic/Krakelig Tools (deterministisch) ================== */
+/* ================== Line Helpers (fein, stabil) ================== */
 const snap = (v)=>Math.round(v);
 const clamp01 = (t)=>Math.max(0,Math.min(1,t));
-
-function hash01(n){
-  const x = Math.sin(n * 127.1) * 43758.5453123;
-  return x - Math.floor(x);
-}
-function smoothstep(t){
-  t = clamp01(t);
-  return t*t*(3 - 2*t);
-}
-
-// 1D "noise" über t (0..1), deterministisch und smooth
+function hash01(n){ const x=Math.sin(n*127.1)*43758.5453123; return x-Math.floor(x); }
+function smoothstep(t){ t=clamp01(t); return t*t*(3-2*t); }
 function noise1D(seed, t){
-  const s = t * 12;              // Frequenz (höher => mehr Zacken)
-  const i = Math.floor(s);
-  const f = s - i;
-  const a = hash01(seed*1000 + i*17.17);
-  const b = hash01(seed*1000 + (i+1)*17.17);
-  const u = smoothstep(f);
-  return (a*(1-u) + b*u) * 2 - 1; // -1..1
+  const s=t*10, i=Math.floor(s), f=s-i;
+  const a=hash01(seed*1000+i*19.19), b=hash01(seed*1000+(i+1)*19.19);
+  const u=smoothstep(f);
+  return (a*(1-u)+b*u)*2-1;
 }
 
-function scribbleStroke(x1,y1,x2,y2,seed,amp){
-  const dx = x2-x1, dy = y2-y1;
-  const len = Math.hypot(dx,dy) || 1;
-  const nx = -dy/len, ny = dx/len;
+/* ============== 80s Vector-Scope Drift ==============
+   - Linien bleiben “sauberer” als Kritzel
+   - Aber bekommen Oszilloskop-Drift: leicht sinus + leicht noise
+   - Drift ist zeitabhängig, aber langsam -> kein Flimmern
+*/
+function scopeLine(x1,y1,x2,y2,seed,alpha,width){
+  const dx=x2-x1, dy=y2-y1;
+  const len=Math.hypot(dx,dy)||1;
+  const nx=-dy/len, ny=dx/len;
 
-  // mehr Segmente => "comic"
-  const segs = Math.max(10, Math.min(34, Math.floor(len/(14*DPR))));
+  // segmentiert, aber smooth
+  const segs=Math.max(16, Math.min(90, Math.floor(len/(10*DPR))));
+  const tNow = performance.now()*0.001;
 
+  // “Scope”-Parameter (ruhig)
+  const freq = 1.2 + (hash01(seed*3.3))*1.1;   // 1.2..2.3
+  const wob  = (0.7 + hash01(seed*7.7))*1.8;   // 0.7..2.5
+  const amp  = (0.55 + hash01(seed*11.1))*2.2 * DPR; // 1.2..~4.0px
+  const phase = (hash01(seed*5.5))*Math.PI*2;
+
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.lineWidth = width;
+  ctx.lineCap='round';
+  ctx.lineJoin='round';
+
+  // Weißer Kern
+  ctx.strokeStyle = 'rgba(255,255,255,0.58)';
   ctx.beginPath();
   for(let i=0;i<=segs;i++){
-    const t = i/segs;
+    const t=i/segs;
 
-    // Basis
-    let x = x1 + dx*t;
-    let y = y1 + dy*t;
+    let x=x1+dx*t;
+    let y=y1+dy*t;
 
-    // Hand-Noise (smooth), plus kleines "zitter" (aber deterministisch)
-    const n = noise1D(seed, t);
-    const n2 = noise1D(seed+9.3, t);
+    // Drift: sinus entlang der Linie + sehr leichte noise
+    const sin = Math.sin((t*freq*2*Math.PI) + phase + tNow*0.55*wob);
+    const n   = noise1D(seed, t + tNow*0.06);
 
-    // Mitte stärker, Enden weniger (wie Handdruck)
-    const mid = smoothstep(t) * (1 - smoothstep(t));
-    const a = amp * (0.55 + 1.25*mid);
+    const off = (sin*0.70 + n*0.30) * amp;
 
-    // Offset in Normalrichtung + bisschen entlang der Linie
-    x += nx*(n*a) + dx/len*(n2*0.6*DPR);
-    y += ny*(n*a) + dy/len*(n2*0.6*DPR);
-
-    // Pixel-snap
-    x = snap(x); y = snap(y);
+    x = snap(x + nx*off);
+    y = snap(y + ny*off);
 
     if(i===0) ctx.moveTo(x,y);
     else ctx.lineTo(x,y);
   }
   ctx.stroke();
-}
 
-// “Ink” Look: doppelt zeichnen (dicker + dünner), leicht versetzt
-function inkLine(x1,y1,x2,y2,seed,amp,baseAlpha){
-  // dunkler Unterstrich
-  ctx.save();
-  ctx.globalAlpha = baseAlpha;
-  ctx.lineWidth = Math.max(1, Math.round(DPR*2));
-  scribbleStroke(x1,y1,x2,y2,seed,amp*1.05);
+  // Neon “afterglow” (subtil, 80s)
+  ctx.globalCompositeOperation='lighter';
+  ctx.strokeStyle = 'rgba(0,255,255,0.10)';
+  ctx.lineWidth = width + 0.8*DPR;
+  ctx.stroke();
 
-  // heller/dünner drüber (gibt Comic-Edge)
-  ctx.globalAlpha = baseAlpha*0.85;
-  ctx.lineWidth = Math.max(1, Math.round(DPR));
-  scribbleStroke(x1+0.6*DPR,y1+0.4*DPR,x2+0.6*DPR,y2+0.4*DPR,seed+111,amp*0.85);
+  ctx.strokeStyle = 'rgba(255,0,200,0.08)';
+  ctx.lineWidth = width + 1.3*DPR;
+  ctx.stroke();
+
   ctx.restore();
 }
 
-/* ================== Tunnel-Grid (Comic/Krakelig) ================== */
+/* ================== Tunnel-Grid (Vector-Scope) ================== */
 function drawTunnelGrid(now, reveal01){
-  // Hintergrund
   ctx.setTransform(1,0,0,1,0,0);
   ctx.clearRect(0,0,W,H);
   ctx.fillStyle = '#930010';
   ctx.fillRect(0,0,W,H);
 
-  // Farben wie "hand ink"
-  const ink = 'rgba(0,0,0,0.55)';
-  const inkSoft = 'rgba(0,0,0,0.35)';
-
-  // Outer = ganze Fläche
   const outer = [
     {x:0, y:0}, {x:W, y:0}, {x:W, y:H}, {x:0, y:H}
   ];
 
-  // Inner = Portal/Room
   const cx = W*0.5, cy = H*0.5;
   const innerW = W*0.44;
   const innerH = H*0.32;
@@ -313,114 +292,75 @@ function drawTunnelGrid(now, reveal01){
     {x:cx - innerW/2, y:cy + innerH/2}
   ];
 
-  const lerp = (a,b,t)=>a+(b-a)*t;
-  const lerpP = (A,B,t)=>({ x: lerp(A.x,B.x,t), y: lerp(A.y,B.y,t) });
-
-  // Reveal -> Anzahl Linien
   const RINGS = 34;
   const RAD   = 26;
+
   const ringCount = Math.max(1, Math.floor(reveal01 * RINGS));
   const radCount  = Math.max(2, Math.floor(reveal01 * RAD));
 
-  // Bewegung (nur Ring-Index shift, kein jitter)
   const speed = 0.00038;
   const phase = (now*speed) % 1;
 
-  // “richtig krakelig”
-  const AMP = 4.6 * DPR;        // <- Haupt-Regler (mehr = krakeliger)
-  const AMP_RING = AMP * 0.92;
-  const AMP_RAD  = AMP * 1.05;
+  // Breite minimal, “vector” look
+  const baseW = Math.max(0.75, 0.85*DPR);
 
-  // --- Radials (4 Seiten) ---
-  ctx.strokeStyle = inkSoft;
-
-  // Top/Bottom
+  // Radials
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
-    const A = { x: lerp(outer[0].x, outer[1].x, t), y: outer[0].y };
-    const B = { x: lerp(inner[0].x, inner[1].x, t), y: inner[0].y };
-    inkLine(A.x,A.y,B.x,B.y, 10+i*0.13, AMP_RAD, 0.9);
+    const A = { x: outer[0].x + (outer[1].x-outer[0].x)*t, y: outer[0].y };
+    const B = { x: inner[0].x + (inner[1].x-inner[0].x)*t, y: inner[0].y };
+    scopeLine(A.x,A.y,B.x,B.y, 10+i*0.13, 0.62, baseW);
 
-    const C = { x: lerp(outer[3].x, outer[2].x, t), y: outer[3].y };
-    const D = { x: lerp(inner[3].x, inner[2].x, t), y: inner[3].y };
-    inkLine(C.x,C.y,D.x,D.y, 20+i*0.13, AMP_RAD, 0.9);
+    const C = { x: outer[3].x + (outer[2].x-outer[3].x)*t, y: outer[3].y };
+    const D = { x: inner[3].x + (inner[2].x-inner[3].x)*t, y: inner[3].y };
+    scopeLine(C.x,C.y,D.x,D.y, 20+i*0.13, 0.62, baseW);
   }
-
-  // Left/Right
   for(let i=0;i<=radCount;i++){
     const t = i/radCount;
 
-    const A = { x: outer[0].x, y: lerp(outer[0].y, outer[3].y, t) };
-    const B = { x: inner[0].x, y: lerp(inner[0].y, inner[3].y, t) };
-    inkLine(A.x,A.y,B.x,B.y, 30+i*0.13, AMP_RAD, 0.9);
+    const A = { x: outer[0].x, y: outer[0].y + (outer[3].y-outer[0].y)*t };
+    const B = { x: inner[0].x, y: inner[0].y + (inner[3].y-inner[0].y)*t };
+    scopeLine(A.x,A.y,B.x,B.y, 30+i*0.13, 0.62, baseW);
 
-    const C = { x: outer[1].x, y: lerp(outer[1].y, outer[2].y, t) };
-    const D = { x: inner[1].x, y: lerp(inner[1].y, inner[2].y, t) };
-    inkLine(C.x,C.y,D.x,D.y, 40+i*0.13, AMP_RAD, 0.9);
+    const C = { x: outer[1].x, y: outer[1].y + (outer[2].y-outer[1].y)*t };
+    const D = { x: inner[1].x, y: inner[1].y + (inner[2].y-inner[1].y)*t };
+    scopeLine(C.x,C.y,D.x,D.y, 40+i*0.13, 0.62, baseW);
   }
 
-  // --- Rings (Depth frames) ---
-  // Die Ringe zeichnen wir “von hinten nach vorne” für Comic-Layering
+  // Rings (Tiefe)
   for(let i=0;i<ringCount;i++){
     const u = (i/(RINGS-1));
-
-    let z = u*u;               // dichter am Zentrum
-    z = (z + phase*0.22) % 1;  // Fahrt nach vorne
+    let z = u*u;
+    z = (z + phase*0.22) % 1;
     z = z*z;
 
-    const q0 = lerpP(outer[0], inner[0], z);
-    const q1 = lerpP(outer[1], inner[1], z);
-    const q2 = lerpP(outer[2], inner[2], z);
-    const q3 = lerpP(outer[3], inner[3], z);
+    const q0 = { x: outer[0].x + (inner[0].x-outer[0].x)*z, y: outer[0].y + (inner[0].y-outer[0].y)*z };
+    const q1 = { x: outer[1].x + (inner[1].x-outer[1].x)*z, y: outer[1].y + (inner[1].y-outer[1].y)*z };
+    const q2 = { x: outer[2].x + (inner[2].x-outer[2].x)*z, y: outer[2].y + (inner[2].y-outer[2].y)*z };
+    const q3 = { x: outer[3].x + (inner[3].x-outer[3].x)*z, y: outer[3].y + (inner[3].y-outer[3].y)*z };
 
-    // vorne dicker/dunkler
     const front = (1 - z);
-    const alpha = 0.22 + 0.30*front; // 0.22..0.52
+    const alpha = 0.10 + 0.26*front;
 
-    ctx.strokeStyle = ink;
-    ctx.globalAlpha = alpha;
-
-    // Ring-Krakel: vorne mehr Amp, hinten weniger
-    const a = AMP_RING * (0.55 + 0.85*front);
-
-    inkLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, a, 1);
-    inkLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, a, 1);
-    inkLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, a, 1);
-    inkLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, a, 1);
-
-    ctx.globalAlpha = 1;
+    scopeLine(q0.x,q0.y,q1.x,q1.y, 100+i*0.21, alpha, baseW);
+    scopeLine(q1.x,q1.y,q2.x,q2.y, 200+i*0.21, alpha, baseW);
+    scopeLine(q2.x,q2.y,q3.x,q3.y, 300+i*0.21, alpha, baseW);
+    scopeLine(q3.x,q3.y,q0.x,q0.y, 400+i*0.21, alpha, baseW);
   }
 
-  // --- Portal (inner frame) kräftig, comic outline ---
-  ctx.strokeStyle = 'rgba(0,0,0,0.70)';
-  ctx.globalAlpha = 1;
-
-  const portalAmp = AMP * 1.15;
-  ctx.lineWidth = Math.max(1, Math.round(DPR*2.2));
-  inkLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, portalAmp, 1);
-  inkLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, portalAmp, 1);
-  inkLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, portalAmp, 1);
-  inkLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, portalAmp, 1);
-
-  // Optional: Mini-"Comic Hatching" am Rand (80s Print-Feel)
-  const hatchCount = Math.floor(8 + reveal01*10);
-  ctx.strokeStyle = 'rgba(0,0,0,0.18)';
-  for(let i=0;i<hatchCount;i++){
-    const t = i/(hatchCount-1 || 1);
-    const y = lerp(0, H, t);
-    inkLine(0, y, 0.12*W, y-0.08*H, 1200+i*0.5, AMP*0.35, 0.6);
-    inkLine(W, y, 0.88*W, y-0.08*H, 1300+i*0.5, AMP*0.35, 0.6);
-  }
+  // Portal Outline etwas kräftiger
+  scopeLine(inner[0].x,inner[0].y,inner[1].x,inner[1].y, 900, 0.78, baseW+0.2*DPR);
+  scopeLine(inner[1].x,inner[1].y,inner[2].x,inner[2].y, 901, 0.78, baseW+0.2*DPR);
+  scopeLine(inner[2].x,inner[2].y,inner[3].x,inner[3].y, 902, 0.78, baseW+0.2*DPR);
+  scopeLine(inner[3].x,inner[3].y,inner[0].x,inner[0].y, 903, 0.78, baseW+0.2*DPR);
 }
 
 /* ================== Loader Timing ================== */
 const START_DELAY_MS = 1000;
-const INTRO_MS = 3500;   // 3–4 Sekunden => 3.5s
+const INTRO_MS = 3500;
 const FADEOUT_MS = 1700;
 const EXTRA_MS = 300;
-
-let rafId = null;
 
 function startTransition(){
   sessionStorage.setItem("introPlayed","1");
@@ -435,14 +375,10 @@ function startProgressAndTunnel(){
   function frame(now){
     const t = (now - start) / INTRO_MS;
     const clamped = Math.max(0, Math.min(1, t));
-
-    // Reveal: Aufbau "Strich für Strich"
     const reveal = Math.min(1, clamped * 1.20);
 
-    // Tunnel zeichnen
     drawTunnelGrid(now, reveal);
 
-    // Arcade-Steps
     const steps = 32;
     const stepped = Math.floor(clamped * steps) / steps;
     bar.style.width = (stepped * 100).toFixed(2) + "%";
@@ -452,9 +388,9 @@ function startProgressAndTunnel(){
       startTransition();
       return;
     }
-    rafId = requestAnimationFrame(frame);
+    requestAnimationFrame(frame);
   }
-  rafId = requestAnimationFrame(frame);
+  requestAnimationFrame(frame);
 }
 
 /* ================== Skip & A11y ================== */
