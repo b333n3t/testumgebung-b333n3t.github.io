@@ -51,27 +51,30 @@
       background:#000 !important;
     }
 
-    /* ===== FOOTER: rechtsbündig + rot (#930010) ===== */
+    /* ✅ FOOTER: hochkant rechts (wie andere Seiten) */
     .footer-inline{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:40px;
+      position: fixed;
+      right: var(--footer-right-desktop);
+      top: var(--footer-top-desktop);
+      bottom: auto;
+      z-index: 1300; /* über swipe-zone */
 
-      text-align:right;        /* ← rechtsbündig */
-      padding-right:18px;      /* ← Abstand zum Rand */
-      padding-left:18px;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
 
+      color:#930010;
       font-size:.82rem;
-      z-index:910;
-      color:#930010;
+      padding: 6px 4px;
+
+      white-space: nowrap;
     }
-    .footer-inline a,
-    .footer-inline a:visited,
-    .footer-inline a:active,
-    .footer-inline a:focus{
-      color:#930010;
+    .footer-inline a{
+      color:#930010 !important;
       text-decoration:none;
+      white-space: nowrap;
+
+      display:inline-block; /* größere Tap-Fläche */
+      padding:6px 6px;      /* iOS-friendly */
     }
     .footer-inline a:hover{
       text-decoration: underline;
