@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t – „DREI“ | Neues Release</title>
+  <title>b3nn3t – „drei“ | Neues Release</title>
   <meta name="description" content="„DREI“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
@@ -132,15 +132,14 @@
     }
 
     /* Titel */
-   .song-title {
-  margin: 0;
-  font-weight: 700;
-  text-transform: none;      /* ← keine Großschreibung */
-  letter-spacing: normal;    /* ← kein Extra-Abstand */
-  font-size: clamp(1.7rem, 3vw, 2.4rem);
-  margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
-}
-
+    .song-title {
+      margin: 0;
+      font-weight: 700;
+      text-transform: none;      /* ← keine Großschreibung */
+      letter-spacing: normal;    /* ← kein Extra-Abstand */
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      margin-bottom: clamp(1.8rem, 3vw, 2.5rem);
+    }
 
     /* Video */
     .video-wrap {
@@ -154,6 +153,9 @@
       overflow: hidden;
       background: #000;
       aspect-ratio: 16 / 9;
+
+      /* NEU: damit der Audio-Player über dem Cover liegen kann */
+      position: relative;
     }
 
     .release-video {
@@ -248,7 +250,7 @@
       display: inline-block;
       margin-top: var(--more-link-gap-top);
       margin-bottom: var(--more-link-gap-bottom);
-       margin-left: 0.8rem; /* ← NEU: leichte Einrückung nach rechts */
+      margin-left: 0.8rem; /* ← NEU: leichte Einrückung nach rechts */
     }
 
     @media (max-width: 768px) {
@@ -284,22 +286,35 @@
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <section class="video-wrap" aria-label="Video zum Song">
+        <!-- AUDIO + COVER (anstatt VIDEO) -->
+        <section class="video-wrap" aria-label="Audio zum Song">
           <div class="video-inner">
-            <video
-              id="release-video"
-              class="release-video"
+
+            <!-- Cover bleibt sichtbar -->
+            <img
+              src="assets/release/drei-cover.webp"
+              alt="Cover – drei von b3nn3t"
+              class="release-video">
+
+            <!-- Audio-Player liegt unten über dem Cover -->
+            <audio
+              id="release-audio"
               controls
-              muted
-              playsinline
               preload="metadata"
-              poster="assets/release/drei-cover.webp"
-              fetchpriority="high"
-              width="1280"
-              height="720">
-              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-              Dein Browser unterstützt dieses Videoformat nicht.
-            </video>
+              style="
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                width: 100%;
+                padding: 0.6rem;
+                background: rgba(0,0,0,0.55);
+                box-sizing: border-box;
+              ">
+              <source src="assets/release/drei.prelisten.mp3" type="audio/mpeg">
+              Dein Browser unterstützt dieses Audioformat nicht.
+            </audio>
+
           </div>
         </section>
 
