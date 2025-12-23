@@ -6,7 +6,12 @@
 
   <title>Diskografie – b3nn3t</title>
   <meta name="description" content="Alle Releases von b3nn3t – Alben, EPs & Singles."/>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml"/>
+
+  <!-- Favicons: Google, Browser, Apple -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="styles_nav_arrows.css"/>
@@ -20,8 +25,8 @@
       --footer-top-desktop: 430px;
       --footer-right-desktop: 0px;
 
-      --footer-top-mobile: 520px;   /* ← höher = kleinerer Wert */
-      --footer-right-mobile: 0.2px;  /* ← näher rechts = kleinerer Wert */
+      --footer-top-mobile: 520px;
+      --footer-right-mobile: 0.2px;
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
@@ -47,7 +52,8 @@
     }
 
     /* =========================
-       ✅ Header / Menü (EXAKT wie index.html)
+       ✅ Header / Menü (wie gesehen/kontakt)
+       + WCAG-Fix (aria-hidden/inert/tabindex)
        ========================= */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
@@ -71,16 +77,28 @@
     body.menu-open #menu-overlay{display:block}
     #menu-overlay[hidden]{display:none}
 
+    /* ✅ exakt wie gesehen/kontakt: Slide-in per transform + leichter transparent */
     .site-menu{
-      position:fixed;top:0;right:0;height:auto;max-height:90vh;
+      position:fixed;
+      top:0;
+      right:0;
+      height:auto;
+      max-height:90vh;
       width:min(40vw,150px);
-      background:rgba(255,255,255,.78);
-      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
+
+      background:rgba(255,255,255,.32);
+      backdrop-filter:blur(2px);
+      -webkit-backdrop-filter:blur(2px);
+
       box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);transition:transform .25s;
-      z-index:1101;padding:46px 10px 14px
+
+      transform:translateX(100%);
+      transition:transform .25s;
+
+      z-index:1101;
+      padding:46px 10px 14px;
     }
-    body.menu-open .site-menu{transform:translateX(0)}
+    body.menu-open .site-menu{ transform:translateX(0); }
 
     .site-menu ul{list-style:none;margin:0;padding:0}
     .site-menu li{margin:0 0 10px}
@@ -92,23 +110,28 @@
       display:block;
       padding:8px 6px;
       border-radius:10px;
-      color:#222;
+      color:#000;
       text-decoration:none;
       font-size:1rem;
       font-weight:500;
+      font-family: Arial, sans-serif;
+      letter-spacing:0;
+      line-height:1.2;
       text-shadow:none;
     }
-    .site-menu a:hover{ background:rgba(0,0,0,.06); }
+    .site-menu a:hover{ background:rgba(0,0,0,.05); }
 
     /* ========================= */
 
     /* unsichtbares Scrollpanel */
     .scroll-panel{
       max-width:min(1000px,94vw);
-      max-height:75vh;
-      padding:1.25rem 1rem 1.5rem;
+      max-height: calc(100dvh - 70px);
       overflow-y:auto;
       scrollbar-width:none;
+
+      padding: 1.25rem 1rem calc(4rem + env(safe-area-inset-bottom));
+      box-sizing: border-box;
     }
     .scroll-panel::-webkit-scrollbar{display:none;}
 
@@ -190,7 +213,7 @@
     }
     /* ➕ kleiner Extra-Abstand NUR zwischen "Singles" und "kontakt" */
     .page-group.open > .page-content > .page-group:last-of-type.open{
-      margin-bottom: 8px; /* klein */
+      margin-bottom: 8px;
     }
 
     /* Cards: Reihenfolge bleibt stabil (CSS Grid) */
@@ -248,65 +271,65 @@
       border-radius:8px;
     }
 
-/* ✅ Footer hochkant rechts – bevorzugt deine Position, fällt nach unten zurück */
-.footer-inline{
-  position: fixed;
-  right: var(--footer-right-desktop);
-  top: var(--footer-top-desktop);
-  bottom: auto;
-  left: auto;
-  z-index: 1300; /* ✅ über swipe-zone */
+    /* ✅ Footer hochkant rechts – bevorzugt deine Position, fällt nach unten zurück */
+    .footer-inline{
+      position: fixed;
+      right: var(--footer-right-desktop);
+      top: var(--footer-top-desktop);
+      bottom: auto;
+      left: auto;
+      z-index: 1300; /* ✅ über swipe-zone */
 
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
 
-  color:#930010;
-  font-size:.82rem;
-  padding: 6px 4px;
+      color:#930010;
+      font-size:.82rem;
+      padding: 6px 4px;
 
-  white-space: nowrap;
+      white-space: nowrap;
 
-  /* ✅ verhindert Abschneiden */
-  max-height: calc(100vh - 16px);
-}
+      /* ✅ verhindert Abschneiden */
+      max-height: calc(100vh - 16px);
+    }
 
-.footer-inline a,
-.footer-inline a:visited,
-.footer-inline a:active,
-.footer-inline a:focus{
-  color:#930010;
-  text-decoration:none;
-  white-space: nowrap;
+    .footer-inline a,
+    .footer-inline a:visited,
+    .footer-inline a:active,
+    .footer-inline a:focus{
+      color:#930010;
+      text-decoration:none;
+      white-space: nowrap;
 
-  display:inline-block; /* ✅ größere Tap-Fläche */
-  padding:6px 6px;      /* ✅ iOS-friendly */
-}
-.footer-inline a:hover{ text-decoration: underline; }
+      display:inline-block;
+      padding:6px 6px;
+    }
+    .footer-inline a:hover{ text-decoration: underline; }
 
-/* Mobile: Footer bleibt hochkant rechts, wie eingestellt */
-@media (max-width: 768px){
-  .footer-inline{
-    right: var(--footer-right-mobile);
-    top: var(--footer-top-mobile);
-    bottom: auto;
-  }
-}
+    /* Mobile: Footer bleibt hochkant rechts, wie eingestellt */
+    @media (max-width: 768px){
+      .footer-inline{
+        right: var(--footer-right-mobile);
+        top: var(--footer-top-mobile);
+        bottom: auto;
+      }
+    }
 
-/* ✅ FALLBACK: wenn Fensterhöhe klein wird → lieber unten statt zu weit oben */
-@media (max-height: 720px){
-  .footer-inline{
-    top: auto !important;
-    bottom: 16px !important;
-    font-size: .78rem;
-  }
-}
-@media (max-height: 620px){
-  .footer-inline{
-    top: auto !important;
-    bottom: 12px !important;
-    font-size: .72rem;
-  }
-}
+    /* ✅ FALLBACK: wenn Fensterhöhe klein wird → lieber unten statt zu weit oben */
+    @media (max-height: 720px){
+      .footer-inline{
+        top: auto !important;
+        bottom: 16px !important;
+        font-size: .78rem;
+      }
+    }
+    @media (max-height: 620px){
+      .footer-inline{
+        top: auto !important;
+        bottom: 12px !important;
+        font-size: .72rem;
+      }
+    }
 
     /* swipe helper */
     .edge-swipe{
@@ -333,7 +356,7 @@
       font-weight: 400 !important;
       letter-spacing: 0.03em !important;
       line-height: 1.6 !important;
-      color: #fff; /* <- weiss wie ueber-mich */
+      color: #fff;
     }
 
     /* etwas Abstand zwischen Titel und Unterzeile */
@@ -361,7 +384,7 @@
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
       filter: none !important;
-      opacity: 0 !important;   /* <- nimmt den Schleier raus */
+      opacity: 0 !important;
     }
 
     /* ===================================================
@@ -389,25 +412,25 @@
 
 <header class="header">
   <a class="brand" href="index.html" aria-label="b3nn3t Home">
-    <img src="favicon.svg" alt="b3nn3t Logo"><strong>b3nn3t</strong>
+    <img src="/favicon.svg" alt="b3nn3t Logo"><strong>b3nn3t</strong>
   </a>
 </header>
 
-<!-- ✅ Burger-Menü (EXAKT wie index.html) -->
+<!-- ✅ Burger-Menü (wie gesehen/kontakt) + WCAG -->
 <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
   <span></span><span></span><span></span>
 </button>
 <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-<nav id="site-menu" class="site-menu">
+<nav id="site-menu" class="site-menu" aria-hidden="true" inert>
   <ul>
-    <li><a href="ueber-mich.html">über mich</a></li>
-    <li><a href="diskografie.html">diskografie</a></li>
-    <li><a href="kontakt.html">kontakt</a></li>
-    <li><a href="aktuell.html">aktuell</a></li>
-    <li><a href="gesehen.html">gesehen</a></li>
-    <li><a href="plattformen.html">links</a></li>
-    <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
+    <li><a href="ueber-mich.html" tabindex="-1">über mich</a></li>
+    <li><a href="diskografie.html" tabindex="-1">diskografie</a></li>
+    <li><a href="kontakt.html" tabindex="-1">kontakt</a></li>
+    <li><a href="aktuell.html" tabindex="-1">aktuell</a></li>
+    <li><a href="gesehen.html" tabindex="-1">gesehen</a></li>
+    <li><a href="plattformen.html" tabindex="-1">links</a></li>
+    <li class="sep"><a href="impressum.html" tabindex="-1">Impressum / Datenschutz</a></li>
   </ul>
 </nav>
 
@@ -810,39 +833,69 @@ function openPlayerForCard(card){
   openCard = card;
 }
 
-/* ✅ Burger-Menü (wie index.html: body.menu-open) */
+/* ✅ WCAG/ARIA + Menü-Logik wie gesehen/kontakt (capture gewinnt gegen script.js) */
 (function(){
   const btn = document.querySelector('.hamburger');
   const overlay = document.getElementById('menu-overlay');
   const menu = document.getElementById('site-menu');
   if(!btn || !overlay || !menu) return;
 
+  const focusablesSelector = 'a, button, input, select, textarea, [tabindex]';
+
+  function setMenuFocus(enabled){
+    const items = menu.querySelectorAll(focusablesSelector);
+    items.forEach(el => {
+      if(el.tagName.toLowerCase() === 'a'){
+        el.tabIndex = enabled ? 0 : -1;
+      }else{
+        el.tabIndex = enabled ? 0 : -1;
+      }
+    });
+  }
+
   function openMenu(){
     document.body.classList.add('menu-open');
     overlay.hidden = false;
+
     btn.setAttribute('aria-expanded','true');
     btn.setAttribute('aria-label','Menü schließen');
+
+    menu.setAttribute('aria-hidden','false');
+    menu.removeAttribute('inert');
+
+    setMenuFocus(true);
   }
 
   function closeMenu(){
     document.body.classList.remove('menu-open');
     overlay.hidden = true;
+
     btn.setAttribute('aria-expanded','false');
     btn.setAttribute('aria-label','Menü öffnen');
+
+    menu.setAttribute('aria-hidden','true');
+    menu.setAttribute('inert','');
+
+    setMenuFocus(false);
   }
 
   function toggleMenu(){
     document.body.classList.contains('menu-open') ? closeMenu() : openMenu();
   }
 
-  btn.addEventListener('click', toggleMenu);
-  overlay.addEventListener('click', closeMenu);
+  // initial
+  setMenuFocus(false);
+  menu.setAttribute('aria-hidden','true');
+  menu.setAttribute('inert','');
+  overlay.hidden = true;
+
+  btn.addEventListener('click', (e)=>{ e.preventDefault(); e.stopImmediatePropagation(); toggleMenu(); }, true);
+  overlay.addEventListener('click', (e)=>{ e.preventDefault(); e.stopImmediatePropagation(); closeMenu(); }, true);
 
   document.addEventListener('keydown', (e)=>{
-    if(e.key === 'Escape') closeMenu();
+    if(e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu();
   });
 
-  // Klick auf Menü-Link -> schließen
   menu.querySelectorAll('a').forEach(a=>{
     a.addEventListener('click', closeMenu);
   });
