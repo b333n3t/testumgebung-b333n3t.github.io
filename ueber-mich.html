@@ -185,68 +185,81 @@
 
     .page-content h1{ margin-top:0; }
 
-    /* ✅ Footer hochkant rechts (Desktop + Mobile), ohne Umbruch */
-    .footer-inline{
-      position: fixed;
-      right: var(--footer-right-desktop);
-      top: var(--footer-top-desktop);
-      bottom: auto;
-      left: auto;
-      z-index: 1300; /* ✅ über swipe-zone */
+.footer-inline{
+  position: fixed;
+  right: var(--footer-right-desktop);
+  top: var(--footer-top-desktop);
+  bottom: auto;
+  left: auto;
+  z-index: 1300;
 
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 
-      /* ✅ (2) Kontrast designschonend: dezent helles Badge */
-      color:#930010 !important;
-      background: rgba(255,255,255,0.78);
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  /* wieder wie vorher */
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 
-      font-size:.82rem;
-      padding: 6px 4px;
+  color:#930010 !important;
+  font-size:.82rem;
+  padding: 6px 4px;
 
-      white-space: nowrap;
-      max-height: calc(100vh - 16px);
-    }
+  white-space: nowrap;
+  max-height: calc(100vh - 16px);
 
-    .footer-inline a,
-    .footer-inline a:visited,
-    .footer-inline a:active,
-    .footer-inline a:focus{
-      color:#930010 !important;
-      text-decoration:none;
-      white-space: nowrap;
+  /* ✅ “unsichtbarer” Kontrast-Boost (sieht wie vorher aus) */
+  text-shadow:
+    0 0 1px rgba(255,255,255,0.55),
+    0 0 2px rgba(255,255,255,0.35),
+    0 1px 0 rgba(0,0,0,0.25);
+}
 
-      display:inline-block;
-      padding:6px 6px;
-    }
-    .footer-inline a:hover{ text-decoration:underline; }
+.footer-inline a,
+.footer-inline a:visited,
+.footer-inline a:active,
+.footer-inline a:focus{
+  color:#930010 !important;
+  text-decoration:none;
+  white-space: nowrap;
+  display:inline-block;
+  padding:6px 6px;
 
-    @media (max-width: 768px){
-      .footer-inline{
-        right: var(--footer-right-mobile);
-        top: var(--footer-top-mobile);
-        bottom: auto;
-      }
-    }
+  /* gleicher Kontrast-Boost für den Link */
+  text-shadow:
+    0 0 1px rgba(255,255,255,0.55),
+    0 0 2px rgba(255,255,255,0.35),
+    0 1px 0 rgba(0,0,0,0.25);
+}
 
-    /* ✅ FALLBACK: wenn Fensterhöhe klein wird → lieber unten */
-    @media (max-height: 720px){
-      .footer-inline{
-        top: auto !important;
-        bottom: 16px !important;
-        font-size: .78rem;
-      }
-    }
-    @media (max-height: 620px){
-      .footer-inline{
-        top: auto !important;
-        bottom: 12px !important;
-        font-size: .72rem;
-      }
-    }
+.footer-inline a:hover{ text-decoration: underline; }
+
+/* Mobile wie vorher */
+@media (max-width: 768px){
+  .footer-inline{
+    right: var(--footer-right-mobile);
+    top: var(--footer-top-mobile);
+    bottom: auto;
+  }
+}
+
+/* kleine Viewports wie vorher */
+@media (max-height: 720px){
+  .footer-inline{
+    top: auto !important;
+    bottom: 16px !important;
+    font-size: .78rem;
+  }
+}
+@media (max-height: 620px){
+  .footer-inline{
+    top: auto !important;
+    bottom: 12px !important;
+    font-size: .72rem;
+  }
+}
+
 
     /* swipe helper */
     .edge-swipe{
