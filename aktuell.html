@@ -206,7 +206,7 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    /* Unter-Akkordeons */
+    /* Unter-Akkordeons (nur noch für termine gebraucht) */
     .sub-toggle{
       display:flex;
       align-items:center;
@@ -481,29 +481,29 @@
           <div class="page-group current open" id="page-aktuell">
             <button class="page-toggle" type="button" aria-expanded="true" aria-controls="page-aktuell-content">
               <span class="arrow" aria-hidden="true">►</span>
-              <span>aktuell</span>
+              <!-- ✅ titel wird animiert -->
+              <span id="aktuell-title">aktuell</span>
             </button>
 
             <div class="page-content" id="page-aktuell-content">
               <h1></h1>
               <p></p>
 
-              
+              <!-- ✅ neuigkeiten titel/pfeil weg, content bleibt direkt sichtbar -->
+              <div class="sub-content" id="neuigkeiten-content">
+                <p>lowkey bald neuer release</p>
 
-                <div class="page-content" id="neuigkeiten-content">
-                  <p>lowkey bald neuer release</p>
-
-                  <a class="release-card" href="https://www.b3nn3t.com/release-3.html" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/release/drei-cover.webp" alt="Cover: 3" width="120" height="120" decoding="async" fetchpriority="high" loading="eager">
-                    <div class="release-info">
-                      <div class="subtitle"> </div>
-                      <div class="songtitle"> drei </div>
-                      <div class="desc">  hörprobe hier o.O</div>
-                    </div>
-                  </a>
-                </div>
+                <a class="release-card" href="https://www.b3nn3t.com/release-3.html" target="_blank" rel="noopener noreferrer">
+                  <img src="assets/release/drei-cover.webp" alt="Cover: 3" width="120" height="120" decoding="async" fetchpriority="high" loading="eager">
+                  <div class="release-info">
+                    <div class="subtitle"> </div>
+                    <div class="songtitle"> drei </div>
+                    <div class="desc">  hörprobe hier o.O</div>
+                  </div>
+                </a>
               </div>
 
+              <!-- ✅ termine bleibt ausklappbar -->
               <div class="sub-group" id="acc-termine">
                 <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="termine-content">
                   <span class="arrow" aria-hidden="true">►</span>
@@ -613,9 +613,7 @@
         menu.setAttribute('aria-hidden','false');
         overlay.hidden = false;
 
-        // optional, falls unterstützt
         if ('inert' in menu) menu.inert = false;
-
         setMenuFocusable(true);
       }
 
@@ -627,7 +625,6 @@
         menu.setAttribute('aria-hidden','true');
         overlay.hidden = true;
 
-        // Links aus dem Tab-Flow, dann menu wirklich verstecken
         setMenuFocusable(false);
         menu.hidden = true;
 
@@ -635,7 +632,6 @@
       }
 
       document.addEventListener('DOMContentLoaded', () => {
-        // Startzustand: geschlossen & nicht fokussierbar
         if(menu){
           menu.hidden = true;
           menu.setAttribute('aria-hidden','true');
@@ -657,11 +653,65 @@
     })();
   </script>
 
+  <!-- ✅ aktuell-title typewriter + accordions -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
       const toggle = group?.querySelector('.page-toggle');
       const panel  = document.querySelector('.scroll-panel');
+      const titleEl = document.getElementById('aktuell-title');
+
+      const BASE = 'aktuell';
+      const SUFFIX = '/termine';
+
+      let timer = null;
+
+      function stopAnim(){
+        if(timer) clearInterval(timer);
+        timer = null;
+      }
+
+      function typeSuffix(){
+        if(!titleEl) return;
+        stopAnim();
+
+        // falls schon drin, nix tun
+        if(titleEl.textContent === BASE + SUFFIX) return;
+
+        titleEl.textContent = BASE; // sauber starten
+        let i = 0;
+        timer = setInterval(() => {
+          i++;
+          titleEl.textContent = BASE + SUFFIX.slice(0, i);
+          if(i >= SUFFIX.length){
+            stopAnim();
+          }
+        }, 55);
+      }
+
+      function eraseSuffix(){
+        if(!titleEl) return;
+        stopAnim();
+
+        const full = BASE + SUFFIX;
+        let current = titleEl.textContent;
+
+        // falls irgendwas schief war: auf full setzen und dann löschen
+        if(current !== full && current !== BASE){
+          current = full;
+          titleEl.textContent = current;
+        }
+
+        let len = titleEl.textContent.length;
+        timer = setInterval(() => {
+          len--;
+          titleEl.textContent = titleEl.textContent.slice(0, len);
+          if(len <= BASE.length){
+            titleEl.textContent = BASE;
+            stopAnim();
+          }
+        }, 40);
+      }
 
       function resizePanel(){
         if(!panel) return;
@@ -684,7 +734,14 @@
         panel.style.maxHeight = max + 'px';
       }
 
-      document.addEventListener('DOMContentLoaded', resizePanel);
+      document.addEventListener('DOMContentLoaded', () => {
+        resizePanel();
+
+        // startzustand: wenn aktuell offen ist, suffix schreiben
+        if(group?.classList.contains('open')) typeSuffix();
+        else if(titleEl) titleEl.textContent = BASE;
+      });
+
       window.addEventListener('load', resizePanel);
       window.addEventListener('resize', resizePanel);
       if(window.visualViewport){
@@ -696,9 +753,14 @@
           const isOpen = group.classList.contains('open');
           group.classList.toggle('open', !isOpen);
           toggle.setAttribute('aria-expanded', String(!isOpen));
+
+          // ✅ titel animation
+          if(!isOpen) typeSuffix();
+          else eraseSuffix();
         });
       }
 
+      // ✅ nur termine bleibt togglebar
       document.querySelectorAll('.sub-group').forEach(subGroup => {
         const btn = subGroup.querySelector('.sub-toggle');
         if(!btn) return;
