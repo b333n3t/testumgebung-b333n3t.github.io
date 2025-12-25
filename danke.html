@@ -5,10 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Danke — b3nn3t</title>
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <!-- Favicons: Google, Browser, Apple -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
   <link rel="stylesheet" href="styles.css" />
 
   <style>
+    :root{
+      /* ✅ Footer (hochkant rechts) – wie gesehen.html */
+      --footer-top-desktop: 430px;
+      --footer-right-desktop: 0px;
+
+      --footer-top-mobile: 520px;   /* ← höher = kleinerer Wert */
+      --footer-right-mobile: 0.2px; /* ← näher rechts = kleinerer Wert */
+    }
+
     /* NUR: Glas-/Milch-Layer vom main abschalten (Layout aus styles.css bleibt!) */
     main.main::before,
     main.main::after{
@@ -51,52 +65,84 @@
       background:#000 !important;
     }
 
-    /* ✅ FOOTER: hochkant rechts (wie andere Seiten) */
-    .footer-inline{
-      position: fixed;
-      right: var(--footer-right-desktop);
-      top: var(--footer-top-desktop);
-      bottom: auto;
-      z-index: 1300; /* über swipe-zone */
+/* ✅ Footer hochkant rechts – normal wie eingestellt */
+.footer-inline{
+  position: fixed;
+  right: var(--footer-right-desktop);
+  top: var(--footer-top-desktop);
+  bottom: auto;
+  left: auto;
+  z-index: 2000;
 
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
 
-      color:#930010;
-      font-size:.82rem;
-      padding: 6px 4px;
+  color:#930010 !important;
+  font-size:.82rem;
+  padding: 6px 4px;
+  white-space: nowrap;
 
-      white-space: nowrap;
-    }
-    .footer-inline a{
-      color:#930010 !important;
-      text-decoration:none;
-      white-space: nowrap;
+  /* verhindert “abgeschnitten” */
+  max-height: calc(100vh - 16px);
+}
 
-      display:inline-block; /* größere Tap-Fläche */
-      padding:6px 6px;      /* iOS-friendly */
-    }
-    .footer-inline a:hover{
-      text-decoration: underline;
-    }
+/* Links */
+.footer-inline a,
+.footer-inline a:visited,
+.footer-inline a:active,
+.footer-inline a:focus{
+  color:#930010 !important;
+  text-decoration:none;
+  white-space: nowrap;
+  display:inline-block;
+  padding:6px 6px;
+}
+.footer-inline a:hover{ text-decoration: underline; }
+
+/* ✅ Mobile weiterhin über Variablen steuern */
+@media (max-width:768px){
+  .footer-inline{
+    right: var(--footer-right-mobile);
+    top: var(--footer-top-mobile);
+  }
+}
+
+/* ✅ Wenn die Fensterhöhe klein wird: lieber unten anheften statt “zu hoch” */
+@media (max-height: 720px){
+  .footer-inline{
+    top: auto !important;
+    bottom: 16px !important;
+    font-size: .78rem;
+  }
+}
+@media (max-height: 620px){
+  .footer-inline{
+    top: auto !important;
+    bottom: 12px !important;
+    font-size: .72rem;
+  }
+}
+
   </style>
 </head>
 
 <body>
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img alt="" src="favicon.svg" aria-hidden="true"><strong>b3nn3t</strong>
+      <img alt="" src="/favicon.svg" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
   <main class="main">
     <h1>danke!</h1>
     <p>deine nachricht wurde erfolgreich gesendet. ich melde mich so bald wie möglich zurück.</p>
-    <a class="btn" href="index.html">zurück zur startseite</a>
+       <a class="btn" href="/index.html">zurück zur startseite</a>
+
   </main>
 
   <div class="footer-inline">
-    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
+        © b3nn3t · <a href="/impressum.html">Impressum / Datenschutz</a>
+
   </div>
 </body>
 </html>

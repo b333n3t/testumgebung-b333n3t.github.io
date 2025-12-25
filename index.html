@@ -9,16 +9,20 @@
   <meta name="description" content="b3nn3t – Deutschrap und Indie-Pop aus der Schweiz. Moderner Sound, starke Texte und authentische Songs. Jetzt Musik, Releases, Videos, News, Termine entdecken." />
   <meta name="robots" content="index,follow" />
 
-  <!-- Favicons: SVG, PNG, ICO, Apple -->
+  <!-- Favicons: Google, Browser, Apple -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <!-- Hero-Bild vorladen (LCP-Optimierung) -->
-  <link rel="preload" as="image"
-        href="/assets/index/bennet_index1.webp"
-        imagesizes="(min-width: 900px) 800px, 100vw">
+  <link rel="preload" as="image" href="/assets/plattformen/genius_128.webp">
+  <link rel="preload" as="image" href="/assets/plattformen/mx3_128.webp">
+  <link rel="preload" as="image" href="/assets/plattformen/instagram_128.webp">
+  <link rel="preload" as="image" href="/assets/plattformen/apple_music_128.webp">
+  <link rel="preload" as="image" href="/assets/plattformen/soundcloud_128.webp">
+  <link rel="preload" as="image" href="/assets/plattformen/spotify_128.webp">
+  <link rel="preload" as="image" href="/assets/plattformen/youtube_128.webp">
 
   <!-- Canonical & hreflang -->
   <link rel="canonical" href="https://www.b3nn3t.com/">
@@ -130,7 +134,6 @@
 
   <!-- Externe Styles -->
   <link rel="stylesheet" href="styles.css" />
-  <!-- ✅ styles_nav_arrows.css bleibt drin, aber wir überschreiben unten ALLES -->
   <link rel="stylesheet" href="styles_nav_arrows.css" />
   <link rel="stylesheet" href="swipe-helper.css" />
 
@@ -152,8 +155,8 @@
   --footer-top-desktop: 430px;
   --footer-right-desktop: 0px;
 
-  --footer-top-mobile: 520px;   /* ← höher = kleinerer Wert */
-  --footer-right-mobile: 0.2px;  /* ← näher rechts = kleinerer Wert */
+  --footer-top-mobile: 520px;
+  --footer-right-mobile: 0.2px;
 }
 @media (max-width: 768px){
   :root{ --bottom-gap: 20px; }
@@ -198,7 +201,7 @@ body.menu-open #menu-overlay{display:block}
 .site-menu{
   position:fixed;top:0;right:0;height:auto;max-height:90vh;
   width:min(40vw,150px);
-  background:rgba(255,255,255,.78);
+  background:rgba(255,255,255,.32);
   backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
   box-shadow:0 20px 50px rgba(0,0,0,.08);
   transform:translateX(100%);transition:transform .25s;
@@ -307,41 +310,62 @@ body .main::after{
 }
 .page-link:active .arrow{ transform:rotate(90deg); }
 
-/* ✅ Footer hochkant rechts (Desktop + Mobile), ohne Umbruch */
+/* ✅ Footer hochkant rechts – bevorzugt deine Position, fällt nach unten zurück */
 .footer-inline{
   position: fixed;
   right: var(--footer-right-desktop);
   top: var(--footer-top-desktop);
   bottom: auto;
-  z-index: 1300; /* ✅ über swipe-zone */
+  left: auto;
+  z-index: 2000;
 
   writing-mode: vertical-rl;
   text-orientation: mixed;
 
-  color:#930010;
+  /* ✅ Option A: minimal dunkler für besseren Kontrast (optisch praktisch gleich) */
+  color:#930010 !important;
   font-size:.82rem;
   padding: 6px 4px;
-
   white-space: nowrap;
+
+  max-height: calc(100vh - 16px);
 }
+
+/* Links */
 .footer-inline a,
 .footer-inline a:visited,
 .footer-inline a:active,
 .footer-inline a:focus{
-  color:#930010 !important;
+  color:#7f000d !important;
   text-decoration:none;
   white-space: nowrap;
-
-  display:inline-block; /* ✅ größere Tap-Fläche */
-  padding:6px 6px;      /* ✅ iOS-friendly */
+  display:inline-block;
+  padding:6px 6px;
 }
-.footer-inline a:hover{ text-decoration:underline; }
+.footer-inline a:hover{ text-decoration: underline; }
 
-/* Mobile: Footer bleibt hochkant rechts, aber AUF den Cards */
-@media (max-width: 768px){
+/* Mobile: weiterhin exakt steuerbar */
+@media (max-width:768px){
   .footer-inline{
     right: var(--footer-right-mobile);
     top: var(--footer-top-mobile);
+  }
+}
+
+/* ✅ FALLBACK: wenn Höhe zu klein → lieber unten als zu hoch */
+@media (max-height: 720px){
+  .footer-inline{
+    top: auto !important;
+    bottom: 16px !important;
+    font-size: .78rem;
+  }
+}
+
+@media (max-height: 620px){
+  .footer-inline{
+    top: auto !important;
+    bottom: 12px !important;
+    font-size: .72rem;
   }
 }
 
@@ -383,8 +407,6 @@ body{ color:#fff; }
 .page-link:visited{
   color:#fff !important;
 }
-
-/* Footer: NICHT mehr weiß überschreiben -> bewusst entfernt */
   </style>
 
   <!-- ✅ Nur Performance: Verbindungen vorbereiten -->
@@ -445,7 +467,7 @@ body{ color:#fff; }
 <body ontouchstart="">
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img src="favicon.svg" alt="b3nn3t Logo"><strong>b3nn3t</strong>
+      <img src="/favicon.svg" alt="b3nn3t Logo"><strong>b3nn3t</strong>
     </a>
   </header>
 
@@ -460,7 +482,7 @@ body{ color:#fff; }
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
   <!-- Burger-Menü -->
-  <nav id="site-menu" class="site-menu">
+  <nav id="site-menu" class="site-menu" aria-hidden="true">
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
       <li><a href="diskografie.html">diskografie</a></li>
@@ -473,6 +495,8 @@ body{ color:#fff; }
   </nav>
 
   <main class="main">
+    <h1 class="sr-only">b3nn3t – Deutschrap & Indie-Pop aus der Schweiz</h1>
+
     <div class="scroll-panel">
       <div class="content-offset">
 
@@ -524,6 +548,46 @@ body{ color:#fff; }
 
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- ✅ A11y Fix: verhindert "aria-hidden enthält fokussierbare Elemente" (ohne Optikänderung) -->
+  <script>
+  (function () {
+    const btn = document.querySelector('.hamburger');
+    const overlay = document.getElementById('menu-overlay');
+    const menu = document.getElementById('site-menu');
+    if (!btn || !menu || !overlay) return;
+
+    function setMenuA11y(isOpen){
+      btn.setAttribute('aria-expanded', String(isOpen));
+      menu.setAttribute('aria-hidden', String(!isOpen));
+
+      // Links im geschlossenen Menü aus dem Tab-Fokus nehmen
+      menu.querySelectorAll('a, button, [tabindex]').forEach(el => {
+        if (isOpen) el.removeAttribute('tabindex');
+        else el.setAttribute('tabindex', '-1');
+      });
+    }
+
+    // initial
+    setMenuA11y(document.body.classList.contains('menu-open'));
+
+    // Beobachtet body.menu-open (falls script.js toggelt)
+    const obs = new MutationObserver(() => {
+      setMenuA11y(document.body.classList.contains('menu-open'));
+    });
+    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+    // ESC schließt (nur A11y/UX)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
+        document.body.classList.remove('menu-open');
+        overlay.hidden = true;
+        setMenuA11y(false);
+        btn.focus();
+      }
+    });
+  })();
+  </script>
 
   <!-- Glas-Overlay-Positionierung -->
   <script>

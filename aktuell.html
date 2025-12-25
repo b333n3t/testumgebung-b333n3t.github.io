@@ -5,7 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aktuell – b3nn3t | Neuigkeiten & Termine</title>
   <meta name="description" content="Aktuelle Neuigkeiten von b3nn3t – Updates zu Musik, Releases, Projekten, Events und besonderen Momenten." />
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://www.b3nn3t.com/aktuell.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="b3nn3t" />
+  <meta property="og:title" content="Aktuell – b3nn3t" />
+  <meta property="og:description" content="Neuigkeiten, Releases & Termine von b3nn3t." />
+  <meta property="og:url" content="https://www.b3nn3t.com/aktuell.html" />
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.webp" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aktuell – b3nn3t" />
+  <meta name="twitter:description" content="Neuigkeiten, Releases & Termine von b3nn3t." />
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.webp" />
+
+  <!-- Favicons: Google, Browser, Apple -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="styles_nav_arrows.css" />
@@ -15,12 +34,12 @@
     :root{
       --bottom-gap:60px;
 
-      /* ✅ Footer (hochkant rechts) – feinjustierbar */
+      /* Footer (hochkant rechts) – feinjustierbar */
       --footer-top-desktop: 430px;
       --footer-right-desktop: 0px;
 
-      --footer-top-mobile: 520px;   /* ← höher = kleinerer Wert */
-      --footer-right-mobile: 0.2px;  /* ← näher rechts = kleinerer Wert */
+      --footer-top-mobile: 520px;
+      --footer-right-mobile: 0.2px;
     }
     @media (max-width:768px){ :root{ --bottom-gap:20px; } }
 
@@ -59,6 +78,7 @@
       opacity:0 !important;
     }
 
+    /* Pfeile komplett AUS */
     .nav-arrow,
     .scroll-cue{
       display:none !important;
@@ -67,6 +87,7 @@
       pointer-events:none !important;
     }
 
+    /* Hamburger */
     .hamburger{
       position:fixed;top:14px;right:18px;width:20px;height:20px;
       border:0;background:transparent;display:grid;place-items:center;
@@ -116,6 +137,7 @@
     }
     .site-menu a:hover{background:rgba(0,0,0,.05)}
 
+    /* Scroll-Panel */
     .scroll-panel{
       max-width:min(1000px,94vw);
       max-height:75vh;
@@ -184,7 +206,7 @@
     .page-group.open > .page-content{display:block;}
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
-    /* ===== Unter-Akkordeons (neuigkeiten / termine / beschäftigt) ===== */
+    /* Unter-Akkordeons */
     .sub-toggle{
       display:flex;
       align-items:center;
@@ -209,29 +231,20 @@
     .sub-group > .sub-content{
       display:none;
       margin-left:18px;
-      margin-top:.75rem;
+      margin-top:1.2rem;
     }
     .sub-group.open > .sub-content{display:block;}
     .sub-group.open > .sub-toggle .arrow{transform:rotate(90deg);}
+    .sub-group + .sub-group{ margin-top:1.0rem; }
 
-    /* ✅ FIX: Abstände kleiner (wie dein Wunschbild 2 / näher an diskografie) */
-    .sub-group{ margin:0 !important; }
-    .sub-toggle{ margin-top: 0.9rem; }
-    .sub-group:first-of-type .sub-toggle{ margin-top: 1.1rem; }
-    .sub-group > .sub-content{ margin-top: 0.6rem; }
-
-    /* ➕ kleiner Extra-Abstand nach dem letzten Unter-Akkordeon zum nächsten Link ("gesehen") */
-    .page-group.current.open > .page-content > .sub-group:last-of-type.open{
-      margin-bottom: 8px;
-    }
-
-    /* ✅ Footer hochkant rechts (Desktop + Mobile), ohne Umbruch */
+    /* Footer */
     .footer-inline{
       position: fixed;
       right: var(--footer-right-desktop);
       top: var(--footer-top-desktop);
       bottom: auto;
-      z-index: 1300; /* ✅ über swipe-zone */
+      left: auto;
+      z-index: 1300;
 
       writing-mode: vertical-rl;
       text-orientation: mixed;
@@ -241,6 +254,7 @@
       padding: 6px 4px;
 
       white-space: nowrap;
+      max-height: calc(100vh - 16px);
     }
     .footer-inline a,
     .footer-inline a:visited,
@@ -249,20 +263,34 @@
       color:#930010;
       text-decoration:none;
       white-space: nowrap;
-
-      display:inline-block; /* ✅ größere Tap-Fläche */
-      padding:6px 6px;      /* ✅ iOS-friendly */
+      display:inline-block;
+      padding:6px 6px;
     }
     .footer-inline a:hover{ text-decoration:underline; }
 
-    /* Mobile: Footer bleibt hochkant rechts, aber AUF den Cards */
     @media (max-width: 768px){
       .footer-inline{
         right: var(--footer-right-mobile);
         top: var(--footer-top-mobile);
+        bottom: auto;
+      }
+    }
+    @media (max-height: 720px){
+      .footer-inline{
+        top: auto !important;
+        bottom: 16px !important;
+        font-size: .78rem;
+      }
+    }
+    @media (max-height: 620px){
+      .footer-inline{
+        top: auto !important;
+        bottom: 12px !important;
+        font-size: .72rem;
       }
     }
 
+    /* swipe helper */
     .edge-swipe {
       position: fixed;
       top: 0;
@@ -276,9 +304,10 @@
     .edge-swipe.right { right: 0; }
     @media (pointer: coarse){
       .edge-swipe{ pointer-events: auto; }
-      .edge-swipe.right{ pointer-events: none !important; } /* ✅ blockiert Footer nicht */
+      .edge-swipe.right{ pointer-events: none !important; }
     }
 
+    /* Release Card */
     .release-card {
       display: flex;
       align-items: center;
@@ -288,8 +317,6 @@
       width: 100%;
       max-width: 440px;
       background: #fff;
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
       border-radius: 16px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.15);
       text-decoration: none !important;
@@ -338,13 +365,12 @@
       .release-card img { width: 75%; height: auto; }
     }
 
+    /* Collage */
     .collage-window {
       position: relative;
       max-width: 650px;
       margin: 2rem 0;
       background: transparent !important;
-      backdrop-filter: none !important;
-      -webkit-backdrop-filter: none !important;
       box-shadow: none !important;
       padding: 0;
       border-radius: 0;
@@ -369,14 +395,12 @@
     }
     .chaos-collage img:nth-child(1){top:10%;left:5%;transform:rotate(-8deg);}
     .chaos-collage img:nth-child(2){top:5%;right:8%;transform:rotate(7deg);}
-    .chaos-collage img:nth-child(3){top:45%;left:10%;transform:rotate(-4deg);}
-    .chaos-collage img:nth-child(4){top:40%;right:5%;transform:rotate(10deg);}
-    .chaos-collage img:nth-child(5){top:65%;left:35%;transform:rotate(-3deg);}
     @media (max-width:600px){
       .chaos-collage{height:300px;}
       .chaos-collage img{width:60%;}
     }
 
+    /* Termine */
     .termine-list {
       display: grid;
       gap: 0.75rem;
@@ -416,8 +440,6 @@
       .termin-row .datum,
       .termin-row .veranstaltung,
       .termin-row .ort { text-align: left; white-space: normal; }
-      .termin-row .datum { opacity: .9; }
-      .termin-row .ort   { opacity: .85; }
     }
     .termin-row.completed .datum::before {
       content: "✔";
@@ -431,6 +453,7 @@
       pointer-events: none;
     }
 
+    /* Typo */
     .page-content h1,
     .page-content h2,
     .page-content p{
@@ -446,10 +469,8 @@
 
     a{ color:#fff; }
     .brand{ color:#fff !important; }
-
     .release-card{ color:#000; }
     .release-card *{ color:inherit; }
-
     .termine-list, .termin-row, .termin-row *{ color:#fff; }
   </style>
 </head>
@@ -457,15 +478,21 @@
 <body>
   <header class="header">
     <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img src="favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
+      <img src="/favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
     </a>
   </header>
 
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
+  <button class="hamburger" id="hamburger"
+          aria-label="Menü öffnen"
+          aria-expanded="false"
+          aria-controls="site-menu">
     <span></span><span></span><span></span>
   </button>
+
   <div id="menu-overlay" class="menu-overlay" hidden></div>
-  <nav id="site-menu" class="site-menu" aria-hidden="true">
+
+  <!-- ✅ WICHTIG: hidden + aria-hidden -> keine fokussierbaren Links im "versteckten" Menü -->
+  <nav id="site-menu" class="site-menu" aria-hidden="true" hidden>
     <ul>
       <li><a href="ueber-mich.html">über mich</a></li>
       <li><a href="diskografie.html">diskografie</a></li>
@@ -482,28 +509,17 @@
       <div class="content-offset">
         <section class="grid" aria-label="Seitenübersicht">
 
-          <a class="page-link" href="ueber-mich.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>über mich</span>
-          </a>
+          <a class="page-link" href="ueber-mich.html"><span class="arrow" aria-hidden="true">►</span><span>über mich</span></a>
+          <a class="page-link" href="diskografie.html"><span class="arrow" aria-hidden="true">►</span><span>diskografie</span></a>
+          <a class="page-link" href="kontakt.html"><span class="arrow" aria-hidden="true">►</span><span>kontakt</span></a>
 
-          <a class="page-link" href="diskografie.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>diskografie</span>
-          </a>
-
-          <a class="page-link" href="kontakt.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>kontakt</span>
-          </a>
-
-          <div class="page-group current open">
-            <button class="page-toggle" type="button" aria-expanded="true">
+          <div class="page-group current open" id="page-aktuell">
+            <button class="page-toggle" type="button" aria-expanded="true" aria-controls="page-aktuell-content">
               <span class="arrow" aria-hidden="true">►</span>
               <span>aktuell</span>
             </button>
 
-            <div class="page-content">
+            <div class="page-content" id="page-aktuell-content">
               <h1>relevant und geplant</h1>
               <p>was steht an...</p>
 
@@ -516,8 +532,8 @@
                 <div class="sub-content" id="neuigkeiten-content">
                   <p style="margin-top: 2rem;">- lasst euch überraschen ;) bin am kochen -</p>
 
-                  <a class="release-card" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-xyz-56.html" target="_blank" rel="noopener noreferrer">
-                    <img src="assets/release/drei-cover.webp" alt="Cover: 3">
+                  <a class="release-card" href="https://www.b3nn3t.com/release-3.html" target="_blank" rel="noopener noreferrer">
+                    <img src="assets/release/drei-cover.webp" alt="Cover: 3" width="120" height="120" decoding="async" fetchpriority="high" loading="eager">
                     <div class="release-info">
                       <div class="subtitle">🎧 neues release</div>
                       <div class="songtitle"> drei </div>
@@ -552,15 +568,21 @@
                       </div>
 
                       <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2025-08-02">08.02.2025</time></div>
+                        <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
+                        <div class="veranstaltung" role="cell">· booted open air</div>
+                        <div class="ort" role="cell">· Wien · 20:30 Uhr</div>
+                      </div>
+
+                      <div class="termin-row" role="row">
+                        <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
                         <div class="veranstaltung" role="cell">· OYA - OPEN AIR - abgesagt</div>
                         <div class="ort" role="cell">· Wien · 20:00 Uhr</div>
                       </div>
 
                       <div class="termin-row" role="row">
                         <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
-                        <div class="veranstaltung" role="cell">· Jugendfistval - Rüti</div>
-                        <div class="ort" role="cell">· Rüti · 17:30 Uhr</div>
+                        <div class="veranstaltung" role="cell">· Kinder- und Jugendarbeitsfest - Rüti ZH</div>
+                        <div class="ort" role="cell">· Rüti · 18:00 Uhr</div>
                       </div>
 
                       <div class="termin-row" role="row">
@@ -570,15 +592,9 @@
                       </div>
 
                       <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2026-05-01">xx.05.2026</time></div>
+                        <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
                         <div class="veranstaltung" role="cell">· Jugendfestival - ZAK</div>
-                        <div class="ort" role="cell">· Rapperswil-Jona · xx:xx Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2026-12-31">xx.yy.zzzz</time></div>
-                        <div class="veranstaltung" role="cell">· in der mache</div>
-                        <div class="ort" role="cell">· Zürich · xx:xx Uhr</div>
+                        <div class="ort" role="cell">· Rapperswil-Jona · 19:00 Uhr</div>
                       </div>
 
                     </div>
@@ -608,15 +624,8 @@
             </div>
           </div>
 
-          <a class="page-link" href="gesehen.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>gesehen</span>
-          </a>
-
-          <a class="page-link" href="plattformen.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>links</span>
-          </a>
+          <a class="page-link" href="gesehen.html"><span class="arrow" aria-hidden="true">►</span><span>gesehen</span></a>
+          <a class="page-link" href="plattformen.html"><span class="arrow" aria-hidden="true">►</span><span>links</span></a>
 
         </section>
       </div>
@@ -627,11 +636,83 @@
     © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
   </div>
 
-  <div class="edge-swipe left"  aria-hidden="true"></div>
+  <div class="edge-swipe left" aria-hidden="true"></div>
   <div class="edge-swipe right" aria-hidden="true"></div>
 
-  <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
+<script src="script.js" defer></script>
+<script src="swipe-nav.js?v=12" defer></script>
+
+  <!-- ✅ FIX: Menü ARIA + hidden sauber toggeln (PSI-Fehler weg) -->
+  <script>
+    (function(){
+      const body = document.body;
+      const burger = document.getElementById('hamburger');
+      const overlay = document.getElementById('menu-overlay');
+      const menu = document.getElementById('site-menu');
+
+      function setMenuFocusable(isOpen){
+        const links = menu ? menu.querySelectorAll('a') : [];
+        links.forEach(a => {
+          if(isOpen){
+            a.removeAttribute('tabindex');
+          }else{
+            a.setAttribute('tabindex','-1');
+          }
+        });
+      }
+
+      function openMenu(){
+        if(!burger || !menu || !overlay) return;
+        body.classList.add('menu-open');
+        burger.setAttribute('aria-expanded','true');
+
+        menu.hidden = false;
+        menu.setAttribute('aria-hidden','false');
+        overlay.hidden = false;
+
+        // optional, falls unterstützt
+        if ('inert' in menu) menu.inert = false;
+
+        setMenuFocusable(true);
+      }
+
+      function closeMenu(){
+        if(!burger || !menu || !overlay) return;
+        body.classList.remove('menu-open');
+        burger.setAttribute('aria-expanded','false');
+
+        menu.setAttribute('aria-hidden','true');
+        overlay.hidden = true;
+
+        // Links aus dem Tab-Flow, dann menu wirklich verstecken
+        setMenuFocusable(false);
+        menu.hidden = true;
+
+        if ('inert' in menu) menu.inert = true;
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Startzustand: geschlossen & nicht fokussierbar
+        if(menu){
+          menu.hidden = true;
+          menu.setAttribute('aria-hidden','true');
+          if ('inert' in menu) menu.inert = true;
+          setMenuFocusable(false);
+        }
+        if(overlay) overlay.hidden = true;
+
+        burger?.addEventListener('click', () => {
+          const isOpen = body.classList.contains('menu-open');
+          isOpen ? closeMenu() : openMenu();
+        });
+
+        overlay?.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', (e) => {
+          if(e.key === 'Escape') closeMenu();
+        });
+      });
+    })();
+  </script>
 
   <script>
     (function(){
@@ -660,6 +741,13 @@
         panel.style.maxHeight = max + 'px';
       }
 
+      document.addEventListener('DOMContentLoaded', resizePanel);
+      window.addEventListener('load', resizePanel);
+      window.addEventListener('resize', resizePanel);
+      if(window.visualViewport){
+        window.visualViewport.addEventListener('resize', resizePanel);
+      }
+
       if(toggle && group){
         toggle.addEventListener('click', () => {
           const isOpen = group.classList.contains('open');
@@ -678,12 +766,6 @@
           btn.setAttribute('aria-expanded', String(!isOpen));
         });
       });
-
-      window.addEventListener('load', resizePanel);
-      window.addEventListener('resize', resizePanel);
-      if(window.visualViewport){
-        window.visualViewport.addEventListener('resize', resizePanel);
-      }
     })();
   </script>
 
