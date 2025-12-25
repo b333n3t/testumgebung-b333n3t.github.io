@@ -328,6 +328,49 @@
     }
     form button[disabled]{ opacity:0.6; cursor:default; }
 
+/* ===== Custom Checkbox (weiss + roter Haken) ===== */
+form input[type="checkbox"]{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 16px;
+  height: 16px;
+  margin: .3rem .6rem 0 0;
+
+  border: 1.5px solid #ffffff;
+  border-radius: 3px;
+  background: #ffffff;
+
+  display: inline-grid;
+  place-content: center;
+
+  cursor: pointer;
+}
+
+/* roter Haken */
+form input[type="checkbox"]::before{
+  content: "";
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid #930010;
+  border-bottom: 2px solid #930010;
+  transform: rotate(-45deg) scale(0);
+  transition: transform .12s ease-in-out;
+}
+
+/* aktiv */
+form input[type="checkbox"]:checked::before{
+  transform: rotate(-45deg) scale(1);
+}
+
+/* Fokus (optional, dezent) */
+form input[type="checkbox"]:focus{
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(147,0,16,0.25);
+}
+
+    
     /* ===== Spinner & Status ===== */
     .sending-indicator{
       display:none;
