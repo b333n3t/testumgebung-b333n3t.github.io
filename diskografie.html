@@ -199,14 +199,6 @@
       margin-bottom: 8px; /* klein */
     }
 
-    /* ✅ zusätzlicher Abstand nach dem Diskografie-Block (damit "kontakt" nicht gequetscht ist) */
-    .after-disco-spacer{
-      height: 14px;
-    }
-    @media (max-width:768px){
-      .after-disco-spacer{ height: 18px; }
-    }
-
     /* Cards: Reihenfolge bleibt stabil (CSS Grid) */
     .disco-grid{
       display: grid;
@@ -396,6 +388,33 @@
     .release{ color:#000; }
     .release a{ color:#000; }
     .release .meta{ color:#444; }
+
+    /* ===================================================
+       ✅ EPs: Text wird beim Klick durchgestrichen (Animation rechts -> links)
+       =================================================== */
+    .ep-strike{
+      position: relative;
+      display:inline-block;
+    }
+    .ep-strike::after{
+      content:"";
+      position:absolute;
+      left:0;
+      right:0;
+      top:50%;
+      height:2px;
+      background: currentColor;
+
+      transform: translateY(-50%) scaleX(0);
+      transform-origin: right; /* Start rechts */
+      transition: transform .28s ease;
+      pointer-events:none;
+      opacity:.95;
+    }
+    .ep-strike.striked::after{
+      transform: translateY(-50%) scaleX(1);
+      transform-origin: left; /* läuft nach links fertig */
+    }
   </style>
 </head>
 
@@ -469,12 +488,12 @@
 
             <!-- ===== EPs ===== -->
             <div class="page-group">
-              <button class="page-toggle" type="button" aria-expanded="false"><span class="arrow">►</span><span>ep's</span></button>
+              <button class="page-toggle" id="eps-toggle" type="button" aria-expanded="false">
+                <span class="arrow">►</span><span class="ep-strike">ep's</span>
+              </button>
               <div class="page-content">
                 <div class="disco-grid">
-
-                <h1>keine ep bis jetzt</h1>  
-                  
+                  <h1>keine ep bis jetzt</h1>
                 </div>
               </div>
             </div>
@@ -484,19 +503,19 @@
               <button class="page-toggle" type="button" aria-expanded="false"><span class="arrow">►</span><span>singles</span></button>
               <div class="page-content">
                 <div class="disco-grid">
-                  
+                  <!-- (deine Singles bleiben hier wie im Code) -->
+
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/sterne still.webp" type="image/webp">
                       <img src="assets/diskografie/Singles/sterne still.jpg" alt="Cover: sterne still" class="cover" loading="lazy" />
                     </picture>
                     <div class="title">
-                      <a href="https://open.spotify.com/intl-de/album/2JNdpSBPVtEoDlXrGSybco?si" target="_blank" rel="noopener noreferrer">sterne still</a>
+                      <a href="https://open.spotify.com/intl-de/album/2JNdpSBPVtEoDlXrGSybco?si" target="_blank" rel="noopener noreferrer">sterne still (mit sotbarn)</a>
                       <span class="badge">Single</span>
                     </div>
                     <div class="meta">2025</div>
                   </article>
-
 
                   <article class="release">
                     <picture>
@@ -509,8 +528,8 @@
                     </div>
                     <div class="meta">2025</div>
                   </article>
-                
-                   <article class="release">
+
+                  <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/wer bist du wenn keiner schaut.webp" type="image/webp">
                       <img src="assets/diskografie/Singles/wer bist du wenn keiner schaut.jpg" alt="Cover: wer bist du wenn keiner schaut??" class="cover" loading="lazy" />
@@ -521,13 +540,12 @@
                     </div>
                     <div class="meta">2025</div>
                   </article>
-                
+
                   <article class="release">
                     <img src="assets/diskografie/EPs/st3rne.jpg" alt="st3rne☆*">
                     <div class="title"><a href="https://open.spotify.com/album/3d7F0wnumMBtTKar2t2cgI" target="_blank" rel="noopener noreferrer">st3rne☆*</a></div>
                     <div class="meta">2025</div>
                   </article>
-
 
                   <article class="release">
                     <picture>
@@ -553,7 +571,7 @@
                     <div class="meta">2025</div>
                   </article>
 
-                <article class="release">
+                  <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/kreative perspektiven.webp" type="image/webp">
                       <img src="assets/diskografie/Singles/kreative perspektiven.jpg" alt="Cover: kreative perspektiven" class="cover" loading="lazy" />
@@ -564,7 +582,7 @@
                     </div>
                     <div class="meta">2025</div>
                   </article>
-                
+
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/TRÄUME BRÜCKEN ZÄUNE.webp" type="image/webp">
@@ -601,7 +619,6 @@
                     <div class="meta">2024</div>
                   </article>
 
-                
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/anwesenheit.webp" type="image/webp">
@@ -614,14 +631,12 @@
                     <div class="meta">2024</div>
                   </article>
 
-                
-                <article class="release">
+                  <article class="release">
                     <img src="assets/diskografie/EPs/hundert grad.jpg" alt="hundert grad">
                     <div class="title"><a href="https://open.spotify.com/album/363ITnyvTfkJ4p5yu3K0Bz" target="_blank" rel="noopener noreferrer">hundert grad</a></div>
                     <div class="meta">2024</div>
                   </article>
 
-                
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/kinderleicht.webp" type="image/webp">
@@ -646,8 +661,7 @@
                     <div class="meta">2024</div>
                   </article>
 
-
-                    <article class="release">
+                  <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/ohne waffe.webp" type="image/webp">
                       <img src="assets/diskografie/Singles/ohne waffe.jpg" alt="Cover: ohne waffe" class="cover" loading="lazy" />
@@ -658,8 +672,8 @@
                     </div>
                     <div class="meta">2024</div>
                   </article>
-                
-                   <article class="release">
+
+                  <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/was wir möchten.webp" type="image/webp">
                       <img src="assets/diskografie/Singles/was wir möchten.jpg" alt="Cover: was wir möchten" class="cover" loading="lazy" />
@@ -671,7 +685,6 @@
                     <div class="meta">2024</div>
                   </article>
 
-                
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/kein phone.webp" type="image/webp">
@@ -708,7 +721,6 @@
                     <div class="meta">2024</div>
                   </article>
 
-                 
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/unsere ferne.webp" type="image/webp">
@@ -751,8 +763,6 @@
                     <div class="meta">2023</div>
                   </article>
 
-
-                
                   <article class="release">
                     <picture>
                       <source srcset="assets/diskografie/Singles/diese welt, sie schweigt.webp" type="image/webp">
@@ -773,9 +783,6 @@
           </div>
         </div>
 
-<!-- ✅ Abstand nach "diskografie", bevor "kontakt" kommt -->
-        <div class="after-disco-spacer" aria-hidden="true"></div>
-    
         <a class="page-link" href="kontakt.html"><span class="arrow">►</span><span>kontakt</span></a>
         <a class="page-link" href="aktuell.html"><span class="arrow">►</span><span>aktuell</span></a>
         <a class="page-link" href="gesehen.html"><span class="arrow">►</span><span>gesehen</span></a>
@@ -919,6 +926,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const btn = toggleWrap.querySelector('button');
     btn.addEventListener('click', () => openPlayerForCard(card));
   });
+
+  // ✅ EPs: Durchstreichen beim Klick (rechts -> links)
+  const epsToggle = document.getElementById('eps-toggle');
+  if(epsToggle){
+    epsToggle.addEventListener('click', ()=>{
+      const label = epsToggle.querySelector('.ep-strike');
+      if(label) label.classList.toggle('striked');
+    });
+  }
 
   document.querySelectorAll('.page-toggle').forEach(btn=>{
     const group = btn.closest('.page-group');
