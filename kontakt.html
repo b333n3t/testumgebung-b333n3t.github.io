@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
   <!-- ✅ SEO-optimiert -->
-  <title>Kontakt – b3nn3t | Booking & Nachrichten & Anfragen</title>
+  <title>kontakt (b3nn3t) | booking & nachrichten</title>
   <meta name="description" content="Schreibe b3nn3t für Booking, Kooperationen, Presse oder Fragen. Einfach und direkt über das Kontaktformular." />
   <meta name="robots" content="index,follow"/>
 
@@ -279,15 +279,33 @@
     form{ margin:0; display:grid; gap:.8rem; max-width:650px; }
     form label{ font-weight:600; }
 
-    form input:not([type="checkbox"]), form textarea{
+    /* ✅ Felder transparent + Text weiss */
+    form input:not([type="checkbox"]),
+    form textarea{
       width:100%;
-      border:1px solid #ccc;
+      border:1px solid rgba(255,255,255,0.45);
       border-radius:8px;
       padding:.6rem;
-      background:rgba(255,255,255,0.85);
+
+      background: transparent; /* <- transparent */
+      color:#fff;
+
       font:inherit;
+      outline:none;
     }
     form textarea{ min-height:120px; overflow:auto; }
+
+    /* Placeholder etwas heller */
+    form input::placeholder,
+    form textarea::placeholder{
+      color: rgba(255,255,255,0.65);
+    }
+
+    /* Optional: Fokus etwas sichtbarer */
+    form input:focus,
+    form textarea:focus{
+      border-color: rgba(255,255,255,0.8);
+    }
 
     form input[type="checkbox"]{
       width:auto; margin:.25rem .5rem 0 0; padding:0; border:none; vertical-align:top;
@@ -296,10 +314,17 @@
     form label input[type="checkbox"]{ float:left; }
     form label input[type="checkbox"] + *{ display:block; }
 
+    /* ✅ Button: Hintergrund weiss + Schrift #930010 */
     form button{
       margin-top:.6rem; margin-bottom:0.4rem;
-      border:none; border-radius:8px; padding:.6rem 1.2rem;
-      background:#111; color:#fff; font-weight:600; cursor:pointer;
+      border:none;
+      border-radius:8px;
+      padding:.6rem 1.2rem;
+
+      background:#ffffff;   /* <- weiss */
+      color:#930010;        /* <- rot */
+      font-weight:700;
+      cursor:pointer;
     }
     form button[disabled]{ opacity:0.6; cursor:default; }
 
@@ -540,11 +565,7 @@
     function setMenuFocus(enabled){
       const items = nav.querySelectorAll(focusablesSelector);
       items.forEach(el => {
-        if (el.tagName.toLowerCase() === 'a') {
-          el.tabIndex = enabled ? 0 : -1;
-        } else {
-          el.tabIndex = enabled ? 0 : -1;
-        }
+        el.tabIndex = enabled ? 0 : -1;
       });
     }
 
