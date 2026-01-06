@@ -221,10 +221,21 @@
       display: block;
     }
 
+    /* ✅ WICHTIG: Abstand NACH "kuck hier" Block entfernen */
+    section.block.streaming-block {
+      margin-bottom: 0 !important;
+    }
+
+    /* ✅ WICHTIG: Abstand VOR "mehr auf meiner webseite" entfernen */
+    section.block.more-block {
+      margin-top: 0 !important;
+    }
+
+    /* (optional) falls du den "b3nn3t.com"-Link nicht zusätzlich absetzen willst */
     .more-link {
       display: inline-block;
-      margin-top: var(--more-link-gap-top);
-      margin-bottom: var(--more-link-gap-bottom);
+      margin-top: 0.25rem; /* war vorher größer */
+      margin-bottom: 0;    /* kein extra bottom-gap */
       padding-left: var(--more-link-indent);
     }
 
@@ -414,8 +425,8 @@
           </div>
         </section>
 
-        <section aria-label="Streaming" class="block">
-          <h2>kuck hier</h2>
+        <section aria-label="Streaming" class="block streaming-block">
+          <h2>kuck hier:</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
@@ -464,7 +475,7 @@
           </div>
         </section>
 
-        <section aria-label="Mehr von b3nn3t" class="block">
+        <section aria-label="Mehr von b3nn3t" class="block more-block">
           <p>mehr auf meiner webseite :p</p>
           <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
         </section>
