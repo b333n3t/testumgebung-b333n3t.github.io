@@ -140,8 +140,6 @@
       overflow: hidden;
       background: #000;
       aspect-ratio: 16 / 9;
-
-      /* ✅ wichtig fürs Overlay */
       position: relative;
     }
 
@@ -152,18 +150,6 @@
       border-radius: inherit;
       background: #000;
       object-fit: cover;
-    }
-
-    /* ✅ Audio Overlay Styling */
-    .audio-overlay {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      padding: 0.6rem;
-      background: rgba(0,0,0,0.55);
-      box-sizing: border-box;
     }
 
     section.block {
@@ -344,25 +330,19 @@
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ COVER BLEIBT + AUDIO PLAYER (anstatt VIDEO) -->
-        <section class="video-wrap" aria-label="Audio zum Song">
+        <!-- ✅ VIDEO PLAYER (MP4) -->
+        <section class="video-wrap" aria-label="Video zum Song">
           <div class="video-inner">
-            <!-- Cover -->
-            <img
-              src="/assets/release/drei-cover.webp"
-              alt="Cover – drei von b3nn3t"
-              class="release-video">
-
-            <!-- Audio Controls overlay -->
-            <audio
-              id="release-audio"
-              class="audio-overlay"
+            <video
+              class="release-video"
               controls
-              preload="metadata">
-              <!-- ✅ ROOT-RELATIVE PATH damit es auf b3nn3t.com UND in subfoldern funktioniert -->
-              <source src="/assets/release/drei.prelisten.mp3">
-              Dein Browser unterstützt dieses Audioformat nicht.
-            </audio>
+              preload="metadata"
+              playsinline
+              poster="/assets/release/drei-cover.webp">
+              <!-- ✅ ROOT-RELATIVE PATH: funktioniert auf b3nn3t.com UND in subfoldern -->
+              <source src="/assets/release/drei.mp4" type="video/mp4">
+              Dein Browser unterstützt dieses Videoformat nicht.
+            </video>
           </div>
         </section>
 
