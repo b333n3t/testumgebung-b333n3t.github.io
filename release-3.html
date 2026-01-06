@@ -63,6 +63,9 @@
       --more-link-gap-top: 0.65rem;
       --more-link-gap-bottom: 0.75rem;
       --more-link-indent: 0.25rem;
+
+      /* ✅ das ist exakt das main-gap, damit wir es “wegziehen” können */
+      --main-gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
     html, body {
@@ -94,7 +97,7 @@
     main.main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.6rem, 2.4vw, 2.2rem);
+      gap: var(--main-gap);
     }
 
     .topline {
@@ -104,7 +107,7 @@
       gap: 0.7rem;
       font-size: 0.92rem;
       letter-spacing: 0.04em;
-      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
+      margin-bottom: var(--main-gap);
     }
 
     .brand-link {
@@ -125,7 +128,6 @@
       display: inline-block;
     }
 
-    /* Titel */
     .song-title {
       margin: 0;
       font-weight: 600;
@@ -157,7 +159,6 @@
       object-fit: cover;
     }
 
-    /* ✅ Audio Overlay Styling */
     .audio-overlay {
       position: absolute;
       left: 0;
@@ -193,25 +194,19 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* kein Abstand zwischen erklärbär-Absätzen */
     section.block p.no-gap + p {
       margin-top: 0 !important;
     }
 
-    /* =========================================================
-       ✅ STREAMING: Abstand wie bei normalen Textblöcken
-       - h2 -> Abstand wie bei anderen h2
-       - Icons -> wie "Textzeile" direkt darunter (kein extra Margin)
-       - danach: "mehr..." direkt unter Icons (ohne Abstand)
-       ========================================================= */
+    /* STREAMING */
     .social-section { margin: 0; }
     .social-icons {
       display: flex;
       flex-wrap: wrap;
       gap: clamp(1.1rem, 1.6vw, 1.6rem);
       align-items: center;
-      margin: 0;            /* ✅ kein extra Abstand */
-      padding: 0;           /* ✅ kein extra Abstand */
+      margin: 0;
+      padding: 0;
     }
 
     .social-link {
@@ -227,24 +222,23 @@
       display: block;
     }
 
-    /* ✅ Streaming-Block: kein Abstand NACH den Icons */
+    /* ✅ kein Abstand NACH den Icons */
     section.block.streaming-block {
       margin-bottom: 0 !important;
       padding-bottom: 0 !important;
     }
 
-    /* ✅ "mehr..." direkt unter Icons (ohne Abstand) */
+    /* ✅ WICHTIG: “gap” zwischen streaming-block und more-block entfernen */
     section.block.more-block {
-      margin-top: 0 !important;
+      margin-top: calc(-1 * var(--main-gap)) !important;  /* <- DAS ist der entscheidende Fix */
       padding-top: 0 !important;
+      margin-bottom: 0 !important;
     }
 
-    /* ✅ Absätze im more-block wirklich ohne Abstand nach oben */
     section.block.more-block p {
       margin-top: 0 !important;
     }
 
-    /* ✅ Link ohne Extra-Abstände (Fix: 0.1 rem -> 0.1rem) */
     .more-link {
       display: inline-block;
       margin-top: 0.1rem;
@@ -252,9 +246,7 @@
       padding-left: var(--more-link-indent);
     }
 
-    /* ===========================
-       ✅ Vormerken & Speichern (Pre-Save Button)
-       =========================== */
+    /* PRE-SAVE */
     .presave-row {
       display: flex;
       flex-wrap: wrap;
@@ -263,7 +255,6 @@
       margin-top: 0.9rem;
     }
 
-    /* ✅ Button: weiss + Text rot wie Hintergrund */
     .presave-button {
       display: inline-flex;
       align-items: center;
@@ -323,9 +314,6 @@
       .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
 
-    /* =========================================================
-       ✅ FULLSCREEN CROSSHAIR (lange linien)
-       ========================================================= */
     #crosshair{
       position: fixed;
       inset: 0;
