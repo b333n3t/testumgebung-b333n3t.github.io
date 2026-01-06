@@ -145,8 +145,6 @@
       overflow: hidden;
       background: #000;
       aspect-ratio: 16 / 9;
-
-      /* ✅ wichtig fürs Overlay */
       position: relative;
     }
 
@@ -231,7 +229,7 @@
     }
 
     /* ===========================
-       ✅ Vormerken & Speichern (Spotify Pre-Save)
+       ✅ Vormerken & Speichern (Pre-Save Button)
        =========================== */
     .presave-row {
       display: flex;
@@ -275,6 +273,8 @@
       height: 1.15rem;
       display: block;
       filter: drop-shadow(0 0 6px rgba(0,0,0,0.25));
+      border-radius: 4px;
+      object-fit: cover;
     }
 
     .presave-hint {
@@ -371,7 +371,6 @@
               class="audio-overlay"
               controls
               preload="metadata">
-              <!-- ✅ ROOT-RELATIVE PATH damit es auf b3nn3t.com UND in subfoldern funktioniert -->
               <source src="/assets/release/drei.prelisten.mp3">
               Dein Browser unterstützt dieses Audioformat nicht.
             </audio>
@@ -388,7 +387,7 @@
           <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
         </section>
 
-        <!-- ✅ Vormerken & Speichern (mit echtem Link) -->
+        <!-- ✅ Vormerken & Speichern (korrektes Icon + korrekter Link) -->
         <section aria-label="Vormerken und Speichern" class="block">
           <h2>vormerken und speichern</h2>
           <p class="presave-hint">
@@ -396,15 +395,13 @@
           </p>
 
           <div class="presave-row">
-            <!-- ✅ DEIN PRE-SAVE LINK -->
             <a class="presave-button"
-               href="HIER_DEIN_PRESAVE_LINK_EINTRAGEN"
+               href="https://bfan.link/drei"
                target="_blank"
-               rel="noopener">
-              <picture>
-                <source srcset="assets/release/spotify_128.webp" type="image/webp">
-                <img class="presave-icon" src="assets/release/drei-cover.png" alt="" aria-hidden="true">
-              </picture>
+               rel="noopener noreferrer">
+              <img class="presave-icon"
+                   src="/assets/release/drei-cover.png"
+                   alt="Cover „drei“">
               pre-save
             </a>
           </div>
@@ -520,13 +517,11 @@
       const lineY = cross?.querySelector('.line-y');
       if(!cross || !lineX || !lineY) return;
 
-      // nur desktop (maus), kein touch
       if(!window.matchMedia('(pointer: fine)').matches){
         cross.style.display = 'none';
         return;
       }
 
-      // reduced motion -> aus
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         cross.style.display = 'none';
         return;
