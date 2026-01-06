@@ -1,779 +1,194 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t – „ALLES WAS BLEIBT“ | Neues Release</title>
-  <meta name="description" content="„ALLES WAS BLEIBT“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
-  <meta name="robots" content="noindex,follow" />
+  <title>b3nn3t „drei“ | neuer release</title>
+  <meta name="description" content="„drei“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <!-- Favicons: Google, Browser, Apple -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
+  <link rel="canonical" href="https://www.b3nn3t.com/release-3.html" />
 
+  <!-- Open Graph -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„ALLES WAS BLEIBT“ – neues Release von b3nn3t">
+  <meta property="og:title" content="„DREI“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/releases/alles-was-bleibt/cover.jpg">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.webp">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-3.html">
 
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„DREI“ – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „DREI“ von b3nn3t.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/drei-cover.webp">
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles_nav_arrows.css" />
-  <link rel="stylesheet" href="swipe-helper.css" />
+  <!-- Strukturierte Daten -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicRecording",
+    "name": "DREI",
+    "byArtist": { "@type": "MusicGroup", "name": "b3nn3t" },
+    "inAlbum": { "@type": "MusicAlbum", "name": "drei" },
+    "image": "https://www.b3nn3t.com/assets/release/drei-cover.webp",
+    "url": "https://www.b3nn3t.com/release-3.html"
+  }
+  </script>
 
-  <!-- Font Awesome für Social-Logos -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-  />
+  <!-- LCP-Poster vorladen und priorisieren -->
+  <link rel="preload" as="image" href="/assets/release/drei-cover.webp" fetchpriority="high">
 
   <style>
     :root {
-      --awb-pink: #ff5bb1;
-      --awb-yellow: #ffd85b;
-      --awb-neon-blue: #00e6ff;
-      --awb-deep-blue: #0040ff;
       --awb-text-main: #fdfdfd;
+      --page-max-width: 960px;
+      --awb-bg: #930010;
+
+      --block-title-gap: 0.95rem;
+      --block-par-gap: 0.7rem;
+
+      --more-link-gap-top: 0.65rem;
+      --more-link-gap-bottom: 0.75rem;
+      --more-link-indent: 0.25rem;
     }
 
-    /* ---------------------------
-       BACKGROUND + BASE LAYOUT
-    ----------------------------*/
-    body.release-page {
-      background-image: url("assets/release/background_desktop.jpg");
-      background-size: 112% 112%;
-      background-position: 50% 50%;
-      background-attachment: fixed;
-      overflow-x: hidden;
+    html, body {
       margin: 0;
       padding: 0;
+      height: 100%;
+      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      position: relative;
-      animation: bgDrift 22s ease-in-out infinite alternate;
+      background: var(--awb-bg);
     }
 
-    @keyframes bgDrift {
-      0%   { background-position: 50% 50%; transform: translate3d(0,0,0) scale(1.02); }
-      15%  { background-position: 47% 52%; transform: translate3d(-3px,2px,0) scale(1.05); }
-      30%  { background-position: 52% 48%; transform: translate3d(3px,-3px,0) scale(1.06); }
-      45%  { background-position: 49% 51%; transform: translate3d(-2px,1px,0) scale(1.04); }
-      60%  { background-position: 51% 49%; transform: translate3d(2px,-2px,0) scale(1.05); }
-      80%  { background-position: 50% 52%; transform: translate3d(1px,2px,0) scale(1.03); }
-      100% { background-position: 50% 50%; transform: translate3d(0,0,0) scale(1.02); }
-    }
-
-    @media (max-width: 768px) {
-      body.release-page {
-        background-image: url("assets/release/background_mobile.jpg");
-        background-attachment: scroll;
-        background-size: cover;
-        animation: bgDriftMobile 26s ease-in-out infinite alternate;
-      }
-
-      @keyframes bgDriftMobile {
-        0%   { background-position: 50% 50%; }
-        25%  { background-position: 51% 48%; }
-        50%  { background-position: 48% 52%; }
-        75%  { background-position: 52% 49%; }
-        100% { background-position: 50% 50%; }
-      }
-    }
-
-    body.release-page::before,
-    body.release-page::after {
-      content: "";
-      position: fixed;
-      inset: -20%;
-      pointer-events: none;
-      z-index: -3;
-      background:
-        radial-gradient(circle at 10% 10%, rgba(255, 91, 177, 0.35), transparent 55%),
-        radial-gradient(circle at 90% 0%, rgba(255, 216, 91, 0.25), transparent 55%),
-        radial-gradient(circle at 80% 80%, rgba(150, 78, 255, 0.22), transparent 55%);
-      filter: blur(5px);
-      opacity: 0.3;
-      mix-blend-mode: screen;
-    }
-
-    body.release-page::after {
-      opacity: 0.35;
-      mix-blend-mode: soft-light;
-    }
-
-    /* remove top bar / glass */
-    header,
-    header *,
-    .content-offset,
-    .content-offset *,
-    body.release-page header,
-    body.release-page * {
-      border-top: none !important;
-      box-shadow: none !important;
-    }
-
-    #page-glass,
-    #page-glass .glass-solid,
-    #page-glass .glass-fade {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      box-shadow: none !important;
-    }
-
-    .scroll-cue {
-      display: none !important;
-    }
-
-    body.release-page main.main,
-    body.release-page .main,
-    body.release-page .main::before,
-    body.release-page .main::after,
-    body.release-page .page-panel,
-    body.release-page .page-panel::before,
-    body.release-page .page-panel::after {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      box-shadow: none !important;
-      border: none !important;
-    }
-
-    /* ---------------------------
-       NEBEL, LICHT & WAVES
-    ----------------------------*/
-
-    .awb-neon,
-    .awb-neon-2,
-    .awb-greenwave,
-    .awb-darkwave,
-    .awb-fogwave,
-    .awb-spotlight {
-      position: fixed;
-      inset: -35%;
-      pointer-events: none;
-    }
-
-    .awb-fogwave {
-      inset: -48%;
-      z-index: -4;
-      mix-blend-mode: screen;
-      background:
-        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.16), transparent 60%),
-        radial-gradient(circle at 80% 10%, rgba(180,220,255,0.22), transparent 60%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.10), transparent 65%);
-      filter: blur(30px);
-      opacity: 0.14;
-      animation: fogDrift 45s ease-in-out infinite alternate;
-    }
-
-    @keyframes fogDrift {
-      0%   { transform: translate(-6%, 0); }
-      50%  { transform: translate(6%, 2%); }
-      100% { transform: translate(-4%, -2%); }
-    }
-
-    .awb-spotlight {
-      z-index: -2;
-      mix-blend-mode: soft-light;
-      background:
-        radial-gradient(circle at 0% 50%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 45%),
-        radial-gradient(circle at 120% 50%, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 55%);
-      opacity: 0.55;
-      animation: spotSweep 16s ease-in-out infinite;
-    }
-
-    @keyframes spotSweep {
-      0%   { transform: translate(-40%, 0); }
-      25%  { transform: translate(0, 0); }
-      50%  { transform: translate(40%, 0); }
-      75%  { transform: translate(0, 0); }
-      100% { transform: translate(-40%, 0); }
-    }
-
-    .awb-neon,
-    .awb-neon-2,
-    .awb-greenwave {
-      z-index: -2;
-      mix-blend-mode: screen;
-    }
-
-    .awb-neon {
-      background: linear-gradient(
-        130deg,
-        transparent 0%,
-        rgba(0,255,255,0.7) 40%,
-        rgba(0,255,255,0.85) 50%,
-        rgba(0,255,255,0.7) 60%,
-        transparent 100%
-      );
-      filter: blur(10px) saturate(150%);
-      opacity: 0.65;
-      animation: neonCyan 9s ease-in-out infinite;
-    }
-
-    @keyframes neonCyan {
-      0%   { opacity: 0;   transform: translate(-30%, 30%) scale(1.03); }
-      20%  { opacity: 0.8; }
-      50%  { opacity: 0.9;   transform: translate(0, 0) scale(1.0); }
-      80%  { opacity: 0.7; }
-      100% { opacity: 0;   transform: translate(30%, -30%) scale(1.03); }
-    }
-
-    .awb-neon-2 {
-      z-index: -2;
-      mix-blend-mode: screen;
-      background: linear-gradient(
-        130deg,
-        transparent 0%,
-        rgba(0,50,120,0.25) 35%,
-        rgba(0,80,255,0.25) 50%,
-        rgba(0,50,120,0.25) 65%,
-        transparent 100%
-      );
-      filter: blur(14px) saturate(130%);
-      opacity: 0.22;
-      animation: neonDeep 14s ease-in-out infinite;
-    }
-
-    @keyframes neonDeep {
-      0%   { opacity: 0;   transform: translate(-35%, 35%) scale(1.03); }
-      25%  { opacity: 0.5; }
-      50%  { opacity: 0.55;   transform: translate(0, 0) scale(1.0); }
-      75%  { opacity: 0.4; }
-      100% { opacity: 0;   transform: translate(35%, -35%) scale(1.05); }
-    }
-
-    .awb-greenwave {
-      inset: -45%;
-      z-index: -2;
-      mix-blend-mode: screen;
-      background: linear-gradient(
-        125deg,
-        transparent 0%,
-        rgba(0,255,140,0.12) 15%,
-        rgba(0,255,140,0.38) 35%,
-        rgba(0,180,100,0.55) 50%,
-        rgba(0,110,60,0.55) 62%,
-        rgba(0,60,35,0.45) 72%,
-        transparent 100%
-      );
-      filter: blur(30px) saturate(140%);
-      opacity: 0.45;
-      animation: greenWave 16s ease-in-out infinite;
-    }
-
-    @keyframes greenWave {
-      0%   { opacity: 0;   transform: translate(-45%, 35%) scale(1.08); }
-      20%  { opacity: 0.6; }
-      50%  { opacity: 0.7;   transform: translate(0, 0) scale(1.03); }
-      80%  { opacity: 0.5;  }
-      100% { opacity: 0;   transform: translate(45%, -35%) scale(1.08); }
-    }
-
-    .awb-darkwave {
-      position: fixed;
-      inset: -40%;
-      z-index: -1;
-      mix-blend-mode: multiply;
-      background:
-        linear-gradient(
-          to bottom,
-          rgba(0, 0, 0, 0) 0%,
-          rgba(0, 0, 0, 0) 55%,
-          rgba(0, 0, 0, 0.7) 100%
-        ),
-        linear-gradient(
-          130deg,
-          transparent 0%,
-          rgba(5,0,30,0.85) 32%,
-          rgba(20,0,60,0.95) 50%,
-          rgba(5,0,30,0.85) 68%,
-          transparent 100%
-        );
-      filter: blur(40px) saturate(140%);
-      opacity: 0.85;
-      animation: awbDarkwaveSweep 15s ease-in-out infinite;
-    }
-
-    @keyframes awbDarkwaveSweep {
-      0%   { opacity: 0;   transform: translate(-40%, 40%) scale(1.08); }
-      25%  { opacity: 0.8;  }
-      50%  { opacity: 0.9;   transform: translate(0, 0) scale(1.02); }
-      75%  { opacity: 0.6;  }
-      100% { opacity: 0;   transform: translate(40%, -40%) scale(1.08); }
-    }
-
-    @media (max-width: 768px) {
-      .awb-fogwave   { opacity: 0.10; filter: blur(26px); }
-      .awb-spotlight { opacity: 0.35; }
-      .awb-neon      { opacity: 0.35; filter: blur(9px); }
-      .awb-neon-2    { opacity: 0.18; filter: blur(12px); }
-      .awb-greenwave { opacity: 0.28; filter: blur(22px); }
-      .awb-darkwave  { opacity: 0.75; filter: blur(38px); }
-    }
-
-    /* ---------------------------
-       GLITTER PARTICLES
-    ----------------------------*/
-
-    .awb-sparkle {
-      position: fixed;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: -1;
-      background: radial-gradient(circle, #ffffff 0%, rgba(255,255,255,0) 70%);
-      filter: drop-shadow(0 0 8px rgba(255,255,255,0.9));
-      opacity: 0;
-      animation:
-        sparkleMove 7s linear infinite,
-        sparkleBlink 1.4s ease-in-out infinite alternate;
-    }
-
-    @keyframes sparkleMove {
-      0%   { transform: translate(-30vw, 30vh) scale(.7); opacity: 0; }
-      15%  { opacity: 1; }
-      50%  { transform: translate(0, 0) scale(1); opacity: 1; }
-      85%  { opacity: .4; }
-      100% { transform: translate(30vw, -30vh) scale(.7); opacity: 0; }
-    }
-
-    @keyframes sparkleBlink {
-      0%   { opacity: .3; transform: scale(0.8); }
-      100% { opacity: 1;  transform: scale(1.25); }
-    }
-
-    /* ---------------------------
-       TYPOGRAPHY + LAYOUT
-    ----------------------------*/
-
-    .content-offset {
-      margin: 2.5rem auto 3rem;
-      max-width: 1040px;
-      width: min(1040px, calc(100% - 2rem));
-      padding: 0 1rem;
-      text-align: center;
-    }
-
-    @media (max-width: 768px) {
-      .content-offset {
-        width: 100%;
-        max-width: 100%;
-        padding: 0 1rem;
-        margin-left: 0;
-        margin-right: 0;
-        box-sizing: border-box;
-        position: relative;
-        transform: translateZ(0);
-      }
-    }
-
-    section {
-      text-align: left;
-    }
-
-    .content-offset > p:first-of-type {
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      font-size: 0.8rem;
-      opacity: 0.9;
-      color: #fdfdfd;
-      text-shadow: 0 0 8px rgba(0,0,0,0.7);
-      animation: textShimmer 10s.ease-in-out infinite;
-    }
-
-    /* Wellen-H1 mit wortweiser Zeilenumbruch-Kontrolle */
-    h1.wave-text {
-      font-size: clamp(2.8rem, 4vw + 1rem, 4.2rem);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      margin-bottom: 0.7rem;
-      color: #ffffff;
-      display: inline-block;
-      position: relative;
-    }
-
-    .wave-word {
-      display: inline-block;
-      white-space: nowrap;
-    }
-
-    .wave-space {
-      display: inline-block;
-      width: 0.45em;
-    }
-
-    h1.wave-text .letter {
-      display: inline-block;
-      text-shadow:
-        0 0 14px rgba(0,0,0,0.95),
-        0 0 30px rgba(0,0,0,0.8);
-      animation: letterWave 1.6s ease-in-out infinite, textShimmer 9s ease-in-out infinite;
-    }
-
-    @keyframes letterWave {
-      0%   { transform: translateY(0); }
-      25%  { transform: translateY(-6px); }
-      50%  { transform: translateY(0); }
-      75%  { transform: translateY(4px); }
-      100% { transform: translateY(0); }
-    }
-
-    @media (max-width: 600px) {
-      h1.wave-text {
-        font-size: clamp(2.1rem, 8vw, 2.6rem);
-        letter-spacing: 0.10em;
-        line-height: 1.15;
-      }
-      .wave-space {
-        width: 0.35em;
-      }
-    }
-
-    @keyframes textShimmer {
-      0% {
-        text-shadow:
-          0 0 10px rgba(0,0,0,0.9),
-          0 0 18px rgba(255,255,255,0.7),
-          2px 2px 12px rgba(0,0,0,0.9);
-      }
-      25% {
-        text-shadow:
-          -2px 2px 12px rgba(0,0,0,0.9),
-          0 0 20px rgba(0,200,255,0.8),
-          0 0 32px rgba(0,120,255,0.7);
-      }
-      50% {
-        text-shadow:
-          0 -2px 10px rgba(0,0,0,0.9),
-          0 0 18px rgba(255,255,255,0.85),
-          0 0 26px rgba(0,255,180,0.75);
-      }
-      75% {
-        text-shadow:
-          2px 0 12px rgba(0,0,0,0.9),
-          0 0 20px rgba(0,180,255,0.75),
-          0 0 30px rgba(255,255,255,0.75);
-      }
-      100% {
-        text-shadow:
-          0 0 10px rgba(0,0,0,0.9),
-          0 0 18px rgba(255,255,255,0.7),
-          2px 2px 12px rgba(0,0,0,0.9);
-      }
-    }
-
-    /* Unterstrich als animierte Lichterkette */
-    h1.wave-text::after {
-      content: "";
-      position: relative;
-      display: block;
-      margin: .35rem auto 0;
+    .page-wrap {
+      min-height: 100vh;
       width: 100%;
-      height: 3px;
-      border-radius: 999px;
-      background-image: linear-gradient(
-        90deg,
-        #ff5bb1,
-        #ffd85b,
-        #00e6ff,
-        #00ff90,
-        #ff5bb1
-      );
-      background-size: 300% 100%;
-      box-shadow: 0 0 16px rgba(0,0,0,0.7);
-      animation: underlineLights 3s linear infinite;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      box-sizing: border-box;
     }
 
-    @keyframes underlineLights {
-      0%   { background-position: 0% 50%; }
-      100% { background-position: 300% 50%; }
+    .content {
+      width: 100%;
+      max-width: var(--page-max-width);
+      position: relative;
     }
 
-    /* H2 + Sternfarben (unterschiedlich) */
-    h2 {
-      margin-top: 2rem;
-      margin-bottom: 0.7rem;
-      font-size: 1.2rem;
-      letter-spacing: 0.08em;
+    main.main {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.6rem, 2.4vw, 2.2rem);
+    }
+
+    .topline {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.7rem;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
+    }
+
+    .brand-link {
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .count-label { text-transform: none; opacity: 0.9; }
+
+    #awb-countdown-timer {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+      color: #ffffff;
+      min-width: 8ch;
+      display: inline-block;
+    }
+
+    /* Titel */
+    .song-title {
+      margin: 0;
+      font-weight: 600;
       text-transform: lowercase;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(0,0,0,0.8);
-      animation: textShimmer 12s ease-in-out infinite;
-      position: relative;
-      padding-left: 1.6rem;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
     }
 
-    h2::before {
-      content: "✶";
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-52%);
-      font-size: 1.2rem;
-    }
-
-    h2.star-1::before { animation: starGlowA 3.5s linear infinite; }
-    h2.star-2::before { animation: starGlowB 3.5s linear infinite; }
-    h2.star-3::before { animation: starGlowC 3.5s linear infinite; }
-
-    @keyframes starGlowA {
-      0%   { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
-      33%  { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
-      66%  { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
-      100% { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
-    }
-
-    @keyframes starGlowB {
-      0%   { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
-      33%  { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
-      66%  { color: #00ff90; text-shadow: 0 0 10px #00ff90, 0 0 20px #00ff90; }
-      100% { color: #ffd85b; text-shadow: 0 0 10px #ffd85b, 0 0 20px #ffd85b; }
-    }
-
-    @keyframes starGlowC {
-      0%   { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
-      33%  { color: #00ff90; text-shadow: 0 0 10px #00ff90, 0 0 20px #00ff90; }
-      66%  { color: #ff5bb1; text-shadow: 0 0 10px #ff5bb1, 0 0 20px #ff5bb1; }
-      100% { color: #00e6ff; text-shadow: 0 0 10px #00e6ff, 0 0 20px #00e6ff; }
-    }
-
-    .release-page p:not(.release-description):not(.awb-countdown *) {
-      color: #ffffff !important;
-      text-shadow:
-        0 0 10px rgba(0,0,0,0.9),
-        0 0 16px rgba(255,255,255,0.75);
-      animation: textShimmer 14s ease-in-out infinite;
-    }
-
-    h1,
-    h2,
-    .content-offset > p:first-of-type,
-    section p {
-      background: transparent !important;
-      backdrop-filter: none !important;
-      padding-right: 0 !important;
-    }
-
-    .release-description {
-      display: none !important;
-    }
-
-    /* ---------------------------
-       WOBBLE-BLOCK & WAVE-PARAGRAPHS
-    ----------------------------*/
-
-    .wobble-block {
-      animation: wobbleBlock 5s ease-in-out infinite;
-      transform-origin: center left;
-    }
-
-    @keyframes wobbleBlock {
-      0%   { transform: translateY(0) skewX(0deg); }
-      20%  { transform: translateY(-3px) skewX(-0.8deg); }
-      40%  { transform: translateY(2px) skewX(0.4deg); }
-      60%  { transform: translateY(-1px) skewX(-0.4deg); }
-      80%  { transform: translateY(1px) skewX(0.3deg); }
-      100% { transform: translateY(0) skewX(0deg); }
-    }
-
-    .wave-paragraph {
-      display: inline-block;
-      transform-origin: center;
-      animation: paragraphWave 3.2s ease-in-out infinite !important;
-    }
-
-    .wave-paragraph--2 { animation-delay: 0.4s !important; }
-    .wave-paragraph--3 { animation-delay: 0.8s !important; }
-
-    @keyframes paragraphWave {
-      0%   { transform: translateY(0) skewX(0deg); }
-      15%  { transform: translateY(-6px) skewX(-2deg); }
-      35%  { transform: translateY(3px)  skewX(1.4deg); }
-      55%  { transform: translateY(-4px) skewX(-1.2deg); }
-      75%  { transform: translateY(2px)  skewX(0.8deg); }
-      100% { transform: translateY(0)  skewX(0deg); }
-    }
-
-    @media (max-width: 768px) {
-      .wobble-block {
-        animation-duration: 6.5s;
-      }
-      .wave-paragraph {
-        animation-duration: 4s !important;
-      }
-    }
-
-    /* ---------------------------
-       VIDEO PANEL – Desktop kleiner, Mobile groß & mittig
-    ----------------------------*/
-
-    .panel-photo {
-      border-radius: 1.6rem;
-      overflow: hidden;
-      box-shadow:
-        0 30px 60px rgba(0,0,0,0.6),
-        0 0 0 1px rgba(255,255,255,0.4);
-      margin: 1.2rem auto 0;
-      max-width: 860px;
+    .video-wrap {
+      margin: 0 auto clamp(2rem, 3vw, 2.8rem);
+      max-width: 720px;
       width: 100%;
     }
 
-    @media (max-width: 768px) {
-      .panel-photo {
-        margin-top: 1rem;
-        border-radius: 1.2rem;
-        max-width: none;
-        width: calc(100% - 1rem);
-        margin-left: auto;
-        margin-right: auto;
-      }
+    .video-inner {
+      border-radius: 22px;
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 16 / 9;
+      position: relative;
     }
 
     .release-video {
       width: 100%;
+      height: 100%;
       display: block;
       border-radius: inherit;
       background: #000;
-      filter: brightness(1.12) contrast(1.1) saturate(1.2);
-      transition: transform 0.4s ease, filter 0.4s.ease;
+      object-fit: cover;
     }
 
-    .release-video:hover {
-      filter: brightness(1.18) contrast(1.15) saturate(1.25);
-      transform: scale(1.015);
+    section.block {
+      margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
 
-    /* ---------------------------
-       CARDS + NEON LINK
-    ----------------------------*/
-
-    .card {
-      display: inline-block;
-      margin-right: 0.5rem;
-      margin-top: 0.6rem;
-      background: rgba(0,0,0,0.5);
-      padding: 0.9rem 1.4rem;
-      border-radius: 1rem;
-      text-decoration: none;
-      color: #fefefe;
-      border: 1px solid rgba(255,255,255,0.6);
-      box-shadow: 0 14px 30px rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      font-size: 0.92rem;
-      text-shadow: 0 0 8px rgba(0,0,0,0.8);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px rgba(0,0,0,0.8);
-    }
-
-    .neon-link {
-      display: inline-block;
-      margin-top: 0.8rem;
-      padding: 0.8rem 2.4rem;
-      border-radius: 1.2rem;
-      text-decoration: none;
+    section.block h2 {
+      margin: 0 0 var(--block-title-gap);
+      font-size: 1.06rem;
+      letter-spacing: 0.04em;
       text-transform: lowercase;
-      letter-spacing: 0.18em;
-      color: #001018;
-      background: rgba(255,255,255,0.8);
-      border: 1px solid var(--awb-neon-blue);
-      box-shadow:
-        0 0 22px rgba(0,200,255,0.7),
-        0 0 44px rgba(0,120,255,0.7);
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      font-weight: 600;
     }
 
-    .neon-link:hover {
-      transform: translateY(-2px);
-      box-shadow:
-        0 0 36px rgba(0,200,255,0.95),
-        0 0 70px rgba(0,120,255,0.9);
+    section.block p {
+      margin: 0;
+      line-height: 1.7;
+      letter-spacing: 0.04em;
+      max-width: 60rem;
+      font-size: 1rem;
     }
 
-    .dot {
-      color: var(--awb-neon-blue);
-      text-shadow: 0 0 10px var(--awb-neon-blue);
+    section.block p + p {
+      margin-top: var(--block-par-gap);
     }
 
-    /* ---------------------------
-       COUNTDOWN OBEN RECHTS
-    ----------------------------*/
-
-    .awb-countdown {
-      position: fixed;
-      top: 1.2rem;
-      right: 1.2rem;
-      z-index: 10;
-      padding: 0.6rem 1.1rem;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid rgba(0,200,255,0.9);
-      box-shadow:
-        0 0 18px rgba(0,200,255,0.9),
-        0 0 36px rgba(0,80,255,0.9);
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-      backdrop-filter: blur(10px);
+    /* kein Abstand zwischen erklärbär-Absätzen */
+    section.block p.no-gap + p {
+      margin-top: 0 !important;
     }
 
-    .awb-countdown .label {
-      text-transform: uppercase;
-      font-size: 0.68rem;
-      letter-spacing: 0.18em;
-      opacity: 0.8;
-      color: #bdf7ff;
-    }
-
-    .awb-countdown #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px rgba(0,0,0,0.9);
-    }
-
-    @media (max-width: 600px) {
-      .awb-countdown {
-        top: 0.75rem;
-        right: 0.7rem;
-        padding: 0.45rem 0.9rem;
-      }
-      .awb-countdown #awb-countdown-timer {
-        font-size: 0.85rem;
-      }
-      .awb-countdown .label {
-        display: none;
-      }
-    }
-
-    .nav-arrow,
-    .nav-arrow-left,
-    .nav-arrow-right,
-    .swipe-nav {
-      display: none !important;
-    }
-
-    /* ---------------------------
-       SOCIAL ICONS – nur weiße Outlines
-    ----------------------------*/
-
-    .social-section {
-      margin-top: 0.4rem;
-      margin-bottom: 0.8rem;
-    }
+    .social-section { margin: 0 0 0.8rem; }
 
     .social-icons {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.1rem;
+      gap: clamp(1.1rem, 1.6vw, 1.6rem);
       align-items: center;
+      margin-bottom: 0.4rem;
     }
 
     .social-link {
@@ -783,265 +198,262 @@
       justify-content: center;
     }
 
-    .social-icon {
-      font-size: 1.8rem;
-      color: transparent;
-      -webkit-text-stroke: 1.6px #ffffff;
-      text-stroke: 1.6px #ffffff;
-      transition:
-        transform 0.2s ease,
-        -webkit-text-stroke 0.2s ease,
-        text-stroke 0.2s ease,
-        filter 0.2s ease;
-      filter: drop-shadow(0 0 6px rgba(0,0,0,0.9));
+    .social-icon-img {
+      width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
+      height: auto;
+      display: block;
     }
 
-    .social-link:hover .social-icon {
-      transform: scale(1.15) translateY(-2px);
-      -webkit-text-stroke: 2px #ffffff;
-      text-stroke: 2px #ffffff;
-      filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+    .more-link {
+      display: inline-block;
+      margin-top: var(--more-link-gap-top);
+      margin-bottom: var(--more-link-gap-bottom);
+      padding-left: var(--more-link-indent);
     }
 
-    @media (max-width: 600px) {
-      .social-icon {
-        font-size: 1.6rem;
-        -webkit-text-stroke: 1.4px #ffffff;
-        text-stroke: 1.4px #ffffff;
-      }
+    /* ===========================
+       ✅ Vormerken & Speichern (Spotify Pre-Save)
+       =========================== */
+    .presave-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.9rem;
+      margin-top: 0.9rem;
+    }
+
+    .presave-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.78rem 1.35rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.22);
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: lowercase;
+      color: #08140a;
+      background: linear-gradient(135deg, #1db954, #37ff8b);
+      box-shadow:
+        0 0 18px rgba(55,255,139,0.45),
+        0 0 40px rgba(0,0,0,0.35);
+      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .presave-button:hover {
+      transform: translateY(-1px) scale(1.02);
+      filter: brightness(1.03);
+      box-shadow:
+        0 0 24px rgba(55,255,139,0.6),
+        0 0 55px rgba(0,0,0,0.45);
+    }
+
+    .presave-icon {
+      width: 1.15rem;
+      height: 1.15rem;
+      display: block;
+      filter: drop-shadow(0 0 6px rgba(0,0,0,0.25));
+    }
+
+    .presave-hint {
+      opacity: 0.88;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      .page-wrap { padding: 2.4rem 1.2rem 3rem; }
+      .topline { font-size: 0.87rem; gap: 0.45rem; }
+      .song-title { letter-spacing: 0.26em; }
+    }
+
+    @media (min-width: 1024px) {
+      .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
+    }
+
+    /* =========================================================
+       ✅ FULLSCREEN CROSSHAIR (lange linien)
+       ========================================================= */
+    #crosshair{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99999;
+    }
+
+    /* horizontale Linie */
+    #crosshair .line-x{
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 100vw;
+      height: 1px;
+      background: #ffffff;
+      opacity: 0.9;
+      transform: translateY(-0.5px);
+    }
+
+    /* vertikale Linie */
+    #crosshair .line-y{
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 1px;
+      height: 100vh;
+      background: #ffffff;
+      opacity: 0.9;
+      transform: translateX(-0.5px);
+    }
+
+    /* auf touch aus */
+    @media (pointer: coarse){
+      #crosshair{ display:none; }
+    }
+
+    /* reduced motion respektieren */
+    @media (prefers-reduced-motion: reduce){
+      #crosshair{ display:none; }
     }
   </style>
 </head>
 
-<body class="release-page">
+<body>
+  <div class="page-wrap">
+    <div class="content">
+      <main class="main">
 
-  <!-- WAVE / NEBEL / LICHT-EBENEN -->
-  <div class="awb-fogwave"></div>
-  <div class="awb-spotlight"></div>
-  <div class="awb-neon"></div>
-  <div class="awb-neon-2"></div>
-  <div class="awb-greenwave"></div>
-  <div class="awb-darkwave"></div>
-
-  <!-- COUNTDOWN -->
-  <div class="awb-countdown" aria-label="Release Countdown">
-    <span class="label">release in</span>
-    <span id="awb-countdown-timer">--:--:--</span>
-  </div>
-
-  <!-- GLITZER -->
-  <script>
-    (function () {
-      const sparkleCount = 45;
-      for (let i = 0; i < sparkleCount; i++) {
-        const s = document.createElement("div");
-        s.classList.add("awb-sparkle");
-        s.style.left = Math.random() * 100 + "vw";
-        s.style.top = Math.random() * 100 + "vh";
-        s.style.animationDelay = (Math.random() * 6) + "s";
-        const size = Math.random() * 10 + 6;
-        s.style.width = size + "px";
-        s.style.height = size + "px";
-        document.body.appendChild(s);
-      }
-    })();
-  </script>
-
-  <header class="header">
-    <a class="brand" href="index.html"><img src="favicon.svg" alt=""><strong>b3nn3t</strong></a>
-  </header>
-
-  <main class="main">
-    <div class="content-offset">
-
-      <p>NEUES RELEASE</p>
-
-      <!-- H1 mittig, Wörter bleiben zusammen -->
-      <h1 class="wave-text" aria-label="ALLES WAS BLEIBT">
-        <span class="wave-word">
-          <span class="letter">A</span>
-          <span class="letter">L</span>
-          <span class="letter">L</span>
-          <span class="letter">E</span>
-          <span class="letter">S</span>
-        </span>
-        <span class="wave-space">&nbsp;</span>
-        <span class="wave-word">
-          <span class="letter">W</span>
-          <span class="letter">A</span>
-          <span class="letter">S</span>
-        </span>
-        <span class="wave-space">&nbsp;</span>
-        <span class="wave-word">
-          <span class="letter">B</span>
-          <span class="letter">L</span>
-          <span class="letter">E</span>
-          <span class="letter">I</span>
-          <span class="letter">B</span>
-          <span class="letter">T</span>
-        </span>
-      </h1>
-
-      <!-- Beschreibung nur für SEO -->
-      <p class="release-description">
-        <strong>b3nn3t</strong> – Deutschrap & Indie-Pop aus der Schweiz.
-        Mit <strong>„ALLES WAS BLEIBT“</strong> geht es um Nächte, die nicht loslassen,
-        Kopfkino und den Moment, in dem man merkt: Einige Dinge bleiben, andere nicht.
-      </p>
-
-      <!-- VIDEO (mittig) -->
-      <section aria-label="Video Preview">
-        <figure class="panel-photo">
-          <video
-            class="release-video"
-            controls
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="auto">
-            <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-            Dein Browser unterstützt dieses Videoformat nicht.
-          </video>
-        </figure>
-      </section>
-
-      <!-- VORMERKEN (neue Stufe Pre-Release) -->
-      <section aria-label="Vormerken" class="wobble-block">
-        <h2 class="star-1">vormerken</h2>
-        <p class="wave-paragraph">
-          Sicher dir den Song schon jetzt: mit einem Spotify&nbsp;Pre-Save landet
-          „ALLES WAS BLEIBT“ automatisch in deiner Bibliothek, sobald der Track draußen ist.
-        </p>
-
-        <!-- Spotify Pre-Save – Link wird später ersetzt -->
-        <br>
-        <a
-          class="card"
-          href="https://open.spotify.com/placeholder-pre-save-link"
-          target="_blank"
-          rel="noopener"
-        >
-          spotify pre-save
-        </a>
-
-        <!--
-        Sobald du den finalen Pre-Save-Link hast, ersetze einfach die URL oben:
-        href="DEIN_SPOTIFY_PRE_SAVE_LINK_HIER"
-        -->
-      </section>
-
-      <!-- STORY -->
-      <section aria-label="Story zum Song" class="wobble-block">
-        <h2 class="star-2">story zum song</h2>
-        <p class="wave-paragraph wave-paragraph--2">
-          Wenn der Rauch sich legt, bleibt was zählt – melancholische Indie-Vibes,
-          klare Zeilen und ein Gefühl, das länger bleibt als die Nacht.
-        </p>
-      </section>
-
-      <!-- STREAM – Social Links -->
-      <section aria-label="Streaming" class="wobble-block">
-        <h2 class="star-3">jetzt streamen</h2>
-
-        <!-- Social Media Plattformen – nur Logos (weiße Outline) -->
-        <div class="social-section" aria-label="Social Media Links">
-          <div class="social-icons">
-            <!-- MX3 -->
-            <a href="https://mx3.ch/b3nn3t"
-               class="social-link"
-               aria-label="MX3 – b3nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-solid fa-music social-icon"></i>
-            </a>
-
-            <!-- Genius -->
-            <a href="https://genius.com/artists/B3nn3t"
-               class="social-link"
-               aria-label="Genius – b3nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-solid fa-pen-nib social-icon"></i>
-            </a>
-
-            <!-- Spotify -->
-            <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-               class="social-link"
-               aria-label="Spotify – b3nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-brands fa-spotify social-icon"></i>
-            </a>
-
-            <!-- Apple Music -->
-            <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-               class="social-link"
-               aria-label="Apple Music – b3nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-brands fa-apple social-icon"></i>
-            </a>
-
-            <!-- Instagram -->
-            <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-               class="social-link"
-               aria-label="Instagram – b333nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-brands fa-instagram social-icon"></i>
-            </a>
-
-            <!-- YouTube -->
-            <a href="https://www.youtube.com/@b333nn3t"
-               class="social-link"
-               aria-label="YouTube – @b333nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-brands fa-youtube social-icon"></i>
-            </a>
-
-            <!-- SoundCloud -->
-            <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-               class="social-link"
-               aria-label="SoundCloud – b3nn3t"
-               target="_blank" rel="noopener">
-              <i class="fa-brands fa-soundcloud social-icon"></i>
-            </a>
-          </div>
+        <div class="topline" aria-label="Release Countdown">
+          <a class="brand-link" href="/index.html">b3nn3t</a>
+          <span class="count-label">released in</span>
+          <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <p class="wave-paragraph wave-paragraph--1">
-          Bald findest du hier direkt die Player von Spotify, Apple Music und YouTube.
-          Bis dahin: vormerken, folgen, laut aufdrehen.
-        </p>
-        <br>
-        <a class="card" href="plattformen.html">alle plattformen</a>
-        <a class="card" href="aktuell.html">news & aktuell</a>
-      </section>
+        <!-- ✅ VIDEO PLAYER (MP4) -->
+        <section class="video-wrap" aria-label="Video zum Song">
+          <div class="video-inner">
+            <video
+              class="release-video"
+              controls
+              preload="metadata"
+              playsinline
+              poster="/assets/release/drei-cover.webp">
+              <!-- ✅ ROOT-RELATIVE PATH: funktioniert auf b3nn3t.com UND in subfoldern -->
+              <source src="/assets/release/drei.mp4" type="video/mp4">
+              Dein Browser unterstützt dieses Videoformat nicht.
+            </video>
+          </div>
+        </section>
 
-      <!-- MORE -->
-      <section aria-label="Mehr von b3nn3t" class="wobble-block">
-        <h2 class="star-1">mehr von b3nn3t</h2>
-        <p class="wave-paragraph wave-paragraph--3">
-          Mehr Musik. Mehr Kunst. Mehr b3nn3t.
-        </p>
+        <section class="title-section" aria-label="Songtitel">
+          <h1 class="song-title">drei</h1>
+        </section>
 
-        <a class="neon-link" href="https://www.b3nn3t.com" target="_blank" rel="noopener">
-          <span class="dot">•</span> b3nn3t <span class="dot">•</span>
-        </a>
-      </section>
+        <section aria-label="Story zum Song" class="block">
+          <h2>erklärbär</h2>
+          <p class="no-gap">drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+          <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
+        </section>
 
+        <!-- ✅ NEU: Vormerken & Speichern (Spotify Pre-Save) -->
+        <section aria-label="Vormerken und Speichern" class="block">
+          <h2>vormerken und speichern</h2>
+          <p class="presave-hint">
+            speicher dir „drei“ schon jetzt – dann landet der song automatisch in deiner spotify-bibliothek, sobald er draußen ist.
+          </p>
+
+          <div class="presave-row">
+            <!-- TODO: Hier deine echte Pre-Save-URL einsetzen -->
+            <a class="presave-button" href="#spotify-presave" target="_blank" rel="noopener">
+              <picture>
+                <source srcset="assets/release/spotify_128.webp" type="image/webp">
+                <img class="presave-icon" src="assets/release/spotify_128.png" alt="" aria-hidden="true">
+              </picture>
+              spotify&nbsp;pre-save
+            </a>
+          </div>
+        </section>
+
+        <section aria-label="Streaming" class="block">
+          <h2>kuck hier</h2>
+
+          <div class="social-section" aria-label="Social Media Links">
+            <div class="social-icons">
+
+              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
+                <picture>
+                  <source srcset="assets/release/spotify_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
+                </picture>
+              </a>
+
+              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                 class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
+                <picture>
+                  <source srcset="assets/release/apple_music_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
+                </picture>
+              </a>
+
+              <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                 class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
+                <picture>
+                  <source srcset="assets/release/instagram_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
+                </picture>
+              </a>
+
+              <a href="https://www.youtube.com/@b333nn3t"
+                 class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
+                <picture>
+                  <source srcset="assets/release/youtube_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
+                </picture>
+              </a>
+
+              <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
+                <picture>
+                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                </picture>
+              </a>
+
+            </div>
+          </div>
+        </section>
+
+        <section aria-label="Mehr von b3nn3t" class="block">
+          <p>mehr auf meiner webseite :p</p>
+          <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+        </section>
+
+      </main>
     </div>
-  </main>
+  </div>
 
-  <!-- COUNTDOWN SCRIPT -->
+  <!-- ✅ Fullscreen Crosshair Element -->
+  <div id="crosshair" aria-hidden="true">
+    <div class="line-x"></div>
+    <div class="line-y"></div>
+  </div>
+
+  <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
-      const targetDate = new Date("2025-12-20T00:00:00+01:00").getTime();
+      const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
       function updateCountdown() {
         const now = Date.now();
-        let diff = targetDate - now;
+        const diff = targetDate - now;
 
         if (diff <= 0) {
           el.textContent = "OUT NOW";
+          clearInterval(timer);
           return;
         }
 
@@ -1055,28 +467,56 @@
         const mm = String(mins).padStart(2, "0");
         const ss = String(secs).padStart(2, "0");
 
-        if (days > 0) {
-          el.textContent = days + "d " + hh + ":" + mm + ":" + ss;
-        } else {
-          el.textContent = hh + ":" + mm + ":" + ss;
-        }
+        el.textContent = (days > 0)
+          ? (days + "d " + hh + ":" + mm + ":" + ss)
+          : (hh + ":" + mm + ":" + ss);
       }
 
       updateCountdown();
-      setInterval(updateCountdown, 1000);
+      const timer = setInterval(updateCountdown, 1000);
     })();
   </script>
 
-  <!-- Wave-Delay für die H1-Buchstaben -->
+  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
   <script>
-    (function () {
-      const letters = document.querySelectorAll('h1.wave-text .letter');
-      letters.forEach((el, i) => {
-        const delay = i * 0.06;
-        el.style.animationDelay = delay + 's, 0s';
+    (function(){
+      const cross = document.getElementById('crosshair');
+      const lineX = cross?.querySelector('.line-x');
+      const lineY = cross?.querySelector('.line-y');
+      if(!cross || !lineX || !lineY) return;
+
+      // nur desktop (maus), kein touch
+      if(!window.matchMedia('(pointer: fine)').matches){
+        cross.style.display = 'none';
+        return;
+      }
+
+      // reduced motion -> aus
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        cross.style.display = 'none';
+        return;
+      }
+
+      let x = -9999, y = -9999;
+      let raf = null;
+
+      function render(){
+        lineX.style.top = y + 'px';
+        lineY.style.left = x + 'px';
+        raf = null;
+      }
+
+      window.addEventListener('mousemove', (e) => {
+        x = e.clientX;
+        y = e.clientY;
+        if(!raf) raf = requestAnimationFrame(render);
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        x = -9999; y = -9999;
+        render();
       });
     })();
   </script>
-
 </body>
 </html>
