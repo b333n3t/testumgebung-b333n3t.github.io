@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -67,6 +67,12 @@
 
       /* ✅ gewünschter Abstand: Icons -> “mehr...” (wie normale Textzeile) */
       --icons-to-more-gap: 0.45rem;
+
+      /* ✅ NEU: "kuck hier:" -> Icons etwas grösserer Abstand */
+      --kuck-to-icons-gap: 1.15rem;
+
+      /* ✅ NEU: "vorsichern" Text -> Button (ohne Extra-Abstand, wie erklärbär) */
+      --vorsichern-to-button-gap: var(--block-title-gap);
     }
 
     html, body {
@@ -207,6 +213,9 @@
       align-items: center;
       margin: 0;
       padding: 0;
+
+      /* ✅ NEU: Abstand von "kuck hier:" zu den Icons */
+      margin-top: var(--kuck-to-icons-gap);
     }
 
     .social-link {
@@ -251,7 +260,9 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 0.9rem;
-      margin-top: 0.9rem;
+
+      /* ✅ GEÄNDERT: zusätzlicher Abstand bei "vorsichern:" entfernt */
+      margin-top: var(--vorsichern-to-button-gap);
     }
 
     .presave-button {
