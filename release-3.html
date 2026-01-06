@@ -239,40 +239,47 @@
       margin-top: 0.9rem;
     }
 
+    /* ✅ Button: weiss + Text rot wie Hintergrund */
     .presave-button {
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
       padding: 0.78rem 1.35rem;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.22);
+      border: 1px solid rgba(255,255,255,0.85);
       cursor: pointer;
       text-decoration: none;
       font-size: 0.92rem;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: lowercase;
-      color: #08140a;
-      background: linear-gradient(135deg, #1db954, #37ff8b);
+
+      background: #ffffff;
+      color: var(--awb-bg);
+
       box-shadow:
-        0 0 18px rgba(55,255,139,0.45),
-        0 0 40px rgba(0,0,0,0.35);
+        0 0 18px rgba(0,0,0,0.25),
+        0 0 40px rgba(0,0,0,0.18);
       transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
     }
 
     .presave-button:hover {
       transform: translateY(-1px) scale(1.02);
-      filter: brightness(1.03);
+      filter: brightness(1.02);
       box-shadow:
-        0 0 24px rgba(55,255,139,0.6),
-        0 0 55px rgba(0,0,0,0.45);
+        0 0 26px rgba(0,0,0,0.32),
+        0 0 55px rgba(0,0,0,0.22);
+    }
+
+    .presave-button:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.95);
+      outline-offset: 3px;
     }
 
     .presave-icon {
       width: 1.15rem;
       height: 1.15rem;
       display: block;
-      filter: drop-shadow(0 0 6px rgba(0,0,0,0.25));
       border-radius: 4px;
       object-fit: cover;
     }
@@ -387,11 +394,11 @@
           <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
         </section>
 
-        <!-- ✅ Vormerken & Speichern (korrektes Icon + korrekter Link) -->
+        <!-- ✅ Vormerken & Speichern -->
         <section aria-label="Vormerken und Speichern" class="block">
           <h2>vormerken und speichern</h2>
           <p class="presave-hint">
-            speicher dir „drei“ schon jetzt – dann landet der release automatisch in deiner musik-bibliothek, sobald er draussen ist.
+            speicher dir „drei“ schon jetzt – dann landet der release automatisch am 23. januar in deiner musik-bibliothek
           </p>
 
           <div class="presave-row">
