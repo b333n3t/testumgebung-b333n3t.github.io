@@ -198,14 +198,13 @@
       margin-top: 0 !important;
     }
 
-    .social-section { margin: 0 0 0.8rem; }
-
+    .social-section { margin: 0; } /* ✅ war 0 0 0.8rem */
     .social-icons {
       display: flex;
       flex-wrap: wrap;
       gap: clamp(1.1rem, 1.6vw, 1.6rem);
       align-items: center;
-      margin-bottom: 0.4rem;
+      margin-bottom: 0; /* ✅ war 0.4rem */
     }
 
     .social-link {
@@ -221,21 +220,19 @@
       display: block;
     }
 
-    /* ✅ WICHTIG: Abstand NACH "kuck hier" Block entfernen */
-    section.block.streaming-block {
-      margin-bottom: 0 !important;
-    }
+    /* ✅ WICHTIG: Abstand zwischen "kuck hier" und "mehr..." radikal klein */
+    section.block.streaming-block { margin-bottom: 0 !important; padding-bottom: 0 !important; }
+    section.block.more-block { margin-top: 0 !important; padding-top: 0 !important; }
 
-    /* ✅ WICHTIG: Abstand VOR "mehr auf meiner webseite" entfernen */
-    section.block.more-block {
-      margin-top: 0 !important;
-    }
+    /* ✅ Auch Headline/Absätze neutralisieren, falls Browser/Styles Abstand machen */
+    section.block.streaming-block h2 { margin-bottom: 0.35rem; }
+    section.block.more-block p { margin-top: 0; }
 
-    /* (optional) falls du den "b3nn3t.com"-Link nicht zusätzlich absetzen willst */
+    /* ✅ Link ohne Extra-Abstände */
     .more-link {
       display: inline-block;
-      margin-top: 0.25rem; /* war vorher größer */
-      margin-bottom: 0;    /* kein extra bottom-gap */
+      margin-top: 0.15rem;
+      margin-bottom: 0;
       padding-left: var(--more-link-indent);
     }
 
@@ -367,10 +364,8 @@
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ COVER BLEIBT + AUDIO PLAYER (anstatt VIDEO) -->
         <section class="video-wrap" aria-label="Audio zum Song">
           <div class="video-inner">
-            <!-- ✅ Cover responsive + LCP-Priority -->
             <img
               src="/assets/release/drei-cover-384.webp"
               srcset="/assets/release/drei-cover-192.webp 192w, /assets/release/drei-cover-384.webp 384w, /assets/release/drei-cover-768.webp 768w"
@@ -383,7 +378,6 @@
               fetchpriority="high"
               decoding="async">
 
-            <!-- Audio Controls overlay -->
             <audio
               id="release-audio"
               class="audio-overlay"
@@ -405,12 +399,9 @@
           <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
         </section>
 
-        <!-- ✅ Vormerken & Speichern -->
         <section aria-label="vorsichern:" class="block">
           <h2>vorsichern:</h2>
-          <p class="presave-hint">
-            dann ist „drei“ am 23. januar direkt in deiner bibliothek
-          </p>
+          <p class="presave-hint">dann ist „drei“ am 23. januar direkt in deiner bibliothek</p>
 
           <div class="presave-row">
             <a class="presave-button"
@@ -426,7 +417,7 @@
         </section>
 
         <section aria-label="Streaming" class="block streaming-block">
-          <h2>kuck hier:</h2>
+          <h2>kuck hier</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
@@ -484,13 +475,11 @@
     </div>
   </div>
 
-  <!-- ✅ Fullscreen Crosshair Element -->
   <div id="crosshair" aria-hidden="true">
     <div class="line-x"></div>
     <div class="line-y"></div>
   </div>
 
-  <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
       const targetDate = new Date("2026-01-23T00:00:00+01:00").getTime();
@@ -527,7 +516,6 @@
     })();
   </script>
 
-  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
   <script>
     (function(){
       const cross = document.getElementById('crosshair');
