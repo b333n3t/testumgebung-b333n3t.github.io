@@ -60,12 +60,13 @@
       --block-title-gap: 0.95rem;
       --block-par-gap: 0.7rem;
 
-      --more-link-gap-top: 0.65rem;
-      --more-link-gap-bottom: 0.75rem;
       --more-link-indent: 0.25rem;
 
-      /* ✅ das ist exakt das main-gap, damit wir es “wegziehen” können */
+      /* ✅ main gap als Variable, damit wir es exakt “aufheben” können */
       --main-gap: clamp(1.6rem, 2.4vw, 2.2rem);
+
+      /* ✅ gewünschter Abstand: Icons -> “mehr...” (wie normale Textzeile) */
+      --icons-to-more-gap: 0.45rem;
     }
 
     html, body {
@@ -198,7 +199,6 @@
       margin-top: 0 !important;
     }
 
-    /* STREAMING */
     .social-section { margin: 0; }
     .social-icons {
       display: flex;
@@ -222,15 +222,15 @@
       display: block;
     }
 
-    /* ✅ kein Abstand NACH den Icons */
+    /* ✅ kein Abstand NACH den Icons (Section selbst) */
     section.block.streaming-block {
       margin-bottom: 0 !important;
       padding-bottom: 0 !important;
     }
 
-    /* ✅ WICHTIG: “gap” zwischen streaming-block und more-block entfernen */
+    /* ✅ entfernt das grosse main-gap NUR zwischen streaming-block und more-block */
     section.block.more-block {
-      margin-top: calc(-1 * var(--main-gap)) !important;  /* <- DAS ist der entscheidende Fix */
+      margin-top: calc(-1 * var(--main-gap) + var(--icons-to-more-gap)) !important;
       padding-top: 0 !important;
       margin-bottom: 0 !important;
     }
@@ -246,7 +246,6 @@
       padding-left: var(--more-link-indent);
     }
 
-    /* PRE-SAVE */
     .presave-row {
       display: flex;
       flex-wrap: wrap;
@@ -268,10 +267,8 @@
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: lowercase;
-
       background: #ffffff;
       color: var(--awb-bg);
-
       box-shadow:
         0 0 18px rgba(0,0,0,0.25),
         0 0 40px rgba(0,0,0,0.18);
