@@ -198,13 +198,20 @@
       margin-top: 0 !important;
     }
 
-    .social-section { margin: 0; } /* ✅ war 0 0 0.8rem */
+    /* =========================================================
+       ✅ STREAMING: Abstand wie bei normalen Textblöcken
+       - h2 -> Abstand wie bei anderen h2
+       - Icons -> wie "Textzeile" direkt darunter (kein extra Margin)
+       - danach: "mehr..." direkt unter Icons (ohne Abstand)
+       ========================================================= */
+    .social-section { margin: 0; }
     .social-icons {
       display: flex;
       flex-wrap: wrap;
       gap: clamp(1.1rem, 1.6vw, 1.6rem);
       align-items: center;
-      margin-bottom: 0; /* ✅ war 0.4rem */
+      margin: 0;            /* ✅ kein extra Abstand */
+      padding: 0;           /* ✅ kein extra Abstand */
     }
 
     .social-link {
@@ -220,18 +227,27 @@
       display: block;
     }
 
-    /* ✅ WICHTIG: Abstand zwischen "kuck hier" und "mehr..." radikal klein */
-    section.block.streaming-block { margin-bottom: 0 !important; padding-bottom: 0 !important; }
-    section.block.more-block { margin-top: 0 !important; padding-top: 0 !important; }
+    /* ✅ Streaming-Block: kein Abstand NACH den Icons */
+    section.block.streaming-block {
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
 
-    /* ✅ Auch Headline/Absätze neutralisieren, falls Browser/Styles Abstand machen */
-    section.block.streaming-block h2 { margin-bottom: 0.35rem; }
-    section.block.more-block p { margin-top: 0; }
+    /* ✅ "mehr..." direkt unter Icons (ohne Abstand) */
+    section.block.more-block {
+      margin-top: 0 !important;
+      padding-top: 0 !important;
+    }
 
-    /* ✅ Link ohne Extra-Abstände */
+    /* ✅ Absätze im more-block wirklich ohne Abstand nach oben */
+    section.block.more-block p {
+      margin-top: 0 !important;
+    }
+
+    /* ✅ Link ohne Extra-Abstände (Fix: 0.1 rem -> 0.1rem) */
     .more-link {
       display: inline-block;
-      margin-top: 0.1 rem;
+      margin-top: 0.1rem;
       margin-bottom: 0;
       padding-left: var(--more-link-indent);
     }
@@ -317,7 +333,6 @@
       z-index: 99999;
     }
 
-    /* horizontale Linie */
     #crosshair .line-x{
       position: absolute;
       left: 0;
@@ -329,7 +344,6 @@
       transform: translateY(-0.5px);
     }
 
-    /* vertikale Linie */
     #crosshair .line-y{
       position: absolute;
       top: 0;
@@ -341,12 +355,10 @@
       transform: translateX(-0.5px);
     }
 
-    /* auf touch aus */
     @media (pointer: coarse){
       #crosshair{ display:none; }
     }
 
-    /* reduced motion respektieren */
     @media (prefers-reduced-motion: reduce){
       #crosshair{ display:none; }
     }
