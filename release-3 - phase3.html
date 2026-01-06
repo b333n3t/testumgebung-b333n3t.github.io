@@ -14,7 +14,7 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <link rel="canonical" href="https://www.b3nn3t.com/release-3.html" />
+  <link rel="canonical" href="https://www.b3nn3t.com/release-3%20-%20phase3.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="music.song">
@@ -22,7 +22,7 @@
   <meta property="og:title" content="„DREI“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.webp">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-3.html">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-3%20-%20phase3.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -39,7 +39,7 @@
     "byArtist": { "@type": "MusicGroup", "name": "b3nn3t" },
     "inAlbum": { "@type": "MusicAlbum", "name": "drei" },
     "image": "https://www.b3nn3t.com/assets/release/drei-cover.webp",
-    "url": "https://www.b3nn3t.com/release-3.html"
+    "url": "https://www.b3nn3t.com/release-3%20-%20phase3.html"
   }
   </script>
 
@@ -140,8 +140,6 @@
       overflow: hidden;
       background: #000;
       aspect-ratio: 16 / 9;
-
-      /* ✅ wichtig fürs Overlay */
       position: relative;
     }
 
@@ -152,18 +150,6 @@
       border-radius: inherit;
       background: #000;
       object-fit: cover;
-    }
-
-    /* ✅ Audio Overlay Styling */
-    .audio-overlay {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      padding: 0.6rem;
-      background: rgba(0,0,0,0.55);
-      box-sizing: border-box;
     }
 
     section.block {
@@ -353,25 +339,19 @@
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ COVER BLEIBT + AUDIO PLAYER (anstatt VIDEO) -->
-        <section class="video-wrap" aria-label="Audio zum Song">
+        <!-- ✅ VIDEO PLAYER (MP4 statt AUDIO/COVER) -->
+        <section class="video-wrap" aria-label="Video zum Song">
           <div class="video-inner">
-            <!-- Cover -->
-            <img
-              src="/assets/release/drei-cover.webp"
-              alt="Cover – drei von b3nn3t"
-              class="release-video">
-
-            <!-- Audio Controls overlay -->
-            <audio
-              id="release-audio"
-              class="audio-overlay"
+            <video
+              class="release-video"
               controls
-              preload="metadata">
-              <!-- ✅ ROOT-RELATIVE PATH damit es auf b3nn3t.com UND in subfoldern funktioniert -->
-              <source src="/assets/release/drei.prelisten.mp3">
-              Dein Browser unterstützt dieses Audioformat nicht.
-            </audio>
+              preload="metadata"
+              playsinline
+              poster="/assets/release/drei-cover.webp">
+              <!-- ✅ ROOT-RELATIVE PATH -->
+              <source src="/assets/release/drei.mp4" type="video/mp4">
+              Dein Browser unterstützt dieses Videoformat nicht.
+            </video>
           </div>
         </section>
 
@@ -385,7 +365,7 @@
           <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
         </section>
 
-        <!-- ✅ NEU: JETZT HÖREN (Spotify / Apple / YouTube Track Links) -->
+        <!-- ✅ JETZT HÖREN -->
         <section aria-label="Song direkt hören" class="block">
           <h2>jetzt hören</h2>
           <p class="listen-hint">
