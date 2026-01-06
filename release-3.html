@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t „drei“ | neuer release</title>
-  <meta name="description" content="„drei“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+  <title>b3nn3t „drei“ | neuer release am 23.01.2026</title>
+  <meta name="description" content="„drei“ – neues Release von b3nn3t. Drei Songs zwischen Deutschrap & Indie-Pop. Erscheint am 23.01.2026." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <!-- Favicons: Google, Browser, Apple -->
@@ -19,7 +19,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„DREI“ – neues Release von b3nn3t">
+  <meta property="og:title" content="b3nn3t – „drei“ (neues release 23.01.2026)">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.webp">
   <meta property="og:url" content="https://www.b3nn3t.com/release-3.html">
@@ -43,8 +43,13 @@
   }
   </script>
 
-  <!-- LCP-Poster vorladen und priorisieren -->
-  <link rel="preload" as="image" href="/assets/release/drei-cover.webp" fetchpriority="high">
+  <!-- ✅ LCP-Poster vorladen (responsive) + priorisieren -->
+  <link rel="preload"
+        as="image"
+        href="/assets/release/drei-cover-384.webp"
+        imagesrcset="/assets/release/drei-cover-192.webp 192w, /assets/release/drei-cover-384.webp 384w, /assets/release/drei-cover-768.webp 768w"
+        imagesizes="(max-width: 768px) 92vw, 720px"
+        fetchpriority="high">
 
   <style>
     :root {
@@ -295,11 +300,18 @@
         <!-- ✅ COVER BLEIBT + AUDIO PLAYER (anstatt VIDEO) -->
         <section class="video-wrap" aria-label="Audio zum Song">
           <div class="video-inner">
-            <!-- Cover -->
+            <!-- ✅ Cover responsive + LCP-Priority -->
             <img
-              src="/assets/release/drei-cover.webp"
+              src="/assets/release/drei-cover-384.webp"
+              srcset="/assets/release/drei-cover-192.webp 192w, /assets/release/drei-cover-384.webp 384w, /assets/release/drei-cover-768.webp 768w"
+              sizes="(max-width: 768px) 92vw, 720px"
+              width="720"
+              height="405"
               alt="Cover – drei von b3nn3t"
-              class="release-video">
+              class="release-video"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async">
 
             <!-- Audio Controls overlay -->
             <audio
@@ -392,7 +404,7 @@
   <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
-      const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
+      const targetDate = new Date("2026-01-23T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
