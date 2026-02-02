@@ -279,18 +279,29 @@
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ VIDEO PLAYER (MP4) -->
-        <section class="video-wrap" aria-label="Video zum Song">
+        <!-- ✅ Audio PLAYER (MP3) -->
+                <section class="video-wrap" aria-label="Audio zum Song">
           <div class="video-inner">
-            <video
+            <img
+              src="/assets/release/¾-cover-384.webp"
+              srcset="/assets/release/¾-cover-192.webp 192w, /assets/release/¾-cover-384.webp 384w, /assets/release/¾-cover-768.webp 768w"
+              sizes="(max-width: 768px) 92vw, 720px"
+              width="720"
+              height="405"
+              alt="Cover – ¾ von b3nn3t"
               class="release-video"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async">
+
+            <audio
+              id="release-audio"
+              class="audio-overlay"
               controls
-              preload="metadata"
-              playsinline
-              poster="/assets/release/¾-cover.webp">
-              <source src="/assets/release/¾.mp4" type="video/mp4">
-              Dein Browser unterstützt dieses Videoformat nicht.
-            </video>
+              preload="metadata">
+              <source src="/assets/release/¾.mp3">
+              Dein Browser unterstützt dieses Audioformat nicht.
+            </audio>
           </div>
         </section>
 
