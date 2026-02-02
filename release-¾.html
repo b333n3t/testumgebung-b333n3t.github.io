@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t „¾“ | release 12.02.2026 </title>
-  <meta name="description" content="„¾“ – neues Release von b3nn3t. Der Song "¾" zwischen Deutschrap & Indie-Pop. Erscheint am 12.02.2026." />
+  <title>b3nn3t „¾“ | neuer release 12.02.2026 </title>
+  <meta name="description" content="„¾“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <!-- Favicons: Google, Browser, Apple -->
@@ -14,15 +14,16 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <link rel="canonical" href="https://www.b3nn3t.com/release-¾.html" />
+  <!-- ✅ Canonical für Phase1-URL (bitte so lassen) -->
+  <link rel="canonical" href="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-¾.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="b3nn3t – „¾“ (neues release 12.02.2026)">
+  <meta property="og:title" content="„¾“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/release/¾-cover.webp">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-¾.html">
+  <meta property="og:url" content="https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-¾.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -35,16 +36,16 @@
   {
     "@context": "https://schema.org",
     "@type": "MusicRecording",
-    "name": "¾",
+    "name": "DREI",
     "byArtist": { "@type": "MusicGroup", "name": "b3nn3t" },
     "inAlbum": { "@type": "MusicAlbum", "name": "¾" },
     "image": "https://www.b3nn3t.com/assets/release/¾-cover.webp",
-    "url": "https://www.b3nn3t.com/release-¾.html"
+    "url": "https://www.b3nn3t.com/testumgebung-b333n3t.github.io/release-¾.html"
   }
   </script>
 
-  <!-- ✅ NEU: Video als LCP vorladen (statt Cover) -->
-  <link rel="preload" as="video" href="/assets/release/¾.mp4" type="video/mp4">
+  <!-- LCP-Poster vorladen und priorisieren -->
+  <link rel="preload" as="image" href="/assets/release/¾-cover.webp" fetchpriority="high">
 
   <style>
     :root {
@@ -55,19 +56,9 @@
       --block-title-gap: 0.95rem;
       --block-par-gap: 0.7rem;
 
+      --more-link-gap-top: 0.65rem;
+      --more-link-gap-bottom: 0.75rem;
       --more-link-indent: 0.25rem;
-
-      /* ✅ main gap als Variable, damit wir es exakt “aufheben” können */
-      --main-gap: clamp(1.6rem, 2.4vw, 2.2rem);
-
-      /* ✅ gewünschter Abstand: Icons -> “mehr...” (wie normale Textzeile) */
-      --icons-to-more-gap: 0.45rem;
-
-      /* ✅ NEU: "kuck hier:" -> Icons etwas grösserer Abstand */
-      --kuck-to-icons-gap: 1.35rem;
-
-      /* ✅ NEU: "vorsichern" Text -> Button (ohne Extra-Abstand, wie erklärbär) */
-      --vorsichern-to-button-gap: var(--block-title-gap);
     }
 
     html, body {
@@ -99,7 +90,7 @@
     main.main {
       display: flex;
       flex-direction: column;
-      gap: var(--main-gap);
+      gap: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
     .topline {
@@ -109,7 +100,7 @@
       gap: 0.7rem;
       font-size: 0.92rem;
       letter-spacing: 0.04em;
-      margin-bottom: var(--main-gap);
+      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
     }
 
     .brand-link {
@@ -130,6 +121,7 @@
       display: inline-block;
     }
 
+    /* Titel */
     .song-title {
       margin: 0;
       font-weight: 600;
@@ -152,7 +144,6 @@
       position: relative;
     }
 
-    /* ✅ Video-Element (mit Ton) */
     .release-video {
       width: 100%;
       height: 100%;
@@ -186,21 +177,19 @@
       margin-top: var(--block-par-gap);
     }
 
+    /* kein Abstand zwischen erklärbär-Absätzen */
     section.block p.no-gap + p {
       margin-top: 0 !important;
     }
 
-    .social-section { margin: 0; }
+    .social-section { margin: 0 0 0.8rem; }
+
     .social-icons {
       display: flex;
       flex-wrap: wrap;
       gap: clamp(1.1rem, 1.6vw, 1.6rem);
       align-items: center;
-      margin: 0;
-      padding: 0;
-
-      /* ✅ NEU: Abstand von "kuck hier:" zu den Icons */
-      margin-top: var(--kuck-to-icons-gap);
+      margin-bottom: 0.4rem;
     }
 
     .social-link {
@@ -216,85 +205,11 @@
       display: block;
     }
 
-    /* ✅ kein Abstand NACH den Icons (Section selbst) */
-    section.block.streaming-block {
-      margin-bottom: 0 !important;
-      padding-bottom: 0 !important;
-    }
-
-    /* ✅ entfernt das grosse main-gap NUR zwischen streaming-block und more-block */
-    section.block.more-block {
-      margin-top: calc(-1 * var(--main-gap) + var(--icons-to-more-gap)) !important;
-      padding-top: 0 !important;
-      margin-bottom: 0 !important;
-    }
-
-    section.block.more-block p {
-      margin-top: 0 !important;
-    }
-
     .more-link {
       display: inline-block;
-      margin-top: 0.1rem;
-      margin-bottom: 0;
+      margin-top: var(--more-link-gap-top);
+      margin-bottom: var(--more-link-gap-bottom);
       padding-left: var(--more-link-indent);
-    }
-
-    .presave-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 0.9rem;
-
-      /* ✅ GEÄNDERT: zusätzlicher Abstand bei "vorsichern:" entfernt */
-      margin-top: var(--vorsichern-to-button-gap);
-    }
-
-    .presave-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.78rem 1.35rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.85);
-      cursor: pointer;
-      text-decoration: none;
-      font-size: 0.92rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
-      text-transform: lowercase;
-      background: #ffffff;
-      color: var(--awb-bg);
-      box-shadow:
-        0 0 18px rgba(0,0,0,0.25),
-        0 0 40px rgba(0,0,0,0.18);
-      transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
-    }
-
-    .presave-button:hover {
-      transform: translateY(-1px) scale(1.02);
-      filter: brightness(1.02);
-      box-shadow:
-        0 0 26px rgba(0,0,0,0.32),
-        0 0 55px rgba(0,0,0,0.22);
-    }
-
-    .presave-button:focus-visible {
-      outline: 2px solid rgba(255,255,255,0.95);
-      outline-offset: 3px;
-    }
-
-    .presave-icon {
-      width: 1.15rem;
-      height: 1.15rem;
-      display: block;
-      border-radius: 4px;
-      object-fit: cover;
-    }
-
-    .presave-hint {
-      opacity: 0.88;
-      font-size: 0.95rem;
     }
 
     @media (max-width: 768px) {
@@ -307,6 +222,9 @@
       .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
 
+    /* =========================================================
+       ✅ FULLSCREEN CROSSHAIR (lange linien)
+       ========================================================= */
     #crosshair{
       position: fixed;
       inset: 0;
@@ -314,6 +232,7 @@
       z-index: 99999;
     }
 
+    /* horizontale Linie */
     #crosshair .line-x{
       position: absolute;
       left: 0;
@@ -325,6 +244,7 @@
       transform: translateY(-0.5px);
     }
 
+    /* vertikale Linie */
     #crosshair .line-y{
       position: absolute;
       top: 0;
@@ -336,18 +256,16 @@
       transform: translateX(-0.5px);
     }
 
+    /* auf touch aus */
     @media (pointer: coarse){
       #crosshair{ display:none; }
     }
 
+    /* reduced motion respektieren */
     @media (prefers-reduced-motion: reduce){
       #crosshair{ display:none; }
     }
   </style>
-
-  <!-- Plausible Analytics -->
-  <script defer data-domain="www.b3nn3t.com" src="https://plausible.io/js/script.js"></script>
-
 </head>
 
 <body>
@@ -361,18 +279,15 @@
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ VIDEO statt Cover+MP3 -->
+        <!-- ✅ VIDEO PLAYER (MP4) -->
         <section class="video-wrap" aria-label="Video zum Song">
           <div class="video-inner">
             <video
-              id="release-video"
               class="release-video"
               controls
-              playsinline
               preload="metadata"
-              poster="/assets/release/¾-cover-384.webp"
-              width="1024"
-              height="768">
+              playsinline
+              poster="/assets/release/¾-cover.webp">
               <source src="/assets/release/¾.mp4" type="video/mp4">
               Dein Browser unterstützt dieses Videoformat nicht.
             </video>
@@ -380,27 +295,24 @@
         </section>
 
         <section class="title-section" aria-label="Songtitel">
-          <h1 class="song-title">¾</h1>
+          <h1 class="song-title">drei</h1>
         </section>
 
         <section aria-label="Story zum Song" class="block">
-          <h2>erklärbär:</h2>
+          <h2>erklärbär</h2>
           <p class="no-gap">drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
           <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
         </section>
 
-        <section aria-label="Streaming" class="block streaming-block">
-          <h2>kuck hier:</h2>
+        <!-- ✅ Streaming -->
+        <section aria-label="Streaming" class="block">
+          <h2>kuck hier</h2>
 
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
 
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                 class="social-link"
-                 aria-label="Spotify – b3nn3t"
-                 target="_blank"
-                 rel="noopener"
-                 onclick="plausible('Release 3: Spotify Click')">
+                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/spotify_128.webp" type="image/webp">
                   <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
@@ -408,11 +320,7 @@
               </a>
 
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-                 class="social-link"
-                 aria-label="Apple Music – b3nn3t"
-                 target="_blank"
-                 rel="noopener"
-                 onclick="plausible('Release 3: Apple Music Click')">
+                 class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/apple_music_128.webp" type="image/webp">
                   <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
@@ -420,11 +328,7 @@
               </a>
 
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-                 class="social-link"
-                 aria-label="Instagram – b3nn3t"
-                 target="_blank"
-                 rel="noopener"
-                 onclick="plausible('Release 3: Instagram Click')">
+                 class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/instagram_128.webp" type="image/webp">
                   <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
@@ -432,11 +336,7 @@
               </a>
 
               <a href="https://www.youtube.com/@b333nn3t"
-                 class="social-link"
-                 aria-label="YouTube – @b333nn3t"
-                 target="_blank"
-                 rel="noopener"
-                 onclick="plausible('Release 3: YouTube Click')">
+                 class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/youtube_128.webp" type="image/webp">
                   <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
@@ -444,11 +344,7 @@
               </a>
 
               <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-                 class="social-link"
-                 aria-label="SoundCloud – b3nn3t"
-                 target="_blank"
-                 rel="noopener"
-                 onclick="plausible('Release 3: SoundCloud Click')">
+                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
                   <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
@@ -459,8 +355,8 @@
           </div>
         </section>
 
-        <section aria-label="Mehr von b3nn3t" class="block more-block">
-          <p>+mehr auf meiner webseite :p</p>
+        <section aria-label="Mehr von b3nn3t" class="block">
+          <p>mehr auf meiner webseite :p</p>
           <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
         </section>
 
@@ -468,14 +364,16 @@
     </div>
   </div>
 
+  <!-- ✅ Fullscreen Crosshair Element -->
   <div id="crosshair" aria-hidden="true">
     <div class="line-x"></div>
     <div class="line-y"></div>
   </div>
 
+  <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
-      const targetDate = new Date("2026-01-23T00:00:00+01:00").getTime();
+      const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
@@ -509,79 +407,7 @@
     })();
   </script>
 
-  <!-- ✅ Plausible: Video-Tracking (Start/Progress pro Besuch + jedes Play als Total) -->
-  <script>
-    (function () {
-      const video = document.getElementById('release-video');
-      if (!video) return;
-
-      function track(name) {
-        if (typeof plausible === 'function') plausible(name);
-      }
-
-      const KEY_PREFIX = 'r3_video_';
-      const fired = {
-        start: sessionStorage.getItem(KEY_PREFIX + 'start') === '1',
-        p25:   sessionStorage.getItem(KEY_PREFIX + '25') === '1',
-        p50:   sessionStorage.getItem(KEY_PREFIX + '50') === '1',
-        p75:   sessionStorage.getItem(KEY_PREFIX + '75') === '1',
-        p100:  sessionStorage.getItem(KEY_PREFIX + '100') === '1'
-      };
-
-      // ▶️ JEDES Play (auch mehrfach pro Besuch)
-      video.addEventListener('play', function () {
-        track('Release 3: Video Play (Total)');
-      });
-
-      // ▶️ Start pro Besuch (max 1×)
-      video.addEventListener('play', function () {
-        if (fired.start) return;
-        fired.start = true;
-        sessionStorage.setItem(KEY_PREFIX + 'start', '1');
-        track('Release 3: Video Start (Session)');
-      });
-
-      function checkProgress() {
-        const d = video.duration;
-        if (!Number.isFinite(d) || d <= 0) return;
-
-        const r = video.currentTime / d;
-
-        if (r >= 0.25 && !fired.p25) {
-          fired.p25 = true;
-          sessionStorage.setItem(KEY_PREFIX + '25', '1');
-          track('Release 3: Video 25% (Session)');
-        }
-        if (r >= 0.5 && !fired.p50) {
-          fired.p50 = true;
-          sessionStorage.setItem(KEY_PREFIX + '50', '1');
-          track('Release 3: Video 50% (Session)');
-        }
-        if (r >= 0.75 && !fired.p75) {
-          fired.p75 = true;
-          sessionStorage.setItem(KEY_PREFIX + '75', '1');
-          track('Release 3: Video 75% (Session)');
-        }
-        if (r >= 0.995 && !fired.p100) {
-          fired.p100 = true;
-          sessionStorage.setItem(KEY_PREFIX + '100', '1');
-          track('Release 3: Video 100% (Session)');
-        }
-      }
-
-      video.addEventListener('timeupdate', checkProgress);
-      video.addEventListener('seeked', checkProgress);
-
-      video.addEventListener('ended', function () {
-        if (!fired.p100) {
-          fired.p100 = true;
-          sessionStorage.setItem(KEY_PREFIX + '100', '1');
-          track('Release 3: Video 100% (Session)');
-        }
-      });
-    })();
-  </script>
-
+  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
   <script>
     (function(){
       const cross = document.getElementById('crosshair');
@@ -589,11 +415,13 @@
       const lineY = cross?.querySelector('.line-y');
       if(!cross || !lineX || !lineY) return;
 
+      // nur desktop (maus), kein touch
       if(!window.matchMedia('(pointer: fine)').matches){
         cross.style.display = 'none';
         return;
       }
 
+      // reduced motion -> aus
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         cross.style.display = 'none';
         return;
