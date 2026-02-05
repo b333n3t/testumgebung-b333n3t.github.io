@@ -367,6 +367,31 @@
       box-shadow: 0 0 0 2px rgba(147,0,16,0.25);
     }
 
+    /* ===== Privacy-consent layout (neu) ===== */
+    .privacy-consent{
+      display: block;
+      margin-top: 0.4rem;
+    }
+    .privacy-consent label{
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      font-weight: 400;
+      line-height: 1.3;
+    }
+    .privacy-consent input[type="checkbox"]{
+      margin-top: 0.15rem; /* optisch zentrieren */
+    }
+    .privacy-consent .consent-text{
+      display: block;
+    }
+    .privacy-consent .privacy-link{
+      display: block;
+      margin-left: calc(16px + 0.6rem); /* links bündig unter Text (Checkbox width + gap) */
+      margin-top: 0.2rem;
+      font-size: 0.9em;
+    }
+
     /* ===== Spinner & Status ===== */
     .sending-indicator{
       display:none;
@@ -558,14 +583,14 @@
                   <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
                 </div>
 
-                <label style="font-weight:400">
-  <input type="checkbox" name="privacy" value="zugestimmt" required />
-  meine angaben dürfen zur beantwortung/verarbeitung gespeichert werden
-</label>
-<div style="margin-left:22px; margin-top:2px; font-size:0.9em;">
-  <a href="impressum.html">impressum / datenschutz</a>
-</div>
-
+                <!-- ===== Privacy consent (neue, saubere Struktur) ===== -->
+                <div class="privacy-consent">
+                  <label>
+                    <input type="checkbox" name="privacy" value="zugestimmt" required />
+                    <span class="consent-text">meine angaben dürfen zur beantwortung/verarbeitung gespeichert werden</span>
+                  </label>
+                  <a class="privacy-link" href="impressum.html">impressum / datenschutz</a>
+                </div>
 
                 <button type="submit" id="kontakt-submit">nachricht senden</button>
 
