@@ -246,8 +246,8 @@
       bottom: auto;
       left: auto;
 
-      z-index: 2100;            /* ✅ über site-menu (1101) + overlay (1099) */
-      pointer-events: auto;     /* ✅ immer klickbar */
+      z-index: 2100;
+      pointer-events: auto;
 
       writing-mode: vertical-rl;
       text-orientation: mixed;
@@ -441,6 +441,10 @@
     .release-card *{ color:inherit; }
     .termine-list, .termin-row, .termin-row *{ color:#fff; }
   </style>
+
+<!-- Plausible Analytics -->
+<script defer data-domain="www.b3nn3t.com" src="https://plausible.io/js/script.js"></script>
+
 </head>
 
 <body>
@@ -489,9 +493,10 @@
               <p></p>
 
               <div class="sub-content" id="neuigkeiten-content">
-                <p> 13. februar neue musik </p>
+                <p>neu: „¾“ – ohren offen halten++</p>
 
-                  <a class="release-card" href="https://www.b3nn3t.com/release-drei-viertel.html" target="_blank" rel="noopener noreferrer">
+                <!-- ✅ NEU: Release-Card "¾" (Teaser / Prelisten) -->
+                <a class="release-card" href="assets/release/3-4/drei-viertel.prelisten.mp3" target="_blank" rel="noopener noreferrer">
                   <img
                     src="assets/release/3-4/drei-viertel-cover-192.webp"
                     srcset="
@@ -509,13 +514,12 @@
                   <div class="release-info">
                     <div class="subtitle"></div>
                     <div class="songtitle"> ¾ </div>
-                    <div class="desc">release 13. feb - einblick hier </div>
+                    <div class="desc">13.02.2026, ohren offen halten++</div>
                   </div>
                 </a>
-              </div>
 
-              <p>"drei" kannst du jetzt überall hören</p>
-              
+                <p>„drei“ kannst du jetzt überall hören</p>
+
                 <a class="release-card" href="https://www.b3nn3t.com/release-3.html" target="_blank" rel="noopener noreferrer">
                   <img
                     src="assets/release/drei-cover-192.webp"
@@ -598,7 +602,7 @@
                 </div>
               </div>
 
-              <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
+              <a class="home-btn" href="index.html" aria-label="Zur Startseite">startseite</a>
             </div>
           </div>
 
