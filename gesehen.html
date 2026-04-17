@@ -19,16 +19,14 @@
 
   <link rel="preconnect" href="https://www.youtube.com" crossorigin>
   <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
-<link rel="preload" as="image"
-      href="/assets/gesehen/reel1.avif"
-      fetchpriority="high"
-      imagesizes="(max-width: 820px) 100vw, 350px">
-<link rel="preload" as="image"
-      href="/assets/gesehen/reel2.avif"
-      fetchpriority="high"
-      imagesizes="(max-width: 820px) 100vw, 350px">
-
-
+  <link rel="preload" as="image"
+        href="/assets/gesehen/reel1.avif"
+        fetchpriority="high"
+        imagesizes="(max-width: 820px) 100vw, 350px">
+  <link rel="preload" as="image"
+        href="/assets/gesehen/reel2.avif"
+        fetchpriority="high"
+        imagesizes="(max-width: 820px) 100vw, 350px">
 
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="styles_nav_arrows.css" />
@@ -147,7 +145,7 @@
     /* ===== Scroll-Panel ===== */
     .scroll-panel{
       max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS angepasst */
+      max-height:75vh;
       margin:0;
       overflow-y:auto;
       -webkit-overflow-scrolling:touch;
@@ -219,45 +217,47 @@
     .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
 
     /* ===== Gesehen Cards ===== */
-.grid-seen{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(320px, 1fr));
-  gap:18px;
-  max-width:658px;
-  margin:0;
-  justify-content:start;
-  align-items:start;
-}
+    .grid-seen{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(320px, 1fr));
+      gap:18px;
+      max-width:658px;
+      margin:0;
+      justify-content:start;
+      align-items:start;
+    }
     @media (max-width: 820px){
       .grid-seen{ grid-template-columns:1fr; max-width:520px; }
     }
 
-.grid-seen .card{
-  width:100%;
-  padding:14px;
-  border-radius:22px;
+    .grid-seen .card{
+      width:100%;
+      padding:14px;
+      border-radius:22px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow:0 12px 28px rgba(0,0,0,.10);
+      text-align:center;
+      color:#000;
+      font-family: Arial, sans-serif;
+      letter-spacing:0;
+      line-height:1.2;
+      cursor:pointer;
+      user-select:none;
+      display:block;
+      text-decoration:none;
+      box-sizing:border-box;
+      position:relative;
+      overflow:hidden;
+    }
 
-  background:#fff;
-  border:1px solid rgba(0,0,0,.06);
-  box-shadow:0 12px 28px rgba(0,0,0,.10);
-
-  text-align:center;
-
-  color:#000;
-  font-family: Arial, sans-serif;
-  letter-spacing:0;
-  line-height:1.2;
-  cursor:pointer;
-  user-select:none;
-  display:block;
-  text-decoration:none;
-}
     .grid-seen .card small{
       display:block;
       margin-top:6px;
       color:#000;
       opacity:.8;
     }
+
     .grid-seen .card .thumb{
       width:100%;
       height:167px;
@@ -267,6 +267,7 @@
       background:#000;
       display:block;
     }
+
     .grid-seen .card .play-label{
       display:block;
       margin-top:6px;
@@ -275,14 +276,60 @@
       color:#000;
     }
 
+    /* Artikel-Card exakt gleich groß */
+    .grid-seen .card.card-article{
+      color:#fff;
+    }
+
+    .grid-seen .card.card-article .thumb{
+      margin-bottom:0;
+      filter:brightness(0.42);
+    }
+
+    .grid-seen .card.card-article .article-overlay{
+      position:absolute;
+      top:14px;
+      left:14px;
+      right:14px;
+      height:167px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:16px;
+      box-sizing:border-box;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .grid-seen .card.card-article .article-label{
+      display:block;
+      font-size:1.05rem;
+      font-weight:600;
+      line-height:1.2;
+      color:#fff;
+      text-shadow:0 2px 8px rgba(0,0,0,.65);
+    }
+
+    .grid-seen .card.card-article .article-meta{
+      display:block;
+      margin-top:8px;
+      font-size:.9rem;
+      color:#fff;
+      opacity:1;
+      text-shadow:0 2px 8px rgba(0,0,0,.65);
+    }
+
     .video-row{
       grid-column: 1 / -1;
       width:100%;
       max-width:760px;
       display:flex;
       justify-content:center;
-      margin-top: 8px;
+      margin-top:8px;
     }
+
     .video-wrapper{
       width:min(560px, 100%);
       aspect-ratio:16/9;
@@ -292,6 +339,7 @@
       background:#000;
       border:1px solid rgba(0,0,0,.06);
     }
+
     .video-wrapper iframe,
     .video-wrapper video{
       position:absolute;
@@ -300,6 +348,7 @@
       height:100%;
       border:0;
     }
+
     .video-close{
       position:absolute;
       top:8px;
@@ -323,7 +372,7 @@
       top: var(--footer-top-desktop);
       bottom: auto;
       left: auto;
-      z-index: 1300; /* ✅ über swipe-zone */
+      z-index: 1300;
 
       writing-mode: vertical-rl;
       text-orientation: mixed;
@@ -333,8 +382,6 @@
       padding: 6px 4px;
 
       white-space: nowrap;
-
-      /* ✅ verhindert Abschneiden */
       max-height: calc(100vh - 16px);
     }
 
@@ -345,13 +392,11 @@
       color:#930010;
       text-decoration:none;
       white-space: nowrap;
-
-      display:inline-block; /* ✅ größere Tap-Fläche */
-      padding:6px 6px;      /* ✅ iOS-friendly */
+      display:inline-block;
+      padding:6px 6px;
     }
     .footer-inline a:hover{ text-decoration: underline; }
 
-    /* Mobile: Footer bleibt hochkant rechts, wie eingestellt */
     @media (max-width: 768px){
       .footer-inline{
         right: var(--footer-right-mobile);
@@ -360,7 +405,6 @@
       }
     }
 
-    /* ✅ FALLBACK: wenn Fensterhöhe klein wird → lieber unten statt zu weit oben */
     @media (max-height: 720px){
       .footer-inline{
         top: auto !important;
@@ -389,7 +433,7 @@
     .edge-swipe.right{ right:0; }
     @media (pointer:coarse){
       .edge-swipe{ pointer-events:auto; }
-      .edge-swipe.right{ pointer-events:none !important; } /* Footer nicht blockieren */
+      .edge-swipe.right{ pointer-events:none !important; }
     }
 
     /* White theme */
@@ -450,7 +494,6 @@
     #intro-arrow:hover{ background: rgba(235,235,235,0.65); }
     #intro-arrow:active{ transform: translateY(-50%) scale(0.98); }
 
-    /* alten Link-Pfeil ausblenden */
     a.nav-arrow.right[aria-label="Nächste Seite"]{
       display:none !important;
     }
@@ -469,7 +512,6 @@
   </button>
   <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-  <!-- WCAG FIX: aria-hidden + inert + tabindex=-1, solange geschlossen -->
   <nav id="site-menu" class="site-menu" aria-hidden="true" inert>
     <ul>
       <li><a href="ueber-mich.html" tabindex="-1">über mich</a></li>
@@ -482,10 +524,8 @@
     </ul>
   </nav>
 
-  <!-- ALTER PFEIL (bleibt drin, aber wird per CSS ausgeblendet) -->
   <a class="nav-arrow right" aria-label="Nächste Seite" href="intro.html">→</a>
 
-  <!-- NEUER PFEIL -->
   <button id="intro-arrow" type="button" aria-label="Intro öffnen">→</button>
 
   <main class="main">
@@ -507,146 +547,147 @@
             <div class="page-content">
               <h1></h1>
               <p></p>
-<!-- ✅ neu -->
-<!-- ✅ Thumbnails DIREKT im HTML (LCP/PSI freundlich) -->
 
-<!-- ✅ neu -->
-<section class="grid-seen" aria-label="Videos">
+              <section class="grid-seen" aria-label="Videos">
 
-  <a class="card"
-     id="article1"
-     href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
-     target="_blank"
-     rel="noopener noreferrer"
-     style="position:relative; display:block; text-decoration:none; color:#fff; overflow:hidden;">
+                <a class="card card-article"
+                   id="article1"
+                   href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   aria-label="Artikel - Frontstage">
 
-    <img class="thumb"
-         src="assets/gesehen/reel8.avif"
-         alt="Artikel Frontstage"
-         width="960" height="540"
-         loading="lazy"
-         decoding="async"
-         sizes="(max-width: 820px) 100vw, 350px"
-         style="margin-bottom:0; filter:brightness(0.42);">
+                  <img class="thumb"
+                       src="assets/gesehen/reel8.avif"
+                       alt="Artikel Frontstage"
+                       width="960"
+                       height="540"
+                       loading="lazy"
+                       decoding="async"
+                       sizes="(max-width: 820px) 100vw, 350px">
 
-    <div style="position:absolute; inset:14px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:16px;">
-      <span style="display:block; font-size:1.05rem; font-weight:700; line-height:1.2; color:#fff; text-shadow:0 2px 8px rgba(0,0,0,.65);">
-        Artikel - Frontstage
-      </span>
-      <small style="display:block; margin-top:8px; font-size:.9rem; color:#fff; opacity:1; text-shadow:0 2px 8px rgba(0,0,0,.65);">
-        Magazine - April 2026
-      </small>
-    </div>
-  </a>
+                  <div class="article-overlay">
+                    <span class="article-label">Artikel - Frontstage</span>
+                    <small class="article-meta">Magazine - April 2026</small>
+                  </div>
+                </a>
 
-  <div class="card" id="yt8" data-embed-src="https://www.youtube.com/embed/G_qXoHHa3rg">
-    <img class="thumb"
-         src="assets/gesehen/reel8.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="eager"
-         fetchpriority="high"
-         decoding="async"
-         data-fallback-id="G_qXoHHa3rg"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 8</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt8" data-embed-src="https://www.youtube.com/embed/G_qXoHHa3rg">
+                  <img class="thumb"
+                       src="assets/gesehen/reel8.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="eager"
+                       fetchpriority="high"
+                       decoding="async"
+                       data-fallback-id="G_qXoHHa3rg"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 8</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">
-    <img class="thumb"
-         src="assets/gesehen/reel1.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="eager"
-         fetchpriority="high"
-         decoding="async"
-         data-fallback-id="ZSaj_FuqPN8"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 1</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt1" data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8">
+                  <img class="thumb"
+                       src="assets/gesehen/reel1.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="eager"
+                       fetchpriority="high"
+                       decoding="async"
+                       data-fallback-id="ZSaj_FuqPN8"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 1</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">
-    <img class="thumb"
-         src="assets/gesehen/reel2.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="eager"
-         fetchpriority="high"
-         decoding="async"
-         data-fallback-id="DMNl40Tip1w"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 2</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt2" data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w">
+                  <img class="thumb"
+                       src="assets/gesehen/reel2.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="eager"
+                       fetchpriority="high"
+                       decoding="async"
+                       data-fallback-id="DMNl40Tip1w"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 2</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt3" data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc">
-    <img class="thumb"
-         src="assets/gesehen/reel3.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="lazy"
-         decoding="async"
-         data-fallback-id="K5pKG0Smdfc"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 3</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt3" data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc">
+                  <img class="thumb"
+                       src="assets/gesehen/reel3.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="lazy"
+                       decoding="async"
+                       data-fallback-id="K5pKG0Smdfc"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 3</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt4" data-embed-src="https://www.youtube.com/embed/4I9vlcGvFGQ">
-    <img class="thumb"
-         src="assets/gesehen/reel4.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="lazy"
-         decoding="async"
-         data-fallback-id="4I9vlcGvFGQ"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 4</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt4" data-embed-src="https://www.youtube.com/embed/4I9vlcGvFGQ">
+                  <img class="thumb"
+                       src="assets/gesehen/reel4.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="lazy"
+                       decoding="async"
+                       data-fallback-id="4I9vlcGvFGQ"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 4</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt5" data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M">
-    <img class="thumb"
-         src="assets/gesehen/reel5.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="lazy"
-         decoding="async"
-         data-fallback-id="w0pNdnlb96M"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 5</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt5" data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M">
+                  <img class="thumb"
+                       src="assets/gesehen/reel5.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="lazy"
+                       decoding="async"
+                       data-fallback-id="w0pNdnlb96M"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 5</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt6" data-embed-src="https://www.youtube.com/embed/rV1U891RKLo">
-    <img class="thumb"
-         src="assets/gesehen/reel6.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="lazy"
-         decoding="async"
-         data-fallback-id="rV1U891RKLo"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 6</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt6" data-embed-src="https://www.youtube.com/embed/rV1U891RKLo">
+                  <img class="thumb"
+                       src="assets/gesehen/reel6.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="lazy"
+                       decoding="async"
+                       data-fallback-id="rV1U891RKLo"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 6</span>
+                  <small>YouTube</small>
+                </div>
 
-  <div class="card" id="yt7" data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0">
-    <img class="thumb"
-         src="assets/gesehen/reel7.avif"
-         alt="YouTube-Vorschau"
-         width="960" height="540"
-         loading="lazy"
-         decoding="async"
-         data-fallback-id="fq8zhAQMam0"
-         sizes="(max-width: 820px) 100vw, 350px">
-    <span class="play-label">▶︎ YouTube 7</span>
-    <small>YouTube</small>
-  </div>
+                <div class="card" id="yt7" data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0">
+                  <img class="thumb"
+                       src="assets/gesehen/reel7.avif"
+                       alt="YouTube-Vorschau"
+                       width="960"
+                       height="540"
+                       loading="lazy"
+                       decoding="async"
+                       data-fallback-id="fq8zhAQMam0"
+                       sizes="(max-width: 820px) 100vw, 350px">
+                  <span class="play-label">▶︎ YouTube 7</span>
+                  <small>YouTube</small>
+                </div>
 
-</section>
+              </section>
 
               <a class="home-btn" href="index.html" aria-label="Zur Startseite">Startseite</a>
             </div>
@@ -669,7 +710,6 @@
   <script src="script.js"></script>
   <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- Intro-Button gewinnt gegen swipe-nav -->
   <script>
   (function(){
     const btn = document.getElementById('intro-arrow');
@@ -683,7 +723,6 @@
   })();
   </script>
 
-  <!-- ✅ FIX: Burger-Menü MUSS öffnen (capture + stopImmediatePropagation) + WCAG -->
   <script>
   (function(){
     const btn = document.querySelector('.hamburger');
@@ -778,7 +817,6 @@
   })();
   </script>
 
-  <!-- Panelhöhe dynamisch + Accordion toggle -->
   <script>
     (function(){
       const group  = document.querySelector('.page-group.current');
@@ -822,15 +860,10 @@
     })();
   </script>
 
-  <!-- ✅ Optional: srcset nur setzen, wenn du wirklich mehrere Größen hast.
-       (So kann nix "kaputt" gehen, wenn keine Dateien existieren.) -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
       const srcsetMap = {
-        // Beispiel (erst aktivieren, wenn Dateien wirklich existieren):
-        // yt1: "assets/gesehen/reel1-640.avif 640w, assets/gesehen/reel1-960.avif 960w",
-        // yt2: "assets/gesehen/reel2-640.avif 640w, assets/gesehen/reel2-960.avif 960w",
       };
 
       Object.entries(srcsetMap).forEach(([cardId, srcset]) => {
@@ -845,7 +878,6 @@
   });
   </script>
 
-  <!-- ✅ Fallback: wenn lokale AVIF nicht lädt -> YouTube Thumbnail -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('img.thumb[data-fallback-id]').forEach(img => {
@@ -859,7 +891,6 @@
   });
   </script>
 
-  <!-- Player -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.card[data-embed-src]');
@@ -869,7 +900,7 @@
     }
 
     function getCols(){
-      return window.matchMedia('(max-width: 720px)').matches ? 1 : 2;
+      return window.matchMedia('(max-width: 820px)').matches ? 1 : 2;
     }
 
     function toNoCookieEmbed(url){
@@ -879,6 +910,7 @@
 
       const hasQuery = url.includes('?');
       const params = new URLSearchParams(hasQuery ? url.split('?')[1] : '');
+      if(!params.has('autoplay')) params.set('autoplay', '1');
       if(!params.has('playsinline')) params.set('playsinline', '1');
       if(!params.has('rel')) params.set('rel', '0');
 
@@ -901,8 +933,9 @@
         const section = card.closest('section.grid-seen');
         if(!section) return;
 
-        const items = Array.from(section.querySelectorAll('.card[data-embed-src]'));
+        const items = Array.from(section.children).filter(el => el.classList.contains('card'));
         const idx = items.indexOf(card);
+        if (idx === -1) return;
 
         const cols = getCols();
         const rowStart = idx - (idx % cols);
@@ -910,7 +943,7 @@
         const anchor = items[rowEnd] || card;
 
         const existing = section.querySelector('.video-row');
-        if(existing && existing.dataset.anchorId === (anchor.id || '')){
+        if(existing && existing.dataset.anchorId === (anchor.id || '') && existing.dataset.videoCardId === (card.id || '')){
           existing.remove();
           return;
         }
@@ -920,6 +953,7 @@
         const row = document.createElement('div');
         row.className = 'video-row';
         row.dataset.anchorId = anchor.id || '';
+        row.dataset.videoCardId = card.id || '';
 
         const wrapper = document.createElement('div');
         wrapper.className = 'video-wrapper';
@@ -957,26 +991,26 @@
         iframe.title = 'Video';
         iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
         iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-
-        iframe.src = 'about:blank';
-        requestAnimationFrame(() => { iframe.src = src; });
+        iframe.src = src;
 
         wrapper.appendChild(iframe);
-
         row.appendChild(wrapper);
         anchor.insertAdjacentElement('afterend', row);
 
-        row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        row.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
     });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeAllVideos();
     });
+
+    window.addEventListener('resize', () => {
+      closeAllVideos();
+    });
   });
   </script>
 
-  <!-- YouTube Titel automatisch -->
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     try {
