@@ -278,48 +278,51 @@
 
     /* Artikel-Card exakt gleich groß */
     .grid-seen .card.card-article{
-      color:#fff;
-    }
+  color:#fff;
+}
 
-    .grid-seen .card.card-article .thumb{
-      margin-bottom:0;
-      filter:brightness(0.42);
-    }
+.grid-seen .card.card-article .thumb{
+  filter:brightness(0.42);
+}
 
-    .grid-seen .card.card-article .article-overlay{
-      position:absolute;
-      top:14px;
-      left:14px;
-      right:14px;
-      height:167px;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:16px;
-      box-sizing:border-box;
-      z-index:2;
-      pointer-events:none;
-    }
+.grid-seen .card.card-article .article-overlay{
+  position:absolute;
+  top:14px;
+  left:14px;
+  right:14px;
+  height:167px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:16px;
+  box-sizing:border-box;
+  z-index:2;
+  pointer-events:none;
+}
 
-    .grid-seen .card.card-article .article-label{
-      display:block;
-      font-size:1.05rem;
-      font-weight:600;
-      line-height:1.2;
-      color:#fff;
-      text-shadow:0 2px 8px rgba(0,0,0,.65);
-    }
+.grid-seen .card.card-article .article-label{
+  display:block;
+  font-size:1.05rem;
+  font-weight:600;
+  line-height:1.2;
+  color:#fff;
+  text-shadow:0 2px 8px rgba(0,0,0,.65);
+}
 
-    .grid-seen .card.card-article .article-meta{
-      display:block;
-      margin-top:8px;
-      font-size:.9rem;
-      color:#fff;
-      opacity:1;
-      text-shadow:0 2px 8px rgba(0,0,0,.65);
-    }
+.grid-seen .card.card-article .article-meta{
+  display:block;
+  margin-top:8px;
+  font-size:.9rem;
+  color:#fff;
+  opacity:1;
+  text-shadow:0 2px 8px rgba(0,0,0,.65);
+}
+
+.grid-seen .card.card-article .article-spacer{
+  visibility:hidden;
+}
 
     .video-row{
       grid-column: 1 / -1;
@@ -550,27 +553,30 @@
 
               <section class="grid-seen" aria-label="Videos">
 
-                <a class="card card-article"
-                   id="article1"
-                   href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   aria-label="Artikel - Frontstage">
+<a class="card card-article"
+   id="article1"
+   href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Artikel - Frontstage">
 
-                  <img class="thumb"
-                       src="assets/gesehen/reel8.avif"
-                       alt="Artikel Frontstage"
-                       width="960"
-                       height="540"
-                       loading="lazy"
-                       decoding="async"
-                       sizes="(max-width: 820px) 100vw, 350px">
+  <img class="thumb"
+       src="assets/gesehen/reel8.avif"
+       alt="Artikel Frontstage"
+       width="960"
+       height="540"
+       loading="lazy"
+       decoding="async"
+       sizes="(max-width: 820px) 100vw, 350px">
 
-                  <div class="article-overlay">
-                    <span class="article-label">Artikel - Frontstage</span>
-                    <small class="article-meta">Magazine - April 2026</small>
-                  </div>
-                </a>
+  <div class="article-overlay">
+    <span class="article-label">Artikel - Frontstage</span>
+    <small class="article-meta">Magazine - April 2026</small>
+  </div>
+
+  <span class="play-label article-spacer" aria-hidden="true">Artikel - Frontstage</span>
+  <small class="article-spacer" aria-hidden="true">Magazine - April 2026</small>
+</a>
 
                 <div class="card" id="yt8" data-embed-src="https://www.youtube.com/embed/G_qXoHHa3rg">
                   <img class="thumb"
