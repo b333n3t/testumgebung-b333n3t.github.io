@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t „drei-viertel“ | neuer release 13.02.2026</title>
+  <title>b3nn3t „¾“</title>
   <meta name="description" content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
@@ -50,7 +50,9 @@
     :root {
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
-      --awb-bg: #930010;
+
+      /* ✅ Hintergrundfarbe */
+      --awb-bg: #587fa6;
 
       --block-title-gap: 0.95rem;
       --block-par-gap: 0.7rem;
@@ -78,6 +80,8 @@
       align-items: flex-start;
       padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
       box-sizing: border-box;
+      position: relative;
+      z-index: 1;
     }
 
     .content {
@@ -120,15 +124,6 @@
       display: inline-block;
     }
 
-    /* Titel */
-    .song-title {
-      margin: 0;
-      font-weight: 600;
-      text-transform: lowercase;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
-    }
-
     .video-wrap {
       margin: 0 auto clamp(2rem, 3vw, 2.8rem);
       max-width: 720px;
@@ -140,8 +135,6 @@
       overflow: hidden;
       background: #000;
       aspect-ratio: 16 / 9;
-
-      /* ✅ wichtig fürs Overlay */
       position: relative;
     }
 
@@ -154,7 +147,6 @@
       object-fit: cover;
     }
 
-    /* ✅ Audio Overlay Styling */
     .audio-overlay {
       position: absolute;
       left: 0;
@@ -190,9 +182,37 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* kein Abstand zwischen erklärbär-Absätzen */
-    section.block p.no-gap + p {
-      margin-top: 0 !important;
+    /* ✅ Vorsichern Button */
+    .presave-wrap{ margin-top: 0.2rem; }
+
+    .presave-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.2rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--awb-bg);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      border: 2px solid rgba(255,255,255,0.55);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      transition: transform .18s ease, box-shadow .25s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .presave-btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+    }
+    .presave-btn:active{
+      transform: translateY(0px) scale(0.99);
+    }
+    .presave-btn:focus-visible{
+      outline: 3px solid rgba(255,255,255,0.85);
+      outline-offset: 4px;
     }
 
     .social-section { margin: 0 0 0.8rem; }
@@ -228,11 +248,6 @@
     @media (max-width: 768px) {
       .page-wrap { padding: 2.4rem 1.2rem 3rem; }
       .topline { font-size: 0.87rem; gap: 0.45rem; }
-      .song-title { letter-spacing: 0.26em; }
-    }
-
-    @media (min-width: 1024px) {
-      .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
 
     /* =========================================================
@@ -245,7 +260,6 @@
       z-index: 99999;
     }
 
-    /* horizontale Linie */
     #crosshair .line-x{
       position: absolute;
       left: 0;
@@ -257,7 +271,6 @@
       transform: translateY(-0.5px);
     }
 
-    /* vertikale Linie */
     #crosshair .line-y{
       position: absolute;
       top: 0;
@@ -269,12 +282,10 @@
       transform: translateX(-0.5px);
     }
 
-    /* auf touch aus */
     @media (pointer: coarse){
       #crosshair{ display:none; }
     }
 
-    /* reduced motion respektieren */
     @media (prefers-reduced-motion: reduce){
       #crosshair{ display:none; }
     }
@@ -288,44 +299,37 @@
 
         <div class="topline" aria-label="Release Countdown">
           <a class="brand-link" href="/index.html">b3nn3t</a>
-          <span class="count-label">new song released in</span>
+          <span class="count-label">released in</span>
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ COVER BLEIBT + AUDIO PLAYER (anstatt VIDEO) -->
         <section class="video-wrap" aria-label="Audio zum Song">
           <div class="video-inner">
-            <!-- Cover -->
             <img
               src="/assets/release/3-4/drei-viertel-cover.webp"
               alt="Cover – drei-viertel von b3nn3t"
               class="release-video">
 
-            <!-- Audio Controls overlay -->
             <audio
               id="release-audio"
               class="audio-overlay"
               controls
               preload="metadata">
-              <!-- ✅ ROOT-RELATIVE PATH damit es auf b3nn3t.com UND in subfoldern funktioniert -->
               <source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
               Dein Browser unterstützt dieses Audioformat nicht.
             </audio>
           </div>
-          
         </section>
 
-        <section class="title-section" aria-label="Songtitel">
-          <h1 class="song-title">¾</h1>
+        <section aria-label="Vorsichern" class="block">
+          <div class="presave-wrap">
+            <a class="presave-btn" href="https://open.spotify.com/intl-de/track/6VCMa97WIhNB8oPp8dGct7?si=2e2725860b284c76" target="_blank" rel="noopener">
+              "¾" hören
+            </a>
+          </div>
         </section>
 
-        <section aria-label="Story zum Song" class="block">
-          <h2>erklärbär</h2>
-          <p class="no-gap">drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
-          <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
-        </section>
-
-        <section aria-label="Streaming" class="block">
+        <section aria-label="Streaming" class="block tight-after">
           <h2>kuck hier</h2>
 
           <div class="social-section" aria-label="Social Media Links">
@@ -384,16 +388,14 @@
     </div>
   </div>
 
-  <!-- ✅ Fullscreen Crosshair Element -->
   <div id="crosshair" aria-hidden="true">
     <div class="line-x"></div>
     <div class="line-y"></div>
   </div>
 
-  <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
-      const targetDate = new Date("2026-02-13T00:00:00+01:00").getTime();
+      const targetDate = new Date("2026-03-06T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
@@ -427,7 +429,6 @@
     })();
   </script>
 
-  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
   <script>
     (function(){
       const cross = document.getElementById('crosshair');
@@ -435,13 +436,11 @@
       const lineY = cross?.querySelector('.line-y');
       if(!cross || !lineX || !lineY) return;
 
-      // nur desktop (maus), kein touch
       if(!window.matchMedia('(pointer: fine)').matches){
         cross.style.display = 'none';
         return;
       }
 
-      // reduced motion -> aus
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         cross.style.display = 'none';
         return;
