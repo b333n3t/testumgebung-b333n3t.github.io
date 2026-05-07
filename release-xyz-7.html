@@ -1,290 +1,311 @@
 <!DOCTYPE html>
 <html lang="de">
+ 
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<title>b3nn3t „¾“</title>
-
-<meta name="description" content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
-<meta name="robots" content="index,follow,max-image-preview:large" />
-
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-<link rel="canonical" href="https://www.b3nn3t.com/release-drei-viertel.html" />
-
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-
-<style>
-
-:root{
-  --awb-text-main:#fdfdfd;
-  --awb-bg:#587fa6;
-  --page-max-width:960px;
-}
-
-html,body{
-  margin:0;
-  padding:0;
-  height:100%;
-  overflow-x:hidden;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;
-  background:var(--awb-bg);
-  color:var(--awb-text-main);
-}
-
-/* ================= WEBGL ================= */
-
-#webgl-space{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity 1s ease;
-}
-
-/* ================= LAYOUT ================= */
-
-.page-wrap{
-  position:relative;
-  z-index:2;
-  display:flex;
-  justify-content:center;
-  padding:3rem 1.5rem;
-}
-
-.content{
-  width:100%;
-  max-width:var(--page-max-width);
-}
-
-.video-inner{
-  position:relative;
-  border-radius:22px;
-  overflow:hidden;
-  background:#000;
-}
-
-.release-video{
-  width:100%;
-  display:block;
-}
-
-.audio-overlay{
-  position:absolute;
-  bottom:0;
-  width:100%;
-}
-
-/* ================= BUTTON ================= */
-
-.presave-btn{
-  background:#fff;
-  color:#587fa6;
-  padding:1rem 1.2rem;
-  border-radius:999px;
-  font-weight:800;
-  text-decoration:none;
-  display:inline-block;
-}
-
-</style>
+ 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+  <title>b3nn3t „¾“</title>
+ 
+  <meta name="description"
+    content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+ 
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+ 
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+ 
+  <link rel="canonical" href="https://www.b3nn3t.com/release-drei-viertel.html" />
+ 
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="„drei-viertel“ – neues Release von b3nn3t">
+  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-drei-viertel.html">
+ 
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„drei-viertel“ – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „drei-viertel“ von b3nn3t.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+ 
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"MusicRecording",
+    "name":"¾",
+    "byArtist":{
+      "@type":"MusicGroup",
+      "name":"b3nn3t"
+    },
+    "inAlbum":{
+      "@type":"MusicAlbum",
+      "name":"drei-viertel"
+    },
+    "image":"https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp",
+    "url":"https://www.b3nn3t.com/release-drei-viertel.html"
+  }
+  </script>
+ 
+  <link rel="preload" as="image" href="/assets/release/3-4/drei-viertel-cover.webp" fetchpriority="high">
+ 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+ 
+  <style>
+ 
+    :root{
+      --awb-text-main:#fdfdfd;
+      --awb-bg:#587fa6;
+      --page-max-width:960px;
+    }
+ 
+    html,body{
+      margin:0;
+      padding:0;
+      height:100%;
+      overflow-x:hidden;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;
+      color:var(--awb-text-main);
+      background:var(--awb-bg);
+    }
+ 
+    #webgl-space{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:0;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity 0.8s ease;
+    }
+ 
+    .page-wrap{
+      min-height:100vh;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      padding:3rem 1.5rem;
+      position:relative;
+      z-index:2;
+    }
+ 
+    .content{
+      width:100%;
+      max-width:var(--page-max-width);
+    }
+ 
+    .video-inner{
+      position:relative;
+      border-radius:22px;
+      overflow:hidden;
+      background:#000;
+    }
+ 
+    .release-video{
+      width:100%;
+      display:block;
+    }
+ 
+    .audio-overlay{
+      position:absolute;
+      bottom:0;
+      width:100%;
+    }
+ 
+    .presave-btn{
+      display:inline-block;
+      padding:1rem 1.2rem;
+      border-radius:999px;
+      background:#fff;
+      color:#587fa6;
+      font-weight:800;
+      text-decoration:none;
+    }
+ 
+  </style>
 </head>
-
+ 
 <body>
-
+ 
 <div class="page-wrap">
 <div class="content">
-
+ 
 <div class="video-inner">
-
+ 
 <img src="/assets/release/3-4/drei-viertel-cover.webp" class="release-video">
-
+ 
 <audio id="release-audio" class="audio-overlay" controls preload="metadata">
 <source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
 </audio>
-
+ 
 </div>
-
+ 
 <br>
-
+ 
 <a class="presave-btn" href="https://open.spotify.com" target="_blank">Hören</a>
-
+ 
 </div>
 </div>
-
+ 
 <!-- ================= WEBGL ================= -->
-
+ 
 <script>
 (() => {
-
+ 
 const audio = document.getElementById("release-audio");
-
+ 
 /* ---------- SCENE ---------- */
-
+ 
 const scene = new THREE.Scene();
-
+ 
 const camera = new THREE.PerspectiveCamera(
 75,
-window.innerWidth / window.innerHeight,
+window.innerWidth/window.innerHeight,
 0.1,
 2000
 );
-
+ 
 camera.position.z = 600;
-
-const renderer = new THREE.WebGLRenderer({
-alpha:true,
-antialias:true
-});
-
-renderer.setSize(window.innerWidth, window.innerHeight);
+ 
+const renderer = new THREE.WebGLRenderer({alpha:true,antialias:true});
+renderer.setSize(window.innerWidth,window.innerHeight);
 renderer.domElement.id = "webgl-space";
 document.body.prepend(renderer.domElement);
-
+ 
 /* ---------- AUDIO ---------- */
-
+ 
 const ctx = new (window.AudioContext || window.webkitAudioContext)();
 const source = ctx.createMediaElementSource(audio);
 const analyser = ctx.createAnalyser();
-
+ 
 analyser.fftSize = 128;
 source.connect(analyser);
 analyser.connect(ctx.destination);
-
+ 
 const data = new Uint8Array(analyser.frequencyBinCount);
-
-function audioLevel(){
+ 
+function getLevel(){
 analyser.getByteFrequencyData(data);
-let sum = 0;
-for(let i=0;i<data.length;i++) sum += data[i];
-return sum / data.length / 255;
+let sum=0;
+for(let i=0;i<data.length;i++) sum+=data[i];
+return sum/data.length/255;
 }
-
+ 
 /* ---------- STARS ---------- */
-
+ 
 const starGeo = new THREE.BufferGeometry();
-const starCount = 3500;
-
-const starPos = new Float32Array(starCount * 3);
-
+const starCount = 4000;
+const starPos = new Float32Array(starCount*3);
+ 
 for(let i=0;i<starPos.length;i++){
-starPos[i] = (Math.random()-0.5) * 2200;
+starPos[i]=(Math.random()-0.5)*2000;
 }
-
-starGeo.setAttribute("position", new THREE.BufferAttribute(starPos,3));
-
+ 
+starGeo.setAttribute("position",new THREE.BufferAttribute(starPos,3));
+ 
 const starMat = new THREE.PointsMaterial({
 color:0xffffff,
 size:2,
 transparent:true,
 opacity:0.8
 });
-
-const stars = new THREE.Points(starGeo, starMat);
+ 
+const stars = new THREE.Points(starGeo,starMat);
 scene.add(stars);
-
+ 
 /* ---------- GALAXY ---------- */
-
+ 
 const galaxyGeo = new THREE.BufferGeometry();
-const galaxyCount = 2000;
-const galaxyPos = new Float32Array(galaxyCount * 3);
-
+const galaxyCount = 2500;
+const galaxyPos = new Float32Array(galaxyCount*3);
+ 
 for(let i=0;i<galaxyCount;i++){
-const i3 = i*3;
-const radius = Math.random()*700;
-const angle = i * 0.01;
-
-galaxyPos[i3] = Math.cos(angle) * radius;
-galaxyPos[i3+1] = (Math.random()-0.5) * 120;
-galaxyPos[i3+2] = Math.sin(angle) * radius;
+const i3=i*3;
+const r=Math.random()*700;
+const a=i*0.01;
+galaxyPos[i3]=Math.cos(a)*r;
+galaxyPos[i3+1]=(Math.random()-0.5)*120;
+galaxyPos[i3+2]=Math.sin(a)*r;
 }
-
-galaxyGeo.setAttribute("position", new THREE.BufferAttribute(galaxyPos,3));
-
+ 
+galaxyGeo.setAttribute("position",new THREE.BufferAttribute(galaxyPos,3));
+ 
 const galaxyMat = new THREE.PointsMaterial({
 color:0x8ecbff,
 size:2,
 transparent:true,
 opacity:0.18
 });
-
-const galaxy = new THREE.Points(galaxyGeo, galaxyMat);
+ 
+const galaxy = new THREE.Points(galaxyGeo,galaxyMat);
 scene.add(galaxy);
-
+ 
 /* ---------- PARALLAX ---------- */
-
-let mx = 0;
-let my = 0;
-
+ 
+let mx=0,my=0;
+ 
 window.addEventListener("mousemove",(e)=>{
-mx = (e.clientX/window.innerWidth - 0.5);
-my = (e.clientY/window.innerHeight - 0.5);
+mx=(e.clientX/window.innerWidth-0.5);
+my=(e.clientY/window.innerHeight-0.5);
 });
-
+ 
 /* ---------- RESIZE ---------- */
-
+ 
 window.addEventListener("resize",()=>{
-camera.aspect = window.innerWidth/window.innerHeight;
+camera.aspect=window.innerWidth/window.innerHeight;
 camera.updateProjectionMatrix();
 renderer.setSize(window.innerWidth,window.innerHeight);
 });
-
-/* ---------- ANIMATION ---------- */
-
-let running = false;
+ 
+/* ---------- LOOP ---------- */
+ 
+let running=false;
 let id;
-
+ 
 function animate(){
-
-const level = audioLevel();
-
-/* camera */
-camera.position.x += (mx*60 - camera.position.x) * 0.02;
-camera.position.y += (-my*60 - camera.position.y) * 0.02;
+ 
+const lvl=getLevel();
+ 
+camera.position.x+=(mx*60-camera.position.x)*0.02;
+camera.position.y+=(-my*60-camera.position.y)*0.02;
 camera.lookAt(scene.position);
-
-/* stars */
-stars.rotation.y += 0.001 + level*0.01;
-starMat.size = 2 + level*3;
-
-/* galaxy */
-galaxy.rotation.y += 0.0004;
-galaxy.scale.setScalar(1 + level*0.05);
-
+ 
+stars.rotation.y+=0.001+lvl*0.01;
+starMat.size=2+lvl*4;
+ 
+galaxy.rotation.y+=0.0004;
+galaxy.scale.setScalar(1+lvl*0.06);
+ 
 renderer.render(scene,camera);
-
-id = requestAnimationFrame(animate);
+id=requestAnimationFrame(animate);
 }
-
-/* ---------- START / STOP ---------- */
-
+ 
+/* ---------- START/STOP ---------- */
+ 
 async function start(){
 if(running) return;
-running = true;
+running=true;
 await ctx.resume();
-renderer.domElement.style.opacity = "1";
+renderer.domElement.style.opacity="1";
 animate();
 }
-
+ 
 function stop(){
-running = false;
+running=false;
 cancelAnimationFrame(id);
-renderer.domElement.style.opacity = "0";
+renderer.domElement.style.opacity="0";
 }
-
+ 
 audio.addEventListener("play",start);
 audio.addEventListener("pause",stop);
 audio.addEventListener("ended",stop);
-
+ 
 })();
 </script>
-
+ 
 </body>
 </html>
