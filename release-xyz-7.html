@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -7,17 +6,14 @@
 
 <title>b3nn3t „¾“</title>
 
-<link rel="icon" href="/favicon.ico" />
-
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <style>
-
 html,body{
   margin:0;
   padding:0;
   height:100%;
-  overflow-x:hidden;
+  overflow:hidden;
   background:#587fa6;
   font-family:system-ui;
   color:white;
@@ -37,11 +33,10 @@ html,body{
   padding:60px 20px;
 }
 
-.audio{
+audio{
   width:100%;
-  margin-top:30px;
+  margin-top:20px;
 }
-
 </style>
 </head>
 
@@ -50,28 +45,31 @@ html,body{
 <canvas id="webgl"></canvas>
 
 <div class="page">
-
   <h1>b3nn3t „¾“</h1>
 
-  <audio id="audio" class="audio" controls>
+  <audio id="audio" controls preload="metadata">
     <source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
   </audio>
-
 </div>
 
 <script>
 
 (() => {
 
+  /* =========================
+     BASIC SETUP
+  ========================= */
+
   const canvas = document.getElementById("webgl");
 
   const renderer = new THREE.WebGLRenderer({
     canvas,
-    alpha:true,
-    antialias:true
+    antialias:true,
+    alpha:true
   });
 
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
 
   const scene = new THREE.Scene();
 
@@ -84,42 +82,71 @@ html,body{
 
   camera.position.z = 600;
 
-  /* ======================
-     AUDIO SETUP
-  ====================== */
+  /* =========================
+     AUDIO (SAFE INIT)
+  ========================= */
 
   const audio = document.getElementById("audio");
 
-  const ctx = new (window.AudioContext || window.webkitAudioContext)();
-  const source = ctx.createMediaElementSource(audio);
-  const analyser = ctx.createAnalyser();
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const source = audioCtx.createMediaElementSource(audio);
+  const analyser = audioCtx.createAnalyser();
 
   analyser.fftSize = 256;
 
   source.connect(analyser);
-  analyser.connect(ctx.destination);
+  analyser.connect(audioCtx.destination);
 
-  const data = new Uint8Array(analyser.frequencyBinCount);
+  const freq = new Uint8Array(analyser.frequencyBinCount);
 
-  function bass(){
-    analyser.getByteFrequencyData(data);
+  function getBass(){
+
+    analyser.getByteFrequencyData(freq);
 
     let v = 0;
+
     for(let i=0;i<8;i++){
-      v += data[i];
+      v += freq[i];
     }
 
-    return v/8/255;
+    return v / 8 / 255;
   }
 
-  /* ======================
-     STARS (GLOW)
-  ====================== */
+  /* =========================
+     STAR TEXTURE (SOFT GLOW)
+  ========================= */
+
+  function createTexture(){
+
+    const c = document.createElement("canvas");
+    c.width = 64;
+    c.height = 64;
+
+    const ctx = c.getContext("2d");
+
+    const g = ctx.createRadialGradient(32,32,0,32,32,32);
+
+    g.addColorStop(0,"rgba(255,255,255,1)");
+    g.addColorStop(0.25,"rgba(180,220,255,0.8)");
+    g.addColorStop(1,"rgba(0,0,0,0)");
+
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,64,64);
+
+    return new THREE.CanvasTexture(c);
+  }
+
+  const starTex = createTexture();
+
+  /* =========================
+     STARS
+  ========================= */
 
   const starGeo = new THREE.BufferGeometry();
-  const count = 6000;
 
-  const pos = new Float32Array(count*3);
+  const starCount = 5000;
+
+  const pos = new Float32Array(starCount*3);
 
   for(let i=0;i<pos.length;i++){
     pos[i] = (Math.random()-0.5)*2000;
@@ -127,46 +154,24 @@ html,body{
 
   starGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
 
-  const tex = (()=>{
-
-    const c = document.createElement("canvas");
-    c.width = 64;
-    c.height = 64;
-
-    const g = c.getContext("2d")
-      .createRadialGradient(32,32,0,32,32,32);
-
-    const ctx2 = c.getContext("2d");
-
-    g.addColorStop(0,"white");
-    g.addColorStop(0.2,"rgba(180,220,255,0.8)");
-    g.addColorStop(1,"transparent");
-
-    ctx2.fillStyle = g;
-    ctx2.fillRect(0,0,64,64);
-
-    return new THREE.CanvasTexture(c);
-
-  })();
-
   const starMat = new THREE.PointsMaterial({
-    map:tex,
+    map: starTex,
     size:5,
     transparent:true,
     blending:THREE.AdditiveBlending,
     depthWrite:false
   });
 
-  const stars = new THREE.Points(starGeo,starMat);
+  const stars = new THREE.Points(starGeo, starMat);
   scene.add(stars);
 
-  /* ======================
+  /* =========================
      NEBULA
-  ====================== */
+  ========================= */
 
   const nebGeo = new THREE.BufferGeometry();
 
-  const nebCount = 1500;
+  const nebCount = 1200;
   const npos = new Float32Array(nebCount*3);
 
   for(let i=0;i<npos.length;i++){
@@ -177,7 +182,7 @@ html,body{
 
   const nebMat = new THREE.PointsMaterial({
     color:0x7fbfff,
-    size:20,
+    size:18,
     transparent:true,
     opacity:0.08,
     blending:THREE.AdditiveBlending
@@ -186,45 +191,51 @@ html,body{
   const nebula = new THREE.Points(nebGeo,nebMat);
   scene.add(nebula);
 
-  /* ======================
+  /* =========================
      PARALLAX
-  ====================== */
+  ========================= */
 
-  let mx=0,my=0;
+  let mx = 0;
+  let my = 0;
 
   window.addEventListener("mousemove",(e)=>{
+
     mx = e.clientX/window.innerWidth - 0.5;
     my = e.clientY/window.innerHeight - 0.5;
+
   });
 
-  /* ======================
+  /* =========================
      RESIZE
-  ====================== */
+  ========================= */
 
   window.addEventListener("resize",()=>{
+
     camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
+
     renderer.setSize(window.innerWidth,window.innerHeight);
+
   });
 
-  /* ======================
-     LOOP
-  ====================== */
+  /* =========================
+     ANIMATION
+  ========================= */
 
-  let run = false;
+  let started = false;
 
   function animate(){
 
-    const b = bass();
+    const bass = getBass();
 
     camera.position.x += ((mx*80)-camera.position.x)*0.03;
     camera.position.y += ((-my*80)-camera.position.y)*0.03;
 
-    stars.rotation.y += 0.0005 + b*0.01;
+    stars.rotation.y += 0.0005 + bass*0.01;
     nebula.rotation.y += 0.0002;
 
-    starMat.size = 4 + b*12;
-    nebMat.opacity = 0.06 + b*0.2;
+    starMat.size = 4 + bass*14;
+    nebMat.opacity = 0.06 + bass*0.18;
 
     renderer.render(scene,camera);
 
@@ -233,10 +244,11 @@ html,body{
 
   function start(){
 
-    if(run) return;
-    run = true;
+    if(started) return;
 
-    ctx.resume();
+    started = true;
+
+    audioCtx.resume();
 
     animate();
   }
