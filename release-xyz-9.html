@@ -997,65 +997,7 @@
 
       scene.add(galaxy);
 
-      /* =====================================================
-         SHOOTING STARS
-         ===================================================== */
-
-      const shootingStars = [];
-
-      function createShootingStar(){
-
-        const geometry =
-          new THREE.BufferGeometry();
-
-        const vertices =
-          new Float32Array([
-            0,0,0,
-            -50,0,0
-          ]);
-
-        geometry.setAttribute(
-          'position',
-          new THREE.BufferAttribute(vertices, 3)
-        );
-
-        const material =
-          new THREE.LineBasicMaterial({
-            color:0xffffff,
-            transparent:true,
-            opacity:0.9
-          });
-
-        const line =
-          new THREE.Line(
-            geometry,
-            material
-          );
-
-        line.position.x =
-          (Math.random() - 0.5) * 1200;
-
-        line.position.y =
-          Math.random() * 600;
-
-        line.position.z =
-          (Math.random() - 0.5) * 1000;
-
-        line.rotation.z =
-          -Math.PI / 4;
-
-        scene.add(line);
-
-        shootingStars.push({
-          mesh:line,
-          speed:10 + Math.random() * 12
-        });
-      }
-
-      for(let i = 0; i < 12; i++){
-
-        createShootingStar();
-      }
+     
 
       /* =====================================================
          PARALLAX
@@ -1141,26 +1083,7 @@
         galaxyMaterial.opacity =
           0.16 + audioLevel * 0.2;
 
-        /* SHOOTING STARS */
 
-        for(const s of shootingStars){
-
-          s.mesh.position.x += s.speed;
-
-          s.mesh.position.y -= s.speed * 0.4;
-
-          if(s.mesh.position.x > 900){
-
-            s.mesh.position.x =
-              -900 - Math.random() * 500;
-
-            s.mesh.position.y =
-              Math.random() * 700;
-
-            s.mesh.position.z =
-              (Math.random() - 0.5) * 1000;
-          }
-        }
 
         renderer.render(scene, camera);
 
