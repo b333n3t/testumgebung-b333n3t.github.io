@@ -6,257 +6,267 @@
 
 <title>b3nn3t „¾“</title>
 
+<meta name="description" content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<link rel="canonical" href="https://www.b3nn3t.com/release-drei-viertel.html" />
+
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <style>
+
+:root{
+  --awb-text-main:#fdfdfd;
+  --awb-bg:#587fa6;
+  --page-max-width:960px;
+}
+
 html,body{
   margin:0;
   padding:0;
   height:100%;
-  overflow:hidden;
-  background:#587fa6;
-  font-family:system-ui;
-  color:white;
+  overflow-x:hidden;
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;
+  background:var(--awb-bg);
+  color:var(--awb-text-main);
 }
 
-#webgl{
+/* ================= WEBGL ================= */
+
+#webgl-space{
   position:fixed;
   inset:0;
+  width:100%;
+  height:100%;
   z-index:0;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity 1s ease;
 }
 
-.page{
+/* ================= UI ================= */
+
+.page-wrap{
   position:relative;
   z-index:2;
-  max-width:900px;
-  margin:auto;
-  padding:60px 20px;
+  display:flex;
+  justify-content:center;
+  padding:3rem 1.5rem;
 }
 
-audio{
-  width:100%;
-  margin-top:20px;
+.content{max-width:var(--page-max-width);width:100%;}
+
+.video-inner{
+  position:relative;
+  border-radius:22px;
+  overflow:hidden;
+  background:#000;
 }
+
+.release-video{
+  width:100%;
+  display:block;
+}
+
+.audio-overlay{
+  position:absolute;
+  bottom:0;
+  width:100%;
+}
+
+/* ================= BUTTON ================= */
+
+.presave-btn{
+  background:#fff;
+  color:#587fa6;
+  padding:1rem 1.2rem;
+  border-radius:999px;
+  font-weight:800;
+  text-decoration:none;
+  display:inline-block;
+}
+
 </style>
 </head>
 
 <body>
 
-<canvas id="webgl"></canvas>
+<div class="page-wrap">
+<div class="content">
 
-<div class="page">
-  <h1>b3nn3t „¾“</h1>
+<div class="video-inner">
 
-  <audio id="audio" controls preload="metadata">
-    <source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
-  </audio>
+<img src="/assets/release/3-4/drei-viertel-cover.webp" class="release-video">
+
+<audio id="release-audio" class="audio-overlay" controls preload="metadata">
+<source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
+</audio>
+
+</div>
+
+<br>
+
+<a class="presave-btn" href="https://open.spotify.com" target="_blank">Hören</a>
+
+</div>
 </div>
 
 <script>
-
 (() => {
 
-  /* =========================
-     BASIC SETUP
-  ========================= */
+const audio = document.getElementById("release-audio");
 
-  const canvas = document.getElementById("webgl");
+/* ================= SCENE ================= */
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias:true,
-    alpha:true
-  });
+const scene = new THREE.Scene();
 
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+const camera = new THREE.PerspectiveCamera(
+75,
+window.innerWidth/window.innerHeight,
+0.1,
+2000
+);
 
-  const scene = new THREE.Scene();
+camera.position.z = 600;
 
-  const camera = new THREE.PerspectiveCamera(
-    70,
-    window.innerWidth/window.innerHeight,
-    0.1,
-    2000
-  );
+const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.domElement.id = "webgl-space";
+document.body.prepend(renderer.domElement);
 
-  camera.position.z = 600;
+/* ================= AUDIO ================= */
 
-  /* =========================
-     AUDIO (SAFE INIT)
-  ========================= */
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+const source = ctx.createMediaElementSource(audio);
+const analyser = ctx.createAnalyser();
 
-  const audio = document.getElementById("audio");
+analyser.fftSize = 128;
+source.connect(analyser);
+analyser.connect(ctx.destination);
 
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const source = audioCtx.createMediaElementSource(audio);
-  const analyser = audioCtx.createAnalyser();
+const data = new Uint8Array(analyser.frequencyBinCount);
 
-  analyser.fftSize = 256;
+function level(){
+analyser.getByteFrequencyData(data);
+return data.reduce((a,b)=>a+b,0)/data.length/255;
+}
 
-  source.connect(analyser);
-  analyser.connect(audioCtx.destination);
+/* ================= STARS ================= */
 
-  const freq = new Uint8Array(analyser.frequencyBinCount);
+const starGeo = new THREE.BufferGeometry();
+const count = 4000;
+const pos = new Float32Array(count*3);
 
-  function getBass(){
+for(let i=0;i<count*3;i++){
+pos[i]=(Math.random()-0.5)*2000;
+}
 
-    analyser.getByteFrequencyData(freq);
+starGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
 
-    let v = 0;
+const starMat = new THREE.PointsMaterial({
+color:0xffffff,
+size:2,
+transparent:true,
+opacity:0.8
+});
 
-    for(let i=0;i<8;i++){
-      v += freq[i];
-    }
+const stars = new THREE.Points(starGeo, starMat);
+scene.add(stars);
 
-    return v / 8 / 255;
-  }
+/* ================= GALAXY ================= */
 
-  /* =========================
-     STAR TEXTURE (SOFT GLOW)
-  ========================= */
+const galaxyGeo = new THREE.BufferGeometry();
+const gCount = 2500;
+const gPos = new Float32Array(gCount*3);
 
-  function createTexture(){
+for(let i=0;i<gCount;i++){
+const i3=i*3;
+const r=Math.random()*600;
+const a=i*0.01;
+gPos[i3]=Math.cos(a)*r;
+gPos[i3+1]=(Math.random()-0.5)*100;
+gPos[i3+2]=Math.sin(a)*r;
+}
 
-    const c = document.createElement("canvas");
-    c.width = 64;
-    c.height = 64;
+galaxyGeo.setAttribute("position", new THREE.BufferAttribute(gPos,3));
 
-    const ctx = c.getContext("2d");
+const galaxyMat = new THREE.PointsMaterial({
+color:0x8ecbff,
+size:2,
+transparent:true,
+opacity:0.2
+});
 
-    const g = ctx.createRadialGradient(32,32,0,32,32,32);
+const galaxy = new THREE.Points(galaxyGeo, galaxyMat);
+scene.add(galaxy);
 
-    g.addColorStop(0,"rgba(255,255,255,1)");
-    g.addColorStop(0.25,"rgba(180,220,255,0.8)");
-    g.addColorStop(1,"rgba(0,0,0,0)");
+/* ================= PARALLAX ================= */
 
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,64,64);
+let mx=0,my=0;
 
-    return new THREE.CanvasTexture(c);
-  }
+window.addEventListener("mousemove",(e)=>{
+mx=(e.clientX/window.innerWidth-0.5);
+my=(e.clientY/window.innerHeight-0.5);
+});
 
-  const starTex = createTexture();
+/* ================= RESIZE ================= */
 
-  /* =========================
-     STARS
-  ========================= */
+window.addEventListener("resize",()=>{
+camera.aspect=window.innerWidth/window.innerHeight;
+camera.updateProjectionMatrix();
+renderer.setSize(window.innerWidth,window.innerHeight);
+});
 
-  const starGeo = new THREE.BufferGeometry();
+/* ================= LOOP ================= */
 
-  const starCount = 5000;
+let running=false;
+let id;
 
-  const pos = new Float32Array(starCount*3);
+function animate(){
 
-  for(let i=0;i<pos.length;i++){
-    pos[i] = (Math.random()-0.5)*2000;
-  }
+const a=level();
 
-  starGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
+stars.rotation.y += 0.001 + a*0.01;
+galaxy.rotation.y += 0.0005;
 
-  const starMat = new THREE.PointsMaterial({
-    map: starTex,
-    size:5,
-    transparent:true,
-    blending:THREE.AdditiveBlending,
-    depthWrite:false
-  });
+camera.position.x += (mx*50-camera.position.x)*0.02;
+camera.position.y += (-my*50-camera.position.y)*0.02;
+camera.lookAt(scene.position);
 
-  const stars = new THREE.Points(starGeo, starMat);
-  scene.add(stars);
+starMat.size = 2 + a*4;
+galaxy.scale.setScalar(1 + a*0.1);
 
-  /* =========================
-     NEBULA
-  ========================= */
+renderer.render(scene,camera);
 
-  const nebGeo = new THREE.BufferGeometry();
+id=requestAnimationFrame(animate);
+}
 
-  const nebCount = 1200;
-  const npos = new Float32Array(nebCount*3);
+/* ================= START/STOP ================= */
 
-  for(let i=0;i<npos.length;i++){
-    npos[i] = (Math.random()-0.5)*1500;
-  }
+async function start(){
+if(running) return;
+running=true;
+await ctx.resume();
+renderer.domElement.style.opacity="1";
+animate();
+}
 
-  nebGeo.setAttribute("position", new THREE.BufferAttribute(npos,3));
+function stop(){
+running=false;
+cancelAnimationFrame(id);
+renderer.domElement.style.opacity="0";
+}
 
-  const nebMat = new THREE.PointsMaterial({
-    color:0x7fbfff,
-    size:18,
-    transparent:true,
-    opacity:0.08,
-    blending:THREE.AdditiveBlending
-  });
-
-  const nebula = new THREE.Points(nebGeo,nebMat);
-  scene.add(nebula);
-
-  /* =========================
-     PARALLAX
-  ========================= */
-
-  let mx = 0;
-  let my = 0;
-
-  window.addEventListener("mousemove",(e)=>{
-
-    mx = e.clientX/window.innerWidth - 0.5;
-    my = e.clientY/window.innerHeight - 0.5;
-
-  });
-
-  /* =========================
-     RESIZE
-  ========================= */
-
-  window.addEventListener("resize",()=>{
-
-    camera.aspect = window.innerWidth/window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize(window.innerWidth,window.innerHeight);
-
-  });
-
-  /* =========================
-     ANIMATION
-  ========================= */
-
-  let started = false;
-
-  function animate(){
-
-    const bass = getBass();
-
-    camera.position.x += ((mx*80)-camera.position.x)*0.03;
-    camera.position.y += ((-my*80)-camera.position.y)*0.03;
-
-    stars.rotation.y += 0.0005 + bass*0.01;
-    nebula.rotation.y += 0.0002;
-
-    starMat.size = 4 + bass*14;
-    nebMat.opacity = 0.06 + bass*0.18;
-
-    renderer.render(scene,camera);
-
-    requestAnimationFrame(animate);
-  }
-
-  function start(){
-
-    if(started) return;
-
-    started = true;
-
-    audioCtx.resume();
-
-    animate();
-  }
-
-  audio.addEventListener("play",start);
+audio.addEventListener("play",start);
+audio.addEventListener("pause",stop);
+audio.addEventListener("ended",stop);
 
 })();
-
 </script>
 
 </body>
