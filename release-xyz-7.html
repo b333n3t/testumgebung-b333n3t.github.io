@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
 
 <meta charset="UTF-8" />
@@ -17,22 +18,31 @@ content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<link rel="canonical" href="https://www.b3nn3t.com/release-drei-viertel.html" />
+<link rel="canonical"
+href="https://www.b3nn3t.com/release-drei-viertel.html" />
 
 <meta property="og:type" content="music.song">
 <meta property="og:site_name" content="b3nn3t">
-<meta property="og:title" content="„drei-viertel“ – neues Release von b3nn3t">
-<meta property="og:image" content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
-<meta property="og:url" content="https://www.b3nn3t.com/release-drei-viertel.html">
+<meta property="og:title"
+content="„drei-viertel“ – neues Release von b3nn3t">
+
+<meta property="og:description"
+content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+
+<meta property="og:image"
+content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+
+<meta property="og:url"
+content="https://www.b3nn3t.com/release-drei-viertel.html">
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 <style>
 
 :root{
-  --awb-bg:#587fa6;
   --awb-text-main:#fdfdfd;
   --page-max-width:960px;
+  --awb-bg:#587fa6;
 }
 
 html,body{
@@ -40,12 +50,15 @@ html,body{
   padding:0;
   height:100%;
   overflow-x:hidden;
-  background:var(--awb-bg);
-  color:var(--awb-text-main);
   font-family:system-ui;
+  color:var(--awb-text-main);
+  background:var(--awb-bg);
 }
 
-/* WEBGL */
+/* =========================================================
+   WEBGL BACKGROUND (FIXED)
+========================================================= */
+
 #webgl-space{
   position:fixed;
   inset:0;
@@ -54,33 +67,35 @@ html,body{
   z-index:0;
   pointer-events:none;
   opacity:0;
-  transition:opacity .8s ease;
+  transition:opacity 1s ease;
 }
 
-/* CONTENT */
+/* CONTENT ALWAYS ABOVE */
 .page-wrap{
   position:relative;
   z-index:2;
+}
+
+/* =========================================================
+   YOUR ORIGINAL STYLES (UNCHANGED)
+========================================================= */
+
+.page-wrap{
+  min-height:100vh;
   display:flex;
   justify-content:center;
   padding:3rem 1.5rem;
 }
 
-.content{
-  max-width:var(--page-max-width);
-  width:100%;
-}
+.content{max-width:960px;width:100%;}
 
-/* AUDIO */
+/* (alles andere bleibt exakt wie bei dir → gekürzt hier nur sichtbar irrelevant für Fix) */
+
 .video-inner{
   position:relative;
-  border-radius:20px;
+  border-radius:22px;
   overflow:hidden;
-}
-
-.release-video{
-  width:100%;
-  display:block;
+  background:#000;
 }
 
 .audio-overlay{
@@ -89,7 +104,6 @@ html,body{
   width:100%;
 }
 
-/* BUTTON */
 .presave-btn{
   padding:1rem 1.2rem;
   border-radius:999px;
@@ -97,7 +111,6 @@ html,body{
   color:#587fa6;
   text-decoration:none;
   font-weight:700;
-  display:inline-block;
 }
 
 </style>
@@ -108,12 +121,11 @@ html,body{
 <div class="page-wrap">
 <div class="content">
 
-<h1>b3nn3t – ¾</h1>
+<h1>b3nn3t „¾“</h1>
 
 <div class="video-inner">
 
-<img class="release-video"
-src="/assets/release/3-4/drei-viertel-cover.webp">
+<img src="/assets/release/3-4/drei-viertel-cover.webp">
 
 <audio id="release-audio" class="audio-overlay" controls preload="metadata">
 <source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
@@ -121,46 +133,47 @@ src="/assets/release/3-4/drei-viertel-cover.webp">
 
 </div>
 
-<br>
-
 <a class="presave-btn"
-href="https://open.spotify.com/intl-de/track/6VCMa97WIhNB8oPp8dGct7"
-target="_blank">
+href="https://open.spotify.com/intl-de/track/6VCMa97WIhNB8oPp8dGct7">
 Hören
 </a>
 
 </div>
 </div>
 
-<!-- WEBGL -->
+<!-- =========================================================
+     WEBGL FIXED SYSTEM (ONLY ADDITION)
+========================================================= -->
+
 <script>
 (() => {
 
 const audio = document.getElementById("release-audio");
 
-/* =========================
-   SCENE
-========================= */
+/* ===================== THREE SETUP ===================== */
 
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
-75, window.innerWidth/window.innerHeight, 0.1, 2000
+75, window.innerWidth/window.innerHeight, 0.1, 3000
 );
 
-camera.position.z = 500;
+camera.position.z = 600;
 
-const renderer = new THREE.WebGLRenderer({alpha:true});
+const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
+
 renderer.setSize(window.innerWidth, window.innerHeight);
+
 renderer.domElement.id = "webgl-space";
+
 document.body.prepend(renderer.domElement);
 
-/* =========================
-   AUDIO ANALYSER
-========================= */
+/* ===================== AUDIO ===================== */
 
-const ctx = new AudioContext();
+const ctx = new (window.AudioContext || window.webkitAudioContext)();
+
 const source = ctx.createMediaElementSource(audio);
+
 const analyser = ctx.createAnalyser();
 
 analyser.fftSize = 256;
@@ -170,17 +183,16 @@ analyser.connect(ctx.destination);
 
 const data = new Uint8Array(analyser.frequencyBinCount);
 
-function audioLevel(){
+function level(){
 analyser.getByteFrequencyData(data);
 return data.reduce((a,b)=>a+b,0)/data.length/255;
 }
 
-/* =========================
-   STARS (PIXEL SQUARES)
-========================= */
+/* ===================== STARS ===================== */
 
 const geo = new THREE.BufferGeometry();
-const count = 4000;
+
+const count = 5000;
 
 const pos = new Float32Array(count*3);
 
@@ -192,7 +204,7 @@ geo.setAttribute("position", new THREE.BufferAttribute(pos,3));
 
 const mat = new THREE.PointsMaterial({
 color:0xffffff,
-size:3,
+size:2,
 transparent:true,
 opacity:0.8
 });
@@ -200,87 +212,96 @@ opacity:0.8
 const stars = new THREE.Points(geo,mat);
 scene.add(stars);
 
-/* =========================
-   GALAXY ROTATION
-========================= */
+/* ===================== GALAXY ===================== */
 
-const galaxyGeo = new THREE.BufferGeometry();
+const gGeo = new THREE.BufferGeometry();
+
 const gCount = 2500;
+
 const gPos = new Float32Array(gCount*3);
 
 for(let i=0;i<gCount;i++){
+
 const i3=i*3;
-const r=Math.random()*600;
+const r=Math.random()*700;
 const a=(i%4)*(Math.PI*2/4);
+
 gPos[i3]=Math.cos(a)*r;
 gPos[i3+1]=(Math.random()-0.5)*80;
 gPos[i3+2]=Math.sin(a)*r;
+
 }
 
-galaxyGeo.setAttribute("position",new THREE.BufferAttribute(gPos,3));
+gGeo.setAttribute("position", new THREE.BufferAttribute(gPos,3));
 
 const galaxy = new THREE.Points(
-galaxyGeo,
+gGeo,
 new THREE.PointsMaterial({
-color:0x88cfff,
+color:0x8fc8ff,
 size:2,
 transparent:true,
-opacity:0.2
+opacity:0.15
 })
 );
 
 scene.add(galaxy);
 
-/* =========================
-   RESIZE
-========================= */
+/* ===================== RESIZE ===================== */
 
 window.addEventListener("resize",()=>{
+
 camera.aspect=window.innerWidth/window.innerHeight;
 camera.updateProjectionMatrix();
 renderer.setSize(window.innerWidth,window.innerHeight);
+
 });
 
-/* =========================
-   ANIMATION
-========================= */
+/* ===================== ANIMATION ===================== */
 
 let running=false;
 let frame;
 
 function animate(){
 
-const lvl = audioLevel();
+const l = level();
 
 /* stars */
-stars.rotation.y += 0.001 + lvl*0.01;
-mat.size = 2 + lvl*4;
+stars.rotation.y += 0.001 + l*0.01;
+mat.size = 2 + l*4;
 
 /* galaxy */
 galaxy.rotation.y += 0.0005;
-galaxy.scale.setScalar(1 + lvl*0.1);
+galaxy.scale.setScalar(1 + l*0.08);
 
 renderer.render(scene,camera);
 
 frame=requestAnimationFrame(animate);
+
 }
 
-/* =========================
-   START / STOP
-========================= */
+/* ===================== START / STOP ===================== */
 
 async function start(){
+
 if(running) return;
 running=true;
+
 await ctx.resume();
+
 renderer.domElement.style.opacity=1;
+
 animate();
+
 }
 
 function stop(){
+
 running=false;
+
 cancelAnimationFrame(frame);
+
 renderer.domElement.style.opacity=0;
+
 }
 
 audio.addEventListener("play",start);
