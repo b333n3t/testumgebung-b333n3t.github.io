@@ -49,7 +49,7 @@ html,body{
   transition:opacity 1s ease;
 }
 
-/* ================= UI ================= */
+/* ================= LAYOUT ================= */
 
 .page-wrap{
   position:relative;
@@ -59,7 +59,10 @@ html,body{
   padding:3rem 1.5rem;
 }
 
-.content{max-width:var(--page-max-width);width:100%;}
+.content{
+  width:100%;
+  max-width:var(--page-max-width);
+}
 
 .video-inner{
   position:relative;
@@ -116,30 +119,36 @@ html,body{
 </div>
 </div>
 
+<!-- ================= WEBGL ================= -->
+
 <script>
 (() => {
 
 const audio = document.getElementById("release-audio");
 
-/* ================= SCENE ================= */
+/* ---------- SCENE ---------- */
 
 const scene = new THREE.Scene();
 
 const camera = new THREE.PerspectiveCamera(
 75,
-window.innerWidth/window.innerHeight,
+window.innerWidth / window.innerHeight,
 0.1,
 2000
 );
 
 camera.position.z = 600;
 
-const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+const renderer = new THREE.WebGLRenderer({
+alpha:true,
+antialias:true
+});
+
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.domElement.id = "webgl-space";
 document.body.prepend(renderer.domElement);
 
-/* ================= AUDIO ================= */
+/* ---------- AUDIO ---------- */
 
 const ctx = new (window.AudioContext || window.webkitAudioContext)();
 const source = ctx.createMediaElementSource(audio);
@@ -151,22 +160,25 @@ analyser.connect(ctx.destination);
 
 const data = new Uint8Array(analyser.frequencyBinCount);
 
-function level(){
+function audioLevel(){
 analyser.getByteFrequencyData(data);
-return data.reduce((a,b)=>a+b,0)/data.length/255;
+let sum = 0;
+for(let i=0;i<data.length;i++) sum += data[i];
+return sum / data.length / 255;
 }
 
-/* ================= STARS ================= */
+/* ---------- STARS ---------- */
 
 const starGeo = new THREE.BufferGeometry();
-const count = 4000;
-const pos = new Float32Array(count*3);
+const starCount = 3500;
 
-for(let i=0;i<count*3;i++){
-pos[i]=(Math.random()-0.5)*2000;
+const starPos = new Float32Array(starCount * 3);
+
+for(let i=0;i<starPos.length;i++){
+starPos[i] = (Math.random()-0.5) * 2200;
 }
 
-starGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
+starGeo.setAttribute("position", new THREE.BufferAttribute(starPos,3));
 
 const starMat = new THREE.PointsMaterial({
 color:0xffffff,
@@ -178,88 +190,93 @@ opacity:0.8
 const stars = new THREE.Points(starGeo, starMat);
 scene.add(stars);
 
-/* ================= GALAXY ================= */
+/* ---------- GALAXY ---------- */
 
 const galaxyGeo = new THREE.BufferGeometry();
-const gCount = 2500;
-const gPos = new Float32Array(gCount*3);
+const galaxyCount = 2000;
+const galaxyPos = new Float32Array(galaxyCount * 3);
 
-for(let i=0;i<gCount;i++){
-const i3=i*3;
-const r=Math.random()*600;
-const a=i*0.01;
-gPos[i3]=Math.cos(a)*r;
-gPos[i3+1]=(Math.random()-0.5)*100;
-gPos[i3+2]=Math.sin(a)*r;
+for(let i=0;i<galaxyCount;i++){
+const i3 = i*3;
+const radius = Math.random()*700;
+const angle = i * 0.01;
+
+galaxyPos[i3] = Math.cos(angle) * radius;
+galaxyPos[i3+1] = (Math.random()-0.5) * 120;
+galaxyPos[i3+2] = Math.sin(angle) * radius;
 }
 
-galaxyGeo.setAttribute("position", new THREE.BufferAttribute(gPos,3));
+galaxyGeo.setAttribute("position", new THREE.BufferAttribute(galaxyPos,3));
 
 const galaxyMat = new THREE.PointsMaterial({
 color:0x8ecbff,
 size:2,
 transparent:true,
-opacity:0.2
+opacity:0.18
 });
 
 const galaxy = new THREE.Points(galaxyGeo, galaxyMat);
 scene.add(galaxy);
 
-/* ================= PARALLAX ================= */
+/* ---------- PARALLAX ---------- */
 
-let mx=0,my=0;
+let mx = 0;
+let my = 0;
 
 window.addEventListener("mousemove",(e)=>{
-mx=(e.clientX/window.innerWidth-0.5);
-my=(e.clientY/window.innerHeight-0.5);
+mx = (e.clientX/window.innerWidth - 0.5);
+my = (e.clientY/window.innerHeight - 0.5);
 });
 
-/* ================= RESIZE ================= */
+/* ---------- RESIZE ---------- */
 
 window.addEventListener("resize",()=>{
-camera.aspect=window.innerWidth/window.innerHeight;
+camera.aspect = window.innerWidth/window.innerHeight;
 camera.updateProjectionMatrix();
 renderer.setSize(window.innerWidth,window.innerHeight);
 });
 
-/* ================= LOOP ================= */
+/* ---------- ANIMATION ---------- */
 
-let running=false;
+let running = false;
 let id;
 
 function animate(){
 
-const a=level();
+const level = audioLevel();
 
-stars.rotation.y += 0.001 + a*0.01;
-galaxy.rotation.y += 0.0005;
-
-camera.position.x += (mx*50-camera.position.x)*0.02;
-camera.position.y += (-my*50-camera.position.y)*0.02;
+/* camera */
+camera.position.x += (mx*60 - camera.position.x) * 0.02;
+camera.position.y += (-my*60 - camera.position.y) * 0.02;
 camera.lookAt(scene.position);
 
-starMat.size = 2 + a*4;
-galaxy.scale.setScalar(1 + a*0.1);
+/* stars */
+stars.rotation.y += 0.001 + level*0.01;
+starMat.size = 2 + level*3;
+
+/* galaxy */
+galaxy.rotation.y += 0.0004;
+galaxy.scale.setScalar(1 + level*0.05);
 
 renderer.render(scene,camera);
 
-id=requestAnimationFrame(animate);
+id = requestAnimationFrame(animate);
 }
 
-/* ================= START/STOP ================= */
+/* ---------- START / STOP ---------- */
 
 async function start(){
 if(running) return;
-running=true;
+running = true;
 await ctx.resume();
-renderer.domElement.style.opacity="1";
+renderer.domElement.style.opacity = "1";
 animate();
 }
 
 function stop(){
-running=false;
+running = false;
 cancelAnimationFrame(id);
-renderer.domElement.style.opacity="0";
+renderer.domElement.style.opacity = "0";
 }
 
 audio.addEventListener("play",start);
