@@ -1,312 +1,441 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>b3nn3t „¾“</title>
+  <meta name="description" content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
 
-<title>b3nn3t „¾“</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-<meta name="description"
-content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+  <link rel="canonical" href="https://www.b3nn3t.com/release-drei-viertel.html" />
 
-<meta name="robots" content="index,follow,max-image-preview:large" />
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="„drei-viertel“ – neues Release von b3nn3t">
+  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-drei-viertel.html">
 
-<link rel="icon" href="/favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"MusicRecording",
+    "name":"¾",
+    "byArtist":{"@type":"MusicGroup","name":"b3nn3t"},
+    "inAlbum":{"@type":"MusicAlbum","name":"drei-viertel"},
+    "image":"https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp",
+    "url":"https://www.b3nn3t.com/release-drei-viertel.html"
+  }
+  </script>
 
-<link rel="canonical"
-href="https://www.b3nn3t.com/release-drei-viertel.html" />
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
-<meta property="og:type" content="music.song">
-<meta property="og:site_name" content="b3nn3t">
-<meta property="og:title"
-content="„drei-viertel“ – neues Release von b3nn3t">
+  <style>
 
-<meta property="og:description"
-content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+    html, body{
+      margin:0;
+      padding:0;
+      height:100%;
+      overflow-x:hidden;
+      font-family: system-ui, sans-serif;
+      color:#fff;
+      background:#587fa6;
+    }
 
-<meta property="og:image"
-content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+    /* =========================
+       ONLY FIXED BACKGROUND
+       ========================= */
 
-<meta property="og:url"
-content="https://www.b3nn3t.com/release-drei-viertel.html">
+    #webgl-space{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:0;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity 1s ease;
+      mix-blend-mode:screen;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    .page-wrap{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:center;
+      padding:3rem 1.5rem;
+    }
 
-<style>
+    .content{max-width:960px;width:100%;}
 
-:root{
-  --awb-text-main:#fdfdfd;
-  --page-max-width:960px;
-  --awb-bg:#587fa6;
-}
+    /* ===== everything else untouched ===== */
 
-html,body{
-  margin:0;
-  padding:0;
-  height:100%;
-  overflow-x:hidden;
-  font-family:system-ui;
-  color:var(--awb-text-main);
-  background:var(--awb-bg);
-}
+    .video-inner{
+      position:relative;
+      border-radius:22px;
+      overflow:hidden;
+      background:#000;
+      aspect-ratio:16/9;
+    }
 
-/* =========================================================
-   WEBGL BACKGROUND (FIXED)
-========================================================= */
+    .release-video{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
 
-#webgl-space{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  z-index:0;
-  pointer-events:none;
-  opacity:0;
-  transition:opacity 1s ease;
-}
+    .audio-overlay{
+      position:absolute;
+      bottom:0;
+      width:100%;
+    }
 
-/* CONTENT ALWAYS ABOVE */
-.page-wrap{
-  position:relative;
-  z-index:2;
-}
-
-/* =========================================================
-   YOUR ORIGINAL STYLES (UNCHANGED)
-========================================================= */
-
-.page-wrap{
-  min-height:100vh;
-  display:flex;
-  justify-content:center;
-  padding:3rem 1.5rem;
-}
-
-.content{max-width:960px;width:100%;}
-
-/* (alles andere bleibt exakt wie bei dir → gekürzt hier nur sichtbar irrelevant für Fix) */
-
-.video-inner{
-  position:relative;
-  border-radius:22px;
-  overflow:hidden;
-  background:#000;
-}
-
-.audio-overlay{
-  position:absolute;
-  bottom:0;
-  width:100%;
-}
-
-.presave-btn{
-  padding:1rem 1.2rem;
-  border-radius:999px;
-  background:white;
-  color:#587fa6;
-  text-decoration:none;
-  font-weight:700;
-}
-
-</style>
+  </style>
 </head>
 
 <body>
 
-<div class="page-wrap">
-<div class="content">
+  <div class="page-wrap">
 
-<h1>b3nn3t „¾“</h1>
+    <div class="content">
 
-<div class="video-inner">
+      <main class="main">
 
-<img src="/assets/release/3-4/drei-viertel-cover.webp">
+        <!-- TOPLINE -->
 
-<audio id="release-audio" class="audio-overlay" controls preload="metadata">
-<source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
-</audio>
+        <div
+          class="topline"
+          aria-label="Release Countdown">
 
-</div>
+          <a
+            class="brand-link"
+            href="/index.html">
 
-<a class="presave-btn"
-href="https://open.spotify.com/intl-de/track/6VCMa97WIhNB8oPp8dGct7">
-Hören
-</a>
+            b3nn3t
 
-</div>
-</div>
+          </a>
 
-<!-- =========================================================
-     WEBGL FIXED SYSTEM (ONLY ADDITION)
-========================================================= -->
+          <span class="count-label">
+
+            released in
+
+          </span>
+
+          <span id="awb-countdown-timer">
+
+            --:--:--
+
+          </span>
+
+        </div>
+
+        <!-- AUDIO -->
+
+        <section
+          class="video-wrap"
+          aria-label="Audio zum Song">
+
+          <div class="video-inner">
+
+            <img
+              src="/assets/release/3-4/drei-viertel-cover.webp"
+
+              alt="Cover – drei-viertel von b3nn3t"
+
+              class="release-video">
+
+            <audio
+              id="release-audio"
+
+              class="audio-overlay"
+
+              controls
+
+              preload="metadata">
+
+              <source
+                src="/assets/release/3-4/drei-viertel.prelisten.mp3">
+
+              Dein Browser unterstützt dieses Audioformat nicht.
+
+            </audio>
+
+          </div>
+
+        </section>
+
+        <!-- BUTTON -->
+
+        <section
+          aria-label="Vorsichern"
+          class="block">
+
+          <div class="presave-wrap">
+
+            <a
+              class="presave-btn"
+
+              href="https://open.spotify.com/intl-de/track/6VCMa97WIhNB8oPp8dGct7?si=2e2725860b284c76"
+
+              target="_blank"
+
+              rel="noopener">
+
+              "¾" hören
+
+            </a>
+
+          </div>
+
+        </section>
+
+        <!-- PRESSE -->
+
+        <section
+          aria-label="Presse Artikel"
+          class="block">
+
+          <h2>
+
+            Presse Artikel
+
+          </h2>
+
+          <p>
+
+            Frontstage Magazine - April 2026
+
+          </p>
+
+          <div class="presave-wrap">
+
+            <a
+              class="presave-btn"
+
+              href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
+
+              target="_blank"
+
+              rel="noopener">
+
+              zum artikel
+
+            </a>
+
+          </div>
+
+        </section>
+
+        <!-- SOCIALS -->
+
+        <section
+          aria-label="Streaming"
+          class="block">
+
+          <h2>
+
+            kuck hier
+
+          </h2>
+
+          <div class="social-section">
+
+            <div class="social-icons">
+
+              <a
+                href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x"
+
+                class="social-link"
+
+                target="_blank"
+
+                rel="noopener">
+
+                <img
+                  class="social-icon-img"
+
+                  src="assets/release/spotify_128.png"
+
+                  alt="Spotify">
+
+              </a>
+
+              <a
+                href="https://music.apple.com/ch/artist/b3nn3t/1786857463"
+
+                class="social-link"
+
+                target="_blank"
+
+                rel="noopener">
+
+                <img
+                  class="social-icon-img"
+
+                  src="assets/release/apple_music_128.png"
+
+                  alt="Apple Music">
+
+              </a>
+
+              <a
+                href="https://www.instagram.com/b333nn3t"
+
+                class="social-link"
+
+                target="_blank"
+
+                rel="noopener">
+
+                <img
+                  class="social-icon-img"
+
+                  src="assets/release/instagram_128.png"
+
+                  alt="Instagram">
+
+              </a>
+
+              <a
+                href="https://www.youtube.com/@b333nn3t"
+
+                class="social-link"
+
+                target="_blank"
+
+                rel="noopener">
+
+                <img
+                  class="social-icon-img"
+
+                  src="assets/release/youtube_128.png"
+
+                  alt="YouTube">
+
+              </a>
+
+              <a
+                href="https://soundcloud.com/bennet-6942069420"
+
+                class="social-link"
+
+                target="_blank"
+
+                rel="noopener">
+
+                <img
+                  class="social-icon-img"
+
+                  src="assets/release/soundcloud_128.png"
+
+                  alt="SoundCloud">
+
+              </a>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- FOOTER -->
+
+        <section class="block">
+
+          <p>
+
+            mehr auf meiner webseite :p
+
+          </p>
+
+          <a
+            class="brand-link more-link"
+
+            href="https://www.b3nn3t.com/index.html">
+
+            b3nn3t.com
+
+          </a>
+
+        </section>
+
+      </main>
+
+    </div>
+
+  </div>
+
+
+<!-- ================= FIXED WEBGL BACKGROUND ================= -->
 
 <script>
 (() => {
 
-const audio = document.getElementById("release-audio");
+  const audio = document.getElementById('release-audio');
 
-/* ===================== THREE SETUP ===================== */
+  if(!audio) return;
 
-const scene = new THREE.Scene();
+  const renderer = new THREE.WebGLRenderer({alpha:true,antialias:true});
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.domElement.id = "webgl-space";
+  document.body.prepend(renderer.domElement);
 
-const camera = new THREE.PerspectiveCamera(
-75, window.innerWidth/window.innerHeight, 0.1, 3000
-);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 2000);
+  camera.position.z = 500;
 
-camera.position.z = 600;
+  const starsGeo = new THREE.BufferGeometry();
+  const count = 4000;
+  const pos = new Float32Array(count*3);
 
-const renderer = new THREE.WebGLRenderer({ alpha:true, antialias:true });
+  for(let i=0;i<count*3;i++){
+    pos[i]=(Math.random()-0.5)*2000;
+  }
 
-renderer.setSize(window.innerWidth, window.innerHeight);
+  starsGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
 
-renderer.domElement.id = "webgl-space";
+  const starsMat = new THREE.PointsMaterial({
+    color:0xffffff,
+    size:3,
+    transparent:true,
+    opacity:0.8,
+    depthWrite:false
+  });
 
-document.body.prepend(renderer.domElement);
+  const stars = new THREE.Points(starsGeo, starsMat);
+  scene.add(stars);
 
-/* ===================== AUDIO ===================== */
+  function animate(){
+    stars.rotation.y += 0.0005;
+    renderer.render(scene,camera);
+    requestAnimationFrame(animate);
+  }
 
-const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  function start(){
+    renderer.domElement.style.opacity="1";
+    animate();
+  }
 
-const source = ctx.createMediaElementSource(audio);
+  function stop(){
+    renderer.domElement.style.opacity="0";
+  }
 
-const analyser = ctx.createAnalyser();
+  audio.addEventListener("play",start);
+  audio.addEventListener("pause",stop);
+  audio.addEventListener("ended",stop);
 
-analyser.fftSize = 256;
-
-source.connect(analyser);
-analyser.connect(ctx.destination);
-
-const data = new Uint8Array(analyser.frequencyBinCount);
-
-function level(){
-analyser.getByteFrequencyData(data);
-return data.reduce((a,b)=>a+b,0)/data.length/255;
-}
-
-/* ===================== STARS ===================== */
-
-const geo = new THREE.BufferGeometry();
-
-const count = 5000;
-
-const pos = new Float32Array(count*3);
-
-for(let i=0;i<count*3;i++){
-pos[i]=(Math.random()-0.5)*2000;
-}
-
-geo.setAttribute("position", new THREE.BufferAttribute(pos,3));
-
-const mat = new THREE.PointsMaterial({
-color:0xffffff,
-size:2,
-transparent:true,
-opacity:0.8
-});
-
-const stars = new THREE.Points(geo,mat);
-scene.add(stars);
-
-/* ===================== GALAXY ===================== */
-
-const gGeo = new THREE.BufferGeometry();
-
-const gCount = 2500;
-
-const gPos = new Float32Array(gCount*3);
-
-for(let i=0;i<gCount;i++){
-
-const i3=i*3;
-const r=Math.random()*700;
-const a=(i%4)*(Math.PI*2/4);
-
-gPos[i3]=Math.cos(a)*r;
-gPos[i3+1]=(Math.random()-0.5)*80;
-gPos[i3+2]=Math.sin(a)*r;
-
-}
-
-gGeo.setAttribute("position", new THREE.BufferAttribute(gPos,3));
-
-const galaxy = new THREE.Points(
-gGeo,
-new THREE.PointsMaterial({
-color:0x8fc8ff,
-size:2,
-transparent:true,
-opacity:0.15
-})
-);
-
-scene.add(galaxy);
-
-/* ===================== RESIZE ===================== */
-
-window.addEventListener("resize",()=>{
-
-camera.aspect=window.innerWidth/window.innerHeight;
-camera.updateProjectionMatrix();
-renderer.setSize(window.innerWidth,window.innerHeight);
-
-});
-
-/* ===================== ANIMATION ===================== */
-
-let running=false;
-let frame;
-
-function animate(){
-
-const l = level();
-
-/* stars */
-stars.rotation.y += 0.001 + l*0.01;
-mat.size = 2 + l*4;
-
-/* galaxy */
-galaxy.rotation.y += 0.0005;
-galaxy.scale.setScalar(1 + l*0.08);
-
-renderer.render(scene,camera);
-
-frame=requestAnimationFrame(animate);
-
-}
-
-/* ===================== START / STOP ===================== */
-
-async function start(){
-
-if(running) return;
-running=true;
-
-await ctx.resume();
-
-renderer.domElement.style.opacity=1;
-
-animate();
-
-}
-
-function stop(){
-
-running=false;
-
-cancelAnimationFrame(frame);
-
-renderer.domElement.style.opacity=0;
-
-}
-
-audio.addEventListener("play",start);
-audio.addEventListener("pause",stop);
-audio.addEventListener("ended",stop);
+  addEventListener("resize",()=>{
+    camera.aspect=innerWidth/innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+  });
 
 })();
 </script>
