@@ -1036,13 +1036,13 @@ const material =
         stars.rotation.y +=
           dropMode
           ? 0.002 + audioLevel * 0.03
-          : 0.0007 + audioLevel * 0.03;
+          : 0.0007 + audioLevel * 0.02;
 
         stars.rotation.x += 0.00015;
 
         material.size =
           dropMode
-          ? 3 + audioLevel * 10
+          ? 4 + audioLevel * 10
           : 2 + audioLevel * 4;
 
         material.opacity =
