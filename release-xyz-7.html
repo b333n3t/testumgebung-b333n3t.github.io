@@ -1,56 +1,120 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>b3nn3t „¾“</title>
-  <meta name="description" content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+
+  <meta name="description"
+    content="„drei-viertel“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+
   <meta name="robots" content="index,follow,max-image-preview:large" />
+
+  <!-- Favicons -->
 
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <link rel="canonical" href="https://www.b3nn3t.com/release-drei-viertel.html" />
+  <!-- Canonical -->
+
+  <link rel="canonical"
+    href="https://www.b3nn3t.com/release-drei-viertel.html" />
+
+  <!-- Open Graph -->
 
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„drei-viertel“ – neues Release von b3nn3t">
-  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-drei-viertel.html">
+  <meta property="og:title"
+    content="„drei-viertel“ – neues Release von b3nn3t">
+
+  <meta property="og:description"
+    content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+
+  <meta property="og:image"
+    content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+
+  <meta property="og:url"
+    content="https://www.b3nn3t.com/release-drei-viertel.html">
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image">
+
+  <meta name="twitter:title"
+    content="„drei-viertel“ – neues Release von b3nn3t">
+
+  <meta name="twitter:description"
+    content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „drei-viertel“ von b3nn3t.">
+
+  <meta name="twitter:image"
+    content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+
+  <!-- JSON-LD -->
 
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"MusicRecording",
     "name":"¾",
-    "byArtist":{"@type":"MusicGroup","name":"b3nn3t"},
-    "inAlbum":{"@type":"MusicAlbum","name":"drei-viertel"},
+    "byArtist":{
+      "@type":"MusicGroup",
+      "name":"b3nn3t"
+    },
+    "inAlbum":{
+      "@type":"MusicAlbum",
+      "name":"drei-viertel"
+    },
     "image":"https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp",
     "url":"https://www.b3nn3t.com/release-drei-viertel.html"
   }
   </script>
 
+  <!-- preload -->
+
+  <link rel="preload"
+    as="image"
+    href="/assets/release/3-4/drei-viertel-cover.webp"
+    fetchpriority="high">
+
+  <!-- THREE -->
+
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
   <style>
 
-    html, body{
-      margin:0;
-      padding:0;
-      height:100%;
-      overflow-x:hidden;
-      font-family: system-ui, sans-serif;
-      color:#fff;
-      background:#587fa6;
+    :root{
+      --awb-text-main:#fdfdfd;
+      --page-max-width:960px;
+      --awb-bg:#587fa6;
     }
 
-    /* =========================
-       ONLY FIXED BACKGROUND
-       ========================= */
+    html,
+    body{
+      margin:0;
+      padding:0;
+      min-height:100%;
+      overflow-x:hidden;
+
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        sans-serif;
+
+      color:var(--awb-text-main);
+
+      background:var(--awb-bg);
+    }
+
+    /* =========================================================
+       WEBGL SPACE
+       ========================================================= */
 
     #webgl-space{
       position:fixed;
@@ -65,39 +129,272 @@
     }
 
     .page-wrap{
-      position:relative;
-      z-index:2;
+      min-height:100vh;
+      width:100%;
       display:flex;
       justify-content:center;
-      padding:3rem 1.5rem;
+      align-items:flex-start;
+
+      padding:
+        clamp(2.8rem,4vw,3.8rem)
+        1.5rem
+        clamp(3.5rem,5vw,4.5rem);
+
+      box-sizing:border-box;
+
+      position:relative;
+      z-index:2;
     }
 
-    .content{max-width:960px;width:100%;}
+    .content{
+      width:100%;
+      max-width:var(--page-max-width);
+      position:relative;
+    }
 
-    /* ===== everything else untouched ===== */
+    main.main{
+      display:flex;
+      flex-direction:column;
+      gap:clamp(1.6rem,2.4vw,2.2rem);
+    }
+
+    .topline{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:baseline;
+      gap:0.7rem;
+
+      font-size:0.92rem;
+      letter-spacing:0.04em;
+
+      margin-bottom:
+        clamp(1.6rem,2.4vw,2.2rem);
+    }
+
+    .brand-link{
+      color:#ffffff;
+      font-weight:700;
+      text-decoration:none;
+      letter-spacing:0.04em;
+    }
+
+    .count-label{
+      opacity:0.9;
+    }
+
+    #awb-countdown-timer{
+      font-variant-numeric:tabular-nums;
+      font-weight:700;
+      color:#fff;
+      min-width:8ch;
+      display:inline-block;
+    }
+
+    .video-wrap{
+      margin:
+        0 auto
+        clamp(2rem,3vw,2.8rem);
+
+      max-width:720px;
+      width:100%;
+    }
 
     .video-inner{
-      position:relative;
       border-radius:22px;
       overflow:hidden;
+
       background:#000;
-      aspect-ratio:16/9;
+
+      aspect-ratio:16 / 9;
+
+      position:relative;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.35),
+        0 0 120px rgba(120,180,255,0.08);
     }
 
     .release-video{
       width:100%;
       height:100%;
-      object-fit:cover;
       display:block;
+      object-fit:cover;
+      background:#000;
     }
 
     .audio-overlay{
       position:absolute;
+      left:0;
+      right:0;
       bottom:0;
+
       width:100%;
+
+      padding:0.6rem;
+
+      background:rgba(0,0,0,0.55);
+
+      box-sizing:border-box;
+
+      backdrop-filter:blur(10px);
+    }
+
+    section.block{
+      margin-bottom:
+        clamp(1.8rem,2.6vw,2.4rem);
+    }
+
+    section.block h2{
+      margin:0 0 0.95rem;
+
+      font-size:1.06rem;
+      letter-spacing:0.04em;
+
+      text-transform:lowercase;
+      font-weight:600;
+    }
+
+    section.block p{
+      margin:0;
+
+      line-height:1.7;
+      letter-spacing:0.04em;
+
+      max-width:60rem;
+      font-size:1rem;
+    }
+
+    .presave-wrap{
+      margin-top:0.2rem;
+    }
+
+    .presave-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      padding:0.95rem 1.2rem;
+
+      border-radius:999px;
+
+      background:#fff;
+      color:var(--awb-bg);
+
+      text-decoration:none;
+      font-weight:800;
+      letter-spacing:0.04em;
+
+      border:
+        2px solid rgba(255,255,255,0.55);
+
+      box-shadow:
+        0 6px 18px rgba(0,0,0,0.18),
+        0 0 40px rgba(120,180,255,0.05);
+
+      transition:
+        transform .18s ease,
+        box-shadow .25s ease;
+    }
+
+    .presave-btn:hover{
+      transform:translateY(-1px);
+
+      box-shadow:
+        0 10px 26px rgba(0,0,0,0.22),
+        0 0 60px rgba(120,180,255,0.18);
+    }
+
+    .social-section{
+      margin:0 0 0.8rem;
+    }
+
+    .social-icons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:clamp(1.1rem,1.6vw,1.6rem);
+      align-items:center;
+      margin-bottom:0.4rem;
+    }
+
+    .social-link{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .social-icon-img{
+      width:
+        clamp(1.6rem,1.3vw + 1rem,2.2rem);
+
+      height:auto;
+      display:block;
+    }
+
+    .more-link{
+      display:inline-block;
+      margin-top:0.65rem;
+      margin-bottom:0.75rem;
+      padding-left:0.25rem;
+    }
+
+    /* DROP MODE */
+
+    .drop-mode-active .video-inner{
+      box-shadow:
+        0 0 50px rgba(255,255,255,0.25),
+        0 0 120px rgba(140,200,255,0.25),
+        0 0 220px rgba(120,180,255,0.15);
+    }
+
+    /* CROSSHAIR */
+
+    #crosshair{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:99999;
+    }
+
+    #crosshair .line-x{
+      position:absolute;
+      left:0;
+      top:50%;
+
+      width:100vw;
+      height:1px;
+
+      background:#ffffff;
+
+      opacity:0.9;
+
+      transform:translateY(-0.5px);
+    }
+
+    #crosshair .line-y{
+      position:absolute;
+      top:0;
+      left:50%;
+
+      width:1px;
+      height:100vh;
+
+      background:#ffffff;
+
+      opacity:0.9;
+
+      transform:translateX(-0.5px);
+    }
+
+    @media (pointer:coarse){
+
+      #crosshair{
+        display:none;
+      }
     }
 
   </style>
+
 </head>
 
 <body>
@@ -372,73 +669,377 @@
 
   </div>
 
+  <!-- CROSSHAIR -->
 
-<!-- ================= FIXED WEBGL BACKGROUND ================= -->
+  <div
+    id="crosshair"
+    aria-hidden="true">
 
-<script>
-(() => {
+    <div class="line-x"></div>
 
-  const audio = document.getElementById('release-audio');
+    <div class="line-y"></div>
 
-  if(!audio) return;
+  </div>
 
-  const renderer = new THREE.WebGLRenderer({alpha:true,antialias:true});
-  renderer.setSize(innerWidth, innerHeight);
-  renderer.domElement.id = "webgl-space";
-  document.body.prepend(renderer.domElement);
+  <!-- COUNTDOWN -->
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 2000);
-  camera.position.z = 500;
+  <script>
 
-  const starsGeo = new THREE.BufferGeometry();
-  const count = 4000;
-  const pos = new Float32Array(count*3);
+    (() => {
 
-  for(let i=0;i<count*3;i++){
-    pos[i]=(Math.random()-0.5)*2000;
-  }
+      const targetDate =
+        new Date("2026-03-06T00:00:00+01:00").getTime();
 
-  starsGeo.setAttribute("position", new THREE.BufferAttribute(pos,3));
+      const el =
+        document.getElementById("awb-countdown-timer");
 
-  const starsMat = new THREE.PointsMaterial({
-    color:0xffffff,
-    size:3,
-    transparent:true,
-    opacity:0.8,
-    depthWrite:false
-  });
+      if(!el) return;
 
-  const stars = new THREE.Points(starsGeo, starsMat);
-  scene.add(stars);
+      function updateCountdown(){
 
-  function animate(){
-    stars.rotation.y += 0.0005;
-    renderer.render(scene,camera);
-    requestAnimationFrame(animate);
-  }
+        const now = Date.now();
 
-  function start(){
-    renderer.domElement.style.opacity="1";
-    animate();
-  }
+        const diff = targetDate - now;
 
-  function stop(){
-    renderer.domElement.style.opacity="0";
-  }
+        if(diff <= 0){
 
-  audio.addEventListener("play",start);
-  audio.addEventListener("pause",stop);
-  audio.addEventListener("ended",stop);
+          el.textContent = "OUT NOW";
 
-  addEventListener("resize",()=>{
-    camera.aspect=innerWidth/innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth,innerHeight);
-  });
+          clearInterval(timer);
 
-})();
-</script>
+          return;
+        }
+
+        const seconds = Math.floor(diff / 1000);
+
+        const days =
+          Math.floor(seconds / (3600 * 24));
+
+        const hours =
+          Math.floor((seconds % (3600 * 24)) / 3600);
+
+        const mins =
+          Math.floor((seconds % 3600) / 60);
+
+        const secs = seconds % 60;
+
+        const hh =
+          String(hours).padStart(2, "0");
+
+        const mm =
+          String(mins).padStart(2, "0");
+
+        const ss =
+          String(secs).padStart(2, "0");
+
+        el.textContent =
+          days > 0
+          ? `${days}d ${hh}:${mm}:${ss}`
+          : `${hh}:${mm}:${ss}`;
+      }
+
+      updateCountdown();
+
+      const timer =
+        setInterval(updateCountdown, 1000);
+
+    })();
+
+  </script>
+
+  <!-- CROSSHAIR SCRIPT -->
+
+  <script>
+
+    (() => {
+
+      const cross =
+        document.getElementById('crosshair');
+
+      const lineX =
+        cross?.querySelector('.line-x');
+
+      const lineY =
+        cross?.querySelector('.line-y');
+
+      if(!cross || !lineX || !lineY) return;
+
+      let x = -9999;
+      let y = -9999;
+
+      let raf = null;
+
+      function render(){
+
+        lineX.style.top = y + 'px';
+
+        lineY.style.left = x + 'px';
+
+        raf = null;
+      }
+
+      window.addEventListener('mousemove', (e) => {
+
+        x = e.clientX;
+
+        y = e.clientY;
+
+        if(!raf){
+
+          raf = requestAnimationFrame(render);
+        }
+
+      }, { passive:true });
+
+    })();
+
+  </script>
+
+  <!-- WEBGL SPACE -->
+
+  <script>
+
+    (() => {
+
+      const audio =
+        document.getElementById('release-audio');
+
+      if(!audio) return;
+
+      const renderer =
+        new THREE.WebGLRenderer({
+          alpha:true,
+          antialias:true
+        });
+
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, 2)
+      );
+
+      renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+      );
+
+      renderer.domElement.id = 'webgl-space';
+
+      document.body.prepend(renderer.domElement);
+
+      const scene = new THREE.Scene();
+
+      const camera =
+        new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          3000
+        );
+
+      camera.position.z = 500;
+
+      /* AUDIO */
+
+      const audioCtx =
+        new (
+          window.AudioContext ||
+          window.webkitAudioContext
+        )();
+
+      const source =
+        audioCtx.createMediaElementSource(audio);
+
+      const analyser =
+        audioCtx.createAnalyser();
+
+      analyser.fftSize = 256;
+
+      source.connect(analyser);
+
+      analyser.connect(audioCtx.destination);
+
+      const bufferLength =
+        analyser.frequencyBinCount;
+
+      const dataArray =
+        new Uint8Array(bufferLength);
+
+      function getAudioLevel(){
+
+        analyser.getByteFrequencyData(dataArray);
+
+        let sum = 0;
+
+        for(let i = 0; i < bufferLength; i++){
+
+          sum += dataArray[i];
+        }
+
+        return sum / bufferLength / 255;
+      }
+
+      /* STARS */
+
+      const geometry =
+        new THREE.BufferGeometry();
+
+      const starCount = 5000;
+
+      const positions =
+        new Float32Array(starCount * 3);
+
+      for(let i = 0; i < starCount * 3; i++){
+
+        positions[i] =
+          (Math.random() - 0.5) * 2500;
+      }
+
+      geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(positions, 3)
+      );
+
+      const material =
+        new THREE.PointsMaterial({
+          color:0xffffff,
+          size:2.4,
+          transparent:true,
+          opacity:0.85,
+          blending:THREE.AdditiveBlending,
+          depthWrite:false
+        });
+
+      const stars =
+        new THREE.Points(
+          geometry,
+          material
+        );
+
+      scene.add(stars);
+
+      /* DROP MODE */
+
+      let dropMode = false;
+
+      window.addEventListener('keydown', (e) => {
+
+        if(e.key.toLowerCase() === 'd'){
+
+          dropMode = !dropMode;
+
+          document.body.classList.toggle(
+            'drop-mode-active',
+            dropMode
+          );
+        }
+
+      });
+
+      /* PARALLAX */
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+
+        mouseX =
+          (e.clientX / window.innerWidth - 0.5);
+
+        mouseY =
+          (e.clientY / window.innerHeight - 0.5);
+
+      });
+
+      /* RESIZE */
+
+      window.addEventListener('resize', () => {
+
+        camera.aspect =
+          window.innerWidth / window.innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+          window.innerWidth,
+          window.innerHeight
+        );
+
+      });
+
+      /* ANIMATION */
+
+      let animationId;
+
+      let running = false;
+
+      function animate(){
+
+        const audioLevel =
+          getAudioLevel();
+
+        camera.position.x +=
+          ((mouseX * 40) - camera.position.x) * 0.02;
+
+        camera.position.y +=
+          ((-mouseY * 40) - camera.position.y) * 0.02;
+
+        camera.lookAt(scene.position);
+
+        stars.rotation.y +=
+          dropMode
+          ? 0.002 + audioLevel * 0.03
+          : 0.0007 + audioLevel * 0.01;
+
+        stars.rotation.x += 0.00015;
+
+        material.size =
+          dropMode
+          ? 3 + audioLevel * 10
+          : 2 + audioLevel * 4;
+
+        material.opacity =
+          dropMode
+          ? 0.9
+          : 0.7;
+
+        renderer.render(scene, camera);
+
+        animationId =
+          requestAnimationFrame(animate);
+      }
+
+      /* START / STOP */
+
+      async function startSpace(){
+
+        if(running) return;
+
+        running = true;
+
+        await audioCtx.resume();
+
+        renderer.domElement.style.opacity = '1';
+
+        animate();
+      }
+
+      function stopSpace(){
+
+        running = false;
+
+        cancelAnimationFrame(animationId);
+
+        renderer.domElement.style.opacity = '0';
+      }
+
+      audio.addEventListener('play', startSpace);
+
+      audio.addEventListener('pause', stopSpace);
+
+      audio.addEventListener('ended', stopSpace);
+
+    })();
+
+  </script>
 
 </body>
 </html>
