@@ -882,7 +882,7 @@
       const geometry =
         new THREE.BufferGeometry();
 
-      const starCount = 5000;
+      const starCount = 14000;
 
       const positions =
         new Float32Array(starCount * 3);
@@ -890,7 +890,7 @@
       for(let i = 0; i < starCount * 3; i++){
 
         positions[i] =
-          (Math.random() - 0.5) * 2500;
+          (Math.random() - 0.5) * 4200;
       }
 
       geometry.setAttribute(
@@ -939,7 +939,7 @@ const material =
 
     color:0xffffff,
 
-    size:5.2,
+    size:7.5,
 
     transparent:true,
 
@@ -949,7 +949,7 @@ const material =
 
     depthWrite:false,
 
-    alphaTest:0.001,
+    alphaTest:0.00001,
 
     sizeAttenuation:true
   });
@@ -1046,8 +1046,8 @@ const material =
 
         material.opacity =
           dropMode
-          ? 0.9
-          : 0.7;
+          ? 1
+          : 0.92;
 
         renderer.render(scene, camera);
 
