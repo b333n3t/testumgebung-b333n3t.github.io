@@ -952,7 +952,7 @@ const material =
 
     alphaTest:0.000001,
 
-    sizeAttenuation:true
+    sizeAttenuation:false
   });
 
 
@@ -1035,15 +1035,15 @@ const material =
 
         stars.rotation.y +=
           dropMode
-          ? 0.006 + audioLevel * 0.08
-          : 0.002 + audioLevel * 0.01;
+          ? 0.002 + audioLevel * 0.03
+          : 0.0007 + audioLevel * 0.03;
 
         stars.rotation.x += 0.00015;
 
         material.size =
           dropMode
-          ? 3 + audioLevel * 10
-          : 2 + audioLevel * 4;
+          ? 14 + audioLevel * 18
+          : 10 + audioLevel * 8;
 
         material.opacity =
           dropMode
