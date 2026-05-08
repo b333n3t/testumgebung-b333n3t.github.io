@@ -913,8 +913,9 @@ const gradient = starCtx.createRadialGradient(
 );
 
 gradient.addColorStop(0, 'rgba(255,255,255,1)');
-gradient.addColorStop(0.2, 'rgba(255,255,255,1)');
-gradient.addColorStop(0.45, 'rgba(255,255,255,0.6)');
+gradient.addColorStop(0.12, 'rgba(255,255,255,1)');
+gradient.addColorStop(0.28, 'rgba(255,255,255,0.95)');
+gradient.addColorStop(0.5, 'rgba(255,255,255,0.45)');
 gradient.addColorStop(1, 'rgba(255,255,255,0)');
 
 starCtx.fillStyle = gradient;
@@ -937,18 +938,21 @@ const material =
 
     color:0xffffff,
 
-    size:2.8,
+    size:3.8,
 
     transparent:true,
 
-    opacity:0.9,
+    opacity:1,
 
     blending:THREE.AdditiveBlending,
 
     depthWrite:false,
 
-    alphaTest:0.01
+    alphaTest:0.001,
+
+    sizeAttenuation:true
   });
+
 
 
       const stars =
