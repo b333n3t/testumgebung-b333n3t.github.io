@@ -882,7 +882,7 @@
       const geometry =
         new THREE.BufferGeometry();
 
-      const starCount = 14000;
+      const starCount = 32000;
 
       const positions =
         new Float32Array(starCount * 3);
@@ -890,7 +890,7 @@
       for(let i = 0; i < starCount * 3; i++){
 
         positions[i] =
-          (Math.random() - 0.5) * 4200;
+          (Math.random() - 0.5) * 6200;
       }
 
       geometry.setAttribute(
@@ -913,10 +913,11 @@ const gradient = starCtx.createRadialGradient(
 );
 
 gradient.addColorStop(0, 'rgba(255,255,255,1.5)');
-gradient.addColorStop(0.08, 'rgba(255,255,255,1)');
+gradient.addColorStop(0.05, 'rgba(255,255,255,1)');
+gradient.addColorStop(0.16, 'rgba(255,255,255,1)');
 gradient.addColorStop(0.22, 'rgba(255,255,255,0.9)');  
 gradient.addColorStop(0.45, 'rgba(255,255,255,0.85)');
-gradient.addColorStop(0.72, 'rgba(255,255,255,0.25)');
+gradient.addColorStop(0.72, 'rgba(255,255,255,0.6)');
 gradient.addColorStop(1, 'rgba(255,255,255,0)');
 
 starCtx.fillStyle = gradient;
@@ -939,7 +940,7 @@ const material =
 
     color:0xffffff,
 
-    size:7.5,
+    size:12,
 
     transparent:true,
 
@@ -949,7 +950,7 @@ const material =
 
     depthWrite:false,
 
-    alphaTest:0.00001,
+    alphaTest:0.000001,
 
     sizeAttenuation:true
   });
