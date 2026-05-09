@@ -793,386 +793,423 @@
 
   </script>
 
-  <!-- WEBGL SPACE -->
+  <!-- =========================================================
+     ASTRONAUT FIX
+     ERSETZT deinen kompletten bisherigen ASTRONAUT BLOCK
+     ========================================================= -->
 
-  <script>
+<script>
 
-    (() => {
+(() => {
 
-      const audio =
-        document.getElementById('release-audio');
+  const audio =
+    document.getElementById('release-audio');
 
-      if(!audio) return;
+  if(!audio) return;
 
-      const renderer =
-        new THREE.WebGLRenderer({
-          alpha:true,
-          antialias:true
-        });
+  /* =========================================================
+     WEBGL
+     ========================================================= */
 
-      renderer.setPixelRatio(
-        Math.min(window.devicePixelRatio, 2)
+  const renderer =
+    new THREE.WebGLRenderer({
+      alpha:true,
+      antialias:true
+    });
+
+  renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 2)
+  );
+
+  renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+  );
+
+  renderer.domElement.id = 'webgl-space';
+
+  document.body.prepend(renderer.domElement);
+
+  const scene = new THREE.Scene();
+
+  const camera =
+    new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      4000
+    );
+
+  camera.position.z = 500;
+
+  /* =========================================================
+     AUDIO
+     ========================================================= */
+
+  const audioCtx =
+    new (
+      window.AudioContext ||
+      window.webkitAudioContext
+    )();
+
+  const source =
+    audioCtx.createMediaElementSource(audio);
+
+  const analyser =
+    audioCtx.createAnalyser();
+
+  analyser.fftSize = 256;
+
+  source.connect(analyser);
+
+  analyser.connect(audioCtx.destination);
+
+  const bufferLength =
+    analyser.frequencyBinCount;
+
+  const dataArray =
+    new Uint8Array(bufferLength);
+
+  function getAudioLevel(){
+
+    analyser.getByteFrequencyData(dataArray);
+
+    let sum = 0;
+
+    for(let i = 0; i < bufferLength; i++){
+
+      sum += dataArray[i];
+    }
+
+    return sum / bufferLength / 255;
+  }
+
+  /* =========================================================
+     STARS
+     ========================================================= */
+
+  const geometry =
+    new THREE.BufferGeometry();
+
+  const starCount = 9000;
+
+  const positions =
+    new Float32Array(starCount * 3);
+
+  for(let i = 0; i < starCount * 3; i++){
+
+    positions[i] =
+      (Math.random() - 0.5) * 3200;
+  }
+
+  geometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(positions, 3)
+  );
+
+  const starTexture =
+    createStarTexture();
+
+  const material =
+    new THREE.PointsMaterial({
+
+      map: starTexture,
+
+      color:0xffffff,
+
+      size:4.2,
+
+      transparent:true,
+
+      opacity:1,
+
+      blending:THREE.AdditiveBlending,
+
+      depthWrite:false,
+
+      sizeAttenuation:true
+    });
+
+  const stars =
+    new THREE.Points(
+      geometry,
+      material
+    );
+
+  scene.add(stars);
+
+  function createStarTexture(){
+
+    const canvas =
+      document.createElement('canvas');
+
+    canvas.width = 128;
+    canvas.height = 128;
+
+    const ctx =
+      canvas.getContext('2d');
+
+    const gradient =
+      ctx.createRadialGradient(
+        64,64,0,
+        64,64,64
       );
 
-      renderer.setSize(
-        window.innerWidth,
-        window.innerHeight
-      );
+    gradient.addColorStop(0,'rgba(255,255,255,1)');
+    gradient.addColorStop(0.15,'rgba(255,255,255,1)');
+    gradient.addColorStop(0.4,'rgba(255,255,255,0.9)');
+    gradient.addColorStop(1,'rgba(255,255,255,0)');
 
-      renderer.domElement.id = 'webgl-space';
+    ctx.fillStyle = gradient;
 
-      document.body.prepend(renderer.domElement);
+    ctx.beginPath();
 
-      const scene = new THREE.Scene();
+    ctx.arc(64,64,64,0,Math.PI * 2);
 
-      const camera =
-        new THREE.PerspectiveCamera(
-          75,
-          window.innerWidth / window.innerHeight,
-          0.1,
-          4000
-        );
+    ctx.fill();
 
-      camera.position.z = 500;
+    return new THREE.CanvasTexture(canvas);
+  }
 
-      /* AUDIO */
+  /* =========================================================
+     ASTRONAUT
+     ========================================================= */
 
-      const audioCtx =
-        new (
-          window.AudioContext ||
-          window.webkitAudioContext
-        )();
+  let astronaut;
 
-      const source =
-        audioCtx.createMediaElementSource(audio);
+  const textureLoader =
+    new THREE.TextureLoader();
 
-      const analyser =
-        audioCtx.createAnalyser();
+  textureLoader.load(
 
-      analyser.fftSize = 256;
+    '/assets/release/astronaut.webp',
 
-      source.connect(analyser);
+    (texture) => {
 
-      analyser.connect(audioCtx.destination);
-
-      const bufferLength =
-        analyser.frequencyBinCount;
-
-      const dataArray =
-        new Uint8Array(bufferLength);
-
-      function getAudioLevel(){
-
-        analyser.getByteFrequencyData(dataArray);
-
-        let sum = 0;
-
-        for(let i = 0; i < bufferLength; i++){
-
-          sum += dataArray[i];
-        }
-
-        return sum / bufferLength / 255;
-      }
-
-      /* STARS */
-
-      const geometry =
-        new THREE.BufferGeometry();
-
-      const starCount = 12000;
-
-      const positions =
-        new Float32Array(starCount * 3);
-
-      const colors =
-        new Float32Array(starCount * 3);
-
-      for(let i = 0; i < starCount; i++){
-
-        const i3 = i * 3;
-
-        positions[i3] =
-          (Math.random() - 0.5) * 3200;
-
-        positions[i3 + 1] =
-          (Math.random() - 0.5) * 3200;
-
-        positions[i3 + 2] =
-          (Math.random() - 0.5) * 3200;
-
-        const depth =
-          Math.abs(positions[i3 + 2]) / 3200;
-
-        const brightness =
-          1.3 - depth * 0.4;
-
-        colors[i3] = brightness;
-        colors[i3 + 1] = brightness;
-        colors[i3 + 2] = brightness;
-      }
-
-      geometry.setAttribute(
-        'position',
-        new THREE.BufferAttribute(positions, 3)
-      );
-
-      geometry.setAttribute(
-        'color',
-        new THREE.BufferAttribute(colors, 3)
-      );
-
-      const starTexture =
-        new THREE.TextureLoader().load(
-          'https://threejs.org/examples/textures/sprites/disc.png'
-        );
-
-      const material =
-        new THREE.PointsMaterial({
-
-          size:3.6,
-
-          map:starTexture,
-
-          transparent:true,
-
-          opacity:1,
-
-          vertexColors:true,
-
-          blending:THREE.AdditiveBlending,
-
-          depthWrite:false,
-
-          alphaTest:0.01
-        });
-
-      const stars =
-        new THREE.Points(
-          geometry,
-          material
-        );
-
-      scene.add(stars);
-
-      /* =========================================================
-         ASTRONAUT
-         ========================================================= */
-
-      const astronautTexture =
-        new THREE.TextureLoader().load(
-          '/assets/release/astronaut.webp'
-        );
-
-      astronautTexture.colorSpace =
-        THREE.SRGBColorSpace;
+      console.log('Astronaut geladen');
 
       const astronautMaterial =
         new THREE.SpriteMaterial({
 
-          map: astronautTexture,
+          map:texture,
 
-          transparent: true,
+          transparent:true,
 
-          opacity: 0.96,
+          depthWrite:false,
 
-          depthWrite: false,
-
-          depthTest: true
+          opacity:1
         });
 
-      const astronaut =
-        new THREE.Sprite(astronautMaterial);
+      astronaut =
+        new THREE.Sprite(
+          astronautMaterial
+        );
 
-      astronaut.scale.set(180, 180, 1);
+      astronaut.scale.set(
+        220,
+        220,
+        1
+      );
 
       astronaut.position.set(
         0,
-        -20,
+        0,
         -1800
       );
 
-      astronaut.renderOrder = 999;
-
       scene.add(astronaut);
 
-      /* =========================================================
-         ASTRONAUT ANIMATION
-         ========================================================= */
+    },
 
-      let astronautProgress = 0;
+    undefined,
 
-      function animateAstronaut(audioLevel){
+    (err) => {
 
-        astronautProgress +=
-          0.0025 + audioLevel * 0.01;
+      console.error(
+        'Astronaut Fehler:',
+        err
+      );
 
-        if(astronautProgress > 1){
+    }
 
-          astronautProgress = 0;
-        }
+  );
 
-        const z =
-          -1800 + astronautProgress * 2600;
+  /* =========================================================
+     DROP MODE
+     ========================================================= */
 
-        astronaut.position.z = z;
+  let dropMode = false;
 
-        astronaut.position.y =
-          Math.sin(astronautProgress * Math.PI * 4)
-          * 24;
+  window.addEventListener('keydown', (e) => {
 
-        astronaut.position.x =
-          Math.cos(astronautProgress * Math.PI * 2)
-          * 40;
+    if(e.key.toLowerCase() === 'd'){
 
-        const scale =
-          80 + astronautProgress * 260;
+      dropMode = !dropMode;
 
-        astronaut.scale.set(
-          scale,
-          scale,
-          1
-        );
+      document.body.classList.toggle(
+        'drop-mode-active',
+        dropMode
+      );
+    }
 
-        astronaut.material.rotation += 0.0015;
+  });
 
-        if(astronautProgress < 0.15){
+  /* =========================================================
+     PARALLAX
+     ========================================================= */
 
-          astronaut.material.opacity =
-            astronautProgress / 0.15;
+  let mouseX = 0;
+  let mouseY = 0;
 
-        } else if(astronautProgress > 0.85){
+  window.addEventListener('mousemove', (e) => {
 
-          astronaut.material.opacity =
-            (1 - astronautProgress) / 0.15;
+    mouseX =
+      (e.clientX / window.innerWidth - 0.5);
 
-        } else {
+    mouseY =
+      (e.clientY / window.innerHeight - 0.5);
 
-          astronaut.material.opacity = 0.96;
-        }
-      }
+  });
 
-      /* DROP MODE */
+  /* =========================================================
+     RESIZE
+     ========================================================= */
 
-      let dropMode = false;
+  window.addEventListener('resize', () => {
 
-      window.addEventListener('keydown', (e) => {
+    camera.aspect =
+      window.innerWidth / window.innerHeight;
 
-        if(e.key.toLowerCase() === 'd'){
+    camera.updateProjectionMatrix();
 
-          dropMode = !dropMode;
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
 
-          document.body.classList.toggle(
-            'drop-mode-active',
-            dropMode
-          );
-        }
+  });
 
-      });
+  /* =========================================================
+     ANIMATION
+     ========================================================= */
 
-      /* PARALLAX */
+  let animationId;
 
-      let mouseX = 0;
-      let mouseY = 0;
+  let running = false;
 
-      window.addEventListener('mousemove', (e) => {
+  let astronautPhase = 0;
 
-        mouseX =
-          (e.clientX / window.innerWidth - 0.5);
+  function animate(){
 
-        mouseY =
-          (e.clientY / window.innerHeight - 0.5);
+    const audioLevel =
+      getAudioLevel();
 
-      });
+    camera.position.x +=
+      ((mouseX * 40) - camera.position.x) * 0.02;
 
-      /* RESIZE */
+    camera.position.y +=
+      ((-mouseY * 40) - camera.position.y) * 0.02;
 
-      window.addEventListener('resize', () => {
+    camera.lookAt(scene.position);
 
-        camera.aspect =
-          window.innerWidth / window.innerHeight;
+    /* STARS */
 
-        camera.updateProjectionMatrix();
+    stars.rotation.y +=
+      0.00018 + audioLevel * 0.003;
 
-        renderer.setSize(
-          window.innerWidth,
-          window.innerHeight
-        );
+    stars.rotation.x +=
+      0.00003;
 
-      });
+    material.size =
+      4.2 + audioLevel * 4;
 
-      /* ANIMATION */
+    material.opacity = 1;
 
-      let animationId;
+    /* =========================================================
+       ASTRONAUT MOVEMENT
+       ========================================================= */
 
-      let running = false;
+    if(astronaut){
 
-      function animate(){
+      astronautPhase +=
+        0.0025;
 
-        const audioLevel =
-          getAudioLevel();
+      const wave =
+        Math.sin(astronautPhase);
 
-        animateAstronaut(audioLevel);
+      /*
+        -1 = weit hinten
+         0 = mitte
+         1 = ganz vorne
+      */
 
-        camera.position.x +=
-          ((mouseX * 40) - camera.position.x) * 0.02;
+      astronaut.position.z =
+        -1800 + ((wave + 1) / 2) * 2200;
 
-        camera.position.y +=
-          ((-mouseY * 40) - camera.position.y) * 0.02;
+      const scale =
+        120 + ((wave + 1) / 2) * 320;
 
-        camera.lookAt(scene.position);
+      astronaut.scale.set(
+        scale,
+        scale,
+        1
+      );
 
-        stars.rotation.y +=
-          dropMode
-          ? 0.0015 + audioLevel * 0.02
-          : 0.00045 + audioLevel * 0.008;
+      astronaut.position.x =
+        Math.sin(astronautPhase * 0.7) * 140;
 
-        stars.rotation.x += 0.00008;
+      astronaut.position.y =
+        Math.cos(astronautPhase * 0.9) * 80;
 
-        material.size =
-          dropMode
-          ? 4 + audioLevel * 10
-          : 3.6 + audioLevel * 4;
+      astronaut.material.opacity =
+        0.45 + ((wave + 1) / 2) * 0.55;
 
-        renderer.render(scene, camera);
+      astronaut.material.rotation +=
+        0.0008;
+    }
 
-        animationId =
-          requestAnimationFrame(animate);
-      }
+    renderer.render(scene, camera);
 
-      /* START / STOP */
+    animationId =
+      requestAnimationFrame(animate);
+  }
 
-      async function startSpace(){
+  /* =========================================================
+     START / STOP
+     ========================================================= */
 
-        if(running) return;
+  async function startSpace(){
 
-        running = true;
+    if(running) return;
 
-        await audioCtx.resume();
+    running = true;
 
-        renderer.domElement.style.opacity = '1';
+    await audioCtx.resume();
 
-        animate();
-      }
+    renderer.domElement.style.opacity = '1';
 
-      function stopSpace(){
+    animate();
+  }
 
-        running = false;
+  function stopSpace(){
 
-        cancelAnimationFrame(animationId);
+    running = false;
 
-        renderer.domElement.style.opacity = '0';
-      }
+    cancelAnimationFrame(animationId);
 
-      audio.addEventListener('play', startSpace);
+    renderer.domElement.style.opacity = '0';
+  }
 
-      audio.addEventListener('pause', stopSpace);
+  audio.addEventListener('play', startSpace);
 
-      audio.addEventListener('ended', stopSpace);
+  audio.addEventListener('pause', stopSpace);
 
-    })();
+  audio.addEventListener('ended', stopSpace);
 
-  </script>
+})();
+
+</script>
+
 
 </body>
 </html>
