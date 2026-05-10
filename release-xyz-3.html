@@ -10,7 +10,7 @@
 
 :root{
   --bg:#980012;
-  --text:#ffffff;
+  --white:#fff;
 }
 
 *{
@@ -22,8 +22,8 @@
 html,body{
   width:100%;
   overflow-x:hidden;
-  background:var(--bg);
-  color:var(--text);
+  background:radial-gradient(circle at center, #b3001b 0%, #930011 60%, #85000f 100%);
+  color:white;
   font-family:
     system-ui,
     -apple-system,
@@ -33,7 +33,7 @@ html,body{
 }
 
 body{
-  padding:2rem 1.2rem 4rem;
+  padding:2rem 1.4rem 4rem;
 }
 
 /* =========================================================
@@ -42,31 +42,62 @@ body{
 
 .wrapper{
   width:100%;
-  max-width:850px;
+  max-width:860px;
   margin:0 auto;
 }
 
 /* =========================================================
-   MOBILE COMIC SCENE
+   TOP BAR
 ========================================================= */
 
-.mobile-scene{
-  position:relative;
-  width:100%;
-  margin-bottom:2rem;
-  padding-bottom:120px;
+.topline{
+  display:flex;
+  align-items:center;
+  gap:1rem;
+  flex-wrap:wrap;
+
+  margin-bottom:2.2rem;
+
+  font-size:1rem;
+  font-weight:600;
+}
+
+.brand{
+  font-weight:800;
+}
+
+.countdown{
+  font-size:1.05rem;
+  opacity:.96;
+}
+
+#countdown{
+  font-weight:800;
+  letter-spacing:.04em;
 }
 
 /* =========================================================
-   THOUGHT BUBBLE
+   COMIC SCENE
 ========================================================= */
 
-.thought-wrap{
+.scene{
   position:relative;
   width:100%;
+  margin-bottom:2.5rem;
+  padding-bottom:180px;
 }
 
-/* video */
+/* =========================================================
+   COMIC BUBBLE
+========================================================= */
+
+.bubble-wrap{
+  position:relative;
+  width:100%;
+  margin-top:1rem;
+}
+
+/* VIDEO */
 
 .video-container{
   position:absolute;
@@ -74,8 +105,8 @@ body{
 
   overflow:hidden;
 
-  -webkit-clip-path:url(#bubbleClip);
-  clip-path:url(#bubbleClip);
+  -webkit-clip-path:url(#comicClip);
+  clip-path:url(#comicClip);
 
   z-index:1;
 }
@@ -85,10 +116,10 @@ body{
   height:100%;
   object-fit:cover;
   display:block;
-  background:#000;
+  background:black;
 }
 
-/* bubble svg */
+/* SVG */
 
 .bubble-svg{
   width:100%;
@@ -100,26 +131,26 @@ body{
 }
 
 /* =========================================================
-   BUTTONS
+   CONTROLS
 ========================================================= */
 
 .controls{
   position:absolute;
   right:-2px;
-  top:20%;
+  top:22%;
 
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:14px;
 
-  z-index:20;
+  z-index:50;
 }
 
 .btn{
   border:none;
   border-radius:50%;
 
-  background:#fff;
+  background:white;
   color:#111;
 
   display:flex;
@@ -129,8 +160,8 @@ body{
   cursor:pointer;
 
   box-shadow:
-    0 0 0 3px rgba(0,0,0,.25),
-    0 10px 18px rgba(0,0,0,.18);
+    0 0 0 3px rgba(0,0,0,.24),
+    0 12px 22px rgba(0,0,0,.22);
 }
 
 .btn svg{
@@ -140,18 +171,18 @@ body{
 }
 
 .play-btn{
-  width:58px;
-  height:58px;
+  width:64px;
+  height:64px;
 }
 
 .pause-btn{
-  width:44px;
-  height:44px;
+  width:48px;
+  height:48px;
 }
 
 .sound-btn{
-  width:34px;
-  height:34px;
+  width:38px;
+  height:38px;
 }
 
 /* =========================================================
@@ -161,86 +192,147 @@ body{
 .person{
   position:absolute;
 
-  right:-10px;
-  bottom:0;
+  right:-6px;
+  bottom:18px;
 
-  width:160px;
+  width:180px;
 
-  z-index:15;
+  z-index:30;
 
-  filter:drop-shadow(0 12px 20px rgba(0,0,0,.3));
+  filter:
+    drop-shadow(0 12px 22px rgba(0,0,0,.32));
 
   user-select:none;
   pointer-events:none;
 }
 
 /* =========================================================
-   TEXT
+   TITLE
 ========================================================= */
 
 .title{
-  margin-top:1rem;
   margin-bottom:2rem;
 
-  font-size:3rem;
-  letter-spacing:.25em;
+  font-size:4rem;
   font-weight:700;
-
+  letter-spacing:.32em;
   text-transform:lowercase;
-}
-
-.section{
-  margin-bottom:3rem;
-}
-
-.section h2{
-  margin-bottom:1rem;
-
-  font-size:1.2rem;
-  font-weight:700;
-
-  text-transform:lowercase;
-}
-
-.section p{
-  font-size:1.1rem;
-  line-height:1.8;
-  letter-spacing:.02em;
 }
 
 /* =========================================================
-   ICONS
+   CONTENT
+========================================================= */
+
+.block{
+  margin-bottom:3rem;
+}
+
+.block h2{
+  margin-bottom:1rem;
+
+  font-size:1.35rem;
+  font-weight:700;
+
+  text-transform:lowercase;
+}
+
+.block p{
+  line-height:1.9;
+  font-size:1.22rem;
+}
+
+/* =========================================================
+   SOCIALS
 ========================================================= */
 
 .icons{
   display:flex;
-  gap:1rem;
-  margin-top:1rem;
   flex-wrap:wrap;
+  gap:1rem;
+
+  margin-top:1.1rem;
 }
 
 .icons img{
-  width:52px;
-  height:52px;
+  width:58px;
+  height:58px;
   object-fit:contain;
+}
+
+/* =========================================================
+   LINKS
+========================================================= */
+
+.site-link{
+  display:inline-block;
+  margin-top:1rem;
+
+  color:white;
+  text-decoration:none;
+
+  font-weight:700;
+  font-size:1.6rem;
 }
 
 /* =========================================================
    MOBILE
 ========================================================= */
 
-@media (max-width:520px){
+@media (max-width:700px){
+
+  .scene{
+    padding-bottom:140px;
+  }
 
   .person{
-    width:135px;
+    width:150px;
+    right:-10px;
+    bottom:-4px; /* <<< BILD WEITER RUNTER */
   }
 
   .title{
-    font-size:2.4rem;
+    font-size:3rem;
+    letter-spacing:.24em;
   }
 
-  .section p{
-    font-size:1rem;
+  .block p{
+    font-size:1.08rem;
+  }
+
+  .controls{
+    top:26%;
+  }
+
+}
+
+@media (max-width:480px){
+
+  body{
+    padding:1.6rem 1rem 4rem;
+  }
+
+  .person{
+    width:138px;
+    bottom:-18px; /* <<< NOCH WEITER RUNTER */
+  }
+
+  .title{
+    font-size:2.6rem;
+  }
+
+  .play-btn{
+    width:56px;
+    height:56px;
+  }
+
+  .pause-btn{
+    width:42px;
+    height:42px;
+  }
+
+  .sound-btn{
+    width:34px;
+    height:34px;
   }
 
 }
@@ -250,35 +342,45 @@ body{
 
 <body>
 
-<!-- ======================================================
+<!-- =========================================================
      SVG CLIP PATH
-====================================================== -->
+========================================================= -->
 
 <svg width="0" height="0" style="position:absolute">
 
   <defs>
 
-    <clipPath id="bubbleClip" clipPathUnits="objectBoundingBox">
+    <!-- MEGA COMIC CLOUD -->
+    <clipPath id="comicClip" clipPathUnits="objectBoundingBox">
 
-      <!-- comic bubble -->
       <path d="
-        M 0.50 0.03
-        C 0.58 0.01,0.66 0.03,0.72 0.09
-        C 0.78 0.02,0.88 0.04,0.93 0.11
-        C 0.99 0.10,1.00 0.18,0.97 0.25
-        C 1.00 0.31,0.98 0.40,0.93 0.45
-        C 0.98 0.52,0.96 0.61,0.89 0.66
-        C 0.92 0.74,0.88 0.83,0.80 0.85
-        C 0.81 0.93,0.75 0.98,0.67 0.97
-        C 0.62 1.01,0.55 1.02,0.50 0.98
-        C 0.45 1.02,0.38 1.01,0.33 0.97
-        C 0.25 0.98,0.19 0.93,0.20 0.85
-        C 0.12 0.83,0.08 0.74,0.11 0.66
-        C 0.04 0.61,0.02 0.52,0.07 0.45
-        C 0.02 0.40,0.00 0.31,0.03 0.25
-        C 0.00 0.18,0.01 0.10,0.07 0.11
-        C 0.12 0.04,0.22 0.02,0.28 0.09
-        C 0.34 0.03,0.42 0.01,0.50 0.03
+        M 0.06 0.48
+
+        C 0.01 0.40,0.01 0.30,0.07 0.24
+        C 0.06 0.16,0.10 0.08,0.18 0.09
+
+        C 0.23 0.01,0.34 0.01,0.39 0.08
+
+        C 0.45 0.01,0.57 0.01,0.63 0.08
+
+        C 0.69 0.02,0.80 0.03,0.86 0.10
+
+        C 0.96 0.08,1.00 0.18,0.97 0.28
+
+        C 1.02 0.36,1.00 0.48,0.92 0.53
+
+        C 0.98 0.62,0.94 0.74,0.84 0.77
+
+        C 0.83 0.89,0.74 0.96,0.63 0.92
+
+        C 0.56 0.99,0.44 1.00,0.38 0.93
+
+        C 0.29 0.98,0.18 0.95,0.14 0.85
+
+        C 0.04 0.82,0.00 0.71,0.05 0.61
+
+        C 0.01 0.57,0.01 0.52,0.06 0.48
+
         Z
       "/>
 
@@ -290,14 +392,29 @@ body{
 
 <div class="wrapper">
 
-  <!-- ====================================================
+  <!-- =====================================================
+       TOP
+  ====================================================== -->
+
+  <div class="topline">
+
+    <div class="brand">b3nn3t</div>
+
+    <div class="countdown">
+      released in
+      <span id="countdown">12d 03:48:21</span>
+    </div>
+
+  </div>
+
+  <!-- =====================================================
        SCENE
-  ===================================================== -->
+  ====================================================== -->
 
-  <section class="mobile-scene">
+  <section class="scene">
 
-    <!-- thought bubble -->
-    <div class="thought-wrap">
+    <!-- bubble -->
+    <div class="bubble-wrap">
 
       <!-- video -->
       <div class="video-container">
@@ -310,103 +427,177 @@ body{
           preload="metadata"
           poster="assets/release/drei-cover.webp"
         >
-          <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+
+          <source
+            src="assets/gesehen/B3NN3T.mp4"
+            type="video/mp4"
+          >
+
         </video>
 
       </div>
 
-      <!-- bubble outline -->
+      <!-- comic svg -->
       <svg
         class="bubble-svg"
         viewBox="0 0 400 300"
         xmlns="http://www.w3.org/2000/svg"
       >
 
-        <!-- shadow -->
+        <!-- dots -->
+        <g opacity=".9">
+
+          <circle cx="38" cy="75" r="2" fill="black"/>
+          <circle cx="54" cy="80" r="2" fill="black"/>
+          <circle cx="76" cy="70" r="2" fill="black"/>
+          <circle cx="90" cy="60" r="2" fill="black"/>
+          <circle cx="320" cy="68" r="2" fill="black"/>
+          <circle cx="340" cy="78" r="2" fill="black"/>
+          <circle cx="360" cy="95" r="2" fill="black"/>
+          <circle cx="365" cy="220" r="2" fill="black"/>
+          <circle cx="330" cy="240" r="2" fill="black"/>
+          <circle cx="85" cy="245" r="2" fill="black"/>
+          <circle cx="55" cy="220" r="2" fill="black"/>
+
+        </g>
+
+        <!-- comic spikes -->
+        <g stroke="white" stroke-width="6">
+
+          <line x1="70" y1="42" x2="40" y2="10"/>
+          <line x1="80" y1="44" x2="56" y2="5"/>
+
+          <line x1="300" y1="42" x2="326" y2="6"/>
+          <line x1="314" y1="46" x2="344" y2="12"/>
+
+        </g>
+
+        <!-- SHADOW -->
         <path
           fill="none"
-          stroke="rgba(0,0,0,.28)"
-          stroke-width="16"
+          stroke="rgba(0,0,0,.42)"
+          stroke-width="18"
           stroke-linejoin="round"
           d="
-            M 200 10
-            C 232 6 268 14 288 36
-            C 312 14 352 18 368 46
-            C 394 38 402 70 388 94
-            C 402 118 394 150 370 166
-            C 388 194 378 230 324 240
-            C 330 268 308 284 272 282
-            C 258 296 232 300 200 290
-            C 168 300 142 296 128 282
-            C 92 284 70 268 76 240
-            C 22 230 12 194 30 166
-            C 6 150 -2 118 12 94
-            C -2 70 6 38 32 46
-            C 48 18 88 14 112 36
-            C 132 14 168 6 200 10
+            M 24 145
+
+            C 5 115,5 82,38 72
+            C 28 40,55 18,92 28
+
+            C 122 -6,174 0,202 28
+
+            C 245 -6,312 10,338 40
+
+            C 388 30,404 74,388 112
+
+            C 404 150,390 196,350 208
+
+            C 364 250,330 282,286 270
+
+            C 248 304,170 304,136 274
+
+            C 86 286,44 256,52 214
+
+            C 10 206,-4 170,24 145
+
             Z
           "
         />
 
-        <!-- white border -->
+        <!-- MAIN -->
         <path
           fill="none"
-          stroke="#ffffff"
+          stroke="white"
+          stroke-width="8"
+          stroke-linejoin="round"
+          d="
+            M 24 145
+
+            C 5 115,5 82,38 72
+            C 28 40,55 18,92 28
+
+            C 122 -6,174 0,202 28
+
+            C 245 -6,312 10,338 40
+
+            C 388 30,404 74,388 112
+
+            C 404 150,390 196,350 208
+
+            C 364 250,330 282,286 270
+
+            C 248 304,170 304,136 274
+
+            C 86 286,44 256,52 214
+
+            C 10 206,-4 170,24 145
+
+            Z
+          "
+        />
+
+        <!-- thought circles -->
+        <circle
+          cx="310"
+          cy="242"
+          r="18"
+          fill="none"
+          stroke="white"
           stroke-width="7"
-          stroke-linejoin="round"
-          d="
-            M 200 10
-            C 232 6 268 14 288 36
-            C 312 14 352 18 368 46
-            C 394 38 402 70 388 94
-            C 402 118 394 150 370 166
-            C 388 194 378 230 324 240
-            C 330 268 308 284 272 282
-            C 258 296 232 300 200 290
-            C 168 300 142 296 128 282
-            C 92 284 70 268 76 240
-            C 22 230 12 194 30 166
-            C 6 150 -2 118 12 94
-            C -2 70 6 38 32 46
-            C 48 18 88 14 112 36
-            C 132 14 168 6 200 10
-            Z
-          "
         />
 
-        <!-- thought dots -->
-        <circle cx="315" cy="255" r="18" fill="none" stroke="#fff" stroke-width="6"/>
-        <circle cx="345" cy="285" r="11" fill="none" stroke="#fff" stroke-width="5"/>
-        <circle cx="366" cy="305" r="5" fill="none" stroke="#fff" stroke-width="4"/>
+        <circle
+          cx="338"
+          cy="268"
+          r="11"
+          fill="none"
+          stroke="white"
+          stroke-width="6"
+        />
+
+        <circle
+          cx="360"
+          cy="286"
+          r="5"
+          fill="none"
+          stroke="white"
+          stroke-width="4"
+        />
 
       </svg>
 
     </div>
 
-    <!-- controls -->
+    <!-- CONTROLS -->
     <div class="controls">
 
       <button class="btn play-btn" id="playBtn">
+
         <svg viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z"/>
         </svg>
+
       </button>
 
       <button class="btn pause-btn" id="pauseBtn">
+
         <svg viewBox="0 0 24 24">
           <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
         </svg>
+
       </button>
 
       <button class="btn sound-btn" id="soundBtn">
+
         <svg viewBox="0 0 24 24">
           <path d="M3 9v6h4l5 5V4L7 9H3z"/>
         </svg>
+
       </button>
 
     </div>
 
-    <!-- person -->
+    <!-- PERSON -->
     <img
       class="person"
       src="assets/release/person-sitzend.png"
@@ -415,13 +606,14 @@ body{
 
   </section>
 
-  <!-- ====================================================
+  <!-- =====================================================
        CONTENT
-  ===================================================== -->
+  ====================================================== -->
 
   <h1 class="title">drei</h1>
 
-  <section class="section">
+  <section class="block">
+
     <h2>erklärbär</h2>
 
     <p>
@@ -438,9 +630,10 @@ body{
       wie sonne bei solar,
       liebe grüsse an alle die checken :3
     </p>
+
   </section>
 
-  <section class="section">
+  <section class="block">
 
     <h2>kuck hier</h2>
 
@@ -456,26 +649,111 @@ body{
 
   </section>
 
+  <section class="block">
+
+    <p>mehr auf meiner webseite :p</p>
+
+    <a
+      href="https://www.b3nn3t.com"
+      class="site-link"
+    >
+      b3nn3t.com
+    </a>
+
+  </section>
+
 </div>
 
 <script>
 
-const video = document.getElementById("video");
+/* =========================================================
+   COUNTDOWN
+========================================================= */
 
-const playBtn  = document.getElementById("playBtn");
-const pauseBtn = document.getElementById("pauseBtn");
-const soundBtn = document.getElementById("soundBtn");
+(function(){
 
-playBtn.addEventListener("click", () => {
+  const targetDate =
+    new Date("2026-01-09T00:00:00+01:00").getTime();
+
+  const el =
+    document.getElementById("countdown");
+
+  function update(){
+
+    const diff =
+      targetDate - Date.now();
+
+    if(diff <= 0){
+
+      el.textContent = "OUT NOW";
+      return;
+
+    }
+
+    const s =
+      Math.floor(diff / 1000);
+
+    const d =
+      Math.floor(s / 86400);
+
+    const h =
+      String(
+        Math.floor((s % 86400) / 3600)
+      ).padStart(2,"0");
+
+    const m =
+      String(
+        Math.floor((s % 3600) / 60)
+      ).padStart(2,"0");
+
+    const sec =
+      String(
+        s % 60
+      ).padStart(2,"0");
+
+    el.textContent =
+      `${d}d ${h}:${m}:${sec}`;
+
+  }
+
+  update();
+
+  setInterval(update,1000);
+
+})();
+
+/* =========================================================
+   VIDEO CONTROLS
+========================================================= */
+
+const video =
+  document.getElementById("video");
+
+const playBtn =
+  document.getElementById("playBtn");
+
+const pauseBtn =
+  document.getElementById("pauseBtn");
+
+const soundBtn =
+  document.getElementById("soundBtn");
+
+playBtn.addEventListener("click",()=>{
+
   video.play();
+
 });
 
-pauseBtn.addEventListener("click", () => {
+pauseBtn.addEventListener("click",()=>{
+
   video.pause();
+
 });
 
-soundBtn.addEventListener("click", () => {
+soundBtn.addEventListener("click",()=>{
+
   video.muted = !video.muted;
+
 });
 
 </script>
