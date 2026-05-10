@@ -1147,10 +1147,9 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
        ========================================================= */
 
     let animationId;
-
     let running = false;
-
     let astronautPhase = 0;
+    let astronautRotation = 0;
 
     function animate(){
 
@@ -1180,39 +1179,45 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
       /* =======================================================
          ASTRONAUT MOVEMENT
+         – bleibt weiter hinten
+         – dreht sich beim Entfernen schneller
+         – driftet seitlich aus dem Bild
          ======================================================= */
 
       if(astronaut){
 
-        astronautPhase +=
-          0.0025;
+        astronautPhase += 0.0018;
 
-        const wave =
-          Math.sin(astronautPhase);
+        const wave = Math.sin(astronautPhase);
 
+        /* Z: bleibt weit hinten, kommt nie zu nah */
         astronaut.position.z =
-          -1800 + ((wave + 1) / 2) * 2200;
+          -2200 + ((wave + 1) / 2) * 1800;
 
-        const scale =
-          220 + ((wave + 1) / 2) * 420;
+        /* Scale: kleiner als vorher */
+        const scale = 120 + ((wave + 1) / 2) * 200;
+        astronaut.scale.set(scale, scale, 1);
 
-        astronaut.scale.set(
-          scale,
-          scale,
-          1
-        );
-
+        /* X: normales Schweben + seitlicher Drift beim Entfernen */
+        const drift = wave < 0 ? wave * 320 : 0;
         astronaut.position.x =
-          Math.sin(astronautPhase * 0.7) * 140;
+          Math.sin(astronautPhase * 0.7) * 120 + drift;
 
         astronaut.position.y =
-          Math.cos(astronautPhase * 0.9) * 80;
+          Math.cos(astronautPhase * 0.9) * 70;
 
-        astronaut.material.opacity =
-          0.45 + ((wave + 1) / 2) * 0.55;
+        /* Rotation: akkumuliert, beschleunigt beim Entfernen */
+        const rotSpeed = wave < 0
+          ? 0.008 + Math.abs(wave) * 0.04
+          : 0.004;
 
-        astronaut.material.rotation +=
-          0.0008;
+        astronautRotation += rotSpeed;
+        astronaut.material.rotation = astronautRotation;
+
+        /* Opacity: früher ausblenden beim Entfernen */
+        astronaut.material.opacity = wave < -0.3
+          ? Math.max(0, (wave + 1) * 0.6)
+          : 0.35 + ((wave + 1) / 2) * 0.55;
       }
 
       renderer.render(scene, camera);
