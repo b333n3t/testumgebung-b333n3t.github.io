@@ -204,12 +204,19 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       width:100%;
 
       opacity:1;
-      transition:opacity 0.8s ease;
+      max-height:800px;
+      overflow:hidden;
+      transition:
+        opacity 0.8s ease,
+        max-height 0.9s ease,
+        margin-bottom 0.9s ease;
       pointer-events:auto;
     }
 
     .video-wrap.hidden{
       opacity:0;
+      max-height:0;
+      margin-bottom:0;
       pointer-events:none;
     }
 
@@ -475,19 +482,24 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
         0 0 220px rgba(120,180,255,0.15);
     }
 
-    /* CROSSHAIR */
+    /* CROSSHAIR – startet unsichtbar */
 
     #crosshair{
       position:fixed;
       inset:0;
       pointer-events:none;
       z-index:99999;
+      opacity:0;
+    }
+
+    #crosshair.active{
+      opacity:1;
     }
 
     #crosshair .line-x{
       position:absolute;
       left:0;
-      top:50%;
+      top:-9999px;
 
       width:100vw;
       height:1px;
@@ -502,7 +514,7 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
     #crosshair .line-y{
       position:absolute;
       top:0;
-      left:50%;
+      left:-9999px;
 
       width:1px;
       height:100vh;
@@ -904,6 +916,7 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       let y = -9999;
 
       let raf = null;
+      let activated = false;
 
       function render(){
 
@@ -915,6 +928,11 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       }
 
       window.addEventListener('mousemove', (e) => {
+
+        if(!activated){
+          cross.classList.add('active');
+          activated = true;
+        }
 
         x = e.clientX;
 
