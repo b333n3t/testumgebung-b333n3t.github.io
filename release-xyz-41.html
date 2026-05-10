@@ -203,15 +203,33 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       max-width:720px;
       width:100%;
 
-      /* Smooth ein-/ausblenden */
+      /* Smooth ein-/ausblenden inkl. Layout-Kollaps */
       opacity:1;
-      transition:opacity 0.8s ease;
+      max-height:800px;
+      overflow:hidden;
+      transition:
+        opacity 0.8s ease,
+        max-height 0.9s ease,
+        margin-bottom 0.9s ease;
       pointer-events:auto;
     }
 
     .video-wrap.hidden{
       opacity:0;
+      max-height:0;
+      margin-bottom:0;
       pointer-events:none;
+    }
+
+    /* prefers-reduced-motion: Animationen reduzieren */
+    @media (prefers-reduced-motion: reduce){
+      .video-wrap,
+      .release-cover,
+      .player-bg-glow,
+      #webgl-space{
+        transition:none !important;
+        animation:none !important;
+      }
     }
 
     /*
@@ -253,6 +271,7 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
     /*
       Der eigentliche Clip-Container für Cover + Audio.
       Dieser clippt den Inhalt auf den Rahmen.
+      Statischer Gradient als "Vorschau" des Sternenhintergrunds.
     */
     .video-clip{
       position:absolute;
@@ -260,6 +279,25 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       border-radius:22px;
       overflow:hidden;
       z-index:2;
+
+      background:
+        radial-gradient(
+          ellipse at 30% 60%,
+          rgba(160,200,255,0.18) 0%,
+          transparent 55%
+        ),
+        radial-gradient(
+          ellipse at 75% 30%,
+          rgba(100,150,220,0.14) 0%,
+          transparent 50%
+        ),
+        linear-gradient(
+          145deg,
+          #0a0f1e 0%,
+          #0f1a2e 40%,
+          #152240 70%,
+          #0d1525 100%
+        );
     }
 
     /*
@@ -573,7 +611,7 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
             controls
 
-            preload="metadata">
+            preload="auto">
 
             <source
               src="/assets/release/3-4/drei-viertel.prelisten.mp3">
@@ -1320,8 +1358,16 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
       await audioCtx.resume();
 
-      /* WebGL einblenden */
-      renderer.domElement.style.opacity = '1';
+      /* prefers-reduced-motion: WebGL überspringen */
+      const reduced =
+        window.matchMedia(
+          '(prefers-reduced-motion: reduce)'
+        ).matches;
+
+      if(!reduced){
+
+        renderer.domElement.style.opacity = '1';
+      }
 
       /* Player komplett ausblenden */
       if(videoWrap)     videoWrap.classList.add('hidden');
@@ -1329,7 +1375,10 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       if(playerFrame)   playerFrame.classList.add('playing');
       if(playerBgGlow)  playerBgGlow.classList.add('playing');
 
-      animate();
+      if(!reduced){
+
+        animate();
+      }
     }
 
     function stopSpace(){
