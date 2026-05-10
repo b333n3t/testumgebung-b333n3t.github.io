@@ -39,7 +39,6 @@
   }
   </script>
 
-  <!-- LCP-Poster vorladen und priorisieren -->
   <link rel="preload" as="image" href="assets/release/drei-cover.png" fetchpriority="high">
 
   <style>
@@ -126,7 +125,7 @@
        ========================================================= */
 
     .video-wrap {
-      margin: 0 auto clamp(1.2rem, 2vw, 2rem);
+      margin: 0 auto clamp(1rem, 2vw, 1.8rem);
       max-width: 960px;
       width: 100%;
     }
@@ -134,16 +133,16 @@
     .video-scene {
       position: relative;
       width: 100%;
-      min-height: clamp(430px, 58vw, 610px);
+      min-height: clamp(430px, 56vw, 600px);
       overflow: visible;
     }
 
-    /* Person kleiner, weiter unten und hinter dem Titel/Text */
+    /* Person kleiner und rechts unten */
     .person-cutout {
       position: absolute;
-      left: clamp(30px, 7vw, 95px);
-      bottom: clamp(-150px, -12vw, -95px);
-      width: clamp(230px, 32vw, 390px);
+      right: clamp(70px, 10vw, 160px);
+      bottom: clamp(-245px, -18vw, -175px);
+      width: clamp(190px, 25vw, 310px);
       height: auto;
       z-index: 1;
       filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
@@ -151,12 +150,12 @@
       user-select: none;
     }
 
-    /* Gedankenblase */
+    /* Grosse Gedankenblase oben/rechts */
     .thought-video-wrapper {
       position: absolute;
-      right: clamp(-15px, 2vw, 35px);
-      top: clamp(35px, 5vw, 70px);
-      width: clamp(520px, 70vw, 840px);
+      right: clamp(-30px, 0vw, 10px);
+      top: clamp(0px, 2vw, 25px);
+      width: clamp(570px, 74vw, 880px);
       aspect-ratio: 860 / 540;
       z-index: 2;
       filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28));
@@ -207,11 +206,11 @@
       stroke-width: 4;
     }
 
-    /* Titel liegt über der Person */
+    /* Text liegt über der Person */
     .title-section {
       position: relative;
       z-index: 5;
-      margin-top: -0.4rem;
+      margin-top: -0.2rem;
     }
 
     .song-title {
@@ -301,37 +300,37 @@
       }
 
       .video-scene {
-        min-height: clamp(430px, 105vw, 570px);
+        min-height: clamp(430px, 105vw, 560px);
       }
 
       .person-cutout {
-        left: clamp(-10px, 4vw, 25px);
-        bottom: -115px;
-        width: clamp(230px, 66vw, 340px);
+        right: -10px;
+        bottom: -160px;
+        width: clamp(185px, 52vw, 280px);
       }
 
       .thought-video-wrapper {
-        right: -95px;
-        top: 40px;
-        width: clamp(500px, 120vw, 650px);
+        right: -130px;
+        top: 20px;
+        width: clamp(540px, 125vw, 680px);
       }
     }
 
     @media (max-width: 480px) {
       .video-scene {
-        min-height: 465px;
+        min-height: 455px;
       }
 
       .person-cutout {
-        left: -10px;
-        bottom: -105px;
-        width: 275px;
+        right: -25px;
+        bottom: -145px;
+        width: 225px;
       }
 
       .thought-video-wrapper {
-        right: -135px;
-        top: 35px;
-        width: 550px;
+        right: -180px;
+        top: 20px;
+        width: 585px;
       }
     }
 
@@ -499,14 +498,14 @@
                     Z
                   " />
 
-                <!-- Gedankenpunkte Richtung Kopf der Figur -->
-                <circle class="thought-dot-shadow" cx="188" cy="414" r="31" aria-hidden="true" />
-                <circle class="thought-dot-shadow" cx="145" cy="455" r="21" aria-hidden="true" />
-                <circle class="thought-dot-shadow" cx="112" cy="485" r="12" aria-hidden="true" />
+                <!-- Gedankenpunkte gehen nach unten rechts Richtung Kopf der Figur -->
+                <circle class="thought-dot-shadow" cx="625" cy="420" r="31" aria-hidden="true" />
+                <circle class="thought-dot-shadow" cx="690" cy="470" r="21" aria-hidden="true" />
+                <circle class="thought-dot-shadow" cx="742" cy="508" r="12" aria-hidden="true" />
 
-                <circle class="thought-dot-svg" cx="188" cy="414" r="28" aria-hidden="true" />
-                <circle class="thought-dot-svg" cx="145" cy="455" r="18" aria-hidden="true" />
-                <circle class="thought-dot-svg" cx="112" cy="485" r="10" aria-hidden="true" />
+                <circle class="thought-dot-svg" cx="625" cy="420" r="28" aria-hidden="true" />
+                <circle class="thought-dot-svg" cx="690" cy="470" r="18" aria-hidden="true" />
+                <circle class="thought-dot-svg" cx="742" cy="508" r="10" aria-hidden="true" />
 
               </svg>
             </div>
@@ -583,13 +582,11 @@
     </div>
   </div>
 
-  <!-- Fullscreen Crosshair Element -->
   <div id="crosshair" aria-hidden="true">
     <div class="line-x"></div>
     <div class="line-y"></div>
   </div>
 
-  <!-- Countdown läuft live und aktualisiert jede Sekunde -->
   <script>
     (function () {
       const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
@@ -626,7 +623,6 @@
     })();
   </script>
 
-  <!-- Fullscreen Crosshair folgt der Maus -->
   <script>
     (function () {
       const cross = document.getElementById('crosshair');
