@@ -12,7 +12,6 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html" />
 
-  <!-- Open Graph -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„DREI“ – neues Release von b3nn3t">
@@ -20,13 +19,11 @@
   <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
   <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="„DREI“ – neues Release von b3nn3t">
   <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „DREI“ von b3nn3t.">
   <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
 
-  <!-- Strukturierte Daten -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -89,7 +86,7 @@
 
     .topline {
       position: relative;
-      z-index: 10;
+      z-index: 20;
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
@@ -133,16 +130,16 @@
     .video-scene {
       position: relative;
       width: 100%;
-      min-height: clamp(430px, 56vw, 600px);
+      min-height: clamp(590px, 70vw, 760px);
       overflow: visible;
     }
 
-    /* Person kleiner und rechts unten */
+    /* Person weiter unten rechts */
     .person-cutout {
       position: absolute;
-      right: clamp(70px, 10vw, 160px);
-      bottom: clamp(-245px, -18vw, -175px);
-      width: clamp(190px, 25vw, 310px);
+      right: clamp(15px, 5vw, 95px);
+      bottom: clamp(-20px, 0vw, 10px);
+      width: clamp(170px, 22vw, 270px);
       height: auto;
       z-index: 1;
       filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
@@ -154,7 +151,7 @@
     .thought-video-wrapper {
       position: absolute;
       right: clamp(-30px, 0vw, 10px);
-      top: clamp(0px, 2vw, 25px);
+      top: clamp(-85px, -5vw, -35px);
       width: clamp(570px, 74vw, 880px);
       aspect-ratio: 860 / 540;
       z-index: 2;
@@ -194,23 +191,74 @@
       pointer-events: none;
     }
 
-    .thought-dot-shadow {
-      fill: rgba(0, 0, 0, 0.25);
-      stroke: rgba(0, 0, 0, 0.24);
-      stroke-width: 8;
+    /* Kleine Gedankenblasen als Buttons */
+    .thought-controls {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
     }
 
-    .thought-dot-svg {
-      fill: #ffffff;
-      stroke: rgba(255, 255, 255, 0.97);
-      stroke-width: 4;
+    .thought-btn {
+      position: absolute;
+      border: 4px solid #ffffff;
+      background: #ffffff;
+      color: #111111;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.35),
+        0 12px 20px rgba(0, 0, 0, 0.22);
+      cursor: pointer;
+      padding: 0;
+      pointer-events: auto;
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
 
-    /* Text liegt über der Person */
+    .thought-btn:hover {
+      transform: scale(1.08);
+      box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.35),
+        0 16px 24px rgba(0, 0, 0, 0.28);
+    }
+
+    .thought-btn svg {
+      width: 48%;
+      height: 48%;
+      display: block;
+      fill: currentColor;
+    }
+
+    /* Play-Blase */
+    .thought-play {
+      width: clamp(56px, 5.8vw, 76px);
+      height: clamp(56px, 5.8vw, 76px);
+      right: clamp(180px, 20vw, 275px);
+      top: clamp(305px, 35vw, 425px);
+    }
+
+    /* Pause-Blase */
+    .thought-pause {
+      width: clamp(44px, 4.5vw, 60px);
+      height: clamp(44px, 4.5vw, 60px);
+      right: clamp(115px, 13vw, 180px);
+      top: clamp(380px, 43vw, 520px);
+    }
+
+    /* Lautsprecher-Blase */
+    .thought-sound {
+      width: clamp(34px, 3.5vw, 48px);
+      height: clamp(34px, 3.5vw, 48px);
+      right: clamp(70px, 8vw, 115px);
+      top: clamp(445px, 50vw, 610px);
+    }
+
     .title-section {
       position: relative;
       z-index: 5;
-      margin-top: -0.2rem;
+      margin-top: -7.5rem;
     }
 
     .song-title {
@@ -300,37 +348,75 @@
       }
 
       .video-scene {
-        min-height: clamp(430px, 105vw, 560px);
+        min-height: 600px;
       }
 
       .person-cutout {
-        right: -10px;
-        bottom: -160px;
-        width: clamp(185px, 52vw, 280px);
+        right: -5px;
+        bottom: 20px;
+        width: clamp(160px, 44vw, 230px);
       }
 
       .thought-video-wrapper {
         right: -130px;
-        top: 20px;
+        top: -45px;
         width: clamp(540px, 125vw, 680px);
+      }
+
+      .thought-play {
+        right: 130px;
+        top: 340px;
+      }
+
+      .thought-pause {
+        right: 82px;
+        top: 400px;
+      }
+
+      .thought-sound {
+        right: 50px;
+        top: 455px;
+      }
+
+      .title-section {
+        margin-top: -8rem;
       }
     }
 
     @media (max-width: 480px) {
       .video-scene {
-        min-height: 455px;
+        min-height: 570px;
       }
 
       .person-cutout {
-        right: -25px;
-        bottom: -145px;
-        width: 225px;
+        right: -15px;
+        bottom: 30px;
+        width: 185px;
       }
 
       .thought-video-wrapper {
         right: -180px;
-        top: 20px;
+        top: -35px;
         width: 585px;
+      }
+
+      .thought-play {
+        right: 105px;
+        top: 325px;
+      }
+
+      .thought-pause {
+        right: 64px;
+        top: 380px;
+      }
+
+      .thought-sound {
+        right: 35px;
+        top: 430px;
+      }
+
+      .title-section {
+        margin-top: -7rem;
       }
     }
 
@@ -446,7 +532,6 @@
                     xmlns="http://www.w3.org/1999/xhtml"
                     id="release-video"
                     class="release-video"
-                    controls
                     muted
                     playsinline
                     preload="metadata"
@@ -497,17 +582,30 @@
                     C 84 331, 66 292, 130 270
                     Z
                   " />
-
-                <!-- Gedankenpunkte gehen nach unten rechts Richtung Kopf der Figur -->
-                <circle class="thought-dot-shadow" cx="625" cy="420" r="31" aria-hidden="true" />
-                <circle class="thought-dot-shadow" cx="690" cy="470" r="21" aria-hidden="true" />
-                <circle class="thought-dot-shadow" cx="742" cy="508" r="12" aria-hidden="true" />
-
-                <circle class="thought-dot-svg" cx="625" cy="420" r="28" aria-hidden="true" />
-                <circle class="thought-dot-svg" cx="690" cy="470" r="18" aria-hidden="true" />
-                <circle class="thought-dot-svg" cx="742" cy="508" r="10" aria-hidden="true" />
-
               </svg>
+            </div>
+
+            <div class="thought-controls" aria-label="Video-Steuerung">
+
+              <button class="thought-btn thought-play" type="button" id="video-play-btn" aria-label="Video abspielen">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"></path>
+                </svg>
+              </button>
+
+              <button class="thought-btn thought-pause" type="button" id="video-pause-btn" aria-label="Video pausieren">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
+                </svg>
+              </button>
+
+              <button class="thought-btn thought-sound" type="button" id="video-sound-btn" aria-label="Ton einschalten">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M3 9v6h4l5 5V4L7 9H3z"></path>
+                  <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"></path>
+                </svg>
+              </button>
+
             </div>
 
           </div>
@@ -620,6 +718,50 @@
 
       updateCountdown();
       const timer = setInterval(updateCountdown, 1000);
+    })();
+  </script>
+
+  <script>
+    (function () {
+      const video = document.getElementById('release-video');
+      const playBtn = document.getElementById('video-play-btn');
+      const pauseBtn = document.getElementById('video-pause-btn');
+      const soundBtn = document.getElementById('video-sound-btn');
+
+      if (!video || !playBtn || !pauseBtn || !soundBtn) return;
+
+      function setSoundIcon() {
+        if (video.muted) {
+          soundBtn.innerHTML =
+            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+              '<path d="M3 9v6h4l5 5V4L7 9H3z"></path>' +
+              '<path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"></path>' +
+            '</svg>';
+          soundBtn.setAttribute('aria-label', 'Ton einschalten');
+        } else {
+          soundBtn.innerHTML =
+            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
+              '<path d="M3 9v6h4l5 5V4L7 9H3z"></path>' +
+              '<path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z"></path>' +
+            '</svg>';
+          soundBtn.setAttribute('aria-label', 'Ton ausschalten');
+        }
+      }
+
+      playBtn.addEventListener('click', function () {
+        video.play();
+      });
+
+      pauseBtn.addEventListener('click', function () {
+        video.pause();
+      });
+
+      soundBtn.addEventListener('click', function () {
+        video.muted = !video.muted;
+        setSoundIcon();
+      });
+
+      setSoundIcon();
     })();
   </script>
 
