@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+
+<html lang="de">
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>b3nn3t „¾"</title>
+
+<meta name=“description”
+content=”„drei-viertel” – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz.” />
+
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+
+  <!-- Favicons -->
+
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Canonical -->
+
+  <link rel="canonical"
+    href="https://www.b3nn3t.com/release-drei-viertel.html" />
+
+  <!-- Open Graph -->
+
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title"
+    content="„drei-viertel" – neues Release von b3nn3t">
+
+<meta property="og:description"
+content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+
+<meta property="og:image"
+content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+
+<meta property="og:url"
+content="https://www.b3nn3t.com/release-drei-viertel.html">
+
+  <!-- Twitter -->
+
+  <meta name="twitter:card" content="summary_large_image">
+
+<meta name=“twitter:title”
+content=”„drei-viertel” – neues Release von b3nn3t”>
+
+<meta name=“twitter:description”
+content=“Deutschrap & Indie-Pop aus der Schweiz – das neue Release „drei-viertel” von b3nn3t.”>
+
+<meta name="twitter:image"
+content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
+
+  <!-- JSON-LD -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"MusicRecording",
+    "name":"¾",
+    "byArtist":{
+      "@type":"MusicGroup",
+      "name":"b3nn3t"
+    },
+    "inAlbum":{
+      "@type":"MusicAlbum",
+      "name":"drei-viertel"
+    },
+    "image":"https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp",
+    "url":"https://www.b3nn3t.com/release-drei-viertel.html"
+  }
+  </script>
+
+  <!-- preload -->
+
+  <link rel="preload"
+    as="image"
+    href="/assets/release/3-4/drei-viertel-cover.webp"
+    fetchpriority="high">
+
+  <!-- THREE -->
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+  <style>
+
+    :root{
+      --awb-text-main:#fdfdfd;
+      --page-max-width:960px;
+      --awb-bg:#587fa6;
+    }
+
+    html,
+    body{
+      margin:0;
+      padding:0;
+      min-height:100%;
+      overflow-x:hidden;
+
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        sans-serif;
+
+      color:var(--awb-text-main);
+
+      background:var(--awb-bg);
+    }
+
+    /* =========================================================
+       WEBGL SPACE
+       ========================================================= */
+
+    #webgl-space{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      z-index:0;
+      pointer-events:none;
+      opacity:0;
+      transition:opacity 1s ease;
+      mix-blend-mode:screen;
+    }
+
+    .page-wrap{
+      min-height:100vh;
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:flex-start;
+
+      padding:
+        clamp(2.8rem,4vw,3.8rem)
+        1.5rem
+        clamp(3.5rem,5vw,4.5rem);
+
+      box-sizing:border-box;
+
+      position:relative;
+      z-index:2;
+    }
+
+    .content{
+      width:100%;
+      max-width:var(--page-max-width);
+      position:relative;
+    }
+
+    main.main{
+      display:flex;
+      flex-direction:column;
+      gap:clamp(1.6rem,2.4vw,2.2rem);
+    }
+
+    .topline{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:baseline;
+      gap:0.7rem;
+
+      font-size:0.92rem;
+      letter-spacing:0.04em;
+
+      margin-bottom:
+        clamp(1.6rem,2.4vw,2.2rem);
+    }
+
+    .brand-link{
+      color:#ffffff;
+      font-weight:700;
+      text-decoration:none;
+      letter-spacing:0.04em;
+    }
+
+    .count-label{
+      opacity:0.9;
+    }
+
+    #awb-countdown-timer{
+      font-variant-numeric:tabular-nums;
+      font-weight:700;
+      color:#fff;
+      min-width:8ch;
+      display:inline-block;
+    }
+
+    /* =========================================================
+       VIDEO / PLAYER WRAP
+       ========================================================= */
+
+    .video-wrap{
+      margin:
+        0 auto
+        clamp(2rem,3vw,2.8rem);
+
+      max-width:720px;
+      width:100%;
+
+      /* Smooth ein-/ausblenden */
+      opacity:1;
+      transition:opacity 0.8s ease;
+      pointer-events:auto;
+    }
+
+    .video-wrap.hidden{
+      opacity:0;
+      pointer-events:none;
+    }
+
+    /*
+      Der äußere Wrapper hat overflow:visible
+      damit der animierte Hintergrund
+      über den Rahmen hinausfließen kann.
+    */
+    .video-inner{
+      border-radius:22px;
+
+      /* KEIN overflow:hidden mehr – Hintergrund soll durchscheinen */
+      overflow:visible;
+
+      aspect-ratio:16 / 9;
+
+      position:relative;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,0.35),
+        0 0 120px rgba(120,180,255,0.08);
+
+      /* Rahmen-Clip nur für den Inhalt via pseudo-element */
+      isolation:isolate;
+    }
+
+    /*
+      Clip-Maske als Pseudo-Element –
+      schneidet nur den Inhalt, nicht den Hintergrund.
+    */
+    .video-inner::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      border-radius:22px;
+      z-index:1;
+      pointer-events:none;
+    }
+
+    /*
+      Der eigentliche Clip-Container für Cover + Audio.
+      Dieser clippt den Inhalt auf den Rahmen.
+    */
+    .video-clip{
+      position:absolute;
+      inset:0;
+      border-radius:22px;
+      overflow:hidden;
+      z-index:2;
+    }
+
+    /*
+      Das Cover-Bild – zeigt beim Laden den gleichen
+      Farbhintergrund wie die Animation.
+      Fadet beim Play smooth aus.
+    */
+    .release-cover{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:cover;
+
+      /* Sanfter Übergang: Cover fadet aus */
+      opacity:1;
+      transition:opacity 0.9s ease;
+
+      position:relative;
+      z-index:3;
+    }
+
+    /*
+      Wenn Audio spielt: Cover transparent
+      → animierter Hintergrund scheint durch
+    */
+    .release-cover.playing{
+      opacity:0;
+    }
+
+    /*
+      Der animierte Hintergrund "hinter" dem Frame –
+      sichtbar durch den transparenten Cover-Bereich.
+      Nutzt den globalen WebGL-Canvas (fixed) der
+      schon da ist, plus ein dediziertes Glow-Element
+      das nur bei playing aktiv ist.
+    */
+    .player-bg-glow{
+      position:absolute;
+      inset:-18px;                   /* leicht größer als Rahmen */
+      border-radius:30px;
+      z-index:0;                     /* hinter dem Clip-Container */
+
+      opacity:0;
+      transition:opacity 1s ease;
+
+      /* Gleiche Farbe wie der WebGL-Hintergrund */
+      background:radial-gradient(
+        ellipse at 50% 50%,
+        rgba(120,180,255,0.22) 0%,
+        rgba(88,127,166,0.12) 60%,
+        transparent 100%
+      );
+
+      pointer-events:none;
+    }
+
+    .player-bg-glow.playing{
+      opacity:1;
+    }
+
+    /*
+      Glühender Rahmen-Ring wenn playing –
+      macht den "Übergang" zum Hintergrund weich
+    */
+    .video-inner.playing{
+      box-shadow:
+        0 0 0 1.5px rgba(255,255,255,0.08),
+        0 20px 60px rgba(0,0,0,0.35),
+        0 0 80px rgba(120,180,255,0.30),
+        0 0 180px rgba(120,180,255,0.15);
+    }
+
+    .audio-overlay{
+      position:absolute;
+      left:0;
+      right:0;
+      bottom:0;
+
+      width:100%;
+
+      padding:0.6rem;
+
+      background:rgba(0,0,0,0.55);
+
+      box-sizing:border-box;
+
+      backdrop-filter:blur(10px);
+
+      z-index:4;
+    }
+
+    section.block{
+      margin-bottom:
+        clamp(1.8rem,2.6vw,2.4rem);
+    }
+
+    section.block h2{
+      margin:0 0 0.95rem;
+
+      font-size:1.06rem;
+      letter-spacing:0.04em;
+
+      text-transform:lowercase;
+      font-weight:600;
+    }
+
+    section.block p{
+      margin:0;
+
+      line-height:1.7;
+      letter-spacing:0.04em;
+
+      max-width:60rem;
+      font-size:1rem;
+    }
+
+    .presave-wrap{
+      margin-top:0.2rem;
+    }
+
+    .presave-btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+
+      padding:0.95rem 1.2rem;
+
+      border-radius:999px;
+
+      background:#fff;
+      color:var(--awb-bg);
+
+      text-decoration:none;
+      font-weight:800;
+      letter-spacing:0.04em;
+
+      border:
+        2px solid rgba(255,255,255,0.55);
+
+      box-shadow:
+        0 6px 18px rgba(0,0,0,0.18),
+        0 0 40px rgba(120,180,255,0.05);
+
+      transition:
+        transform .18s ease,
+        box-shadow .25s ease;
+    }
+
+    .presave-btn:hover{
+      transform:translateY(-1px);
+
+      box-shadow:
+        0 10px 26px rgba(0,0,0,0.22),
+        0 0 60px rgba(120,180,255,0.18);
+    }
+
+    .social-section{
+      margin:0 0 0.8rem;
+    }
+
+    .social-icons{
+      display:flex;
+      flex-wrap:wrap;
+      gap:clamp(1.1rem,1.6vw,1.6rem);
+      align-items:center;
+      margin-bottom:0.4rem;
+    }
+
+    .social-link{
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .social-icon-img{
+      width:
+        clamp(1.6rem,1.3vw + 1rem,2.2rem);
+
+      height:auto;
+      display:block;
+    }
+
+    .more-link{
+      display:inline-block;
+      margin-top:0.65rem;
+      margin-bottom:0.75rem;
+      padding-left:0.25rem;
+    }
+
+    .drop-mode-active .video-inner{
+      box-shadow:
+        0 0 50px rgba(255,255,255,0.25),
+        0 0 120px rgba(140,200,255,0.25),
+        0 0 220px rgba(120,180,255,0.15);
+    }
+
+    /* CROSSHAIR */
+
+    #crosshair{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:99999;
+    }
+
+    #crosshair .line-x{
+      position:absolute;
+      left:0;
+      top:50%;
+
+      width:100vw;
+      height:1px;
+
+      background:#ffffff;
+
+      opacity:0.9;
+
+      transform:translateY(-0.5px);
+    }
+
+    #crosshair .line-y{
+      position:absolute;
+      top:0;
+      left:50%;
+
+      width:1px;
+      height:100vh;
+
+      background:#ffffff;
+
+      opacity:0.9;
+
+      transform:translateX(-0.5px);
+    }
+
+    @media (pointer:coarse){
+
+      #crosshair{
+        display:none;
+      }
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <div class="page-wrap">
+
+```
+<div class="content">
+
+  <main class="main">
+
+    <!-- TOPLINE -->
+
+    <div
+      class="topline"
+      aria-label="Release Countdown">
+
+      <a
+        class="brand-link"
+        href="/index.html">
+
+        b3nn3t
+
+      </a>
+
+      <span class="count-label">
+
+        released in
+
+      </span>
+
+      <span id="awb-countdown-timer">
+
+        --:--:--
+
+      </span>
+
+    </div>
+
+    <!-- AUDIO -->
+
+    <section
+      class="video-wrap"
+      aria-label="Audio zum Song">
+
+      <div class="video-inner" id="player-frame">
+
+        <!-- Glow-Schicht hinter dem Rahmen (animierter Hintergrund-Effekt) -->
+        <div class="player-bg-glow" id="player-bg-glow"></div>
+
+        <!-- Clip-Container: schneidet Cover + Audio auf Rahmen -->
+        <div class="video-clip">
+
+          <img
+            src="/assets/release/3-4/drei-viertel-cover.webp"
+
+            alt="Cover – drei-viertel von b3nn3t"
+
+            class="release-cover"
+            id="release-cover">
+
+          <audio
+            id="release-audio"
+
+            class="audio-overlay"
+
+            controls
+
+            preload="metadata">
+
+            <source
+              src="/assets/release/3-4/drei-viertel.prelisten.mp3">
+
+            Dein Browser unterstützt dieses Audioformat nicht.
+
+          </audio>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- BUTTON -->
+
+    <section
+      aria-label="Vorsichern"
+      class="block">
+
+      <div class="presave-wrap">
+
+        <a
+          class="presave-btn"
+
+          href="https://open.spotify.com/intl-de/track/6VCMa97WIhNB8oPp8dGct7?si=2e2725860b284c76"
+
+          target="_blank"
+
+          rel="noopener">
+
+          "¾" hören
+
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- PRESSE -->
+
+    <section
+      aria-label="Presse Artikel"
+      class="block">
+
+      <h2>
+
+        Presse Artikel
+
+      </h2>
+
+      <p>
+
+        Frontstage Magazine - April 2026
+
+      </p>
+
+      <div class="presave-wrap">
+
+        <a
+          class="presave-btn"
+
+          href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
+
+          target="_blank"
+
+          rel="noopener">
+
+          zum artikel
+
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- SOCIALS -->
+
+    <section
+      aria-label="Streaming"
+      class="block">
+
+      <h2>
+
+        kuck hier
+
+      </h2>
+
+      <div class="social-section">
+
+        <div class="social-icons">
+
+          <a
+            href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x"
+
+            class="social-link"
+
+            target="_blank"
+
+            rel="noopener">
+
+            <img
+              class="social-icon-img"
+
+              src="assets/release/spotify_128.png"
+
+              alt="Spotify">
+
+          </a>
+
+          <a
+            href="https://music.apple.com/ch/artist/b3nn3t/1786857463"
+
+            class="social-link"
+
+            target="_blank"
+
+            rel="noopener">
+
+            <img
+              class="social-icon-img"
+
+              src="assets/release/apple_music_128.png"
+
+              alt="Apple Music">
+
+          </a>
+
+          <a
+            href="https://www.instagram.com/b333nn3t"
+
+            class="social-link"
+
+            target="_blank"
+
+            rel="noopener">
+
+            <img
+              class="social-icon-img"
+
+              src="assets/release/instagram_128.png"
+
+              alt="Instagram">
+
+          </a>
+
+          <a
+            href="https://www.youtube.com/@b333nn3t"
+
+            class="social-link"
+
+            target="_blank"
+
+            rel="noopener">
+
+            <img
+              class="social-icon-img"
+
+              src="assets/release/youtube_128.png"
+
+              alt="YouTube">
+
+          </a>
+
+          <a
+            href="https://soundcloud.com/bennet-6942069420"
+
+            class="social-link"
+
+            target="_blank"
+
+            rel="noopener">
+
+            <img
+              class="social-icon-img"
+
+              src="assets/release/soundcloud_128.png"
+
+              alt="SoundCloud">
+
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <section class="block">
+
+      <p>
+
+        mehr auf meiner webseite :p
+
+      </p>
+
+      <a
+        class="brand-link more-link"
+
+        href="https://www.b3nn3t.com/index.html">
+
+        b3nn3t.com
+
+      </a>
+
+    </section>
+
+  </main>
+
+</div>
+```
+
+  </div>
+
+  <!-- CROSSHAIR -->
+
+  <div
+    id="crosshair"
+    aria-hidden="true">
+
+```
+<div class="line-x"></div>
+
+<div class="line-y"></div>
+```
+
+  </div>
+
+  <!-- COUNTDOWN -->
+
+  <script>
+
+    (() => {
+
+      const targetDate =
+        new Date("2026-03-06T00:00:00+01:00").getTime();
+
+      const el =
+        document.getElementById("awb-countdown-timer");
+
+      if(!el) return;
+
+      function updateCountdown(){
+
+        const now = Date.now();
+
+        const diff = targetDate - now;
+
+        if(diff <= 0){
+
+          el.textContent = "OUT NOW";
+
+          clearInterval(timer);
+
+          return;
+        }
+
+        const seconds = Math.floor(diff / 1000);
+
+        const days =
+          Math.floor(seconds / (3600 * 24));
+
+        const hours =
+          Math.floor((seconds % (3600 * 24)) / 3600);
+
+        const mins =
+          Math.floor((seconds % 3600) / 60);
+
+        const secs = seconds % 60;
+
+        const hh =
+          String(hours).padStart(2, "0");
+
+        const mm =
+          String(mins).padStart(2, "0");
+
+        const ss =
+          String(secs).padStart(2, "0");
+
+        el.textContent =
+          days > 0
+          ? `${days}d ${hh}:${mm}:${ss}`
+          : `${hh}:${mm}:${ss}`;
+      }
+
+      updateCountdown();
+
+      const timer =
+        setInterval(updateCountdown, 1000);
+
+    })();
+
+  </script>
+
+  <!-- CROSSHAIR -->
+
+  <script>
+
+    (() => {
+
+      const cross =
+        document.getElementById('crosshair');
+
+      const lineX =
+        cross?.querySelector('.line-x');
+
+      const lineY =
+        cross?.querySelector('.line-y');
+
+      if(!cross || !lineX || !lineY) return;
+
+      let x = -9999;
+      let y = -9999;
+
+      let raf = null;
+
+      function render(){
+
+        lineX.style.top = y + 'px';
+
+        lineY.style.left = x + 'px';
+
+        raf = null;
+      }
+
+      window.addEventListener('mousemove', (e) => {
+
+        x = e.clientX;
+
+        y = e.clientY;
+
+        if(!raf){
+
+          raf = requestAnimationFrame(render);
+        }
+
+      }, { passive:true });
+
+    })();
+
+  </script>
+
+  <!-- =========================================================
+     ASTRONAUT + COVER-EFFEKT
+     ========================================================= -->
+
+  <script>
+
+  (() => {
+
+    const audio =
+      document.getElementById('release-audio');
+
+    if(!audio) return;
+
+    /* =========================================================
+       ELEMENTE FÜR DEN COVER-EFFEKT
+       ========================================================= */
+
+    const cover =
+      document.getElementById('release-cover');
+
+    const playerFrame =
+      document.getElementById('player-frame');
+
+    const playerBgGlow =
+      document.getElementById('player-bg-glow');
+
+    const videoWrap =
+      document.querySelector('.video-wrap');
+
+    /* =========================================================
+       WEBGL
+       ========================================================= */
+
+    const renderer =
+      new THREE.WebGLRenderer({
+        alpha:true,
+        antialias:true
+      });
+
+    renderer.setPixelRatio(
+      Math.min(window.devicePixelRatio, 2)
+    );
+
+    renderer.setSize(
+      window.innerWidth,
+      window.innerHeight
+    );
+
+    renderer.domElement.id = 'webgl-space';
+
+    document.body.prepend(renderer.domElement);
+
+    const scene = new THREE.Scene();
+
+    const camera =
+      new THREE.PerspectiveCamera(
+        75,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        4000
+      );
+
+    camera.position.z = 500;
+
+    /* =========================================================
+       AUDIO
+       ========================================================= */
+
+    const audioCtx =
+      new (
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
+
+    const source =
+      audioCtx.createMediaElementSource(audio);
+
+    const analyser =
+      audioCtx.createAnalyser();
+
+    analyser.fftSize = 256;
+
+    source.connect(analyser);
+
+    analyser.connect(audioCtx.destination);
+
+    const bufferLength =
+      analyser.frequencyBinCount;
+
+    const dataArray =
+      new Uint8Array(bufferLength);
+
+    function getAudioLevel(){
+
+      analyser.getByteFrequencyData(dataArray);
+
+      let sum = 0;
+
+      for(let i = 0; i < bufferLength; i++){
+
+        sum += dataArray[i];
+      }
+
+      return sum / bufferLength / 255;
+    }
+
+    /* =========================================================
+       STARS
+       ========================================================= */
+
+    const geometry =
+      new THREE.BufferGeometry();
+
+    const starCount = 9000;
+
+    const positions =
+      new Float32Array(starCount * 3);
+
+    for(let i = 0; i < starCount * 3; i++){
+
+      positions[i] =
+        (Math.random() - 0.5) * 3200;
+    }
+
+    geometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(positions, 3)
+    );
+
+    const starTexture =
+      createStarTexture();
+
+    const material =
+      new THREE.PointsMaterial({
+
+        map: starTexture,
+
+        color:0xffffff,
+
+        size:4.2,
+
+        transparent:true,
+
+        opacity:1,
+
+        blending:THREE.AdditiveBlending,
+
+        depthWrite:false,
+
+        sizeAttenuation:true
+      });
+
+    const stars =
+      new THREE.Points(
+        geometry,
+        material
+      );
+
+    scene.add(stars);
+
+    function createStarTexture(){
+
+      const canvas =
+        document.createElement('canvas');
+
+      canvas.width = 128;
+      canvas.height = 128;
+
+      const ctx =
+        canvas.getContext('2d');
+
+      const gradient =
+        ctx.createRadialGradient(
+          64,64,0,
+          64,64,64
+        );
+
+      gradient.addColorStop(0,'rgba(255,255,255,1)');
+      gradient.addColorStop(0.15,'rgba(255,255,255,1)');
+      gradient.addColorStop(0.4,'rgba(255,255,255,0.9)');
+      gradient.addColorStop(1,'rgba(255,255,255,0)');
+
+      ctx.fillStyle = gradient;
+
+      ctx.beginPath();
+
+      ctx.arc(64,64,64,0,Math.PI * 2);
+
+      ctx.fill();
+
+      return new THREE.CanvasTexture(canvas);
+    }
+
+    /* =========================================================
+       ASTRONAUT
+       ========================================================= */
+
+    let astronaut;
+
+    const textureLoader =
+      new THREE.TextureLoader();
+
+    textureLoader.load(
+
+      'assets/release/astronaut.webp',
+
+      (texture) => {
+
+        console.log('Astronaut geladen');
+
+        const astronautMaterial =
+          new THREE.SpriteMaterial({
+
+            map:texture,
+
+            transparent:true,
+
+            depthWrite:false,
+
+            opacity:1
+          });
+
+        astronaut =
+          new THREE.Sprite(
+            astronautMaterial
+          );
+
+        astronaut.scale.set(
+          220,
+          220,
+          1
+        );
+
+        astronaut.position.set(
+          0,
+          0,
+          -800
+        );
+
+        scene.add(astronaut);
+
+      },
+
+      undefined,
+
+      (err) => {
+
+        console.error(
+          'Astronaut Fehler:',
+          err
+        );
+
+      }
+
+    );
+
+    /* =========================================================
+       DROP MODE
+       ========================================================= */
+
+    let dropMode = false;
+
+    window.addEventListener('keydown', (e) => {
+
+      if(e.key.toLowerCase() === 'd'){
+
+        dropMode = !dropMode;
+
+        document.body.classList.toggle(
+          'drop-mode-active',
+          dropMode
+        );
+      }
+
+    });
+
+    /* =========================================================
+       PARALLAX
+       ========================================================= */
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+
+      mouseX =
+        (e.clientX / window.innerWidth - 0.5);
+
+      mouseY =
+        (e.clientY / window.innerHeight - 0.5);
+
+    });
+
+    /* =========================================================
+       RESIZE
+       ========================================================= */
+
+    window.addEventListener('resize', () => {
+
+      camera.aspect =
+        window.innerWidth / window.innerHeight;
+
+      camera.updateProjectionMatrix();
+
+      renderer.setSize(
+        window.innerWidth,
+        window.innerHeight
+      );
+
+    });
+
+    /* =========================================================
+       ANIMATION
+       ========================================================= */
+
+    let animationId;
+
+    let running = false;
+
+    let astronautPhase = 0;
+
+    function animate(){
+
+      const audioLevel =
+        getAudioLevel();
+
+      camera.position.x +=
+        ((mouseX * 40) - camera.position.x) * 0.02;
+
+      camera.position.y +=
+        ((-mouseY * 40) - camera.position.y) * 0.02;
+
+      camera.lookAt(scene.position);
+
+      /* STARS */
+
+      stars.rotation.y +=
+        0.00018 + audioLevel * 0.003;
+
+      stars.rotation.x +=
+        0.00003;
+
+      material.size =
+        4.2 + audioLevel * 4;
+
+      material.opacity = 1;
+
+      /* =======================================================
+         ASTRONAUT MOVEMENT
+         ======================================================= */
+
+      if(astronaut){
+
+        astronautPhase +=
+          0.0025;
+
+        const wave =
+          Math.sin(astronautPhase);
+
+        astronaut.position.z =
+          -1800 + ((wave + 1) / 2) * 2200;
+
+        const scale =
+          220 + ((wave + 1) / 2) * 420;
+
+        astronaut.scale.set(
+          scale,
+          scale,
+          1
+        );
+
+        astronaut.position.x =
+          Math.sin(astronautPhase * 0.7) * 140;
+
+        astronaut.position.y =
+          Math.cos(astronautPhase * 0.9) * 80;
+
+        astronaut.material.opacity =
+          0.45 + ((wave + 1) / 2) * 0.55;
+
+        astronaut.material.rotation +=
+          0.0008;
+      }
+
+      renderer.render(scene, camera);
+
+      animationId =
+        requestAnimationFrame(animate);
+    }
+
+    /* =========================================================
+       START / STOP   –   inkl. Cover-Effekt
+       ========================================================= */
+
+    async function startSpace(){
+
+      if(running) return;
+
+      running = true;
+
+      await audioCtx.resume();
+
+      /* WebGL einblenden */
+      renderer.domElement.style.opacity = '1';
+
+      /* Player komplett ausblenden */
+      if(videoWrap)     videoWrap.classList.add('hidden');
+      if(cover)         cover.classList.add('playing');
+      if(playerFrame)   playerFrame.classList.add('playing');
+      if(playerBgGlow)  playerBgGlow.classList.add('playing');
+
+      animate();
+    }
+
+    function stopSpace(){
+
+      running = false;
+
+      cancelAnimationFrame(animationId);
+
+      /* WebGL ausblenden */
+      renderer.domElement.style.opacity = '0';
+
+      /* Player wieder einblenden */
+      if(videoWrap)     videoWrap.classList.remove('hidden');
+      if(cover)         cover.classList.remove('playing');
+      if(playerFrame)   playerFrame.classList.remove('playing');
+      if(playerBgGlow)  playerBgGlow.classList.remove('playing');
+    }
+
+    /* Pause zeigt Player NICHT zurück – nur Ende */
+    audio.addEventListener('play',  startSpace);
+    audio.addEventListener('ended', stopSpace);
+
+  })();
+
+  </script>
+
+</body>
+</html>
