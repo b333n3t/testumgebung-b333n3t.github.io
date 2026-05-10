@@ -89,6 +89,8 @@
     }
 
     .topline {
+      position: relative;
+      z-index: 10;
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
@@ -119,21 +121,12 @@
       display: inline-block;
     }
 
-    /* Titel */
-    .song-title {
-      margin: 0;
-      font-weight: 600;
-      text-transform: lowercase;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
-    }
-
     /* =========================================================
-       VIDEO-SZENE MIT PERSON + UNREGELMÄSSIGER GEDANKENBLASE
+       VIDEO-SZENE MIT PERSON + GEDANKENBLASE
        ========================================================= */
 
     .video-wrap {
-      margin: 0 auto clamp(2rem, 3vw, 2.8rem);
+      margin: 0 auto clamp(1.2rem, 2vw, 2rem);
       max-width: 960px;
       width: 100%;
     }
@@ -141,14 +134,16 @@
     .video-scene {
       position: relative;
       width: 100%;
-      min-height: clamp(500px, 66vw, 690px);
+      min-height: clamp(430px, 58vw, 610px);
+      overflow: visible;
     }
 
+    /* Person kleiner, weiter unten und hinter dem Titel/Text */
     .person-cutout {
       position: absolute;
-      left: clamp(-45px, -4vw, -10px);
-      bottom: 0;
-      width: clamp(320px, 45vw, 540px);
+      left: clamp(30px, 7vw, 95px);
+      bottom: clamp(-150px, -12vw, -95px);
+      width: clamp(230px, 32vw, 390px);
       height: auto;
       z-index: 1;
       filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
@@ -156,11 +151,12 @@
       user-select: none;
     }
 
+    /* Gedankenblase */
     .thought-video-wrapper {
       position: absolute;
-      right: clamp(-30px, 0vw, 10px);
-      top: 0;
-      width: clamp(480px, 76vw, 860px);
+      right: clamp(-15px, 2vw, 35px);
+      top: clamp(35px, 5vw, 70px);
+      width: clamp(520px, 70vw, 840px);
       aspect-ratio: 860 / 540;
       z-index: 2;
       filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28));
@@ -211,7 +207,26 @@
       stroke-width: 4;
     }
 
+    /* Titel liegt über der Person */
+    .title-section {
+      position: relative;
+      z-index: 5;
+      margin-top: -0.4rem;
+    }
+
+    .song-title {
+      position: relative;
+      z-index: 5;
+      margin: 0;
+      font-weight: 600;
+      text-transform: lowercase;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
+    }
+
     section.block {
+      position: relative;
+      z-index: 5;
       margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
 
@@ -286,36 +301,37 @@
       }
 
       .video-scene {
-        min-height: clamp(500px, 112vw, 650px);
+        min-height: clamp(430px, 105vw, 570px);
       }
 
       .person-cutout {
-        left: -45px;
-        bottom: 0;
-        width: clamp(300px, 82vw, 450px);
+        left: clamp(-10px, 4vw, 25px);
+        bottom: -115px;
+        width: clamp(230px, 66vw, 340px);
       }
 
       .thought-video-wrapper {
-        right: -70px;
-        top: 0;
-        width: clamp(500px, 118vw, 680px);
+        right: -95px;
+        top: 40px;
+        width: clamp(500px, 120vw, 650px);
       }
     }
 
     @media (max-width: 480px) {
       .video-scene {
-        min-height: 530px;
+        min-height: 465px;
       }
 
       .person-cutout {
-        left: -65px;
-        width: 365px;
+        left: -10px;
+        bottom: -105px;
+        width: 275px;
       }
 
       .thought-video-wrapper {
-        right: -115px;
-        top: 0;
-        width: 565px;
+        right: -135px;
+        top: 35px;
+        width: 550px;
       }
     }
 
