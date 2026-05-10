@@ -44,19 +44,15 @@
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
       --awb-bg: #930010;
-
       --block-title-gap: 0.95rem;
       --block-par-gap: 0.7rem;
-
       --more-link-gap-top: 0.65rem;
       --more-link-gap-bottom: 0.75rem;
       --more-link-indent: 0.25rem;
     }
 
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+      margin: 0; padding: 0; height: 100%;
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
@@ -64,454 +60,256 @@
     }
 
     .page-wrap {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      min-height: 100vh; width: 100%;
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: clamp(2.8rem,4vw,3.8rem) 1.5rem clamp(3.5rem,5vw,4.5rem);
       box-sizing: border-box;
     }
 
-    .content {
-      width: 100%;
-      max-width: var(--page-max-width);
-      position: relative;
-    }
+    .content { width: 100%; max-width: var(--page-max-width); position: relative; }
 
-    main.main {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(1.6rem, 2.4vw, 2.2rem);
-    }
+    main.main { display: flex; flex-direction: column; gap: clamp(1.6rem,2.4vw,2.2rem); }
 
     .topline {
-      position: relative;
-      z-index: 20;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 0.7rem;
-      font-size: 0.92rem;
-      letter-spacing: 0.04em;
-      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
+      position: relative; z-index: 20;
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      gap: 0.7rem; font-size: 0.92rem; letter-spacing: 0.04em;
+      margin-bottom: clamp(1.6rem,2.4vw,2.2rem);
     }
 
-    .brand-link {
-      color: #ffffff;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .count-label {
-      text-transform: none;
-      opacity: 0.9;
-    }
-
-    #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
-      color: #ffffff;
-      min-width: 8ch;
-      display: inline-block;
-    }
+    .brand-link { color: #fff; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; cursor: pointer; }
+    .count-label { text-transform: none; opacity: 0.9; }
+    #awb-countdown-timer { font-variant-numeric: tabular-nums; font-weight: 700; color: #fff; min-width: 8ch; display: inline-block; }
 
     /* =========================================================
-       VIDEO-SZENE – DESKTOP
+       VIDEO-WRAP
        ========================================================= */
+    .video-wrap { margin: 0 auto clamp(1rem,2vw,1.8rem); max-width: 960px; width: 100%; }
 
-    .video-wrap {
-      margin: 0 auto clamp(1rem, 2vw, 1.8rem);
-      max-width: 960px;
-      width: 100%;
-    }
-
-    /* --- Desktop-Szene: Person rechts unten, Blase oben rechts --- */
+    /* =========================================================
+       DESKTOP-SZENE  (> 768px)
+       ========================================================= */
     .video-scene {
-      position: relative;
-      width: 100%;
-      /* Höhe wächst mit dem Inhalt – Person und Blase sitzen absolut */
-      min-height: clamp(590px, 70vw, 760px);
+      position: relative; width: 100%;
+      min-height: clamp(590px,70vw,760px);
       overflow: visible;
     }
 
-    /* Person weiter unten rechts */
     .person-cutout {
       position: absolute;
-      right: clamp(80px, 13vw, 170px);
-      bottom: 0;                          /* immer am unteren Rand der Szene */
-      width: clamp(170px, 22vw, 270px);
-      height: auto;
-      z-index: 1;
-      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
-      pointer-events: none;
-      user-select: none;
+      right: clamp(80px,13vw,170px);
+      bottom: 0;
+      width: clamp(170px,22vw,270px);
+      height: auto; z-index: 1;
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,0.25));
+      pointer-events: none; user-select: none;
     }
 
-    /* Grosse Gedankenblase oben/rechts */
     .thought-video-wrapper {
       position: absolute;
-      right: clamp(-30px, 0vw, 10px);
-      top: clamp(-85px, -5vw, -35px);
-      width: clamp(570px, 74vw, 880px);
+      right: clamp(-30px,0vw,10px);
+      top: clamp(-85px,-5vw,-35px);
+      width: clamp(570px,74vw,880px);
       aspect-ratio: 860 / 540;
       z-index: 2;
-      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28));
+      filter: drop-shadow(0 18px 32px rgba(0,0,0,0.28));
     }
 
-    .thought-svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      overflow: visible;
-    }
+    .thought-svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
-    .release-video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      background: #000;
-      object-fit: cover;
-    }
+    .release-video { width: 100%; height: 100%; display: block; background: #000; object-fit: cover; }
 
     .bubble-outline-shadow {
-      fill: none;
-      stroke: rgba(0, 0, 0, 0.32);
-      stroke-width: 15;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      pointer-events: none;
+      fill: none; stroke: rgba(0,0,0,0.32); stroke-width: 15;
+      stroke-linejoin: round; stroke-linecap: round; pointer-events: none;
     }
-
     .bubble-outline {
-      fill: none;
-      stroke: rgba(255, 255, 255, 0.97);
-      stroke-width: 7;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      pointer-events: none;
+      fill: none; stroke: rgba(255,255,255,0.97); stroke-width: 7;
+      stroke-linejoin: round; stroke-linecap: round; pointer-events: none;
     }
 
-    /* Kleine Gedankenblasen als Buttons */
-    .thought-controls {
-      position: absolute;
-      inset: 0;
-      z-index: 8;
-      pointer-events: none;
-    }
+    .thought-controls { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
 
     .thought-btn {
       position: absolute;
-      border: 4px solid #ffffff;
-      background: #ffffff;
-      color: #111111;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow:
-        0 0 0 3px rgba(0, 0, 0, 0.35),
-        0 12px 20px rgba(0, 0, 0, 0.22);
-      cursor: pointer;
-      padding: 0;
-      pointer-events: auto;
+      border: 4px solid #fff; background: #fff; color: #111;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.35), 0 12px 20px rgba(0,0,0,0.22);
+      cursor: pointer; padding: 0; pointer-events: auto;
       transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
+    .thought-btn:hover { transform: scale(1.08); box-shadow: 0 0 0 3px rgba(0,0,0,0.35), 0 16px 24px rgba(0,0,0,0.28); }
+    .thought-btn svg { width: 48%; height: 48%; display: block; fill: currentColor; }
 
-    .thought-btn:hover {
-      transform: scale(1.08);
-      box-shadow:
-        0 0 0 3px rgba(0, 0, 0, 0.35),
-        0 16px 24px rgba(0, 0, 0, 0.28);
-    }
+    .thought-play  { width: clamp(56px,5.8vw,76px); height: clamp(56px,5.8vw,76px); right: clamp(180px,20vw,275px); top: clamp(305px,35vw,425px); }
+    .thought-pause { width: clamp(44px,4.5vw,60px); height: clamp(44px,4.5vw,60px); right: clamp(115px,13vw,180px); top: clamp(380px,43vw,520px); }
+    .thought-sound { width: clamp(34px,3.5vw,48px); height: clamp(34px,3.5vw,48px); right: clamp(70px,8vw,115px);  top: clamp(445px,50vw,610px); }
 
-    .thought-btn svg {
-      width: 48%;
-      height: 48%;
-      display: block;
-      fill: currentColor;
-    }
-
-    /* Play-Blase – Desktop */
-    .thought-play {
-      width: clamp(56px, 5.8vw, 76px);
-      height: clamp(56px, 5.8vw, 76px);
-      right: clamp(180px, 20vw, 275px);
-      top: clamp(305px, 35vw, 425px);
-    }
-
-    /* Pause-Blase – Desktop */
-    .thought-pause {
-      width: clamp(44px, 4.5vw, 60px);
-      height: clamp(44px, 4.5vw, 60px);
-      right: clamp(115px, 13vw, 180px);
-      top: clamp(380px, 43vw, 520px);
-    }
-
-    /* Lautsprecher-Blase – Desktop */
-    .thought-sound {
-      width: clamp(34px, 3.5vw, 48px);
-      height: clamp(34px, 3.5vw, 48px);
-      right: clamp(70px, 8vw, 115px);
-      top: clamp(445px, 50vw, 610px);
-    }
-
-    .title-section {
-      position: relative;
-      z-index: 5;
-      margin-top: -7.5rem;
-    }
+    .title-section { position: relative; z-index: 5; margin-top: -7.5rem; }
 
     .song-title {
-      position: relative;
-      z-index: 5;
-      margin: 0;
-      font-weight: 600;
-      text-transform: lowercase;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
+      position: relative; z-index: 5; margin: 0 0 clamp(0.9rem,1.5vw,1.25rem);
+      font-weight: 600; text-transform: lowercase; font-size: clamp(1.7rem,3vw,2.4rem);
     }
 
-    section.block {
-      position: relative;
-      z-index: 5;
-      margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
-    }
+    section.block { position: relative; z-index: 5; margin-bottom: clamp(1.8rem,2.6vw,2.4rem); }
+    section.block h2 { margin: 0 0 var(--block-title-gap); font-size: 1.06rem; letter-spacing: 0.04em; text-transform: lowercase; font-weight: 600; }
+    section.block p  { margin: 0; line-height: 1.7; letter-spacing: 0.04em; max-width: 60rem; font-size: 1rem; }
+    section.block p + p { margin-top: var(--block-par-gap); }
+    section.block p.no-gap + p { margin-top: 0 !important; }
 
-    section.block h2 {
-      margin: 0 0 var(--block-title-gap);
-      font-size: 1.06rem;
-      letter-spacing: 0.04em;
-      text-transform: lowercase;
-      font-weight: 600;
-    }
+    .social-section { margin: 0 0 0.8rem; }
+    .social-icons { display: flex; flex-wrap: wrap; gap: clamp(1.1rem,1.6vw,1.6rem); align-items: center; margin-bottom: 0.4rem; }
+    .social-link { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    .social-icon-img { width: clamp(1.6rem,1.3vw + 1rem,2.2rem); height: auto; display: block; }
 
-    section.block p {
-      margin: 0;
-      line-height: 1.7;
-      letter-spacing: 0.04em;
-      max-width: 60rem;
-      font-size: 1rem;
-    }
+    .more-link { display: inline-block; margin-top: var(--more-link-gap-top); margin-bottom: var(--more-link-gap-bottom); padding-left: var(--more-link-indent); }
 
-    section.block p + p {
-      margin-top: var(--block-par-gap);
-    }
-
-    section.block p.no-gap + p {
-      margin-top: 0 !important;
-    }
-
-    .social-section {
-      margin: 0 0 0.8rem;
-    }
-
-    .social-icons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: clamp(1.1rem, 1.6vw, 1.6rem);
-      align-items: center;
-      margin-bottom: 0.4rem;
-    }
-
-    .social-link {
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .social-icon-img {
-      width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
-      height: auto;
-      display: block;
-    }
-
-    .more-link {
-      display: inline-block;
-      margin-top: var(--more-link-gap-top);
-      margin-bottom: var(--more-link-gap-bottom);
-      padding-left: var(--more-link-indent);
-    }
+    /* Mobile-Elemente standardmäßig versteckt */
+    .mobile-scene { display: none; }
 
     /* =========================================================
-       MOBILE LAYOUT  (≤ 768 px)
-       Ziel:
-       • Gedankenblase füllt die volle Breite (minus padding)
-       • Person ist rechts unten in der Szene positioniert,
-         UNTERHALB der Blase – kleine Überlappung am unteren Rand
-       • Steuer-Buttons sitzen relativ zur Blase, nicht zur Szene
+       MOBILE  (≤ 768px)
+
+       Problem: iOS Safari rendert SVG clipPath auf foreignObject
+       nicht zuverlässig → eigene Mobile-Szene mit CSS-Blob-Shape.
+
+       Layout:
+       ┌─────────────────────────┐
+       │   [blob-video]   [btns] │
+       │                         │
+       │              [person]   │ ← rechts unten
+       └─────────────────────────┘
        ========================================================= */
 
     @media (max-width: 768px) {
 
-      .page-wrap {
-        padding: 2.4rem 1.2rem 3rem;
-      }
+      .page-wrap { padding: 2rem 1rem 3rem; }
+      .topline   { font-size: 0.87rem; gap: 0.45rem; margin-bottom: 1.2rem; }
 
-      .topline {
-        font-size: 0.87rem;
-        gap: 0.45rem;
-      }
+      /* Desktop-Szene weg */
+      .video-scene { display: none; }
 
-      .song-title {
-        letter-spacing: 0.26em;
-      }
-
-      /* Szene: Höhe = Blasen-Höhe + Personen-Überlappung */
-      .video-scene {
-        /* Blase: aspect-ratio 860/540 ≈ 1.59 → Höhe ≈ 63 vw   */
-        /* Person überragt unten ca. 30 vw                        */
-        min-height: calc(63vw + 28vw); /* ≈ 91 vw */
-        overflow: visible;
-      }
-
-      /* Gedankenblase: volle Breite, linksbündig, ganz oben */
-      .thought-video-wrapper {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
+      /* Mobile-Szene sichtbar */
+      .mobile-scene {
+        display: block;
+        position: relative;
         width: 100%;
-        aspect-ratio: 860 / 540;
-        /* überschreibe Desktop-Werte */
-        filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.28));
+        /* Blase: aspect 4/3 → Höhe ≈ 75vw. Person ragt ~28vw raus. */
+        padding-bottom: 26vw;
       }
 
-      /* Person: rechts unten, startet ab Unterkante der Blase */
-      .person-cutout {
+      /* ---- Blob-Blase ---- */
+      .mobile-bubble-wrap {
+        position: relative;
+        /* Blase nimmt ~78% der Breite ein, links ausgerichtet */
+        width: 78%;
+        aspect-ratio: 4 / 3;
+        z-index: 2;
+      }
+
+      /* Weißer Rand */
+      .mobile-bubble-wrap::before {
+        content: '';
         position: absolute;
-        right: -8px;           /* leicht außerhalb für Natürlichkeit */
+        inset: -6px;
+        background: rgba(255,255,255,0.96);
+        border-radius: 44% 54% 50% 58% / 52% 46% 54% 48%;
+        z-index: 0;
+        box-shadow: 0 14px 32px rgba(0,0,0,0.32);
+      }
+
+      /* Schatten-Ring */
+      .mobile-bubble-wrap::after {
+        content: '';
+        position: absolute;
+        inset: -12px;
+        background: rgba(0,0,0,0.18);
+        border-radius: 44% 54% 50% 58% / 52% 46% 54% 48%;
+        z-index: -1;
+        filter: blur(8px);
+      }
+
+      /* Video in Blob-Shape */
+      .mobile-bubble-video {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 44% 54% 50% 58% / 52% 46% 54% 48%;
+        z-index: 1;
+        background: #000;
+      }
+
+      /* ---- Steuer-Buttons: rechts neben der Blase, diagonal ---- */
+      .mobile-controls {
+        position: absolute;
+        /* Buttons rechts außen, auf Höhe der Blase */
+        right: 0;
+        top: 18%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        z-index: 10;
+        pointer-events: none;
+      }
+
+      .mobile-controls .thought-btn {
+        /* Überschreibe position:absolute von Desktop */
+        position: static;
+        pointer-events: auto;
+      }
+
+      .mobile-controls .thought-play  { width: 50px; height: 50px; top: auto; right: auto; }
+      .mobile-controls .thought-pause { width: 38px; height: 38px; top: auto; right: auto; }
+      .mobile-controls .thought-sound { width: 30px; height: 30px; top: auto; right: auto; }
+
+      /* Desktop-Controls unsichtbar */
+      .thought-controls { display: none; }
+
+      /* ---- Person: absolut rechts unten ---- */
+      .mobile-person {
+        position: absolute;
+        right: -6px;
         bottom: 0;
-        top: auto;
-        width: clamp(130px, 36vw, 200px);
-        z-index: 3;            /* über der Blase */
+        width: clamp(110px, 30vw, 170px);
+        height: auto;
+        z-index: 3;
+        filter: drop-shadow(0 10px 18px rgba(0,0,0,0.25));
+        pointer-events: none;
+        user-select: none;
       }
 
-      /* Controls: relativ zur Bubble-Größe (100 vw breit, 63 vw hoch) */
-      /* Buttons sitzen im unteren Drittel der Blase, links von der Person */
-
-      .thought-play {
-        width: 52px;
-        height: 52px;
-        /* ~55% von links, ~60% von oben der Blase */
-        left: calc(55vw - 26px);
-        top: calc(63vw * 0.58);
-        right: auto;
-      }
-
-      .thought-pause {
-        width: 40px;
-        height: 40px;
-        left: calc(65vw - 20px);
-        top: calc(63vw * 0.72);
-        right: auto;
-      }
-
-      .thought-sound {
-        width: 32px;
-        height: 32px;
-        left: calc(72vw - 16px);
-        top: calc(63vw * 0.86);
-        right: auto;
-      }
-
-      /* Titel rückt näher ran – Blase läuft bis zum Rand */
-      .title-section {
-        margin-top: 2rem;
-      }
+      /* Titel kommt nach der Szene, kein negativer Abzug */
+      .title-section { margin-top: 1.5rem; }
+      .song-title    { letter-spacing: 0.18em; }
     }
 
-    /* =========================================================
-       KLEINSTES MOBILE  (≤ 480 px) – nur Feintuning
-       ========================================================= */
+    @media (max-width: 420px) {
+      .mobile-bubble-wrap { width: 80%; }
 
-    @media (max-width: 480px) {
-      .video-scene {
-        min-height: calc(63vw + 32vw);
-      }
+      .mobile-controls { right: -2px; top: 16%; gap: 8px; }
+      .mobile-controls .thought-play  { width: 42px; height: 42px; }
+      .mobile-controls .thought-pause { width: 32px; height: 32px; }
+      .mobile-controls .thought-sound { width: 25px; height: 25px; }
 
-      .person-cutout {
-        width: clamp(110px, 32vw, 170px);
-        right: -4px;
-      }
-
-      .thought-play {
-        width: 46px;
-        height: 46px;
-        left: calc(52vw - 23px);
-        top: calc(63vw * 0.56);
-      }
-
-      .thought-pause {
-        width: 36px;
-        height: 36px;
-        left: calc(62vw - 18px);
-        top: calc(63vw * 0.70);
-      }
-
-      .thought-sound {
-        width: 28px;
-        height: 28px;
-        left: calc(70vw - 14px);
-        top: calc(63vw * 0.84);
-      }
-
-      .title-section {
-        margin-top: 1.5rem;
-      }
+      .mobile-person { width: clamp(95px, 28vw, 140px); }
     }
 
-    /* Desktop-Feintuning */
     @media (min-width: 1024px) {
-      .page-wrap {
-        padding-top: 4rem;
-        padding-bottom: 5rem;
-      }
+      .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
 
     /* =========================================================
-       FULLSCREEN CROSSHAIR
+       CROSSHAIR
        ========================================================= */
-
-    #crosshair {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 99999;
-    }
-
-    #crosshair .line-x {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100vw;
-      height: 1px;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateY(-0.5px);
-    }
-
-    #crosshair .line-y {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 1px;
-      height: 100vh;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateX(-0.5px);
-    }
-
-    @media (pointer: coarse) {
-      #crosshair { display: none; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #crosshair { display: none; }
-    }
+    #crosshair { position: fixed; inset: 0; pointer-events: none; z-index: 99999; }
+    #crosshair .line-x { position: absolute; left: 0; top: 50%; width: 100vw; height: 1px; background: #fff; opacity: 0.9; transform: translateY(-0.5px); }
+    #crosshair .line-y { position: absolute; top: 0; left: 50%; width: 1px; height: 100vh; background: #fff; opacity: 0.9; transform: translateX(-0.5px); }
+    @media (pointer: coarse)                { #crosshair { display: none; } }
+    @media (prefers-reduced-motion: reduce) { #crosshair { display: none; } }
   </style>
 
 </head>
@@ -529,129 +327,84 @@
     </div>
 
     <section class="video-wrap" aria-label="Video zum Song">
+
+      <!-- ============================================
+           DESKTOP-SZENE: SVG-Gedankenblase
+           ============================================ -->
       <div class="video-scene">
 
-        <img
-          class="person-cutout"
-          src="assets/release/person-sitzend.png"
-          alt="Sitzende Person">
+        <img class="person-cutout" src="assets/release/person-sitzend.png" alt="Sitzende Person">
 
         <div class="thought-video-wrapper">
-          <svg
-            class="thought-svg"
-            viewBox="0 0 860 540"
-            role="img"
-            aria-label="Video in einer Comic-Gedankenblase">
-
+          <svg class="thought-svg" viewBox="0 0 860 540" role="img" aria-label="Video in Gedankenblase">
             <defs>
               <clipPath id="comicThoughtBubbleClip" clipPathUnits="userSpaceOnUse">
-                <path d="
-                  M 130 270
-                  C 82 260, 48 223, 64 181
-                  C 18 130, 72 63, 139 80
-                  C 166 25, 252 10, 299 55
-                  C 344 8, 438 30, 455 91
-                  C 512 39, 606 60, 625 126
-                  C 696 108, 760 156, 748 222
-                  C 820 249, 826 332, 759 369
-                  C 779 442, 684 493, 621 453
-                  C 573 516, 462 513, 428 451
-                  C 375 498, 279 475, 268 407
-                  C 207 442, 124 401, 140 337
-                  C 84 331, 66 292, 130 270
-                  Z
-                " />
+                <path d="M 130 270 C 82 260,48 223,64 181 C 18 130,72 63,139 80 C 166 25,252 10,299 55 C 344 8,438 30,455 91 C 512 39,606 60,625 126 C 696 108,760 156,748 222 C 820 249,826 332,759 369 C 779 442,684 493,621 453 C 573 516,462 513,428 451 C 375 498,279 475,268 407 C 207 442,124 401,140 337 C 84 331,66 292,130 270 Z"/>
               </clipPath>
             </defs>
-
-            <foreignObject
-              x="0"
-              y="0"
-              width="860"
-              height="540"
-              clip-path="url(#comicThoughtBubbleClip)">
-
-              <video
-                xmlns="http://www.w3.org/1999/xhtml"
-                id="release-video"
-                class="release-video"
-                muted
-                playsinline
-                preload="metadata"
+            <foreignObject x="0" y="0" width="860" height="540" clip-path="url(#comicThoughtBubbleClip)">
+              <video xmlns="http://www.w3.org/1999/xhtml"
+                id="release-video-desktop" class="release-video"
+                muted playsinline preload="metadata"
                 poster="assets/release/drei-cover.webp"
-                fetchpriority="high"
-                width="1280"
-                height="720">
+                fetchpriority="high" width="1280" height="720">
                 <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-                Dein Browser unterstützt dieses Videoformat nicht.
               </video>
-
             </foreignObject>
-
-            <path
-              class="bubble-outline-shadow"
-              d="
-                M 130 270
-                C 82 260, 48 223, 64 181
-                C 18 130, 72 63, 139 80
-                C 166 25, 252 10, 299 55
-                C 344 8, 438 30, 455 91
-                C 512 39, 606 60, 625 126
-                C 696 108, 760 156, 748 222
-                C 820 249, 826 332, 759 369
-                C 779 442, 684 493, 621 453
-                C 573 516, 462 513, 428 451
-                C 375 498, 279 475, 268 407
-                C 207 442, 124 401, 140 337
-                C 84 331, 66 292, 130 270
-                Z
-              " />
-
-            <path
-              class="bubble-outline"
-              d="
-                M 130 270
-                C 82 260, 48 223, 64 181
-                C 18 130, 72 63, 139 80
-                C 166 25, 252 10, 299 55
-                C 344 8, 438 30, 455 91
-                C 512 39, 606 60, 625 126
-                C 696 108, 760 156, 748 222
-                C 820 249, 826 332, 759 369
-                C 779 442, 684 493, 621 453
-                C 573 516, 462 513, 428 451
-                C 375 498, 279 475, 268 407
-                C 207 442, 124 401, 140 337
-                C 84 331, 66 292, 130 270
-                Z
-              " />
+            <path class="bubble-outline-shadow" d="M 130 270 C 82 260,48 223,64 181 C 18 130,72 63,139 80 C 166 25,252 10,299 55 C 344 8,438 30,455 91 C 512 39,606 60,625 126 C 696 108,760 156,748 222 C 820 249,826 332,759 369 C 779 442,684 493,621 453 C 573 516,462 513,428 451 C 375 498,279 475,268 407 C 207 442,124 401,140 337 C 84 331,66 292,130 270 Z"/>
+            <path class="bubble-outline"        d="M 130 270 C 82 260,48 223,64 181 C 18 130,72 63,139 80 C 166 25,252 10,299 55 C 344 8,438 30,455 91 C 512 39,606 60,625 126 C 696 108,760 156,748 222 C 820 249,826 332,759 369 C 779 442,684 493,621 453 C 573 516,462 513,428 451 C 375 498,279 475,268 407 C 207 442,124 401,140 337 C 84 331,66 292,130 270 Z"/>
           </svg>
         </div>
 
         <div class="thought-controls" aria-label="Video-Steuerung">
-
-          <button class="thought-btn thought-play" type="button" id="video-play-btn" aria-label="Video abspielen">
+          <button class="thought-btn thought-play"  type="button" id="d-play-btn"  aria-label="Video abspielen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="thought-btn thought-pause" type="button" id="d-pause-btn" aria-label="Video pausieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <button class="thought-btn thought-sound" type="button" id="d-sound-btn" aria-label="Ton einschalten">
             <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M8 5v14l11-7z"></path>
+              <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
             </svg>
           </button>
+        </div>
+      </div>
 
-          <button class="thought-btn thought-pause" type="button" id="video-pause-btn" aria-label="Video pausieren">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
-            </svg>
-          </button>
+      <!-- ============================================
+           MOBILE-SZENE: CSS-Blob + Person unten rechts
+           ============================================ -->
+      <div class="mobile-scene" aria-label="Video und Person">
 
-          <button class="thought-btn thought-sound" type="button" id="video-sound-btn" aria-label="Ton einschalten">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M3 9v6h4l5 5V4L7 9H3z"></path>
-              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"></path>
-            </svg>
-          </button>
-
+        <div class="mobile-bubble-wrap">
+          <video id="release-video-mobile" class="mobile-bubble-video"
+            muted playsinline preload="metadata"
+            poster="assets/release/drei-cover.webp"
+            width="1280" height="720">
+            <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+          </video>
         </div>
 
+        <div class="mobile-controls" aria-label="Video-Steuerung">
+          <button class="thought-btn thought-play"  type="button" id="m-play-btn"  aria-label="Video abspielen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="thought-btn thought-pause" type="button" id="m-pause-btn" aria-label="Video pausieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <button class="thought-btn thought-sound" type="button" id="m-sound-btn" aria-label="Ton einschalten">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </button>
+        </div>
+
+        <img class="mobile-person" src="assets/release/person-sitzend.png" alt="Sitzende Person">
+
       </div>
+
     </section>
 
     <section class="title-section" aria-label="Songtitel">
@@ -666,50 +419,23 @@
 
     <section aria-label="Streaming" class="block">
       <h2>kuck hier</h2>
-
       <div class="social-section" aria-label="Social Media Links">
         <div class="social-icons">
-
-          <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-             class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
-            <picture>
-              <source srcset="assets/release/spotify_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
-            </picture>
+          <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/spotify_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify"></picture>
           </a>
-
-          <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-             class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
-            <picture>
-              <source srcset="assets/release/apple_music_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
-            </picture>
+          <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/apple_music_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music"></picture>
           </a>
-
-          <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-             class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
-            <picture>
-              <source srcset="assets/release/instagram_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
-            </picture>
+          <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ==" class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/instagram_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram"></picture>
           </a>
-
-          <a href="https://www.youtube.com/@b333nn3t"
-             class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
-            <picture>
-              <source srcset="assets/release/youtube_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
-            </picture>
+          <a href="https://www.youtube.com/@b333nn3t" class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/youtube_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube"></picture>
           </a>
-
-          <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-             class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-            <picture>
-              <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-            </picture>
+          <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/soundcloud_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud"></picture>
           </a>
-
         </div>
       </div>
     </section>
@@ -735,73 +461,43 @@
       const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
-
-      function updateCountdown() {
-        const now = Date.now();
-        const diff = targetDate - now;
-
-        if (diff <= 0) {
-          el.textContent = "OUT NOW";
-          clearInterval(timer);
-          return;
-        }
-
-        const seconds = Math.floor(diff / 1000);
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        el.textContent = (days > 0)
-          ? (days + "d " + hh + ":" + mm + ":" + ss)
-          : (hh + ":" + mm + ":" + ss);
+      function update() {
+        const diff = targetDate - Date.now();
+        if (diff <= 0) { el.textContent = "OUT NOW"; clearInterval(t); return; }
+        const s = Math.floor(diff/1000), d = Math.floor(s/86400);
+        const h = String(Math.floor((s%86400)/3600)).padStart(2,"0");
+        const m = String(Math.floor((s%3600)/60)).padStart(2,"0");
+        const sc = String(s%60).padStart(2,"0");
+        el.textContent = d > 0 ? `${d}d ${h}:${m}:${sc}` : `${h}:${m}:${sc}`;
       }
-
-      updateCountdown();
-      const timer = setInterval(updateCountdown, 1000);
+      update(); const t = setInterval(update, 1000);
     })();
   </script>
 
   <script>
-    (function () {
-      const video = document.getElementById('release-video');
-      const playBtn = document.getElementById('video-play-btn');
-      const pauseBtn = document.getElementById('video-pause-btn');
-      const soundBtn = document.getElementById('video-sound-btn');
+    function initVideoControls(videoId, playId, pauseId, soundId) {
+      const video = document.getElementById(videoId);
+      const play  = document.getElementById(playId);
+      const pause = document.getElementById(pauseId);
+      const sound = document.getElementById(soundId);
+      if (!video) return;
 
-      if (!video || !playBtn || !pauseBtn || !soundBtn) return;
-
-      function setSoundIcon() {
-        if (video.muted) {
-          soundBtn.innerHTML =
-            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-              '<path d="M3 9v6h4l5 5V4L7 9H3z"></path>' +
-              '<path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"></path>' +
-            '</svg>';
-          soundBtn.setAttribute('aria-label', 'Ton einschalten');
-        } else {
-          soundBtn.innerHTML =
-            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-              '<path d="M3 9v6h4l5 5V4L7 9H3z"></path>' +
-              '<path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z"></path>' +
-            '</svg>';
-          soundBtn.setAttribute('aria-label', 'Ton ausschalten');
-        }
+      function setSoundIcon(muted) {
+        if (!sound) return;
+        sound.innerHTML = muted
+          ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>'
+          : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z"/></svg>';
+        sound.setAttribute('aria-label', muted ? 'Ton einschalten' : 'Ton ausschalten');
       }
 
-      playBtn.addEventListener('click', function () { video.play(); });
-      pauseBtn.addEventListener('click', function () { video.pause(); });
-      soundBtn.addEventListener('click', function () {
-        video.muted = !video.muted;
-        setSoundIcon();
-      });
+      play?.addEventListener('click',  () => video.play());
+      pause?.addEventListener('click', () => video.pause());
+      sound?.addEventListener('click', () => { video.muted = !video.muted; setSoundIcon(video.muted); });
+      setSoundIcon(video.muted);
+    }
 
-      setSoundIcon();
-    })();
+    initVideoControls('release-video-desktop', 'd-play-btn', 'd-pause-btn', 'd-sound-btn');
+    initVideoControls('release-video-mobile',  'm-play-btn', 'm-pause-btn', 'm-sound-btn');
   </script>
 
   <script>
@@ -810,38 +506,12 @@
       const lineX = cross?.querySelector('.line-x');
       const lineY = cross?.querySelector('.line-y');
       if (!cross || !lineX || !lineY) return;
-
-      if (!window.matchMedia('(pointer: fine)').matches) {
-        cross.style.display = 'none';
-        return;
-      }
-
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        cross.style.display = 'none';
-        return;
-      }
-
-      let x = -9999;
-      let y = -9999;
-      let raf = null;
-
-      function render() {
-        lineX.style.top = y + 'px';
-        lineY.style.left = x + 'px';
-        raf = null;
-      }
-
-      window.addEventListener('mousemove', (e) => {
-        x = e.clientX;
-        y = e.clientY;
-        if (!raf) raf = requestAnimationFrame(render);
-      }, { passive: true });
-
-      window.addEventListener('mouseleave', () => {
-        x = -9999;
-        y = -9999;
-        render();
-      });
+      if (!window.matchMedia('(pointer: fine)').matches) { cross.style.display='none'; return; }
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { cross.style.display='none'; return; }
+      let x=-9999, y=-9999, raf=null;
+      function render() { lineX.style.top=y+'px'; lineY.style.left=x+'px'; raf=null; }
+      window.addEventListener('mousemove',(e)=>{ x=e.clientX; y=e.clientY; if(!raf) raf=requestAnimationFrame(render); },{passive:true});
+      window.addEventListener('mouseleave',()=>{ x=-9999; y=-9999; render(); });
     })();
   </script>
 
