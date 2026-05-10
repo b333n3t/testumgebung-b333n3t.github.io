@@ -203,21 +203,13 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       max-width:720px;
       width:100%;
 
-      /* Smooth ein-/ausblenden inkl. Layout-Kollaps */
       opacity:1;
-      max-height:800px;
-      overflow:hidden;
-      transition:
-        opacity 0.8s ease,
-        max-height 0.9s ease,
-        margin-bottom 0.9s ease;
+      transition:opacity 0.8s ease;
       pointer-events:auto;
     }
 
     .video-wrap.hidden{
       opacity:0;
-      max-height:0;
-      margin-bottom:0;
       pointer-events:none;
     }
 
