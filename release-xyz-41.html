@@ -1146,7 +1146,7 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
     let animationId;
     let running = false;
-    let astronautPhase = 0;
+    let astronautPhase = -Math.PI / 2;
     let astronautRotation = 0;
     let introPhase = 0;        /* 0 = intro läuft, 1 = normale Umlaufbahn */
     let introComplete = false;
@@ -1177,73 +1177,124 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
       material.opacity = 1;
 
-      /* =======================================================
-         ASTRONAUT MOVEMENT
-         ======================================================= */
+/* =======================================================
+   ASTRONAUT MOVEMENT
+   ======================================================= */
 
-      if(astronaut){
+if(astronaut){
 
-        if(!introComplete){
+  if(!introComplete){
 
-          /* INTRO: fliegt aus der Ferne heran */
-          introPhase = Math.min(1, introPhase + 0.0008);
+    /*
+      INTRO:
+      Astronaut kommt schneller aus der Tiefe nach vorne
+      und dreht sich dabei sichtbar.
+    */
+    introPhase = Math.min(1, introPhase + 0.0032);
 
-          /* Easing: langsam starten, gleichmässig ankommen */
-          const eased =
-            introPhase < 1
-            ? 1 - Math.pow(1 - introPhase, 3)
-            : 1;
+    const eased =
+      introPhase < 1
+      ? 1 - Math.pow(1 - introPhase, 3)
+      : 1;
 
-          /* Z: von -3500 auf -2000 (Startpunkt der Umlaufbahn) */
-          astronaut.position.z = -3500 + eased * 1500;
+    /*
+      Z-Achse:
+      -3600 = weit hinten
+      -2600 = Startpunkt für das spätere Schweben
+    */
+    astronaut.position.z = -3600 + eased * 1000;
 
-          /* Scale: von 10 auf 120 (Startscale der Umlaufbahn) */
-          const introScale = 10 + eased * 110;
-          astronaut.scale.set(introScale, introScale, 1);
+    /*
+      Grösse:
+      wächst während dem Heranfliegen
+    */
+    const introScale = 10 + eased * 95;
+    astronaut.scale.set(introScale, introScale, 1);
 
-          /* Opacity: langsam einblenden */
-          astronaut.material.opacity = eased * 0.35;
+    /*
+      leichte Bewegung von links unten nach rechts oben
+    */
+    astronaut.position.x = -260 + eased * 260;
+    astronaut.position.y = -120 + eased * 120;
 
-          astronaut.position.x = 0;
-          astronaut.position.y = 0;
+    /*
+      stärkere Drehung im Intro
+    */
+    astronautRotation += 0.012;
+    astronaut.material.rotation = astronautRotation;
 
-          astronautRotation += 0.0006;
-          astronaut.material.rotation = astronautRotation;
+    astronaut.material.opacity = eased * 0.45;
 
-          if(introPhase >= 1) introComplete = true;
+    if(introPhase >= 1){
+      introComplete = true;
+      astronautPhase = -Math.PI / 2;
+    }
 
-        } else {
+  } else {
 
-          /* NORMALE UMLAUFBAHN */
-          astronautPhase += 0.0018;
+    /*
+      NORMALE SCHWEBE-BEWEGUNG:
+      Astronaut kommt nach vorne, dreht sich,
+      schwebt wieder zurück und dreht sich weiter.
+    */
+    astronautPhase += 0.0042 + audioLevel * 0.0025;
 
-          const wave = Math.sin(astronautPhase);
+    const wave = Math.sin(astronautPhase);
+    const depth = (wave + 1) / 2;
 
-          astronaut.position.z =
-            -2200 + ((wave + 1) / 2) * 1800;
+    /*
+      Z-Achse:
+      weiter hinten bis weiter vorne
+      -2700 = weit weg
+      -320  = nah an der Kamera
+    */
+    astronaut.position.z =
+      -2700 + depth * 2380;
 
-          const scale = 120 + ((wave + 1) / 2) * 200;
-          astronaut.scale.set(scale, scale, 1);
+    /*
+      Grösse passend zur Tiefe
+    */
+    const scale =
+      90 + depth * 300;
 
-          const normalSwing = Math.sin(astronautPhase * 0.7) * 120;
-          const drift = wave < 0 ? wave * 1200 : 0;
-          astronaut.position.x = normalSwing + drift;
+    astronaut.scale.set(scale, scale, 1);
 
-          astronaut.position.y =
-            Math.cos(astronautPhase * 0.9) * 70;
+    /*
+      Seitliches Schweben.
+      Nicht perfekt kreisförmig, etwas organischer.
+    */
+    astronaut.position.x =
+      Math.sin(astronautPhase * 0.72) * 260 +
+      Math.sin(astronautPhase * 1.35) * 90;
 
-          const rotSpeed = wave < 0
-            ? 0.001 + Math.abs(wave) * 0.008
-            : 0.0006;
+    astronaut.position.y =
+      Math.cos(astronautPhase * 0.86) * 120 +
+      Math.sin(astronautPhase * 0.38) * 55;
 
-          astronautRotation += rotSpeed;
-          astronaut.material.rotation = astronautRotation;
+    /*
+      Drehung:
+      schneller, wenn er nach vorne kommt.
+      Beim Zurückschweben dreht er ruhiger weiter.
+    */
+    const comingForward =
+      Math.cos(astronautPhase) > 0;
 
-          astronaut.material.opacity = wave < -0.3
-            ? Math.max(0, (wave + 1) * 0.6)
-            : 0.35 + ((wave + 1) / 2) * 0.55;
-        }
-      }
+    const rotSpeed =
+      comingForward
+      ? 0.009 + depth * 0.015
+      : 0.004 + (1 - depth) * 0.007;
+
+    astronautRotation += rotSpeed;
+    astronaut.material.rotation = astronautRotation;
+
+    /*
+      Sichtbarkeit:
+      vorne heller, hinten etwas dezenter.
+    */
+    astronaut.material.opacity =
+      0.25 + depth * 0.65;
+  }
+}
 
       renderer.render(scene, camera);
 
