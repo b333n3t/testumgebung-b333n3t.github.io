@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="de">
 <head>
   <meta charset="UTF-8" />
@@ -50,11 +51,8 @@
       --more-link-indent: 0.25rem;
     }
 
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
+    html, body {
+      margin: 0; padding: 0; height: 100%;
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
@@ -62,632 +60,513 @@
     }
 
     .page-wrap {
-      min-height: 100vh;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      min-height: 100vh; width: 100%;
+      display: flex; justify-content: center; align-items: flex-start;
+      padding: clamp(2.8rem,4vw,3.8rem) 1.5rem clamp(3.5rem,5vw,4.5rem);
       box-sizing: border-box;
     }
 
-    .content {
-      width: 100%;
-      max-width: var(--page-max-width);
-      position: relative;
-    }
-
-    main.main {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(1.6rem, 2.4vw, 2.2rem);
-    }
+    .content { width: 100%; max-width: var(--page-max-width); position: relative; }
+    main.main { display: flex; flex-direction: column; gap: clamp(1.6rem,2.4vw,2.2rem); }
 
     .topline {
-      position: relative;
-      z-index: 20;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 0.7rem;
-      font-size: 0.92rem;
-      letter-spacing: 0.04em;
-      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
+      position: relative; z-index: 20;
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      gap: 0.7rem; font-size: 0.92rem; letter-spacing: 0.04em;
+      margin-bottom: clamp(1.6rem,2.4vw,2.2rem);
     }
 
-    .brand-link {
-      color: #ffffff;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-decoration: none;
-      cursor: pointer;
-    }
+    .brand-link { color: #fff; font-weight: 700; letter-spacing: 0.04em; text-decoration: none; cursor: pointer; }
+    .count-label { text-transform: none; opacity: 0.9; }
+    #awb-countdown-timer { font-variant-numeric: tabular-nums; font-weight: 700; color: #fff; min-width: 8ch; display: inline-block; }
 
-    .count-label {
-      opacity: 0.9;
-    }
-
-    #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
-      color: #ffffff;
-      min-width: 8ch;
-      display: inline-block;
-    }
+    .video-wrap { margin: 0 auto clamp(1rem,2vw,1.8rem); max-width: 960px; width: 100%; }
 
     /* =========================================================
-       VIDEO-SZENE
+       DESKTOP-SZENE  (> 768px)
        ========================================================= */
-
-    .video-wrap {
-      margin: 0 auto clamp(1rem, 2vw, 1.8rem);
-      max-width: 960px;
-      width: 100%;
-    }
-
     .video-scene {
-      position: relative;
-      width: 100%;
-      min-height: clamp(560px, 66vw, 720px);
+      position: relative; width: 100%;
+      min-height: clamp(590px,70vw,760px);
       overflow: visible;
     }
 
-    /* Person unten rechts direkt am Rand */
     .person-cutout {
       position: absolute;
-      right: 0;
-      bottom: 0;
-      width: clamp(170px, 24vw, 285px);
-      height: auto;
-      z-index: 3;
-      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
-      pointer-events: none;
-      user-select: none;
+      right: clamp(80px,13vw,170px); bottom: 0;
+      width: clamp(170px,22vw,270px); height: auto;
+      z-index: 1;
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,0.25));
+      pointer-events: none; user-select: none;
     }
 
-    /* Grosse Comic-Gedankenblase */
     .thought-video-wrapper {
       position: absolute;
-      left: clamp(-20px, 0vw, 10px);
-      top: clamp(-55px, -3vw, -20px);
-      width: clamp(600px, 78vw, 900px);
-      aspect-ratio: 900 / 560;
+      right: clamp(-30px,0vw,10px);
+      top: clamp(-85px,-5vw,-35px);
+      width: clamp(570px,74vw,880px);
+      aspect-ratio: 860 / 540;
       z-index: 2;
-      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28));
+      filter: drop-shadow(0 18px 32px rgba(0,0,0,0.28));
     }
 
-    .thought-svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      overflow: visible;
-    }
-
-    .release-video {
-      width: 100%;
-      height: 100%;
-      display: block;
-      background: #000;
-      object-fit: cover;
-    }
+    .thought-svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .release-video { width: 100%; height: 100%; display: block; background: #000; object-fit: cover; }
 
     .bubble-outline-shadow {
-      fill: none;
-      stroke: rgba(0, 0, 0, 0.32);
-      stroke-width: 15;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      pointer-events: none;
+      fill: none; stroke: rgba(0,0,0,0.32); stroke-width: 15;
+      stroke-linejoin: round; stroke-linecap: round; pointer-events: none;
     }
-
     .bubble-outline {
-      fill: none;
-      stroke: rgba(255, 255, 255, 0.97);
-      stroke-width: 7;
-      stroke-linejoin: round;
-      stroke-linecap: round;
-      pointer-events: none;
+      fill: none; stroke: rgba(255,255,255,0.97); stroke-width: 7;
+      stroke-linejoin: round; stroke-linecap: round; pointer-events: none;
     }
 
-    /* Kleine Gedankenblasen als Buttons */
-    .thought-controls {
-      position: absolute;
-      inset: 0;
-      z-index: 10;
-      pointer-events: none;
-    }
+    .thought-controls { position: absolute; inset: 0; z-index: 8; pointer-events: none; }
 
     .thought-btn {
       position: absolute;
-      border: 4px solid #ffffff;
-      background: #ffffff;
-      color: #111111;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow:
-        0 0 0 3px rgba(0, 0, 0, 0.35),
-        0 12px 20px rgba(0, 0, 0, 0.22);
-      cursor: pointer;
-      padding: 0;
-      pointer-events: auto;
+      border: 4px solid #fff; background: #fff; color: #111;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.35), 0 12px 20px rgba(0,0,0,0.22);
+      cursor: pointer; padding: 0; pointer-events: auto;
       transition: transform 0.16s ease, box-shadow 0.16s ease;
     }
+    .thought-btn:hover { transform: scale(1.08); }
+    .thought-btn svg { width: 48%; height: 48%; display: block; fill: currentColor; }
 
-    .thought-btn:hover {
-      transform: scale(1.08);
-      box-shadow:
-        0 0 0 3px rgba(0, 0, 0, 0.35),
-        0 16px 24px rgba(0, 0, 0, 0.28);
-    }
+    .thought-play  { width: clamp(56px,5.8vw,76px); height: clamp(56px,5.8vw,76px); right: clamp(180px,20vw,275px); top: clamp(305px,35vw,425px); }
+    .thought-pause { width: clamp(44px,4.5vw,60px); height: clamp(44px,4.5vw,60px); right: clamp(115px,13vw,180px); top: clamp(380px,43vw,520px); }
+    .thought-sound { width: clamp(34px,3.5vw,48px); height: clamp(34px,3.5vw,48px); right: clamp(70px,8vw,115px);  top: clamp(445px,50vw,610px); }
 
-    .thought-btn svg {
-      width: 48%;
-      height: 48%;
-      display: block;
-      fill: currentColor;
-    }
-
-    /* Button-Blasen laufen von der grossen Blase nach unten rechts zum Kopf */
-    .thought-play {
-      width: clamp(56px, 5.8vw, 78px);
-      height: clamp(56px, 5.8vw, 78px);
-      right: clamp(205px, 24vw, 310px);
-      top: clamp(285px, 34vw, 410px);
-    }
-
-    .thought-pause {
-      width: clamp(44px, 4.5vw, 60px);
-      height: clamp(44px, 4.5vw, 60px);
-      right: clamp(135px, 16vw, 215px);
-      top: clamp(370px, 43vw, 515px);
-    }
-
-    .thought-sound {
-      width: clamp(34px, 3.5vw, 48px);
-      height: clamp(34px, 3.5vw, 48px);
-      right: clamp(78px, 9vw, 130px);
-      top: clamp(445px, 52vw, 610px);
-    }
-
-    .title-section {
-      position: relative;
-      z-index: 5;
-      margin-top: -6.5rem;
-    }
-
+    .title-section { position: relative; z-index: 5; margin-top: -7.5rem; }
     .song-title {
-      position: relative;
-      z-index: 5;
-      margin: 0 0 clamp(0.9rem, 1.5vw, 1.25rem);
-      font-weight: 600;
-      text-transform: lowercase;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      position: relative; z-index: 5; margin: 0 0 clamp(0.9rem,1.5vw,1.25rem);
+      font-weight: 600; text-transform: lowercase; font-size: clamp(1.7rem,3vw,2.4rem);
     }
 
-    section.block {
-      position: relative;
-      z-index: 5;
-      margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
-    }
+    section.block { position: relative; z-index: 5; margin-bottom: clamp(1.8rem,2.6vw,2.4rem); }
+    section.block h2 { margin: 0 0 var(--block-title-gap); font-size: 1.06rem; letter-spacing: 0.04em; text-transform: lowercase; font-weight: 600; }
+    section.block p  { margin: 0; line-height: 1.7; letter-spacing: 0.04em; max-width: 60rem; font-size: 1rem; }
+    section.block p + p { margin-top: var(--block-par-gap); }
+    section.block p.no-gap + p { margin-top: 0 !important; }
 
-    section.block h2 {
-      margin: 0 0 var(--block-title-gap);
-      font-size: 1.06rem;
-      letter-spacing: 0.04em;
-      text-transform: lowercase;
-      font-weight: 600;
-    }
+    .social-section { margin: 0 0 0.8rem; }
+    .social-icons { display: flex; flex-wrap: wrap; gap: clamp(1.1rem,1.6vw,1.6rem); align-items: center; margin-bottom: 0.4rem; }
+    .social-link { text-decoration: none; display: inline-flex; align-items: center; justify-content: center; }
+    .social-icon-img { width: clamp(1.6rem,1.3vw + 1rem,2.2rem); height: auto; display: block; }
+    .more-link { display: inline-block; margin-top: var(--more-link-gap-top); margin-bottom: var(--more-link-gap-bottom); padding-left: var(--more-link-indent); }
 
-    section.block p {
-      margin: 0;
-      line-height: 1.7;
-      letter-spacing: 0.04em;
-      max-width: 60rem;
-      font-size: 1rem;
-    }
-
-    section.block p + p {
-      margin-top: var(--block-par-gap);
-    }
-
-    section.block p.no-gap + p {
-      margin-top: 0 !important;
-    }
-
-    .social-section {
-      margin: 0 0 0.8rem;
-    }
-
-    .social-icons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: clamp(1.1rem, 1.6vw, 1.6rem);
-      align-items: center;
-      margin-bottom: 0.4rem;
-    }
-
-    .social-link {
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .social-icon-img {
-      width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
-      height: auto;
-      display: block;
-    }
-
-    .more-link {
-      display: inline-block;
-      margin-top: var(--more-link-gap-top);
-      margin-bottom: var(--more-link-gap-bottom);
-      padding-left: var(--more-link-indent);
-    }
+    /* Mobile-Szene standardmäßig versteckt */
+    .mobile-scene { display: none; }
 
     /* =========================================================
-       MOBILE
+       MOBILE  (≤ 768px)
+
+       Technik für Comic-Blase:
+       - SVG mit echtem Comic-Zacken-Pfad als Clip-Maske
+       - Das Video liegt als normales <video>-Tag im DOM
+       - SVG clipPath wird per CSS clip-path: url(#...) auf das
+         Video-Element angewendet (funktioniert auf iOS Safari)
+       - Weißer Rand: identischer Pfad als SVG-Stroke obendrüber
+
+       Layout:
+         [comic-bubble + buttons oben links]
+                                [person unten rechts]
        ========================================================= */
 
     @media (max-width: 768px) {
-      .page-wrap {
-        padding: 2rem 1rem 3rem;
+
+      .page-wrap { padding: 2rem 1rem 3rem; }
+      .topline   { font-size: 0.87rem; gap: 0.45rem; margin-bottom: 1.2rem; }
+
+      /* Desktop weg */
+      .video-scene { display: none; }
+
+      /* Mobile an */
+      .mobile-scene {
+        display: block;
+        position: relative;
+        width: 100%;
+        /* Höhe: SVG-Szene ist quadratisch (100vw - 2rem padding),
+           plus Überstand der Person nach unten */
+        padding-bottom: 0;
+        margin-bottom: 0;
       }
 
-      .topline {
-        font-size: 0.87rem;
-        gap: 0.45rem;
-        margin-bottom: 1.2rem;
+      /* ---- SVG-Container für Blase + Rand + Buttons ----
+         Das SVG hat ein festes viewBox-Verhältnis.
+         Die Person sitzt absolut rechts unten AUSSERHALB des SVG. */
+
+      .mobile-comic-wrap {
+        position: relative;
+        width: 100%;
       }
 
-      .video-scene {
-        min-height: 560px;
+      /* Das SVG nimmt die volle Breite – Höhe ergibt sich aus viewBox */
+      .mobile-comic-svg {
+        display: block;
+        width: 100%;
+        height: auto;
+        overflow: visible;
       }
 
-      .thought-video-wrapper {
-        left: -48px;
-        top: -28px;
-        width: 118vw;
-        max-width: 660px;
+      /* Video hinter dem SVG – exakt über den Clip-Bereich gelegt.
+         Wir positionieren es absolut innerhalb .mobile-comic-wrap
+         und clippen es per clip-path mit dem SVG-Pfad. */
+
+      .mobile-video-container {
+        position: absolute;
+        /* Diese Werte entsprechen der viewBox-Position des Videoinhalts
+           relativ zur SVG-Breite. viewBox ist 400×300.
+           Clip-Pfad geht von ca. x=18 bis x=382, y=8 bis y=280.
+           → Video füllt den ganzen SVG-Bereich */
+        top: 0; left: 0; right: 0; bottom: 0;
+        overflow: hidden;
+        /* clip-path via inline SVG referenz */
+        -webkit-clip-path: url(#mobileBubbleClip);
+                clip-path: url(#mobileBubbleClip);
       }
 
-      .person-cutout {
-        right: -6px;
-        bottom: 0;
-        width: clamp(135px, 36vw, 205px);
+      .mobile-bubble-video {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        object-fit: cover;
+        display: block;
+        background: #000;
       }
 
-      .thought-play {
-        width: 52px;
-        height: 52px;
-        right: 132px;
-        top: 305px;
+      /* ---- Steuer-Buttons: diagonal rechts der Blase ---- */
+      .mobile-controls {
+        position: absolute;
+        right: 0;
+        top: 28%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        z-index: 10;
+        pointer-events: none;
       }
 
-      .thought-pause {
-        width: 40px;
-        height: 40px;
-        right: 82px;
-        top: 370px;
+      .mobile-controls .thought-btn {
+        position: static;
+        pointer-events: auto;
       }
 
-      .thought-sound {
-        width: 31px;
-        height: 31px;
-        right: 42px;
-        top: 425px;
+      .mobile-controls .thought-play  { width: 50px; height: 50px; }
+      .mobile-controls .thought-pause { width: 38px; height: 38px; }
+      .mobile-controls .thought-sound { width: 30px; height: 30px; }
+
+      /* Desktop-Controls unsichtbar */
+      .thought-controls { display: none; }
+
+      /* ---- Person: absolut rechts unten, NACH der Szene ---- */
+      .mobile-person {
+        display: block;
+        position: absolute;
+        right: -8px;
+        bottom: 0;          /* genau am unteren Rand der .mobile-scene */
+        width: clamp(120px, 32vw, 180px);
+        height: auto;
+        z-index: 5;
+        filter: drop-shadow(0 10px 18px rgba(0,0,0,0.28));
+        pointer-events: none; user-select: none;
       }
 
-      .title-section {
-        margin-top: -5rem;
-      }
-
-      .song-title {
-        letter-spacing: 0.18em;
-      }
+      /* Titel direkt danach, kein negativer margin */
+      .title-section { margin-top: 1.8rem; }
+      .song-title    { letter-spacing: 0.18em; }
     }
 
     @media (max-width: 420px) {
-      .video-scene {
-        min-height: 520px;
-      }
-
-      .thought-video-wrapper {
-        left: -70px;
-        top: -20px;
-        width: 130vw;
-      }
-
-      .person-cutout {
-        right: -8px;
-        bottom: 0;
-        width: 145px;
-      }
-
-      .thought-play {
-        width: 46px;
-        height: 46px;
-        right: 100px;
-        top: 295px;
-      }
-
-      .thought-pause {
-        width: 35px;
-        height: 35px;
-        right: 62px;
-        top: 350px;
-      }
-
-      .thought-sound {
-        width: 28px;
-        height: 28px;
-        right: 30px;
-        top: 400px;
-      }
-
-      .title-section {
-        margin-top: -4rem;
-      }
+      .mobile-controls { right: -2px; top: 25%; gap: 8px; }
+      .mobile-controls .thought-play  { width: 42px; height: 42px; }
+      .mobile-controls .thought-pause { width: 32px; height: 32px; }
+      .mobile-controls .thought-sound { width: 25px; height: 25px; }
+      .mobile-person { width: clamp(100px, 30vw, 150px); }
     }
 
     @media (min-width: 1024px) {
-      .page-wrap {
-        padding-top: 4rem;
-        padding-bottom: 5rem;
-      }
+      .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
     }
 
-    /* =========================================================
-       CROSSHAIR
-       ========================================================= */
-
-    #crosshair {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 99999;
-    }
-
-    #crosshair .line-x {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100vw;
-      height: 1px;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateY(-0.5px);
-    }
-
-    #crosshair .line-y {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 1px;
-      height: 100vh;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateX(-0.5px);
-    }
-
-    @media (pointer: coarse) {
-      #crosshair {
-        display: none;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      #crosshair {
-        display: none;
-      }
-    }
+    /* Crosshair */
+    #crosshair { position: fixed; inset: 0; pointer-events: none; z-index: 99999; }
+    #crosshair .line-x { position: absolute; left: 0; top: 50%; width: 100vw; height: 1px; background: #fff; opacity: 0.9; transform: translateY(-0.5px); }
+    #crosshair .line-y { position: absolute; top: 0; left: 50%; width: 1px; height: 100vh; background: #fff; opacity: 0.9; transform: translateX(-0.5px); }
+    @media (pointer: coarse)                { #crosshair { display: none; } }
+    @media (prefers-reduced-motion: reduce) { #crosshair { display: none; } }
   </style>
+
 </head>
 
 <body>
+
+  <!--
+    SVG-Definitionen für den Mobile-Clip.
+    Verstecktes SVG ganz oben im Body → clip-path: url(#id) greift
+    dokumentweit, auch auf Elemente ausserhalb des SVG.
+    viewBox 400×300 → wird per CSS auf die Videobreite skaliert.
+
+    Comic-Gedankenblase: klassische Zacken-Wolke mit ~12 Spitzen.
+  -->
+
+  <svg width="0" height="0" style="position:absolute;overflow:hidden;" aria-hidden="true">
+    <defs>
+      <clipPath id="mobileBubbleClip" clipPathUnits="objectBoundingBox">
+        <!--
+          Comic-Wolken-Pfad, normalisiert auf 0..1 Koordinaten
+          (objectBoundingBox).
+          Original-Punkte designt auf einem 400×300 Grid,
+          dann durch 400 (x) und 300 (y) geteilt.
+
+```
+      Klassische Comic-Thought-Bubble: viele runde Zacken,
+      kein gleichmässiges Oval.
+    -->
+    <path d="
+      M 0.50 0.04
+      C 0.58 0.02, 0.67 0.04, 0.72 0.10
+      C 0.78 0.04, 0.88 0.05, 0.92 0.12
+      C 0.98 0.10, 1.00 0.18, 0.97 0.24
+      C 1.00 0.30, 0.98 0.38, 0.93 0.42
+      C 0.97 0.49, 0.95 0.58, 0.89 0.62
+      C 0.92 0.70, 0.88 0.78, 0.81 0.80
+      C 0.82 0.88, 0.76 0.94, 0.68 0.94
+      C 0.64 0.99, 0.56 1.00, 0.50 0.97
+      C 0.44 1.00, 0.36 0.99, 0.32 0.94
+      C 0.24 0.94, 0.18 0.88, 0.19 0.80
+      C 0.12 0.78, 0.08 0.70, 0.11 0.62
+      C 0.05 0.58, 0.03 0.49, 0.07 0.42
+      C 0.02 0.38, 0.00 0.30, 0.03 0.24
+      C 0.00 0.18, 0.02 0.10, 0.08 0.12
+      C 0.12 0.05, 0.22 0.04, 0.28 0.10
+      C 0.33 0.04, 0.42 0.02, 0.50 0.04
+      Z
+    "/>
+  </clipPath>
+</defs>
+```
+
+  </svg>
+
   <div class="page-wrap">
     <div class="content">
       <main class="main">
 
-        <div class="topline" aria-label="Release Countdown">
-          <a class="brand-link" href="index.html">b3nn3t</a>
-          <span class="count-label">released in</span>
-          <span id="awb-countdown-timer">--:--:--</span>
+```
+    <div class="topline" aria-label="Release Countdown">
+      <a class="brand-link" href="index.html">b3nn3t</a>
+      <span class="count-label">released in</span>
+      <span id="awb-countdown-timer">--:--:--</span>
+    </div>
+
+    <section class="video-wrap" aria-label="Video zum Song">
+
+      <!-- ============================================
+           DESKTOP-SZENE
+           ============================================ -->
+      <div class="video-scene">
+
+        <img class="person-cutout" src="assets/release/person-sitzend.png" alt="Sitzende Person">
+
+        <div class="thought-video-wrapper">
+          <svg class="thought-svg" viewBox="0 0 860 540" role="img" aria-label="Video in Gedankenblase">
+            <defs>
+              <clipPath id="comicThoughtBubbleClip" clipPathUnits="userSpaceOnUse">
+                <path d="M 130 270 C 82 260,48 223,64 181 C 18 130,72 63,139 80 C 166 25,252 10,299 55 C 344 8,438 30,455 91 C 512 39,606 60,625 126 C 696 108,760 156,748 222 C 820 249,826 332,759 369 C 779 442,684 493,621 453 C 573 516,462 513,428 451 C 375 498,279 475,268 407 C 207 442,124 401,140 337 C 84 331,66 292,130 270 Z"/>
+              </clipPath>
+            </defs>
+            <foreignObject x="0" y="0" width="860" height="540" clip-path="url(#comicThoughtBubbleClip)">
+              <video xmlns="http://www.w3.org/1999/xhtml"
+                id="release-video-desktop" class="release-video"
+                muted playsinline preload="metadata"
+                poster="assets/release/drei-cover.webp"
+                fetchpriority="high" width="1280" height="720">
+                <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+              </video>
+            </foreignObject>
+            <path class="bubble-outline-shadow" d="M 130 270 C 82 260,48 223,64 181 C 18 130,72 63,139 80 C 166 25,252 10,299 55 C 344 8,438 30,455 91 C 512 39,606 60,625 126 C 696 108,760 156,748 222 C 820 249,826 332,759 369 C 779 442,684 493,621 453 C 573 516,462 513,428 451 C 375 498,279 475,268 407 C 207 442,124 401,140 337 C 84 331,66 292,130 270 Z"/>
+            <path class="bubble-outline"        d="M 130 270 C 82 260,48 223,64 181 C 18 130,72 63,139 80 C 166 25,252 10,299 55 C 344 8,438 30,455 91 C 512 39,606 60,625 126 C 696 108,760 156,748 222 C 820 249,826 332,759 369 C 779 442,684 493,621 453 C 573 516,462 513,428 451 C 375 498,279 475,268 407 C 207 442,124 401,140 337 C 84 331,66 292,130 270 Z"/>
+          </svg>
         </div>
 
-        <section class="video-wrap" aria-label="Video zum Song">
-          <div class="video-scene">
+        <div class="thought-controls" aria-label="Video-Steuerung">
+          <button class="thought-btn thought-play"  type="button" id="d-play-btn"  aria-label="Video abspielen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="thought-btn thought-pause" type="button" id="d-pause-btn" aria-label="Video pausieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <button class="thought-btn thought-sound" type="button" id="d-sound-btn" aria-label="Ton einschalten">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </button>
+        </div>
+      </div><!-- /desktop -->
 
-            <img
-              class="person-cutout"
-              src="assets/release/person-sitzend.png"
-              alt="Sitzende Person">
+      <!-- ============================================
+           MOBILE-SZENE
+           Aufbau:
+           .mobile-scene (position:relative, Höhe durch Inhalt)
+             .mobile-comic-wrap
+               .mobile-comic-svg   ← zeichnet weißen Rand
+               .mobile-video-container  ← geclipptes Video
+             .mobile-controls     ← Buttons rechts
+             .mobile-person       ← absolut unten rechts
+           ============================================ -->
+      <div class="mobile-scene" aria-label="Video und Person">
 
-            <div class="thought-video-wrapper">
-              <svg
-                class="thought-svg"
-                viewBox="0 0 900 560"
-                role="img"
-                aria-label="Video in Comic-Gedankenblase">
+        <div class="mobile-comic-wrap">
 
-                <defs>
-                  <clipPath id="comicThoughtBubbleClip" clipPathUnits="userSpaceOnUse">
-                    <path d="
-                      M 132 282
-                      C 82 270, 50 228, 68 184
-                      C 22 128, 82 62, 148 82
-                      C 172 26, 264 8, 314 58
-                      C 360 10, 456 28, 474 92
-                      C 535 34, 638 58, 654 132
-                      C 728 108, 798 160, 780 228
-                      C 854 252, 866 342, 794 382
-                      C 816 456, 714 512, 646 468
-                      C 596 536, 480 532, 442 466
-                      C 390 518, 288 492, 276 422
-                      C 212 460, 126 412, 146 346
-                      C 88 338, 64 302, 132 282
-                      Z
-                    " />
-                  </clipPath>
-                </defs>
+          <!--
+            SVG zeichnet NUR den weißen Rand der Blase
+            (kein Video drin – iOS Safari clippt foreignObject nicht).
+            viewBox 400×300 → Aspect-Ratio 4:3
+          -->
+          <svg class="mobile-comic-svg"
+            viewBox="0 0 400 300"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
 
-                <foreignObject
-                  x="0"
-                  y="0"
-                  width="900"
-                  height="560"
-                  clip-path="url(#comicThoughtBubbleClip)">
+            <!-- Schatten-Ring -->
+            <path
+              fill="none"
+              stroke="rgba(0,0,0,0.28)"
+              stroke-width="14"
+              stroke-linejoin="round"
+              d="
+                M 200 10
+                C 232 6, 268 14, 288 36
+                C 312 14, 352 18, 368 46
+                C 394 38, 402 70, 388 94
+                C 402 118, 394 150, 370 166
+                C 388 194, 378 230, 324 240
+                C 330 268, 308 284, 272 282
+                C 258 296, 232 300, 200 290
+                C 168 300, 142 296, 128 282
+                C 92 284, 70 268, 76 240
+                C 22 230, 12 194, 30 166
+                C 6 150, -2 118, 12 94
+                C -2 70, 6 38, 32 46
+                C 48 18, 88 14, 112 36
+                C 132 14, 168 6, 200 10
+                Z
+              "/>
 
-                  <video
-                    xmlns="http://www.w3.org/1999/xhtml"
-                    id="release-video"
-                    class="release-video"
-                    muted
-                    playsinline
-                    preload="metadata"
-                    poster="assets/release/drei-cover.webp"
-                    fetchpriority="high"
-                    width="1280"
-                    height="720">
-                    <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-                    Dein Browser unterstützt dieses Videoformat nicht.
-                  </video>
-                </foreignObject>
+            <!-- Weißer Rand -->
+            <path
+              fill="none"
+              stroke="rgba(255,255,255,0.97)"
+              stroke-width="7"
+              stroke-linejoin="round"
+              d="
+                M 200 10
+                C 232 6, 268 14, 288 36
+                C 312 14, 352 18, 368 46
+                C 394 38, 402 70, 388 94
+                C 402 118, 394 150, 370 166
+                C 388 194, 378 230, 324 240
+                C 330 268, 308 284, 272 282
+                C 258 296, 232 300, 200 290
+                C 168 300, 142 296, 128 282
+                C 92 284, 70 268, 76 240
+                C 22 230, 12 194, 30 166
+                C 6 150, -2 118, 12 94
+                C -2 70, 6 38, 32 46
+                C 48 18, 88 14, 112 36
+                C 132 14, 168 6, 200 10
+                Z
+              "/>
+          </svg>
 
-                <path
-                  class="bubble-outline-shadow"
-                  d="
-                    M 132 282
-                    C 82 270, 50 228, 68 184
-                    C 22 128, 82 62, 148 82
-                    C 172 26, 264 8, 314 58
-                    C 360 10, 456 28, 474 92
-                    C 535 34, 638 58, 654 132
-                    C 728 108, 798 160, 780 228
-                    C 854 252, 866 342, 794 382
-                    C 816 456, 714 512, 646 468
-                    C 596 536, 480 532, 442 466
-                    C 390 518, 288 492, 276 422
-                    C 212 460, 126 412, 146 346
-                    C 88 338, 64 302, 132 282
-                    Z
-                  " />
-
-                <path
-                  class="bubble-outline"
-                  d="
-                    M 132 282
-                    C 82 270, 50 228, 68 184
-                    C 22 128, 82 62, 148 82
-                    C 172 26, 264 8, 314 58
-                    C 360 10, 456 28, 474 92
-                    C 535 34, 638 58, 654 132
-                    C 728 108, 798 160, 780 228
-                    C 854 252, 866 342, 794 382
-                    C 816 456, 714 512, 646 468
-                    C 596 536, 480 532, 442 466
-                    C 390 518, 288 492, 276 422
-                    C 212 460, 126 412, 146 346
-                    C 88 338, 64 302, 132 282
-                    Z
-                  " />
-              </svg>
-            </div>
-
-            <div class="thought-controls" aria-label="Video-Steuerung">
-              <button class="thought-btn thought-play" type="button" id="video-play-btn" aria-label="Video abspielen">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M8 5v14l11-7z"></path>
-                </svg>
-              </button>
-
-              <button class="thought-btn thought-pause" type="button" id="video-pause-btn" aria-label="Video pausieren">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M6 5h4v14H6zM14 5h4v14h-4z"></path>
-                </svg>
-              </button>
-
-              <button class="thought-btn thought-sound" type="button" id="video-sound-btn" aria-label="Ton einschalten">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M3 9v6h4l5 5V4L7 9H3z"></path>
-                  <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"></path>
-                </svg>
-              </button>
-            </div>
-
+          <!--
+            Video liegt absolut über dem SVG-Bereich,
+            geclippt per CSS clip-path auf denselben Pfad
+            (objectBoundingBox-Version im <defs> oben im Body).
+          -->
+          <div class="mobile-video-container">
+            <video id="release-video-mobile" class="mobile-bubble-video"
+              muted playsinline preload="metadata"
+              poster="assets/release/drei-cover.webp"
+              width="1280" height="720">
+              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+            </video>
           </div>
-        </section>
 
-        <section class="title-section" aria-label="Songtitel">
-          <h1 class="song-title">drei</h1>
-        </section>
+        </div><!-- /mobile-comic-wrap -->
 
-        <section aria-label="Story zum Song" class="block">
-          <h2>erklärbär</h2>
-          <p class="no-gap">drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
-          <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
-        </section>
+        <!-- Buttons rechts neben der Blase -->
+        <div class="mobile-controls" aria-label="Video-Steuerung">
+          <button class="thought-btn thought-play"  type="button" id="m-play-btn"  aria-label="Video abspielen">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="thought-btn thought-pause" type="button" id="m-pause-btn" aria-label="Video pausieren">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <button class="thought-btn thought-sound" type="button" id="m-sound-btn" aria-label="Ton einschalten">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </button>
+        </div>
 
-        <section aria-label="Streaming" class="block">
-          <h2>kuck hier</h2>
+        <!-- Person: absolut unten rechts in der Szene -->
+        <img class="mobile-person"
+          src="assets/release/person-sitzend.png"
+          alt="Sitzende Person">
 
-          <div class="social-section" aria-label="Social Media Links">
-            <div class="social-icons">
+      </div><!-- /mobile-scene -->
 
-              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/spotify_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
-                </picture>
-              </a>
+    </section>
 
-              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-                 class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/apple_music_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
-                </picture>
-              </a>
+    <section class="title-section" aria-label="Songtitel">
+      <h1 class="song-title">drei</h1>
+    </section>
 
-              <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-                 class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/instagram_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
-                </picture>
-              </a>
+    <section aria-label="Story zum Song" class="block">
+      <h2>erklärbär</h2>
+      <p class="no-gap">drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+      <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
+    </section>
 
-              <a href="https://www.youtube.com/@b333nn3t"
-                 class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/youtube_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
-                </picture>
-              </a>
+    <section aria-label="Streaming" class="block">
+      <h2>kuck hier</h2>
+      <div class="social-section" aria-label="Social Media Links">
+        <div class="social-icons">
+          <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/spotify_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify"></picture>
+          </a>
+          <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/apple_music_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music"></picture>
+          </a>
+          <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ==" class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/instagram_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram"></picture>
+          </a>
+          <a href="https://www.youtube.com/@b333nn3t" class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/youtube_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube"></picture>
+          </a>
+          <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing" class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
+            <picture><source srcset="assets/release/soundcloud_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud"></picture>
+          </a>
+        </div>
+      </div>
+    </section>
 
-              <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
-                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-                </picture>
-              </a>
+    <section aria-label="Mehr von b3nn3t" class="block">
+      <p>mehr auf meiner webseite :p</p>
+      <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+    </section>
 
-            </div>
-          </div>
-        </section>
+  </main>
+</div>
+```
 
-        <section aria-label="Mehr von b3nn3t" class="block">
-          <p>mehr auf meiner webseite :p</p>
-          <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
-        </section>
-
-      </main>
-    </div>
   </div>
 
   <div id="crosshair" aria-hidden="true">
@@ -700,122 +579,56 @@
       const targetDate = new Date("2026-01-09T00:00:00+01:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
-
-      function updateCountdown() {
-        const now = Date.now();
-        const diff = targetDate - now;
-
-        if (diff <= 0) {
-          el.textContent = "OUT NOW";
-          clearInterval(timer);
-          return;
-        }
-
-        const seconds = Math.floor(diff / 1000);
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        el.textContent = days > 0
-          ? `${days}d ${hh}:${mm}:${ss}`
-          : `${hh}:${mm}:${ss}`;
+      function update() {
+        const diff = targetDate - Date.now();
+        if (diff <= 0) { el.textContent = "OUT NOW"; clearInterval(t); return; }
+        const s = Math.floor(diff/1000), d = Math.floor(s/86400);
+        const h = String(Math.floor((s%86400)/3600)).padStart(2,"0");
+        const m = String(Math.floor((s%3600)/60)).padStart(2,"0");
+        const sc = String(s%60).padStart(2,"0");
+        el.textContent = d > 0 ? `${d}d ${h}:${m}:${sc}` : `${h}:${m}:${sc}`;
       }
-
-      updateCountdown();
-      const timer = setInterval(updateCountdown, 1000);
+      update(); const t = setInterval(update, 1000);
     })();
   </script>
 
   <script>
-    (function () {
-      const video = document.getElementById("release-video");
-      const playBtn = document.getElementById("video-play-btn");
-      const pauseBtn = document.getElementById("video-pause-btn");
-      const soundBtn = document.getElementById("video-sound-btn");
-
-      if (!video || !playBtn || !pauseBtn || !soundBtn) return;
-
-      function setSoundIcon() {
-        if (video.muted) {
-          soundBtn.innerHTML =
-            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-              '<path d="M3 9v6h4l5 5V4L7 9H3z"></path>' +
-              '<path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"></path>' +
-            '</svg>';
-
-          soundBtn.setAttribute("aria-label", "Ton einschalten");
-        } else {
-          soundBtn.innerHTML =
-            '<svg viewBox="0 0 24 24" aria-hidden="true">' +
-              '<path d="M3 9v6h4l5 5V4L7 9H3z"></path>' +
-              '<path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z"></path>' +
-            '</svg>';
-
-          soundBtn.setAttribute("aria-label", "Ton ausschalten");
-        }
+    function initVideoControls(videoId, playId, pauseId, soundId) {
+      const video = document.getElementById(videoId);
+      const play  = document.getElementById(playId);
+      const pause = document.getElementById(pauseId);
+      const sound = document.getElementById(soundId);
+      if (!video) return;
+      function setSoundIcon(muted) {
+        if (!sound) return;
+        sound.innerHTML = muted
+          ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>'
+          : '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z"/></svg>';
+        sound.setAttribute('aria-label', muted ? 'Ton einschalten' : 'Ton ausschalten');
       }
-
-      playBtn.addEventListener("click", function () {
-        video.play();
-      });
-
-      pauseBtn.addEventListener("click", function () {
-        video.pause();
-      });
-
-      soundBtn.addEventListener("click", function () {
-        video.muted = !video.muted;
-        setSoundIcon();
-      });
-
-      setSoundIcon();
-    })();
+      play?.addEventListener('click',  () => video.play());
+      pause?.addEventListener('click', () => video.pause());
+      sound?.addEventListener('click', () => { video.muted = !video.muted; setSoundIcon(video.muted); });
+      setSoundIcon(video.muted);
+    }
+    initVideoControls('release-video-desktop','d-play-btn','d-pause-btn','d-sound-btn');
+    initVideoControls('release-video-mobile', 'm-play-btn','m-pause-btn','m-sound-btn');
   </script>
 
   <script>
     (function () {
-      const cross = document.getElementById("crosshair");
-      const lineX = cross?.querySelector(".line-x");
-      const lineY = cross?.querySelector(".line-y");
-      if (!cross || !lineX || !lineY) return;
-
-      if (!window.matchMedia("(pointer: fine)").matches) {
-        cross.style.display = "none";
-        return;
-      }
-
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        cross.style.display = "none";
-        return;
-      }
-
-      let x = -9999;
-      let y = -9999;
-      let raf = null;
-
-      function render() {
-        lineX.style.top = y + "px";
-        lineY.style.left = x + "px";
-        raf = null;
-      }
-
-      window.addEventListener("mousemove", function (e) {
-        x = e.clientX;
-        y = e.clientY;
-        if (!raf) raf = requestAnimationFrame(render);
-      }, { passive: true });
-
-      window.addEventListener("mouseleave", function () {
-        x = -9999;
-        y = -9999;
-        render();
-      });
+      const cross = document.getElementById('crosshair');
+      const lineX = cross?.querySelector('.line-x');
+      const lineY = cross?.querySelector('.line-y');
+      if (!cross||!lineX||!lineY) return;
+      if (!window.matchMedia('(pointer: fine)').matches){cross.style.display='none';return;}
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){cross.style.display='none';return;}
+      let x=-9999,y=-9999,raf=null;
+      function render(){lineX.style.top=y+'px';lineY.style.left=x+'px';raf=null;}
+      window.addEventListener('mousemove',(e)=>{x=e.clientX;y=e.clientY;if(!raf)raf=requestAnimationFrame(render);},{passive:true});
+      window.addEventListener('mouseleave',()=>{x=-9999;y=-9999;render();});
     })();
   </script>
+
 </body>
 </html>
