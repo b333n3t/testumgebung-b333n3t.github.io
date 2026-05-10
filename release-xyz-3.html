@@ -129,22 +129,41 @@
     }
 
     /* =========================================================
-       VIDEO ALS COMIC-GEDANKENBLASE
+       VIDEO-SZENE MIT PERSON + UNREGELMÄSSIGER GEDANKENBLASE
        ========================================================= */
 
     .video-wrap {
       margin: 0 auto clamp(2rem, 3vw, 2.8rem);
-      max-width: 780px;
+      max-width: 960px;
       width: 100%;
-      display: flex;
-      justify-content: center;
+    }
+
+    .video-scene {
+      position: relative;
+      width: 100%;
+      min-height: clamp(500px, 66vw, 690px);
+    }
+
+    .person-cutout {
+      position: absolute;
+      left: clamp(-45px, -4vw, -10px);
+      bottom: 0;
+      width: clamp(320px, 45vw, 540px);
+      height: auto;
+      z-index: 1;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.25));
+      pointer-events: none;
+      user-select: none;
     }
 
     .thought-video-wrapper {
-      position: relative;
-      width: min(100%, 740px);
-      aspect-ratio: 740 / 470;
-      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.3));
+      position: absolute;
+      right: clamp(-30px, 0vw, 10px);
+      top: 0;
+      width: clamp(480px, 76vw, 860px);
+      aspect-ratio: 860 / 540;
+      z-index: 2;
+      filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28));
     }
 
     .thought-svg {
@@ -164,8 +183,8 @@
 
     .bubble-outline-shadow {
       fill: none;
-      stroke: rgba(0, 0, 0, 0.28);
-      stroke-width: 12;
+      stroke: rgba(0, 0, 0, 0.32);
+      stroke-width: 15;
       stroke-linejoin: round;
       stroke-linecap: round;
       pointer-events: none;
@@ -173,22 +192,22 @@
 
     .bubble-outline {
       fill: none;
-      stroke: rgba(255, 255, 255, 0.96);
-      stroke-width: 6;
+      stroke: rgba(255, 255, 255, 0.97);
+      stroke-width: 7;
       stroke-linejoin: round;
       stroke-linecap: round;
       pointer-events: none;
     }
 
     .thought-dot-shadow {
-      fill: rgba(0, 0, 0, 0.22);
-      stroke: rgba(0, 0, 0, 0.22);
+      fill: rgba(0, 0, 0, 0.25);
+      stroke: rgba(0, 0, 0, 0.24);
       stroke-width: 8;
     }
 
     .thought-dot-svg {
       fill: #ffffff;
-      stroke: rgba(255, 255, 255, 0.96);
+      stroke: rgba(255, 255, 255, 0.97);
       stroke-width: 4;
     }
 
@@ -216,7 +235,6 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* kein Abstand zwischen erklärbär-Absätzen */
     section.block p.no-gap + p {
       margin-top: 0 !important;
     }
@@ -267,9 +285,37 @@
         letter-spacing: 0.26em;
       }
 
+      .video-scene {
+        min-height: clamp(500px, 112vw, 650px);
+      }
+
+      .person-cutout {
+        left: -45px;
+        bottom: 0;
+        width: clamp(300px, 82vw, 450px);
+      }
+
       .thought-video-wrapper {
-        width: 100%;
-        aspect-ratio: 740 / 500;
+        right: -70px;
+        top: 0;
+        width: clamp(500px, 118vw, 680px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .video-scene {
+        min-height: 530px;
+      }
+
+      .person-cutout {
+        left: -65px;
+        width: 365px;
+      }
+
+      .thought-video-wrapper {
+        right: -115px;
+        top: 0;
+        width: 565px;
       }
     }
 
@@ -291,7 +337,6 @@
       z-index: 99999;
     }
 
-    /* horizontale Linie */
     #crosshair .line-x {
       position: absolute;
       left: 0;
@@ -303,7 +348,6 @@
       transform: translateY(-0.5px);
     }
 
-    /* vertikale Linie */
     #crosshair .line-y {
       position: absolute;
       top: 0;
@@ -315,14 +359,12 @@
       transform: translateX(-0.5px);
     }
 
-    /* auf touch aus */
     @media (pointer: coarse) {
       #crosshair {
         display: none;
       }
     }
 
-    /* reduced motion respektieren */
     @media (prefers-reduced-motion: reduce) {
       #crosshair {
         display: none;
@@ -343,111 +385,115 @@
         </div>
 
         <section class="video-wrap" aria-label="Video zum Song">
-          <div class="thought-video-wrapper">
+          <div class="video-scene">
 
-            <svg
-              class="thought-svg"
-              viewBox="0 0 740 470"
-              role="img"
-              aria-label="Video in einer Comic-Gedankenblase">
+            <img
+              class="person-cutout"
+              src="assets/release/person-sitzend.png"
+              alt="Sitzende Person">
 
-              <defs>
-                <clipPath id="comicThoughtBubbleClip" clipPathUnits="userSpaceOnUse">
-                  <path d="
-                    M 92 215
-                    C 50 207, 31 161, 61 127
-                    C 42 78, 91 37, 141 59
-                    C 166 18, 232 17, 259 57
-                    C 299 20, 375 29, 393 81
-                    C 432 44, 506 50, 524 102
-                    C 578 88, 631 124, 626 174
-                    C 682 191, 693 255, 646 290
-                    C 653 342, 592 378, 542 354
-                    C 508 399, 430 401, 400 359
-                    C 356 393, 281 384, 263 338
-                    C 218 365, 153 350, 141 304
-                    C 92 302, 58 256, 92 215
+            <div class="thought-video-wrapper">
+              <svg
+                class="thought-svg"
+                viewBox="0 0 860 540"
+                role="img"
+                aria-label="Video in einer Comic-Gedankenblase">
+
+                <defs>
+                  <clipPath id="comicThoughtBubbleClip" clipPathUnits="userSpaceOnUse">
+                    <path d="
+                      M 130 270
+                      C 82 260, 48 223, 64 181
+                      C 18 130, 72 63, 139 80
+                      C 166 25, 252 10, 299 55
+                      C 344 8, 438 30, 455 91
+                      C 512 39, 606 60, 625 126
+                      C 696 108, 760 156, 748 222
+                      C 820 249, 826 332, 759 369
+                      C 779 442, 684 493, 621 453
+                      C 573 516, 462 513, 428 451
+                      C 375 498, 279 475, 268 407
+                      C 207 442, 124 401, 140 337
+                      C 84 331, 66 292, 130 270
+                      Z
+                    " />
+                  </clipPath>
+                </defs>
+
+                <foreignObject
+                  x="0"
+                  y="0"
+                  width="860"
+                  height="540"
+                  clip-path="url(#comicThoughtBubbleClip)">
+
+                  <video
+                    xmlns="http://www.w3.org/1999/xhtml"
+                    id="release-video"
+                    class="release-video"
+                    controls
+                    muted
+                    playsinline
+                    preload="metadata"
+                    poster="assets/release/drei-cover.webp"
+                    fetchpriority="high"
+                    width="1280"
+                    height="720">
+                    <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+                    Dein Browser unterstützt dieses Videoformat nicht.
+                  </video>
+
+                </foreignObject>
+
+                <path
+                  class="bubble-outline-shadow"
+                  d="
+                    M 130 270
+                    C 82 260, 48 223, 64 181
+                    C 18 130, 72 63, 139 80
+                    C 166 25, 252 10, 299 55
+                    C 344 8, 438 30, 455 91
+                    C 512 39, 606 60, 625 126
+                    C 696 108, 760 156, 748 222
+                    C 820 249, 826 332, 759 369
+                    C 779 442, 684 493, 621 453
+                    C 573 516, 462 513, 428 451
+                    C 375 498, 279 475, 268 407
+                    C 207 442, 124 401, 140 337
+                    C 84 331, 66 292, 130 270
                     Z
                   " />
-                </clipPath>
-              </defs>
 
-              <!-- Video wird in die wolkige Comic-Gedankenblase geschnitten -->
-              <foreignObject
-                x="0"
-                y="0"
-                width="740"
-                height="470"
-                clip-path="url(#comicThoughtBubbleClip)">
+                <path
+                  class="bubble-outline"
+                  d="
+                    M 130 270
+                    C 82 260, 48 223, 64 181
+                    C 18 130, 72 63, 139 80
+                    C 166 25, 252 10, 299 55
+                    C 344 8, 438 30, 455 91
+                    C 512 39, 606 60, 625 126
+                    C 696 108, 760 156, 748 222
+                    C 820 249, 826 332, 759 369
+                    C 779 442, 684 493, 621 453
+                    C 573 516, 462 513, 428 451
+                    C 375 498, 279 475, 268 407
+                    C 207 442, 124 401, 140 337
+                    C 84 331, 66 292, 130 270
+                    Z
+                  " />
 
-                <video
-                  xmlns="http://www.w3.org/1999/xhtml"
-                  id="release-video"
-                  class="release-video"
-                  controls
-                  muted
-                  playsinline
-                  preload="metadata"
-                  poster="assets/release/drei-cover.webp"
-                  fetchpriority="high"
-                  width="1280"
-                  height="720">
-                  <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-                  Dein Browser unterstützt dieses Videoformat nicht.
-                </video>
+                <!-- Gedankenpunkte Richtung Kopf der Figur -->
+                <circle class="thought-dot-shadow" cx="188" cy="414" r="31" aria-hidden="true" />
+                <circle class="thought-dot-shadow" cx="145" cy="455" r="21" aria-hidden="true" />
+                <circle class="thought-dot-shadow" cx="112" cy="485" r="12" aria-hidden="true" />
 
-              </foreignObject>
+                <circle class="thought-dot-svg" cx="188" cy="414" r="28" aria-hidden="true" />
+                <circle class="thought-dot-svg" cx="145" cy="455" r="18" aria-hidden="true" />
+                <circle class="thought-dot-svg" cx="112" cy="485" r="10" aria-hidden="true" />
 
-              <!-- dezenter Schattenrand -->
-              <path
-                class="bubble-outline-shadow"
-                d="
-                  M 92 215
-                  C 50 207, 31 161, 61 127
-                  C 42 78, 91 37, 141 59
-                  C 166 18, 232 17, 259 57
-                  C 299 20, 375 29, 393 81
-                  C 432 44, 506 50, 524 102
-                  C 578 88, 631 124, 626 174
-                  C 682 191, 693 255, 646 290
-                  C 653 342, 592 378, 542 354
-                  C 508 399, 430 401, 400 359
-                  C 356 393, 281 384, 263 338
-                  C 218 365, 153 350, 141 304
-                  C 92 302, 58 256, 92 215
-                  Z
-                " />
-
-              <!-- sichtbarer weisser Comic-Rand -->
-              <path
-                class="bubble-outline"
-                d="
-                  M 92 215
-                  C 50 207, 31 161, 61 127
-                  C 42 78, 91 37, 141 59
-                  C 166 18, 232 17, 259 57
-                  C 299 20, 375 29, 393 81
-                  C 432 44, 506 50, 524 102
-                  C 578 88, 631 124, 626 174
-                  C 682 191, 693 255, 646 290
-                  C 653 342, 592 378, 542 354
-                  C 508 399, 430 401, 400 359
-                  C 356 393, 281 384, 263 338
-                  C 218 365, 153 350, 141 304
-                  C 92 302, 58 256, 92 215
-                  Z
-                " />
-
-              <!-- Kleine Gedankenblasen unten links -->
-              <circle class="thought-dot-shadow" cx="206" cy="390" r="31" aria-hidden="true" />
-              <circle class="thought-dot-shadow" cx="158" cy="426" r="21" aria-hidden="true" />
-              <circle class="thought-dot-shadow" cx="120" cy="450" r="12" aria-hidden="true" />
-
-              <circle class="thought-dot-svg" cx="206" cy="390" r="28" aria-hidden="true" />
-              <circle class="thought-dot-svg" cx="158" cy="426" r="18" aria-hidden="true" />
-              <circle class="thought-dot-svg" cx="120" cy="450" r="10" aria-hidden="true" />
-
-            </svg>
+              </svg>
+            </div>
 
           </div>
         </section>
@@ -572,13 +618,11 @@
       const lineY = cross?.querySelector('.line-y');
       if (!cross || !lineX || !lineY) return;
 
-      // nur desktop mit maus, kein touch
       if (!window.matchMedia('(pointer: fine)').matches) {
         cross.style.display = 'none';
         return;
       }
 
-      // reduced motion -> aus
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         cross.style.display = 'none';
         return;
