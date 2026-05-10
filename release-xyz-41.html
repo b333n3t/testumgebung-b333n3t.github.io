@@ -363,22 +363,10 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
     }
 
     .audio-overlay{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-
+      display:block;
       width:100%;
-
-      padding:0.6rem;
-
-      background:rgba(0,0,0,0.55);
-
+      margin-top:0.6rem;
       box-sizing:border-box;
-
-      backdrop-filter:blur(10px);
-
-      z-index:4;
     }
 
     section.block{
@@ -578,43 +566,38 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
     <section
       class="video-wrap"
+      id="video-wrap-section"
       aria-label="Audio zum Song">
 
+      <!-- Visueller Rahmen – wird bei Play ausgeblendet -->
       <div class="video-inner" id="player-frame">
 
-        <!-- Glow-Schicht hinter dem Rahmen (animierter Hintergrund-Effekt) -->
         <div class="player-bg-glow" id="player-bg-glow"></div>
 
-        <!-- Clip-Container: schneidet Cover + Audio auf Rahmen -->
         <div class="video-clip">
 
           <img
             src="/assets/release/3-4/drei-viertel-cover.webp"
-
             alt="Cover – drei-viertel von b3nn3t"
-
             class="release-cover"
             id="release-cover">
-
-          <audio
-            id="release-audio"
-
-            class="audio-overlay"
-
-            controls
-
-            preload="auto">
-
-            <source
-              src="/assets/release/3-4/drei-viertel.prelisten.mp3">
-
-            Dein Browser unterstützt dieses Audioformat nicht.
-
-          </audio>
 
         </div>
 
       </div>
+
+      <!-- Audio-Controls separat – bleiben immer im DOM aktiv -->
+      <audio
+        id="release-audio"
+        class="audio-overlay"
+        controls
+        preload="auto">
+
+        <source src="/assets/release/3-4/drei-viertel.prelisten.mp3">
+
+        Dein Browser unterstützt dieses Audioformat nicht.
+
+      </audio>
 
     </section>
 
@@ -976,6 +959,10 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
     const videoWrap =
       document.querySelector('.video-wrap');
+
+    /* Audio-Element separat referenzieren für iOS-kompatibles Verstecken */
+    const audioEl =
+      document.getElementById('release-audio');
 
     /* =========================================================
        WEBGL
@@ -1357,18 +1344,33 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
         ).matches;
 
       if(!reduced){
-
         renderer.domElement.style.opacity = '1';
       }
 
-      /* Player komplett ausblenden */
-      if(videoWrap)     videoWrap.classList.add('hidden');
-      if(cover)         cover.classList.add('playing');
-      if(playerFrame)   playerFrame.classList.add('playing');
-      if(playerBgGlow)  playerBgGlow.classList.add('playing');
+      /* Visuellen Rahmen + Cover ausblenden */
+      if(playerFrame){
+        playerFrame.style.opacity = '0';
+        playerFrame.style.pointerEvents = 'none';
+        playerFrame.style.transition = 'opacity 0.8s ease';
+        /* Nach Fade komplett aus dem Layout nehmen */
+        setTimeout(() => {
+          playerFrame.style.display = 'none';
+        }, 850);
+      }
+
+      /* Audio-Controls ausblenden (bleiben aber im DOM aktiv) */
+      if(audioEl){
+        audioEl.style.transition = 'opacity 0.8s ease';
+        audioEl.style.opacity = '0';
+        setTimeout(() => {
+          audioEl.style.visibility = 'hidden';
+        }, 850);
+      }
+
+      if(cover)        cover.classList.add('playing');
+      if(playerBgGlow) playerBgGlow.classList.add('playing');
 
       if(!reduced){
-
         animate();
       }
     }
@@ -1382,11 +1384,24 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       /* WebGL ausblenden */
       renderer.domElement.style.opacity = '0';
 
-      /* Player wieder einblenden */
-      if(videoWrap)     videoWrap.classList.remove('hidden');
-      if(cover)         cover.classList.remove('playing');
-      if(playerFrame)   playerFrame.classList.remove('playing');
-      if(playerBgGlow)  playerBgGlow.classList.remove('playing');
+      /* Visuellen Rahmen wieder einblenden */
+      if(playerFrame){
+        playerFrame.style.display = '';
+        /* Kleines Timeout damit display:block greift vor opacity-Transition */
+        setTimeout(() => {
+          playerFrame.style.opacity = '1';
+          playerFrame.style.pointerEvents = '';
+        }, 20);
+      }
+
+      /* Audio-Controls wieder einblenden */
+      if(audioEl){
+        audioEl.style.visibility = '';
+        audioEl.style.opacity = '1';
+      }
+
+      if(cover)        cover.classList.remove('playing');
+      if(playerBgGlow) playerBgGlow.classList.remove('playing');
     }
 
     /* Pause zeigt Player NICHT zurück – nur Ende */
