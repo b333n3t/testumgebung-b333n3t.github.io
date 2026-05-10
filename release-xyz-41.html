@@ -1206,10 +1206,10 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
         astronaut.position.y =
           Math.cos(astronautPhase * 0.9) * 70;
 
-        /* Rotation: akkumuliert, beschleunigt beim Entfernen */
+        /* Rotation: akkumuliert, beschleunigt leicht beim Entfernen */
         const rotSpeed = wave < 0
-          ? 0.008 + Math.abs(wave) * 0.04
-          : 0.004;
+          ? 0.001 + Math.abs(wave) * 0.008
+          : 0.0006;
 
         astronautRotation += rotSpeed;
         astronaut.material.rotation = astronautRotation;
