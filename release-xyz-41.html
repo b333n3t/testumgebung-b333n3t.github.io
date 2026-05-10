@@ -1198,10 +1198,13 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
         const scale = 120 + ((wave + 1) / 2) * 200;
         astronaut.scale.set(scale, scale, 1);
 
-        /* X: normales Schweben + seitlicher Drift beim Entfernen */
-        const drift = wave < 0 ? wave * 320 : 0;
-        astronaut.position.x =
-          Math.sin(astronautPhase * 0.7) * 120 + drift;
+        /* X: normales Schweben + starker seitlicher Drift beim Entfernen */
+        /* drift akkumuliert sich – je länger weg, desto weiter raus */
+        const normalSwing = Math.sin(astronautPhase * 0.7) * 120;
+        const drift = wave < 0
+          ? wave * 1200   /* -1200 bis 0: weit genug für Bildrand */
+          : 0;
+        astronaut.position.x = normalSwing + drift;
 
         astronaut.position.y =
           Math.cos(astronautPhase * 0.9) * 70;
