@@ -204,19 +204,16 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
       width:100%;
 
       opacity:1;
-      max-height:800px;
-      overflow:hidden;
+      visibility:visible;
       transition:
         opacity 0.8s ease,
-        max-height 0.9s ease,
-        margin-bottom 0.9s ease;
+        visibility 0.8s ease;
       pointer-events:auto;
     }
 
     .video-wrap.hidden{
       opacity:0;
-      max-height:0;
-      margin-bottom:0;
+      visibility:hidden;
       pointer-events:none;
     }
 
@@ -480,57 +477,6 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
         0 0 50px rgba(255,255,255,0.25),
         0 0 120px rgba(140,200,255,0.25),
         0 0 220px rgba(120,180,255,0.15);
-    }
-
-    /* CROSSHAIR – startet unsichtbar */
-
-    #crosshair{
-      position:fixed;
-      inset:0;
-      pointer-events:none;
-      z-index:99999;
-      opacity:0;
-    }
-
-    #crosshair.active{
-      opacity:1;
-    }
-
-    #crosshair .line-x{
-      position:absolute;
-      left:0;
-      top:-9999px;
-
-      width:100vw;
-      height:1px;
-
-      background:#ffffff;
-
-      opacity:0.9;
-
-      transform:translateY(-0.5px);
-    }
-
-    #crosshair .line-y{
-      position:absolute;
-      top:0;
-      left:-9999px;
-
-      width:1px;
-      height:100vh;
-
-      background:#ffffff;
-
-      opacity:0.9;
-
-      transform:translateX(-0.5px);
-    }
-
-    @media (pointer:coarse){
-
-      #crosshair{
-        display:none;
-      }
     }
 
   </style>
@@ -815,20 +761,6 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
   </div>
 
-  <!-- CROSSHAIR -->
-
-  <div
-    id="crosshair"
-    aria-hidden="true">
-
-```
-<div class="line-x"></div>
-
-<div class="line-y"></div>
-```
-
-  </div>
-
   <!-- COUNTDOWN -->
 
   <script>
@@ -890,60 +822,6 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
       const timer =
         setInterval(updateCountdown, 1000);
-
-    })();
-
-  </script>
-
-  <!-- CROSSHAIR -->
-
-  <script>
-
-    (() => {
-
-      const cross =
-        document.getElementById('crosshair');
-
-      const lineX =
-        cross?.querySelector('.line-x');
-
-      const lineY =
-        cross?.querySelector('.line-y');
-
-      if(!cross || !lineX || !lineY) return;
-
-      let x = -9999;
-      let y = -9999;
-
-      let raf = null;
-      let activated = false;
-
-      function render(){
-
-        lineX.style.top = y + 'px';
-
-        lineY.style.left = x + 'px';
-
-        raf = null;
-      }
-
-      window.addEventListener('mousemove', (e) => {
-
-        if(!activated){
-          cross.classList.add('active');
-          activated = true;
-        }
-
-        x = e.clientX;
-
-        y = e.clientY;
-
-        if(!raf){
-
-          raf = requestAnimationFrame(render);
-        }
-
-      }, { passive:true });
 
     })();
 
@@ -1365,24 +1243,18 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
         renderer.domElement.style.opacity = '1';
       }
 
-      /* Visuellen Rahmen + Cover ausblenden */
+      /* Visuellen Rahmen + Cover ausblenden – Platz bleibt erhalten */
       if(playerFrame){
+        playerFrame.style.transition = 'opacity 0.8s ease';
         playerFrame.style.opacity = '0';
         playerFrame.style.pointerEvents = 'none';
-        playerFrame.style.transition = 'opacity 0.8s ease';
-        /* Nach Fade komplett aus dem Layout nehmen */
-        setTimeout(() => {
-          playerFrame.style.display = 'none';
-        }, 850);
       }
 
-      /* Audio-Controls ausblenden (bleiben aber im DOM aktiv) */
+      /* Audio-Controls ausblenden – bleiben im DOM aktiv */
       if(audioEl){
         audioEl.style.transition = 'opacity 0.8s ease';
         audioEl.style.opacity = '0';
-        setTimeout(() => {
-          audioEl.style.visibility = 'hidden';
-        }, 850);
+        audioEl.style.pointerEvents = 'none';
       }
 
       if(cover)        cover.classList.add('playing');
@@ -1404,18 +1276,14 @@ content="https://www.b3nn3t.com/assets/release/3-4/drei-viertel-cover.webp">
 
       /* Visuellen Rahmen wieder einblenden */
       if(playerFrame){
-        playerFrame.style.display = '';
-        /* Kleines Timeout damit display:block greift vor opacity-Transition */
-        setTimeout(() => {
-          playerFrame.style.opacity = '1';
-          playerFrame.style.pointerEvents = '';
-        }, 20);
+        playerFrame.style.opacity = '1';
+        playerFrame.style.pointerEvents = '';
       }
 
       /* Audio-Controls wieder einblenden */
       if(audioEl){
-        audioEl.style.visibility = '';
         audioEl.style.opacity = '1';
+        audioEl.style.pointerEvents = '';
       }
 
       if(cover)        cover.classList.remove('playing');
