@@ -1,844 +1,581 @@
 <!DOCTYPE html>
-<html lang="de">
 
+<html lang="de">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
   <title>b3nn3t „drei" | neuer release</title>
+  <meta name="description" content="„DREI" – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz."/>
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html"/>
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="„DREI" – neues Release von b3nn3t">
+  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„DREI" – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicRecording","name":"DREI","byArtist":{"@type":"MusicGroup","name":"b3nn3t"}}</script>
 
   <style>
+    :root { --bg:#930010; --text:#fdfdfd; --max:960px; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
 
-    :root{
-      --bg:#930010;
-      --text:#ffffff;
-      --max:960px;
-    }
-
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-    }
-
-    html,
-    body{
+    html, body {
       overflow-x:hidden;
-      background:var(--bg);
-      color:var(--text);
-      font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Text",
-        sans-serif;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;
+      color:var(--text); background:var(--bg);
     }
 
-    .page-wrap{
-      min-height:100vh;
-      display:flex;
-      justify-content:center;
-      padding:2rem 1rem 5rem;
+    .page-wrap {
+      min-height:100vh; width:100%;
+      display:flex; justify-content:center; align-items:flex-start;
+      padding:clamp(2.8rem,4vw,3.8rem) 1.5rem clamp(3.5rem,5vw,4.5rem);
     }
+    .content { width:100%; max-width:var(--max); }
+    main { display:flex; flex-direction:column; gap:clamp(1.4rem,2vw,2rem); }
 
-    .content{
-      width:100%;
-      max-width:var(--max);
+    /* Topline */
+    .topline {
+      display:flex; flex-wrap:wrap; align-items:baseline;
+      gap:.7rem; font-size:.92rem; letter-spacing:.04em;
+      margin-bottom:clamp(1.4rem,2vw,2rem);
     }
+    .brand { color:#fff; font-weight:700; text-decoration:none; }
+    #timer { font-variant-numeric:tabular-nums; font-weight:700; }
 
-    .topline{
-      display:flex;
-      gap:.6rem;
-      align-items:center;
-      margin-bottom:1.6rem;
-      font-size:.95rem;
-    }
+    /* Sections */
+    section.blk h2 { margin-bottom:.9rem; font-size:1.06rem; letter-spacing:.04em; text-transform:lowercase; font-weight:600; }
+    section.blk p  { line-height:1.7; font-size:1rem; }
+    section.blk p+p{ margin-top:.65rem; }
+    .social-icons  { display:flex; flex-wrap:wrap; gap:clamp(1rem,1.5vw,1.5rem); align-items:center; }
+    .social-link   { text-decoration:none; display:inline-flex; }
+    .social-icon-img{ width:clamp(1.6rem,1.3vw + 1rem,2.2rem); height:auto; display:block; }
+    .more-link     { display:inline-block; margin-top:.6rem; font-weight:700; color:#fff; text-decoration:none; }
 
-    .brand{
-      color:#fff;
-      font-weight:700;
-      text-decoration:none;
-    }
+    /* ═══════════════════════════════════
+       DESKTOP  (>768px)
+    ═══════════════════════════════════ */
+    .video-wrap { position:relative; width:100%; }
 
-    #timer{
-      font-weight:700;
-      font-variant-numeric:tabular-nums;
-    }
-
-    .video-wrap{
+    .desktop-scene {
       position:relative;
-      width:100%;
-    }
-
-    /* DESKTOP */
-    .desktop-scene{
-      position:relative;
-      min-height:700px;
-    }
-
-    .bwrap-d{
-      position:absolute;
-      top:-30px;
-      right:0;
-      width:min(860px,90vw);
-      z-index:2;
-    }
-
-    .bwrap-d svg{
-      width:100%;
-      height:auto;
-      display:block;
+      min-height:clamp(590px,70vw,760px);
       overflow:visible;
     }
 
-    .vid-d{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      background:#000;
-    }
-
-    .bsh{
-      fill:none;
-      stroke:rgba(0,0,0,.35);
-      stroke-width:15;
-      stroke-linejoin:round;
-    }
-
-    .bst{
-      fill:none;
-      stroke:#fff;
-      stroke-width:7;
-      stroke-linejoin:round;
-    }
-
-    .person-d{
-      position:absolute;
-      right:120px;
-      bottom:-10px;
-      width:240px;
-      z-index:4;
-      filter:drop-shadow(0 14px 24px rgba(0,0,0,.35));
+    .person-d {
+      position:absolute; right:clamp(80px,13vw,170px); bottom:0;
+      width:clamp(170px,22vw,270px);
+      filter:drop-shadow(0 18px 28px rgba(0,0,0,.25));
       pointer-events:none;
     }
 
-    .dbtns{
+    .bwrap-d {
       position:absolute;
-      inset:0;
-      z-index:10;
-      pointer-events:none;
+      right:clamp(-30px,0vw,10px); top:clamp(-85px,-5vw,-35px);
+      width:clamp(570px,74vw,880px);
+      aspect-ratio:860/540; z-index:2;
+      filter:drop-shadow(0 18px 32px rgba(0,0,0,.28));
     }
+    .bwrap-d svg { width:100%; height:100%; display:block; overflow:visible; }
+    .vid-d { width:100%; height:100%; display:block; object-fit:cover; background:#000; }
+    .bsh { fill:none; stroke:rgba(0,0,0,.32); stroke-width:15; stroke-linejoin:round; pointer-events:none; }
+    .bst { fill:none; stroke:rgba(255,255,255,.97); stroke-width:7; stroke-linejoin:round; pointer-events:none; }
 
-    .cbtn{
+    .dbtns { position:absolute; inset:0; z-index:8; pointer-events:none; }
+    .cbtn {
+      background:#fff; color:#111; border:4px solid #fff;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      box-shadow:0 0 0 3px rgba(0,0,0,.35),0 10px 18px rgba(0,0,0,.22);
+      cursor:pointer; padding:0; pointer-events:auto; transition:transform .15s;
       position:absolute;
-      border:none;
-      border-radius:50%;
-      background:#fff;
-      color:#111;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      cursor:pointer;
-      pointer-events:auto;
-      box-shadow:
-        0 0 0 3px rgba(0,0,0,.28),
-        0 10px 20px rgba(0,0,0,.2);
     }
+    .cbtn:hover { transform:scale(1.08); }
+    .cbtn svg   { width:48%; height:48%; display:block; fill:currentColor; }
 
-    .cbtn svg{
-      width:50%;
-      height:50%;
-      fill:currentColor;
-    }
+    .d-pl { width:clamp(56px,5.8vw,76px); height:clamp(56px,5.8vw,76px); right:clamp(180px,20vw,275px); top:clamp(305px,35vw,425px); }
+    .d-pa { width:clamp(44px,4.5vw,60px); height:clamp(44px,4.5vw,60px); right:clamp(115px,13vw,180px); top:clamp(380px,43vw,520px); }
+    .d-so { width:clamp(34px,3.5vw,48px); height:clamp(34px,3.5vw,48px); right:clamp(70px,8vw,115px);   top:clamp(445px,50vw,610px); }
 
-    .d-pl{
-      width:72px;
-      height:72px;
-      right:250px;
-      top:390px;
-    }
+    .title-sec { margin-top:-7.5rem; }
+    .songtitle { font-weight:600; text-transform:lowercase; font-size:clamp(1.7rem,3vw,2.4rem); margin-bottom:clamp(.9rem,1.5vw,1.2rem); }
 
-    .d-pa{
-      width:56px;
-      height:56px;
-      right:180px;
-      top:465px;
-    }
+    /* Mobile-Elemente auf Desktop weg */
+    .mobile-scene { display:none; }
+    .person-m     { display:none; }
 
-    .d-so{
-      width:42px;
-      height:42px;
-      right:125px;
-      top:535px;
-    }
+    /* ═══════════════════════════════════
+       MOBILE  (≤768px)
 
-    /* MOBILE */
-    .mobile-scene{
-      display:none;
-    }
+       Layout:
+       ┌─────────────────────────────────┐
+       │  [große Canvas-Blase]           │
+       │                                 │
+       │       ○ Play                    │
+       │      ○ Pause    (kleine Kreise) │
+       │     ○ Sound                     │
+       │                    [Person]     │
+       └─────────────────────────────────┘
 
-    @media (max-width:768px){
+       Die 3 kleinen Kreise steigen diagonal
+       von unten rechts zur großen Blase auf –
+       genau wie im Donald Duck Bild.
+       In jedem Kreis sitzt ein Button.
+    ═══════════════════════════════════ */
+    @media (max-width:768px) {
 
-      .desktop-scene{
-        display:none;
-      }
+      .page-wrap { padding:1.8rem 0 3rem; }
+      .topline   { padding:0 1rem; font-size:.87rem; gap:.45rem; margin-bottom:1rem; }
 
-      .mobile-scene{
+      .desktop-scene { display:none; }
+      .title-sec  { margin-top:1.5rem; padding:0 1rem; }
+      .songtitle  { letter-spacing:.18em; }
+      section.blk { padding:0 1rem; }
+
+      .mobile-scene {
         display:block;
         position:relative;
         width:100%;
-        padding-bottom:48vw;
+        /* Platz unten für Person + kleine Blasen */
+        padding-bottom:36vw;
         overflow:visible;
       }
 
-      #bubble-canvas{
+      /* ── Große Canvas-Blase ── */
+      /* Canvas = volle Breite */
+      #bcanvas {
         display:block;
-        width:84%;
+        width:100%;
         height:auto;
       }
 
-      #bubble-svg-border{
+      /* ── 3 kleine Kreise (Buttons) diagonal ──
+         Steigen von unten rechts zur großen Blase auf.
+         Positionen: absolut in .mobile-scene
+         Größen: klein→mittel→groß je näher zur Blase
+      */
+      .dot-btn {
         position:absolute;
-        left:0;
-        top:0;
-        width:84%;
-        height:auto;
-        pointer-events:none;
+        border-radius:50%;
+        background:#fff;
+        border:3px solid #fff;
+        box-shadow:0 0 0 2.5px rgba(0,0,0,.35), 0 6px 14px rgba(0,0,0,.25);
+        display:flex; align-items:center; justify-content:center;
+        cursor:pointer; pointer-events:auto;
+        transition:transform .15s;
+        color:#111;
+        /* Buttons liegen ÜBER der Canvas */
+        z-index:10;
+      }
+      .dot-btn:hover { transform:scale(1.1); }
+      .dot-btn svg { display:block; fill:currentColor; }
+
+      /* Kleiner Kreis: Sound – ganz unten rechts, klein */
+      #m-so {
+        width:  clamp(28px,8vw,42px);
+        height: clamp(28px,8vw,42px);
+        right:  clamp(10px,4vw,24px);
+        bottom: clamp(6px,2vw,14px);
+      }
+      #m-so svg { width:50%; height:50%; }
+
+      /* Mittlerer Kreis: Pause – etwas größer, weiter oben */
+      #m-pa {
+        width:  clamp(38px,10vw,54px);
+        height: clamp(38px,10vw,54px);
+        right:  clamp(28px,8vw,46px);
+        bottom: clamp(28px,8vw,50px);
+      }
+      #m-pa svg { width:48%; height:48%; }
+
+      /* Größter Kreis: Play – oben rechts, am nächsten zur Blase */
+      #m-pl {
+        width:  clamp(50px,13vw,70px);
+        height: clamp(50px,13vw,70px);
+        right:  clamp(50px,14vw,80px);
+        bottom: clamp(52px,15vw,82px);
+      }
+      #m-pl svg { width:46%; height:46%; }
+
+      /* ── Person: absolut unten rechts ── */
+      .person-m {
         display:block;
-      }
-
-      .mbtns{
         position:absolute;
-        right:0;
-        top:28%;
-        display:flex;
-        flex-direction:column;
-        gap:12px;
-        z-index:20;
-        pointer-events:none;
+        right:-8px; bottom:0;
+        width:clamp(110px,30vw,165px);
+        filter:drop-shadow(0 8px 16px rgba(0,0,0,.3));
+        pointer-events:none; z-index:4;
       }
 
-      .mbtns .cbtn{
-        position:static;
-        pointer-events:auto;
-      }
-
-      .m-pl{
-        width:56px;
-        height:56px;
-      }
-
-      .m-pa{
-        width:42px;
-        height:42px;
-      }
-
-      .m-so{
-        width:32px;
-        height:32px;
-      }
-
-      .person-m{
-        position:absolute;
-        right:-10px;
-        bottom:-75px;
-        width:clamp(120px,34vw,190px);
-        z-index:5;
-        pointer-events:none;
-        filter:drop-shadow(0 10px 18px rgba(0,0,0,.32));
-      }
+      .dbtns { display:none; }
     }
 
-    .title-sec{
-      margin-top:2rem;
+    @media (max-width:420px) {
+      .mobile-scene { padding-bottom:32vw; }
     }
 
-    .songtitle{
-      font-size:2.2rem;
-      margin-bottom:1rem;
-      text-transform:lowercase;
+    @media (min-width:1024px) {
+      .page-wrap { padding-top:4rem; padding-bottom:5rem; }
     }
 
-    section{
-      margin-top:2rem;
-    }
-
-    section h2{
-      margin-bottom:.7rem;
-      font-size:1rem;
-      text-transform:lowercase;
-    }
-
-    section p{
-      line-height:1.7;
-    }
-
-    .social-icons{
-      display:flex;
-      gap:1rem;
-      flex-wrap:wrap;
-      margin-top:.5rem;
-    }
-
-    .social-icon-img{
-      width:42px;
-      display:block;
-    }
-
+    /* Crosshair */
+    #xhair { position:fixed; inset:0; pointer-events:none; z-index:99999; }
+    #xhair .lx { position:absolute; left:0; top:50%; width:100vw; height:1px; background:#fff; opacity:.9; transform:translateY(-.5px); }
+    #xhair .ly { position:absolute; top:0; left:50%; width:1px; height:100vh; background:#fff; opacity:.9; transform:translateX(-.5px); }
+    @media (pointer:coarse),(prefers-reduced-motion:reduce) { #xhair { display:none; } }
   </style>
-</head>
 
+</head>
 <body>
 
 <div class="page-wrap">
 <div class="content">
+<main>
 
-  <!-- TOP -->
   <div class="topline">
-
-    <a class="brand" href="#">
-      b3nn3t
-    </a>
-
-    <span>
-      released in
-    </span>
-
-    <span id="timer">
-      --:--:--
-    </span>
-
+    <a class="brand" href="index.html">b3nn3t</a>
+    <span style="opacity:.9">released in</span>
+    <span id="timer">--:--:--</span>
   </div>
 
   <div class="video-wrap">
 
-    <!-- DESKTOP -->
-    <div class="desktop-scene">
-
-      <img
-        class="person-d"
-        src="assets/release/person-sitzend.png"
-        alt="">
-
-      <div class="bwrap-d">
-
-        <svg viewBox="0 0 860 540">
-
-          <defs>
-
-            <clipPath id="deskclip">
-
-              <path d="
-                M130 270
-                C82 260,48 223,64 181
-                C18 130,72 63,139 80
-                C166 25,252 10,299 55
-                C344 8,438 30,455 91
-                C512 39,606 60,625 126
-                C696 108,760 156,748 222
-                C820 249,826 332,759 369
-                C779 442,684 493,621 453
-                C573 516,462 513,428 451
-                C375 498,279 475,268 407
-                C207 442,124 401,140 337
-                C84 331,66 292,130 270
-                Z"/>
-            </clipPath>
-
-          </defs>
-
-          <foreignObject
-            x="0"
-            y="0"
-            width="860"
-            height="540"
-            clip-path="url(#deskclip)">
-
-            <video
-              xmlns="http://www.w3.org/1999/xhtml"
-              id="vid-d"
-              class="vid-d"
-              muted
-              playsinline
-              preload="metadata"
-              poster="assets/release/drei-cover.webp">
-
-              <source
-                src="assets/gesehen/B3NN3T.mp4"
-                type="video/mp4">
-
-            </video>
-
-          </foreignObject>
-
-          <path
-            class="bsh"
-            d="
-              M130 270
-              C82 260,48 223,64 181
-              C18 130,72 63,139 80
-              C166 25,252 10,299 55
-              C344 8,438 30,455 91
-              C512 39,606 60,625 126
-              C696 108,760 156,748 222
-              C820 249,826 332,759 369
-              C779 442,684 493,621 453
-              C573 516,462 513,428 451
-              C375 498,279 475,268 407
-              C207 442,124 401,140 337
-              C84 331,66 292,130 270
-              Z"/>
-
-          <path
-            class="bst"
-            d="
-              M130 270
-              C82 260,48 223,64 181
-              C18 130,72 63,139 80
-              C166 25,252 10,299 55
-              C344 8,438 30,455 91
-              C512 39,606 60,625 126
-              C696 108,760 156,748 222
-              C820 249,826 332,759 369
-              C779 442,684 493,621 453
-              C573 516,462 513,428 451
-              C375 498,279 475,268 407
-              C207 442,124 401,140 337
-              C84 331,66 292,130 270
-              Z"/>
-
-        </svg>
-
-      </div>
-
-      <!-- DESKTOP BUTTONS -->
-      <div class="dbtns">
-
-        <button
-          class="cbtn d-pl"
-          id="dp">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-
-        </button>
-
-        <button
-          class="cbtn d-pa"
-          id="dpa">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-          </svg>
-
-        </button>
-
-        <button
-          class="cbtn d-so"
-          id="ds">
-
-          <svg viewBox="0 0 24 24">
-            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-          </svg>
-
-        </button>
-
-      </div>
-
-    </div>
-
-    <!-- MOBILE -->
-    <div class="mobile-scene">
-
-      <video
-        id="vid-m"
-        style="display:none"
-        muted
-        playsinline
-        preload="metadata"
-        poster="assets/release/drei-cover.webp">
-
-        <source
-          src="assets/gesehen/B3NN3T.mp4"
-          type="video/mp4">
-
-      </video>
-
-      <canvas id="bubble-canvas"></canvas>
-
-      <!-- COMIC BLASE -->
-      <svg
-        id="bubble-svg-border"
-        viewBox="0 0 420 300">
-
-        <path
-          fill="none"
-          stroke="rgba(0,0,0,.35)"
-          stroke-width="14"
-          stroke-linejoin="round"
-          d="
-            M70 120
-            C40 90,45 45,95 50
-            C110 20,160 15,190 40
-            C225 8,290 10,325 45
-            C370 30,405 60,395 105
-            C425 125,420 175,380 190
-            C390 235,350 265,305 250
-            C280 285,220 290,190 260
-            C145 285,90 270,80 225
-            C40 220,20 180,40 145
-            C25 135,30 120,70 120
-            Z
-
-            M300 238
-            C315 248,322 265,312 280
-            C295 272,288 255,295 242
-            Z
-
-            M332 260
-            C345 268,350 282,343 294
-            C330 287,324 274,329 264
-            Z"/>
-
-        <path
-          fill="none"
-          stroke="#ffffff"
-          stroke-width="7"
-          stroke-linejoin="round"
-          d="
-            M70 120
-            C40 90,45 45,95 50
-            C110 20,160 15,190 40
-            C225 8,290 10,325 45
-            C370 30,405 60,395 105
-            C425 125,420 175,380 190
-            C390 235,350 265,305 250
-            C280 285,220 290,190 260
-            C145 285,90 270,80 225
-            C40 220,20 180,40 145
-            C25 135,30 120,70 120
-            Z
-
-            M300 238
-            C315 248,322 265,312 280
-            C295 272,288 255,295 242
-            Z
-
-            M332 260
-            C345 268,350 282,343 294
-            C330 287,324 274,329 264
-            Z"/>
-
-      </svg>
-
-      <!-- MOBILE BUTTONS -->
-      <div class="mbtns">
-
-        <button class="cbtn m-pl" id="mp">
-          <svg viewBox="0 0 24 24">
-            <path d="M8 5v14l11-7z"/>
-          </svg>
-        </button>
-
-        <button class="cbtn m-pa" id="mpa">
-          <svg viewBox="0 0 24 24">
-            <path d="M6 5h4v14H6zM14 5h4v14h-4z"/>
-          </svg>
-        </button>
-
-        <button class="cbtn m-so" id="ms">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-          </svg>
-        </button>
-
-      </div>
-
-      <!-- PERSON -->
-      <img
-        class="person-m"
-        src="assets/release/person-sitzend.png"
-        alt="">
-
-    </div>
-
+```
+<!-- ════ DESKTOP ════ -->
+<div class="desktop-scene">
+  <img class="person-d" src="assets/release/person-sitzend.png" alt="">
+  <div class="bwrap-d">
+    <svg viewBox="0 0 860 540" aria-hidden="true">
+      <defs>
+        <clipPath id="dc" clipPathUnits="userSpaceOnUse">
+          <path d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
+        </clipPath>
+      </defs>
+      <foreignObject x="0" y="0" width="860" height="540" clip-path="url(#dc)">
+        <video xmlns="http://www.w3.org/1999/xhtml" id="vid-d" class="vid-d"
+          muted playsinline preload="metadata"
+          poster="assets/release/drei-cover.webp" width="1280" height="720">
+          <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+        </video>
+      </foreignObject>
+      <path class="bsh" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
+      <path class="bst" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
+    </svg>
   </div>
+  <div class="dbtns">
+    <button class="cbtn d-pl" id="dp"  aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="cbtn d-pa" id="dpa" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+    <button class="cbtn d-so" id="ds"  aria-label="Sound"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg></button>
+  </div>
+</div>
 
-  <!-- TEXT -->
-  <section class="title-sec">
+<!-- ════ MOBILE ════
+     Canvas rendert Video in Comic-Blase.
+     3 kleine Kreise (Dot-Buttons) diagonal unten rechts
+     steigen zur Blase auf – wie im Donald Duck Comic.
+     Person ganz unten rechts.
+-->
+<div class="mobile-scene">
 
-    <h1 class="songtitle">
-      drei
-    </h1>
+  <!-- Video unsichtbar – liefert Frames für Canvas -->
+  <video id="vid-m" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;"
+    muted playsinline preload="metadata"
+    poster="assets/release/drei-cover.webp" width="1280" height="720">
+    <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+  </video>
 
+  <!-- Canvas: Video geclippt in Comic-Blase -->
+  <canvas id="bcanvas" aria-label="Video in Comic-Gedankenblase"></canvas>
+
+  <!--
+    3 kleine Kreise = Buttons, diagonal aufsteigend.
+    Reihenfolge von unten nach oben:
+    Sound (klein) → Pause (mittel) → Play (groß)
+    wie die Blasenpunkte im Comic.
+  -->
+
+  <!-- Kreis 1 (klein): Sound/Lautstärke -->
+  <button class="dot-btn" id="m-so" aria-label="Ton einschalten">
+    <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>
+  </button>
+
+  <!-- Kreis 2 (mittel): Pause -->
+  <button class="dot-btn" id="m-pa" aria-label="Pause">
+    <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+  </button>
+
+  <!-- Kreis 3 (groß): Play -->
+  <button class="dot-btn" id="m-pl" aria-label="Play">
+    <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+  </button>
+
+</div><!-- /mobile-scene -->
+
+<!-- Person: absolut unten rechts im .video-wrap -->
+<img class="person-m" src="assets/release/person-sitzend.png" alt="">
+```
+
+  </div><!-- /video-wrap -->
+
+  <section class="title-sec blk">
+    <h1 class="songtitle">drei</h1>
   </section>
 
-  <section>
-
-    <h2>
-      erklärbär
-    </h2>
-
-    <p>
-      drei songs die mir sehr am herzen liegen.
-    </p>
-
+  <section class="blk">
+    <h2>erklärbär</h2>
+    <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+    <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
   </section>
 
+  <section class="blk">
+    <h2>kuck hier</h2>
+    <div class="social-icons">
+      <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x" class="social-link" target="_blank" rel="noopener" aria-label="Spotify">
+        <picture><source srcset="assets/release/spotify_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify"></picture>
+      </a>
+      <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" target="_blank" rel="noopener" aria-label="Apple Music">
+        <picture><source srcset="assets/release/apple_music_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music"></picture>
+      </a>
+      <a href="https://www.instagram.com/b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+        <picture><source srcset="assets/release/instagram_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram"></picture>
+      </a>
+      <a href="https://www.youtube.com/@b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+        <picture><source srcset="assets/release/youtube_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube"></picture>
+      </a>
+      <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
+        <picture><source srcset="assets/release/soundcloud_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud"></picture>
+      </a>
+    </div>
+  </section>
+
+  <section class="blk">
+    <p>mehr auf meiner webseite :p</p>
+    <a class="more-link brand" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+  </section>
+
+</main>
 </div>
 </div>
 
-<!-- SCRIPTS -->
+<div id="xhair" aria-hidden="true"><div class="lx"></div><div class="ly"></div></div>
 
 <script>
-
+/* ── Countdown ── */
 (function(){
-
-  var t =
-    new Date(
-      "2026-01-09T00:00:00+01:00"
-    ).getTime();
-
-  var el =
-    document.getElementById("timer");
-
+  var t=new Date("2026-01-09T00:00:00+01:00").getTime();
+  var el=document.getElementById("timer");
+  if(!el)return;
   function tick(){
-
-    var d = t - Date.now();
-
-    if(d <= 0){
-
-      el.textContent = "OUT NOW";
-      return;
-    }
-
-    var s = Math.floor(d/1000);
-
-    var h =
-      String(
-        Math.floor((s%86400)/3600)
-      ).padStart(2,"0");
-
-    var m =
-      String(
-        Math.floor((s%3600)/60)
-      ).padStart(2,"0");
-
-    var sc =
-      String(s%60).padStart(2,"0");
-
-    el.textContent =
-      h + ":" + m + ":" + sc;
+    var d=t-Date.now();
+    if(d<=0){el.textContent="OUT NOW";clearInterval(iv);return;}
+    var s=Math.floor(d/1000),dy=Math.floor(s/86400);
+    var h=String(Math.floor((s%86400)/3600)).padStart(2,"0");
+    var m=String(Math.floor((s%3600)/60)).padStart(2,"0");
+    var sc=String(s%60).padStart(2,"0");
+    el.textContent=dy>0?dy+"d "+h+":"+m+":"+sc:h+":"+m+":"+sc;
   }
-
-  tick();
-
-  setInterval(tick,1000);
-
-})();
-
+  tick();var iv=setInterval(tick,1000);
+}());
 </script>
 
 <script>
-
-function bindVideo(
-  vid,
-  playBtn,
-  pauseBtn,
-  soundBtn
-){
-
-  if(!vid) return;
-
-  playBtn.onclick = function(){
-    vid.play();
-  };
-
-  pauseBtn.onclick = function(){
-    vid.pause();
-  };
-
-  soundBtn.onclick = function(){
-
-    vid.muted = !vid.muted;
-  };
+/* ── Sound-Icon Helper ── */
+function sndIcon(muted){
+  return muted
+    ? '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z" fill="currentColor"/></svg>';
 }
 
-bindVideo(
-  document.getElementById('vid-d'),
-  document.getElementById('dp'),
-  document.getElementById('dpa'),
-  document.getElementById('ds')
-);
-
+/* ── Desktop Controls ── */
+(function(){
+  var v=document.getElementById('vid-d');
+  var pl=document.getElementById('dp');
+  var pa=document.getElementById('dpa');
+  var so=document.getElementById('ds');
+  if(!v)return;
+  function si(){if(so){so.innerHTML=sndIcon(v.muted);so.setAttribute('aria-label',v.muted?'Ton ein':'Ton aus');}}
+  if(pl)pl.onclick=function(){v.play();};
+  if(pa)pa.onclick=function(){v.pause();};
+  if(so)so.onclick=function(){v.muted=!v.muted;si();};
+  si();
+}());
 </script>
 
 <script>
-
+/* ── Mobile: Canvas + Dot-Button Controls ──
+   Läuft nur wenn Viewport ≤ 768px.
+   Zeichnet Video frame-by-frame auf Canvas,
+   geclippt in echte Comic-Thought-Bubble-Form.
+*/
 (function(){
+  if(window.innerWidth > 768) return;
 
-  if(window.innerWidth > 768)
-    return;
+  var vid = document.getElementById('vid-m');
+  var cvs = document.getElementById('bcanvas');
+  if(!vid || !cvs) return;
+  var ctx = cvs.getContext('2d');
 
-  const vid =
-    document.getElementById('vid-m');
-
-  const canvas =
-    document.getElementById('bubble-canvas');
-
-  const ctx =
-    canvas.getContext('2d');
-
-  let W,H;
+  /* ── Canvas-Größe setzen ── */
+  /* Aspect-Ratio der Blase: 16:10 (leicht breit) */
+  var AR = 10/16;
+  var DPR = window.devicePixelRatio || 1;
+  var cssW, cssH, PW, PH;
 
   function resize(){
-
-    const cssW =
-      canvas.getBoundingClientRect().width;
-
-    W =
-      Math.round(
-        cssW * window.devicePixelRatio
-      );
-
-    H =
-      Math.round(W * (300/420));
-
-    canvas.width = W;
-    canvas.height = H;
+    /* CSS-Breite = volle Viewport-Breite */
+    cssW = window.innerWidth;
+    cssH = Math.round(cssW * AR);
+    PW   = Math.round(cssW * DPR);
+    PH   = Math.round(cssH * DPR);
+    cvs.width  = PW;
+    cvs.height = PH;
+    cvs.style.width  = cssW + 'px';
+    cvs.style.height = cssH + 'px';
   }
-
   resize();
+  window.addEventListener('resize', resize, {passive:true});
 
-  window.addEventListener(
-    'resize',
-    resize
-  );
-
-  function bubblePath(){
-
-    const sx = W / 420;
-    const sy = H / 300;
-
-    const px = n => n * sx;
-    const py = n => n * sy;
+  /* ── Comic-Thought-Bubble Pfad ──
+     Große runde Hauptblase mit leichten Beulen an den Rändern.
+     Normalisiert auf w×h Canvas-Koordinaten.
+     Kein Schweif – der Schweif wird durch die 3 Kreise ersetzt.
+  */
+  function drawBubblePath(ctx, w, h){
+    var p = 0.04; /* padding in Prozent */
+    var l = w*p, r = w*(1-p), t = h*p, b = h*(1-p);
+    var mx = w/2, my = h/2;
 
     ctx.beginPath();
-
-    ctx.moveTo(px(70),py(120));
-
-    ctx.bezierCurveTo(
-      px(40),py(90),
-      px(45),py(45),
-      px(95),py(50)
-    );
-
-    ctx.bezierCurveTo(
-      px(110),py(20),
-      px(160),py(15),
-      px(190),py(40)
-    );
-
-    ctx.bezierCurveTo(
-      px(225),py(8),
-      px(290),py(10),
-      px(325),py(45)
-    );
-
-    ctx.bezierCurveTo(
-      px(370),py(30),
-      px(405),py(60),
-      px(395),py(105)
-    );
-
-    ctx.bezierCurveTo(
-      px(425),py(125),
-      px(420),py(175),
-      px(380),py(190)
-    );
-
-    ctx.bezierCurveTo(
-      px(390),py(235),
-      px(350),py(265),
-      px(305),py(250)
-    );
-
-    ctx.bezierCurveTo(
-      px(280),py(285),
-      px(220),py(290),
-      px(190),py(260)
-    );
-
-    ctx.bezierCurveTo(
-      px(145),py(285),
-      px(90),py(270),
-      px(80),py(225)
-    );
-
-    ctx.bezierCurveTo(
-      px(40),py(220),
-      px(20),py(180),
-      px(40),py(145)
-    );
-
-    ctx.bezierCurveTo(
-      px(25),py(135),
-      px(30),py(120),
-      px(70),py(120)
-    );
-
+    /* Oben links → oben mitte */
+    ctx.moveTo(mx, t);
+    ctx.bezierCurveTo(mx*0.6, t*0.3,  w*0.1, t*0.5,  l,    my*0.55);
+    /* Links runter */
+    ctx.bezierCurveTo(l*0.2, my*0.9,  l*0.2, my*1.1, l,    my*1.45);
+    /* Links unten → unten */
+    ctx.bezierCurveTo(w*0.08, b*0.95, w*0.25, b,      mx*0.65, b);
+    /* Unten mitte → unten rechts */
+    ctx.bezierCurveTo(mx*1.1, b,      w*0.78, b*0.95, r,    my*1.45);
+    /* Rechts runter → rechts oben */
+    ctx.bezierCurveTo(w*0.98, my*1.1, w*0.98, my*0.9, r,    my*0.55);
+    /* Rechts oben → oben */
+    ctx.bezierCurveTo(w*0.9, t*0.5,   mx*1.4, t*0.3,  mx,   t);
     ctx.closePath();
   }
 
+  /* ── Render-Loop ── */
   function draw(){
+    ctx.clearRect(0,0,PW,PH);
 
-    ctx.clearRect(0,0,W,H);
-
+    /* Schatten-Effekt */
     ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.35)';
+    ctx.shadowBlur=20*DPR;
+    ctx.shadowOffsetY=8*DPR;
 
-    bubblePath();
+    /* Weißen Rand zeichnen (etwas größer) */
+    ctx.save();
+    var pad=6*DPR;
+    ctx.scale(1,1);
+    /* Skaliere leicht nach außen für den weißen Rand */
+    ctx.translate(-pad*0.5, -pad*0.5);
+    ctx.scale((PW+pad)/PW, (PH+pad)/PH);
+    drawBubblePath(ctx,PW,PH);
+    ctx.restore();
+    ctx.fillStyle='rgba(255,255,255,0.97)';
+    /* Rand als Stroke */
+    ctx.save();
+    drawBubblePath(ctx,PW,PH);
+    ctx.lineWidth=10*DPR;
+    ctx.strokeStyle='rgba(0,0,0,0.25)';
+    ctx.stroke();
+    ctx.restore();
 
+    ctx.restore();
+
+    /* Weißer Rand */
+    ctx.save();
+    drawBubblePath(ctx,PW,PH);
+    ctx.lineWidth=6*DPR;
+    ctx.strokeStyle='rgba(255,255,255,0.97)';
+    ctx.stroke();
+    ctx.restore();
+
+    /* Video-Clip */
+    ctx.save();
+    drawBubblePath(ctx,PW,PH);
     ctx.clip();
 
     if(vid.readyState >= 2){
-
-      ctx.drawImage(
-        vid,
-        0,
-        0,
-        W,
-        H
-      );
-
+      /* Video zentriert und cover-artig skaliert */
+      var vr = vid.videoWidth / vid.videoHeight;
+      var cr = PW / PH;
+      var sw, sh, sx, sy;
+      if(vr > cr){
+        sh = PH; sw = PH * vr;
+        sy = 0;  sx = (PW - sw)/2;
+      } else {
+        sw = PW; sh = PW / vr;
+        sx = 0;  sy = (PH - sh)/2;
+      }
+      ctx.drawImage(vid, sx, sy, sw, sh);
     } else {
-
-      ctx.fillStyle = "#000";
-
-      ctx.fillRect(
-        0,
-        0,
-        W,
-        H
-      );
+      /* Poster als Fallback */
+      if(window._poster && window._poster.complete){
+        ctx.drawImage(window._poster, 0, 0, PW, PH);
+      } else {
+        ctx.fillStyle='#111';
+        ctx.fillRect(0,0,PW,PH);
+      }
     }
-
     ctx.restore();
 
     requestAnimationFrame(draw);
   }
 
+  /* Poster vorladen */
+  window._poster = new Image();
+  window._poster.src = 'assets/release/drei-cover.webp';
+
   draw();
 
-  bindVideo(
-    vid,
-    document.getElementById('mp'),
-    document.getElementById('mpa'),
-    document.getElementById('ms')
-  );
+  /* ── Dot-Button Controls ── */
+  var mpl = document.getElementById('m-pl');
+  var mpa = document.getElementById('m-pa');
+  var mso = document.getElementById('m-so');
 
-})();
+  function updSo(){
+    if(!mso)return;
+    mso.innerHTML=sndIcon(vid.muted);
+    mso.setAttribute('aria-label',vid.muted?'Ton einschalten':'Ton ausschalten');
+  }
 
+  if(mpl) mpl.onclick = function(){ vid.play(); };
+  if(mpa) mpa.onclick = function(){ vid.pause(); };
+  if(mso) mso.onclick = function(){ vid.muted=!vid.muted; updSo(); };
+  updSo();
+
+}());
+</script>
+
+<script>
+/* ── Crosshair ── */
+(function(){
+  var c=document.getElementById('xhair');
+  if(!c)return;
+  if(!window.matchMedia('(pointer:fine)').matches){c.style.display='none';return;}
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){c.style.display='none';return;}
+  var lx=c.querySelector('.lx'),ly=c.querySelector('.ly');
+  var x=-9999,y=-9999,raf=null;
+  function dr(){lx.style.top=y+'px';ly.style.left=x+'px';raf=null;}
+  window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;if(!raf)raf=requestAnimationFrame(dr);},{passive:true});
+  window.addEventListener('mouseleave',function(){x=-9999;y=-9999;dr();});
+}());
 </script>
 
 </body>
