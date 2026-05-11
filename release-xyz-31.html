@@ -78,7 +78,7 @@
     main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.4rem, 2vw, 2rem);
+      gap: clamp(1.8rem, 2.6vw, 2.5rem);
     }
 
     .topline {
@@ -88,7 +88,7 @@
       gap: 0.7rem;
       font-size: 0.92rem;
       letter-spacing: 0.04em;
-      margin-bottom: clamp(1.4rem, 2vw, 2rem);
+      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
       position: relative;
       z-index: 10;
     }
@@ -107,10 +107,11 @@
     section.blk {
       position: relative;
       z-index: 5;
+      margin-bottom: clamp(2.4rem, 4vw, 3.6rem);
     }
 
     section.blk h2 {
-      margin-bottom: 0.9rem;
+      margin-bottom: 1.05rem;
       font-size: 1.06rem;
       letter-spacing: 0.04em;
       text-transform: lowercase;
@@ -122,6 +123,7 @@
       font-size: 1rem;
       position: relative;
       z-index: 5;
+      max-width: 60rem;
     }
 
     section.blk p + p {
@@ -131,7 +133,7 @@
     .social-icons {
       display: flex;
       flex-wrap: wrap;
-      gap: clamp(1rem, 1.5vw, 1.5rem);
+      gap: clamp(1.15rem, 1.7vw, 1.7rem);
       align-items: center;
     }
 
@@ -148,7 +150,7 @@
 
     .more-link {
       display: inline-block;
-      margin-top: 0.6rem;
+      margin-top: 0.7rem;
       font-weight: 700;
       color: #ffffff;
       text-decoration: none;
@@ -157,7 +159,7 @@
     }
 
     /* ════════════════════════════════════════════════════════
-       DESKTOP / GROSSE SZENE
+       VIDEO / DESKTOP
        ════════════════════════════════════════════════════════ */
 
     .video-wrap {
@@ -167,15 +169,15 @@
 
     .desktop-scene {
       position: relative;
-      min-height: clamp(590px, 70vw, 760px);
+      min-height: clamp(610px, 72vw, 780px);
       overflow: visible;
     }
 
     .bwrap-d {
       position: absolute;
-      right: clamp(-30px, 0vw, 10px);
-      top: clamp(-85px, -5vw, -35px);
-      width: clamp(570px, 74vw, 880px);
+      left: clamp(-110px, -6vw, -50px);
+      top: clamp(-90px, -5vw, -35px);
+      width: clamp(560px, 72vw, 850px);
       aspect-ratio: 860 / 540;
       z-index: 2;
       filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.28));
@@ -222,7 +224,6 @@
     /* Kleine Comic-Gedankenblasen als Funktionsbuttons */
     .cbtn,
     .oval-btn {
-      position: absolute;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -241,6 +242,10 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
+    .cbtn {
+      position: absolute;
+    }
+
     .cbtn:hover,
     .oval-btn:hover {
       transform: scale(1.08);
@@ -251,60 +256,78 @@
 
     .cbtn svg,
     .oval-btn svg {
-      width: 46%;
-      height: 46%;
+      width: 44%;
+      height: 44%;
       display: block;
       fill: currentColor;
     }
 
-    /* Jede kleine Blase bekommt eine leicht andere Comic-Form */
+    /* Unregelmässige Comic-Formen statt Kreise */
     .d-pl,
     #m-pl {
-      border-radius: 58% 42% 52% 48% / 46% 58% 42% 54%;
+      border-radius: 62% 38% 56% 44% / 48% 60% 40% 52%;
+      transform: rotate(-3deg);
     }
 
     .d-pa,
     #m-pa {
-      border-radius: 48% 56% 44% 60% / 58% 44% 56% 42%;
+      border-radius: 48% 58% 43% 61% / 60% 42% 58% 40%;
+      transform: rotate(4deg);
     }
 
     .d-so,
     #m-so {
-      border-radius: 62% 38% 55% 45% / 44% 62% 38% 56%;
+      border-radius: 58% 42% 62% 38% / 42% 62% 38% 58%;
+      transform: rotate(-6deg);
+    }
+
+    .d-pl:hover,
+    #m-pl:hover {
+      transform: rotate(-3deg) scale(1.08);
+    }
+
+    .d-pa:hover,
+    #m-pa:hover {
+      transform: rotate(4deg) scale(1.08);
+    }
+
+    .d-so:hover,
+    #m-so:hover {
+      transform: rotate(-6deg) scale(1.08);
     }
 
     .d-pl {
-      width: clamp(62px, 6.2vw, 84px);
+      width: clamp(66px, 6.4vw, 86px);
       height: clamp(52px, 5.2vw, 70px);
-      right: clamp(180px, 20vw, 275px);
-      top: clamp(305px, 35vw, 425px);
+      right: clamp(210px, 23vw, 315px);
+      top: clamp(315px, 36vw, 430px);
     }
 
     .d-pa {
-      width: clamp(52px, 5vw, 70px);
+      width: clamp(54px, 5vw, 72px);
       height: clamp(40px, 4.1vw, 56px);
-      right: clamp(115px, 13vw, 180px);
-      top: clamp(380px, 43vw, 520px);
+      right: clamp(135px, 15vw, 205px);
+      top: clamp(390px, 44vw, 525px);
     }
 
     .d-so {
-      width: clamp(42px, 4vw, 58px);
+      width: clamp(44px, 4vw, 58px);
       height: clamp(32px, 3.2vw, 44px);
-      right: clamp(70px, 8vw, 115px);
-      top: clamp(445px, 50vw, 610px);
+      right: clamp(72px, 8vw, 120px);
+      top: clamp(462px, 52vw, 620px);
     }
 
     .title-sec {
       position: relative;
       z-index: 5;
-      margin-top: -7.5rem;
+      margin-top: -7.2rem;
+      margin-bottom: clamp(1.8rem, 3vw, 2.7rem);
     }
 
     .songtitle {
       font-weight: 600;
       text-transform: lowercase;
       font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(0.9rem, 1.5vw, 1.2rem);
       position: relative;
       z-index: 5;
     }
@@ -319,11 +342,11 @@
     .person-bg {
       position: absolute;
       right: clamp(-30px, -2vw, -8px);
-      top: clamp(1.2rem, 2vw, 2rem);
+      top: clamp(0.8rem, 1.6vw, 1.8rem);
       width: clamp(190px, 27vw, 330px);
       height: auto;
       z-index: 1;
-      opacity: 0.92;
+      opacity: 0.9;
       filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.28));
       pointer-events: none;
       user-select: none;
@@ -347,6 +370,10 @@
         padding: 1.8rem 0 3rem;
       }
 
+      main {
+        gap: 1.9rem;
+      }
+
       .topline {
         padding: 0 1rem;
         font-size: 0.87rem;
@@ -361,6 +388,7 @@
 
       .title-sec {
         margin-top: 0;
+        margin-bottom: 2.25rem;
         padding: 0 1rem;
       }
 
@@ -373,22 +401,27 @@
       }
 
       .person-bg {
-        top: 1.25rem;
-        right: -18px;
+        top: 1.15rem;
+        right: -22px;
         width: clamp(155px, 48vw, 225px);
-        opacity: 0.88;
+        opacity: 0.86;
         z-index: 1;
       }
 
       section.blk {
         padding: 0 1rem;
+        margin-bottom: 3.15rem;
+      }
+
+      section.blk h2 {
+        margin-bottom: 1rem;
       }
 
       .mobile-scene {
         display: block;
         position: relative;
         width: 100%;
-        padding-bottom: 24vw;
+        padding-bottom: 26vw;
       }
 
       #bcanvas {
@@ -397,26 +430,26 @@
         height: auto;
       }
 
+      /* Mobile: Buttons nicht untereinander, sondern unregelmässig diagonal */
       .oval-btns {
         position: absolute;
-        right: 1rem;
+        left: 0;
+        right: 0;
+        top: 0;
         bottom: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 7px;
         pointer-events: none;
         z-index: 10;
       }
 
       .oval-btn {
-        position: relative;
+        position: absolute;
       }
 
       #m-pl {
-        width: clamp(76px, 21vw, 104px);
-        height: clamp(44px, 12vw, 60px);
-        margin-right: 0;
+        width: clamp(74px, 20vw, 100px);
+        height: clamp(44px, 12vw, 58px);
+        left: 58%;
+        top: 74%;
       }
 
       #m-pl svg {
@@ -425,9 +458,10 @@
       }
 
       #m-pa {
-        width: clamp(60px, 16vw, 82px);
+        width: clamp(58px, 16vw, 78px);
         height: clamp(36px, 9.5vw, 48px);
-        margin-right: clamp(7px, 2vw, 15px);
+        left: 68%;
+        top: 91%;
       }
 
       #m-pa svg {
@@ -438,7 +472,8 @@
       #m-so {
         width: clamp(44px, 12vw, 60px);
         height: clamp(28px, 7vw, 38px);
-        margin-right: clamp(14px, 4vw, 28px);
+        left: 79%;
+        top: 106%;
       }
 
       #m-so svg {
@@ -449,53 +484,64 @@
 
     @media (max-width: 420px) {
       .mobile-scene {
-        padding-bottom: 22vw;
+        padding-bottom: 24vw;
       }
 
       .person-bg {
-        right: -22px;
-        top: 1.4rem;
+        right: -24px;
+        top: 1.3rem;
         width: clamp(150px, 50vw, 205px);
       }
 
+      #m-pl {
+        left: 57%;
+        top: 73%;
+      }
+
       #m-pa {
-        margin-right: clamp(4px, 1.5vw, 10px);
+        left: 68%;
+        top: 90%;
       }
 
       #m-so {
-        margin-right: clamp(8px, 3vw, 18px);
+        left: 79%;
+        top: 104%;
       }
     }
 
     @media (max-width: 768px) and (orientation: landscape) {
       .mobile-scene {
-        padding-bottom: 12vw;
-      }
-
-      .oval-btns {
-        right: 1rem;
-        bottom: -0.2rem;
-        gap: 5px;
+        padding-bottom: 15vw;
       }
 
       #m-pl {
         width: 64px;
         height: 38px;
+        left: 58%;
+        top: 70%;
       }
 
       #m-pa {
         width: 50px;
         height: 31px;
+        left: 67%;
+        top: 86%;
       }
 
       #m-so {
         width: 40px;
         height: 26px;
+        left: 76%;
+        top: 99%;
       }
 
       .person-bg {
-        top: 0.8rem;
+        top: 0.7rem;
         width: clamp(140px, 28vw, 190px);
+      }
+
+      section.blk {
+        margin-bottom: 2.6rem;
       }
     }
 
@@ -519,7 +565,7 @@
       top: 50%;
       width: 100vw;
       height: 1px;
-      background: #fff;
+      background: #ffffff;
       opacity: 0.9;
       transform: translateY(-0.5px);
     }
@@ -530,7 +576,7 @@
       left: 50%;
       width: 1px;
       height: 100vh;
-      background: #fff;
+      background: #ffffff;
       opacity: 0.9;
       transform: translateX(-0.5px);
     }
