@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>b3nn3t „drei" | neuer release</title>
+  <meta name="description" content="„DREI" – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz."/>
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html"/>
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="„DREI" – neues Release von b3nn3t">
+  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„DREI" – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"MusicRecording","name":"DREI","byArtist":{"@type":"MusicGroup","name":"b3nn3t"}}</script>
+
+  <style>
+    :root { --bg:#930010; --text:#fdfdfd; --max:960px; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html, body {
+      overflow-x:hidden;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"SF Pro Text",sans-serif;
+      color:var(--text); background:var(--bg);
+    }
+    .page-wrap {
+      min-height:100vh; width:100%;
+      display:flex; justify-content:center; align-items:flex-start;
+      padding:clamp(2.8rem,4vw,3.8rem) 1.5rem clamp(3.5rem,5vw,4.5rem);
+    }
+    .content { width:100%; max-width:var(--max); }
+    main { display:flex; flex-direction:column; gap:clamp(1.4rem,2vw,2rem); }
+
+    .topline {
+      display:flex; flex-wrap:wrap; align-items:baseline;
+      gap:.7rem; font-size:.92rem; letter-spacing:.04em;
+      margin-bottom:clamp(1.4rem,2vw,2rem);
+    }
+    .brand { color:#fff; font-weight:700; text-decoration:none; }
+    #timer { font-variant-numeric:tabular-nums; font-weight:700; }
+
+    section.blk h2 { margin-bottom:.9rem; font-size:1.06rem; letter-spacing:.04em; text-transform:lowercase; font-weight:600; }
+    section.blk p  { line-height:1.7; font-size:1rem; }
+    section.blk p+p{ margin-top:.65rem; }
+    .social-icons  { display:flex; flex-wrap:wrap; gap:clamp(1rem,1.5vw,1.5rem); align-items:center; }
+    .social-link   { text-decoration:none; display:inline-flex; }
+    .social-icon-img{ width:clamp(1.6rem,1.3vw + 1rem,2.2rem); height:auto; display:block; }
+    .more-link     { display:inline-block; margin-top:.6rem; font-weight:700; color:#fff; text-decoration:none; }
+
+    /* ══ DESKTOP ══ */
+    .video-wrap { position:relative; width:100%; }
+    .desktop-scene { position:relative; min-height:clamp(590px,70vw,760px); overflow:visible; }
+    .person-d { position:absolute; right:clamp(80px,13vw,170px); bottom:0; width:clamp(170px,22vw,270px); filter:drop-shadow(0 18px 28px rgba(0,0,0,.25)); pointer-events:none; }
+    .bwrap-d { position:absolute; right:clamp(-30px,0vw,10px); top:clamp(-85px,-5vw,-35px); width:clamp(570px,74vw,880px); aspect-ratio:860/540; z-index:2; filter:drop-shadow(0 18px 32px rgba(0,0,0,.28)); }
+    .bwrap-d svg { width:100%; height:100%; display:block; overflow:visible; }
+    .vid-d { width:100%; height:100%; display:block; object-fit:cover; background:#000; }
+    .bsh { fill:none; stroke:rgba(0,0,0,.32); stroke-width:15; stroke-linejoin:round; pointer-events:none; }
+    .bst { fill:none; stroke:rgba(255,255,255,.97); stroke-width:7; stroke-linejoin:round; pointer-events:none; }
+    .dbtns { position:absolute; inset:0; z-index:8; pointer-events:none; }
+    .cbtn { background:#fff; color:#111; border:4px solid #fff; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 0 3px rgba(0,0,0,.35),0 10px 18px rgba(0,0,0,.22); cursor:pointer; padding:0; pointer-events:auto; transition:transform .15s; position:absolute; }
+    .cbtn:hover { transform:scale(1.08); }
+    .cbtn svg { width:48%; height:48%; display:block; fill:currentColor; }
+    .d-pl { width:clamp(56px,5.8vw,76px); height:clamp(56px,5.8vw,76px); right:clamp(180px,20vw,275px); top:clamp(305px,35vw,425px); }
+    .d-pa { width:clamp(44px,4.5vw,60px); height:clamp(44px,4.5vw,60px); right:clamp(115px,13vw,180px); top:clamp(380px,43vw,520px); }
+    .d-so { width:clamp(34px,3.5vw,48px); height:clamp(34px,3.5vw,48px); right:clamp(70px,8vw,115px); top:clamp(445px,50vw,610px); }
+    .title-sec { margin-top:-7.5rem; }
+    .songtitle { font-weight:600; text-transform:lowercase; font-size:clamp(1.7rem,3vw,2.4rem); margin-bottom:clamp(.9rem,1.5vw,1.2rem); }
+
+    /* Mobile-Dinge auf Desktop verstecken */
+    .mobile-scene { display:none; }
+    .person-section { display:none; }
+
+    /* ══ MOBILE ══ */
+    @media (max-width:768px) {
+      .page-wrap  { padding:1.8rem 0 3rem; }
+      .topline    { padding:0 1rem; font-size:.87rem; gap:.45rem; margin-bottom:1rem; }
+      .desktop-scene { display:none; }
+      .dbtns { display:none; }
+
+      /* Titel ohne negativen Abstand */
+      .title-sec  { margin-top:0; padding:0 1rem; }
+      .songtitle  { letter-spacing:.18em; }
+      section.blk { padding:0 1rem; }
+
+      /* ── Canvas-Szene: nur Blase + kleine Oval-Blasen ── */
+      .mobile-scene {
+        display:block;
+        position:relative;
+        width:100%;
+        /* Genug Platz für die kleinen Blasen unterhalb der Canvas */
+        padding-bottom:22vw;
+      }
+
+      #bcanvas {
+        display:block;
+        width:100%;
+        height:auto;
+      }
+
+      /*
+        Kleine ovale Blasen als Buttons – GENAU wie im Donald Duck Comic:
+        Drei ovale Ellipsen, diagonal aufsteigend von klein nach groß,
+        von rechts unten Richtung große Blase.
+
+        Sie sind KEINE runden Kreise sondern horizontale Ellipsen.
+        Breite > Höhe, mit schwarzem Rand.
+      */
+      .oval-btns {
+        position:absolute;
+        /* Rechts unten, unter der Blase */
+        right:1rem;
+        bottom:0;
+        display:flex;
+        flex-direction:column;
+        align-items:flex-end;
+        gap:6px;
+        pointer-events:none;
+        /* Leicht diagonal: jede Blase ist etwas weiter rechts als die obere */
+      }
+
+      .oval-btn {
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background:#fff;
+        border:none;
+        /* Schwarzer Comic-Rand */
+        outline:2.5px solid rgba(0,0,0,0.88);
+        outline-offset:0;
+        box-shadow:2px 3px 7px rgba(0,0,0,.4);
+        cursor:pointer;
+        pointer-events:auto;
+        transition:transform .15s;
+        color:#111;
+        /* Oval: Breite etwa doppelt so groß wie Höhe */
+        border-radius:50%;
+      }
+      .oval-btn:hover { transform:scale(1.08); }
+      .oval-btn svg { display:block; fill:currentColor; }
+
+      /* 3 Größen – klein unten, groß oben (umgekehrt: groß ist näher zur Blase) */
+      /* Play – oben (größte, nächste zur Blase) */
+      #m-pl {
+        width:  clamp(72px,20vw,100px);
+        height: clamp(40px,11vw,56px);
+        border-radius:50%;
+        margin-right: 0;
+      }
+      #m-pl svg { width:30%; height:65%; }
+
+      /* Pause – mitte */
+      #m-pa {
+        width:  clamp(56px,15vw,76px);
+        height: clamp(32px,9vw,44px);
+        border-radius:50%;
+        margin-right: clamp(6px,2vw,14px);
+      }
+      #m-pa svg { width:34%; height:65%; }
+
+      /* Sound – unten (kleinste) */
+      #m-so {
+        width:  clamp(40px,11vw,56px);
+        height: clamp(24px,6.5vw,34px);
+        border-radius:50%;
+        margin-right: clamp(12px,4vw,24px);
+      }
+      #m-so svg { width:38%; height:60%; }
+
+      /* ── Person: eigene Section NACH dem Titel ── */
+      .person-section {
+        display:flex;
+        justify-content:flex-end;
+        padding:0;
+        /* Negativer margin-top um sie näher am Titel zu haben */
+        margin-top:-1rem;
+        overflow:visible;
+      }
+      .person-m {
+        display:block;
+        width:clamp(130px,36vw,200px);
+        filter:drop-shadow(0 8px 16px rgba(0,0,0,.3));
+        pointer-events:none;
+        margin-right:-8px;
+      }
+    }
+
+    @media (max-width:420px) {
+      .mobile-scene { padding-bottom:20vw; }
+      #m-pl { margin-right:0; }
+      #m-pa { margin-right:clamp(4px,1.5vw,10px); }
+      #m-so { margin-right:clamp(8px,3vw,18px); }
+    }
+
+    @media (min-width:1024px) {
+      .page-wrap { padding-top:4rem; padding-bottom:5rem; }
+    }
+
+    #xhair { position:fixed; inset:0; pointer-events:none; z-index:99999; }
+    #xhair .lx { position:absolute; left:0; top:50%; width:100vw; height:1px; background:#fff; opacity:.9; transform:translateY(-.5px); }
+    #xhair .ly { position:absolute; top:0; left:50%; width:1px; height:100vh; background:#fff; opacity:.9; transform:translateX(-.5px); }
+    @media (pointer:coarse),(prefers-reduced-motion:reduce) { #xhair { display:none; } }
+  </style>
+
+</head>
+<body>
+
+<div class="page-wrap">
+<div class="content">
+<main>
+
+  <div class="topline">
+    <a class="brand" href="index.html">b3nn3t</a>
+    <span style="opacity:.9">released in</span>
+    <span id="timer">--:--:--</span>
+  </div>
+
+  <div class="video-wrap">
+
+```
+<!-- ══ DESKTOP ══ -->
+<div class="desktop-scene">
+  <img class="person-d" src="assets/release/person-sitzend.png" alt="">
+  <div class="bwrap-d">
+    <svg viewBox="0 0 860 540" aria-hidden="true">
+      <defs>
+        <clipPath id="dc" clipPathUnits="userSpaceOnUse">
+          <path d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
+        </clipPath>
+      </defs>
+      <foreignObject x="0" y="0" width="860" height="540" clip-path="url(#dc)">
+        <video xmlns="http://www.w3.org/1999/xhtml" id="vid-d" class="vid-d"
+          muted playsinline preload="metadata"
+          poster="assets/release/drei-cover.webp" width="1280" height="720">
+          <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+        </video>
+      </foreignObject>
+      <path class="bsh" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
+      <path class="bst" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
+    </svg>
+  </div>
+  <div class="dbtns">
+    <button class="cbtn d-pl" id="dp"  aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <button class="cbtn d-pa" id="dpa" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></button>
+    <button class="cbtn d-so" id="ds"  aria-label="Sound"><svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg></button>
+  </div>
+</div>
+
+<!-- ══ MOBILE: Canvas-Blase + ovale Buttons ══ -->
+<div class="mobile-scene">
+
+  <video id="vid-m"
+    style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0;"
+    muted playsinline preload="metadata"
+    poster="assets/release/drei-cover.webp" width="1280" height="720">
+    <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+  </video>
+
+  <canvas id="bcanvas" aria-label="Video in Comic-Gedankenblase"></canvas>
+
+  <!--
+    3 ovale Blasen diagonal aufsteigend rechts unten.
+    Reihenfolge im DOM (flex-column): Play (groß, oben) → Pause → Sound (klein, unten).
+    Jede Blase ist rechts-versetzt zur nächsten = diagonal.
+  -->
+  <div class="oval-btns">
+    <button class="oval-btn" id="m-pl" aria-label="Play">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </button>
+    <button class="oval-btn" id="m-pa" aria-label="Pause">
+      <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+    </button>
+    <button class="oval-btn" id="m-so" aria-label="Ton einschalten">
+      <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>
+    </button>
+  </div>
+
+</div><!-- /mobile-scene -->
+```
+
+  </div><!-- /video-wrap -->
+
+  <!-- Titel -->
+
+  <section class="title-sec blk">
+    <h1 class="songtitle">drei</h1>
+  </section>
+
+  <!-- Person: eigene Section direkt nach dem Titel -->
+
+  <div class="person-section">
+    <img class="person-m" src="assets/release/person-sitzend.png" alt="">
+  </div>
+
+  <section class="blk">
+    <h2>erklärbär</h2>
+    <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+    <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
+  </section>
+
+  <section class="blk">
+    <h2>kuck hier</h2>
+    <div class="social-icons">
+      <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x" class="social-link" target="_blank" rel="noopener" aria-label="Spotify">
+        <picture><source srcset="assets/release/spotify_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify"></picture>
+      </a>
+      <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" target="_blank" rel="noopener" aria-label="Apple Music">
+        <picture><source srcset="assets/release/apple_music_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music"></picture>
+      </a>
+      <a href="https://www.instagram.com/b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+        <picture><source srcset="assets/release/instagram_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram"></picture>
+      </a>
+      <a href="https://www.youtube.com/@b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+        <picture><source srcset="assets/release/youtube_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube"></picture>
+      </a>
+      <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
+        <picture><source srcset="assets/release/soundcloud_128.webp" type="image/webp"><img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud"></picture>
+      </a>
+    </div>
+  </section>
+
+  <section class="blk">
+    <p>mehr auf meiner webseite :p</p>
+    <a class="more-link brand" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+  </section>
+
+</main>
+</div>
+</div>
+
+<div id="xhair" aria-hidden="true"><div class="lx"></div><div class="ly"></div></div>
+
+<script>
+/* Countdown */
+(function(){
+  var t=new Date("2026-01-09T00:00:00+01:00").getTime();
+  var el=document.getElementById("timer"); if(!el)return;
+  function tick(){
+    var d=t-Date.now(); if(d<=0){el.textContent="OUT NOW";clearInterval(iv);return;}
+    var s=Math.floor(d/1000),dy=Math.floor(s/86400);
+    var h=String(Math.floor((s%86400)/3600)).padStart(2,"0");
+    var m=String(Math.floor((s%3600)/60)).padStart(2,"0");
+    var sc=String(s%60).padStart(2,"0");
+    el.textContent=dy>0?dy+"d "+h+":"+m+":"+sc:h+":"+m+":"+sc;
+  }
+  tick(); var iv=setInterval(tick,1000);
+}());
+
+function sndIco(m){
+  return m
+    ?'<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>'
+    :'<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z" fill="currentColor"/></svg>';
+}
+
+/* Desktop controls */
+(function(){
+  var v=document.getElementById('vid-d');
+  var pl=document.getElementById('dp'),pa=document.getElementById('dpa'),so=document.getElementById('ds');
+  if(!v)return;
+  function si(){if(so){so.innerHTML=sndIco(v.muted);so.setAttribute('aria-label',v.muted?'Ton ein':'Ton aus');}}
+  if(pl)pl.onclick=function(){v.play();};
+  if(pa)pa.onclick=function(){v.pause();};
+  if(so)so.onclick=function(){v.muted=!v.muted;si();};
+  si();
+}());
+</script>
+
+<script>
+/*
+  ══ MOBILE CANVAS ══
+  Große Comic-Gedankenblase: viele weiche Beulen rundherum,
+  schwarzer Rand + weißer Innenrand, Video darin.
+*/
+(function(){
+  if(window.innerWidth > 768) return;
+
+  var vid=document.getElementById('vid-m');
+  var cvs=document.getElementById('bcanvas');
+  if(!vid||!cvs)return;
+  var ctx=cvs.getContext('2d');
+  var DPR=window.devicePixelRatio||1;
+  var PW,PH;
+
+  function resize(){
+    var cw=window.innerWidth;
+    var ch=Math.round(cw*0.65);
+    PW=Math.round(cw*DPR); PH=Math.round(ch*DPR);
+    cvs.width=PW; cvs.height=PH;
+    cvs.style.width=cw+'px'; cvs.style.height=ch+'px';
+  }
+  resize();
+  window.addEventListener('resize',resize,{passive:true});
+
+  /*
+    Comic-Thought-Bubble:
+    - 10 Beulen gleichmäßig verteilt (wie Wolke)
+    - Jede Beule ist ein kleiner Kreisbogen nach außen
+    - Zwischen den Beulen leichte Einbuchtungen
+  */
+  function bubblePath(ctx,w,h){
+    var cx=w*0.5, cy=h*0.48;
+    var rx=w*0.44, ry=h*0.42;
+    var n=10; /* Anzahl Beulen */
+    var bumpOut=0.18; /* Wie weit die Beulen rausgehen */
+
+    ctx.beginPath();
+    for(var i=0;i<n;i++){
+      var a0=(i/n)*Math.PI*2 - Math.PI/2;
+      var a1=((i+1)/n)*Math.PI*2 - Math.PI/2;
+      var am=(a0+a1)/2;
+
+      var x0=cx+Math.cos(a0)*rx, y0=cy+Math.sin(a0)*ry;
+      var x1=cx+Math.cos(a1)*rx, y1=cy+Math.sin(a1)*ry;
+      /* Beulenpunkt: weiter außen */
+      var bx=cx+Math.cos(am)*rx*(1+bumpOut);
+      var by=cy+Math.sin(am)*ry*(1+bumpOut);
+
+      if(i===0) ctx.moveTo(x0,y0);
+      ctx.quadraticCurveTo(bx,by,x1,y1);
+    }
+    ctx.closePath();
+  }
+
+  var poster=new Image(); poster.src='assets/release/drei-cover.webp';
+
+  function draw(){
+    ctx.clearRect(0,0,PW,PH);
+
+    /* Schatten */
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,0.45)';
+    ctx.shadowBlur=20*DPR;
+    ctx.shadowOffsetY=5*DPR;
+    bubblePath(ctx,PW,PH);
+    ctx.fillStyle='rgba(0,0,0,0.001)';
+    ctx.fill();
+    ctx.restore();
+
+    /* Schwarzer Comic-Rand */
+    ctx.save();
+    bubblePath(ctx,PW,PH);
+    ctx.lineWidth=8*DPR;
+    ctx.strokeStyle='rgba(0,0,0,0.92)';
+    ctx.stroke();
+    ctx.restore();
+
+    /* Weißer Rand */
+    ctx.save();
+    bubblePath(ctx,PW,PH);
+    ctx.lineWidth=4*DPR;
+    ctx.strokeStyle='rgba(255,255,255,0.97)';
+    ctx.stroke();
+    ctx.restore();
+
+    /* Video clip */
+    ctx.save();
+    bubblePath(ctx,PW,PH);
+    ctx.clip();
+    var src=(vid.readyState>=2)?vid:(poster.complete?poster:null);
+    if(src){
+      var vw=src.videoWidth||src.naturalWidth||1280;
+      var vh=src.videoHeight||src.naturalHeight||720;
+      var vr=vw/vh, cr=PW/PH, sw,sh,sx,sy;
+      if(vr>cr){sh=PH;sw=PH*vr;sx=(PW-sw)/2;sy=0;}
+      else{sw=PW;sh=PW/vr;sx=0;sy=(PH-sh)/2;}
+      ctx.drawImage(src,sx,sy,sw,sh);
+    } else {
+      ctx.fillStyle='#111'; ctx.fillRect(0,0,PW,PH);
+    }
+    ctx.restore();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+
+  /* Mobile oval-button controls */
+  var mpl=document.getElementById('m-pl');
+  var mpa=document.getElementById('m-pa');
+  var mso=document.getElementById('m-so');
+
+  function updSo(){
+    if(!mso)return;
+    mso.innerHTML=sndIco(vid.muted);
+    mso.setAttribute('aria-label',vid.muted?'Ton einschalten':'Ton ausschalten');
+  }
+  if(mpl)mpl.onclick=function(){vid.play();};
+  if(mpa)mpa.onclick=function(){vid.pause();};
+  if(mso)mso.onclick=function(){vid.muted=!vid.muted;updSo();};
+  updSo();
+}());
+</script>
+
+<script>
+(function(){
+  var c=document.getElementById('xhair'); if(!c)return;
+  if(!window.matchMedia('(pointer:fine)').matches){c.style.display='none';return;}
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches){c.style.display='none';return;}
+  var lx=c.querySelector('.lx'),ly=c.querySelector('.ly');
+  var x=-9999,y=-9999,raf=null;
+  function dr(){lx.style.top=y+'px';ly.style.left=x+'px';raf=null;}
+  window.addEventListener('mousemove',function(e){x=e.clientX;y=e.clientY;if(!raf)raf=requestAnimationFrame(dr);},{passive:true});
+  window.addEventListener('mouseleave',function(){x=-9999;y=-9999;dr();});
+}());
+</script>
+
+</body>
+</html>
