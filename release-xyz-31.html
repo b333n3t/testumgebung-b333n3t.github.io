@@ -347,7 +347,9 @@
     .person-bg {
       position: absolute;
       right: clamp(-30px, -2vw, -8px);
-      bottom: 0;
+      /* Untere Kante auf Höhe von "kuck hier":
+         letzte blk-Section (b3nn3t.com) ist ca. 6–8rem hoch */
+      bottom: clamp(5rem, 8vw, 9rem);
       top: auto;
       width: clamp(190px, 27vw, 330px);
       height: auto;
@@ -409,7 +411,7 @@
       /* Person: kleiner, untere Kante auf Höhe von "kuck hier" */
       .person-bg {
         top: auto;
-        bottom: 11rem;
+        bottom: 14rem;
         right: -16px;
         width: clamp(120px, 34vw, 170px);
         opacity: 0.88;
@@ -500,7 +502,7 @@
       .person-bg {
         right: -24px;
         top: auto;
-        bottom: 10.5rem;
+        bottom: 13rem;
         width: clamp(115px, 36vw, 160px);
       }
 
@@ -703,7 +705,8 @@
 
       <section class="blk">
         <h2>erklärbär</h2>
-
+        <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+        <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
       </section>
 
       <section class="blk">
@@ -859,29 +862,39 @@ function sndIco(muted){
 
   /* Canvas-Grösse an aktuelle Viewport-Breite anpassen */
   function positionButtons(){
-    var canvasH = cvs.offsetHeight || 0;
-    var sceneH  = scene.offsetHeight || 1;
-
-    /* Play-Blase: startet 4% unterhalb Canvas-Unterkante, 50% von links */
     var pl  = document.getElementById("m-pl");
     var pa  = document.getElementById("m-pa");
     var so  = document.getElementById("m-so");
-
     if (!pl || !pa || !so) return;
 
-    var base = (canvasH / sceneH) * 100; /* Canvas-Unterkante in % der Scene */
+    /* Canvas-Höhe in px (CSS-Pixel, nicht physisch) */
+    var ch = parseFloat(cvs.style.height) || cvs.offsetHeight || 0;
+    var cw = parseFloat(cvs.style.width)  || cvs.offsetWidth  || window.innerWidth;
 
-    pl.style.top  = (base + 4)  + "%";
-    pl.style.left = "50%";
-    pa.style.top  = (base + 13) + "%";
-    pa.style.left = "61%";
-    so.style.top  = (base + 22) + "%";
-    so.style.left = "72%";
+    /* Button-Grössen skalieren mit Canvas-Breite */
+    var plW = Math.round(cw * 0.148); var plH = Math.round(plW * 0.60);
+    var paW = Math.round(cw * 0.115); var paH = Math.round(paW * 0.60);
+    var soW = Math.round(cw * 0.090); var soH = Math.round(soW * 0.60);
+
+    /* Abstand unterhalb Canvas-Unterkante */
+    var gap1 = Math.round(cw * 0.035);
+    var gap2 = Math.round(cw * 0.085);
+    var gap3 = Math.round(cw * 0.130);
+
+    /* top in px, left in % der scene-Breite → diagonal von Mitte */
+    pl.style.width  = plW + "px"; pl.style.height = plH + "px";
+    pl.style.top    = (ch + gap1) + "px"; pl.style.left = "50%";
+
+    pa.style.width  = paW + "px"; pa.style.height = paH + "px";
+    pa.style.top    = (ch + gap2) + "px"; pa.style.left = "61%";
+
+    so.style.width  = soW + "px"; so.style.height = soH + "px";
+    so.style.top    = (ch + gap3) + "px"; so.style.left = "72%";
   }
 
   function resize(){
     var cw = window.innerWidth;
-    /* Im Landscape etwas flacher: Höhe = 55% der Breite */
+    /* Im Landscape etwas flacher */
     var ratio = (window.innerHeight < 500) ? 0.55 : 0.65;
     var ch = Math.round(cw * ratio);
     PW = Math.round(cw * DPR);
@@ -890,6 +903,9 @@ function sndIco(muted){
     cvs.height = PH;
     cvs.style.width  = cw + "px";
     cvs.style.height = ch + "px";
+    /* Padding der Scene an tatsächliche Button-Höhe anpassen */
+    var btnZone = Math.round(cw * 0.16);
+    scene.style.paddingBottom = btnZone + "px";
     positionButtons();
   }
 
