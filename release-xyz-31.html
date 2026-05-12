@@ -39,7 +39,7 @@
 
   <style>
     :root {
-      --bg: #930010;
+      --bg: #2a2724;   /* warmes Dunkelgrau, leicht erdiger Unterton */
       --text: #fdfdfd;
       --max: 960px;
     }
@@ -585,40 +585,7 @@
       }
     }
 
-    #xhair {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 99999;
-    }
-
-    #xhair .lx {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      width: 100vw;
-      height: 1px;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateY(-0.5px);
-    }
-
-    #xhair .ly {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 1px;
-      height: 100vh;
-      background: #ffffff;
-      opacity: 0.9;
-      transform: translateX(-0.5px);
-    }
-
-    @media (pointer: coarse), (prefers-reduced-motion: reduce) {
-      #xhair {
-        display: none;
-      }
-    }
+    #xhair { display: none; }
   </style>
 
 </head>
