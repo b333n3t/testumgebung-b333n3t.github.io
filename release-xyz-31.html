@@ -340,6 +340,8 @@
       position: relative;
       z-index: 3;
       padding-bottom: 1rem;
+      /* Sicherstellen dass person-bg nicht übersteht */
+      min-height: clamp(280px, 40vw, 420px);
     }
 
     .person-bg {
@@ -391,8 +393,8 @@
       }
 
       .title-sec {
-        margin-top: 0;
-        margin-bottom: 0.9rem;
+        margin-top: -1.8rem; /* "drei" dichter an den kleinen Blasen */
+        margin-bottom: 0.5rem;
         padding: 0 1rem;
       }
 
@@ -404,11 +406,12 @@
         margin-top: 0;
       }
 
+      /* Person: kleiner, untere Kante auf Höhe von "kuck hier" */
       .person-bg {
         top: auto;
-        bottom: -1rem;
+        bottom: 8.5rem; /* ungefähr Höhe der letzten blk-Section */
         right: -16px;
-        width: clamp(160px, 46vw, 220px);
+        width: clamp(120px, 34vw, 170px);
         opacity: 0.88;
         z-index: 1;
       }
@@ -435,7 +438,7 @@
         height: auto;
       }
 
-      /* Mobile: Buttons nicht untereinander, sondern unregelmässig diagonal */
+      /* Blasen hinter dem Text (z-index tiefer als Text, aber klickbar via pointer-events) */
       .oval-btns {
         position: absolute;
         left: 0;
@@ -443,18 +446,19 @@
         top: 0;
         bottom: 0;
         pointer-events: none;
-        z-index: 10;
+        z-index: 2; /* hinter Text (z-index 5), aber über Hintergrund */
       }
 
       .oval-btn {
         position: absolute;
+        pointer-events: auto; /* Buttons selbst bleiben klickbar */
       }
 
-      /* ── MOBILE BLASEN: kleiner + weiter links ── */
+      /* MOBILE BLASEN: diagonal von Mitte nach rechts */
       #m-pl {
-        width: clamp(56px, 14vw, 72px);   /* war: 74–100px */
-        height: clamp(34px, 8.5vw, 44px); /* war: 44–58px */
-        left: 50%;  /* war: 58% */
+        width: clamp(56px, 14vw, 72px);
+        height: clamp(34px, 8.5vw, 44px);
+        left: 50%;
         top: 74%;
       }
 
@@ -464,9 +468,9 @@
       }
 
       #m-pa {
-        width: clamp(44px, 11vw, 58px);   /* war: 58–78px */
-        height: clamp(26px, 6.5vw, 36px); /* war: 36–48px */
-        left: 61%;  /* war: 68% */
+        width: clamp(44px, 11vw, 58px);
+        height: clamp(26px, 6.5vw, 36px);
+        left: 61%;
         top: 91%;
       }
 
@@ -476,9 +480,9 @@
       }
 
       #m-so {
-        width: clamp(34px, 8.5vw, 46px);  /* war: 44–60px */
-        height: clamp(22px, 5.5vw, 30px); /* war: 28–38px */
-        left: 72%;  /* war: 79% */
+        width: clamp(34px, 8.5vw, 46px);
+        height: clamp(22px, 5.5vw, 30px);
+        left: 72%;
         top: 106%;
       }
 
@@ -496,8 +500,8 @@
       .person-bg {
         right: -24px;
         top: auto;
-        bottom: -0.8rem;
-        width: clamp(150px, 50vw, 205px);
+        bottom: 8rem;
+        width: clamp(115px, 36vw, 160px);
       }
 
       #m-pl {
@@ -535,11 +539,12 @@
       }
 
       .title-sec {
-        margin-top: 0;
-        margin-bottom: 0.6rem;
+        margin-top: -1.2rem;
+        margin-bottom: 0.4rem;
         padding: 0 1rem;
       }
 
+      /* Landscape: Blasen von Mitte diagonal nach rechts */
       #m-pl {
         width: 54px;
         height: 32px;
@@ -562,9 +567,9 @@
       }
 
       .person-bg {
-        bottom: 0;
+        bottom: 7rem;
         top: auto;
-        width: clamp(100px, 18vw, 150px);
+        width: clamp(90px, 16vw, 130px);
       }
 
       section.blk {
@@ -1066,4 +1071,3 @@ function sndIco(muted){
 
 </body>
 </html>
-
