@@ -454,6 +454,7 @@
       .oval-btn {
         position: absolute;
         pointer-events: auto; /* Buttons selbst bleiben klickbar */
+        z-index: 2;
       }
 
       /* MOBILE BLASEN: diagonal von Mitte nach rechts */
@@ -763,11 +764,6 @@
   </div>
 </div>
 
-<div id="xhair" aria-hidden="true">
-  <div class="lx"></div>
-  <div class="ly"></div>
-</div>
-
 <script>
 /* Countdown */
 (function(){
@@ -867,29 +863,40 @@ function sndIco(muted){
     var so  = document.getElementById("m-so");
     if (!pl || !pa || !so) return;
 
-    /* Canvas-Höhe in px (CSS-Pixel, nicht physisch) */
+    /* Canvas-Höhe in CSS-px */
     var ch = parseFloat(cvs.style.height) || cvs.offsetHeight || 0;
-    var cw = parseFloat(cvs.style.width)  || cvs.offsetWidth  || window.innerWidth;
+    var vw = window.innerWidth;
 
-    /* Button-Grössen skalieren mit Canvas-Breite */
-    var plW = Math.round(cw * 0.148); var plH = Math.round(plW * 0.60);
-    var paW = Math.round(cw * 0.115); var paH = Math.round(paW * 0.60);
-    var soW = Math.round(cw * 0.090); var soH = Math.round(soW * 0.60);
+    /* Grössen skalieren mit Viewport */
+    var plW = Math.min(Math.round(vw * 0.148), 72);
+    var plH = Math.round(plW * 0.61);
+    var paW = Math.min(Math.round(vw * 0.115), 58);
+    var paH = Math.round(paW * 0.61);
+    var soW = Math.min(Math.round(vw * 0.090), 46);
+    var soH = Math.round(soW * 0.64);
 
-    /* Abstand unterhalb Canvas-Unterkante */
-    var gap1 = Math.round(cw * 0.035);
-    var gap2 = Math.round(cw * 0.085);
-    var gap3 = Math.round(cw * 0.130);
-
-    /* top in px, left in % der scene-Breite → diagonal von Mitte */
     pl.style.width  = plW + "px"; pl.style.height = plH + "px";
-    pl.style.top    = (ch + gap1) + "px"; pl.style.left = "50%";
-
     pa.style.width  = paW + "px"; pa.style.height = paH + "px";
-    pa.style.top    = (ch + gap2) + "px"; pa.style.left = "61%";
-
     so.style.width  = soW + "px"; so.style.height = soH + "px";
-    so.style.top    = (ch + gap3) + "px"; so.style.left = "72%";
+
+    /* Vertikale Position: jede Blase beginnt unterhalb der vorigen + Lücke */
+    var gap = Math.round(vw * 0.04); /* ~16px Lücke zwischen Blasen */
+    var startY = ch + gap;           /* Abstand unter Canvas */
+    var plTop = startY;
+    var paTop = plTop + plH + gap;
+    var soTop = paTop + paH + gap;
+
+    pl.style.top = plTop + "px";
+    pa.style.top = paTop + "px";
+    so.style.top = soTop + "px";
+
+    /* Horizontal diagonal von Mitte nach rechts */
+    pl.style.left = "50%";
+    pa.style.left = "61%";
+    so.style.left = "72%";
+
+    /* Scene padding: Platz unter letzter Blase */
+    scene.style.paddingBottom = (soTop + soH + gap) + "px";
   }
 
   function resize(){
@@ -1028,49 +1035,6 @@ function sndIco(muted){
   if (mso) mso.onclick = function(){ vid.muted = !vid.muted; updateMobileSound(); };
 
   updateMobileSound();
-}());
-</script>
-
-<script>
-(function(){
-  var c = document.getElementById("xhair");
-  if (!c) return;
-
-  if (!window.matchMedia("(pointer:fine)").matches) {
-    c.style.display = "none";
-    return;
-  }
-
-  if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) {
-    c.style.display = "none";
-    return;
-  }
-
-  var lx = c.querySelector(".lx");
-  var ly = c.querySelector(".ly");
-
-  var x = -9999;
-  var y = -9999;
-  var raf = null;
-
-  function draw(){
-    lx.style.top = y + "px";
-    ly.style.left = x + "px";
-    raf = null;
-  }
-
-  window.addEventListener("mousemove", function(e){
-    x = e.clientX;
-    y = e.clientY;
-
-    if (!raf) raf = requestAnimationFrame(draw);
-  }, { passive: true });
-
-  window.addEventListener("mouseleave", function(){
-    x = -9999;
-    y = -9999;
-    draw();
-  });
 }());
 </script>
 
