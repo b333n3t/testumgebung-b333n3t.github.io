@@ -391,7 +391,7 @@
 
       .title-sec {
         margin-top: 0;
-        margin-bottom: 2.25rem;
+        margin-bottom: 0.9rem;
         padding: 0 1rem;
       }
 
@@ -404,10 +404,11 @@
       }
 
       .person-bg {
-        top: 1.15rem;
-        right: -22px;
-        width: clamp(155px, 48vw, 225px);
-        opacity: 0.86;
+        top: auto;
+        bottom: -1rem;
+        right: -16px;
+        width: clamp(160px, 46vw, 220px);
+        opacity: 0.88;
         z-index: 1;
       }
 
@@ -851,7 +852,35 @@ function sndIco(muted){
   Große Comic-Gedankenblase mit Video.
 */
 (function(){
-  if (window.innerWidth > 768) return;
+  /* Läuft auf mobile unabhängig von Orientierung */
+  var scene = document.querySelector(".mobile-scene");
+  if (!scene) return;
+
+  /* Auf Desktop (>768px im Portrait-Start) überspringen, aber
+     Querformat auf Phone kann innerWidth > 768 sein —
+     deshalb prüfen wir das Element statt innerWidth */
+  if (window.getComputedStyle(scene).display === "none") {
+    /* Warten bis es eingeblendet wird (z.B. Orientierungswechsel) */
+    var obs = new MutationObserver(function(){
+      if (window.getComputedStyle(scene).display !== "none") {
+        obs.disconnect();
+        init();
+      }
+    });
+    obs.observe(document.body, { attributes: true, subtree: true });
+    /* Auch auf resize prüfen */
+    window.addEventListener("resize", function chk(){
+      if (window.getComputedStyle(scene).display !== "none") {
+        window.removeEventListener("resize", chk);
+        init();
+      }
+    });
+    return;
+  }
+
+  init();
+
+  function init(){
 
   var vid = document.getElementById("vid-m");
   var cvs = document.getElementById("bcanvas");
@@ -884,8 +913,10 @@ function sndIco(muted){
     var cy = h * 0.48;
     var rx = w * 0.44;
     var ry = h * 0.42;
-    var n = 10;
-    var bumpOut = 0.18;
+    var n = 12;
+
+    /* Jeder Bump hat seine eigene Grösse – unregelmässig wie im Comic */
+    var bumps = [0.22, 0.14, 0.26, 0.10, 0.20, 0.28, 0.12, 0.24, 0.16, 0.22, 0.18, 0.13];
 
     ctx.beginPath();
 
@@ -899,8 +930,8 @@ function sndIco(muted){
       var x1 = cx + Math.cos(a1) * rx;
       var y1 = cy + Math.sin(a1) * ry;
 
-      var bx = cx + Math.cos(am) * rx * (1 + bumpOut);
-      var by = cy + Math.sin(am) * ry * (1 + bumpOut);
+      var bx = cx + Math.cos(am) * rx * (1 + bumps[i]);
+      var by = cy + Math.sin(am) * ry * (1 + bumps[i]);
 
       if (i === 0) ctx.moveTo(x0, y0);
       ctx.quadraticCurveTo(bx, by, x1, y1);
@@ -1013,6 +1044,7 @@ function sndIco(muted){
   }
 
   updateMobileSound();
+  } // end init()
 }());
 </script>
 
