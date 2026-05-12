@@ -409,7 +409,7 @@
       /* Person: kleiner, untere Kante auf Höhe von "kuck hier" */
       .person-bg {
         top: auto;
-        bottom: 8.5rem; /* ungefähr Höhe der letzten blk-Section */
+        bottom: 11rem;
         right: -16px;
         width: clamp(120px, 34vw, 170px);
         opacity: 0.88;
@@ -500,7 +500,7 @@
       .person-bg {
         right: -24px;
         top: auto;
-        bottom: 8rem;
+        bottom: 10.5rem;
         width: clamp(115px, 36vw, 160px);
       }
 
@@ -544,30 +544,30 @@
         padding: 0 1rem;
       }
 
-      /* Landscape: Blasen von Mitte diagonal nach rechts */
+      /* Landscape: Blasen exakt gleich wie Hochformat (diagonal von Mitte) */
       #m-pl {
-        width: 54px;
-        height: 32px;
+        width: 56px;
+        height: 34px;
         left: 50%;
-        top: 70%;
+        top: 82%;  /* relativ zur mobile-scene Höhe im Landscape */
       }
 
       #m-pa {
-        width: 42px;
-        height: 26px;
-        left: 60%;
-        top: 86%;
+        width: 44px;
+        height: 27px;
+        left: 61%;
+        top: 100%;
       }
 
       #m-so {
-        width: 32px;
-        height: 20px;
-        left: 70%;
-        top: 99%;
+        width: 34px;
+        height: 21px;
+        left: 72%;
+        top: 116%;
       }
 
       .person-bg {
-        bottom: 7rem;
+        bottom: 10rem;
         top: auto;
         width: clamp(90px, 16vw, 130px);
       }
@@ -703,6 +703,8 @@
 
       <section class="blk">
         <h2>erklärbär</h2>
+        <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+        <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
       </section>
 
       <section class="blk">
@@ -857,6 +859,27 @@ function sndIco(muted){
   var rafId = null;
 
   /* Canvas-Grösse an aktuelle Viewport-Breite anpassen */
+  function positionButtons(){
+    var canvasH = cvs.offsetHeight || 0;
+    var sceneH  = scene.offsetHeight || 1;
+
+    /* Play-Blase: startet 4% unterhalb Canvas-Unterkante, 50% von links */
+    var pl  = document.getElementById("m-pl");
+    var pa  = document.getElementById("m-pa");
+    var so  = document.getElementById("m-so");
+
+    if (!pl || !pa || !so) return;
+
+    var base = (canvasH / sceneH) * 100; /* Canvas-Unterkante in % der Scene */
+
+    pl.style.top  = (base + 4)  + "%";
+    pl.style.left = "50%";
+    pa.style.top  = (base + 13) + "%";
+    pa.style.left = "61%";
+    so.style.top  = (base + 22) + "%";
+    so.style.left = "72%";
+  }
+
   function resize(){
     var cw = window.innerWidth;
     /* Im Landscape etwas flacher: Höhe = 55% der Breite */
@@ -868,6 +891,7 @@ function sndIco(muted){
     cvs.height = PH;
     cvs.style.width  = cw + "px";
     cvs.style.height = ch + "px";
+    positionButtons();
   }
 
   function isVisible(){
@@ -954,6 +978,7 @@ function sndIco(muted){
     if (running) return;
     running = true;
     resize();
+    positionButtons();
     draw();
   }
 
