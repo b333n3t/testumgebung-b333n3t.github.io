@@ -65,7 +65,8 @@
     html,
     body {
       min-height: 100%;
-      overflow-x: clip;
+      overflow-x: hidden;
+      /* iOS Safari: verhindert Scroll-Artefakte an den Rändern */
       -webkit-tap-highlight-color: transparent;
       -webkit-text-size-adjust: 100%;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -86,7 +87,6 @@
       width: 100%;
       max-width: var(--max);
       position: relative;
-      overflow: clip; /* verhindert Artefakte von bwrap-d left:-110px */
     }
 
     main {
