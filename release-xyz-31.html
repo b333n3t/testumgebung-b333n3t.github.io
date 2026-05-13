@@ -62,11 +62,14 @@
       pointer-events: none;
     }
 
+    html {
+      background: var(--bg);
+    }
+
     html,
     body {
       min-height: 100%;
-      overflow-x: hidden;
-      /* iOS Safari: verhindert Scroll-Artefakte an den Rändern */
+      overflow-x: clip;
       -webkit-tap-highlight-color: transparent;
       -webkit-text-size-adjust: 100%;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -81,12 +84,14 @@
       justify-content: center;
       align-items: flex-start;
       padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      overflow: clip;
     }
 
     .content {
       width: 100%;
       max-width: var(--max);
       position: relative;
+      overflow: clip; /* verhindert Artefakte von bwrap-d left:-110px */
     }
 
     main {
@@ -190,12 +195,11 @@
 
     .bwrap-d {
       position: absolute;
-      left: clamp(-110px, -6vw, -50px);
+      left: 0;
       top: 0;
       width: clamp(560px, 72vw, 850px);
       aspect-ratio: 860 / 540;
       z-index: 2;
-      /* drop-shadow nur auf den SVG-Pfad, nicht auf foreignObject */
     }
 
     .bwrap-d svg {
@@ -219,7 +223,6 @@
       stroke-width: 15;
       stroke-linejoin: round;
       pointer-events: none;
-      filter: drop-shadow(0 18px 32px rgba(0,0,0,0.35));
     }
 
     .bst {
