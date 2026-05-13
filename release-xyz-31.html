@@ -440,28 +440,12 @@
         margin-bottom: 1rem;
       }
 
-      .mobile-scene {
-        display: block;
-        position: relative;
-        width: 100%;
-        padding-bottom: 26vw;
-      }
-
-      #bcanvas {
-        display: block;
-        width: 100%;
-        height: auto;
-      }
-
       /* Blasen ÜBER dem Text, aber klickbar */
       .oval-btns {
         position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
+        left: 0; right: 0; top: 0; bottom: 0;
         pointer-events: none;
-        z-index: 6; /* über Text (z-index 5) */
+        z-index: 6;
       }
 
       .oval-btn {
@@ -470,16 +454,13 @@
         z-index: 6;
       }
 
-      /* MOBILE BLASEN: Grösse + Position wird per JS gesetzt */
-      #m-pl, #m-pa, #m-so {
-        position: absolute;
-      }
+      #m-pl, #m-pa, #m-so { position: absolute; }
 
       .mobile-scene {
         display: block;
         position: relative;
         width: 100%;
-        /* padding-bottom wird per JS gesetzt – kein statischer Wert */
+        /* padding-bottom wird per JS gesetzt */
       }
 
       #bcanvas {
