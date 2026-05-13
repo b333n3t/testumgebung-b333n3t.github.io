@@ -12,6 +12,10 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
   <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html"/>
+  <!-- iOS: Vollbild ohne Safari-Chrome wenn vom Homescreen geöffnet -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
 
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
@@ -50,12 +54,21 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      outline: none;
+    }
+
+    /* Versteckte Video-Elemente: keinerlei Browser-Rendering */
+    video:not([controls]) {
+      pointer-events: none;
     }
 
     html,
     body {
       min-height: 100%;
       overflow-x: hidden;
+      /* iOS Safari: verhindert Scroll-Artefakte an den Rändern */
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--text);
       background: var(--bg);
@@ -549,7 +562,7 @@
       }
     }
 
-    #xhair { display: none; }
+
   </style>
 
 </head>
@@ -622,7 +635,7 @@
 
       <video
         id="vid-m"
-        style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;top:0;left:0;"
+        style="position:absolute;width:0;height:0;opacity:0;visibility:hidden;pointer-events:none;top:0;left:0;overflow:hidden;"
         muted
         playsinline
         preload="metadata"
