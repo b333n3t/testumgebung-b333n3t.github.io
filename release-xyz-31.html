@@ -454,45 +454,13 @@
       .oval-btn {
         position: absolute;
         pointer-events: auto; /* Buttons selbst bleiben klickbar */
+        z-index: 2;
       }
 
-      /* MOBILE BLASEN: diagonal von Mitte nach rechts */
-      #m-pl {
-        width: clamp(56px, 14vw, 72px);
-        height: clamp(34px, 8.5vw, 44px);
-        left: 50%;
-        top: 74%;
+      /* MOBILE BLASEN: Grösse + Position wird per JS gesetzt (positionButtons) */
+      #m-pl, #m-pa, #m-so {
+        position: absolute;
       }
-
-      #m-pl svg {
-        width: 30%;
-        height: 65%;
-      }
-
-      #m-pa {
-        width: clamp(44px, 11vw, 58px);
-        height: clamp(26px, 6.5vw, 36px);
-        left: 61%;
-        top: 91%;
-      }
-
-      #m-pa svg {
-        width: 34%;
-        height: 65%;
-      }
-
-      #m-so {
-        width: clamp(34px, 8.5vw, 46px);
-        height: clamp(22px, 5.5vw, 30px);
-        left: 72%;
-        top: 106%;
-      }
-
-      #m-so svg {
-        width: 38%;
-        height: 60%;
-      }
-    }
 
     @media (max-width: 420px) {
       .mobile-scene {
@@ -531,7 +499,7 @@
 
       .mobile-scene {
         display: block;
-        padding-bottom: 10vw;
+        /* padding-bottom wird per JS gesetzt */
       }
 
       #bcanvas {
@@ -544,28 +512,6 @@
         margin-top: -1.2rem;
         margin-bottom: 0.4rem;
         padding: 0 1rem;
-      }
-
-      /* Landscape: Blasen exakt gleich wie Hochformat (diagonal von Mitte) */
-      #m-pl {
-        width: 56px;
-        height: 34px;
-        left: 50%;
-        top: 82%;  /* relativ zur mobile-scene Höhe im Landscape */
-      }
-
-      #m-pa {
-        width: 44px;
-        height: 27px;
-        left: 61%;
-        top: 100%;
-      }
-
-      #m-so {
-        width: 34px;
-        height: 21px;
-        left: 72%;
-        top: 116%;
       }
 
       .person-bg {
@@ -763,11 +709,6 @@
   </div>
 </div>
 
-<div id="xhair" aria-hidden="true">
-  <div class="lx"></div>
-  <div class="ly"></div>
-</div>
-
 <script>
 /* Countdown */
 (function(){
@@ -860,41 +801,51 @@ function sndIco(muted){
   var running = false;
   var rafId = null;
 
-  /* Canvas-Grösse an aktuelle Viewport-Breite anpassen */
+  /* Canvas-Grösse + Button-Positionen berechnen */
   function positionButtons(){
-    var pl  = document.getElementById("m-pl");
-    var pa  = document.getElementById("m-pa");
-    var so  = document.getElementById("m-so");
+    var pl = document.getElementById("m-pl");
+    var pa = document.getElementById("m-pa");
+    var so = document.getElementById("m-so");
     if (!pl || !pa || !so) return;
 
-    /* Canvas-Höhe in px (CSS-Pixel, nicht physisch) */
-    var ch = parseFloat(cvs.style.height) || cvs.offsetHeight || 0;
-    var cw = parseFloat(cvs.style.width)  || cvs.offsetWidth  || window.innerWidth;
+    /* Canvas CSS-Höhe */
+    var ch  = parseFloat(cvs.style.height) || 0;
+    /* Viewport-Breite als Basis für Skalierung */
+    var vw  = window.innerWidth;
 
-    /* Button-Grössen skalieren mit Canvas-Breite */
-    var plW = Math.round(cw * 0.148); var plH = Math.round(plW * 0.60);
-    var paW = Math.round(cw * 0.115); var paH = Math.round(paW * 0.60);
-    var soW = Math.round(cw * 0.090); var soH = Math.round(soW * 0.60);
+    /* Grössen */
+    var plW = Math.round(Math.min(vw, 430) * 0.148);
+    var plH = Math.round(plW * 0.60);
+    var paW = Math.round(Math.min(vw, 430) * 0.115);
+    var paH = Math.round(paW * 0.60);
+    var soW = Math.round(Math.min(vw, 430) * 0.090);
+    var soH = Math.round(soW * 0.63);
 
-    /* Abstand unterhalb Canvas-Unterkante */
-    var gap1 = Math.round(cw * 0.035);
-    var gap2 = Math.round(cw * 0.085);
-    var gap3 = Math.round(cw * 0.130);
-
-    /* top in px, left in % der scene-Breite → diagonal von Mitte */
     pl.style.width  = plW + "px"; pl.style.height = plH + "px";
-    pl.style.top    = (ch + gap1) + "px"; pl.style.left = "50%";
-
     pa.style.width  = paW + "px"; pa.style.height = paH + "px";
-    pa.style.top    = (ch + gap2) + "px"; pa.style.left = "61%";
-
     so.style.width  = soW + "px"; so.style.height = soH + "px";
-    so.style.top    = (ch + gap3) + "px"; so.style.left = "72%";
+
+    /* Vertikale Position: direkt unterhalb Canvas, enger Abstand */
+    var gap    = Math.round(Math.min(vw, 430) * 0.038); /* ~16px */
+    var plTop  = ch + gap;
+    var paTop  = plTop + plH + gap;
+    var soTop  = paTop + paH + gap;
+
+    pl.style.top = plTop + "px";
+    pa.style.top = paTop + "px";
+    so.style.top = soTop + "px";
+
+    /* Horizontal: diagonal von Mitte nach rechts, % der vollen Breite */
+    pl.style.left = "50%";
+    pa.style.left = "61%";
+    so.style.left = "72%";
+
+    /* Nur einmal padding setzen – exakt Platz für alle drei Blasen */
+    scene.style.paddingBottom = (soTop + soH + gap) + "px";
   }
 
   function resize(){
     var cw = window.innerWidth;
-    /* Im Landscape etwas flacher */
     var ratio = (window.innerHeight < 500) ? 0.55 : 0.65;
     var ch = Math.round(cw * ratio);
     PW = Math.round(cw * DPR);
@@ -903,10 +854,7 @@ function sndIco(muted){
     cvs.height = PH;
     cvs.style.width  = cw + "px";
     cvs.style.height = ch + "px";
-    /* Padding der Scene an tatsächliche Button-Höhe anpassen */
-    var btnZone = Math.round(cw * 0.16);
-    scene.style.paddingBottom = btnZone + "px";
-    positionButtons();
+    positionButtons(); /* paddingBottom wird hier gesetzt, nicht extra */
   }
 
   function isVisible(){
@@ -1028,49 +976,6 @@ function sndIco(muted){
   if (mso) mso.onclick = function(){ vid.muted = !vid.muted; updateMobileSound(); };
 
   updateMobileSound();
-}());
-</script>
-
-<script>
-(function(){
-  var c = document.getElementById("xhair");
-  if (!c) return;
-
-  if (!window.matchMedia("(pointer:fine)").matches) {
-    c.style.display = "none";
-    return;
-  }
-
-  if (window.matchMedia("(prefers-reduced-motion:reduce)").matches) {
-    c.style.display = "none";
-    return;
-  }
-
-  var lx = c.querySelector(".lx");
-  var ly = c.querySelector(".ly");
-
-  var x = -9999;
-  var y = -9999;
-  var raf = null;
-
-  function draw(){
-    lx.style.top = y + "px";
-    ly.style.left = x + "px";
-    raf = null;
-  }
-
-  window.addEventListener("mousemove", function(e){
-    x = e.clientX;
-    y = e.clientY;
-
-    if (!raf) raf = requestAnimationFrame(draw);
-  }, { passive: true });
-
-  window.addEventListener("mouseleave", function(){
-    x = -9999;
-    y = -9999;
-    draw();
-  });
 }());
 </script>
 
