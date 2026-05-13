@@ -179,7 +179,6 @@
     .video-wrap {
       position: relative;
       width: 100%;
-      overflow: hidden; /* verhindert dass SVG-Strokes ausserhalb rendern */
     }
 
     .desktop-scene {
@@ -191,7 +190,7 @@
     .bwrap-d {
       position: absolute;
       left: clamp(-110px, -6vw, -50px);
-      top: clamp(-90px, -5vw, -35px);
+      top: 0; /* war negativ → verursachte SVG-Artefakte am oberen Seitenrand */
       width: clamp(560px, 72vw, 850px);
       aspect-ratio: 860 / 540;
       z-index: 2;
