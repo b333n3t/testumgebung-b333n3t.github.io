@@ -457,10 +457,43 @@
         z-index: 2;
       }
 
-      /* MOBILE BLASEN: Grösse + Position wird per JS gesetzt (positionButtons) */
-      #m-pl, #m-pa, #m-so {
-        position: absolute;
+      /* MOBILE BLASEN: diagonal von Mitte nach rechts */
+      #m-pl {
+        width: clamp(56px, 14vw, 72px);
+        height: clamp(34px, 8.5vw, 44px);
+        left: 50%;
+        top: 74%;
       }
+
+      #m-pl svg {
+        width: 30%;
+        height: 65%;
+      }
+
+      #m-pa {
+        width: clamp(44px, 11vw, 58px);
+        height: clamp(26px, 6.5vw, 36px);
+        left: 61%;
+        top: 91%;
+      }
+
+      #m-pa svg {
+        width: 34%;
+        height: 65%;
+      }
+
+      #m-so {
+        width: clamp(34px, 8.5vw, 46px);
+        height: clamp(22px, 5.5vw, 30px);
+        left: 72%;
+        top: 106%;
+      }
+
+      #m-so svg {
+        width: 38%;
+        height: 60%;
+      }
+    }
 
     @media (max-width: 420px) {
       .mobile-scene {
@@ -499,7 +532,7 @@
 
       .mobile-scene {
         display: block;
-        /* padding-bottom wird per JS gesetzt */
+        padding-bottom: 10vw;
       }
 
       #bcanvas {
@@ -512,6 +545,28 @@
         margin-top: -1.2rem;
         margin-bottom: 0.4rem;
         padding: 0 1rem;
+      }
+
+      /* Landscape: Blasen exakt gleich wie Hochformat (diagonal von Mitte) */
+      #m-pl {
+        width: 56px;
+        height: 34px;
+        left: 50%;
+        top: 82%;  /* relativ zur mobile-scene Höhe im Landscape */
+      }
+
+      #m-pa {
+        width: 44px;
+        height: 27px;
+        left: 61%;
+        top: 100%;
+      }
+
+      #m-so {
+        width: 34px;
+        height: 21px;
+        left: 72%;
+        top: 116%;
       }
 
       .person-bg {
@@ -801,51 +856,52 @@ function sndIco(muted){
   var running = false;
   var rafId = null;
 
-  /* Canvas-Grösse + Button-Positionen berechnen */
+  /* Canvas-Grösse an aktuelle Viewport-Breite anpassen */
   function positionButtons(){
-    var pl = document.getElementById("m-pl");
-    var pa = document.getElementById("m-pa");
-    var so = document.getElementById("m-so");
+    var pl  = document.getElementById("m-pl");
+    var pa  = document.getElementById("m-pa");
+    var so  = document.getElementById("m-so");
     if (!pl || !pa || !so) return;
 
-    /* Canvas CSS-Höhe */
-    var ch  = parseFloat(cvs.style.height) || 0;
-    /* Viewport-Breite als Basis für Skalierung */
-    var vw  = window.innerWidth;
+    /* Canvas-Höhe in CSS-px */
+    var ch = parseFloat(cvs.style.height) || cvs.offsetHeight || 0;
+    var vw = window.innerWidth;
 
-    /* Grössen */
-    var plW = Math.round(Math.min(vw, 430) * 0.148);
-    var plH = Math.round(plW * 0.60);
-    var paW = Math.round(Math.min(vw, 430) * 0.115);
-    var paH = Math.round(paW * 0.60);
-    var soW = Math.round(Math.min(vw, 430) * 0.090);
-    var soH = Math.round(soW * 0.63);
+    /* Grössen skalieren mit Viewport */
+    var plW = Math.min(Math.round(vw * 0.148), 72);
+    var plH = Math.round(plW * 0.61);
+    var paW = Math.min(Math.round(vw * 0.115), 58);
+    var paH = Math.round(paW * 0.61);
+    var soW = Math.min(Math.round(vw * 0.090), 46);
+    var soH = Math.round(soW * 0.64);
 
     pl.style.width  = plW + "px"; pl.style.height = plH + "px";
     pa.style.width  = paW + "px"; pa.style.height = paH + "px";
     so.style.width  = soW + "px"; so.style.height = soH + "px";
 
-    /* Vertikale Position: direkt unterhalb Canvas, enger Abstand */
-    var gap    = Math.round(Math.min(vw, 430) * 0.038); /* ~16px */
-    var plTop  = ch + gap;
-    var paTop  = plTop + plH + gap;
-    var soTop  = paTop + paH + gap;
+    /* Vertikale Position: jede Blase beginnt unterhalb der vorigen + Lücke */
+    var gap = Math.round(vw * 0.04); /* ~16px Lücke zwischen Blasen */
+    var startY = ch + gap;           /* Abstand unter Canvas */
+    var plTop = startY;
+    var paTop = plTop + plH + gap;
+    var soTop = paTop + paH + gap;
 
     pl.style.top = plTop + "px";
     pa.style.top = paTop + "px";
     so.style.top = soTop + "px";
 
-    /* Horizontal: diagonal von Mitte nach rechts, % der vollen Breite */
+    /* Horizontal diagonal von Mitte nach rechts */
     pl.style.left = "50%";
     pa.style.left = "61%";
     so.style.left = "72%";
 
-    /* Nur einmal padding setzen – exakt Platz für alle drei Blasen */
+    /* Scene padding: Platz unter letzter Blase */
     scene.style.paddingBottom = (soTop + soH + gap) + "px";
   }
 
   function resize(){
     var cw = window.innerWidth;
+    /* Im Landscape etwas flacher */
     var ratio = (window.innerHeight < 500) ? 0.55 : 0.65;
     var ch = Math.round(cw * ratio);
     PW = Math.round(cw * DPR);
@@ -854,7 +910,10 @@ function sndIco(muted){
     cvs.height = PH;
     cvs.style.width  = cw + "px";
     cvs.style.height = ch + "px";
-    positionButtons(); /* paddingBottom wird hier gesetzt, nicht extra */
+    /* Padding der Scene an tatsächliche Button-Höhe anpassen */
+    var btnZone = Math.round(cw * 0.16);
+    scene.style.paddingBottom = btnZone + "px";
+    positionButtons();
   }
 
   function isVisible(){
