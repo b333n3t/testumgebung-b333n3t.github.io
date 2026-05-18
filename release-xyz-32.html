@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="de">
 <head>
   <meta charset="UTF-8"/>
@@ -62,11 +61,14 @@
       pointer-events: none;
     }
 
+    html {
+      background: var(--bg);
+    }
+
     html,
     body {
       min-height: 100%;
-      overflow-x: hidden;
-      /* iOS Safari: verhindert Scroll-Artefakte an den Rändern */
+      overflow-x: clip;
       -webkit-tap-highlight-color: transparent;
       -webkit-text-size-adjust: 100%;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -81,12 +83,14 @@
       justify-content: center;
       align-items: flex-start;
       padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      overflow: clip;
     }
 
     .content {
       width: 100%;
       max-width: var(--max);
       position: relative;
+      overflow: clip; /* verhindert Artefakte von bwrap-d left:-110px */
     }
 
     main {
@@ -190,12 +194,11 @@
 
     .bwrap-d {
       position: absolute;
-      left: clamp(-110px, -6vw, -50px);
+      left: 0;
       top: 0;
       width: clamp(560px, 72vw, 850px);
       aspect-ratio: 860 / 540;
       z-index: 2;
-      /* drop-shadow nur auf den SVG-Pfad, nicht auf foreignObject */
     }
 
     .bwrap-d svg {
@@ -219,7 +222,6 @@
       stroke-width: 15;
       stroke-linejoin: round;
       pointer-events: none;
-      filter: drop-shadow(0 18px 32px rgba(0,0,0,0.35));
     }
 
     .bst {
@@ -547,7 +549,6 @@
 
 
   </style>
-
 </head>
 
 <body>
@@ -556,176 +557,256 @@
   <div class="content">
     <main>
 
-```
-  <div class="topline">
-    <a class="brand" href="index.html">b3nn3t</a>
-    <span style="opacity:.9">released in</span>
-    <span id="timer">--:--:--</span>
-  </div>
-
-  <div class="video-wrap">
-
-    <!-- ══ DESKTOP ══ -->
-    <div class="desktop-scene">
-      <div class="bwrap-d">
-        <svg viewBox="0 0 860 540" aria-hidden="true">
-          <defs>
-            <clipPath id="dc" clipPathUnits="userSpaceOnUse">
-              <path d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
-            </clipPath>
-          </defs>
-          <!-- Schatten-Pfad -->
-          <path class="bsh" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
-          <!-- Gefüllte Blase als Hintergrund für Video -->
-          <path fill="#111111" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
-          <!-- Video wird per foreignObject NUR in Firefox sauber geclippt;
-               in Chrome/Edge nutzen wir das überlagerte Canvas -->
-          <foreignObject x="0" y="0" width="860" height="540" clip-path="url(#dc)">
-            <video
-              xmlns="http://www.w3.org/1999/xhtml"
-              id="vid-d"
-              class="vid-d"
-              muted
-              playsinline
-              preload="metadata"
-              poster="assets/release/drei-cover.webp"
-              width="1280"
-              height="720">
-              <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-            </video>
-          </foreignObject>
-          <!-- Weisser Rand obendrauf -->
-          <path class="bst" d="M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z"/>
-        </svg>
-        <!-- Canvas overlay: zeichnet Video korrekt geclippt in Chrome/Edge -->
-        <canvas id="cvs-d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+      <div class="topline">
+        <a class="brand" href="index.html">b3nn3t</a>
+        <span style="opacity:.9">released in</span>
+        <span id="timer">--:--:--</span>
       </div>
 
-      <div class="dbtns">
-        <button class="cbtn d-pl" id="dp" aria-label="Play">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+      <div class="video-wrap">
 
-        <button class="cbtn d-pa" id="dpa" aria-label="Pause">
-          <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-        </button>
+        <!-- ══ DESKTOP: Retro-TV ══ -->
+        <div class="desktop-scene">
+          <div class="bwrap-d">
+            <svg id="tv-svg-d" viewBox="0 0 860 620" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+              <defs>
+                <!-- Screen clip path -->
+                <clipPath id="screen-clip">
+                  <rect x="148" y="72" width="464" height="348" rx="18" ry="18"/>
+                </clipPath>
+              </defs>
 
-        <button class="cbtn d-so" id="ds" aria-label="Sound">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-            <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+              <!-- TV Shadow -->
+              <rect x="118" y="38" width="584" height="468" rx="32" ry="32"
+                    fill="rgba(0,0,0,0.35)" transform="translate(8,10)"/>
 
-    <!-- ══ MOBILE: Canvas-Blase + Comic-Button-Blasen ══ -->
-    <div class="mobile-scene">
+              <!-- TV Body (wood/dark brown) -->
+              <rect x="118" y="38" width="584" height="468" rx="32" ry="32"
+                    fill="#5c3a1e" stroke="#3a2208" stroke-width="4"/>
 
-      <video
-        id="vid-m"
-        style="position:absolute;width:0;height:0;opacity:0;visibility:hidden;pointer-events:none;top:0;left:0;overflow:hidden;"
-        muted
-        playsinline
-        preload="metadata"
-        poster="assets/release/drei-cover.webp"
-        width="1280"
-        height="720">
-        <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
-      </video>
+              <!-- Wood grain highlights -->
+              <rect x="118" y="38" width="584" height="30" rx="32" ry="32"
+                    fill="rgba(255,200,100,0.13)"/>
+              <line x1="200" y1="38" x2="200" y2="506" stroke="rgba(255,180,80,0.07)" stroke-width="8"/>
+              <line x1="350" y1="38" x2="320" y2="506" stroke="rgba(255,180,80,0.06)" stroke-width="12"/>
+              <line x1="550" y1="38" x2="570" y2="506" stroke="rgba(255,180,80,0.05)" stroke-width="10"/>
 
-      <canvas id="bcanvas" aria-label="Video in Comic-Gedankenblase"></canvas>
+              <!-- Screen bezel (dark inner frame) -->
+              <rect x="130" y="58" width="480" height="372" rx="22" ry="22"
+                    fill="#1a1a1a" stroke="#111" stroke-width="3"/>
 
-      <div class="oval-btns">
-        <button class="oval-btn" id="m-pl" aria-label="Play">
-          <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+              <!-- Screen glass (rounded rect where video goes) -->
+              <rect x="148" y="72" width="444" height="332" rx="14" ry="14"
+                    fill="#000"/>
 
-        <button class="oval-btn" id="m-pa" aria-label="Pause">
-          <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-        </button>
+              <!-- VIDEO clipped to screen -->
+              <foreignObject x="148" y="72" width="444" height="332" clip-path="url(#screen-clip)">
+                <video
+                  xmlns="http://www.w3.org/1999/xhtml"
+                  id="vid-d"
+                  class="vid-d"
+                  muted playsinline preload="metadata"
+                  poster="assets/release/drei-cover.webp"
+                  width="1280" height="720">
+                  <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+                </video>
+              </foreignObject>
 
-        <button class="oval-btn" id="m-so" aria-label="Ton einschalten">
-          <svg viewBox="0 0 24 24">
-            <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-            <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
-          </svg>
-        </button>
-      </div>
+              <!-- Screen glare overlay -->
+              <rect x="148" y="72" width="444" height="332" rx="14" ry="14"
+                    fill="none" stroke="#2a2a2a" stroke-width="3"/>
+              <ellipse cx="270" cy="155" rx="90" ry="45"
+                       fill="rgba(255,255,255,0.05)" transform="rotate(-20,270,155)"/>
 
-    </div>
-  </div>
+              <!-- Screen scanlines effect -->
+              <rect x="148" y="72" width="444" height="332" rx="14" ry="14"
+                    fill="url(#scanlines)" opacity="0.15"/>
 
-  <!-- Textbereich mit Person im Hintergrund -->
-  <div class="text-stage">
+              <!-- Right panel: knobs area -->
+              <!-- Big round channel knob -->
+              <circle cx="680" cy="160" r="38" fill="#3a2208" stroke="#2a1604" stroke-width="3"/>
+              <circle cx="680" cy="160" r="30" fill="#2e1a06" stroke="#1a0e02" stroke-width="2"/>
+              <circle cx="680" cy="160" r="6" fill="#888" stroke="#666" stroke-width="1"/>
+              <line x1="680" y1="132" x2="680" y2="147" stroke="#aaa" stroke-width="3" stroke-linecap="round"/>
+              <!-- Knob label ticks -->
+              <g stroke="#6a4a2a" stroke-width="1.5" opacity="0.7">
+                <line x1="680" y1="120" x2="680" y2="127"/>
+                <line x1="718" y1="160" x2="711" y2="160"/>
+                <line x1="680" y1="198" x2="680" y2="191"/>
+                <line x1="642" y1="160" x2="649" y2="160"/>
+              </g>
 
-    <img class="person-bg" src="assets/release/person-sitzend.png" alt="">
+              <!-- Volume knob (smaller) -->
+              <circle cx="686" cy="280" r="28" fill="#3a2208" stroke="#2a1604" stroke-width="3"/>
+              <circle cx="686" cy="280" r="21" fill="#2e1a06" stroke="#1a0e02" stroke-width="2"/>
+              <circle cx="686" cy="280" r="5" fill="#888" stroke="#666" stroke-width="1"/>
+              <line x1="686" y1="257" x2="686" y2="269" stroke="#aaa" stroke-width="2.5" stroke-linecap="round"/>
 
-    <div class="text-front">
+              <!-- Small indicator light -->
+              <circle cx="680" cy="370" r="7" fill="#cc3300" opacity="0.9"/>
+              <circle cx="680" cy="370" r="4" fill="#ff6644" opacity="0.8"/>
 
-      <section class="title-sec blk">
-        <h1 class="songtitle">drei</h1>
-      </section>
+              <!-- Small square UHF knob -->
+              <rect x="657" y="390" width="46" height="46" rx="8" ry="8"
+                    fill="#3a2208" stroke="#2a1604" stroke-width="2"/>
+              <circle cx="680" cy="413" r="14" fill="#2e1a06" stroke="#1a0e02" stroke-width="1.5"/>
+              <circle cx="680" cy="413" r="4" fill="#888"/>
+              <line x1="680" y1="399" x2="680" y2="408" stroke="#aaa" stroke-width="2" stroke-linecap="round"/>
 
-      <section class="blk">
-        <h2>erklärbär</h2>
-        <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
-        <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
-      </section>
+              <!-- Speaker grille (left of knobs, right of screen) -->
+              <g opacity="0.5">
+                <rect x="620" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
+                <rect x="630" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
+                <rect x="640" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
+                <rect x="650" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
+              </g>
 
-      <section class="blk">
-        <h2>kuck hier</h2>
-        <div class="social-icons">
-          <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x" class="social-link" target="_blank" rel="noopener" aria-label="Spotify">
-            <picture>
-              <source srcset="assets/release/spotify_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
-            </picture>
-          </a>
+              <!-- TV Legs -->
+              <!-- Left leg -->
+              <path d="M220 506 L195 590 L225 590 L245 506Z" fill="#4a2e10" stroke="#3a2208" stroke-width="2"/>
+              <!-- Right leg -->
+              <path d="M580 506 L570 590 L600 590 L615 506Z" fill="#4a2e10" stroke="#3a2208" stroke-width="2"/>
+              <!-- Leg feet -->
+              <rect x="183" y="585" width="54" height="10" rx="5" fill="#3a2208"/>
+              <rect x="558" y="585" width="54" height="10" rx="5" fill="#3a2208"/>
 
-          <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" target="_blank" rel="noopener" aria-label="Apple Music">
-            <picture>
-              <source srcset="assets/release/apple_music_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
-            </picture>
-          </a>
+              <!-- Antenna left -->
+              <line x1="300" y1="38" x2="240" y2="-40" stroke="#5c3a1e" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="240" cy="-40" r="5" fill="#888"/>
+              <!-- Antenna right -->
+              <line x1="420" y1="38" x2="510" y2="-50" stroke="#5c3a1e" stroke-width="6" stroke-linecap="round"/>
+              <circle cx="510" cy="-50" r="5" fill="#888"/>
 
-          <a href="https://www.instagram.com/b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
-            <picture>
-              <source srcset="assets/release/instagram_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
-            </picture>
-          </a>
+              <!-- Comic outline on whole TV -->
+              <rect x="118" y="38" width="584" height="468" rx="32" ry="32"
+                    fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+            </svg>
+            <!-- Canvas overlay für Chrome/Edge (clippt Video auf Bildschirm) -->
+            <canvas id="cvs-d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+          </div>
 
-          <a href="https://www.youtube.com/@b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
-            <picture>
-              <source srcset="assets/release/youtube_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
-            </picture>
-          </a>
-
-          <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
-            <picture>
-              <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-              <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-            </picture>
-          </a>
+          <div class="dbtns">
+            <button class="cbtn d-pl" id="dp" aria-label="Play">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="cbtn d-pa" id="dpa" aria-label="Pause">
+              <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button class="cbtn d-so" id="ds" aria-label="Sound">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+                <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
         </div>
-      </section>
 
-      <section class="blk">
-        <p>mehr auf meiner webseite :p</p>
-        <a class="more-link brand" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
-      </section>
+        <!-- ══ MOBILE: Canvas-Blase + Comic-Button-Blasen ══ -->
+        <div class="mobile-scene">
 
-    </div>
-  </div>
+          <video
+            id="vid-m"
+            style="position:absolute;width:0;height:0;opacity:0;visibility:hidden;pointer-events:none;top:0;left:0;overflow:hidden;"
+            muted
+            playsinline
+            preload="metadata"
+            poster="assets/release/drei-cover.webp"
+            width="1280"
+            height="720">
+            <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+          </video>
 
-</main>
-```
+          <canvas id="bcanvas" aria-label="Video in Comic-Gedankenblase"></canvas>
 
+          <div class="oval-btns">
+            <button class="oval-btn" id="m-pl" aria-label="Play">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+
+            <button class="oval-btn" id="m-pa" aria-label="Pause">
+              <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+
+            <button class="oval-btn" id="m-so" aria-label="Ton einschalten">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+                <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Textbereich mit Person im Hintergrund -->
+      <div class="text-stage">
+
+        <img class="person-bg" src="assets/release/person-sitzend.png" alt="">
+
+        <div class="text-front">
+
+          <section class="title-sec blk">
+            <h1 class="songtitle">drei</h1>
+          </section>
+
+          <section class="blk">
+            <h2>erklärbär</h2>
+            <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+            <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
+          </section>
+
+          <section class="blk">
+            <h2>kuck hier</h2>
+            <div class="social-icons">
+              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x" class="social-link" target="_blank" rel="noopener" aria-label="Spotify">
+                <picture>
+                  <source srcset="assets/release/spotify_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
+                </picture>
+              </a>
+
+              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" target="_blank" rel="noopener" aria-label="Apple Music">
+                <picture>
+                  <source srcset="assets/release/apple_music_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
+                </picture>
+              </a>
+
+              <a href="https://www.instagram.com/b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+                <picture>
+                  <source srcset="assets/release/instagram_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
+                </picture>
+              </a>
+
+              <a href="https://www.youtube.com/@b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+                <picture>
+                  <source srcset="assets/release/youtube_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
+                </picture>
+              </a>
+
+              <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
+                <picture>
+                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                </picture>
+              </a>
+            </div>
+          </section>
+
+          <section class="blk">
+            <p>mehr auf meiner webseite :p</p>
+            <a class="more-link brand" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
   </div>
 </div>
+
 
 <script>
 /* Countdown */
@@ -803,10 +884,25 @@ function sndIco(muted){
 </script>
 
 <script>
-/*
-  MOBILE CANVAS: Comic-Gedankenblase mit Video.
-  Startet wann immer .mobile-scene sichtbar ist (Portrait + Landscape).
-*/
+/* roundRect Polyfill für ältere Browser */
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    if(typeof r === 'number') r = [r,r,r,r];
+    this.beginPath();
+    this.moveTo(x+r[0],y);
+    this.lineTo(x+w-r[1],y);
+    this.quadraticCurveTo(x+w,y,x+w,y+r[1]);
+    this.lineTo(x+w,y+h-r[2]);
+    this.quadraticCurveTo(x+w,y+h,x+w-r[2],y+h);
+    this.lineTo(x+r[3],y+h);
+    this.quadraticCurveTo(x,y+h,x,y+h-r[3]);
+    this.lineTo(x,y+r[0]);
+    this.quadraticCurveTo(x,y,x+r[0],y);
+    this.closePath();
+    return this;
+  };
+}
+
 (function(){
   var scene = document.querySelector(".mobile-scene");
   var vid   = document.getElementById("vid-m");
@@ -878,25 +974,134 @@ function sndIco(muted){
     return (window.innerHeight < 500 && window.innerWidth > window.innerHeight);
   }
 
-  /* Comic-Blase: 12 Bumps mit individueller Grösse */
-  function bubblePath(c, w, h){
-    var cx = w * 0.5, cy = h * 0.48;
-    var rx = w * 0.44, ry = h * 0.42;
-    var bumps = [0.22,0.14,0.26,0.10,0.20,0.28,0.12,0.24,0.16,0.22,0.18,0.13];
-    var n = bumps.length;
+  /* Retro-TV zeichnen mit Video auf Bildschirm */
+  function drawTV(c, w, h){
+    /* Proportionen basierend auf Canvas-Grösse */
+    var bx = w*0.05, by = h*0.04;
+    var bw = w*0.78, bh = h*0.78;
+    var br = bw*0.05;
+
+    /* TV-Körper Schatten */
+    c.save();
+    c.shadowColor = "rgba(0,0,0,0.5)";
+    c.shadowBlur  = 18;
+    c.shadowOffsetY = 8;
     c.beginPath();
-    for (var i = 0; i < n; i++){
-      var a0 = (i / n) * Math.PI * 2 - Math.PI / 2;
-      var a1 = ((i+1) / n) * Math.PI * 2 - Math.PI / 2;
-      var am = (a0 + a1) / 2;
-      var x0 = cx + Math.cos(a0) * rx, y0 = cy + Math.sin(a0) * ry;
-      var x1 = cx + Math.cos(a1) * rx, y1 = cy + Math.sin(a1) * ry;
-      var bx = cx + Math.cos(am) * rx * (1 + bumps[i]);
-      var by = cy + Math.sin(am) * ry * (1 + bumps[i]);
-      if (i === 0) c.moveTo(x0, y0);
-      c.quadraticCurveTo(bx, by, x1, y1);
+    c.roundRect(bx, by, bw, bh, br);
+    c.fillStyle = "#5c3a1e";
+    c.fill();
+    c.restore();
+
+    /* TV-Körper */
+    c.beginPath();
+    c.roundRect(bx, by, bw, bh, br);
+    c.fillStyle = "#5c3a1e";
+    c.fill();
+    c.strokeStyle = "#3a2208";
+    c.lineWidth = 3;
+    c.stroke();
+
+    /* Bildschirm-Bezel */
+    var bzx = bx+bw*0.04, bzy = by+bh*0.06;
+    var bzw = bw*0.66, bzh = bh*0.80;
+    c.beginPath();
+    c.roundRect(bzx, bzy, bzw, bzh, br*0.6);
+    c.fillStyle = "#1a1a1a";
+    c.fill();
+
+    /* Bildschirm */
+    var sx = bzx+bw*0.025, sy = bzy+bh*0.04;
+    var sw = bzw-bw*0.05,  sh = bzh-bh*0.08;
+    var sr = br*0.4;
+    c.beginPath();
+    c.roundRect(sx, sy, sw, sh, sr);
+    c.fillStyle = "#000";
+    c.fill();
+    c.clip();
+    return {sx:sx, sy:sy, sw:sw, sh:sh, bx:bx, by:by, bw:bw, bh:bh, br:br};
+  }
+
+  function bubblePath(c, w, h){ /* kept for compat — unused */ }
+
+  function drawTVFrame(c, tv){
+    /* Glare */
+    c.save();
+    c.globalAlpha = 0.07;
+    c.fillStyle = "#fff";
+    c.beginPath();
+    c.ellipse(tv.sx+tv.sw*0.3, tv.sy+tv.sh*0.3, tv.sw*0.22, tv.sh*0.18, -0.4, 0, Math.PI*2);
+    c.fill();
+    c.restore();
+
+    /* Scanlines */
+    c.save();
+    c.globalAlpha = 0.08;
+    c.fillStyle = "#000";
+    for(var i=tv.sy; i<tv.sy+tv.sh; i+=4){
+      c.fillRect(tv.sx, i, tv.sw, 2);
     }
-    c.closePath();
+    c.restore();
+
+    /* Screen border */
+    c.beginPath();
+    c.roundRect(tv.sx, tv.sy, tv.sw, tv.sh, tv.br*0.4);
+    c.strokeStyle = "#2a2a2a";
+    c.lineWidth = 2;
+    c.stroke();
+
+    /* Right panel knobs */
+    var kx = tv.bx + tv.bw*0.73;
+    var DPR = 1;
+
+    /* Big knob */
+    c.beginPath();
+    c.arc(kx+tv.bw*0.06, tv.by+tv.bh*0.28, tv.bw*0.07, 0, Math.PI*2);
+    c.fillStyle = "#3a2208"; c.fill();
+    c.strokeStyle = "#1a0e02"; c.lineWidth=2; c.stroke();
+    c.beginPath();
+    c.arc(kx+tv.bw*0.06, tv.by+tv.bh*0.28, tv.bw*0.025, 0, Math.PI*2);
+    c.fillStyle = "#888"; c.fill();
+
+    /* Small knob */
+    c.beginPath();
+    c.arc(kx+tv.bw*0.065, tv.by+tv.bh*0.58, tv.bw*0.05, 0, Math.PI*2);
+    c.fillStyle = "#3a2208"; c.fill();
+    c.strokeStyle = "#1a0e02"; c.lineWidth=2; c.stroke();
+
+    /* Indicator light */
+    c.beginPath();
+    c.arc(kx+tv.bw*0.065, tv.by+tv.bh*0.76, tv.bw*0.02, 0, Math.PI*2);
+    c.fillStyle = "#ff4422"; c.fill();
+
+    /* Legs */
+    var legY = tv.by + tv.bh;
+    c.fillStyle = "#4a2e10";
+    c.strokeStyle = "#3a2208"; c.lineWidth=2;
+    /* Left leg */
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.18, legY);
+    c.lineTo(tv.bx+tv.bw*0.12, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.22, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.26, legY);
+    c.closePath(); c.fill(); c.stroke();
+    /* Right leg */
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.56, legY);
+    c.lineTo(tv.bx+tv.bw*0.52, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.62, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.64, legY);
+    c.closePath(); c.fill(); c.stroke();
+
+    /* Antennas */
+    c.strokeStyle = "#5c3a1e"; c.lineWidth = tv.bw*0.012; c.lineCap="round";
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.28, tv.by);
+    c.lineTo(tv.bx+tv.bw*0.15, -h*0.08);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.44, tv.by);
+    c.lineTo(tv.bx+tv.bw*0.58, -h*0.10);
+    c.stroke();
   }
 
   var poster = new Image();
@@ -908,50 +1113,22 @@ function sndIco(muted){
 
     ctx.clearRect(0, 0, PW, PH);
 
-    /* Schatten */
     ctx.save();
-    ctx.shadowColor = "rgba(0,0,0,0.45)";
-    ctx.shadowBlur  = 20 * DPR;
-    ctx.shadowOffsetY = 5 * DPR;
-    bubblePath(ctx, PW, PH);
-    ctx.fillStyle = "rgba(0,0,0,0.001)";
-    ctx.fill();
-    ctx.restore();
+    var tv = drawTV(ctx, PW, PH);
 
-    /* Schwarzer Rand */
-    ctx.save();
-    bubblePath(ctx, PW, PH);
-    ctx.lineWidth = 8 * DPR;
-    ctx.strokeStyle = "rgba(0,0,0,0.92)";
-    ctx.stroke();
-    ctx.restore();
-
-    /* Weisser Rand */
-    ctx.save();
-    bubblePath(ctx, PW, PH);
-    ctx.lineWidth = 4 * DPR;
-    ctx.strokeStyle = "rgba(255,255,255,0.97)";
-    ctx.stroke();
-    ctx.restore();
-
-    /* Video / Poster */
-    ctx.save();
-    bubblePath(ctx, PW, PH);
-    ctx.clip();
     var src = vid.readyState >= 2 ? vid : (poster.complete ? poster : null);
-    if (src){
+    if (src) {
       var vw = src.videoWidth  || src.naturalWidth  || 1280;
       var vh = src.videoHeight || src.naturalHeight || 720;
-      var vr = vw / vh, cr = PW / PH;
-      var sw, sh, sx, sy;
-      if (vr > cr){ sh = PH; sw = PH * vr; sx = (PW - sw)/2; sy = 0; }
-      else         { sw = PW; sh = PW / vr; sx = 0; sy = (PH - sh)/2; }
-      ctx.drawImage(src, sx, sy, sw, sh);
-    } else {
-      ctx.fillStyle = "#111";
-      ctx.fillRect(0, 0, PW, PH);
+      var vr = vw/vh, cr = tv.sw/tv.sh;
+      var dw, dh, dx, dy;
+      if (vr > cr){ dh=tv.sh; dw=tv.sh*vr; dx=tv.sx+(tv.sw-dw)/2; dy=tv.sy; }
+      else         { dw=tv.sw; dh=tv.sw/vr; dx=tv.sx; dy=tv.sy+(tv.sh-dh)/2; }
+      ctx.drawImage(src, dx, dy, dw, dh);
     }
     ctx.restore();
+
+    drawTVFrame(ctx, tv);
   }
 
   function start(){
@@ -995,22 +1172,34 @@ function sndIco(muted){
   updateMobileSound();
 }());
 </script>
-
 <script>
-/* Desktop: Video per Canvas in Blase rendern (Chrome/Edge clip-path fix) */
+/* Desktop: Video per Canvas auf TV-Bildschirm rendern */
 (function(){
   var cvs = document.getElementById("cvs-d");
   var vid = document.getElementById("vid-d");
   if (!cvs || !vid) return;
 
   var ctx = cvs.getContext("2d");
-  var W = 860, H = 540;
+  /* SVG viewBox: 860 x 620 — Bildschirm: x=148 y=72 w=444 h=332 r=14 */
+  var W = 860, H = 620;
   cvs.width  = W;
   cvs.height = H;
 
-  /* Gleicher Blob-Pfad wie im SVG */
-  var blobD = "M130 270 C82 260,48 223,64 181 C18 130,72 63,139 80 C166 25,252 10,299 55 C344 8,438 30,455 91 C512 39,606 60,625 126 C696 108,760 156,748 222 C820 249,826 332,759 369 C779 442,684 493,621 453 C573 516,462 513,428 451 C375 498,279 475,268 407 C207 442,124 401,140 337 C84 331,66 292,130 270Z";
-  var blob = new Path2D(blobD);
+  /* Abgerundetes Rechteck für den TV-Bildschirm */
+  function screenPath(){
+    var x=148, y=72, w=444, h=332, r=14;
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y);
+    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r);
+    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h);
+    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r);
+    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+  }
 
   var poster = new Image();
   poster.src = "assets/release/drei-cover.webp";
@@ -1018,24 +1207,37 @@ function sndIco(muted){
   function draw(){
     ctx.clearRect(0, 0, W, H);
     ctx.save();
-    ctx.clip(blob);
+    screenPath();
+    ctx.clip();
 
     var src = vid.readyState >= 2 ? vid : (poster.complete ? poster : null);
     if (src) {
       var vw = src.videoWidth  || src.naturalWidth  || 1280;
       var vh = src.videoHeight || src.naturalHeight || 720;
-      var vr = vw/vh, cr = W/H;
-      var sw, sh, sx, sy;
-      if (vr > cr) { sh = H; sw = H*vr; sx = (W-sw)/2; sy = 0; }
-      else          { sw = W; sh = W/vr; sx = 0; sy = (H-sh)/2; }
-      ctx.drawImage(src, sx, sy, sw, sh);
+      var sw=444, sh=332, sx=148, sy=72;
+      var vr = vw/vh, cr = sw/sh;
+      var dw, dh, dx, dy;
+      if (vr > cr) { dh=sh; dw=sh*vr; dx=sx+(sw-dw)/2; dy=sy; }
+      else          { dw=sw; dh=sw/vr; dx=sx; dy=sy+(sh-dh)/2; }
+      ctx.drawImage(src, dx, dy, dw, dh);
     }
     ctx.restore();
+
+    /* Scanlines */
+    ctx.save();
+    screenPath();
+    ctx.clip();
+    for(var i=72; i<404; i+=4){
+      ctx.fillStyle = "rgba(0,0,0,0.08)";
+      ctx.fillRect(148, i, 444, 2);
+    }
+    ctx.restore();
+
     requestAnimationFrame(draw);
   }
 
-  /* foreignObject verstecken sobald Canvas bereit */
-  var fo = cvs.closest(".bwrap-d").querySelector("foreignObject");
+  /* foreignObject ausblenden */
+  var fo = document.querySelector("#tv-svg-d foreignObject");
   if (fo) fo.style.display = "none";
 
   draw();
@@ -1044,3 +1246,4 @@ function sndIco(muted){
 
 </body>
 </html>
+
