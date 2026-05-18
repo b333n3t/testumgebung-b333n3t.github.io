@@ -188,16 +188,16 @@
 
     .desktop-scene {
       position: relative;
-      min-height: clamp(610px, 72vw, 780px);
+      min-height: clamp(650px, 78vw, 850px);
       overflow: visible;
     }
 
     .bwrap-d {
       position: absolute;
-      left: 0;
+      left: clamp(-40px, -2vw, 0px);
       top: 0;
-      width: clamp(560px, 72vw, 850px);
-      aspect-ratio: 860 / 540;
+      width: clamp(500px, 65vw, 780px);
+      aspect-ratio: 860 / 680;
       z-index: 2;
     }
 
@@ -565,42 +565,53 @@
 
       <div class="video-wrap">
 
-        <!-- ══ DESKTOP: Retro-TV ══ -->
+        <!-- ══ DESKTOP: Retro-TV (Donald Duck Style) ══ -->
         <div class="desktop-scene">
           <div class="bwrap-d">
-            <svg id="tv-svg-d" viewBox="0 0 860 620" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+            <svg id="tv-svg-d" viewBox="0 0 860 680" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
               <defs>
-                <!-- Screen clip path -->
                 <clipPath id="screen-clip">
-                  <rect x="148" y="72" width="464" height="348" rx="18" ry="18"/>
+                  <rect x="192" y="88" width="390" height="330" rx="8" ry="8"/>
                 </clipPath>
               </defs>
 
-              <!-- TV Shadow -->
-              <rect x="118" y="38" width="584" height="468" rx="32" ry="32"
-                    fill="rgba(0,0,0,0.35)" transform="translate(8,10)"/>
+              <!-- ── 4 Beine (hinter Körper) ── -->
+              <!-- Vorne links -->
+              <line x1="242" y1="520" x2="218" y2="648" stroke="#4a2e10" stroke-width="18" stroke-linecap="round"/>
+              <!-- Vorne rechts -->
+              <line x1="558" y1="520" x2="582" y2="648" stroke="#4a2e10" stroke-width="18" stroke-linecap="round"/>
+              <!-- Hinten links (kürzer, weiter innen) -->
+              <line x1="282" y1="520" x2="268" y2="620" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
+              <!-- Hinten rechts -->
+              <line x1="518" y1="520" x2="532" y2="620" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
 
-              <!-- TV Body (wood/dark brown) -->
-              <rect x="118" y="38" width="584" height="468" rx="32" ry="32"
-                    fill="#5c3a1e" stroke="#3a2208" stroke-width="4"/>
+              <!-- Bein-Füsse -->
+              <ellipse cx="218" cy="650" rx="22" ry="7" fill="#3a2208"/>
+              <ellipse cx="582" cy="650" rx="22" ry="7" fill="#3a2208"/>
+              <ellipse cx="268" cy="622" rx="17" ry="5" fill="#2a1604"/>
+              <ellipse cx="532" cy="622" rx="17" ry="5" fill="#2a1604"/>
 
-              <!-- Wood grain highlights -->
-              <rect x="118" y="38" width="584" height="30" rx="32" ry="32"
-                    fill="rgba(255,200,100,0.13)"/>
-              <line x1="200" y1="38" x2="200" y2="506" stroke="rgba(255,180,80,0.07)" stroke-width="8"/>
-              <line x1="350" y1="38" x2="320" y2="506" stroke="rgba(255,180,80,0.06)" stroke-width="12"/>
-              <line x1="550" y1="38" x2="570" y2="506" stroke="rgba(255,180,80,0.05)" stroke-width="10"/>
+              <!-- ── TV Hauptkörper ── -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
+                    fill="#6b3f1a" stroke="#1a0a00" stroke-width="6"/>
 
-              <!-- Screen bezel (dark inner frame) -->
-              <rect x="130" y="58" width="480" height="372" rx="22" ry="22"
-                    fill="#1a1a1a" stroke="#111" stroke-width="3"/>
+              <!-- Holzmaserung -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
+                    fill="none" stroke="rgba(255,180,80,0.08)" stroke-width="20"/>
+              <line x1="200" y1="48" x2="185" y2="524" stroke="rgba(180,100,20,0.12)" stroke-width="16"/>
+              <line x1="380" y1="48" x2="365" y2="524" stroke="rgba(180,100,20,0.09)" stroke-width="22"/>
+              <line x1="580" y1="48" x2="600" y2="524" stroke="rgba(180,100,20,0.08)" stroke-width="14"/>
 
-              <!-- Screen glass (rounded rect where video goes) -->
-              <rect x="148" y="72" width="444" height="332" rx="14" ry="14"
-                    fill="#000"/>
+              <!-- ── Grüner Bildschirm-Rahmen ── -->
+              <rect x="172" y="64" width="442" height="402" rx="6" ry="6"
+                    fill="#4a7a3a" stroke="#1a0a00" stroke-width="5"/>
 
-              <!-- VIDEO clipped to screen -->
-              <foreignObject x="148" y="72" width="444" height="332" clip-path="url(#screen-clip)">
+              <!-- ── Bildschirm (schwarz, leicht abgerundet) ── -->
+              <rect x="192" y="88" width="390" height="330" rx="8" ry="8"
+                    fill="#0a0a0a" stroke="#111" stroke-width="3"/>
+
+              <!-- VIDEO -->
+              <foreignObject x="192" y="88" width="390" height="330" clip-path="url(#screen-clip)">
                 <video
                   xmlns="http://www.w3.org/1999/xhtml"
                   id="vid-d"
@@ -612,76 +623,41 @@
                 </video>
               </foreignObject>
 
-              <!-- Screen glare overlay -->
-              <rect x="148" y="72" width="444" height="332" rx="14" ry="14"
-                    fill="none" stroke="#2a2a2a" stroke-width="3"/>
-              <ellipse cx="270" cy="155" rx="90" ry="45"
-                       fill="rgba(255,255,255,0.05)" transform="rotate(-20,270,155)"/>
+              <!-- Bildschirm-Glare -->
+              <rect x="192" y="88" width="390" height="330" rx="8" ry="8"
+                    fill="none" stroke="#1a1a1a" stroke-width="3"/>
+              <ellipse cx="295" cy="170" rx="80" ry="40"
+                       fill="rgba(255,255,255,0.06)" transform="rotate(-15,295,170)"/>
 
-              <!-- Screen scanlines effect -->
-              <rect x="148" y="72" width="444" height="332" rx="14" ry="14"
-                    fill="url(#scanlines)" opacity="0.15"/>
+              <!-- ── Untere Leiste mit Knöpfen ── -->
+              <rect x="172" y="468" width="442" height="58" rx="4" ry="4"
+                    fill="#4a2e10" stroke="#1a0a00" stroke-width="4"/>
 
-              <!-- Right panel: knobs area -->
-              <!-- Big round channel knob -->
-              <circle cx="680" cy="160" r="38" fill="#3a2208" stroke="#2a1604" stroke-width="3"/>
-              <circle cx="680" cy="160" r="30" fill="#2e1a06" stroke="#1a0e02" stroke-width="2"/>
-              <circle cx="680" cy="160" r="6" fill="#888" stroke="#666" stroke-width="1"/>
-              <line x1="680" y1="132" x2="680" y2="147" stroke="#aaa" stroke-width="3" stroke-linecap="round"/>
-              <!-- Knob label ticks -->
-              <g stroke="#6a4a2a" stroke-width="1.5" opacity="0.7">
-                <line x1="680" y1="120" x2="680" y2="127"/>
-                <line x1="718" y1="160" x2="711" y2="160"/>
-                <line x1="680" y1="198" x2="680" y2="191"/>
-                <line x1="642" y1="160" x2="649" y2="160"/>
-              </g>
+              <!-- 3 runde Knöpfe nebeneinander -->
+              <!-- Knopf 1 -->
+              <circle cx="270" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
+              <circle cx="270" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
+              <circle cx="270" cy="497" r="5"  fill="#555"/>
+              <line x1="270" y1="484" x2="270" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
 
-              <!-- Volume knob (smaller) -->
-              <circle cx="686" cy="280" r="28" fill="#3a2208" stroke="#2a1604" stroke-width="3"/>
-              <circle cx="686" cy="280" r="21" fill="#2e1a06" stroke="#1a0e02" stroke-width="2"/>
-              <circle cx="686" cy="280" r="5" fill="#888" stroke="#666" stroke-width="1"/>
-              <line x1="686" y1="257" x2="686" y2="269" stroke="#aaa" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- Knopf 2 -->
+              <circle cx="330" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
+              <circle cx="330" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
+              <circle cx="330" cy="497" r="5"  fill="#555"/>
+              <line x1="330" y1="484" x2="330" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
 
-              <!-- Small indicator light -->
-              <circle cx="680" cy="370" r="7" fill="#cc3300" opacity="0.9"/>
-              <circle cx="680" cy="370" r="4" fill="#ff6644" opacity="0.8"/>
+              <!-- Knopf 3 -->
+              <circle cx="390" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
+              <circle cx="390" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
+              <circle cx="390" cy="497" r="5"  fill="#555"/>
+              <line x1="390" y1="484" x2="390" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
 
-              <!-- Small square UHF knob -->
-              <rect x="657" y="390" width="46" height="46" rx="8" ry="8"
-                    fill="#3a2208" stroke="#2a1604" stroke-width="2"/>
-              <circle cx="680" cy="413" r="14" fill="#2e1a06" stroke="#1a0e02" stroke-width="1.5"/>
-              <circle cx="680" cy="413" r="4" fill="#888"/>
-              <line x1="680" y1="399" x2="680" y2="408" stroke="#aaa" stroke-width="2" stroke-linecap="round"/>
+              <!-- ── Comic-Kontur aussen ── -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
+                    fill="none" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
 
-              <!-- Speaker grille (left of knobs, right of screen) -->
-              <g opacity="0.5">
-                <rect x="620" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
-                <rect x="630" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
-                <rect x="640" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
-                <rect x="650" y="90" width="4" height="200" rx="2" fill="#2a1604"/>
-              </g>
-
-              <!-- TV Legs -->
-              <!-- Left leg -->
-              <path d="M220 506 L195 590 L225 590 L245 506Z" fill="#4a2e10" stroke="#3a2208" stroke-width="2"/>
-              <!-- Right leg -->
-              <path d="M580 506 L570 590 L600 590 L615 506Z" fill="#4a2e10" stroke="#3a2208" stroke-width="2"/>
-              <!-- Leg feet -->
-              <rect x="183" y="585" width="54" height="10" rx="5" fill="#3a2208"/>
-              <rect x="558" y="585" width="54" height="10" rx="5" fill="#3a2208"/>
-
-              <!-- Antenna left -->
-              <line x1="300" y1="38" x2="240" y2="-40" stroke="#5c3a1e" stroke-width="6" stroke-linecap="round"/>
-              <circle cx="240" cy="-40" r="5" fill="#888"/>
-              <!-- Antenna right -->
-              <line x1="420" y1="38" x2="510" y2="-50" stroke="#5c3a1e" stroke-width="6" stroke-linecap="round"/>
-              <circle cx="510" cy="-50" r="5" fill="#888"/>
-
-              <!-- Comic outline on whole TV -->
-              <rect x="118" y="38" width="584" height="468" rx="32" ry="32"
-                    fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+              <!-- Canvas overlay für Chrome/Edge -->
             </svg>
-            <!-- Canvas overlay für Chrome/Edge (clippt Video auf Bildschirm) -->
             <canvas id="cvs-d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
           </div>
 
@@ -1181,23 +1157,18 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
 
   var ctx = cvs.getContext("2d");
   /* SVG viewBox: 860 x 620 — Bildschirm: x=148 y=72 w=444 h=332 r=14 */
-  var W = 860, H = 620;
+  var W = 860, H = 680;
   cvs.width  = W;
   cvs.height = H;
 
-  /* Abgerundetes Rechteck für den TV-Bildschirm */
   function screenPath(){
-    var x=148, y=72, w=444, h=332, r=14;
+    var x=192, y=88, w=390, h=330, r=8;
     ctx.beginPath();
     ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y);
     ctx.closePath();
   }
 
@@ -1214,7 +1185,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     if (src) {
       var vw = src.videoWidth  || src.naturalWidth  || 1280;
       var vh = src.videoHeight || src.naturalHeight || 720;
-      var sw=444, sh=332, sx=148, sy=72;
+      var sw=390, sh=330, sx=192, sy=88;
       var vr = vw/vh, cr = sw/sh;
       var dw, dh, dx, dy;
       if (vr > cr) { dh=sh; dw=sh*vr; dx=sx+(sw-dw)/2; dy=sy; }
@@ -1227,9 +1198,9 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     ctx.save();
     screenPath();
     ctx.clip();
-    for(var i=72; i<404; i+=4){
-      ctx.fillStyle = "rgba(0,0,0,0.08)";
-      ctx.fillRect(148, i, 444, 2);
+    for(var i=88; i<418; i+=4){
+      ctx.fillStyle = "rgba(0,0,0,0.07)";
+      ctx.fillRect(192, i, 390, 2);
     }
     ctx.restore();
 
