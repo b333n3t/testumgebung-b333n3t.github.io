@@ -591,132 +591,137 @@
 
       <div class="video-wrap">
 
-        <!-- ══ DESKTOP: Retro-TV (Donald Duck Style) ══ -->
+        <!-- ══ DESKTOP: Retro-TV ══ -->
         <div class="desktop-scene">
           <div class="bwrap-d">
-            <svg id="tv-svg-d" viewBox="0 0 860 720" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+            <svg id="tv-svg-d" viewBox="0 0 860 750" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
               <defs>
                 <clipPath id="screen-clip">
                   <rect x="192" y="88" width="390" height="330" rx="8" ry="8"/>
                 </clipPath>
+                <!-- Wand-Gradient für Raumgefühl -->
+                <linearGradient id="wall-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2a2118"/>
+                  <stop offset="100%" stop-color="#1a1208"/>
+                </linearGradient>
+                <!-- Boden-Gradient -->
+                <linearGradient id="floor-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2e2010"/>
+                  <stop offset="100%" stop-color="#160e06"/>
+                </linearGradient>
+                <!-- TV-Schatten auf Boden -->
+                <radialGradient id="shadow-grad" cx="50%" cy="0%" r="50%">
+                  <stop offset="0%" stop-color="rgba(0,0,0,0.6)"/>
+                  <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+                </radialGradient>
               </defs>
 
-              <!-- ── 4 Beine (hinter Körper) ── -->
-              <!-- Vorne links -->
-              <line x1="242" y1="520" x2="218" y2="648" stroke="#4a2e10" stroke-width="18" stroke-linecap="round"/>
-              <!-- Vorne rechts -->
-              <line x1="558" y1="520" x2="582" y2="648" stroke="#4a2e10" stroke-width="18" stroke-linecap="round"/>
-              <!-- Hinten links (kürzer, weiter innen) -->
-              <line x1="282" y1="520" x2="268" y2="620" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
-              <!-- Hinten rechts -->
-              <line x1="518" y1="520" x2="532" y2="620" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
+              <!-- ══ RAUM ══ -->
+              <!-- Wand -->
+              <rect x="0" y="0" width="860" height="640" fill="url(#wall-grad)"/>
+              <!-- Wandschatten oben (Decke) -->
+              <rect x="0" y="0" width="860" height="40" fill="rgba(0,0,0,0.3)"/>
+              <!-- Boden-Wand Trennlinie (Fussleiste) -->
+              <rect x="0" y="630" width="860" height="8" fill="#3a2a14" stroke="#1a0e06" stroke-width="1"/>
+              <!-- Boden -->
+              <rect x="0" y="638" width="860" height="112" fill="url(#floor-grad)"/>
 
-              <!-- Bein-Füsse -->
-              <ellipse cx="218" cy="650" rx="22" ry="7" fill="#3a2208"/>
-              <ellipse cx="582" cy="650" rx="22" ry="7" fill="#3a2208"/>
-              <ellipse cx="268" cy="622" rx="17" ry="5" fill="#2a1604"/>
-              <ellipse cx="532" cy="622" rx="17" ry="5" fill="#2a1604"/>
+              <!-- Boden-Holzdielen (perspektivisch, subtil) -->
+              <g opacity="0.6">
+                <!-- Horizontale Fugen — werden nach unten breiter (Perspektive) -->
+                <line x1="0" y1="655" x2="860" y2="655" stroke="#0a0600" stroke-width="1.5"/>
+                <line x1="0" y1="676" x2="860" y2="676" stroke="#0a0600" stroke-width="1.5"/>
+                <line x1="0" y1="700" x2="860" y2="700" stroke="#0a0600" stroke-width="1.5"/>
+                <line x1="0" y1="728" x2="860" y2="728" stroke="#0a0600" stroke-width="1.5"/>
+                <!-- Holz-Highlight (Maserung) -->
+                <line x1="0" y1="646" x2="860" y2="646" stroke="rgba(100,60,20,0.3)" stroke-width="1"/>
+                <line x1="0" y1="667" x2="860" y2="667" stroke="rgba(100,60,20,0.2)" stroke-width="1"/>
+                <line x1="0" y1="690" x2="860" y2="690" stroke="rgba(100,60,20,0.2)" stroke-width="1"/>
+                <line x1="0" y1="714" x2="860" y2="714" stroke="rgba(100,60,20,0.2)" stroke-width="1"/>
+              </g>
 
-              <!-- ── TV Hauptkörper ── -->
-              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
-                    fill="#6b3f1a" stroke="#1a0a00" stroke-width="6"/>
+              <!-- TV-Schatten auf Boden (oval unter den Beinen) -->
+              <ellipse cx="400" cy="645" rx="220" ry="14" fill="url(#shadow-grad)" opacity="0.7"/>
 
+              <!-- ══ TV-BEINE (vor Boden, hinter Körper) ══ -->
+              <!-- 4 dünne Beine wie im Original -->
+              <line x1="248" y1="524" x2="222" y2="638" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
+              <line x1="272" y1="524" x2="258" y2="620" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
+              <line x1="552" y1="524" x2="538" y2="620" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
+              <line x1="576" y1="524" x2="602" y2="638" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
+              <!-- Bein-Schatten -->
+              <ellipse cx="222" cy="640" rx="18" ry="5" fill="rgba(0,0,0,0.5)"/>
+              <ellipse cx="602" cy="640" rx="18" ry="5" fill="rgba(0,0,0,0.5)"/>
+
+              <!-- ══ TV-KÖRPER ══ -->
+              <!-- Körper-Schatten -->
+              <rect x="155" y="56" width="564" height="476" rx="12" ry="12" fill="rgba(0,0,0,0.4)"/>
+              <!-- Körper -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12" fill="#7a4820" stroke="#1a0a00" stroke-width="5"/>
               <!-- Holzmaserung -->
-              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
-                    fill="none" stroke="rgba(255,180,80,0.08)" stroke-width="20"/>
-              <line x1="200" y1="48" x2="185" y2="524" stroke="rgba(180,100,20,0.12)" stroke-width="16"/>
-              <line x1="380" y1="48" x2="365" y2="524" stroke="rgba(180,100,20,0.09)" stroke-width="22"/>
-              <line x1="580" y1="48" x2="600" y2="524" stroke="rgba(180,100,20,0.08)" stroke-width="14"/>
+              <line x1="210" y1="48" x2="195" y2="524" stroke="rgba(255,160,60,0.07)" stroke-width="20"/>
+              <line x1="390" y1="48" x2="375" y2="524" stroke="rgba(255,160,60,0.05)" stroke-width="28"/>
+              <line x1="600" y1="48" x2="618" y2="524" stroke="rgba(255,160,60,0.06)" stroke-width="18"/>
 
-              <!-- ── Grüner Bildschirm-Rahmen ── -->
-              <rect x="172" y="64" width="442" height="402" rx="6" ry="6"
-                    fill="#4a7a3a" stroke="#1a0a00" stroke-width="5"/>
+              <!-- ══ GRÜNER BILDSCHIRMRAHMEN ══ -->
+              <rect x="170" y="62" width="446" height="406" rx="8" ry="8" fill="#3d6b2e" stroke="#1a0a00" stroke-width="5"/>
 
-              <!-- ── Bildschirm (schwarz, leicht abgerundet) ── -->
-              <rect x="192" y="88" width="390" height="330" rx="8" ry="8"
-                    fill="#0a0a0a" stroke="#111" stroke-width="3"/>
+              <!-- ══ BILDSCHIRM ══ -->
+              <rect x="192" y="88" width="390" height="330" rx="6" ry="6" fill="#080808"/>
 
-              <!-- VIDEO -->
+              <!-- VIDEO (wird per Canvas ersetzt in Chrome/Edge) -->
               <foreignObject x="192" y="88" width="390" height="330" clip-path="url(#screen-clip)">
-                <video
-                  xmlns="http://www.w3.org/1999/xhtml"
-                  id="vid-d"
-                  class="vid-d"
-                  muted playsinline preload="metadata"
-                  poster="assets/release/drei-cover.webp"
-                  width="1280" height="720">
+                <video xmlns="http://www.w3.org/1999/xhtml"
+                  id="vid-d" class="vid-d" muted playsinline preload="metadata"
+                  poster="assets/release/drei-cover.webp" width="1280" height="720">
                   <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
                 </video>
               </foreignObject>
 
-              <!-- Bildschirm-Glare -->
-              <rect x="192" y="88" width="390" height="330" rx="8" ry="8"
-                    fill="none" stroke="#1a1a1a" stroke-width="3"/>
-              <ellipse cx="295" cy="170" rx="80" ry="40"
-                       fill="rgba(255,255,255,0.06)" transform="rotate(-15,295,170)"/>
+              <!-- Bildschirm Glare -->
+              <ellipse cx="290" cy="168" rx="75" ry="38" fill="rgba(255,255,255,0.05)" transform="rotate(-18,290,168)"/>
+              <rect x="192" y="88" width="390" height="330" rx="6" ry="6" fill="none" stroke="#1a1a1a" stroke-width="2"/>
 
-              <!-- ── Untere Leiste mit Knöpfen ── -->
-              <rect x="172" y="468" width="442" height="58" rx="4" ry="4"
-                    fill="#4a2e10" stroke="#1a0a00" stroke-width="4"/>
+              <!-- ══ UNTERE LEISTE MIT KNÖPFEN ══ -->
+              <rect x="170" y="466" width="446" height="62" rx="4" ry="4" fill="#5a3214" stroke="#1a0a00" stroke-width="4"/>
 
-              <!-- 3 runde Knöpfe nebeneinander -->
-              <!-- Knopf 1 -->
-              <circle cx="270" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
-              <circle cx="270" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
-              <circle cx="270" cy="497" r="5"  fill="#555"/>
-              <line x1="270" y1="484" x2="270" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- KNOPF 1: PLAY (links) -->
+              <circle cx="280" cy="497" r="20" fill="#2a1606" stroke="#0a0300" stroke-width="3"/>
+              <circle cx="280" cy="497" r="14" fill="#1e1004" stroke="#050200" stroke-width="2"/>
+              <!-- Zeiger wird per Canvas gezeichnet -->
+              <circle cx="280" cy="497" r="4" fill="#666"/>
+              <!-- Label -->
+              <text x="280" y="535" text-anchor="middle" font-size="10" fill="rgba(200,150,80,0.8)" font-family="system-ui" font-weight="bold">PLAY</text>
 
-              <!-- Knopf 2 -->
-              <circle cx="330" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
-              <circle cx="330" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
-              <circle cx="330" cy="497" r="5"  fill="#555"/>
-              <line x1="330" y1="484" x2="330" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- KNOPF 2: PAUSE (mitte) -->
+              <circle cx="348" cy="497" r="20" fill="#2a1606" stroke="#0a0300" stroke-width="3"/>
+              <circle cx="348" cy="497" r="14" fill="#1e1004" stroke="#050200" stroke-width="2"/>
+              <circle cx="348" cy="497" r="4" fill="#666"/>
+              <text x="348" y="535" text-anchor="middle" font-size="10" fill="rgba(200,150,80,0.8)" font-family="system-ui" font-weight="bold">PAUSE</text>
 
-              <!-- Knopf 3 -->
-              <circle cx="390" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
-              <circle cx="390" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
-              <circle cx="390" cy="497" r="5"  fill="#555"/>
-              <line x1="390" y1="484" x2="390" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+              <!-- KNOPF 3: LAUTSTÄRKE (rechts) -->
+              <circle cx="416" cy="497" r="20" fill="#2a1606" stroke="#0a0300" stroke-width="3"/>
+              <circle cx="416" cy="497" r="14" fill="#1e1004" stroke="#050200" stroke-width="2"/>
+              <circle cx="416" cy="497" r="4" fill="#666"/>
+              <text x="416" y="535" text-anchor="middle" font-size="10" fill="rgba(200,150,80,0.8)" font-family="system-ui" font-weight="bold">VOL</text>
 
-              <!-- ── Comic-Kontur aussen ── -->
-              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
-                    fill="none" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
-
-              <!-- ── Boden / Raum ── -->
-              <line x1="0" y1="650" x2="860" y2="650" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>
-              <rect x="0" y="650" width="860" height="70" fill="#1a1208"/>
-              <line x1="0" y1="668" x2="860" y2="668" stroke="rgba(0,0,0,0.4)" stroke-width="1.2"/>
-              <line x1="0" y1="686" x2="860" y2="686" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
-              <line x1="0" y1="706" x2="860" y2="706" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
-              <line x1="80"  y1="650" x2="40"  y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-              <line x1="200" y1="650" x2="155" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-              <line x1="330" y1="650" x2="290" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-              <line x1="460" y1="650" x2="430" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-              <line x1="590" y1="650" x2="565" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-              <line x1="720" y1="650" x2="700" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
-              <!-- TV Schatten auf Boden -->
-              <ellipse cx="380" cy="655" rx="195" ry="9" fill="rgba(0,0,0,0.5)"/>
+              <!-- ══ COMIC-KONTUR ══ -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12" fill="none" stroke="#111" stroke-width="6"/>
             </svg>
+
+            <!-- Canvas: clippt Video + zeichnet Knopf-Zeiger -->
             <canvas id="cvs-d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
-          </div>
 
-          <!-- TV-Knöpfe: unsichtbar über SVG-Knöpfen (860×720 viewBox) -->
-          <!-- cy=497/720 = 69.0% von oben -->
-          <button class="tv-knob-btn" id="dp" aria-label="Play"
-            style="left:27.0%;top:67.5%;width:5.2%;height:6.5%;">
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <button class="tv-knob-btn" id="dpa" aria-label="Pause"
-            style="left:34.2%;top:67.5%;width:5.2%;height:6.5%;">
-            <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-          </button>
-          <button class="tv-knob-btn" id="ds" aria-label="Sound"
-            style="left:41.5%;top:67.5%;width:5.2%;height:6.5%;">
-            <svg viewBox="0 0 24 24">
-              <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
-            </svg>
-          </button>
+            <!-- KLICKBARE KNOPF-BEREICHE: exakt über SVG-Knöpfen -->
+            <!-- viewBox 860×750: Knopf-cy=497, Knopf-cx 280/348/416 -->
+            <!-- top = 497/750 = 66.3%, Knopf-r=20 → height ≈ 40/750=5.3% -->
+            <button id="dp"  aria-label="Play"  title="Play"
+              style="position:absolute;left:27.9%;top:62.5%;width:5.8%;height:7%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+            <button id="dpa" aria-label="Pause" title="Pause"
+              style="position:absolute;left:36.4%;top:62.5%;width:5.8%;height:7%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+            <button id="ds"  aria-label="Lautstärke" title="Lautstärke"
+              style="position:absolute;left:44.9%;top:62.5%;width:5.8%;height:7%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+          </div>
         </div>
 
         <!-- ══ MOBILE: Canvas-Blase + Comic-Button-Blasen ══ -->
@@ -1191,21 +1196,23 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
 }());
 </script>
 <script>
-/* Desktop: TV-Bildschirm per Canvas + Knopf-Steuerung */
+<script>
+/* Desktop: TV Canvas + funktionierende Knopf-Steuerung */
 (function(){
   var cvs = document.getElementById("cvs-d");
   var vid = document.getElementById("vid-d");
   if (!cvs || !vid) return;
 
   var ctx = cvs.getContext("2d");
-  var W = 860, H = 720;
+  var W = 860, H = 750;
   cvs.width = W; cvs.height = H;
 
-  /* Knopf-Winkel (drehen beim Klick) */
+  /* Zeiger-Winkel für 3 Knöpfe: PLAY=280, PAUSE=348, VOL=416, cy=497 */
   var angles = [Math.PI*1.5, Math.PI*1.5, Math.PI*1.5];
+  var kx = [280, 348, 416], ky = [497, 497, 497];
 
   function screenPath(){
-    var x=192,y=88,w=390,h=330,r=8;
+    var x=192,y=88,w=390,h=330,r=6;
     ctx.beginPath();
     ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
     ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
@@ -1214,36 +1221,25 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     ctx.closePath();
   }
 
-  function drawKnobMarkers(){
-    var cx=[270,330,390], cy=[497,497,497];
+  function drawKnobPointers(){
     for(var i=0;i<3;i++){
-      /* Zeiger-Linie */
+      var ex = kx[i] + Math.cos(angles[i]) * 11;
+      var ey = ky[i] + Math.sin(angles[i]) * 11;
       ctx.beginPath();
-      ctx.moveTo(cx[i], cy[i]);
-      ctx.lineTo(
-        cx[i] + Math.cos(angles[i]) * 9,
-        cy[i] + Math.sin(angles[i]) * 9
-      );
-      ctx.strokeStyle="#ccaa77";
-      ctx.lineWidth=2.5; ctx.lineCap="round";
+      ctx.moveTo(kx[i], ky[i]);
+      ctx.lineTo(ex, ey);
+      ctx.strokeStyle = "#ccaa66";
+      ctx.lineWidth = 2.5;
+      ctx.lineCap = "round";
       ctx.stroke();
     }
-    /* Labels */
-    ctx.font="bold 9px system-ui";
-    ctx.textAlign="center";
-    ctx.fillStyle="rgba(180,130,70,0.8)";
-    ctx.fillText("PLAY", 270, 528);
-    ctx.fillText("PAUSE",330, 528);
-    ctx.fillText("VOL",  390, 528);
   }
 
   var poster = new Image();
   poster.src = "assets/release/drei-cover.webp";
 
   function draw(){
-    ctx.clearRect(0,0,W,H);
-
-    /* Video auf Bildschirm */
+    ctx.clearRect(0, 0, W, H);
     ctx.save();
     screenPath(); ctx.clip();
     var src = vid.readyState>=2 ? vid : (poster.complete ? poster : null);
@@ -1255,15 +1251,12 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
       else{dw=390;dh=390/vr;dx=192;dy=88+(330-dh)/2;}
       ctx.drawImage(src,dx,dy,dw,dh);
     }
-    /* Scanlines */
     for(var i=88;i<418;i+=4){
-      ctx.fillStyle="rgba(0,0,0,0.06)";
+      ctx.fillStyle="rgba(0,0,0,0.055)";
       ctx.fillRect(192,i,390,2);
     }
     ctx.restore();
-
-    /* Knopf-Zeiger */
-    drawKnobMarkers();
+    drawKnobPointers();
     requestAnimationFrame(draw);
   }
 
@@ -1271,20 +1264,20 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
   if(fo) fo.style.display="none";
   draw();
 
-  /* Steuerung */
-  var pl=document.getElementById("dp");
-  var pa=document.getElementById("dpa");
-  var so=document.getElementById("ds");
+  /* Knöpfe */
+  var pl = document.getElementById("dp");
+  var pa = document.getElementById("dpa");
+  var so = document.getElementById("ds");
 
   function rotateFwd(i){ angles[i]=(angles[i]+Math.PI/3)%(Math.PI*2); }
 
-  if(pl) pl.onclick=function(){ rotateFwd(0); vid.play(); };
-  if(pa) pa.onclick=function(){ rotateFwd(1); vid.pause(); };
-  if(so) so.onclick=function(){
-    vid.muted=!vid.muted;
+  if(pl) pl.addEventListener("click", function(){ rotateFwd(0); vid.play().catch(function(){}); });
+  if(pa) pa.addEventListener("click", function(){ rotateFwd(1); vid.pause(); });
+  if(so) so.addEventListener("click", function(){
+    vid.muted = !vid.muted;
     angles[2] = vid.muted ? Math.PI*1.5 : Math.PI*0.5;
-    so.setAttribute("aria-label", vid.muted?"Ton einschalten":"Ton ausschalten");
-  };
+    so.setAttribute("aria-label", vid.muted ? "Ton einschalten" : "Ton ausschalten");
+  });
 }());
 </script>
 </body>
