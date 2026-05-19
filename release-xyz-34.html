@@ -2,283 +2,564 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Music Release Game 1.0</title>
 
 <style>
-body {
-    margin: 0;
-    overflow: hidden;
-    background: #000;
-    font-family: Arial;
-    touch-action: none;
-    color: white;
+
+html, body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:black;
+    font-family:Arial, sans-serif;
+    touch-action:none;
+    color:white;
 }
 
-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
+/* CANVAS */
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
 }
 
-#start, #end {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
+/* START + END OVERLAY */
+#start,
+#end{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.92);
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    z-index:10;
 }
 
-input {
-    padding: 12px;
-    font-size: 18px;
-    text-align: center;
-    margin-bottom: 10px;
+/* UI */
+#ui{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:5;
+
+    font-size:18px;
 }
 
-button {
-    padding: 14px 28px;
-    font-size: 18px;
-    border: none;
-    background: cyan;
-    color: black;
-    border-radius: 10px;
+#timer{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:5;
+
+    font-size:18px;
 }
 
-#ui {
-    position: fixed;
-    top: 15px;
-    left: 15px;
-    z-index: 5;
+/* INPUT */
+input{
+    width:220px;
+
+    padding:14px;
+    margin-bottom:15px;
+
+    border:none;
+    border-radius:10px;
+
+    text-align:center;
+    font-size:20px;
 }
 
-#timer {
-    position: fixed;
-    top: 15px;
-    right: 15px;
-    z-index: 5;
+/* BUTTON */
+button{
+    padding:14px 30px;
+
+    border:none;
+    border-radius:12px;
+
+    background:cyan;
+    color:black;
+
+    font-size:20px;
+    font-weight:bold;
 }
+
+h1{
+    font-size:56px;
+    margin-bottom:30px;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    h1{
+        font-size:38px;
+    }
+
+    input{
+        width:70%;
+    }
+
+    button{
+        width:180px;
+    }
+
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- START -->
+<!-- START SCREEN -->
 <div id="start">
+
     <h1>NEW RELEASE</h1>
-    <input id="name" placeholder="YOUR NAME">
-    <button id="startBtn">START</button>
+
+    <input
+        id="name"
+        type="text"
+        placeholder="YOUR NAME"
+        maxlength="12"
+    >
+
+    <button id="startBtn">
+        START
+    </button>
+
 </div>
 
-<!-- END -->
+<!-- END SCREEN -->
 <div id="end" style="display:none;">
+
     <h2>GAME OVER</h2>
+
     <div id="final"></div>
-    <button onclick="location.reload()">RETRY</button>
+
+    <br>
+
+    <button onclick="location.reload()">
+        RETRY
+    </button>
+
 </div>
 
-<div id="ui">SCORE: <span id="score">0</span></div>
-<div id="timer">60</div>
+<!-- UI -->
+<div id="ui">
+    SCORE:
+    <span id="score">0</span>
+</div>
 
-<audio id="song" src="assets/song.mp3"></audio>
+<div id="timer">
+    60
+</div>
 
+<!-- AUDIO -->
+<audio
+    id="song"
+    src="assets/song.mp3"
+    preload="auto"
+></audio>
+
+<!-- CANVAS -->
 <canvas id="c"></canvas>
 
 <script>
-/* =========================
+
+/* =========================================
    CANVAS
-========================= */
+========================================= */
+
 const c = document.getElementById("c");
 const ctx = c.getContext("2d");
 
-function resize(){
-    c.width = innerWidth;
-    c.height = innerHeight;
-}
-resize();
-addEventListener("resize", resize);
+/* Retina Fix */
+const DPR = window.devicePixelRatio || 1;
 
-/* =========================
+function resize(){
+
+    c.width = window.innerWidth * DPR;
+    c.height = window.innerHeight * DPR;
+
+    c.style.width = window.innerWidth + "px";
+    c.style.height = window.innerHeight + "px";
+
+    ctx.scale(DPR, DPR);
+
+}
+
+resize();
+
+window.addEventListener("resize", resize);
+
+/* =========================================
    GAME STATE
-========================= */
+========================================= */
+
 let running = false;
+
 let score = 0;
 let time = 60;
 
 const song = document.getElementById("song");
 
-/* =========================
+/* =========================================
    PLAYER
-========================= */
+========================================= */
+
 const player = {
+
     x: 80,
-    y: 300,
+    y: 0,
+
     w: 40,
     h: 40,
+
     vy: 0,
-    jump: false
+
+    jump:false
+
 };
+
+function resetPlayer(){
+
+    player.y = window.innerHeight - 180;
+
+}
+
+/* =========================================
+   OBSTACLES
+========================================= */
 
 let obstacles = [];
 
-/* =========================
+/* =========================================
    INPUT
-========================= */
+========================================= */
+
 function jump(){
+
     if(!running) return;
 
     if(!player.jump){
+
         player.vy = -16;
         player.jump = true;
+
     }
+
 }
 
-addEventListener("touchstart", jump);
-addEventListener("keydown", e => {
-    if(e.code === "Space") jump();
+/* TOUCH */
+window.addEventListener("touchstart", jump);
+
+/* KEYBOARD */
+window.addEventListener("keydown", e => {
+
+    if(e.code === "Space"){
+
+        jump();
+
+    }
+
 });
 
-/* =========================
-   SPAWN
-========================= */
+/* =========================================
+   SPAWN OBSTACLES
+========================================= */
+
 setInterval(() => {
+
     if(!running) return;
 
     obstacles.push({
-        x: c.width,
-        y: c.height - 140,
+
+        x: window.innerWidth,
+
+        y: window.innerHeight - 160,
+
         w: 40,
-        h: 60
+        h: 60,
+
+        passed:false
+
     });
 
-}, 1200);
+}, 1400);
 
-/* =========================
+/* =========================================
    UPDATE
-========================= */
+========================================= */
+
 function update(){
 
+    /* gravity */
     player.vy += 0.8;
+
     player.y += player.vy;
 
-    const ground = c.height - 140;
+    const ground = window.innerHeight - 180;
 
+    /* floor collision */
     if(player.y > ground){
+
         player.y = ground;
+
         player.vy = 0;
+
         player.jump = false;
+
     }
 
+    /* obstacles */
     obstacles.forEach(o => {
+
         o.x -= 6;
 
+        /* collision */
         if(
+
             player.x < o.x + o.w &&
             player.x + player.w > o.x &&
             player.y < o.y + o.h &&
             player.y + player.h > o.y
+
         ){
+
             endGame();
+
         }
 
+        /* score */
         if(!o.passed && o.x < player.x){
+
             o.passed = true;
+
             score += 5;
+
         }
+
     });
 
-    document.getElementById("score").innerText = score;
+    /* cleanup */
+    obstacles = obstacles.filter(o => o.x > -100);
+
+    /* UI */
+    document.getElementById("score").innerText =
+        score;
+
 }
 
-/* =========================
+/* =========================================
    DRAW
-========================= */
+========================================= */
+
 function draw(){
 
-    ctx.clearRect(0,0,c.width,c.height);
+    ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
 
+    /* background */
     ctx.fillStyle = "#050816";
-    ctx.fillRect(0,0,c.width,c.height);
 
-    // ground
+    ctx.fillRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    /* stars */
+    for(let i=0;i<30;i++){
+
+        ctx.fillStyle = "rgba(255,255,255,0.08)";
+
+        ctx.fillRect(
+            (i*120 + performance.now()*0.01) % window.innerWidth,
+            i*30,
+            2,
+            2
+        );
+
+    }
+
+    /* ground */
     ctx.fillStyle = "#111";
-    ctx.fillRect(0,c.height-100,c.width,100);
 
-    // player
+    ctx.fillRect(
+        0,
+        window.innerHeight - 100,
+        window.innerWidth,
+        100
+    );
+
+    /* player glow */
+    ctx.shadowBlur = 20;
+    ctx.shadowColor = "cyan";
+
     ctx.fillStyle = "cyan";
-    ctx.fillRect(player.x, player.y, player.w, player.h);
 
-    // obstacles
+    ctx.fillRect(
+        player.x,
+        player.y,
+        player.w,
+        player.h
+    );
+
+    /* obstacles */
+    ctx.shadowBlur = 10;
+    ctx.shadowColor = "red";
+
     ctx.fillStyle = "red";
+
     obstacles.forEach(o => {
-        ctx.fillRect(o.x,o.y,o.w,o.h);
+
+        ctx.fillRect(
+            o.x,
+            o.y,
+            o.w,
+            o.h
+        );
+
     });
+
+    /* debug text */
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = "white";
+
+    ctx.font = "16px Arial";
+
+    ctx.fillText(
+        "RUNNING",
+        20,
+        70
+    );
+
 }
 
-/* =========================
+/* =========================================
    LOOP
-========================= */
+========================================= */
+
 function loop(){
+
     if(!running) return;
+
     update();
     draw();
+
     requestAnimationFrame(loop);
+
 }
 
-/* =========================
+/* =========================================
    TIMER
-========================= */
+========================================= */
+
 function startTimer(){
 
     const t = setInterval(() => {
 
+        if(!running){
+
+            clearInterval(t);
+            return;
+
+        }
+
         time--;
-        document.getElementById("timer").innerText = time;
+
+        document.getElementById("timer").innerText =
+            time;
 
         score++;
 
         if(time <= 0){
+
             clearInterval(t);
+
             endGame();
+
         }
 
     },1000);
+
 }
 
-/* =========================
+/* =========================================
    END GAME
-========================= */
+========================================= */
+
 function endGame(){
 
     running = false;
+
     song.pause();
 
-    const name = document.getElementById("name").value || "PLAYER";
+    const name =
+        document.getElementById("name").value
+        || "PLAYER";
 
-    document.getElementById("final").innerText =
-        `${name}: ${score}`;
+    document.getElementById("final").innerHTML = `
 
-    document.getElementById("end").style.display = "flex";
+        <h3>${name}</h3>
+        <p>SCORE: ${score}</p>
+
+    `;
+
+    document.getElementById("end").style.display =
+        "flex";
+
 }
 
-/* =========================
+/* =========================================
    START GAME
-========================= */
-document.getElementById("startBtn").onclick = async () => {
+========================================= */
+
+document
+.getElementById("startBtn")
+.onclick = async () => {
 
     running = true;
 
-    document.getElementById("start").style.display = "none";
+    resetPlayer();
 
-    await song.play();
+    document
+    .getElementById("start")
+    .style.display = "none";
+
+    try{
+
+        await song.play();
+
+    }catch(err){
+
+        console.log("Audio blocked:", err);
+
+    }
 
     loop();
+
     startTimer();
+
 };
+
 </script>
 
 </body>
