@@ -8,7 +8,7 @@ content="width=device-width,
 initial-scale=1.0,
 viewport-fit=cover">
 
-<title>Release Game 2.1</title>
+<title>Release Game 2.2</title>
 
 <style>
 
@@ -51,6 +51,7 @@ canvas{
 h1{
     font-size:54px;
     margin-bottom:30px;
+    letter-spacing:2px;
 }
 
 /* input */
@@ -107,6 +108,38 @@ button{
     font-size:20px;
 }
 
+/* desktop controls */
+#controls{
+
+    position:fixed;
+    bottom:20px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    z-index:20;
+
+    display:none;
+    gap:10px;
+
+}
+
+.controlBtn{
+
+    width:80px;
+    height:80px;
+
+    border-radius:50%;
+
+    background:rgba(255,255,255,0.12);
+
+    border:2px solid white;
+
+    color:white;
+
+    font-size:28px;
+}
+
 /* mobile */
 @media(max-width:768px){
 
@@ -116,6 +149,10 @@ button{
 
     input{
         width:70%;
+    }
+
+    #controls{
+        display:flex;
     }
 
 }
@@ -167,6 +204,25 @@ button{
     60
 </div>
 
+<!-- mobile controls -->
+<div id="controls">
+
+    <button
+        class="controlBtn"
+        id="upBtn"
+    >
+        ↑
+    </button>
+
+    <button
+        class="controlBtn"
+        id="downBtn"
+    >
+        ↓
+    </button>
+
+</div>
+
 <!-- AUDIO -->
 <audio
     id="song"
@@ -186,24 +242,35 @@ button{
 const c = document.getElementById("c");
 const ctx = c.getContext("2d");
 
-const DPR = window.devicePixelRatio || 1;
+const DPR =
+window.devicePixelRatio || 1;
 
 function resize(){
 
-    c.width = window.innerWidth * DPR;
-    c.height = window.innerHeight * DPR;
+    c.width =
+    window.innerWidth * DPR;
 
-    c.style.width = window.innerWidth + "px";
-    c.style.height = window.innerHeight + "px";
+    c.height =
+    window.innerHeight * DPR;
+
+    c.style.width =
+    window.innerWidth + "px";
+
+    c.style.height =
+    window.innerHeight + "px";
 
     ctx.setTransform(1,0,0,1,0,0);
+
     ctx.scale(DPR,DPR);
 
 }
 
 resize();
 
-window.addEventListener("resize", resize);
+window.addEventListener(
+    "resize",
+    resize
+);
 
 /* =====================================
    STATE
@@ -225,7 +292,7 @@ document.getElementById("song");
 
 const player = {
 
-    x:window.innerWidth * 0.3,
+    x:window.innerWidth * 0.25,
 
     y:window.innerHeight * 0.5,
 
@@ -237,14 +304,15 @@ const player = {
 };
 
 /* =====================================
-   OBSTACLES
+   OBJECTS
 ===================================== */
 
 let obstacles = [];
 let particles = [];
+let orbs = [];
 
 /* =====================================
-   INPUT
+   CONTROLS
 ===================================== */
 
 function moveUp(){
@@ -263,47 +331,76 @@ function moveDown(){
 
 }
 
-/* keyboard */
-window.addEventListener("keydown", e => {
+/* desktop keyboard */
+window.addEventListener(
+    "keydown",
+    e => {
 
-    if(
-        e.code === "ArrowUp" ||
-        e.code === "KeyW" ||
-        e.code === "Space"
-    ){
+        if(
+            e.code === "ArrowUp" ||
+            e.code === "KeyW" ||
+            e.code === "Space"
+        ){
+
+            moveUp();
+
+        }
+
+        if(
+            e.code === "ArrowDown" ||
+            e.code === "KeyS"
+        ){
+
+            moveDown();
+
+        }
+
+    }
+);
+
+/* mobile buttons */
+document
+.getElementById("upBtn")
+.addEventListener(
+    "touchstart",
+    e => {
+
+        e.preventDefault();
 
         moveUp();
 
-    }
+    },
+    { passive:false }
+);
 
-    if(
-        e.code === "ArrowDown" ||
-        e.code === "KeyS"
-    ){
+document
+.getElementById("downBtn")
+.addEventListener(
+    "touchstart",
+    e => {
 
-        moveDown();
-
-    }
-
-});
-
-/* mobile touch */
-window.addEventListener("touchstart", e => {
-
-    const y =
-    e.touches[0].clientY;
-
-    if(y < window.innerHeight/2){
-
-        moveUp();
-
-    }else{
+        e.preventDefault();
 
         moveDown();
 
-    }
+    },
+    { passive:false }
+);
 
-});
+/* desktop mouse */
+document
+.getElementById("upBtn")
+.addEventListener(
+    "mousedown",
+    moveUp
+);
+
+document
+.getElementById("downBtn")
+.addEventListener(
+    "mousedown",
+    moveDown
+);
 
 /* =====================================
    PARTICLES
@@ -330,7 +427,7 @@ function spawnParticles(x,y){
 }
 
 /* =====================================
-   SPAWN
+   SPAWN OBSTACLES
 ===================================== */
 
 setInterval(() => {
@@ -340,27 +437,83 @@ setInterval(() => {
     const lane =
     Math.floor(Math.random()*3);
 
-    const sizes = [80,120,160];
+    const heights =
+    [40,80,140];
+
+    const widths =
+    [60,120,180];
+
+    const h =
+    heights[
+        Math.floor(
+            Math.random()*heights.length
+        )
+    ];
+
+    const w =
+    widths[
+        Math.floor(
+            Math.random()*widths.length
+        )
+    ];
+
+    let y;
+
+    if(lane === 0){
+
+        y = 80;
+
+    }
+
+    if(lane === 1){
+
+        y =
+        window.innerHeight/2 - h/2;
+
+    }
+
+    if(lane === 2){
+
+        y =
+        window.innerHeight - 180 - h;
+
+    }
 
     obstacles.push({
 
         x:window.innerWidth + 100,
 
-        y:[
-            120,
-            window.innerHeight/2 - 60,
-            window.innerHeight - 220
-        ][lane],
+        y,
 
-        w:sizes[Math.floor(Math.random()*3)],
-
-        h:40,
+        w,
+        h,
 
         passed:false
 
     });
 
-},1100);
+    /* bonus orb */
+    if(Math.random() > 0.6){
+
+        orbs.push({
+
+            x:window.innerWidth + 200,
+
+            y:
+            Math.random()
+            *
+            (window.innerHeight - 220)
+            + 80,
+
+            r:12,
+
+            taken:false
+
+        });
+
+    }
+
+},1000);
 
 /* =====================================
    UPDATE
@@ -411,7 +564,7 @@ function update(){
 
         }
 
-        /* score */
+        /* passed */
         if(!o.passed && o.x < player.x){
 
             o.passed = true;
@@ -432,8 +585,46 @@ function update(){
 
     });
 
+    /* orbs */
+    orbs.forEach(o => {
+
+        o.x -= speed;
+
+        const dx =
+        (player.x + player.w/2)
+        - o.x;
+
+        const dy =
+        (player.y + player.h/2)
+        - o.y;
+
+        const dist =
+        Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < 30 && !o.taken){
+
+            o.taken = true;
+
+            score += 25;
+
+            spawnParticles(
+                o.x,
+                o.y
+            );
+
+        }
+
+    });
+
     obstacles =
-    obstacles.filter(o => o.x > -300);
+    obstacles.filter(
+        o => o.x > -300
+    );
+
+    orbs =
+    orbs.filter(
+        o => o.x > -100 && !o.taken
+    );
 
     /* particles */
     particles.forEach(p => {
@@ -446,7 +637,9 @@ function update(){
     });
 
     particles =
-    particles.filter(p => p.life > 0);
+    particles.filter(
+        p => p.life > 0
+    );
 
     document
     .getElementById("score")
@@ -477,7 +670,7 @@ function draw(){
         window.innerHeight
     );
 
-    /* subtle moving lines */
+    /* moving lines */
     for(let i=0;i<20;i++){
 
         ctx.fillStyle =
@@ -485,9 +678,13 @@ function draw(){
 
         ctx.fillRect(
 
-            (i*180 -
-            performance.now()*0.05)
-            % window.innerWidth,
+            (
+                i*180
+                -
+                performance.now()*0.05
+            )
+            %
+            window.innerWidth,
 
             i*60,
 
@@ -522,13 +719,32 @@ function draw(){
 
     });
 
-    /* particles */
-    ctx.fillStyle = "white";
+    /* bonus orbs */
+    ctx.fillStyle = "gold";
 
+    orbs.forEach(o => {
+
+        ctx.beginPath();
+
+        ctx.arc(
+            o.x,
+            o.y,
+            o.r,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+    });
+
+    /* particles */
     particles.forEach(p => {
 
         ctx.globalAlpha =
         p.life / 40;
+
+        ctx.fillStyle = "white";
 
         ctx.fillRect(
             p.x,
