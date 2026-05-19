@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-viewport-fit=cover">
+content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Release Game 3.2</title>
 
@@ -29,7 +27,6 @@ canvas{
     height:100%;
 }
 
-/* START / RESULT SCREEN */
 #start{
     position:fixed;
     inset:0;
@@ -102,7 +99,6 @@ canvas{
     opacity:0.95;
 }
 
-/* INPUT */
 input{
     width:240px;
     padding:14px;
@@ -114,7 +110,6 @@ input{
     outline:none;
 }
 
-/* BUTTON */
 button{
     padding:15px 30px;
     border:none;
@@ -131,7 +126,6 @@ button:disabled{
     cursor:not-allowed;
 }
 
-/* GAME UI */
 #ui{
     position:fixed;
     top:20px;
@@ -148,7 +142,6 @@ button:disabled{
     font-size:20px;
 }
 
-/* LEADERBOARD */
 #startLeaderboard{
     margin-top:28px;
     width:300px;
@@ -186,7 +179,6 @@ button:disabled{
     line-height:1.4;
 }
 
-/* SOCIAL / FOOTER */
 .footer-links{
     width:100%;
     max-width:300px;
@@ -240,7 +232,6 @@ button:disabled{
     text-decoration:none;
 }
 
-/* MOBILE */
 @media(max-width:768px){
     #start{
         padding:18px 18px 34px;
@@ -280,7 +271,6 @@ button:disabled{
 
 <body>
 
-<!-- START / RESULT SCREEN -->
 <div id="start">
 
     <div class="topline" aria-label="Release Countdown">
@@ -363,7 +353,6 @@ button:disabled{
 
 </div>
 
-<!-- GAME UI -->
 <div id="ui">
     SCORE:
     <span id="score">0</span>
@@ -373,17 +362,14 @@ button:disabled{
     60
 </div>
 
-<!-- AUDIO -->
 <audio
     id="song"
     src="assets/release/drei-viertel.prelisten.mp3"
     preload="auto"
 ></audio>
 
-<!-- CANVAS -->
 <canvas id="c"></canvas>
 
-<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
@@ -400,13 +386,20 @@ button:disabled{
 
     if(!el) return;
 
+    let countdownTimer = null;
+
     function updateCountdown(){
         const diff =
         targetDate - Date.now();
 
         if(diff <= 0){
             el.textContent = "OUT NOW";
-            clearInterval(timer);
+
+            if(countdownTimer){
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+            }
+
             return;
         }
 
@@ -435,10 +428,10 @@ button:disabled{
         : hours + ":" + mins + ":" + secs;
     }
 
-    updateCountdown();
-
-    const timer =
+    countdownTimer =
     setInterval(updateCountdown, 1000);
+
+    updateCountdown();
 }());
 
 /* =====================================
@@ -485,19 +478,6 @@ if(typeof window.supabase !== "undefined"){
    RETRY LOGIC
 ===================================== */
 
-/*
-  Gewünschter Ablauf:
-
-  Seitenaufruf:
-  START + Namenseingabe
-
-  Danach:
-  5 Wiederholungen mit RETRY ohne Namenseingabe
-
-  Nach dem 6. Spiel-Ende:
-  wieder START + Namenseingabe
-*/
-
 let retryCount = 0;
 let waitingForNewName = true;
 
@@ -515,7 +495,6 @@ const DPR =
 window.devicePixelRatio || 1;
 
 function resize(){
-
     c.width =
     Math.floor(window.innerWidth * DPR);
 
@@ -533,7 +512,6 @@ function resize(){
     );
 
     ctx.scale(DPR,DPR);
-
 }
 
 resize();
@@ -542,10 +520,6 @@ window.addEventListener(
     "resize",
     resize
 );
-
-/* =====================================
-   MOBILE
-===================================== */
 
 const isMobile =
 window.innerWidth < 768;
@@ -570,10 +544,6 @@ let nextSpawnDelay = 1300;
 const song =
 document.getElementById("song");
 
-/* =====================================
-   OBSTACLE COLORS
-===================================== */
-
 const obstacleColors = [
     "#2f80ff",
     "#ff2e2e",
@@ -585,10 +555,6 @@ const obstacleColors = [
     "#facc15"
 ];
 
-/* =====================================
-   SAVED NAME
-===================================== */
-
 const savedName =
 localStorage.getItem("playerName");
 
@@ -597,10 +563,6 @@ if(savedName){
     .getElementById("name")
     .value = savedName;
 }
-
-/* =====================================
-   PLAYER
-===================================== */
 
 const player = {
     x:isMobile
@@ -614,10 +576,6 @@ const player = {
 
     vy:0
 };
-
-/* =====================================
-   OBJECTS
-===================================== */
 
 let obstacles = [];
 let particles = [];
@@ -637,7 +595,6 @@ function getElapsedSeconds(){
 }
 
 function getCurrentSpeed(){
-
     const elapsed =
     getElapsedSeconds();
 
@@ -686,7 +643,6 @@ function getCurrentSpeed(){
 }
 
 function getSpawnDelay(){
-
     const elapsed =
     getElapsedSeconds();
 
@@ -778,10 +734,6 @@ function spawnParticles(x,y){
     }
 }
 
-/* =====================================
-   SAFE ORBS
-===================================== */
-
 function orbInsideObstacle(x,y){
     for(let o of obstacles){
         if(
@@ -802,7 +754,6 @@ function orbInsideObstacle(x,y){
 ===================================== */
 
 function spawnObstacle(){
-
     const lane =
     Math.floor(Math.random()*3);
 
@@ -886,7 +837,6 @@ function spawnObstacle(){
     });
 
     if(Math.random() > (hard ? 0.45 : 0.65)){
-
         let orbX =
         window.innerWidth + 260;
 
@@ -954,7 +904,6 @@ function updateSpawning(){
 ===================================== */
 
 function update(){
-
     const speed =
     getCurrentSpeed();
 
@@ -1060,7 +1009,6 @@ function update(){
 ===================================== */
 
 function draw(){
-
     ctx.clearRect(
         0,
         0,
@@ -1089,9 +1037,7 @@ function draw(){
             )
             %
             window.innerWidth,
-
             i*60,
-
             120,
             1
         );
@@ -1164,10 +1110,6 @@ function draw(){
     ctx.globalAlpha = 1;
 }
 
-/* =====================================
-   LOOP
-===================================== */
-
 function loop(){
     if(!running) return;
 
@@ -1177,10 +1119,6 @@ function loop(){
     animationFrameId =
     requestAnimationFrame(loop);
 }
-
-/* =====================================
-   TIMER
-===================================== */
 
 function startTimer(){
     if(timerInterval){
@@ -1242,7 +1180,6 @@ function getCleanName(){
 ===================================== */
 
 async function submitScore(){
-
     if(!supabaseClient){
         console.warn("No Supabase client. Score not saved.");
         return;
@@ -1274,7 +1211,6 @@ async function submitScore(){
 }
 
 async function loadLeaderboard(targetId = "startLeaderboard"){
-
     const board =
     document
     .getElementById(targetId);
@@ -1342,7 +1278,6 @@ async function loadLeaderboard(targetId = "startLeaderboard"){
 ===================================== */
 
 function updateStartScreenMode(){
-
     const input =
     document.getElementById("name");
 
@@ -1359,7 +1294,6 @@ function updateStartScreenMode(){
 }
 
 function showStartScreen(resultType, finalScore){
-
     const headline =
     document.getElementById("resultHeadline");
 
@@ -1399,7 +1333,6 @@ function showStartScreen(resultType, finalScore){
 ===================================== */
 
 async function endGame(resultType = "gameover"){
-
     if(ending) return;
 
     ending = true;
@@ -1446,7 +1379,6 @@ async function endGame(resultType = "gameover"){
 ===================================== */
 
 function resetGameState(){
-
     ending = false;
     running = false;
 
@@ -1513,7 +1445,6 @@ startBtn.addEventListener(
 );
 
 async function startGame(){
-
     console.log("START CLICKED");
 
     startBtn.disabled = true;
@@ -1571,12 +1502,6 @@ async function startGame(){
 /* =====================================
    INITIAL START SCREEN
 ===================================== */
-
-/*
-  Wichtig:
-  Bei jedem Seitenaufruf beginnt die Seite IMMER mit START + Namenseingabe.
-  Ein gespeicherter Name wird nur vorausgefüllt.
-*/
 
 waitingForNewName = true;
 retryCount = 0;
