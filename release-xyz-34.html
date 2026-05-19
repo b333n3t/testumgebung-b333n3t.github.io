@@ -8,7 +8,7 @@ content="width=device-width,
 initial-scale=1.0,
 viewport-fit=cover">
 
-<title>Release Game 2.3</title>
+<title>Release Game 3.0</title>
 
 <style>
 
@@ -108,6 +108,31 @@ button{
     font-size:20px;
 }
 
+/* leaderboard */
+#leaderboard{
+
+    margin-top:20px;
+
+    width:260px;
+
+    text-align:left;
+
+    font-size:16px;
+
+}
+
+.scoreRow{
+
+    display:flex;
+    justify-content:space-between;
+
+    padding:4px 0;
+
+    border-bottom:
+    1px solid rgba(255,255,255,0.1);
+
+}
+
 /* mobile */
 @media(max-width:768px){
 
@@ -156,6 +181,8 @@ button{
         RETRY
     </button>
 
+    <div id="leaderboard"></div>
+
 </div>
 
 <!-- UI -->
@@ -178,7 +205,30 @@ button{
 <!-- CANVAS -->
 <canvas id="c"></canvas>
 
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
+
+/* =====================================
+   SUPABASE
+===================================== */
+
+const SUPABASE_URL =
+"https://xqucqbyzklmptyjgghgo.supabase.co";
+
+/* IMPORTANT:
+   INSERT YOUR ANON KEY HERE
+*/
+
+const SUPABASE_KEY =
+"PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
+
+const supabase =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 /* =====================================
    RETRIES
@@ -227,6 +277,13 @@ window.addEventListener(
 );
 
 /* =====================================
+   MOBILE DETECTION
+===================================== */
+
+const isMobile =
+window.innerWidth < 768;
+
+/* =====================================
    STATE
 ===================================== */
 
@@ -235,7 +292,9 @@ let running = false;
 let score = 0;
 let time = 60;
 
-let speed = 7;
+/* easier start */
+let speed =
+isMobile ? 4.2 : 5.2;
 
 const song =
 document.getElementById("song");
@@ -261,12 +320,14 @@ if(savedName){
 
 const player = {
 
-    x:window.innerWidth * 0.25,
+    x:isMobile
+        ? window.innerWidth * 0.22
+        : window.innerWidth * 0.25,
 
     y:window.innerHeight * 0.5,
 
-    w:40,
-    h:40,
+    w:isMobile ? 48 : 40,
+    h:isMobile ? 48 : 40,
 
     vy:0
 
@@ -288,7 +349,8 @@ function moveUp(){
 
     if(!running) return;
 
-    player.vy = -9;
+    player.vy =
+    isMobile ? -7 : -9;
 
 }
 
@@ -296,11 +358,12 @@ function moveDown(){
 
     if(!running) return;
 
-    player.vy = 9;
+    player.vy =
+    isMobile ? 7 : 9;
 
 }
 
-/* desktop keyboard */
+/* desktop */
 window.addEventListener(
     "keydown",
     e => {
@@ -327,7 +390,7 @@ window.addEventListener(
     }
 );
 
-/* mobile touch follow */
+/* mobile drag */
 window.addEventListener(
     "touchmove",
     e => {
@@ -342,7 +405,7 @@ window.addEventListener(
         const y =
         touch.clientY;
 
-        /* smooth follow */
+        /* easier mobile follow */
         player.y +=
         (
             y
@@ -350,7 +413,7 @@ window.addEventListener(
             player.y
             -
             player.h/2
-        ) * 0.18;
+        ) * 0.25;
 
     },
     { passive:false }
@@ -381,7 +444,34 @@ function spawnParticles(x,y){
 }
 
 /* =====================================
-   SPAWN OBSTACLES
+   SAFE ORB POSITION
+===================================== */
+
+function orbInsideObstacle(x,y){
+
+    for(let o of obstacles){
+
+        if(
+
+            x > o.x &&
+            x < o.x + o.w &&
+            y > o.y &&
+            y < o.y + o.h
+
+        ){
+
+            return true;
+
+        }
+
+    }
+
+    return false;
+
+}
+
+/* =====================================
+   SPAWN
 ===================================== */
 
 setInterval(() => {
@@ -392,10 +482,14 @@ setInterval(() => {
     Math.floor(Math.random()*3);
 
     const heights =
-    [40,80,140];
+    isMobile
+    ? [40,70,100]
+    : [40,80,140];
 
     const widths =
-    [60,120,180];
+    isMobile
+    ? [60,100,140]
+    : [60,120,180];
 
     const h =
     heights[
@@ -446,18 +540,35 @@ setInterval(() => {
 
     });
 
-    /* bonus orb */
-    if(Math.random() > 0.6){
+    /* safer orb spawn */
+    if(Math.random() > 0.65){
+
+        let orbX =
+        window.innerWidth + 260;
+
+        let orbY;
+        let safe = false;
+
+        while(!safe){
+
+            orbY =
+            Math.random()
+            *
+            (window.innerHeight - 260)
+            + 100;
+
+            safe =
+            !orbInsideObstacle(
+                orbX,
+                orbY
+            );
+
+        }
 
         orbs.push({
 
-            x:window.innerWidth + 200,
-
-            y:
-            Math.random()
-            *
-            (window.innerHeight - 220)
-            + 80,
+            x:orbX,
+            y:orbY,
 
             r:12,
 
@@ -467,7 +578,7 @@ setInterval(() => {
 
     }
 
-},1000);
+},1200);
 
 /* =====================================
    UPDATE
@@ -475,12 +586,16 @@ setInterval(() => {
 
 function update(){
 
-    speed += 0.0008;
+    /* progressive difficulty */
+    speed +=
+    isMobile
+    ? 0.00035
+    : 0.00045;
 
     /* movement */
     player.y += player.vy;
 
-    player.vy *= 0.92;
+    player.vy *= 0.90;
 
     /* limits */
     if(player.y < 40){
@@ -764,10 +879,87 @@ function startTimer(){
 }
 
 /* =====================================
+   LEADERBOARD
+===================================== */
+
+async function submitScore(){
+
+    const name =
+    document
+    .getElementById("name")
+    .value
+    || "PLAYER";
+
+    try{
+
+        await supabase
+        .from("scores")
+        .insert([
+            {
+                name,
+                score
+            }
+        ]);
+
+    }catch(err){
+
+        console.log(err);
+
+    }
+
+}
+
+async function loadLeaderboard(){
+
+    try{
+
+        const { data } =
+        await supabase
+        .from("scores")
+        .select("*")
+        .order("score", {
+            ascending:false
+        })
+        .limit(10);
+
+        const board =
+        document
+        .getElementById("leaderboard");
+
+        board.innerHTML =
+        "<h3>TOP 10</h3>";
+
+        data.forEach((s,i)=>{
+
+            board.innerHTML += `
+
+                <div class="scoreRow">
+                    <span>
+                        ${i+1}. ${s.name}
+                    </span>
+
+                    <span>
+                        ${s.score}
+                    </span>
+                </div>
+
+            `;
+
+        });
+
+    }catch(err){
+
+        console.log(err);
+
+    }
+
+}
+
+/* =====================================
    END
 ===================================== */
 
-function endGame(){
+async function endGame(){
 
     running = false;
 
@@ -789,6 +981,57 @@ function endGame(){
     document
     .getElementById("end")
     .style.display = "flex";
+
+    await submitScore();
+
+    await loadLeaderboard();
+
+}
+
+/* =====================================
+   RESTART
+===================================== */
+
+function restartGame(){
+
+    running = false;
+
+    score = 0;
+    time = 60;
+
+    speed =
+    isMobile ? 4.2 : 5.2;
+
+    obstacles = [];
+    particles = [];
+    orbs = [];
+
+    player.y =
+    window.innerHeight * 0.5;
+
+    player.vy = 0;
+
+    document
+    .getElementById("score")
+    .innerText = score;
+
+    document
+    .getElementById("timer")
+    .innerText = time;
+
+    document
+    .getElementById("end")
+    .style.display = "none";
+
+    song.currentTime = 0;
+
+    song.play();
+
+    running = true;
+
+    loop();
+
+    startTimer();
 
 }
 
@@ -819,7 +1062,7 @@ function retryGame(){
 
     }
 
-    location.reload();
+    restartGame();
 
 }
 
@@ -837,7 +1080,6 @@ document
     .value
     || "PLAYER";
 
-    /* save name */
     localStorage.setItem(
         "playerName",
         playerName
