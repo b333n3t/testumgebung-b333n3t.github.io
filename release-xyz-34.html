@@ -9,6 +9,11 @@ content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Release Game 3.2</title>
 
 <style>
+:root{
+    --awb-bg:#930010;
+    --vorsichern-to-button-gap:0.9rem;
+}
+
 html, body{
     margin:0;
     width:100%;
@@ -185,11 +190,13 @@ button:disabled{
     margin-top:38px;
 }
 
-.blk{
+.blk,
+.block{
     margin-bottom:38px;
 }
 
-.blk h2{
+.blk h2,
+.block h2{
     margin:0 0 16px;
     font-size:1.06rem;
     letter-spacing:0.04em;
@@ -197,7 +204,8 @@ button:disabled{
     font-weight:700;
 }
 
-.blk p{
+.blk p,
+.block p{
     margin:0;
     line-height:1.7;
     letter-spacing:0.04em;
@@ -230,6 +238,62 @@ button:disabled{
     color:#ffffff;
     font-weight:700;
     text-decoration:none;
+}
+
+/* PRESAVE */
+.presave-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: var(--vorsichern-to-button-gap);
+}
+
+.presave-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.78rem 1.35rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.85);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    background: #ffffff;
+    color: var(--awb-bg);
+    box-shadow:
+        0 0 18px rgba(0,0,0,0.25),
+        0 0 40px rgba(0,0,0,0.18);
+    transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+.presave-button:hover {
+    transform: translateY(-1px) scale(1.02);
+    filter: brightness(1.02);
+    box-shadow:
+        0 0 26px rgba(0,0,0,0.32),
+        0 0 55px rgba(0,0,0,0.22);
+}
+
+.presave-button:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.95);
+    outline-offset: 3px;
+}
+
+.presave-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    display: block;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.presave-hint {
+    opacity: 0.88;
+    font-size: 0.95rem;
 }
 
 @media(max-width:768px){
@@ -302,6 +366,24 @@ button:disabled{
     <div id="startLeaderboard"></div>
 
     <div class="footer-links">
+
+        <section aria-label="vorsichern:" class="block">
+            <h2>vorsichern:</h2>
+            <p class="presave-hint">dann ist „drei“ am 23. januar direkt in deiner bibliothek</p>
+
+            <div class="presave-row">
+                <a class="presave-button"
+                   href="https://bfan.link/drei"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   onclick="if(window.plausible){plausible('Pre save')}">
+                    <img class="presave-icon"
+                         src="/assets/release/drei-cover.png"
+                         alt="Cover „drei“">
+                    pre-save
+                </a>
+            </div>
+        </section>
 
         <section class="blk">
             <h2>kuck hier</h2>
