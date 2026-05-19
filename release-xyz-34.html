@@ -30,8 +30,7 @@ canvas{
 }
 
 /* overlays */
-#start,
-#end{
+#start{
     position:fixed;
     inset:0;
     background:black;
@@ -40,19 +39,33 @@ canvas{
     justify-content:center;
     align-items:center;
     z-index:10;
+    padding:24px;
+    box-sizing:border-box;
 }
 
-/* title */
-h1{
+#startTitle{
     font-size:54px;
-    margin-bottom:30px;
+    margin-bottom:18px;
     letter-spacing:2px;
+    text-align:center;
 }
 
-h2{
-    font-size:38px;
-    margin-bottom:26px;
+#resultBox{
+    min-height:72px;
+    margin-bottom:18px;
+    text-align:center;
+}
+
+#resultHeadline{
+    font-size:32px;
+    font-weight:900;
     letter-spacing:1px;
+    margin-bottom:8px;
+}
+
+#resultScore{
+    font-size:20px;
+    opacity:0.95;
 }
 
 /* input */
@@ -102,15 +115,14 @@ button:disabled{
 }
 
 /* leaderboard */
-#leaderboard,
 #startLeaderboard{
-    margin-top:24px;
-    width:280px;
+    margin-top:28px;
+    width:300px;
+    max-width:90vw;
     text-align:left;
     font-size:16px;
 }
 
-#leaderboard h3,
 #startLeaderboard h3{
     text-align:center;
     margin-bottom:8px;
@@ -135,19 +147,19 @@ button:disabled{
     margin-top:12px;
     font-size:13px;
     opacity:0.75;
-    max-width:280px;
+    max-width:300px;
     text-align:center;
     line-height:1.4;
 }
 
 /* mobile */
 @media(max-width:768px){
-    h1{
+    #startTitle{
         font-size:40px;
     }
 
-    h2{
-        font-size:32px;
+    #resultHeadline{
+        font-size:28px;
     }
 
     input{
@@ -164,10 +176,15 @@ button:disabled{
 
 <body>
 
-<!-- START -->
+<!-- START / RESULT SCREEN -->
 <div id="start">
 
-    <h1>NEW RELEASE</h1>
+    <h1 id="startTitle">NEW RELEASE</h1>
+
+    <div id="resultBox">
+        <div id="resultHeadline"></div>
+        <div id="resultScore"></div>
+    </div>
 
     <input
         id="name"
@@ -186,35 +203,14 @@ button:disabled{
 
 </div>
 
-<!-- END -->
-<div id="end" style="display:none;">
-
-    <h2 id="endTitle">GAME OVER</h2>
-
-    <div id="final"></div>
-
-    <br>
-
-    <button type="button" onclick="retryGame()">
-        RETRY
-    </button>
-
-    <div id="leaderboard"></div>
-
-</div>
-
 <!-- UI -->
 <div id="ui">
-
     SCORE:
     <span id="score">0</span>
-
 </div>
 
 <div id="timer">
-
     60
-
 </div>
 
 <!-- AUDIO -->
@@ -272,14 +268,27 @@ if(typeof window.supabase !== "undefined"){
 }
 
 /* =====================================
-   RETRIES
+   RETRIES / ATTEMPTS
 ===================================== */
 
-let retries =
+/*
+  retryCount zählt die Wiederholungen mit gleichem Namen.
+
+  Ablauf:
+  - 1. Mal: START + Namenseingabe
+  - nach Game Over / Finish zurück zur Startseite
+  - bis 5 Wiederholungen: Button zeigt RETRY, Namenseingabe bleibt versteckt
+  - ab dem 6. Mal: Button zeigt wieder START, Namenseingabe erscheint wieder
+*/
+
+let retryCount =
 parseInt(
-    localStorage.getItem("retries"),
+    localStorage.getItem("retryCount"),
     10
 ) || 0;
+
+let waitingForNewName =
+localStorage.getItem("waitingForNewName") === "1";
 
 /* =====================================
    CANVAS
@@ -343,11 +352,27 @@ let time = 60;
 let timerInterval = null;
 let animationFrameId = null;
 
-let speed =
-isMobile ? 4.2 : 5.2;
+let gameStartTime = 0;
+let lastSpawnTime = 0;
+let nextSpawnDelay = 1300;
 
 const song =
 document.getElementById("song");
+
+/* =====================================
+   COLORS FOR OBSTACLES
+===================================== */
+
+const obstacleColors = [
+    "#2f80ff",
+    "#ff2e2e",
+    "#22c55e",
+    "#a855f7",
+    "#ff8a00",
+    "#00d5ff",
+    "#ff3fb4",
+    "#facc15"
+];
 
 /* =====================================
    SAVED NAME
@@ -357,11 +382,9 @@ const savedName =
 localStorage.getItem("playerName");
 
 if(savedName){
-
     document
     .getElementById("name")
     .value = savedName;
-
 }
 
 /* =====================================
@@ -390,6 +413,107 @@ const player = {
 let obstacles = [];
 let particles = [];
 let orbs = [];
+
+/* =====================================
+   SPEED / DIFFICULTY
+===================================== */
+
+function getElapsedSeconds(){
+    if(!gameStartTime) return 0;
+
+    return Math.max(
+        0,
+        (performance.now() - gameStartTime) / 1000
+    );
+}
+
+function getCurrentSpeed(){
+
+    const elapsed =
+    getElapsedSeconds();
+
+    /*
+      0 - 6 Sekunden:
+      bewusst langsamer Einstieg.
+
+      6 - 50 Sekunden:
+      spürbar schneller, aber noch spielbar.
+
+      letzte 10 Sekunden:
+      deutlich schwieriger.
+    */
+
+    if(elapsed < 6){
+
+        const start =
+        isMobile ? 2.6 : 3.2;
+
+        const end =
+        isMobile ? 3.8 : 4.5;
+
+        const p =
+        elapsed / 6;
+
+        return start + (end - start) * p;
+
+    }
+
+    if(time > 10){
+
+        const p =
+        Math.min(
+            1,
+            (elapsed - 6) / 44
+        );
+
+        const start =
+        isMobile ? 4.0 : 4.8;
+
+        const end =
+        isMobile ? 6.3 : 7.3;
+
+        return start + (end - start) * p;
+
+    }
+
+    const lastP =
+    Math.min(
+        1,
+        (10 - time) / 10
+    );
+
+    const start =
+    isMobile ? 7.0 : 8.0;
+
+    const end =
+    isMobile ? 9.2 : 10.4;
+
+    return start + (end - start) * lastP;
+
+}
+
+function getSpawnDelay(){
+
+    /*
+      Hürden erscheinen am Anfang langsamer,
+      ab ca. 6 Sekunden häufiger,
+      in den letzten 10 Sekunden sehr häufig.
+    */
+
+    const elapsed =
+    getElapsedSeconds();
+
+    if(elapsed < 6){
+        return isMobile ? 1450 : 1350;
+    }
+
+    if(time > 10){
+        return isMobile ? 1050 : 950;
+    }
+
+    return isMobile ? 760 : 680;
+
+}
 
 /* =====================================
    DESKTOP CONTROLS
@@ -530,22 +654,31 @@ function orbInsideObstacle(x,y){
    SPAWN
 ===================================== */
 
-setInterval(() => {
-
-    if(!running) return;
+function spawnObstacle(){
 
     const lane =
     Math.floor(Math.random()*3);
 
+    const hard =
+    time <= 10;
+
     const heights =
     isMobile
-    ? [40,70,100]
-    : [40,80,140];
+    ? hard
+        ? [60,90,120,150]
+        : [40,70,100]
+    : hard
+        ? [70,110,150,190]
+        : [40,80,140];
 
     const widths =
     isMobile
-    ? [60,100,140]
-    : [60,120,180];
+    ? hard
+        ? [80,120,160,190]
+        : [60,100,140]
+    : hard
+        ? [90,140,190,230]
+        : [60,120,180];
 
     const h =
     heights[
@@ -593,6 +726,15 @@ setInterval(() => {
 
     }
 
+    const color =
+    obstacleColors[
+        Math.floor(
+            Math.random()
+            *
+            obstacleColors.length
+        )
+    ];
+
     obstacles.push({
 
         x:
@@ -603,11 +745,13 @@ setInterval(() => {
         w,
         h,
 
+        color,
+
         passed:false
 
     });
 
-    if(Math.random() > 0.65){
+    if(Math.random() > (hard ? 0.45 : 0.65)){
 
         let orbX =
         window.innerWidth + 260;
@@ -655,7 +799,35 @@ setInterval(() => {
 
     }
 
-},1200);
+}
+
+function updateSpawning(){
+
+    const now =
+    performance.now();
+
+    if(
+        now - lastSpawnTime
+        >=
+        nextSpawnDelay
+    ){
+
+        spawnObstacle();
+
+        lastSpawnTime = now;
+
+        nextSpawnDelay =
+        getSpawnDelay()
+        *
+        (
+            0.82
+            +
+            Math.random() * 0.36
+        );
+
+    }
+
+}
 
 /* =====================================
    UPDATE
@@ -663,10 +835,10 @@ setInterval(() => {
 
 function update(){
 
-    speed +=
-    isMobile
-    ? 0.00035
-    : 0.00045;
+    const speed =
+    getCurrentSpeed();
+
+    updateSpawning();
 
     player.y += player.vy;
 
@@ -848,6 +1020,7 @@ function draw(){
 
     }
 
+    /* player */
     ctx.fillStyle = "white";
 
     ctx.fillRect(
@@ -860,9 +1033,11 @@ function draw(){
 
     );
 
-    ctx.fillStyle = "red";
-
+    /* obstacles */
     obstacles.forEach(o => {
+
+        ctx.fillStyle =
+        o.color || "red";
 
         ctx.fillRect(
 
@@ -874,8 +1049,24 @@ function draw(){
 
         );
 
+        ctx.strokeStyle =
+        "rgba(255,255,255,0.35)";
+
+        ctx.lineWidth = 2;
+
+        ctx.strokeRect(
+
+            o.x,
+            o.y,
+
+            o.w,
+            o.h
+
+        );
+
     });
 
+    /* orbs */
     ctx.fillStyle = "gold";
 
     orbs.forEach(o => {
@@ -898,6 +1089,7 @@ function draw(){
 
     });
 
+    /* particles */
     particles.forEach(p => {
 
         ctx.globalAlpha =
@@ -1060,7 +1252,7 @@ async function submitScore(){
 
 }
 
-async function loadLeaderboard(targetId = "leaderboard"){
+async function loadLeaderboard(targetId = "startLeaderboard"){
 
     const board =
     document
@@ -1145,7 +1337,84 @@ async function loadLeaderboard(targetId = "leaderboard"){
 }
 
 /* =====================================
-   END
+   START SCREEN MODE
+===================================== */
+
+function updateStartScreenMode(){
+
+    const input =
+    document.getElementById("name");
+
+    const btn =
+    document.getElementById("startBtn");
+
+    if(waitingForNewName){
+
+        input.style.display = "block";
+        btn.textContent = "START";
+
+    }else{
+
+        input.style.display = "none";
+        btn.textContent = "RETRY";
+
+    }
+
+}
+
+function showStartScreen(resultType, finalScore){
+
+    const headline =
+    document.getElementById("resultHeadline");
+
+    const resultScore =
+    document.getElementById("resultScore");
+
+    const title =
+    document.getElementById("startTitle");
+
+    title.textContent =
+    "NEW RELEASE";
+
+    if(resultType === "finish"){
+
+        headline.textContent =
+        "FINISH";
+
+    }else if(resultType === "gameover"){
+
+        headline.textContent =
+        "GAME OVER";
+
+    }else{
+
+        headline.textContent =
+        "";
+
+    }
+
+    if(typeof finalScore === "number"){
+
+        resultScore.textContent =
+        "SCORE: " + finalScore;
+
+    }else{
+
+        resultScore.textContent =
+        "";
+
+    }
+
+    updateStartScreenMode();
+
+    document
+    .getElementById("start")
+    .style.display = "flex";
+
+}
+
+/* =====================================
+   END GAME
 ===================================== */
 
 async function endGame(resultType = "gameover"){
@@ -1172,37 +1441,45 @@ async function endGame(resultType = "gameover"){
 
     song.pause();
 
-    const name =
-    getCleanName();
-
-    const headline =
-    resultType === "finish"
-    ? "FINISH"
-    : "GAME OVER";
-
-    document
-    .getElementById("endTitle")
-    .textContent = headline;
-
-    document
-    .getElementById("final")
-    .innerHTML = `
-
-        <h3>${escapeHtml(name)}</h3>
-
-        <p>
-            SCORE: ${score}
-        </p>
-
-    `;
-
-    document
-    .getElementById("end")
-    .style.display = "flex";
+    const finalScore =
+    score;
 
     await submitScore();
 
-    await loadLeaderboard("leaderboard");
+    /*
+      Nach jedem Game Over / Finish direkt zurück
+      auf die Release-Startseite.
+    */
+
+    retryCount++;
+
+    if(retryCount >= 6){
+
+        waitingForNewName = true;
+        retryCount = 0;
+
+    }else{
+
+        waitingForNewName = false;
+
+    }
+
+    localStorage.setItem(
+        "retryCount",
+        String(retryCount)
+    );
+
+    localStorage.setItem(
+        "waitingForNewName",
+        waitingForNewName ? "1" : "0"
+    );
+
+    showStartScreen(
+        resultType,
+        finalScore
+    );
+
+    await loadLeaderboard("startLeaderboard");
 
     ending = false;
 
@@ -1234,8 +1511,9 @@ function resetGameState(){
     score = 0;
     time = 60;
 
-    speed =
-    isMobile ? 4.2 : 5.2;
+    gameStartTime = 0;
+    lastSpawnTime = 0;
+    nextSpawnDelay = 1300;
 
     obstacles = [];
     particles = [];
@@ -1260,94 +1538,6 @@ function resetGameState(){
     .innerText = time;
 
 }
-
-/* =====================================
-   RESTART
-===================================== */
-
-function restartGame(){
-
-    resetGameState();
-
-    document
-    .getElementById("end")
-    .style.display = "none";
-
-    song.currentTime = 0;
-
-    song.play().catch(err => {
-
-        console.warn(
-            "Audio blocked:",
-            err
-        );
-
-    });
-
-    running = true;
-
-    loop();
-
-    startTimer();
-
-}
-
-/* =====================================
-   BACK TO START AFTER 3 RETRIES
-===================================== */
-
-async function goBackToReleaseStart(){
-
-    resetGameState();
-
-    song.pause();
-    song.currentTime = 0;
-
-    retries = 0;
-
-    localStorage.setItem(
-        "retries",
-        "0"
-    );
-
-    document
-    .getElementById("end")
-    .style.display = "none";
-
-    document
-    .getElementById("start")
-    .style.display = "flex";
-
-    await loadLeaderboard("startLeaderboard");
-
-}
-
-/* =====================================
-   RETRY
-===================================== */
-
-async function retryGame(){
-
-    retries++;
-
-    localStorage.setItem(
-        "retries",
-        String(retries)
-    );
-
-    if(retries >= 3){
-
-        await goBackToReleaseStart();
-
-        return;
-
-    }
-
-    restartGame();
-
-}
-
-window.retryGame = retryGame;
 
 /* =====================================
    START GAME
@@ -1390,12 +1580,30 @@ async function startGame(){
 
     setStartStatus("");
 
-    retries = 0;
+    const input =
+    document.getElementById("name");
 
-    localStorage.setItem(
-        "retries",
-        "0"
-    );
+    /*
+      Wenn Namenseingabe sichtbar ist,
+      startet ein neuer Zyklus.
+    */
+
+    if(input.style.display !== "none"){
+
+        retryCount = 0;
+        waitingForNewName = false;
+
+        localStorage.setItem(
+            "retryCount",
+            "0"
+        );
+
+        localStorage.setItem(
+            "waitingForNewName",
+            "0"
+        );
+
+    }
 
     const playerName =
     getCleanName();
@@ -1428,6 +1636,15 @@ async function startGame(){
 
     running = true;
 
+    gameStartTime =
+    performance.now();
+
+    lastSpawnTime =
+    performance.now();
+
+    nextSpawnDelay =
+    getSpawnDelay();
+
     loop();
 
     startTimer();
@@ -1437,8 +1654,20 @@ async function startGame(){
 }
 
 /* =====================================
-   INITIAL LEADERBOARD ON START SCREEN
+   INITIAL START SCREEN
 ===================================== */
+
+if(!savedName || waitingForNewName){
+
+    waitingForNewName = true;
+
+}else{
+
+    waitingForNewName = false;
+
+}
+
+showStartScreen(null);
 
 loadLeaderboard("startLeaderboard").catch(err => {
 
