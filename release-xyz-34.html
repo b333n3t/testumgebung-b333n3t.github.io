@@ -8,13 +8,12 @@ content="width=device-width,
 initial-scale=1.0,
 viewport-fit=cover">
 
-<title>Music Release Game 2.0</title>
+<title>Release Game 2.1</title>
 
 <style>
 
 html, body{
     margin:0;
-    padding:0;
     width:100%;
     height:100%;
     overflow:hidden;
@@ -38,10 +37,7 @@ canvas{
     position:fixed;
     inset:0;
 
-    background:
-    radial-gradient(circle at center,
-    rgba(0,255,255,0.12),
-    rgba(0,0,0,0.95));
+    background:black;
 
     display:flex;
     flex-direction:column;
@@ -49,17 +45,12 @@ canvas{
     align-items:center;
 
     z-index:10;
-
 }
 
 /* title */
 h1{
-    font-size:60px;
+    font-size:54px;
     margin-bottom:30px;
-
-    text-shadow:
-    0 0 10px cyan,
-    0 0 30px cyan;
 }
 
 /* input */
@@ -70,10 +61,11 @@ input{
     padding:14px;
 
     border:none;
-    border-radius:12px;
+    border-radius:10px;
+
+    text-align:center;
 
     font-size:20px;
-    text-align:center;
 
     margin-bottom:20px;
 }
@@ -81,48 +73,38 @@ input{
 /* button */
 button{
 
-    padding:15px 34px;
+    padding:15px 30px;
 
     border:none;
-    border-radius:12px;
+    border-radius:10px;
 
-    background:cyan;
+    background:white;
     color:black;
 
-    font-size:20px;
+    font-size:18px;
     font-weight:bold;
-
-    box-shadow:
-    0 0 10px cyan,
-    0 0 30px cyan;
 
 }
 
 /* ui */
 #ui{
-
     position:fixed;
     top:20px;
     left:20px;
 
     z-index:5;
 
-    font-size:22px;
-    font-weight:bold;
-
+    font-size:20px;
 }
 
 #timer{
-
     position:fixed;
     top:20px;
     right:20px;
 
     z-index:5;
 
-    font-size:22px;
-    font-weight:bold;
-
+    font-size:20px;
 }
 
 /* mobile */
@@ -188,7 +170,7 @@ button{
 <!-- AUDIO -->
 <audio
     id="song"
-    src="assets/song.mp3"
+    src="assets/release/drei-viertel.prelisten.mp3"
     preload="auto"
 ></audio>
 
@@ -215,7 +197,6 @@ function resize(){
     c.style.height = window.innerHeight + "px";
 
     ctx.setTransform(1,0,0,1,0,0);
-
     ctx.scale(DPR,DPR);
 
 }
@@ -225,7 +206,7 @@ resize();
 window.addEventListener("resize", resize);
 
 /* =====================================
-   GAME STATE
+   STATE
 ===================================== */
 
 let running = false;
@@ -233,9 +214,7 @@ let running = false;
 let score = 0;
 let time = 60;
 
-let speed = 6;
-
-let flash = 0;
+let speed = 7;
 
 const song =
 document.getElementById("song");
@@ -246,27 +225,19 @@ document.getElementById("song");
 
 const player = {
 
-    x:80,
-    y:0,
+    x:window.innerWidth * 0.3,
 
-    w:42,
-    h:42,
+    y:window.innerHeight * 0.5,
 
-    vy:0,
+    w:40,
+    h:40,
 
-    jump:false
+    vy:0
 
 };
 
-function resetPlayer(){
-
-    player.y =
-    window.innerHeight - 180;
-
-}
-
 /* =====================================
-   OBJECTS
+   OBSTACLES
 ===================================== */
 
 let obstacles = [];
@@ -276,62 +247,81 @@ let particles = [];
    INPUT
 ===================================== */
 
-function jump(){
+function moveUp(){
 
     if(!running) return;
 
-    if(!player.jump){
-
-        player.vy = -17;
-        player.jump = true;
-
-        spawnParticles(
-            player.x,
-            player.y + 40,
-            "cyan"
-        );
-
-    }
+    player.vy = -9;
 
 }
 
-window.addEventListener(
-    "touchstart",
-    jump
-);
+function moveDown(){
 
-window.addEventListener(
-    "keydown",
-    e => {
+    if(!running) return;
 
-        if(e.code === "Space"){
+    player.vy = 9;
 
-            jump();
+}
 
-        }
+/* keyboard */
+window.addEventListener("keydown", e => {
+
+    if(
+        e.code === "ArrowUp" ||
+        e.code === "KeyW" ||
+        e.code === "Space"
+    ){
+
+        moveUp();
 
     }
-);
+
+    if(
+        e.code === "ArrowDown" ||
+        e.code === "KeyS"
+    ){
+
+        moveDown();
+
+    }
+
+});
+
+/* mobile touch */
+window.addEventListener("touchstart", e => {
+
+    const y =
+    e.touches[0].clientY;
+
+    if(y < window.innerHeight/2){
+
+        moveUp();
+
+    }else{
+
+        moveDown();
+
+    }
+
+});
 
 /* =====================================
    PARTICLES
 ===================================== */
 
-function spawnParticles(x,y,color){
+function spawnParticles(x,y){
 
-    for(let i=0;i<10;i++){
+    for(let i=0;i<30;i++){
 
         particles.push({
 
             x,
             y,
 
-            vx:(Math.random()-0.5)*4,
-            vy:(Math.random()-0.5)*4,
+            vx:(Math.random()-0.5)*6,
+            vy:(Math.random()-0.5)*6,
 
-            life:30,
-
-            color
+            life:40
 
         });
 
@@ -347,20 +337,30 @@ setInterval(() => {
 
     if(!running) return;
 
+    const lane =
+    Math.floor(Math.random()*3);
+
+    const sizes = [80,120,160];
+
     obstacles.push({
 
-        x:window.innerWidth,
+        x:window.innerWidth + 100,
 
-        y:window.innerHeight - 160,
+        y:[
+            120,
+            window.innerHeight/2 - 60,
+            window.innerHeight - 220
+        ][lane],
 
-        w:40,
-        h:60,
+        w:sizes[Math.floor(Math.random()*3)],
+
+        h:40,
 
         passed:false
 
     });
 
-},1200);
+},1100);
 
 /* =====================================
    UPDATE
@@ -368,24 +368,27 @@ setInterval(() => {
 
 function update(){
 
-    /* difficulty */
-    speed += 0.0005;
+    speed += 0.0008;
 
-    /* gravity */
-    player.vy += 0.85;
-
+    /* movement */
     player.y += player.vy;
 
-    const ground =
-    window.innerHeight - 180;
+    player.vy *= 0.92;
 
-    if(player.y > ground){
+    /* limits */
+    if(player.y < 40){
 
-        player.y = ground;
+        player.y = 40;
 
-        player.vy = 0;
+    }
 
-        player.jump = false;
+    if(
+        player.y >
+        window.innerHeight - 140
+    ){
+
+        player.y =
+        window.innerHeight - 140;
 
     }
 
@@ -413,22 +416,24 @@ function update(){
 
             o.passed = true;
 
-            score += 5;
+            score += 10;
 
-            flash = 8;
+            /* particles every 100 */
+            if(score % 100 === 0){
 
-            spawnParticles(
-                player.x,
-                player.y,
-                "gold"
-            );
+                spawnParticles(
+                    player.x,
+                    player.y
+                );
+
+            }
 
         }
 
     });
 
     obstacles =
-    obstacles.filter(o => o.x > -100);
+    obstacles.filter(o => o.x > -300);
 
     /* particles */
     particles.forEach(p => {
@@ -443,9 +448,6 @@ function update(){
     particles =
     particles.filter(p => p.life > 0);
 
-    flash *= 0.9;
-
-    /* ui */
     document
     .getElementById("score")
     .innerText = score;
@@ -465,18 +467,8 @@ function draw(){
         window.innerHeight
     );
 
-    /* animated bg */
-    const g = ctx.createLinearGradient(
-        0,
-        0,
-        0,
-        window.innerHeight
-    );
-
-    g.addColorStop(0,"#050816");
-    g.addColorStop(1,"#000");
-
-    ctx.fillStyle = g;
+    /* bg */
+    ctx.fillStyle = "#050816";
 
     ctx.fillRect(
         0,
@@ -485,57 +477,29 @@ function draw(){
         window.innerHeight
     );
 
-    /* stars */
-    for(let i=0;i<40;i++){
+    /* subtle moving lines */
+    for(let i=0;i<20;i++){
 
         ctx.fillStyle =
-        "rgba(255,255,255,0.08)";
+        "rgba(255,255,255,0.03)";
 
         ctx.fillRect(
 
-            (i*140 +
-            performance.now()*0.03)
+            (i*180 -
+            performance.now()*0.05)
             % window.innerWidth,
 
-            i*20,
+            i*60,
 
-            2,
-            2
+            120,
+            1
 
         );
 
     }
 
-    /* flash */
-    if(flash > 1){
-
-        ctx.fillStyle =
-        `rgba(255,255,255,${flash*0.03})`;
-
-        ctx.fillRect(
-            0,
-            0,
-            window.innerWidth,
-            window.innerHeight
-        );
-
-    }
-
-    /* ground */
-    ctx.fillStyle = "#111";
-
-    ctx.fillRect(
-        0,
-        window.innerHeight - 100,
-        window.innerWidth,
-        100
-    );
-
-    /* player glow */
-    ctx.shadowBlur = 25;
-    ctx.shadowColor = "cyan";
-
-    ctx.fillStyle = "cyan";
+    /* player */
+    ctx.fillStyle = "white";
 
     ctx.fillRect(
         player.x,
@@ -545,9 +509,6 @@ function draw(){
     );
 
     /* obstacles */
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = "red";
-
     ctx.fillStyle = "red";
 
     obstacles.forEach(o => {
@@ -562,11 +523,12 @@ function draw(){
     });
 
     /* particles */
-    ctx.shadowBlur = 0;
+    ctx.fillStyle = "white";
 
     particles.forEach(p => {
 
-        ctx.fillStyle = p.color;
+        ctx.globalAlpha =
+        p.life / 40;
 
         ctx.fillRect(
             p.x,
@@ -576,6 +538,8 @@ function draw(){
         );
 
     });
+
+    ctx.globalAlpha = 1;
 
 }
 
@@ -630,7 +594,7 @@ function startTimer(){
 }
 
 /* =====================================
-   END GAME
+   END
 ===================================== */
 
 function endGame(){
@@ -667,8 +631,6 @@ document
 .onclick = async () => {
 
     running = true;
-
-    resetPlayer();
 
     document
     .getElementById("start")
