@@ -368,7 +368,7 @@ button:disabled{
 
         <section aria-label="vorsichern:" class="block">
             <h2>vorsichern:</h2>
-            <p class="presave-hint">dann ist „-X-drei“ am 26. juni direkt in deiner bibliothek</p>
+            <p class="presave-hint">dann ist „drei“ am 23. januar direkt in deiner bibliothek</p>
 
             <div class="presave-row">
                 <a class="presave-button"
@@ -416,13 +416,12 @@ button:disabled{
                     </picture>
                 </a>
 
-              <a href="https://soundcloud.com/bennet-6942069420"
-                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-                </picture>
-              </a>
+                <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
+                    <picture>
+                        <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                    </picture>
+                </a>
             </div>
         </section>
 
@@ -565,7 +564,8 @@ if(typeof window.supabase !== "undefined"){
   - Seitenaufruf: START + leeres Namensfeld
   - nach Spiel 1: RETRY
   - nach Spiel 2: RETRY
-  - nach Spiel 3: START + leeres Namensfeld
+  - nach Spiel 3: RETRY
+  - nach Spiel 4: wieder START + leeres Namensfeld
 */
 
 let retryCount = 0;
@@ -674,16 +674,6 @@ function getElapsedSeconds(){
         (performance.now() - gameStartTime) / 1000
     );
 }
-
-/*
-  Desktop und Mobile sind zeitlich synchron:
-  0-25 Sekunden: Einstieg
-  25-40 Sekunden: schneller
-  40-60 Sekunden: schwer bis sehr schwierig
-
-  Mobile hat leicht niedrigere Pixelwerte,
-  damit es subjektiv ähnlich schwer bleibt.
-*/
 
 function getCurrentSpeed(){
     const elapsed =
@@ -807,7 +797,7 @@ window.addEventListener(
 );
 
 /* =====================================
-   PARTICLES
+   PARTICLES / COLLISION HELPERS
 ===================================== */
 
 function spawnParticles(x,y){
@@ -822,19 +812,92 @@ function spawnParticles(x,y){
     }
 }
 
-function orbInsideObstacle(x,y){
+function circleRectOverlap(cx, cy, r, rx, ry, rw, rh, padding = 0){
+
+    const nearestX =
+    Math.max(
+        rx - padding,
+        Math.min(
+            cx,
+            rx + rw + padding
+        )
+    );
+
+    const nearestY =
+    Math.max(
+        ry - padding,
+        Math.min(
+            cy,
+            ry + rh + padding
+        )
+    );
+
+    const dx =
+    cx - nearestX;
+
+    const dy =
+    cy - nearestY;
+
+    return (
+        dx * dx + dy * dy
+        <
+        (r + padding) * (r + padding)
+    );
+
+}
+
+function orbInsideObstacle(x,y,r = 12){
+
+    const padding = 18;
+
     for(let o of obstacles){
+
         if(
-            x > o.x &&
-            x < o.x + o.w &&
-            y > o.y &&
-            y < o.y + o.h
+            circleRectOverlap(
+                x,
+                y,
+                r,
+                o.x,
+                o.y,
+                o.w,
+                o.h,
+                padding
+            )
         ){
             return true;
         }
+
     }
 
     return false;
+
+}
+
+function obstacleOverlapsOrb(x,y,w,h){
+
+    const padding = 22;
+
+    for(let orb of orbs){
+
+        if(
+            circleRectOverlap(
+                orb.x,
+                orb.y,
+                orb.r || 12,
+                x,
+                y,
+                w,
+                h,
+                padding
+            )
+        ){
+            return true;
+        }
+
+    }
+
+    return false;
+
 }
 
 /* =====================================
@@ -850,9 +913,6 @@ function spawnObstacle(){
 
     const hard =
     elapsed >= 40;
-
-    const lane =
-    Math.floor(Math.random()*3);
 
     const heights =
     isMobile
@@ -880,44 +940,65 @@ function spawnObstacle(){
             ? [85,140,190,220]
             : [60,120,180];
 
-    const h =
-    heights[
-        Math.floor(
-            Math.random()
-            *
-            heights.length
-        )
-    ];
-
-    const w =
-    widths[
-        Math.floor(
-            Math.random()
-            *
-            widths.length
-        )
-    ];
-
+    let h;
+    let w;
     let y;
+    let safeObstacle = false;
+    let attempts = 0;
 
-    if(lane === 0){
-        y = 80;
-    }
+    while(!safeObstacle && attempts < 20){
 
-    if(lane === 1){
-        y =
-        window.innerHeight/2
-        -
-        h/2;
-    }
+        attempts++;
 
-    if(lane === 2){
-        y =
-        window.innerHeight
-        -
-        180
-        -
-        h;
+        const lane =
+        Math.floor(Math.random()*3);
+
+        h =
+        heights[
+            Math.floor(
+                Math.random()
+                *
+                heights.length
+            )
+        ];
+
+        w =
+        widths[
+            Math.floor(
+                Math.random()
+                *
+                widths.length
+            )
+        ];
+
+        if(lane === 0){
+            y = 80;
+        }
+
+        if(lane === 1){
+            y =
+            window.innerHeight/2
+            -
+            h/2;
+        }
+
+        if(lane === 2){
+            y =
+            window.innerHeight
+            -
+            180
+            -
+            h;
+        }
+
+        safeObstacle =
+        !obstacleOverlapsOrb(
+            window.innerWidth + 100,
+            y,
+            w,
+            h
+        );
+
     }
 
     const color =
@@ -939,15 +1020,16 @@ function spawnObstacle(){
     });
 
     if(Math.random() > (hard ? 0.38 : medium ? 0.52 : 0.68)){
+
         let orbX =
-        window.innerWidth + 260;
+        window.innerWidth + 100 + w + 120;
 
         let orbY;
         let safe = false;
-        let attempts = 0;
+        let orbAttempts = 0;
 
-        while(!safe && attempts < 25){
-            attempts++;
+        while(!safe && orbAttempts < 35){
+            orbAttempts++;
 
             orbY =
             Math.random()
@@ -962,7 +1044,8 @@ function spawnObstacle(){
             safe =
             !orbInsideObstacle(
                 orbX,
-                orbY
+                orbY,
+                12
             );
         }
 
@@ -1270,11 +1353,10 @@ function getCleanName(){
         document
         .getElementById("name")
         .value
-        || "PLAYER"
+        || ""
     )
     .trim()
-    .slice(0,12)
-    || "PLAYER";
+    .slice(0,12);
 }
 
 /* =====================================
@@ -1288,7 +1370,7 @@ async function submitScore(){
     }
 
     const name =
-    getCleanName();
+    getCleanName() || "PLAYER";
 
     const payload = {
         name,
@@ -1459,16 +1541,7 @@ async function endGame(resultType = "gameover"){
 
     retryCount++;
 
-    /*
-      Nach 3 gespielten Runden wieder START + leeres Namensfeld.
-      Also:
-      Runde 1: START
-      Runde 2: RETRY
-      Runde 3: RETRY
-      Runde 4: START + neuer Name
-    */
-
-    if(retryCount >= 3){
+    if(retryCount >= 4){
         waitingForNewName = true;
         retryCount = 0;
 
@@ -1567,17 +1640,24 @@ async function startGame(){
     const input =
     document.getElementById("name");
 
+    const playerName =
+    getCleanName();
+
+    if(input.style.display !== "none" && playerName.length < 1){
+        setStartStatus("bitte gib zuerst deinen namen ein");
+        input.focus();
+        startBtn.disabled = false;
+        return;
+    }
+
     if(input.style.display !== "none"){
         retryCount = 0;
         waitingForNewName = false;
     }
 
-    const playerName =
-    getCleanName();
-
     localStorage.setItem(
         "playerName",
-        playerName
+        playerName || "PLAYER"
     );
 
     resetGameState();
