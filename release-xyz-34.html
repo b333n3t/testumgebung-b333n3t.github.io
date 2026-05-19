@@ -29,6 +29,7 @@ canvas{
     height:100%;
 }
 
+/* overlays */
 #start,
 #end{
     position:fixed;
@@ -41,12 +42,20 @@ canvas{
     z-index:10;
 }
 
+/* title */
 h1{
     font-size:54px;
     margin-bottom:30px;
     letter-spacing:2px;
 }
 
+h2{
+    font-size:38px;
+    margin-bottom:26px;
+    letter-spacing:1px;
+}
+
+/* input */
 input{
     width:240px;
     padding:14px;
@@ -58,6 +67,7 @@ input{
     outline:none;
 }
 
+/* button */
 button{
     padding:15px 30px;
     border:none;
@@ -74,6 +84,7 @@ button:disabled{
     cursor:not-allowed;
 }
 
+/* ui */
 #ui{
     position:fixed;
     top:20px;
@@ -90,24 +101,28 @@ button:disabled{
     font-size:20px;
 }
 
-#leaderboard{
-    margin-top:20px;
+/* leaderboard */
+#leaderboard,
+#startLeaderboard{
+    margin-top:24px;
     width:280px;
     text-align:left;
     font-size:16px;
 }
 
-#leaderboard h3{
-    margin-bottom:8px;
+#leaderboard h3,
+#startLeaderboard h3{
     text-align:center;
+    margin-bottom:8px;
+    font-size:22px;
 }
 
 .scoreRow{
     display:flex;
     justify-content:space-between;
-    gap:12px;
-    padding:4px 0;
-    border-bottom:1px solid rgba(255,255,255,0.1);
+    gap:14px;
+    padding:5px 0;
+    border-bottom:1px solid rgba(255,255,255,0.12);
 }
 
 .scoreRow span:first-child{
@@ -125,9 +140,14 @@ button:disabled{
     line-height:1.4;
 }
 
+/* mobile */
 @media(max-width:768px){
     h1{
         font-size:40px;
+    }
+
+    h2{
+        font-size:32px;
     }
 
     input{
@@ -144,7 +164,9 @@ button:disabled{
 
 <body>
 
+<!-- START -->
 <div id="start">
+
     <h1>NEW RELEASE</h1>
 
     <input
@@ -159,10 +181,15 @@ button:disabled{
     </button>
 
     <div id="startStatus" class="statusText"></div>
+
+    <div id="startLeaderboard"></div>
+
 </div>
 
+<!-- END -->
 <div id="end" style="display:none;">
-    <h2>GAME OVER</h2>
+
+    <h2 id="endTitle">GAME OVER</h2>
 
     <div id="final"></div>
 
@@ -173,25 +200,34 @@ button:disabled{
     </button>
 
     <div id="leaderboard"></div>
+
 </div>
 
+<!-- UI -->
 <div id="ui">
+
     SCORE:
     <span id="score">0</span>
+
 </div>
 
 <div id="timer">
+
     60
+
 </div>
 
+<!-- AUDIO -->
 <audio
     id="song"
     src="assets/release/drei-viertel.prelisten.mp3"
     preload="auto"
 ></audio>
 
+<!-- CANVAS -->
 <canvas id="c"></canvas>
 
+<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
@@ -208,18 +244,24 @@ const SUPABASE_KEY =
     "sb_publishable_MRJcYGadARj5Es6fiNcD2A_FJyZ_bX3";
 
 function setStartStatus(text){
-    const el = document.getElementById("startStatus");
-    if(el) el.textContent = text || "";
+    const el =
+    document.getElementById("startStatus");
+
+    if(el){
+        el.textContent = text || "";
+    }
 }
 
 if(typeof window.supabase !== "undefined"){
     try{
-        supabaseClient = window.supabase.createClient(
+        supabaseClient =
+        window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_KEY
         );
 
         console.log("Supabase client created");
+
     }catch(err){
         console.error("Supabase init failed:", err);
         setStartStatus("Leaderboard offline. Game funktioniert trotzdem.");
@@ -253,6 +295,7 @@ const DPR =
 window.devicePixelRatio || 1;
 
 function resize(){
+
     c.width =
     Math.floor(window.innerWidth * DPR);
 
@@ -270,6 +313,7 @@ function resize(){
     );
 
     ctx.scale(DPR,DPR);
+
 }
 
 resize();
@@ -291,8 +335,11 @@ window.innerWidth < 768;
 ===================================== */
 
 let running = false;
+let ending = false;
+
 let score = 0;
 let time = 60;
+
 let timerInterval = null;
 let animationFrameId = null;
 
@@ -310,9 +357,11 @@ const savedName =
 localStorage.getItem("playerName");
 
 if(savedName){
+
     document
     .getElementById("name")
     .value = savedName;
+
 }
 
 /* =====================================
@@ -320,6 +369,7 @@ if(savedName){
 ===================================== */
 
 const player = {
+
     x:isMobile
         ? window.innerWidth * 0.22
         : window.innerWidth * 0.25,
@@ -330,6 +380,7 @@ const player = {
     h:isMobile ? 48 : 40,
 
     vy:0
+
 };
 
 /* =====================================
@@ -345,38 +396,48 @@ let orbs = [];
 ===================================== */
 
 function moveUp(){
+
     if(!running) return;
 
     player.vy =
     isMobile ? -7 : -9;
+
 }
 
 function moveDown(){
+
     if(!running) return;
 
     player.vy =
     isMobile ? 7 : 9;
+
 }
 
 window.addEventListener(
     "keydown",
     e => {
+
         if(
             e.code === "ArrowUp" ||
             e.code === "KeyW" ||
             e.code === "Space"
         ){
+
             e.preventDefault();
             moveUp();
+
         }
 
         if(
             e.code === "ArrowDown" ||
             e.code === "KeyS"
         ){
+
             e.preventDefault();
             moveDown();
+
         }
+
     }
 );
 
@@ -387,6 +448,7 @@ window.addEventListener(
 window.addEventListener(
     "touchmove",
     e => {
+
         if(!running) return;
 
         e.preventDefault();
@@ -405,6 +467,7 @@ window.addEventListener(
             -
             player.h/2
         ) * 0.25;
+
     },
     { passive:false }
 );
@@ -414,15 +477,26 @@ window.addEventListener(
 ===================================== */
 
 function spawnParticles(x,y){
+
     for(let i=0;i<30;i++){
+
         particles.push({
+
             x,
             y,
-            vx:(Math.random()-0.5)*6,
-            vy:(Math.random()-0.5)*6,
+
+            vx:
+            (Math.random()-0.5)*6,
+
+            vy:
+            (Math.random()-0.5)*6,
+
             life:40
+
         });
+
     }
+
 }
 
 /* =====================================
@@ -430,18 +504,26 @@ function spawnParticles(x,y){
 ===================================== */
 
 function orbInsideObstacle(x,y){
+
     for(let o of obstacles){
+
         if(
+
             x > o.x &&
             x < o.x + o.w &&
             y > o.y &&
             y < o.y + o.h
+
         ){
+
             return true;
+
         }
+
     }
 
     return false;
+
 }
 
 /* =====================================
@@ -449,6 +531,7 @@ function orbInsideObstacle(x,y){
 ===================================== */
 
 setInterval(() => {
+
     if(!running) return;
 
     const lane =
@@ -485,34 +568,47 @@ setInterval(() => {
     let y;
 
     if(lane === 0){
+
         y = 80;
+
     }
 
     if(lane === 1){
+
         y =
         window.innerHeight/2
         -
         h/2;
+
     }
 
     if(lane === 2){
+
         y =
         window.innerHeight
         -
         180
         -
         h;
+
     }
 
     obstacles.push({
-        x:window.innerWidth + 100,
+
+        x:
+        window.innerWidth + 100,
+
         y,
+
         w,
         h,
+
         passed:false
+
     });
 
     if(Math.random() > 0.65){
+
         let orbX =
         window.innerWidth + 260;
 
@@ -521,6 +617,7 @@ setInterval(() => {
         let attempts = 0;
 
         while(!safe && attempts < 25){
+
             attempts++;
 
             orbY =
@@ -538,17 +635,26 @@ setInterval(() => {
                 orbX,
                 orbY
             );
+
         }
 
         if(safe){
+
             orbs.push({
+
                 x:orbX,
                 y:orbY,
+
                 r:12,
+
                 taken:false
+
             });
+
         }
+
     }
+
 },1200);
 
 /* =====================================
@@ -556,55 +662,73 @@ setInterval(() => {
 ===================================== */
 
 function update(){
+
     speed +=
     isMobile
     ? 0.00035
     : 0.00045;
 
     player.y += player.vy;
+
     player.vy *= 0.90;
 
     if(player.y < 40){
+
         player.y = 40;
+
     }
 
     if(
         player.y >
         window.innerHeight - 140
     ){
+
         player.y =
         window.innerHeight - 140;
+
     }
 
     obstacles.forEach(o => {
+
         o.x -= speed;
 
         if(
+
             player.x < o.x + o.w &&
             player.x + player.w > o.x &&
             player.y < o.y + o.h &&
             player.y + player.h > o.y
+
         ){
-            endGame();
+
+            endGame("gameover");
+
         }
 
         if(
             !o.passed &&
             o.x < player.x
         ){
+
             o.passed = true;
+
             score += 10;
 
             if(score % 100 === 0){
+
                 spawnParticles(
                     player.x,
                     player.y
                 );
+
             }
+
         }
+
     });
 
     orbs.forEach(o => {
+
         o.x -= speed;
 
         const dx =
@@ -632,14 +756,18 @@ function update(){
             dist < 30 &&
             !o.taken
         ){
+
             o.taken = true;
+
             score += 25;
 
             spawnParticles(
                 o.x,
                 o.y
             );
+
         }
+
     });
 
     obstacles =
@@ -655,9 +783,12 @@ function update(){
     );
 
     particles.forEach(p => {
+
         p.x += p.vx;
         p.y += p.vy;
+
         p.life--;
+
     });
 
     particles =
@@ -668,6 +799,7 @@ function update(){
     document
     .getElementById("score")
     .innerText = score;
+
 }
 
 /* =====================================
@@ -675,6 +807,7 @@ function update(){
 ===================================== */
 
 function draw(){
+
     ctx.clearRect(
         0,
         0,
@@ -692,10 +825,12 @@ function draw(){
     );
 
     for(let i=0;i<20;i++){
+
         ctx.fillStyle =
         "rgba(255,255,255,0.03)";
 
         ctx.fillRect(
+
             (
                 i*180
                 -
@@ -708,46 +843,63 @@ function draw(){
 
             120,
             1
+
         );
+
     }
 
     ctx.fillStyle = "white";
 
     ctx.fillRect(
+
         player.x,
         player.y,
+
         player.w,
         player.h
+
     );
 
     ctx.fillStyle = "red";
 
     obstacles.forEach(o => {
+
         ctx.fillRect(
+
             o.x,
             o.y,
+
             o.w,
             o.h
+
         );
+
     });
 
     ctx.fillStyle = "gold";
 
     orbs.forEach(o => {
+
         ctx.beginPath();
 
         ctx.arc(
+
             o.x,
             o.y,
+
             o.r,
+
             0,
             Math.PI*2
+
         );
 
         ctx.fill();
+
     });
 
     particles.forEach(p => {
+
         ctx.globalAlpha =
         p.life / 40;
 
@@ -755,14 +907,19 @@ function draw(){
         "white";
 
         ctx.fillRect(
+
             p.x,
             p.y,
+
             4,
             4
+
         );
+
     });
 
     ctx.globalAlpha = 1;
+
 }
 
 /* =====================================
@@ -770,6 +927,7 @@ function draw(){
 ===================================== */
 
 function loop(){
+
     if(!running) return;
 
     update();
@@ -777,6 +935,7 @@ function loop(){
 
     animationFrameId =
     requestAnimationFrame(loop);
+
 }
 
 /* =====================================
@@ -784,16 +943,23 @@ function loop(){
 ===================================== */
 
 function startTimer(){
+
     if(timerInterval){
+
         clearInterval(timerInterval);
+
     }
 
     timerInterval =
     setInterval(() => {
+
         if(!running){
+
             clearInterval(timerInterval);
             timerInterval = null;
+
             return;
+
         }
 
         time--;
@@ -805,11 +971,16 @@ function startTimer(){
         score++;
 
         if(time <= 0){
+
             clearInterval(timerInterval);
             timerInterval = null;
-            endGame();
+
+            endGame("finish");
+
         }
+
     },1000);
+
 }
 
 /* =====================================
@@ -817,15 +988,18 @@ function startTimer(){
 ===================================== */
 
 function escapeHtml(value){
+
     return String(value)
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
+
 }
 
 function getCleanName(){
+
     return (
         document
         .getElementById("name")
@@ -835,6 +1009,7 @@ function getCleanName(){
     .trim()
     .slice(0,12)
     || "PLAYER";
+
 }
 
 /* =====================================
@@ -842,9 +1017,15 @@ function getCleanName(){
 ===================================== */
 
 async function submitScore(){
+
     if(!supabaseClient){
-        console.warn("No Supabase client. Score not saved.");
+
+        console.warn(
+            "No Supabase client. Score not saved."
+        );
+
         return;
+
     }
 
     const name =
@@ -861,21 +1042,29 @@ async function submitScore(){
     .insert([payload]);
 
     if(error){
+
         console.error(
             "Supabase insert failed:",
             error.message,
             error
         );
+
         return;
+
     }
 
-    console.log("Score saved:", payload);
+    console.log(
+        "Score saved:",
+        payload
+    );
+
 }
 
-async function loadLeaderboard(){
+async function loadLeaderboard(targetId = "leaderboard"){
+
     const board =
     document
-    .getElementById("leaderboard");
+    .getElementById(targetId);
 
     if(!board) return;
 
@@ -883,20 +1072,34 @@ async function loadLeaderboard(){
     "<h3>TOP 10</h3>";
 
     if(!supabaseClient){
+
         board.innerHTML +=
         "<p>Leaderboard offline.</p>";
+
         return;
+
     }
 
     const { data, error } =
     await supabaseClient
     .from("scores")
     .select("name, score, created_at")
-    .order("score", { ascending:false })
-    .order("created_at", { ascending:true })
+    .order(
+        "score",
+        {
+            ascending:false
+        }
+    )
+    .order(
+        "created_at",
+        {
+            ascending:true
+        }
+    )
     .limit(10);
 
     if(error){
+
         console.error(
             "Supabase select failed:",
             error.message,
@@ -907,44 +1110,64 @@ async function loadLeaderboard(){
         "<p>Leaderboard konnte nicht geladen werden.</p>";
 
         return;
+
     }
 
     if(!data || data.length === 0){
+
         board.innerHTML +=
         "<p>No scores yet.</p>";
+
         return;
+
     }
 
     data.forEach((s,i)=>{
+
         board.innerHTML += `
+
             <div class="scoreRow">
-                <span>${i+1}. ${escapeHtml(s.name)}</span>
-                <span>${Number(s.score)}</span>
+
+                <span>
+                    ${i+1}. ${escapeHtml(s.name)}
+                </span>
+
+                <span>
+                    ${Number(s.score)}
+                </span>
+
             </div>
+
         `;
+
     });
+
 }
 
 /* =====================================
    END
 ===================================== */
 
-let ending = false;
+async function endGame(resultType = "gameover"){
 
-async function endGame(){
     if(ending) return;
+
     ending = true;
 
     running = false;
 
     if(animationFrameId){
+
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
+
     }
 
     if(timerInterval){
+
         clearInterval(timerInterval);
         timerInterval = null;
+
     }
 
     song.pause();
@@ -952,11 +1175,25 @@ async function endGame(){
     const name =
     getCleanName();
 
+    const headline =
+    resultType === "finish"
+    ? "FINISH"
+    : "GAME OVER";
+
+    document
+    .getElementById("endTitle")
+    .textContent = headline;
+
     document
     .getElementById("final")
     .innerHTML = `
+
         <h3>${escapeHtml(name)}</h3>
-        <p>SCORE: ${score}</p>
+
+        <p>
+            SCORE: ${score}
+        </p>
+
     `;
 
     document
@@ -964,27 +1201,34 @@ async function endGame(){
     .style.display = "flex";
 
     await submitScore();
-    await loadLeaderboard();
+
+    await loadLeaderboard("leaderboard");
 
     ending = false;
+
 }
 
 /* =====================================
-   RESTART
+   RESET STATE
 ===================================== */
 
-function restartGame(){
+function resetGameState(){
+
     ending = false;
     running = false;
 
     if(animationFrameId){
+
         cancelAnimationFrame(animationFrameId);
         animationFrameId = null;
+
     }
 
     if(timerInterval){
+
         clearInterval(timerInterval);
         timerInterval = null;
+
     }
 
     score = 0;
@@ -1015,6 +1259,16 @@ function restartGame(){
     .getElementById("timer")
     .innerText = time;
 
+}
+
+/* =====================================
+   RESTART
+===================================== */
+
+function restartGame(){
+
+    resetGameState();
+
     document
     .getElementById("end")
     .style.display = "none";
@@ -1022,41 +1276,75 @@ function restartGame(){
     song.currentTime = 0;
 
     song.play().catch(err => {
-        console.warn("Audio blocked:", err);
+
+        console.warn(
+            "Audio blocked:",
+            err
+        );
+
     });
 
     running = true;
 
     loop();
+
     startTimer();
+
+}
+
+/* =====================================
+   BACK TO START AFTER 3 RETRIES
+===================================== */
+
+async function goBackToReleaseStart(){
+
+    resetGameState();
+
+    song.pause();
+    song.currentTime = 0;
+
+    retries = 0;
+
+    localStorage.setItem(
+        "retries",
+        "0"
+    );
+
+    document
+    .getElementById("end")
+    .style.display = "none";
+
+    document
+    .getElementById("start")
+    .style.display = "flex";
+
+    await loadLeaderboard("startLeaderboard");
+
 }
 
 /* =====================================
    RETRY
 ===================================== */
 
-function retryGame(){
+async function retryGame(){
+
     retries++;
 
     localStorage.setItem(
         "retries",
-        retries
+        String(retries)
     );
 
-    if(retries >= 10){
-        localStorage.removeItem(
-            "playerName"
-        );
+    if(retries >= 3){
 
-        localStorage.setItem(
-            "retries",
-            0
-        );
+        await goBackToReleaseStart();
 
-        retries = 0;
+        return;
+
     }
 
     restartGame();
+
 }
 
 window.retryGame = retryGame;
@@ -1070,18 +1358,44 @@ document.getElementById(
     "startBtn"
 );
 
-startBtn.addEventListener("click", function(){
-    startGame().catch(function(err){
-        console.error("Start failed:", err);
-        setStartStatus("Start fehlgeschlagen. Bitte Browser-Konsole prüfen.");
-    });
-});
+startBtn.addEventListener(
+    "click",
+    function(){
+
+        startGame().catch(function(err){
+
+            console.error(
+                "Start failed:",
+                err
+            );
+
+            setStartStatus(
+                "Start fehlgeschlagen. Bitte Browser-Konsole prüfen."
+            );
+
+            startBtn.disabled = false;
+
+        });
+
+    }
+);
 
 async function startGame(){
-    console.log("START CLICKED");
+
+    console.log(
+        "START CLICKED"
+    );
 
     startBtn.disabled = true;
+
     setStartStatus("");
+
+    retries = 0;
+
+    localStorage.setItem(
+        "retries",
+        "0"
+    );
 
     const playerName =
     getCleanName();
@@ -1091,57 +1405,48 @@ async function startGame(){
         playerName
     );
 
-    score = 0;
-    time = 60;
-    speed =
-    isMobile ? 4.2 : 5.2;
-
-    obstacles = [];
-    particles = [];
-    orbs = [];
-
-    player.x =
-    isMobile
-        ? window.innerWidth * 0.22
-        : window.innerWidth * 0.25;
-
-    player.y =
-    window.innerHeight * 0.5;
-
-    player.vy = 0;
-
-    document
-    .getElementById("score")
-    .innerText = score;
-
-    document
-    .getElementById("timer")
-    .innerText = time;
+    resetGameState();
 
     document
     .getElementById("start")
     .style.display = "none";
 
     try{
+
+        song.currentTime = 0;
+
         await song.play();
+
     }catch(err){
+
         console.warn(
             "Audio blocked, game starts without audio:",
             err
         );
+
     }
 
     running = true;
 
     loop();
+
     startTimer();
 
     startBtn.disabled = false;
+
 }
 
-/* Optional: Leaderboard test beim Laden */
-loadLeaderboard().catch(err => {
-    console.warn("Initial leaderboard load failed:", err);
+/* =====================================
+   INITIAL LEADERBOARD ON START SCREEN
+===================================== */
+
+loadLeaderboard("startLeaderboard").catch(err => {
+
+    console.warn(
+        "Initial leaderboard load failed:",
+        err
+    );
+
 });
 </script>
 
