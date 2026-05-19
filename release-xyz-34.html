@@ -8,7 +8,7 @@ content="width=device-width,
 initial-scale=1.0,
 viewport-fit=cover">
 
-<title>Release Game 2.2</title>
+<title>Release Game 2.3</title>
 
 <style>
 
@@ -108,38 +108,6 @@ button{
     font-size:20px;
 }
 
-/* desktop controls */
-#controls{
-
-    position:fixed;
-    bottom:20px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    z-index:20;
-
-    display:none;
-    gap:10px;
-
-}
-
-.controlBtn{
-
-    width:80px;
-    height:80px;
-
-    border-radius:50%;
-
-    background:rgba(255,255,255,0.12);
-
-    border:2px solid white;
-
-    color:white;
-
-    font-size:28px;
-}
-
 /* mobile */
 @media(max-width:768px){
 
@@ -149,10 +117,6 @@ button{
 
     input{
         width:70%;
-    }
-
-    #controls{
-        display:flex;
     }
 
 }
@@ -188,7 +152,7 @@ button{
 
     <br>
 
-    <button onclick="location.reload()">
+    <button onclick="retryGame()">
         RETRY
     </button>
 
@@ -204,25 +168,6 @@ button{
     60
 </div>
 
-<!-- mobile controls -->
-<div id="controls">
-
-    <button
-        class="controlBtn"
-        id="upBtn"
-    >
-        ↑
-    </button>
-
-    <button
-        class="controlBtn"
-        id="downBtn"
-    >
-        ↓
-    </button>
-
-</div>
-
 <!-- AUDIO -->
 <audio
     id="song"
@@ -234,6 +179,15 @@ button{
 <canvas id="c"></canvas>
 
 <script>
+
+/* =====================================
+   RETRIES
+===================================== */
+
+let retries =
+parseInt(
+    localStorage.getItem("retries")
+) || 0;
 
 /* =====================================
    CANVAS
@@ -285,6 +239,21 @@ let speed = 7;
 
 const song =
 document.getElementById("song");
+
+/* =====================================
+   SAVED NAME
+===================================== */
+
+const savedName =
+localStorage.getItem("playerName");
+
+if(savedName){
+
+    document
+    .getElementById("name")
+    .value = savedName;
+
+}
 
 /* =====================================
    PLAYER
@@ -358,48 +327,33 @@ window.addEventListener(
     }
 );
 
-/* mobile buttons */
-document
-.getElementById("upBtn")
-.addEventListener(
-    "touchstart",
+/* mobile touch follow */
+window.addEventListener(
+    "touchmove",
     e => {
+
+        if(!running) return;
 
         e.preventDefault();
 
-        moveUp();
+        const touch =
+        e.touches[0];
+
+        const y =
+        touch.clientY;
+
+        /* smooth follow */
+        player.y +=
+        (
+            y
+            -
+            player.y
+            -
+            player.h/2
+        ) * 0.18;
 
     },
     { passive:false }
-);
-
-document
-.getElementById("downBtn")
-.addEventListener(
-    "touchstart",
-    e => {
-
-        e.preventDefault();
-
-        moveDown();
-
-    },
-    { passive:false }
-);
-
-/* desktop mouse */
-document
-.getElementById("upBtn")
-.addEventListener(
-    "mousedown",
-    moveUp
-);
-
-document
-.getElementById("downBtn")
-.addEventListener(
-    "mousedown",
-    moveDown
 );
 
 /* =====================================
@@ -839,12 +793,55 @@ function endGame(){
 }
 
 /* =====================================
+   RETRY
+===================================== */
+
+function retryGame(){
+
+    retries++;
+
+    localStorage.setItem(
+        "retries",
+        retries
+    );
+
+    /* reset name after 10 retries */
+    if(retries >= 10){
+
+        localStorage.removeItem(
+            "playerName"
+        );
+
+        localStorage.setItem(
+            "retries",
+            0
+        );
+
+    }
+
+    location.reload();
+
+}
+
+/* =====================================
    START
 ===================================== */
 
 document
 .getElementById("startBtn")
 .onclick = async () => {
+
+    const playerName =
+    document
+    .getElementById("name")
+    .value
+    || "PLAYER";
+
+    /* save name */
+    localStorage.setItem(
+        "playerName",
+        playerName
+    );
 
     running = true;
 
