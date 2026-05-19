@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Release Game 3.2</title>
 
@@ -560,6 +559,14 @@ if(typeof window.supabase !== "undefined"){
    RETRY LOGIC
 ===================================== */
 
+/*
+  Ablauf:
+  - Seitenaufruf: START + leeres Namensfeld
+  - nach Spiel 1: RETRY
+  - nach Spiel 2: RETRY
+  - nach Spiel 3: START + leeres Namensfeld
+*/
+
 let retryCount = 0;
 let waitingForNewName = true;
 
@@ -637,15 +644,6 @@ const obstacleColors = [
     "#facc15"
 ];
 
-const savedName =
-localStorage.getItem("playerName");
-
-if(savedName){
-    document
-    .getElementById("name")
-    .value = savedName;
-}
-
 const player = {
     x:isMobile
         ? window.innerWidth * 0.22
@@ -676,67 +674,74 @@ function getElapsedSeconds(){
     );
 }
 
+/*
+  Desktop und Mobile sind zeitlich synchron:
+  0-25 Sekunden: Einstieg
+  25-40 Sekunden: schneller
+  40-60 Sekunden: schwer bis sehr schwierig
+
+  Mobile hat leicht niedrigere Pixelwerte,
+  damit es subjektiv ähnlich schwer bleibt.
+*/
+
 function getCurrentSpeed(){
     const elapsed =
     getElapsedSeconds();
 
-    if(elapsed < 6){
+    if(elapsed < 25){
         const start =
-        isMobile ? 2.6 : 3.2;
+        isMobile ? 2.5 : 3.1;
 
         const end =
-        isMobile ? 3.8 : 4.5;
-
-        const p =
-        elapsed / 6;
-
-        return start + (end - start) * p;
-    }
-
-    if(time > 10){
-        const p =
-        Math.min(
-            1,
-            (elapsed - 6) / 44
-        );
-
-        const start =
         isMobile ? 4.0 : 4.8;
 
-        const end =
-        isMobile ? 6.3 : 7.3;
+        const p =
+        elapsed / 25;
 
         return start + (end - start) * p;
     }
 
-    const lastP =
+    if(elapsed < 40){
+        const p =
+        (elapsed - 25) / 15;
+
+        const start =
+        isMobile ? 4.4 : 5.2;
+
+        const end =
+        isMobile ? 6.7 : 7.8;
+
+        return start + (end - start) * p;
+    }
+
+    const p =
     Math.min(
         1,
-        (10 - time) / 10
+        (elapsed - 40) / 20
     );
 
     const start =
-    isMobile ? 7.0 : 8.0;
+    isMobile ? 7.2 : 8.4;
 
     const end =
-    isMobile ? 9.2 : 10.4;
+    isMobile ? 10.0 : 11.5;
 
-    return start + (end - start) * lastP;
+    return start + (end - start) * p;
 }
 
 function getSpawnDelay(){
     const elapsed =
     getElapsedSeconds();
 
-    if(elapsed < 6){
+    if(elapsed < 25){
         return isMobile ? 1450 : 1350;
     }
 
-    if(time > 10){
+    if(elapsed < 40){
         return isMobile ? 1050 : 950;
     }
 
-    return isMobile ? 760 : 680;
+    return isMobile ? 680 : 600;
 }
 
 /* =====================================
@@ -836,29 +841,43 @@ function orbInsideObstacle(x,y){
 ===================================== */
 
 function spawnObstacle(){
-    const lane =
-    Math.floor(Math.random()*3);
+    const elapsed =
+    getElapsedSeconds();
+
+    const medium =
+    elapsed >= 25;
 
     const hard =
-    time <= 10;
+    elapsed >= 40;
+
+    const lane =
+    Math.floor(Math.random()*3);
 
     const heights =
     isMobile
     ? hard
-        ? [60,90,120,150]
-        : [40,70,100]
+        ? [80,110,140,170]
+        : medium
+            ? [55,85,115,140]
+            : [40,70,100]
     : hard
-        ? [70,110,150,190]
-        : [40,80,140];
+        ? [90,130,170,210]
+        : medium
+            ? [60,100,150,180]
+            : [40,80,140];
 
     const widths =
     isMobile
     ? hard
-        ? [80,120,160,190]
-        : [60,100,140]
+        ? [100,145,185,220]
+        : medium
+            ? [75,115,155,180]
+            : [60,100,140]
     : hard
-        ? [90,140,190,230]
-        : [60,120,180];
+        ? [120,170,220,260]
+        : medium
+            ? [85,140,190,220]
+            : [60,120,180];
 
     const h =
     heights[
@@ -918,7 +937,7 @@ function spawnObstacle(){
         passed:false
     });
 
-    if(Math.random() > (hard ? 0.45 : 0.65)){
+    if(Math.random() > (hard ? 0.38 : medium ? 0.52 : 0.68)){
         let orbX =
         window.innerWidth + 260;
 
@@ -1439,9 +1458,21 @@ async function endGame(resultType = "gameover"){
 
     retryCount++;
 
-    if(retryCount >= 6){
+    /*
+      Nach 3 gespielten Runden wieder START + leeres Namensfeld.
+      Also:
+      Runde 1: START
+      Runde 2: RETRY
+      Runde 3: RETRY
+      Runde 4: START + neuer Name
+    */
+
+    if(retryCount >= 3){
         waitingForNewName = true;
         retryCount = 0;
+
+        document.getElementById("name").value = "";
+        localStorage.removeItem("playerName");
     }else{
         waitingForNewName = false;
     }
@@ -1587,6 +1618,8 @@ async function startGame(){
 
 waitingForNewName = true;
 retryCount = 0;
+
+document.getElementById("name").value = "";
 
 showStartScreen(null);
 
