@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>b3nn3t „drei" | neuer release</title>
+  <meta name="description" content="„DREI" – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz."/>
+  <meta name="robots" content="index,follow,max-image-preview:large"/>
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="canonical" href="https://www.b3nn3t.com/release-alles-was-bleibt.html"/>
+  <!-- iOS: Vollbild ohne Safari-Chrome wenn vom Homescreen geöffnet -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <meta property="og:type" content="music.song">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="„DREI" – neues Release von b3nn3t">
+  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-alles-was-bleibt.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„DREI" – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/drei-cover.png">
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"MusicRecording",
+    "name":"DREI",
+    "byArtist":{
+      "@type":"MusicGroup",
+      "name":"b3nn3t"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #2a2724;   /* warmes Dunkelgrau, leicht erdiger Unterton */
+      --text: #fdfdfd;
+      --max: 960px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      outline: none;
+    }
+
+    /* Versteckte Video-Elemente: keinerlei Browser-Rendering */
+    video:not([controls]) {
+      pointer-events: none;
+    }
+
+    html {
+      background: var(--bg);
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      overflow-x: clip;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-text-size-adjust: 100%;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    .page-wrap {
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      overflow: clip;
+    }
+
+    .content {
+      width: 100%;
+      max-width: var(--max);
+      position: relative;
+      overflow: clip; /* verhindert Artefakte von bwrap-d left:-110px */
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.8rem, 2.6vw, 2.5rem);
+    }
+
+    .topline {
+      display: flex;
+      flex-wrap: nowrap; /* kein Umbruch → kein abgeschnittener Text */
+      align-items: baseline;
+      gap: 0.7rem;
+      font-size: 0.92rem;
+      letter-spacing: 0.04em;
+      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
+      position: relative;
+      z-index: 10;
+      overflow: hidden; /* abschneiden statt überlaufen */
+    }
+
+    .brand {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    #timer {
+      font-variant-numeric: tabular-nums;
+      font-weight: 700;
+    }
+
+    section.blk {
+      position: relative;
+      z-index: 5;
+      margin-bottom: clamp(2.4rem, 4vw, 3.6rem);
+    }
+
+    section.blk h2 {
+      margin-bottom: 1.05rem;
+      font-size: 1.06rem;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      font-weight: 600;
+    }
+
+    section.blk p {
+      line-height: 1.7;
+      font-size: 1rem;
+      position: relative;
+      z-index: 5;
+      max-width: 60rem;
+    }
+
+    section.blk p + p {
+      margin-top: 0.65rem;
+    }
+
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(1.15rem, 1.7vw, 1.7rem);
+      align-items: center;
+    }
+
+    .social-link {
+      text-decoration: none;
+      display: inline-flex;
+    }
+
+    .social-icon-img {
+      width: clamp(1.6rem, 1.3vw + 1rem, 2.2rem);
+      height: auto;
+      display: block;
+    }
+
+    .more-link {
+      display: inline-block;
+      margin-top: 0.7rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-decoration: none;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       VIDEO / DESKTOP
+       ════════════════════════════════════════════════════════ */
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    .desktop-scene {
+      position: relative;
+      min-height: clamp(650px, 78vw, 850px);
+      overflow: visible;
+    }
+
+    .bwrap-d {
+      position: absolute;
+      left: clamp(-40px, -2vw, 0px);
+      top: 0;
+      width: clamp(500px, 65vw, 780px);
+      aspect-ratio: 860 / 680;
+      z-index: 2;
+    }
+
+    .bwrap-d svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .vid-d {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      background: #000000;
+    }
+
+    .bsh {
+      fill: none;
+      stroke: rgba(0, 0, 0, 0.32);
+      stroke-width: 15;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .bst {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.97);
+      stroke-width: 7;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .dbtns {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    /* Kleine Comic-Gedankenblasen als Funktionsbuttons */
+    .cbtn,
+    .oval-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: #ffffff;
+      color: #111111;
+
+      border: 3px solid rgba(0, 0, 0, 0.92);
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.95),
+        2px 5px 10px rgba(0, 0, 0, 0.35);
+
+      cursor: pointer;
+      padding: 0;
+      pointer-events: auto;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .cbtn {
+      position: absolute;
+    }
+
+    .cbtn:hover,
+    .oval-btn:hover {
+      transform: scale(1.08);
+      box-shadow:
+        0 0 0 3px rgba(255, 255, 255, 0.95),
+        3px 7px 14px rgba(0, 0, 0, 0.42);
+    }
+
+    .cbtn svg,
+    .oval-btn svg {
+      width: 44%;
+      height: 44%;
+      display: block;
+      fill: currentColor;
+    }
+
+    /* Unregelmässige Comic-Formen statt Kreise */
+    .d-pl,
+    #m-pl {
+      border-radius: 62% 38% 56% 44% / 48% 60% 40% 52%;
+      transform: rotate(-3deg);
+    }
+
+    .d-pa,
+    #m-pa {
+      border-radius: 48% 58% 43% 61% / 60% 42% 58% 40%;
+      transform: rotate(4deg);
+    }
+
+    .d-so,
+    #m-so {
+      border-radius: 58% 42% 62% 38% / 42% 62% 38% 58%;
+      transform: rotate(-6deg);
+    }
+
+    .d-pl:hover,
+    #m-pl:hover {
+      transform: rotate(-3deg) scale(1.08);
+    }
+
+    .d-pa:hover,
+    #m-pa:hover {
+      transform: rotate(4deg) scale(1.08);
+    }
+
+    .d-so:hover,
+    #m-so:hover {
+      transform: rotate(-6deg) scale(1.08);
+    }
+
+    /* ── DESKTOP BLASEN: weiter links (right-Werte erhöht) ── */
+    .d-pl {
+      width: clamp(66px, 6.4vw, 86px);
+      height: clamp(52px, 5.2vw, 70px);
+      right: clamp(270px, 30vw, 390px); /* war: 210–315px */
+      top: clamp(315px, 36vw, 430px);
+    }
+
+    .d-pa {
+      width: clamp(54px, 5vw, 72px);
+      height: clamp(40px, 4.1vw, 56px);
+      right: clamp(195px, 22vw, 280px); /* war: 135–205px */
+      top: clamp(390px, 44vw, 525px);
+    }
+
+    .d-so {
+      width: clamp(44px, 4vw, 58px);
+      height: clamp(32px, 3.2vw, 44px);
+      right: clamp(130px, 15vw, 195px); /* war: 72–120px */
+      top: clamp(462px, 52vw, 620px);
+    }
+
+    /* ── DESKTOP TITEL: nah am Player ── */
+    .title-sec {
+      position: relative;
+      z-index: 5;
+      margin-top: -6rem;
+      margin-bottom: clamp(1.8rem, 3vw, 2.7rem);
+    }
+
+    .songtitle {
+      font-weight: 600;
+      text-transform: lowercase;
+      font-size: clamp(1.7rem, 3vw, 2.4rem);
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Person bündig mit unterem Rand (b3nn3t.com-Zeile) */
+    .text-stage {
+      position: relative;
+      z-index: 3;
+      padding-bottom: 1rem;
+      /* Sicherstellen dass person-bg nicht übersteht */
+      min-height: clamp(280px, 40vw, 420px);
+    }
+
+    .person-bg {
+      position: absolute;
+      right: clamp(-30px, -2vw, -8px);
+      /* Untere Kante auf Höhe von "kuck hier":
+         letzte blk-Section (b3nn3t.com) ist ca. 6–8rem hoch */
+      bottom: clamp(5rem, 8vw, 9rem);
+      top: auto;
+      width: clamp(190px, 27vw, 330px);
+      height: auto;
+      z-index: 1;
+      opacity: 0.9;
+      filter: drop-shadow(0 18px 28px rgba(0, 0, 0, 0.28));
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .text-front {
+      position: relative;
+      z-index: 5;
+    }
+
+    .mobile-scene {
+      display: none;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       MOBILE
+       ════════════════════════════════════════════════════════ */
+
+    @media (max-width: 768px) {
+      .page-wrap {
+        padding: 1.8rem 0 3rem;
+      }
+
+      main {
+        gap: 1.9rem;
+      }
+
+      .topline {
+        padding: 0 1rem;
+        font-size: 0.87rem;
+        gap: 0.45rem;
+        margin-bottom: 1rem;
+      }
+
+      .desktop-scene,
+      .dbtns {
+        display: none;
+      }
+
+      .title-sec {
+        margin-top: -5rem; /* dicht unter letzter kleiner Blase */
+        margin-bottom: 0.5rem;
+        padding: 0 1rem;
+      }
+
+      .songtitle {
+        letter-spacing: 0.18em;
+      }
+
+      .text-stage {
+        margin-top: 0;
+      }
+
+      /* Person: kleiner, untere Kante auf Höhe von "kuck hier" */
+      .person-bg {
+        top: auto;
+        bottom: 14rem;
+        right: -16px;
+        width: clamp(120px, 34vw, 170px);
+        opacity: 0.88;
+        z-index: 1;
+      }
+
+      section.blk {
+        padding: 0 1rem;
+        margin-bottom: 3.15rem;
+      }
+
+      section.blk h2 {
+        margin-bottom: 1rem;
+      }
+
+      /* Blasen ÜBER dem Text, aber klickbar */
+      .oval-btns {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        pointer-events: none;
+        z-index: 6;
+      }
+
+      .oval-btn {
+        position: absolute;
+        pointer-events: auto;
+        z-index: 6;
+      }
+
+      #m-pl, #m-pa, #m-so { position: absolute; }
+
+      .mobile-scene {
+        display: block;
+        position: relative;
+        width: 100%;
+        /* padding-bottom wird per JS gesetzt */
+      }
+
+      #bcanvas {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+    } /* end @media max-width 768px */
+
+    @media (max-width: 420px) {
+      .person-bg {
+        right: -24px;
+        top: auto;
+        bottom: 13rem;
+        width: clamp(115px, 36vw, 160px);
+      }
+    }
+
+    /* Landscape auf Phone: max-height 500px trifft iPhone/Android Querformat */
+    @media (max-height: 500px) and (orientation: landscape) {
+      /* Desktop-Player verstecken, mobile Canvas zeigen */
+      .desktop-scene,
+      .dbtns {
+        display: none !important;
+      }
+
+      .mobile-scene {
+        display: block !important;
+        position: relative;
+        width: 100%;
+        /* padding-bottom per JS */
+      }
+
+      #bcanvas {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .oval-btns {
+        position: absolute;
+        left: 0; right: 0; top: 0; bottom: 0;
+        pointer-events: none;
+        z-index: 6;
+      }
+
+      .oval-btn {
+        position: absolute;
+        pointer-events: auto;
+        z-index: 6;
+      }
+
+      #m-pl, #m-pa, #m-so {
+        position: absolute;
+      }
+
+      .title-sec {
+        margin-top: -1.2rem;
+        margin-bottom: 0.4rem;
+        padding: 0 1rem;
+      }
+
+      .person-bg {
+        bottom: 10rem;
+        top: auto;
+        width: clamp(90px, 16vw, 130px);
+      }
+
+      section.blk {
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .page-wrap {
+        padding-top: 4rem;
+        padding-bottom: 5rem;
+      }
+    }
+
+
+  </style>
+</head>
+
+<body>
+
+<div class="page-wrap">
+  <div class="content">
+    <main>
+
+      <div class="topline">
+        <a class="brand" href="index.html">b3nn3t</a>
+        <span style="opacity:.9">released in</span>
+        <span id="timer">--:--:--</span>
+      </div>
+
+      <div class="video-wrap">
+
+        <!-- ══ DESKTOP: Retro-TV (Donald Duck Style) ══ -->
+        <div class="desktop-scene">
+          <div class="bwrap-d">
+            <svg id="tv-svg-d" viewBox="0 0 860 680" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+              <defs>
+                <clipPath id="screen-clip">
+                  <rect x="192" y="88" width="390" height="330" rx="8" ry="8"/>
+                </clipPath>
+              </defs>
+
+              <!-- ── 4 Beine (hinter Körper) ── -->
+              <!-- Vorne links -->
+              <line x1="242" y1="520" x2="218" y2="648" stroke="#4a2e10" stroke-width="18" stroke-linecap="round"/>
+              <!-- Vorne rechts -->
+              <line x1="558" y1="520" x2="582" y2="648" stroke="#4a2e10" stroke-width="18" stroke-linecap="round"/>
+              <!-- Hinten links (kürzer, weiter innen) -->
+              <line x1="282" y1="520" x2="268" y2="620" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
+              <!-- Hinten rechts -->
+              <line x1="518" y1="520" x2="532" y2="620" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
+
+              <!-- Bein-Füsse -->
+              <ellipse cx="218" cy="650" rx="22" ry="7" fill="#3a2208"/>
+              <ellipse cx="582" cy="650" rx="22" ry="7" fill="#3a2208"/>
+              <ellipse cx="268" cy="622" rx="17" ry="5" fill="#2a1604"/>
+              <ellipse cx="532" cy="622" rx="17" ry="5" fill="#2a1604"/>
+
+              <!-- ── TV Hauptkörper ── -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
+                    fill="#6b3f1a" stroke="#1a0a00" stroke-width="6"/>
+
+              <!-- Holzmaserung -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
+                    fill="none" stroke="rgba(255,180,80,0.08)" stroke-width="20"/>
+              <line x1="200" y1="48" x2="185" y2="524" stroke="rgba(180,100,20,0.12)" stroke-width="16"/>
+              <line x1="380" y1="48" x2="365" y2="524" stroke="rgba(180,100,20,0.09)" stroke-width="22"/>
+              <line x1="580" y1="48" x2="600" y2="524" stroke="rgba(180,100,20,0.08)" stroke-width="14"/>
+
+              <!-- ── Grüner Bildschirm-Rahmen ── -->
+              <rect x="172" y="64" width="442" height="402" rx="6" ry="6"
+                    fill="#4a7a3a" stroke="#1a0a00" stroke-width="5"/>
+
+              <!-- ── Bildschirm (schwarz, leicht abgerundet) ── -->
+              <rect x="192" y="88" width="390" height="330" rx="8" ry="8"
+                    fill="#0a0a0a" stroke="#111" stroke-width="3"/>
+
+              <!-- VIDEO -->
+              <foreignObject x="192" y="88" width="390" height="330" clip-path="url(#screen-clip)">
+                <video
+                  xmlns="http://www.w3.org/1999/xhtml"
+                  id="vid-d"
+                  class="vid-d"
+                  muted playsinline preload="metadata"
+                  poster="assets/release/drei-cover.webp"
+                  width="1280" height="720">
+                  <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+                </video>
+              </foreignObject>
+
+              <!-- Bildschirm-Glare -->
+              <rect x="192" y="88" width="390" height="330" rx="8" ry="8"
+                    fill="none" stroke="#1a1a1a" stroke-width="3"/>
+              <ellipse cx="295" cy="170" rx="80" ry="40"
+                       fill="rgba(255,255,255,0.06)" transform="rotate(-15,295,170)"/>
+
+              <!-- ── Untere Leiste mit Knöpfen ── -->
+              <rect x="172" y="468" width="442" height="58" rx="4" ry="4"
+                    fill="#4a2e10" stroke="#1a0a00" stroke-width="4"/>
+
+              <!-- 3 runde Knöpfe nebeneinander -->
+              <!-- Knopf 1 -->
+              <circle cx="270" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
+              <circle cx="270" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
+              <circle cx="270" cy="497" r="5"  fill="#555"/>
+              <line x1="270" y1="484" x2="270" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+
+              <!-- Knopf 2 -->
+              <circle cx="330" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
+              <circle cx="330" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
+              <circle cx="330" cy="497" r="5"  fill="#555"/>
+              <line x1="330" y1="484" x2="330" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+
+              <!-- Knopf 3 -->
+              <circle cx="390" cy="497" r="18" fill="#3a2208" stroke="#1a0a00" stroke-width="3"/>
+              <circle cx="390" cy="497" r="13" fill="#2e1a06" stroke="#0a0500" stroke-width="2"/>
+              <circle cx="390" cy="497" r="5"  fill="#555"/>
+              <line x1="390" y1="484" x2="390" y2="492" stroke="#888" stroke-width="2.5" stroke-linecap="round"/>
+
+              <!-- ── Comic-Kontur aussen ── -->
+              <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
+                    fill="none" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
+
+              <!-- Canvas overlay für Chrome/Edge -->
+            </svg>
+            <canvas id="cvs-d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
+          </div>
+
+          <div class="dbtns">
+            <button class="cbtn d-pl" id="dp" aria-label="Play">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <button class="cbtn d-pa" id="dpa" aria-label="Pause">
+              <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+            <button class="cbtn d-so" id="ds" aria-label="Sound">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+                <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- ══ MOBILE: Canvas-Blase + Comic-Button-Blasen ══ -->
+        <div class="mobile-scene">
+
+          <video
+            id="vid-m"
+            style="position:absolute;width:0;height:0;opacity:0;visibility:hidden;pointer-events:none;top:0;left:0;overflow:hidden;"
+            muted
+            playsinline
+            preload="metadata"
+            poster="assets/release/drei-cover.webp"
+            width="1280"
+            height="720">
+            <source src="assets/gesehen/B3NN3T.mp4" type="video/mp4">
+          </video>
+
+          <canvas id="bcanvas" aria-label="Video in Comic-Gedankenblase"></canvas>
+
+          <div class="oval-btns">
+            <button class="oval-btn" id="m-pl" aria-label="Play">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+
+            <button class="oval-btn" id="m-pa" aria-label="Pause">
+              <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+            </button>
+
+            <button class="oval-btn" id="m-so" aria-label="Ton einschalten">
+              <svg viewBox="0 0 24 24">
+                <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+                <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+              </svg>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Textbereich mit Person im Hintergrund -->
+      <div class="text-stage">
+
+        <img class="person-bg" src="assets/release/person-sitzend.png" alt="">
+
+        <div class="text-front">
+
+          <section class="title-sec blk">
+            <h1 class="songtitle">drei</h1>
+          </section>
+
+          <section class="blk">
+            <h2>erklärbär</h2>
+            <p>drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
+            <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
+          </section>
+
+          <section class="blk">
+            <h2>kuck hier</h2>
+            <div class="social-icons">
+              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x" class="social-link" target="_blank" rel="noopener" aria-label="Spotify">
+                <picture>
+                  <source srcset="assets/release/spotify_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
+                </picture>
+              </a>
+
+              <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" target="_blank" rel="noopener" aria-label="Apple Music">
+                <picture>
+                  <source srcset="assets/release/apple_music_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
+                </picture>
+              </a>
+
+              <a href="https://www.instagram.com/b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+                <picture>
+                  <source srcset="assets/release/instagram_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
+                </picture>
+              </a>
+
+              <a href="https://www.youtube.com/@b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+                <picture>
+                  <source srcset="assets/release/youtube_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
+                </picture>
+              </a>
+
+              <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
+                <picture>
+                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                </picture>
+              </a>
+            </div>
+          </section>
+
+          <section class="blk">
+            <p>mehr auf meiner webseite :p</p>
+            <a class="more-link brand" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+          </section>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+
+<script>
+/* Countdown */
+(function(){
+  var target = new Date("2026-01-09T00:00:00+01:00").getTime();
+  var el = document.getElementById("timer");
+  if (!el) return;
+
+  function tick(){
+    var diff = target - Date.now();
+
+    if (diff <= 0) {
+      el.textContent = "OUT NOW";
+      clearInterval(iv);
+      return;
+    }
+
+    var s = Math.floor(diff / 1000);
+    var days = Math.floor(s / 86400);
+    var h = String(Math.floor((s % 86400) / 3600)).padStart(2, "0");
+    var m = String(Math.floor((s % 3600) / 60)).padStart(2, "0");
+    var sc = String(s % 60).padStart(2, "0");
+
+    el.textContent = days > 0
+      ? days + "d " + h + ":" + m + ":" + sc
+      : h + ":" + m + ":" + sc;
+  }
+
+  tick();
+  var iv = setInterval(tick, 1000);
+}());
+
+function sndIco(muted){
+  return muted
+    ? '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/></svg>'
+    : '<svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7l1.4 1.4a7 7 0 0 0 0-9.8l-1.4 1.4z" fill="currentColor"/></svg>';
+}
+
+/* Desktop controls */
+(function(){
+  var v = document.getElementById("vid-d");
+  var pl = document.getElementById("dp");
+  var pa = document.getElementById("dpa");
+  var so = document.getElementById("ds");
+
+  if (!v) return;
+
+  function updateSoundIcon(){
+    if (!so) return;
+    so.innerHTML = sndIco(v.muted);
+    so.setAttribute("aria-label", v.muted ? "Ton einschalten" : "Ton ausschalten");
+  }
+
+  if (pl) {
+    pl.onclick = function(){
+      v.play();
+    };
+  }
+
+  if (pa) {
+    pa.onclick = function(){
+      v.pause();
+    };
+  }
+
+  if (so) {
+    so.onclick = function(){
+      v.muted = !v.muted;
+      updateSoundIcon();
+    };
+  }
+
+  updateSoundIcon();
+}());
+</script>
+
+<script>
+/* roundRect Polyfill für ältere Browser */
+if (!CanvasRenderingContext2D.prototype.roundRect) {
+  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r){
+    if(typeof r === 'number') r = [r,r,r,r];
+    this.beginPath();
+    this.moveTo(x+r[0],y);
+    this.lineTo(x+w-r[1],y);
+    this.quadraticCurveTo(x+w,y,x+w,y+r[1]);
+    this.lineTo(x+w,y+h-r[2]);
+    this.quadraticCurveTo(x+w,y+h,x+w-r[2],y+h);
+    this.lineTo(x+r[3],y+h);
+    this.quadraticCurveTo(x,y+h,x,y+h-r[3]);
+    this.lineTo(x,y+r[0]);
+    this.quadraticCurveTo(x,y,x+r[0],y);
+    this.closePath();
+    return this;
+  };
+}
+
+(function(){
+  var scene = document.querySelector(".mobile-scene");
+  var vid   = document.getElementById("vid-m");
+  var cvs   = document.getElementById("bcanvas");
+  if (!scene || !vid || !cvs) return;
+
+  var ctx = cvs.getContext("2d");
+  var DPR = window.devicePixelRatio || 1;
+  var PW = 0, PH = 0;
+  var running = false;
+  var rafId = null;
+
+  function positionButtons(){
+    var pl = document.getElementById("m-pl");
+    var pa = document.getElementById("m-pa");
+    var so = document.getElementById("m-so");
+    if (!pl || !pa || !so) return;
+
+    var ch  = parseFloat(cvs.style.height) || 0;
+    var vw  = window.innerWidth;
+    var ref = Math.min(vw, 430); /* Skalierungsbasis, max 430px */
+
+    /* Grössen */
+    var plW = Math.round(ref * 0.148); var plH = Math.round(plW * 0.60);
+    var paW = Math.round(ref * 0.115); var paH = Math.round(paW * 0.60);
+    var soW = Math.round(ref * 0.090); var soH = Math.round(soW * 0.63);
+
+    pl.style.width  = plW + "px"; pl.style.height = plH + "px";
+    pa.style.width  = paW + "px"; pa.style.height = paH + "px";
+    so.style.width  = soW + "px"; so.style.height = soH + "px";
+
+    /* Buttons direkt unter Canvas, enger Abstand */
+    var gap   = Math.round(ref * 0.030); /* ~12px */
+    var plTop = ch + gap;
+    var paTop = plTop + plH + gap;
+    var soTop = paTop + paH + gap;
+
+    pl.style.top = plTop + "px";
+    pa.style.top = paTop + "px";
+    so.style.top = soTop + "px";
+
+    pl.style.left = "50%";
+    pa.style.left = "61%";
+    so.style.left = "72%";
+
+    /* padding-bottom = nur der Bereich UNTER dem Canvas der für Buttons gebraucht wird */
+    var btnZone = (soTop + soH + gap) - ch;
+    scene.style.paddingBottom = btnZone + "px";
+  }
+
+  function resize(){
+    var cw = window.innerWidth;
+    var ratio = (window.innerHeight < 500) ? 0.55 : 0.65;
+    var ch = Math.round(cw * ratio);
+    PW = Math.round(cw * DPR);
+    PH = Math.round(ch * DPR);
+    cvs.width  = PW;
+    cvs.height = PH;
+    cvs.style.width  = cw + "px";
+    cvs.style.height = ch + "px";
+    positionButtons(); /* paddingBottom wird hier gesetzt, nicht extra */
+  }
+
+  function isVisible(){
+    /* Sichtbar wenn: explizit display:block ODER Landscape-Mode (max-height 500px) */
+    var style = window.getComputedStyle(scene);
+    if (style.display !== "none") return true;
+    /* Landscape auf Phones: max-height:500px greift, aber max-width:768px nicht */
+    return (window.innerHeight < 500 && window.innerWidth > window.innerHeight);
+  }
+
+  /* Retro-TV zeichnen mit Video auf Bildschirm */
+  function drawTV(c, w, h){
+    /* Proportionen basierend auf Canvas-Grösse */
+    var bx = w*0.05, by = h*0.04;
+    var bw = w*0.78, bh = h*0.78;
+    var br = bw*0.05;
+
+    /* TV-Körper Schatten */
+    c.save();
+    c.shadowColor = "rgba(0,0,0,0.5)";
+    c.shadowBlur  = 18;
+    c.shadowOffsetY = 8;
+    c.beginPath();
+    c.roundRect(bx, by, bw, bh, br);
+    c.fillStyle = "#5c3a1e";
+    c.fill();
+    c.restore();
+
+    /* TV-Körper */
+    c.beginPath();
+    c.roundRect(bx, by, bw, bh, br);
+    c.fillStyle = "#5c3a1e";
+    c.fill();
+    c.strokeStyle = "#3a2208";
+    c.lineWidth = 3;
+    c.stroke();
+
+    /* Bildschirm-Bezel */
+    var bzx = bx+bw*0.04, bzy = by+bh*0.06;
+    var bzw = bw*0.66, bzh = bh*0.80;
+    c.beginPath();
+    c.roundRect(bzx, bzy, bzw, bzh, br*0.6);
+    c.fillStyle = "#1a1a1a";
+    c.fill();
+
+    /* Bildschirm */
+    var sx = bzx+bw*0.025, sy = bzy+bh*0.04;
+    var sw = bzw-bw*0.05,  sh = bzh-bh*0.08;
+    var sr = br*0.4;
+    c.beginPath();
+    c.roundRect(sx, sy, sw, sh, sr);
+    c.fillStyle = "#000";
+    c.fill();
+    c.clip();
+    return {sx:sx, sy:sy, sw:sw, sh:sh, bx:bx, by:by, bw:bw, bh:bh, br:br};
+  }
+
+  function bubblePath(c, w, h){ /* kept for compat — unused */ }
+
+  function drawTVFrame(c, tv){
+    /* Glare */
+    c.save();
+    c.globalAlpha = 0.07;
+    c.fillStyle = "#fff";
+    c.beginPath();
+    c.ellipse(tv.sx+tv.sw*0.3, tv.sy+tv.sh*0.3, tv.sw*0.22, tv.sh*0.18, -0.4, 0, Math.PI*2);
+    c.fill();
+    c.restore();
+
+    /* Scanlines */
+    c.save();
+    c.globalAlpha = 0.08;
+    c.fillStyle = "#000";
+    for(var i=tv.sy; i<tv.sy+tv.sh; i+=4){
+      c.fillRect(tv.sx, i, tv.sw, 2);
+    }
+    c.restore();
+
+    /* Screen border */
+    c.beginPath();
+    c.roundRect(tv.sx, tv.sy, tv.sw, tv.sh, tv.br*0.4);
+    c.strokeStyle = "#2a2a2a";
+    c.lineWidth = 2;
+    c.stroke();
+
+    /* Right panel knobs */
+    var kx = tv.bx + tv.bw*0.73;
+    var DPR = 1;
+
+    /* Big knob */
+    c.beginPath();
+    c.arc(kx+tv.bw*0.06, tv.by+tv.bh*0.28, tv.bw*0.07, 0, Math.PI*2);
+    c.fillStyle = "#3a2208"; c.fill();
+    c.strokeStyle = "#1a0e02"; c.lineWidth=2; c.stroke();
+    c.beginPath();
+    c.arc(kx+tv.bw*0.06, tv.by+tv.bh*0.28, tv.bw*0.025, 0, Math.PI*2);
+    c.fillStyle = "#888"; c.fill();
+
+    /* Small knob */
+    c.beginPath();
+    c.arc(kx+tv.bw*0.065, tv.by+tv.bh*0.58, tv.bw*0.05, 0, Math.PI*2);
+    c.fillStyle = "#3a2208"; c.fill();
+    c.strokeStyle = "#1a0e02"; c.lineWidth=2; c.stroke();
+
+    /* Indicator light */
+    c.beginPath();
+    c.arc(kx+tv.bw*0.065, tv.by+tv.bh*0.76, tv.bw*0.02, 0, Math.PI*2);
+    c.fillStyle = "#ff4422"; c.fill();
+
+    /* Legs */
+    var legY = tv.by + tv.bh;
+    c.fillStyle = "#4a2e10";
+    c.strokeStyle = "#3a2208"; c.lineWidth=2;
+    /* Left leg */
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.18, legY);
+    c.lineTo(tv.bx+tv.bw*0.12, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.22, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.26, legY);
+    c.closePath(); c.fill(); c.stroke();
+    /* Right leg */
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.56, legY);
+    c.lineTo(tv.bx+tv.bw*0.52, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.62, legY+h*0.12);
+    c.lineTo(tv.bx+tv.bw*0.64, legY);
+    c.closePath(); c.fill(); c.stroke();
+
+    /* Antennas */
+    c.strokeStyle = "#5c3a1e"; c.lineWidth = tv.bw*0.012; c.lineCap="round";
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.28, tv.by);
+    c.lineTo(tv.bx+tv.bw*0.15, -h*0.08);
+    c.stroke();
+    c.beginPath();
+    c.moveTo(tv.bx+tv.bw*0.44, tv.by);
+    c.lineTo(tv.bx+tv.bw*0.58, -h*0.10);
+    c.stroke();
+  }
+
+  var poster = new Image();
+  poster.src = "assets/release/drei-cover.webp";
+
+  function draw(){
+    if (!isVisible()){ running = false; return; }
+    rafId = requestAnimationFrame(draw);
+
+    ctx.clearRect(0, 0, PW, PH);
+
+    ctx.save();
+    var tv = drawTV(ctx, PW, PH);
+
+    var src = vid.readyState >= 2 ? vid : (poster.complete ? poster : null);
+    if (src) {
+      var vw = src.videoWidth  || src.naturalWidth  || 1280;
+      var vh = src.videoHeight || src.naturalHeight || 720;
+      var vr = vw/vh, cr = tv.sw/tv.sh;
+      var dw, dh, dx, dy;
+      if (vr > cr){ dh=tv.sh; dw=tv.sh*vr; dx=tv.sx+(tv.sw-dw)/2; dy=tv.sy; }
+      else         { dw=tv.sw; dh=tv.sw/vr; dx=tv.sx; dy=tv.sy+(tv.sh-dh)/2; }
+      ctx.drawImage(src, dx, dy, dw, dh);
+    }
+    ctx.restore();
+
+    drawTVFrame(ctx, tv);
+  }
+
+  function start(){
+    if (running) return;
+    running = true;
+    resize();
+    positionButtons();
+    draw();
+  }
+
+  /* Sofort starten wenn sichtbar, sonst auf resize warten */
+  if (isVisible()){
+    start();
+  }
+
+  window.addEventListener("resize", function(){
+    if (isVisible()){
+      resize();
+      if (!running) start();
+    } else {
+      running = false;
+      if (rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    }
+  }, { passive: true });
+
+  /* Buttons */
+  var mpl = document.getElementById("m-pl");
+  var mpa = document.getElementById("m-pa");
+  var mso = document.getElementById("m-so");
+
+  function updateMobileSound(){
+    if (!mso) return;
+    mso.innerHTML = sndIco(vid.muted);
+    mso.setAttribute("aria-label", vid.muted ? "Ton einschalten" : "Ton ausschalten");
+  }
+
+  if (mpl) mpl.onclick = function(){ vid.play(); };
+  if (mpa) mpa.onclick = function(){ vid.pause(); };
+  if (mso) mso.onclick = function(){ vid.muted = !vid.muted; updateMobileSound(); };
+
+  updateMobileSound();
+}());
+</script>
+<script>
+/* Desktop: Video per Canvas auf TV-Bildschirm rendern */
+(function(){
+  var cvs = document.getElementById("cvs-d");
+  var vid = document.getElementById("vid-d");
+  if (!cvs || !vid) return;
+
+  var ctx = cvs.getContext("2d");
+  /* SVG viewBox: 860 x 620 — Bildschirm: x=148 y=72 w=444 h=332 r=14 */
+  var W = 860, H = 680;
+  cvs.width  = W;
+  cvs.height = H;
+
+  function screenPath(){
+    var x=192, y=88, w=390, h=330, r=8;
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+    ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+    ctx.lineTo(x+r, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+    ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.closePath();
+  }
+
+  var poster = new Image();
+  poster.src = "assets/release/drei-cover.webp";
+
+  function draw(){
+    ctx.clearRect(0, 0, W, H);
+    ctx.save();
+    screenPath();
+    ctx.clip();
+
+    var src = vid.readyState >= 2 ? vid : (poster.complete ? poster : null);
+    if (src) {
+      var vw = src.videoWidth  || src.naturalWidth  || 1280;
+      var vh = src.videoHeight || src.naturalHeight || 720;
+      var sw=390, sh=330, sx=192, sy=88;
+      var vr = vw/vh, cr = sw/sh;
+      var dw, dh, dx, dy;
+      if (vr > cr) { dh=sh; dw=sh*vr; dx=sx+(sw-dw)/2; dy=sy; }
+      else          { dw=sw; dh=sw/vr; dx=sx; dy=sy+(sh-dh)/2; }
+      ctx.drawImage(src, dx, dy, dw, dh);
+    }
+    ctx.restore();
+
+    /* Scanlines */
+    ctx.save();
+    screenPath();
+    ctx.clip();
+    for(var i=88; i<418; i+=4){
+      ctx.fillStyle = "rgba(0,0,0,0.07)";
+      ctx.fillRect(192, i, 390, 2);
+    }
+    ctx.restore();
+
+    requestAnimationFrame(draw);
+  }
+
+  /* foreignObject ausblenden */
+  var fo = document.querySelector("#tv-svg-d foreignObject");
+  if (fo) fo.style.display = "none";
+
+  draw();
+}());
+</script>
+
+</body>
+</html>
+
