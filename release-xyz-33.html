@@ -188,7 +188,7 @@
 
     .desktop-scene {
       position: relative;
-      min-height: clamp(650px, 78vw, 850px);
+      min-height: clamp(580px, 68vw, 780px);
       overflow: visible;
     }
 
@@ -197,7 +197,7 @@
       left: clamp(-40px, -2vw, 0px);
       top: 0;
       width: clamp(500px, 65vw, 780px);
-      aspect-ratio: 860 / 680;
+      aspect-ratio: 860 / 720;
       z-index: 2;
     }
 
@@ -232,28 +232,55 @@
       pointer-events: none;
     }
 
-    .dbtns {
+    /* TV-Knopf-Buttons — unsichtbar über den SVG-Knöpfen */
+    .tv-knob-btn {
       position: absolute;
-      inset: 0;
-      z-index: 8;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+      z-index: 10;
+      transition: transform 0.12s ease;
+    }
+
+    .tv-knob-btn:hover {
+      transform: rotate(30deg) scale(1.1);
+    }
+
+    .tv-knob-btn:active {
+      transform: rotate(60deg) scale(0.95);
+    }
+
+    .tv-knob-btn svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      opacity: 0; /* unsichtbar — Knopf ist im SVG gezeichnet */
+    }
+
+    /* Raum / Boden unter dem TV */
+    .tv-room {
+      position: absolute;
+      bottom: 0;
+      left: -5%;
+      width: 110%;
+      height: 120px;
+      z-index: 1;
       pointer-events: none;
     }
 
-    /* Kleine Comic-Gedankenblasen als Funktionsbuttons */
-    .cbtn,
+    /* Mobile Comic-Blasen-Buttons */
     .oval-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-
       background: #ffffff;
       color: #111111;
-
       border: 3px solid rgba(0, 0, 0, 0.92);
       box-shadow:
         0 0 0 3px rgba(255, 255, 255, 0.95),
         2px 5px 10px rgba(0, 0, 0, 0.35);
-
       cursor: pointer;
       padding: 0;
       pointer-events: auto;
@@ -262,9 +289,9 @@
 
     .cbtn {
       position: absolute;
+      display: none; /* Desktop: Knöpfe sind im TV-SVG */
     }
 
-    .cbtn:hover,
     .oval-btn:hover {
       transform: scale(1.08);
       box-shadow:
@@ -272,7 +299,6 @@
         3px 7px 14px rgba(0, 0, 0, 0.42);
     }
 
-    .cbtn svg,
     .oval-btn svg {
       width: 44%;
       height: 44%;
@@ -568,7 +594,7 @@
         <!-- ══ DESKTOP: Retro-TV (Donald Duck Style) ══ -->
         <div class="desktop-scene">
           <div class="bwrap-d">
-            <svg id="tv-svg-d" viewBox="0 0 860 680" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+            <svg id="tv-svg-d" viewBox="0 0 860 720" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
               <defs>
                 <clipPath id="screen-clip">
                   <rect x="192" y="88" width="390" height="330" rx="8" ry="8"/>
@@ -656,25 +682,41 @@
               <rect x="148" y="48" width="564" height="476" rx="12" ry="12"
                     fill="none" stroke="#000" stroke-width="7" stroke-linejoin="round"/>
 
-              <!-- Canvas overlay für Chrome/Edge -->
+              <!-- ── Boden / Raum ── -->
+              <line x1="0" y1="650" x2="860" y2="650" stroke="rgba(255,255,255,0.07)" stroke-width="1.5"/>
+              <rect x="0" y="650" width="860" height="70" fill="#1a1208"/>
+              <line x1="0" y1="668" x2="860" y2="668" stroke="rgba(0,0,0,0.4)" stroke-width="1.2"/>
+              <line x1="0" y1="686" x2="860" y2="686" stroke="rgba(0,0,0,0.3)" stroke-width="1"/>
+              <line x1="0" y1="706" x2="860" y2="706" stroke="rgba(0,0,0,0.25)" stroke-width="1"/>
+              <line x1="80"  y1="650" x2="40"  y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+              <line x1="200" y1="650" x2="155" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+              <line x1="330" y1="650" x2="290" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+              <line x1="460" y1="650" x2="430" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+              <line x1="590" y1="650" x2="565" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+              <line x1="720" y1="650" x2="700" y2="720" stroke="rgba(0,0,0,0.2)" stroke-width="1"/>
+              <!-- TV Schatten auf Boden -->
+              <ellipse cx="380" cy="655" rx="195" ry="9" fill="rgba(0,0,0,0.5)"/>
             </svg>
             <canvas id="cvs-d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;"></canvas>
           </div>
 
-          <div class="dbtns">
-            <button class="cbtn d-pl" id="dp" aria-label="Play">
-              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            </button>
-            <button class="cbtn d-pa" id="dpa" aria-label="Pause">
-              <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
-            </button>
-            <button class="cbtn d-so" id="ds" aria-label="Sound">
-              <svg viewBox="0 0 24 24">
-                <path d="M3 9v6h4l5 5V4L7 9H3z"/>
-                <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
-              </svg>
-            </button>
-          </div>
+          <!-- TV-Knöpfe: unsichtbar über SVG-Knöpfen (860×720 viewBox) -->
+          <!-- cy=497/720 = 69.0% von oben -->
+          <button class="tv-knob-btn" id="dp" aria-label="Play"
+            style="left:27.0%;top:67.5%;width:5.2%;height:6.5%;">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="tv-knob-btn" id="dpa" aria-label="Pause"
+            style="left:34.2%;top:67.5%;width:5.2%;height:6.5%;">
+            <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          </button>
+          <button class="tv-knob-btn" id="ds" aria-label="Sound"
+            style="left:41.5%;top:67.5%;width:5.2%;height:6.5%;">
+            <svg viewBox="0 0 24 24">
+              <path d="M3 9v6h4l5 5V4L7 9H3z"/>
+              <path d="M16 9l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" fill="none"/>
+            </svg>
+          </button>
         </div>
 
         <!-- ══ MOBILE: Canvas-Blase + Comic-Button-Blasen ══ -->
@@ -1149,72 +1191,102 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
 }());
 </script>
 <script>
-/* Desktop: Video per Canvas auf TV-Bildschirm rendern */
+/* Desktop: TV-Bildschirm per Canvas + Knopf-Steuerung */
 (function(){
   var cvs = document.getElementById("cvs-d");
   var vid = document.getElementById("vid-d");
   if (!cvs || !vid) return;
 
   var ctx = cvs.getContext("2d");
-  /* SVG viewBox: 860 x 620 — Bildschirm: x=148 y=72 w=444 h=332 r=14 */
-  var W = 860, H = 680;
-  cvs.width  = W;
-  cvs.height = H;
+  var W = 860, H = 720;
+  cvs.width = W; cvs.height = H;
+
+  /* Knopf-Winkel (drehen beim Klick) */
+  var angles = [Math.PI*1.5, Math.PI*1.5, Math.PI*1.5];
 
   function screenPath(){
-    var x=192, y=88, w=390, h=330, r=8;
+    var x=192,y=88,w=390,h=330,r=8;
     ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y); ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r); ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h); ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r); ctx.quadraticCurveTo(x, y, x+r, y);
+    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
     ctx.closePath();
+  }
+
+  function drawKnobMarkers(){
+    var cx=[270,330,390], cy=[497,497,497];
+    for(var i=0;i<3;i++){
+      /* Zeiger-Linie */
+      ctx.beginPath();
+      ctx.moveTo(cx[i], cy[i]);
+      ctx.lineTo(
+        cx[i] + Math.cos(angles[i]) * 9,
+        cy[i] + Math.sin(angles[i]) * 9
+      );
+      ctx.strokeStyle="#ccaa77";
+      ctx.lineWidth=2.5; ctx.lineCap="round";
+      ctx.stroke();
+    }
+    /* Labels */
+    ctx.font="bold 9px system-ui";
+    ctx.textAlign="center";
+    ctx.fillStyle="rgba(180,130,70,0.8)";
+    ctx.fillText("PLAY", 270, 528);
+    ctx.fillText("PAUSE",330, 528);
+    ctx.fillText("VOL",  390, 528);
   }
 
   var poster = new Image();
   poster.src = "assets/release/drei-cover.webp";
 
   function draw(){
-    ctx.clearRect(0, 0, W, H);
+    ctx.clearRect(0,0,W,H);
+
+    /* Video auf Bildschirm */
     ctx.save();
-    screenPath();
-    ctx.clip();
-
-    var src = vid.readyState >= 2 ? vid : (poster.complete ? poster : null);
-    if (src) {
-      var vw = src.videoWidth  || src.naturalWidth  || 1280;
-      var vh = src.videoHeight || src.naturalHeight || 720;
-      var sw=390, sh=330, sx=192, sy=88;
-      var vr = vw/vh, cr = sw/sh;
-      var dw, dh, dx, dy;
-      if (vr > cr) { dh=sh; dw=sh*vr; dx=sx+(sw-dw)/2; dy=sy; }
-      else          { dw=sw; dh=sw/vr; dx=sx; dy=sy+(sh-dh)/2; }
-      ctx.drawImage(src, dx, dy, dw, dh);
+    screenPath(); ctx.clip();
+    var src = vid.readyState>=2 ? vid : (poster.complete ? poster : null);
+    if(src){
+      var vw=src.videoWidth||src.naturalWidth||1280;
+      var vh=src.videoHeight||src.naturalHeight||720;
+      var vr=vw/vh, cr=390/330, dw,dh,dx,dy;
+      if(vr>cr){dh=330;dw=330*vr;dx=192+(390-dw)/2;dy=88;}
+      else{dw=390;dh=390/vr;dx=192;dy=88+(330-dh)/2;}
+      ctx.drawImage(src,dx,dy,dw,dh);
     }
-    ctx.restore();
-
     /* Scanlines */
-    ctx.save();
-    screenPath();
-    ctx.clip();
-    for(var i=88; i<418; i+=4){
-      ctx.fillStyle = "rgba(0,0,0,0.07)";
-      ctx.fillRect(192, i, 390, 2);
+    for(var i=88;i<418;i+=4){
+      ctx.fillStyle="rgba(0,0,0,0.06)";
+      ctx.fillRect(192,i,390,2);
     }
     ctx.restore();
 
+    /* Knopf-Zeiger */
+    drawKnobMarkers();
     requestAnimationFrame(draw);
   }
 
-  /* foreignObject ausblenden */
   var fo = document.querySelector("#tv-svg-d foreignObject");
-  if (fo) fo.style.display = "none";
-
+  if(fo) fo.style.display="none";
   draw();
+
+  /* Steuerung */
+  var pl=document.getElementById("dp");
+  var pa=document.getElementById("dpa");
+  var so=document.getElementById("ds");
+
+  function rotateFwd(i){ angles[i]=(angles[i]+Math.PI/3)%(Math.PI*2); }
+
+  if(pl) pl.onclick=function(){ rotateFwd(0); vid.play(); };
+  if(pa) pa.onclick=function(){ rotateFwd(1); vid.pause(); };
+  if(so) so.onclick=function(){
+    vid.muted=!vid.muted;
+    angles[2] = vid.muted ? Math.PI*1.5 : Math.PI*0.5;
+    so.setAttribute("aria-label", vid.muted?"Ton einschalten":"Ton ausschalten");
+  };
 }());
 </script>
-
 </body>
 </html>
 
