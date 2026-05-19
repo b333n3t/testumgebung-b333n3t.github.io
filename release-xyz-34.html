@@ -11,291 +11,222 @@ viewport-fit=cover">
 <title>Release Game 3.2</title>
 
 <style>
-
 html, body{
-
     margin:0;
     width:100%;
     height:100%;
-
     overflow:hidden;
-
     background:black;
-
     font-family:Arial,sans-serif;
-
     touch-action:none;
-
     color:white;
-
 }
 
 canvas{
-
     position:fixed;
     inset:0;
-
     width:100%;
     height:100%;
-
 }
 
-/* overlays */
 #start,
 #end{
-
     position:fixed;
     inset:0;
-
     background:black;
-
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
     align-items:center;
-
     z-index:10;
-
 }
 
-/* title */
 h1{
-
     font-size:54px;
-
     margin-bottom:30px;
-
     letter-spacing:2px;
-
 }
 
-/* input */
 input{
-
     width:240px;
-
     padding:14px;
-
     border:none;
     border-radius:10px;
-
     text-align:center;
-
     font-size:20px;
-
     margin-bottom:20px;
-
     outline:none;
-
 }
 
-/* button */
 button{
-
     padding:15px 30px;
-
     border:none;
     border-radius:10px;
-
     background:white;
     color:black;
-
     font-size:18px;
     font-weight:bold;
-
     cursor:pointer;
-
 }
 
-/* ui */
+button:disabled{
+    opacity:0.55;
+    cursor:not-allowed;
+}
+
 #ui{
-
     position:fixed;
-
     top:20px;
     left:20px;
-
     z-index:5;
-
     font-size:20px;
-
 }
 
 #timer{
-
     position:fixed;
-
     top:20px;
     right:20px;
-
     z-index:5;
-
     font-size:20px;
-
 }
 
-/* leaderboard */
 #leaderboard{
-
     margin-top:20px;
-
-    width:260px;
-
+    width:280px;
     text-align:left;
-
     font-size:16px;
+}
 
+#leaderboard h3{
+    margin-bottom:8px;
+    text-align:center;
 }
 
 .scoreRow{
-
     display:flex;
-
     justify-content:space-between;
-
+    gap:12px;
     padding:4px 0;
-
-    border-bottom:
-    1px solid rgba(255,255,255,0.1);
-
+    border-bottom:1px solid rgba(255,255,255,0.1);
 }
 
-/* mobile */
+.scoreRow span:first-child{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.statusText{
+    margin-top:12px;
+    font-size:13px;
+    opacity:0.75;
+    max-width:280px;
+    text-align:center;
+    line-height:1.4;
+}
+
 @media(max-width:768px){
-
     h1{
-
         font-size:40px;
-
     }
 
     input{
-
         width:70%;
-
     }
 
+    #ui,
+    #timer{
+        font-size:18px;
+    }
 }
-
 </style>
 </head>
 
 <body>
 
-<!-- START -->
 <div id="start">
-
     <h1>NEW RELEASE</h1>
 
     <input
         id="name"
         placeholder="YOUR NAME"
         maxlength="12"
+        autocomplete="off"
     >
 
-    <button id="startBtn">
+    <button id="startBtn" type="button">
         START
     </button>
 
+    <div id="startStatus" class="statusText"></div>
 </div>
 
-<!-- END -->
 <div id="end" style="display:none;">
-
     <h2>GAME OVER</h2>
 
     <div id="final"></div>
 
     <br>
 
-    <button onclick="retryGame()">
+    <button type="button" onclick="retryGame()">
         RETRY
     </button>
 
     <div id="leaderboard"></div>
-
 </div>
 
-<!-- UI -->
 <div id="ui">
-
     SCORE:
     <span id="score">0</span>
-
 </div>
 
 <div id="timer">
-
     60
-
 </div>
 
-<!-- AUDIO -->
 <audio
     id="song"
     src="assets/release/drei-viertel.prelisten.mp3"
     preload="auto"
 ></audio>
 
-<!-- CANVAS -->
 <canvas id="c"></canvas>
 
-<!-- SUPABASE -->
 <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
-
 /* =====================================
-   SAFE SUPABASE
+   SUPABASE CONFIG
 ===================================== */
 
-let supabase = null;
+let supabaseClient = null;
 
-/*
-IMPORTANT:
+const SUPABASE_URL =
+    "https://xqucqbyzklmptyjgghgo.supabase.co";
 
-REPLACE "test"
-WITH YOUR REAL
-SUPABASE ANON KEY
-LATER
-*/
+const SUPABASE_KEY =
+    "sb_publishable_MRJcYGadARj5Es6fiNcD2A_FJyZ_bX3";
 
-if(
-    typeof window.supabase !==
-    "undefined"
-){
+function setStartStatus(text){
+    const el = document.getElementById("startStatus");
+    if(el) el.textContent = text || "";
+}
 
+if(typeof window.supabase !== "undefined"){
     try{
-
-        supabase =
-        window.supabase.createClient(
-
-            "https://xqucqbyzklmptyjgghgo.supabase.co",
-
-            "test"
-
+        supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
         );
 
-        console.log(
-            "Supabase connected"
-        );
-
+        console.log("Supabase client created");
     }catch(err){
-
-        console.log(
-            "Supabase failed"
-        );
-
+        console.error("Supabase init failed:", err);
+        setStartStatus("Leaderboard offline. Game funktioniert trotzdem.");
     }
-
 }else{
-
-    console.log(
-        "Supabase missing"
-    );
-
+    console.error("Supabase library missing. CDN not loaded.");
+    setStartStatus("Leaderboard offline. Game funktioniert trotzdem.");
 }
 
 /* =====================================
@@ -304,7 +235,8 @@ if(
 
 let retries =
 parseInt(
-    localStorage.getItem("retries")
+    localStorage.getItem("retries"),
+    10
 ) || 0;
 
 /* =====================================
@@ -321,12 +253,11 @@ const DPR =
 window.devicePixelRatio || 1;
 
 function resize(){
-
     c.width =
-    window.innerWidth * DPR;
+    Math.floor(window.innerWidth * DPR);
 
     c.height =
-    window.innerHeight * DPR;
+    Math.floor(window.innerHeight * DPR);
 
     c.style.width =
     window.innerWidth + "px";
@@ -339,7 +270,6 @@ function resize(){
     );
 
     ctx.scale(DPR,DPR);
-
 }
 
 resize();
@@ -361,11 +291,11 @@ window.innerWidth < 768;
 ===================================== */
 
 let running = false;
-
 let score = 0;
 let time = 60;
+let timerInterval = null;
+let animationFrameId = null;
 
-/* easier start */
 let speed =
 isMobile ? 4.2 : 5.2;
 
@@ -380,11 +310,9 @@ const savedName =
 localStorage.getItem("playerName");
 
 if(savedName){
-
     document
     .getElementById("name")
     .value = savedName;
-
 }
 
 /* =====================================
@@ -392,7 +320,6 @@ if(savedName){
 ===================================== */
 
 const player = {
-
     x:isMobile
         ? window.innerWidth * 0.22
         : window.innerWidth * 0.25,
@@ -403,7 +330,6 @@ const player = {
     h:isMobile ? 48 : 40,
 
     vy:0
-
 };
 
 /* =====================================
@@ -419,46 +345,38 @@ let orbs = [];
 ===================================== */
 
 function moveUp(){
-
     if(!running) return;
 
     player.vy =
     isMobile ? -7 : -9;
-
 }
 
 function moveDown(){
-
     if(!running) return;
 
     player.vy =
     isMobile ? 7 : 9;
-
 }
 
 window.addEventListener(
     "keydown",
     e => {
-
         if(
             e.code === "ArrowUp" ||
             e.code === "KeyW" ||
             e.code === "Space"
         ){
-
+            e.preventDefault();
             moveUp();
-
         }
 
         if(
             e.code === "ArrowDown" ||
             e.code === "KeyS"
         ){
-
+            e.preventDefault();
             moveDown();
-
         }
-
     }
 );
 
@@ -469,7 +387,6 @@ window.addEventListener(
 window.addEventListener(
     "touchmove",
     e => {
-
         if(!running) return;
 
         e.preventDefault();
@@ -488,7 +405,6 @@ window.addEventListener(
             -
             player.h/2
         ) * 0.25;
-
     },
     { passive:false }
 );
@@ -498,26 +414,15 @@ window.addEventListener(
 ===================================== */
 
 function spawnParticles(x,y){
-
     for(let i=0;i<30;i++){
-
         particles.push({
-
             x,
             y,
-
-            vx:
-            (Math.random()-0.5)*6,
-
-            vy:
-            (Math.random()-0.5)*6,
-
+            vx:(Math.random()-0.5)*6,
+            vy:(Math.random()-0.5)*6,
             life:40
-
         });
-
     }
-
 }
 
 /* =====================================
@@ -525,26 +430,18 @@ function spawnParticles(x,y){
 ===================================== */
 
 function orbInsideObstacle(x,y){
-
     for(let o of obstacles){
-
         if(
-
             x > o.x &&
             x < o.x + o.w &&
             y > o.y &&
             y < o.y + o.h
-
         ){
-
             return true;
-
         }
-
     }
 
     return false;
-
 }
 
 /* =====================================
@@ -552,7 +449,6 @@ function orbInsideObstacle(x,y){
 ===================================== */
 
 setInterval(() => {
-
     if(!running) return;
 
     const lane =
@@ -589,55 +485,43 @@ setInterval(() => {
     let y;
 
     if(lane === 0){
-
         y = 80;
-
     }
 
     if(lane === 1){
-
         y =
         window.innerHeight/2
         -
         h/2;
-
     }
 
     if(lane === 2){
-
         y =
         window.innerHeight
         -
         180
         -
         h;
-
     }
 
     obstacles.push({
-
-        x:
-        window.innerWidth + 100,
-
+        x:window.innerWidth + 100,
         y,
-
         w,
         h,
-
         passed:false
-
     });
 
-    /* safe orb spawn */
     if(Math.random() > 0.65){
-
         let orbX =
         window.innerWidth + 260;
 
         let orbY;
         let safe = false;
+        let attempts = 0;
 
-        while(!safe){
+        while(!safe && attempts < 25){
+            attempts++;
 
             orbY =
             Math.random()
@@ -654,22 +538,17 @@ setInterval(() => {
                 orbX,
                 orbY
             );
-
         }
 
-        orbs.push({
-
-            x:orbX,
-            y:orbY,
-
-            r:12,
-
-            taken:false
-
-        });
-
+        if(safe){
+            orbs.push({
+                x:orbX,
+                y:orbY,
+                r:12,
+                taken:false
+            });
+        }
     }
-
 },1200);
 
 /* =====================================
@@ -677,79 +556,55 @@ setInterval(() => {
 ===================================== */
 
 function update(){
-
-    /* progressive difficulty */
     speed +=
     isMobile
     ? 0.00035
     : 0.00045;
 
     player.y += player.vy;
-
     player.vy *= 0.90;
 
-    /* limits */
     if(player.y < 40){
-
         player.y = 40;
-
     }
 
     if(
         player.y >
         window.innerHeight - 140
     ){
-
         player.y =
         window.innerHeight - 140;
-
     }
 
-    /* obstacles */
     obstacles.forEach(o => {
-
         o.x -= speed;
 
-        /* collision */
         if(
-
             player.x < o.x + o.w &&
             player.x + player.w > o.x &&
             player.y < o.y + o.h &&
             player.y + player.h > o.y
-
         ){
-
             endGame();
-
         }
 
-        /* passed */
         if(
             !o.passed &&
             o.x < player.x
         ){
-
             o.passed = true;
-
             score += 10;
 
             if(score % 100 === 0){
-
                 spawnParticles(
                     player.x,
                     player.y
                 );
-
             }
-
         }
-
     });
 
-    /* orbs */
     orbs.forEach(o => {
-
         o.x -= speed;
 
         const dx =
@@ -777,18 +632,14 @@ function update(){
             dist < 30 &&
             !o.taken
         ){
-
             o.taken = true;
-
             score += 25;
 
             spawnParticles(
                 o.x,
                 o.y
             );
-
         }
-
     });
 
     obstacles =
@@ -803,14 +654,10 @@ function update(){
         !o.taken
     );
 
-    /* particles */
     particles.forEach(p => {
-
         p.x += p.vx;
         p.y += p.vy;
-
         p.life--;
-
     });
 
     particles =
@@ -821,7 +668,6 @@ function update(){
     document
     .getElementById("score")
     .innerText = score;
-
 }
 
 /* =====================================
@@ -829,7 +675,6 @@ function update(){
 ===================================== */
 
 function draw(){
-
     ctx.clearRect(
         0,
         0,
@@ -837,7 +682,6 @@ function draw(){
         window.innerHeight
     );
 
-    /* bg */
     ctx.fillStyle = "#050816";
 
     ctx.fillRect(
@@ -847,14 +691,11 @@ function draw(){
         window.innerHeight
     );
 
-    /* moving lines */
     for(let i=0;i<20;i++){
-
         ctx.fillStyle =
         "rgba(255,255,255,0.03)";
 
         ctx.fillRect(
-
             (
                 i*180
                 -
@@ -867,67 +708,46 @@ function draw(){
 
             120,
             1
-
         );
-
     }
 
-    /* player */
     ctx.fillStyle = "white";
 
     ctx.fillRect(
-
         player.x,
         player.y,
-
         player.w,
         player.h
-
     );
 
-    /* obstacles */
     ctx.fillStyle = "red";
 
     obstacles.forEach(o => {
-
         ctx.fillRect(
-
             o.x,
             o.y,
-
             o.w,
             o.h
-
         );
-
     });
 
-    /* orbs */
     ctx.fillStyle = "gold";
 
     orbs.forEach(o => {
-
         ctx.beginPath();
 
         ctx.arc(
-
             o.x,
             o.y,
-
             o.r,
-
             0,
             Math.PI*2
-
         );
 
         ctx.fill();
-
     });
 
-    /* particles */
     particles.forEach(p => {
-
         ctx.globalAlpha =
         p.life / 40;
 
@@ -935,19 +755,14 @@ function draw(){
         "white";
 
         ctx.fillRect(
-
             p.x,
             p.y,
-
             4,
             4
-
         );
-
     });
 
     ctx.globalAlpha = 1;
-
 }
 
 /* =====================================
@@ -955,14 +770,13 @@ function draw(){
 ===================================== */
 
 function loop(){
-
     if(!running) return;
 
     update();
     draw();
 
+    animationFrameId =
     requestAnimationFrame(loop);
-
 }
 
 /* =====================================
@@ -970,16 +784,16 @@ function loop(){
 ===================================== */
 
 function startTimer(){
+    if(timerInterval){
+        clearInterval(timerInterval);
+    }
 
-    const t =
+    timerInterval =
     setInterval(() => {
-
         if(!running){
-
-            clearInterval(t);
-
+            clearInterval(timerInterval);
+            timerInterval = null;
             return;
-
         }
 
         time--;
@@ -991,15 +805,36 @@ function startTimer(){
         score++;
 
         if(time <= 0){
-
-            clearInterval(t);
-
+            clearInterval(timerInterval);
+            timerInterval = null;
             endGame();
-
         }
-
     },1000);
+}
 
+/* =====================================
+   HELPERS
+===================================== */
+
+function escapeHtml(value){
+    return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function getCleanName(){
+    return (
+        document
+        .getElementById("name")
+        .value
+        || "PLAYER"
+    )
+    .trim()
+    .slice(0,12)
+    || "PLAYER";
 }
 
 /* =====================================
@@ -1007,113 +842,121 @@ function startTimer(){
 ===================================== */
 
 async function submitScore(){
-
-    if(!supabase) return;
-
-    const name =
-    document
-    .getElementById("name")
-    .value
-    || "PLAYER";
-
-    try{
-
-        await supabase
-        .from("scores")
-        .insert([
-            {
-                name,
-                score
-            }
-        ]);
-
-    }catch(err){
-
-        console.log(err);
-
+    if(!supabaseClient){
+        console.warn("No Supabase client. Score not saved.");
+        return;
     }
 
+    const name =
+    getCleanName();
+
+    const payload = {
+        name,
+        score:Number(score)
+    };
+
+    const { error } =
+    await supabaseClient
+    .from("scores")
+    .insert([payload]);
+
+    if(error){
+        console.error(
+            "Supabase insert failed:",
+            error.message,
+            error
+        );
+        return;
+    }
+
+    console.log("Score saved:", payload);
 }
 
 async function loadLeaderboard(){
+    const board =
+    document
+    .getElementById("leaderboard");
 
-    if(!supabase) return;
+    if(!board) return;
 
-    try{
+    board.innerHTML =
+    "<h3>TOP 10</h3>";
 
-        const { data } =
-        await supabase
-        .from("scores")
-        .select("*")
-        .order(
-            "score",
-            {
-                ascending:false
-            }
-        )
-        .limit(10);
-
-        const board =
-        document
-        .getElementById("leaderboard");
-
-        board.innerHTML =
-        "<h3>TOP 10</h3>";
-
-        data.forEach((s,i)=>{
-
-            board.innerHTML += `
-
-                <div class="scoreRow">
-
-                    <span>
-                        ${i+1}. ${s.name}
-                    </span>
-
-                    <span>
-                        ${s.score}
-                    </span>
-
-                </div>
-
-            `;
-
-        });
-
-    }catch(err){
-
-        console.log(err);
-
+    if(!supabaseClient){
+        board.innerHTML +=
+        "<p>Leaderboard offline.</p>";
+        return;
     }
 
+    const { data, error } =
+    await supabaseClient
+    .from("scores")
+    .select("name, score, created_at")
+    .order("score", { ascending:false })
+    .order("created_at", { ascending:true })
+    .limit(10);
+
+    if(error){
+        console.error(
+            "Supabase select failed:",
+            error.message,
+            error
+        );
+
+        board.innerHTML +=
+        "<p>Leaderboard konnte nicht geladen werden.</p>";
+
+        return;
+    }
+
+    if(!data || data.length === 0){
+        board.innerHTML +=
+        "<p>No scores yet.</p>";
+        return;
+    }
+
+    data.forEach((s,i)=>{
+        board.innerHTML += `
+            <div class="scoreRow">
+                <span>${i+1}. ${escapeHtml(s.name)}</span>
+                <span>${Number(s.score)}</span>
+            </div>
+        `;
+    });
 }
 
 /* =====================================
    END
 ===================================== */
 
+let ending = false;
+
 async function endGame(){
+    if(ending) return;
+    ending = true;
 
     running = false;
+
+    if(animationFrameId){
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
 
     song.pause();
 
     const name =
-    document
-    .getElementById("name")
-    .value
-    || "PLAYER";
+    getCleanName();
 
     document
     .getElementById("final")
     .innerHTML = `
-
-        <h3>${name}</h3>
-
-        <p>
-            SCORE: ${score}
-        </p>
-
+        <h3>${escapeHtml(name)}</h3>
+        <p>SCORE: ${score}</p>
     `;
 
     document
@@ -1121,9 +964,9 @@ async function endGame(){
     .style.display = "flex";
 
     await submitScore();
-
     await loadLeaderboard();
 
+    ending = false;
 }
 
 /* =====================================
@@ -1131,8 +974,18 @@ async function endGame(){
 ===================================== */
 
 function restartGame(){
-
+    ending = false;
     running = false;
+
+    if(animationFrameId){
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
 
     score = 0;
     time = 60;
@@ -1143,6 +996,11 @@ function restartGame(){
     obstacles = [];
     particles = [];
     orbs = [];
+
+    player.x =
+    isMobile
+        ? window.innerWidth * 0.22
+        : window.innerWidth * 0.25;
 
     player.y =
     window.innerHeight * 0.5;
@@ -1163,14 +1021,14 @@ function restartGame(){
 
     song.currentTime = 0;
 
-    song.play();
+    song.play().catch(err => {
+        console.warn("Audio blocked:", err);
+    });
 
     running = true;
 
     loop();
-
     startTimer();
-
 }
 
 /* =====================================
@@ -1178,7 +1036,6 @@ function restartGame(){
 ===================================== */
 
 function retryGame(){
-
     retries++;
 
     localStorage.setItem(
@@ -1187,7 +1044,6 @@ function retryGame(){
     );
 
     if(retries >= 10){
-
         localStorage.removeItem(
             "playerName"
         );
@@ -1197,11 +1053,13 @@ function retryGame(){
             0
         );
 
+        retries = 0;
     }
 
     restartGame();
-
 }
+
+window.retryGame = retryGame;
 
 /* =====================================
    START GAME
@@ -1212,53 +1070,79 @@ document.getElementById(
     "startBtn"
 );
 
-startBtn.addEventListener(
-    "click",
-    startGame
-);
+startBtn.addEventListener("click", function(){
+    startGame().catch(function(err){
+        console.error("Start failed:", err);
+        setStartStatus("Start fehlgeschlagen. Bitte Browser-Konsole prüfen.");
+    });
+});
 
 async function startGame(){
+    console.log("START CLICKED");
 
-    console.log(
-        "START CLICKED"
-    );
+    startBtn.disabled = true;
+    setStartStatus("");
 
     const playerName =
-    document
-    .getElementById("name")
-    .value
-    || "PLAYER";
+    getCleanName();
 
     localStorage.setItem(
         "playerName",
         playerName
     );
 
-    running = true;
+    score = 0;
+    time = 60;
+    speed =
+    isMobile ? 4.2 : 5.2;
+
+    obstacles = [];
+    particles = [];
+    orbs = [];
+
+    player.x =
+    isMobile
+        ? window.innerWidth * 0.22
+        : window.innerWidth * 0.25;
+
+    player.y =
+    window.innerHeight * 0.5;
+
+    player.vy = 0;
+
+    document
+    .getElementById("score")
+    .innerText = score;
+
+    document
+    .getElementById("timer")
+    .innerText = time;
 
     document
     .getElementById("start")
     .style.display = "none";
 
     try{
-
         await song.play();
-
     }catch(err){
-
-        console.log(
-            "Audio blocked",
+        console.warn(
+            "Audio blocked, game starts without audio:",
             err
         );
-
     }
 
-    loop();
+    running = true;
 
+    loop();
     startTimer();
 
+    startBtn.disabled = false;
 }
 
+/* Optional: Leaderboard test beim Laden */
+loadLeaderboard().catch(err => {
+    console.warn("Initial leaderboard load failed:", err);
+});
 </script>
 
 </body>
