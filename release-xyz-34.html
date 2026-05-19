@@ -8,7 +8,7 @@ content="width=device-width,
 initial-scale=1.0,
 viewport-fit=cover">
 
-<title>Release Game 3.0</title>
+<title>Release Game 3.1</title>
 
 <style>
 
@@ -69,6 +69,8 @@ input{
     font-size:20px;
 
     margin-bottom:20px;
+
+    outline:none;
 }
 
 /* button */
@@ -85,6 +87,7 @@ button{
     font-size:18px;
     font-weight:bold;
 
+    cursor:pointer;
 }
 
 /* ui */
@@ -206,7 +209,7 @@ button{
 <canvas id="c"></canvas>
 
 <!-- SUPABASE -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
 <script>
 
@@ -217,18 +220,27 @@ button{
 const SUPABASE_URL =
 "https://xqucqbyzklmptyjgghgo.supabase.co";
 
-/* IMPORTANT:
-   INSERT YOUR ANON KEY HERE
-*/
-
+/* INSERT YOUR REAL ANON KEY */
 const SUPABASE_KEY =
 "PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
 
-const supabase =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
+let supabase = null;
+
+try{
+
+    supabase =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+}catch(err){
+
+    console.log(
+        "Supabase connection failed"
+    );
+
+}
 
 /* =====================================
    RETRIES
@@ -277,7 +289,7 @@ window.addEventListener(
 );
 
 /* =====================================
-   MOBILE DETECTION
+   MOBILE
 ===================================== */
 
 const isMobile =
@@ -363,7 +375,7 @@ function moveDown(){
 
 }
 
-/* desktop */
+/* desktop keyboard */
 window.addEventListener(
     "keydown",
     e => {
@@ -390,7 +402,7 @@ window.addEventListener(
     }
 );
 
-/* mobile drag */
+/* mobile touch */
 window.addEventListener(
     "touchmove",
     e => {
@@ -405,7 +417,6 @@ window.addEventListener(
         const y =
         touch.clientY;
 
-        /* easier mobile follow */
         player.y +=
         (
             y
@@ -444,7 +455,7 @@ function spawnParticles(x,y){
 }
 
 /* =====================================
-   SAFE ORB POSITION
+   ORB SAFETY
 ===================================== */
 
 function orbInsideObstacle(x,y){
@@ -592,7 +603,6 @@ function update(){
     ? 0.00035
     : 0.00045;
 
-    /* movement */
     player.y += player.vy;
 
     player.vy *= 0.90;
@@ -640,7 +650,6 @@ function update(){
 
             score += 10;
 
-            /* particles every 100 */
             if(score % 100 === 0){
 
                 spawnParticles(
@@ -788,7 +797,7 @@ function draw(){
 
     });
 
-    /* bonus orbs */
+    /* orbs */
     ctx.fillStyle = "gold";
 
     orbs.forEach(o => {
@@ -884,6 +893,8 @@ function startTimer(){
 
 async function submitScore(){
 
+    if(!supabase) return;
+
     const name =
     document
     .getElementById("name")
@@ -910,6 +921,8 @@ async function submitScore(){
 }
 
 async function loadLeaderboard(){
+
+    if(!supabase) return;
 
     try{
 
@@ -1072,40 +1085,43 @@ function retryGame(){
 
 document
 .getElementById("startBtn")
-.onclick = async () => {
+.addEventListener(
+    "click",
+    async () => {
 
-    const playerName =
-    document
-    .getElementById("name")
-    .value
-    || "PLAYER";
+        const playerName =
+        document
+        .getElementById("name")
+        .value
+        || "PLAYER";
 
-    localStorage.setItem(
-        "playerName",
-        playerName
-    );
+        localStorage.setItem(
+            "playerName",
+            playerName
+        );
 
-    running = true;
+        running = true;
 
-    document
-    .getElementById("start")
-    .style.display = "none";
+        document
+        .getElementById("start")
+        .style.display = "none";
 
-    try{
+        try{
 
-        await song.play();
+            await song.play();
 
-    }catch(err){
+        }catch(err){
 
-        console.log(err);
+            console.log(err);
+
+        }
+
+        loop();
+
+        startTimer();
 
     }
-
-    loop();
-
-    startTimer();
-
-};
+);
 
 </script>
 
