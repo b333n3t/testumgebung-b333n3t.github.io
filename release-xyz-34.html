@@ -11,6 +11,7 @@
 :root{
     --awb-bg:#930010;
     --vorsichern-to-button-gap:0.9rem;
+    --page-max-width:960px;
 }
 
 html, body{
@@ -40,22 +41,28 @@ canvas{
     justify-content:flex-start;
     align-items:center;
     z-index:10;
-    padding:28px 24px 38px;
+
+    padding:
+        clamp(2.8rem, 4vw, 3.8rem)
+        1.5rem
+        clamp(3.5rem, 5vw, 4.5rem);
+
     box-sizing:border-box;
     overflow-y:auto;
 }
 
 .topline{
     width:100%;
-    max-width:960px;
+    max-width:var(--page-max-width);
     display:flex;
-    flex-wrap:wrap;
+    flex-wrap:nowrap;
     align-items:baseline;
-    justify-content:center;
-    gap:0.55rem;
+    justify-content:flex-start;
+    gap:0.7rem;
     font-size:0.92rem;
     letter-spacing:0.04em;
-    margin-bottom:clamp(2.2rem,5vw,4rem);
+    margin-bottom:clamp(1.6rem, 2.4vw, 2.2rem);
+    overflow:hidden;
 }
 
 .brand-link,
@@ -79,16 +86,20 @@ canvas{
 }
 
 #startTitle{
+    width:100%;
+    max-width:var(--page-max-width);
     font-size:54px;
     margin-bottom:18px;
     letter-spacing:2px;
-    text-align:center;
+    text-align:left;
 }
 
 #resultBox{
+    width:100%;
+    max-width:var(--page-max-width);
     min-height:72px;
     margin-bottom:18px;
-    text-align:center;
+    text-align:left;
 }
 
 #resultHeadline{
@@ -149,13 +160,14 @@ button:disabled{
 #startLeaderboard{
     margin-top:28px;
     width:300px;
-    max-width:90vw;
+    max-width:100%;
     text-align:left;
     font-size:16px;
+    align-self:flex-start;
 }
 
 #startLeaderboard h3{
-    text-align:center;
+    text-align:left;
     margin-bottom:8px;
     font-size:22px;
 }
@@ -179,13 +191,14 @@ button:disabled{
     font-size:13px;
     opacity:0.75;
     max-width:300px;
-    text-align:center;
+    text-align:left;
     line-height:1.4;
+    align-self:flex-start;
 }
 
 .footer-links{
     width:100%;
-    max-width:300px;
+    max-width:var(--page-max-width);
     margin-top:38px;
 }
 
@@ -214,7 +227,7 @@ button:disabled{
 .social-icons{
     display:flex;
     flex-wrap:wrap;
-    gap:clamp(1.1rem,1.6vw,1.6rem);
+    gap:clamp(1.15rem, 1.7vw, 1.7rem);
     align-items:center;
 }
 
@@ -297,13 +310,13 @@ button:disabled{
 
 @media(max-width:768px){
     #start{
-        padding:18px 18px 34px;
+        padding:1.8rem 1rem 3rem;
     }
 
     .topline{
-        justify-content:flex-start;
         font-size:0.87rem;
-        margin-bottom:2.2rem;
+        gap:0.45rem;
+        margin-bottom:1rem;
     }
 
     #startTitle{
@@ -316,6 +329,7 @@ button:disabled{
 
     input{
         width:70%;
+        max-width:260px;
     }
 
     #ui,
@@ -324,9 +338,10 @@ button:disabled{
     }
 
     .footer-links{
-        max-width:100%;
-        align-self:stretch;
-        padding:0 28px;
+        width:100%;
+        max-width:var(--page-max-width);
+        align-self:center;
+        padding:0;
     }
 }
 </style>
@@ -354,6 +369,7 @@ button:disabled{
         placeholder="YOUR NAME"
         maxlength="12"
         autocomplete="off"
+        required
     >
 
     <button id="startBtn" type="button">
@@ -368,7 +384,7 @@ button:disabled{
 
         <section aria-label="vorsichern:" class="block">
             <h2>vorsichern:</h2>
-            <p class="presave-hint">dann ist „-x-drei“ am 26. juni direkt in deiner bibliothek</p>
+            <p class="presave-hint">dann ist „drei“ am 23. januar direkt in deiner bibliothek</p>
 
             <div class="presave-row">
                 <a class="presave-button"
@@ -416,13 +432,12 @@ button:disabled{
                     </picture>
                 </a>
 
-             <a href="https://soundcloud.com/bennet-6942069420"
-                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-                </picture>
-              </a>
+                <a href="https://soundcloud.com/b3nn3t-music" class="social-link" target="_blank" rel="noopener" aria-label="SoundCloud">
+                    <picture>
+                        <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                    </picture>
+                </a>
             </div>
         </section>
 
@@ -559,15 +574,6 @@ if(typeof window.supabase !== "undefined"){
 /* =====================================
    RETRY LOGIC
 ===================================== */
-
-/*
-  Ablauf:
-  - Seitenaufruf: START + leeres Namensfeld
-  - nach Spiel 1: RETRY
-  - nach Spiel 2: RETRY
-  - nach Spiel 3: RETRY
-  - nach Spiel 4: wieder START + leeres Namensfeld
-*/
 
 let retryCount = 0;
 let waitingForNewName = true;
@@ -814,7 +820,6 @@ function spawnParticles(x,y){
 }
 
 function circleRectOverlap(cx, cy, r, rx, ry, rw, rh, padding = 0){
-
     const nearestX =
     Math.max(
         rx - padding,
@@ -844,15 +849,12 @@ function circleRectOverlap(cx, cy, r, rx, ry, rw, rh, padding = 0){
         <
         (r + padding) * (r + padding)
     );
-
 }
 
 function orbInsideObstacle(x,y,r = 12){
-
     const padding = 18;
 
     for(let o of obstacles){
-
         if(
             circleRectOverlap(
                 x,
@@ -867,19 +869,15 @@ function orbInsideObstacle(x,y,r = 12){
         ){
             return true;
         }
-
     }
 
     return false;
-
 }
 
 function obstacleOverlapsOrb(x,y,w,h){
-
     const padding = 22;
 
     for(let orb of orbs){
-
         if(
             circleRectOverlap(
                 orb.x,
@@ -894,11 +892,9 @@ function obstacleOverlapsOrb(x,y,w,h){
         ){
             return true;
         }
-
     }
 
     return false;
-
 }
 
 /* =====================================
@@ -948,7 +944,6 @@ function spawnObstacle(){
     let attempts = 0;
 
     while(!safeObstacle && attempts < 20){
-
         attempts++;
 
         const lane =
@@ -999,7 +994,6 @@ function spawnObstacle(){
             w,
             h
         );
-
     }
 
     const color =
@@ -1021,7 +1015,6 @@ function spawnObstacle(){
     });
 
     if(Math.random() > (hard ? 0.38 : medium ? 0.52 : 0.68)){
-
         let orbX =
         window.innerWidth + 100 + w + 120;
 
@@ -1471,9 +1464,11 @@ function updateStartScreenMode(){
 
     if(waitingForNewName){
         input.style.display = "block";
+        input.required = true;
         btn.textContent = "START";
     }else{
         input.style.display = "none";
+        input.required = false;
         btn.textContent = "RETRY";
     }
 }
@@ -1644,14 +1639,14 @@ async function startGame(){
     const playerName =
     getCleanName();
 
-    if(input.style.display !== "none" && playerName.length < 1){
+    if(waitingForNewName && playerName.length < 1){
         setStartStatus("bitte gib zuerst deinen namen ein");
         input.focus();
         startBtn.disabled = false;
         return;
     }
 
-    if(input.style.display !== "none"){
+    if(waitingForNewName){
         retryCount = 0;
         waitingForNewName = false;
     }
