@@ -8,26 +8,36 @@ content="width=device-width,
 initial-scale=1.0,
 viewport-fit=cover">
 
-<title>Release Game 3.1</title>
+<title>Release Game 3.2</title>
 
 <style>
 
 html, body{
+
     margin:0;
     width:100%;
     height:100%;
+
     overflow:hidden;
+
     background:black;
+
     font-family:Arial,sans-serif;
+
     touch-action:none;
+
     color:white;
+
 }
 
 canvas{
+
     position:fixed;
     inset:0;
+
     width:100%;
     height:100%;
+
 }
 
 /* overlays */
@@ -40,18 +50,25 @@ canvas{
     background:black;
 
     display:flex;
+
     flex-direction:column;
+
     justify-content:center;
     align-items:center;
 
     z-index:10;
+
 }
 
 /* title */
 h1{
+
     font-size:54px;
+
     margin-bottom:30px;
+
     letter-spacing:2px;
+
 }
 
 /* input */
@@ -71,6 +88,7 @@ input{
     margin-bottom:20px;
 
     outline:none;
+
 }
 
 /* button */
@@ -88,27 +106,34 @@ button{
     font-weight:bold;
 
     cursor:pointer;
+
 }
 
 /* ui */
 #ui{
+
     position:fixed;
+
     top:20px;
     left:20px;
 
     z-index:5;
 
     font-size:20px;
+
 }
 
 #timer{
+
     position:fixed;
+
     top:20px;
     right:20px;
 
     z-index:5;
 
     font-size:20px;
+
 }
 
 /* leaderboard */
@@ -127,6 +152,7 @@ button{
 .scoreRow{
 
     display:flex;
+
     justify-content:space-between;
 
     padding:4px 0;
@@ -140,11 +166,15 @@ button{
 @media(max-width:768px){
 
     h1{
+
         font-size:40px;
+
     }
 
     input{
+
         width:70%;
+
     }
 
 }
@@ -190,12 +220,16 @@ button{
 
 <!-- UI -->
 <div id="ui">
+
     SCORE:
     <span id="score">0</span>
+
 </div>
 
 <div id="timer">
+
     60
+
 </div>
 
 <!-- AUDIO -->
@@ -214,30 +248,52 @@ button{
 <script>
 
 /* =====================================
-   SUPABASE
+   SAFE SUPABASE
 ===================================== */
-
-const SUPABASE_URL =
-"https://xqucqbyzklmptyjgghgo.supabase.co";
-
-/* INSERT YOUR REAL ANON KEY */
-const SUPABASE_KEY =
-"PASTE_YOUR_ANON_PUBLIC_KEY_HERE";
 
 let supabase = null;
 
-try{
+/*
+IMPORTANT:
 
-    supabase =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+REPLACE "test"
+WITH YOUR REAL
+SUPABASE ANON KEY
+LATER
+*/
 
-}catch(err){
+if(
+    typeof window.supabase !==
+    "undefined"
+){
+
+    try{
+
+        supabase =
+        window.supabase.createClient(
+
+            "https://xqucqbyzklmptyjgghgo.supabase.co",
+
+            "test"
+
+        );
+
+        console.log(
+            "Supabase connected"
+        );
+
+    }catch(err){
+
+        console.log(
+            "Supabase failed"
+        );
+
+    }
+
+}else{
 
     console.log(
-        "Supabase connection failed"
+        "Supabase missing"
     );
 
 }
@@ -255,8 +311,11 @@ parseInt(
    CANVAS
 ===================================== */
 
-const c = document.getElementById("c");
-const ctx = c.getContext("2d");
+const c =
+document.getElementById("c");
+
+const ctx =
+c.getContext("2d");
 
 const DPR =
 window.devicePixelRatio || 1;
@@ -275,7 +334,9 @@ function resize(){
     c.style.height =
     window.innerHeight + "px";
 
-    ctx.setTransform(1,0,0,1,0,0);
+    ctx.setTransform(
+        1,0,0,1,0,0
+    );
 
     ctx.scale(DPR,DPR);
 
@@ -354,7 +415,7 @@ let particles = [];
 let orbs = [];
 
 /* =====================================
-   CONTROLS
+   DESKTOP CONTROLS
 ===================================== */
 
 function moveUp(){
@@ -375,7 +436,6 @@ function moveDown(){
 
 }
 
-/* desktop keyboard */
 window.addEventListener(
     "keydown",
     e => {
@@ -402,7 +462,10 @@ window.addEventListener(
     }
 );
 
-/* mobile touch */
+/* =====================================
+   MOBILE TOUCH
+===================================== */
+
 window.addEventListener(
     "touchmove",
     e => {
@@ -443,8 +506,11 @@ function spawnParticles(x,y){
             x,
             y,
 
-            vx:(Math.random()-0.5)*6,
-            vy:(Math.random()-0.5)*6,
+            vx:
+            (Math.random()-0.5)*6,
+
+            vy:
+            (Math.random()-0.5)*6,
 
             life:40
 
@@ -455,7 +521,7 @@ function spawnParticles(x,y){
 }
 
 /* =====================================
-   ORB SAFETY
+   SAFE ORBS
 ===================================== */
 
 function orbInsideObstacle(x,y){
@@ -505,14 +571,18 @@ setInterval(() => {
     const h =
     heights[
         Math.floor(
-            Math.random()*heights.length
+            Math.random()
+            *
+            heights.length
         )
     ];
 
     const w =
     widths[
         Math.floor(
-            Math.random()*widths.length
+            Math.random()
+            *
+            widths.length
         )
     ];
 
@@ -527,20 +597,27 @@ setInterval(() => {
     if(lane === 1){
 
         y =
-        window.innerHeight/2 - h/2;
+        window.innerHeight/2
+        -
+        h/2;
 
     }
 
     if(lane === 2){
 
         y =
-        window.innerHeight - 180 - h;
+        window.innerHeight
+        -
+        180
+        -
+        h;
 
     }
 
     obstacles.push({
 
-        x:window.innerWidth + 100,
+        x:
+        window.innerWidth + 100,
 
         y,
 
@@ -551,7 +628,7 @@ setInterval(() => {
 
     });
 
-    /* safer orb spawn */
+    /* safe orb spawn */
     if(Math.random() > 0.65){
 
         let orbX =
@@ -565,7 +642,11 @@ setInterval(() => {
             orbY =
             Math.random()
             *
-            (window.innerHeight - 260)
+            (
+                window.innerHeight
+                -
+                260
+            )
             + 100;
 
             safe =
@@ -644,7 +725,10 @@ function update(){
         }
 
         /* passed */
-        if(!o.passed && o.x < player.x){
+        if(
+            !o.passed &&
+            o.x < player.x
+        ){
 
             o.passed = true;
 
@@ -669,17 +753,30 @@ function update(){
         o.x -= speed;
 
         const dx =
-        (player.x + player.w/2)
+        (
+            player.x
+            +
+            player.w/2
+        )
         - o.x;
 
         const dy =
-        (player.y + player.h/2)
+        (
+            player.y
+            +
+            player.h/2
+        )
         - o.y;
 
         const dist =
-        Math.sqrt(dx*dx + dy*dy);
+        Math.sqrt(
+            dx*dx + dy*dy
+        );
 
-        if(dist < 30 && !o.taken){
+        if(
+            dist < 30 &&
+            !o.taken
+        ){
 
             o.taken = true;
 
@@ -701,7 +798,9 @@ function update(){
 
     orbs =
     orbs.filter(
-        o => o.x > -100 && !o.taken
+        o =>
+        o.x > -100 &&
+        !o.taken
     );
 
     /* particles */
@@ -777,10 +876,13 @@ function draw(){
     ctx.fillStyle = "white";
 
     ctx.fillRect(
+
         player.x,
         player.y,
+
         player.w,
         player.h
+
     );
 
     /* obstacles */
@@ -789,10 +891,13 @@ function draw(){
     obstacles.forEach(o => {
 
         ctx.fillRect(
+
             o.x,
             o.y,
+
             o.w,
             o.h
+
         );
 
     });
@@ -805,11 +910,15 @@ function draw(){
         ctx.beginPath();
 
         ctx.arc(
+
             o.x,
             o.y,
+
             o.r,
+
             0,
             Math.PI*2
+
         );
 
         ctx.fill();
@@ -822,13 +931,17 @@ function draw(){
         ctx.globalAlpha =
         p.life / 40;
 
-        ctx.fillStyle = "white";
+        ctx.fillStyle =
+        "white";
 
         ctx.fillRect(
+
             p.x,
             p.y,
+
             4,
             4
+
         );
 
     });
@@ -858,11 +971,13 @@ function loop(){
 
 function startTimer(){
 
-    const t = setInterval(() => {
+    const t =
+    setInterval(() => {
 
         if(!running){
 
             clearInterval(t);
+
             return;
 
         }
@@ -930,9 +1045,12 @@ async function loadLeaderboard(){
         await supabase
         .from("scores")
         .select("*")
-        .order("score", {
-            ascending:false
-        })
+        .order(
+            "score",
+            {
+                ascending:false
+            }
+        )
         .limit(10);
 
         const board =
@@ -947,6 +1065,7 @@ async function loadLeaderboard(){
             board.innerHTML += `
 
                 <div class="scoreRow">
+
                     <span>
                         ${i+1}. ${s.name}
                     </span>
@@ -954,6 +1073,7 @@ async function loadLeaderboard(){
                     <span>
                         ${s.score}
                     </span>
+
                 </div>
 
             `;
@@ -979,7 +1099,9 @@ async function endGame(){
     song.pause();
 
     const name =
-    document.getElementById("name").value
+    document
+    .getElementById("name")
+    .value
     || "PLAYER";
 
     document
@@ -987,7 +1109,10 @@ async function endGame(){
     .innerHTML = `
 
         <h3>${name}</h3>
-        <p>SCORE: ${score}</p>
+
+        <p>
+            SCORE: ${score}
+        </p>
 
     `;
 
@@ -1061,7 +1186,6 @@ function retryGame(){
         retries
     );
 
-    /* reset name after 10 retries */
     if(retries >= 10){
 
         localStorage.removeItem(
@@ -1080,48 +1204,60 @@ function retryGame(){
 }
 
 /* =====================================
-   START
+   START GAME
 ===================================== */
 
-document
-.getElementById("startBtn")
-.addEventListener(
+const startBtn =
+document.getElementById(
+    "startBtn"
+);
+
+startBtn.addEventListener(
     "click",
-    async () => {
+    startGame
+);
 
-        const playerName =
-        document
-        .getElementById("name")
-        .value
-        || "PLAYER";
+async function startGame(){
 
-        localStorage.setItem(
-            "playerName",
-            playerName
+    console.log(
+        "START CLICKED"
+    );
+
+    const playerName =
+    document
+    .getElementById("name")
+    .value
+    || "PLAYER";
+
+    localStorage.setItem(
+        "playerName",
+        playerName
+    );
+
+    running = true;
+
+    document
+    .getElementById("start")
+    .style.display = "none";
+
+    try{
+
+        await song.play();
+
+    }catch(err){
+
+        console.log(
+            "Audio blocked",
+            err
         );
 
-        running = true;
-
-        document
-        .getElementById("start")
-        .style.display = "none";
-
-        try{
-
-            await song.play();
-
-        }catch(err){
-
-            console.log(err);
-
-        }
-
-        loop();
-
-        startTimer();
-
     }
-);
+
+    loop();
+
+    startTimer();
+
+}
 
 </script>
 
