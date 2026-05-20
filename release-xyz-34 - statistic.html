@@ -1,0 +1,1720 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+<title>Release Game 3.2</title>
+
+<style>
+:root{
+    --awb-bg:#930010;
+    --vorsichern-to-button-gap:0.9rem;
+}
+
+html, body{
+    margin:0;
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:black;
+    font-family:Arial,sans-serif;
+    touch-action:none;
+    color:white;
+}
+
+canvas{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+}
+
+#start{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:center;
+    z-index:10;
+    padding:28px 24px 38px;
+    box-sizing:border-box;
+    overflow-y:auto;
+}
+
+.topline{
+    width:100%;
+    max-width:960px;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:baseline;
+    justify-content:center;
+    gap:0.55rem;
+    font-size:0.92rem;
+    letter-spacing:0.04em;
+    margin-bottom:clamp(2.2rem,5vw,4rem);
+}
+
+.brand-link,
+.brand{
+    color:#ffffff;
+    font-weight:700;
+    text-decoration:none;
+    letter-spacing:0.04em;
+}
+
+.count-label{
+    opacity:0.9;
+}
+
+#awb-countdown-timer{
+    font-variant-numeric:tabular-nums;
+    font-weight:700;
+    color:#ffffff;
+    min-width:8ch;
+    display:inline-block;
+}
+
+#startTitle{
+    font-size:54px;
+    margin-bottom:18px;
+    letter-spacing:2px;
+    text-align:center;
+}
+
+#resultBox{
+    min-height:72px;
+    margin-bottom:18px;
+    text-align:center;
+}
+
+#resultHeadline{
+    font-size:32px;
+    font-weight:900;
+    letter-spacing:1px;
+    margin-bottom:8px;
+}
+
+#resultScore{
+    font-size:20px;
+    opacity:0.95;
+}
+
+input{
+    width:240px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    text-align:center;
+    font-size:20px;
+    margin-bottom:20px;
+    outline:none;
+}
+
+button{
+    padding:15px 30px;
+    border:none;
+    border-radius:10px;
+    background:white;
+    color:black;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+button:disabled{
+    opacity:0.55;
+    cursor:not-allowed;
+}
+
+#ui{
+    position:fixed;
+    top:20px;
+    left:20px;
+    z-index:5;
+    font-size:20px;
+}
+
+#timer{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:5;
+    font-size:20px;
+}
+
+#startLeaderboard{
+    margin-top:28px;
+    width:300px;
+    max-width:90vw;
+    text-align:left;
+    font-size:16px;
+}
+
+#startLeaderboard h3{
+    text-align:center;
+    margin-bottom:8px;
+    font-size:22px;
+}
+
+.scoreRow{
+    display:flex;
+    justify-content:space-between;
+    gap:14px;
+    padding:5px 0;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+}
+
+.scoreRow span:first-child{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+.statusText{
+    margin-top:12px;
+    font-size:13px;
+    opacity:0.75;
+    max-width:300px;
+    text-align:center;
+    line-height:1.4;
+}
+
+.footer-links{
+    width:100%;
+    max-width:300px;
+    margin-top:38px;
+}
+
+.blk,
+.block{
+    margin-bottom:38px;
+}
+
+.blk h2,
+.block h2{
+    margin:0 0 16px;
+    font-size:1.06rem;
+    letter-spacing:0.04em;
+    text-transform:lowercase;
+    font-weight:700;
+}
+
+.blk p,
+.block p{
+    margin:0;
+    line-height:1.7;
+    letter-spacing:0.04em;
+    font-size:1rem;
+}
+
+.social-icons{
+    display:flex;
+    flex-wrap:wrap;
+    gap:clamp(1.1rem,1.6vw,1.6rem);
+    align-items:center;
+}
+
+.social-link{
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.social-icon-img{
+    width:clamp(1.6rem,1.3vw + 1rem,2.2rem);
+    height:auto;
+    display:block;
+}
+
+.more-link{
+    display:inline-block;
+    margin-top:0.7rem;
+    color:#ffffff;
+    font-weight:700;
+    text-decoration:none;
+}
+
+/* PRESAVE */
+.presave-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: var(--vorsichern-to-button-gap);
+}
+
+.presave-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.78rem 1.35rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.85);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: lowercase;
+    background: #ffffff;
+    color: var(--awb-bg);
+    box-shadow:
+        0 0 18px rgba(0,0,0,0.25),
+        0 0 40px rgba(0,0,0,0.18);
+    transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease;
+}
+
+.presave-button:hover {
+    transform: translateY(-1px) scale(1.02);
+    filter: brightness(1.02);
+    box-shadow:
+        0 0 26px rgba(0,0,0,0.32),
+        0 0 55px rgba(0,0,0,0.22);
+}
+
+.presave-button:focus-visible {
+    outline: 2px solid rgba(255,255,255,0.95);
+    outline-offset: 3px;
+}
+
+.presave-icon {
+    width: 1.15rem;
+    height: 1.15rem;
+    display: block;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+.presave-hint {
+    opacity: 0.88;
+    font-size: 0.95rem;
+}
+
+@media(max-width:768px){
+    #start{
+        padding:18px 18px 34px;
+    }
+
+    .topline{
+        justify-content:flex-start;
+        font-size:0.87rem;
+        margin-bottom:2.2rem;
+    }
+
+    #startTitle{
+        font-size:40px;
+    }
+
+    #resultHeadline{
+        font-size:28px;
+    }
+
+    input{
+        width:70%;
+    }
+
+    #ui,
+    #timer{
+        font-size:18px;
+    }
+
+    .footer-links{
+        max-width:100%;
+        align-self:stretch;
+        padding:0 28px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="start">
+
+    <div class="topline" aria-label="Release Countdown">
+        <a class="brand-link" href="index.html">b3nn3t</a>
+        <span class="count-label">- neues release in</span>
+        <span id="awb-countdown-timer">--:--:--</span>
+    </div>
+
+<div class="start-title-wrap">
+    <h1 id="startTitle">NEW RELEASE</h1>
+    <h2 id="startSubtitle">play&amp;listen</h2>
+</div>
+
+    <div id="resultBox">
+        <div id="resultHeadline"></div>
+        <div id="resultScore"></div>
+    </div>
+
+    <input
+        id="name"
+        placeholder="YOUR NAME"
+        maxlength="12"
+        autocomplete="off"
+    >
+
+    <button id="startBtn" type="button">
+        START
+    </button>
+
+    <div id="startStatus" class="statusText"></div>
+
+    <div id="startLeaderboard"></div>
+
+    <div class="footer-links">
+
+        <section aria-label="vorsichern:" class="block">
+            <h2>vorsichern:</h2>
+            <p class="presave-hint">dann ist „-x-drei“ am 26. juni direkt in deiner bibliothek</p>
+
+            <div class="presave-row">
+                <a class="presave-button"
+                   href="https://bfan.link/drei"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   onclick="if(window.plausible){plausible('Pre save')}">
+                    <img class="presave-icon"
+                         src="/assets/release/drei-cover.png"
+                         alt="Cover „drei“">
+                    pre-save
+                </a>
+            </div>
+        </section>
+
+        <section class="blk">
+            <h2>kuck hier</h2>
+
+            <div class="social-icons">
+                <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x" class="social-link" target="_blank" rel="noopener" aria-label="Spotify">
+                    <picture>
+                        <source srcset="assets/release/spotify_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
+                    </picture>
+                </a>
+
+                <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE" class="social-link" target="_blank" rel="noopener" aria-label="Apple Music">
+                    <picture>
+                        <source srcset="assets/release/apple_music_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
+                    </picture>
+                </a>
+
+                <a href="https://www.instagram.com/b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">
+                    <picture>
+                        <source srcset="assets/release/instagram_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
+                    </picture>
+                </a>
+
+                <a href="https://www.youtube.com/@b333nn3t" class="social-link" target="_blank" rel="noopener" aria-label="YouTube">
+                    <picture>
+                        <source srcset="assets/release/youtube_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
+                    </picture>
+                </a>
+
+             <a href="https://soundcloud.com/bennet-6942069420"
+                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
+                <picture>
+                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                </picture>
+              </a>
+            </div>
+        </section>
+
+        <section class="blk">
+            <p>mehr auf meiner webseite :p</p>
+            <a class="more-link brand" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+        </section>
+
+    </div>
+
+</div>
+
+<div id="ui">
+    SCORE:
+    <span id="score">0</span>
+</div>
+
+<div id="timer">
+    60
+</div>
+
+<audio
+    id="song"
+    src="assets/release/drei-viertel.prelisten.mp3"
+    preload="auto"
+></audio>
+
+<canvas id="c"></canvas>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+<script>
+/* =====================================
+   RELEASE COUNTDOWN
+===================================== */
+
+(function(){
+    const targetDate =
+    new Date("2026-01-09T00:00:00+01:00").getTime();
+
+    const el =
+    document.getElementById("awb-countdown-timer");
+
+    if(!el) return;
+
+    let countdownTimer = null;
+
+    function updateCountdown(){
+        const diff =
+        targetDate - Date.now();
+
+        if(diff <= 0){
+            el.textContent = "OUT NOW";
+
+            if(countdownTimer){
+                clearInterval(countdownTimer);
+                countdownTimer = null;
+            }
+
+            return;
+        }
+
+        const seconds =
+        Math.floor(diff / 1000);
+
+        const days =
+        Math.floor(seconds / 86400);
+
+        const hours =
+        String(
+            Math.floor((seconds % 86400) / 3600)
+        ).padStart(2, "0");
+
+        const mins =
+        String(
+            Math.floor((seconds % 3600) / 60)
+        ).padStart(2, "0");
+
+        const secs =
+        String(seconds % 60).padStart(2, "0");
+
+        el.textContent =
+        days > 0
+        ? days + "d " + hours + ":" + mins + ":" + secs
+        : hours + ":" + mins + ":" + secs;
+    }
+
+    countdownTimer =
+    setInterval(updateCountdown, 1000);
+
+    updateCountdown();
+}());
+
+/* =====================================
+   SUPABASE CONFIG
+===================================== */
+
+let supabaseClient = null;
+
+const SUPABASE_URL =
+    "https://xqucqbyzklmptyjgghgo.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_MRJcYGadARj5Es6fiNcD2A_FJyZ_bX3";
+
+function setStartStatus(text){
+    const el =
+    document.getElementById("startStatus");
+
+    if(el){
+        el.textContent = text || "";
+    }
+}
+
+if(typeof window.supabase !== "undefined"){
+    try{
+        supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        console.log("Supabase client created");
+
+    }catch(err){
+        console.error("Supabase init failed:", err);
+        setStartStatus("Leaderboard offline. Game funktioniert trotzdem.");
+    }
+}else{
+    console.error("Supabase library missing. CDN not loaded.");
+    setStartStatus("Leaderboard offline. Game funktioniert trotzdem.");
+}
+
+/* =====================================
+   RETRY LOGIC
+===================================== */
+
+/*
+  Ablauf:
+  - Seitenaufruf: START + leeres Namensfeld
+  - nach Spiel 1: RETRY
+  - nach Spiel 2: RETRY
+  - nach Spiel 3: RETRY
+  - nach Spiel 4: wieder START + leeres Namensfeld
+*/
+
+let retryCount = 0;
+let waitingForNewName = true;
+
+/* =====================================
+   CANVAS
+===================================== */
+
+const c =
+document.getElementById("c");
+
+const ctx =
+c.getContext("2d");
+
+const DPR =
+window.devicePixelRatio || 1;
+
+function resize(){
+    c.width =
+    Math.floor(window.innerWidth * DPR);
+
+    c.height =
+    Math.floor(window.innerHeight * DPR);
+
+    c.style.width =
+    window.innerWidth + "px";
+
+    c.style.height =
+    window.innerHeight + "px";
+
+    ctx.setTransform(
+        1,0,0,1,0,0
+    );
+
+    ctx.scale(DPR,DPR);
+}
+
+resize();
+
+window.addEventListener(
+    "resize",
+    resize
+);
+
+const isMobile =
+window.innerWidth < 768;
+
+/* =====================================
+   STATE
+===================================== */
+
+let running = false;
+let ending = false;
+
+let score = 0;
+let time = 60;
+
+let timerInterval = null;
+let animationFrameId = null;
+
+let gameStartTime = 0;
+let lastSpawnTime = 0;
+let nextSpawnDelay = 1300;
+
+const song =
+document.getElementById("song");
+
+const obstacleColors = [
+    "#2f80ff",
+    "#ff2e2e",
+    "#22c55e",
+    "#a855f7",
+    "#ff8a00",
+    "#00d5ff",
+    "#ff3fb4",
+    "#facc15"
+];
+
+const player = {
+    x:isMobile
+        ? window.innerWidth * 0.22
+        : window.innerWidth * 0.25,
+
+    y:window.innerHeight * 0.5,
+
+    w:isMobile ? 48 : 40,
+    h:isMobile ? 48 : 40,
+
+    vy:0
+};
+
+let obstacles = [];
+let particles = [];
+let orbs = [];
+
+/* =====================================
+   SPEED / DIFFICULTY
+===================================== */
+
+function getElapsedSeconds(){
+    if(!gameStartTime) return 0;
+
+    return Math.max(
+        0,
+        (performance.now() - gameStartTime) / 1000
+    );
+}
+
+function getCurrentSpeed(){
+    const elapsed =
+    getElapsedSeconds();
+
+    if(elapsed < 25){
+        const start =
+        isMobile ? 2.5 : 3.1;
+
+        const end =
+        isMobile ? 4.0 : 4.8;
+
+        const p =
+        elapsed / 25;
+
+        return start + (end - start) * p;
+    }
+
+    if(elapsed < 40){
+        const p =
+        (elapsed - 25) / 15;
+
+        const start =
+        isMobile ? 4.4 : 5.2;
+
+        const end =
+        isMobile ? 6.7 : 7.8;
+
+        return start + (end - start) * p;
+    }
+
+    const p =
+    Math.min(
+        1,
+        (elapsed - 40) / 20
+    );
+
+    const start =
+    isMobile ? 7.2 : 8.4;
+
+    const end =
+    isMobile ? 10.0 : 11.5;
+
+    return start + (end - start) * p;
+}
+
+function getSpawnDelay(){
+    const elapsed =
+    getElapsedSeconds();
+
+    if(elapsed < 25){
+        return isMobile ? 1450 : 1350;
+    }
+
+    if(elapsed < 40){
+        return isMobile ? 1050 : 950;
+    }
+
+    return isMobile ? 680 : 600;
+}
+
+/* =====================================
+   CONTROLS
+===================================== */
+
+function moveUp(){
+    if(!running) return;
+    player.vy = isMobile ? -7 : -9;
+}
+
+function moveDown(){
+    if(!running) return;
+    player.vy = isMobile ? 7 : 9;
+}
+
+window.addEventListener(
+    "keydown",
+    e => {
+        if(
+            e.code === "ArrowUp" ||
+            e.code === "KeyW" ||
+            e.code === "Space"
+        ){
+            e.preventDefault();
+            moveUp();
+        }
+
+        if(
+            e.code === "ArrowDown" ||
+            e.code === "KeyS"
+        ){
+            e.preventDefault();
+            moveDown();
+        }
+    }
+);
+
+window.addEventListener(
+    "touchmove",
+    e => {
+        if(!running) return;
+
+        e.preventDefault();
+
+        const touch =
+        e.touches[0];
+
+        const y =
+        touch.clientY;
+
+        player.y +=
+        (
+            y
+            -
+            player.y
+            -
+            player.h/2
+        ) * 0.25;
+    },
+    { passive:false }
+);
+
+/* =====================================
+   PARTICLES / COLLISION HELPERS
+===================================== */
+
+function spawnParticles(x,y){
+    for(let i=0;i<30;i++){
+        particles.push({
+            x,
+            y,
+            vx:(Math.random()-0.5)*6,
+            vy:(Math.random()-0.5)*6,
+            life:40
+        });
+    }
+}
+
+function circleRectOverlap(cx, cy, r, rx, ry, rw, rh, padding = 0){
+
+    const nearestX =
+    Math.max(
+        rx - padding,
+        Math.min(
+            cx,
+            rx + rw + padding
+        )
+    );
+
+    const nearestY =
+    Math.max(
+        ry - padding,
+        Math.min(
+            cy,
+            ry + rh + padding
+        )
+    );
+
+    const dx =
+    cx - nearestX;
+
+    const dy =
+    cy - nearestY;
+
+    return (
+        dx * dx + dy * dy
+        <
+        (r + padding) * (r + padding)
+    );
+
+}
+
+function orbInsideObstacle(x,y,r = 12){
+
+    const padding = 18;
+
+    for(let o of obstacles){
+
+        if(
+            circleRectOverlap(
+                x,
+                y,
+                r,
+                o.x,
+                o.y,
+                o.w,
+                o.h,
+                padding
+            )
+        ){
+            return true;
+        }
+
+    }
+
+    return false;
+
+}
+
+function obstacleOverlapsOrb(x,y,w,h){
+
+    const padding = 22;
+
+    for(let orb of orbs){
+
+        if(
+            circleRectOverlap(
+                orb.x,
+                orb.y,
+                orb.r || 12,
+                x,
+                y,
+                w,
+                h,
+                padding
+            )
+        ){
+            return true;
+        }
+
+    }
+
+    return false;
+
+}
+
+/* =====================================
+   SPAWN
+===================================== */
+
+function spawnObstacle(){
+    const elapsed =
+    getElapsedSeconds();
+
+    const medium =
+    elapsed >= 25;
+
+    const hard =
+    elapsed >= 40;
+
+    const heights =
+    isMobile
+    ? hard
+        ? [80,110,140,170]
+        : medium
+            ? [55,85,115,140]
+            : [40,70,100]
+    : hard
+        ? [90,130,170,210]
+        : medium
+            ? [60,100,150,180]
+            : [40,80,140];
+
+    const widths =
+    isMobile
+    ? hard
+        ? [100,145,185,220]
+        : medium
+            ? [75,115,155,180]
+            : [60,100,140]
+    : hard
+        ? [120,170,220,260]
+        : medium
+            ? [85,140,190,220]
+            : [60,120,180];
+
+    let h;
+    let w;
+    let y;
+    let safeObstacle = false;
+    let attempts = 0;
+
+    while(!safeObstacle && attempts < 20){
+
+        attempts++;
+
+        const lane =
+        Math.floor(Math.random()*3);
+
+        h =
+        heights[
+            Math.floor(
+                Math.random()
+                *
+                heights.length
+            )
+        ];
+
+        w =
+        widths[
+            Math.floor(
+                Math.random()
+                *
+                widths.length
+            )
+        ];
+
+        if(lane === 0){
+            y = 80;
+        }
+
+        if(lane === 1){
+            y =
+            window.innerHeight/2
+            -
+            h/2;
+        }
+
+        if(lane === 2){
+            y =
+            window.innerHeight
+            -
+            180
+            -
+            h;
+        }
+
+        safeObstacle =
+        !obstacleOverlapsOrb(
+            window.innerWidth + 100,
+            y,
+            w,
+            h
+        );
+
+    }
+
+    const color =
+    obstacleColors[
+        Math.floor(
+            Math.random()
+            *
+            obstacleColors.length
+        )
+    ];
+
+    obstacles.push({
+        x:window.innerWidth + 100,
+        y,
+        w,
+        h,
+        color,
+        passed:false
+    });
+
+    if(Math.random() > (hard ? 0.38 : medium ? 0.52 : 0.68)){
+
+        let orbX =
+        window.innerWidth + 100 + w + 120;
+
+        let orbY;
+        let safe = false;
+        let orbAttempts = 0;
+
+        while(!safe && orbAttempts < 35){
+            orbAttempts++;
+
+            orbY =
+            Math.random()
+            *
+            (
+                window.innerHeight
+                -
+                260
+            )
+            + 100;
+
+            safe =
+            !orbInsideObstacle(
+                orbX,
+                orbY,
+                12
+            );
+        }
+
+        if(safe){
+            orbs.push({
+                x:orbX,
+                y:orbY,
+                r:12,
+                taken:false
+            });
+        }
+    }
+}
+
+function updateSpawning(){
+    const now =
+    performance.now();
+
+    if(
+        now - lastSpawnTime
+        >=
+        nextSpawnDelay
+    ){
+        spawnObstacle();
+
+        lastSpawnTime = now;
+
+        nextSpawnDelay =
+        getSpawnDelay()
+        *
+        (
+            0.82
+            +
+            Math.random() * 0.36
+        );
+    }
+}
+
+/* =====================================
+   UPDATE
+===================================== */
+
+function update(){
+    const speed =
+    getCurrentSpeed();
+
+    updateSpawning();
+
+    player.y += player.vy;
+    player.vy *= 0.90;
+
+    if(player.y < 40){
+        player.y = 40;
+    }
+
+    if(player.y > window.innerHeight - 140){
+        player.y = window.innerHeight - 140;
+    }
+
+    obstacles.forEach(o => {
+        o.x -= speed;
+
+        if(
+            player.x < o.x + o.w &&
+            player.x + player.w > o.x &&
+            player.y < o.y + o.h &&
+            player.y + player.h > o.y
+        ){
+            endGame("gameover");
+        }
+
+        if(!o.passed && o.x < player.x){
+            o.passed = true;
+            score += 10;
+
+            if(score % 100 === 0){
+                spawnParticles(
+                    player.x,
+                    player.y
+                );
+            }
+        }
+    });
+
+    orbs.forEach(o => {
+        o.x -= speed;
+
+        const dx =
+        (
+            player.x
+            +
+            player.w/2
+        )
+        - o.x;
+
+        const dy =
+        (
+            player.y
+            +
+            player.h/2
+        )
+        - o.y;
+
+        const dist =
+        Math.sqrt(dx*dx + dy*dy);
+
+        if(dist < 30 && !o.taken){
+            o.taken = true;
+            score += 25;
+
+            spawnParticles(
+                o.x,
+                o.y
+            );
+        }
+    });
+
+    obstacles =
+    obstacles.filter(
+        o => o.x > -300
+    );
+
+    orbs =
+    orbs.filter(
+        o => o.x > -100 && !o.taken
+    );
+
+    particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life--;
+    });
+
+    particles =
+    particles.filter(
+        p => p.life > 0
+    );
+
+    document
+    .getElementById("score")
+    .innerText = score;
+}
+
+/* =====================================
+   DRAW
+===================================== */
+
+function draw(){
+    ctx.clearRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    ctx.fillStyle = "#050816";
+
+    ctx.fillRect(
+        0,
+        0,
+        window.innerWidth,
+        window.innerHeight
+    );
+
+    for(let i=0;i<20;i++){
+        ctx.fillStyle =
+        "rgba(255,255,255,0.03)";
+
+        ctx.fillRect(
+            (
+                i*180
+                -
+                performance.now()*0.05
+            )
+            %
+            window.innerWidth,
+            i*60,
+            120,
+            1
+        );
+    }
+
+    ctx.fillStyle = "white";
+
+    ctx.fillRect(
+        player.x,
+        player.y,
+        player.w,
+        player.h
+    );
+
+    obstacles.forEach(o => {
+        ctx.fillStyle =
+        o.color || "red";
+
+        ctx.fillRect(
+            o.x,
+            o.y,
+            o.w,
+            o.h
+        );
+
+        ctx.strokeStyle =
+        "rgba(255,255,255,0.35)";
+
+        ctx.lineWidth = 2;
+
+        ctx.strokeRect(
+            o.x,
+            o.y,
+            o.w,
+            o.h
+        );
+    });
+
+    ctx.fillStyle = "gold";
+
+    orbs.forEach(o => {
+        ctx.beginPath();
+
+        ctx.arc(
+            o.x,
+            o.y,
+            o.r,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    });
+
+    particles.forEach(p => {
+        ctx.globalAlpha =
+        p.life / 40;
+
+        ctx.fillStyle =
+        "white";
+
+        ctx.fillRect(
+            p.x,
+            p.y,
+            4,
+            4
+        );
+    });
+
+    ctx.globalAlpha = 1;
+}
+
+function loop(){
+    if(!running) return;
+
+    update();
+    draw();
+
+    animationFrameId =
+    requestAnimationFrame(loop);
+}
+
+function startTimer(){
+    if(timerInterval){
+        clearInterval(timerInterval);
+    }
+
+    timerInterval =
+    setInterval(() => {
+        if(!running){
+            clearInterval(timerInterval);
+            timerInterval = null;
+            return;
+        }
+
+        time--;
+
+        document
+        .getElementById("timer")
+        .innerText = time;
+
+        score++;
+
+        if(time <= 0){
+            clearInterval(timerInterval);
+            timerInterval = null;
+
+            endGame("finish");
+        }
+    },1000);
+}
+
+/* =====================================
+   HELPERS
+===================================== */
+
+function escapeHtml(value){
+    return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function getCleanName(){
+    return (
+        document
+        .getElementById("name")
+        .value
+        || ""
+    )
+    .trim()
+    .slice(0,12);
+}
+
+/* =====================================
+   LEADERBOARD
+===================================== */
+
+async function submitScore(){
+    if(!supabaseClient){
+        console.warn("No Supabase client. Score not saved.");
+        return;
+    }
+
+    const name =
+    getCleanName() || "PLAYER";
+
+    const payload = {
+        name,
+        score:Number(score)
+    };
+
+    const { error } =
+    await supabaseClient
+    .from("scores")
+    .insert([payload]);
+
+    if(error){
+        console.error(
+            "Supabase insert failed:",
+            error.message,
+            error
+        );
+        return;
+    }
+
+    console.log("Score saved:", payload);
+}
+
+async function loadLeaderboard(targetId = "startLeaderboard"){
+    const board =
+    document
+    .getElementById(targetId);
+
+    if(!board) return;
+
+    board.innerHTML =
+    "<h3>TOP 10</h3>";
+
+    if(!supabaseClient){
+        board.innerHTML +=
+        "<p>Leaderboard offline.</p>";
+        return;
+    }
+
+    const { data, error } =
+    await supabaseClient
+    .from("scores")
+    .select("name, score, created_at")
+    .order(
+        "score",
+        {
+            ascending:false
+        }
+    )
+    .order(
+        "created_at",
+        {
+            ascending:true
+        }
+    )
+    .limit(10);
+
+    if(error){
+        console.error(
+            "Supabase select failed:",
+            error.message,
+            error
+        );
+
+        board.innerHTML +=
+        "<p>Leaderboard konnte nicht geladen werden.</p>";
+
+        return;
+    }
+
+    if(!data || data.length === 0){
+        board.innerHTML +=
+        "<p>No scores yet.</p>";
+        return;
+    }
+
+    data.forEach((s,i)=>{
+        board.innerHTML += `
+            <div class="scoreRow">
+                <span>${i+1}. ${escapeHtml(s.name)}</span>
+                <span>${Number(s.score)}</span>
+            </div>
+        `;
+    });
+}
+
+/* =====================================
+   START SCREEN MODE
+===================================== */
+
+function updateStartScreenMode(){
+    const input =
+    document.getElementById("name");
+
+    const btn =
+    document.getElementById("startBtn");
+
+    if(waitingForNewName){
+        input.style.display = "block";
+        btn.textContent = "START";
+    }else{
+        input.style.display = "none";
+        btn.textContent = "RETRY";
+    }
+}
+
+function showStartScreen(resultType, finalScore){
+    const headline =
+    document.getElementById("resultHeadline");
+
+    const resultScore =
+    document.getElementById("resultScore");
+
+    const title =
+    document.getElementById("startTitle");
+
+    title.textContent =
+    "NEW RELEASE";
+
+    if(resultType === "finish"){
+        headline.textContent = "FINISH";
+    }else if(resultType === "gameover"){
+        headline.textContent = "GAME OVER";
+    }else{
+        headline.textContent = "";
+    }
+
+    if(typeof finalScore === "number"){
+        resultScore.textContent =
+        "SCORE: " + finalScore;
+    }else{
+        resultScore.textContent = "";
+    }
+
+    updateStartScreenMode();
+
+    document
+    .getElementById("start")
+    .style.display = "flex";
+}
+
+/* =====================================
+   END GAME
+===================================== */
+
+async function endGame(resultType = "gameover"){
+    if(ending) return;
+
+    ending = true;
+    running = false;
+
+    if(animationFrameId){
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    song.pause();
+
+    const finalScore =
+    score;
+
+    await submitScore();
+
+    retryCount++;
+
+    if(retryCount >= 4){
+        waitingForNewName = true;
+        retryCount = 0;
+
+        document.getElementById("name").value = "";
+        localStorage.removeItem("playerName");
+    }else{
+        waitingForNewName = false;
+    }
+
+    showStartScreen(
+        resultType,
+        finalScore
+    );
+
+    await loadLeaderboard("startLeaderboard");
+
+    ending = false;
+}
+
+/* =====================================
+   RESET STATE
+===================================== */
+
+function resetGameState(){
+    ending = false;
+    running = false;
+
+    if(animationFrameId){
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+    }
+
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    score = 0;
+    time = 60;
+
+    gameStartTime = 0;
+    lastSpawnTime = 0;
+    nextSpawnDelay = 1300;
+
+    obstacles = [];
+    particles = [];
+    orbs = [];
+
+    player.x =
+    isMobile
+        ? window.innerWidth * 0.22
+        : window.innerWidth * 0.25;
+
+    player.y =
+    window.innerHeight * 0.5;
+
+    player.vy = 0;
+
+    document
+    .getElementById("score")
+    .innerText = score;
+
+    document
+    .getElementById("timer")
+    .innerText = time;
+}
+
+/* =====================================
+   START GAME
+===================================== */
+
+const startBtn =
+document.getElementById("startBtn");
+
+startBtn.addEventListener(
+    "click",
+    function(){
+        startGame().catch(function(err){
+            console.error("Start failed:", err);
+
+            setStartStatus(
+                "Start fehlgeschlagen. Bitte Browser-Konsole prüfen."
+            );
+
+            startBtn.disabled = false;
+        });
+    }
+);
+
+async function startGame(){
+    console.log("START CLICKED");
+
+    startBtn.disabled = true;
+    setStartStatus("");
+
+    const input =
+    document.getElementById("name");
+
+    const playerName =
+    getCleanName();
+
+    if(input.style.display !== "none" && playerName.length < 1){
+        setStartStatus("bitte gib zuerst deinen namen ein");
+        input.focus();
+        startBtn.disabled = false;
+        return;
+    }
+
+    if(input.style.display !== "none"){
+        retryCount = 0;
+        waitingForNewName = false;
+    }
+
+    localStorage.setItem(
+        "playerName",
+        playerName || "PLAYER"
+    );
+
+    resetGameState();
+
+    document
+    .getElementById("start")
+    .style.display = "none";
+
+    try{
+        song.currentTime = 0;
+        await song.play();
+    }catch(err){
+        console.warn(
+            "Audio blocked, game starts without audio:",
+            err
+        );
+    }
+
+    running = true;
+
+    gameStartTime =
+    performance.now();
+
+    lastSpawnTime =
+    performance.now();
+
+    nextSpawnDelay =
+    getSpawnDelay();
+
+    loop();
+    startTimer();
+
+    startBtn.disabled = false;
+}
+
+/* =====================================
+   INITIAL START SCREEN
+===================================== */
+
+waitingForNewName = true;
+retryCount = 0;
+
+document.getElementById("name").value = "";
+
+showStartScreen(null);
+
+loadLeaderboard("startLeaderboard").catch(err => {
+    console.warn(
+        "Initial leaderboard load failed:",
+        err
+    );
+});
+</script>
+
+</body>
+</html>
