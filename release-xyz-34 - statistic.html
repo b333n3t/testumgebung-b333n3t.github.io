@@ -518,11 +518,16 @@ async function loadDailyChart(){
     days_forward: 30
 });
 
-    if(error){
-        console.error("Daily chart load failed:", error);
-        setStatus("Graph konnte nicht geladen werden.");
-        return;
-    }
+if(error){
+    console.error("Daily chart load failed:", error);
+
+    setStatus(
+        "Graph konnte nicht geladen werden: " +
+        (error.message || "unbekannter Fehler")
+    );
+
+    return;
+}
 
     drawBarChart(canvas, data || []);
 }
