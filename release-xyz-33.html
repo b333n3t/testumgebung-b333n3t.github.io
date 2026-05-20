@@ -90,7 +90,6 @@
       width: 100%;
       max-width: var(--max);
       position: relative;
-      overflow: clip; /* verhindert Artefakte von bwrap-d left:-110px */
     }
 
     main {
@@ -186,18 +185,63 @@
       width: 100%;
     }
 
+    /* TV-Raum: Boden geht über volle Viewport-Breite */
+    .tv-room-wrap {
+      position: relative;
+      width: 100%;
+    }
+
+    /* Boden: direkt unter dem TV, volle Viewport-Breite */
+    .tv-floor {
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: clamp(70px, 9vw, 110px);
+      margin-top: -2px;
+      background: linear-gradient(to bottom, #1c1409 0%, #0e0904 100%);
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    /* Fussleiste oben am Boden */
+    .tv-floor::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 5px;
+      background: #3a2810;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    /* Holzdielen */
+    .tv-floor::after {
+      content: '';
+      position: absolute;
+      inset: 5px 0 0 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px, transparent 16px,
+        rgba(0,0,0,0.28) 16px, rgba(0,0,0,0.28) 18px
+      );
+    }
+
     .desktop-scene {
       position: relative;
-      min-height: clamp(580px, 68vw, 780px);
+      /* Höhe passt sich dem TV-Inhalt an, kein künstliches min-height */
+      min-height: 0;
+      padding-bottom: clamp(70px, 9vw, 110px); /* Platz für Boden */
       overflow: visible;
+      z-index: 2;
     }
 
     .bwrap-d {
-      position: absolute;
-      left: clamp(-40px, -2vw, 0px);
-      top: 0;
-      width: clamp(500px, 65vw, 780px);
-      aspect-ratio: 860 / 720;
+      position: relative; /* nicht absolute — damit desktop-scene die Höhe bekommt */
+      display: inline-block;
+      left: clamp(-20px, -1vw, 0px);
+      width: clamp(480px, 62vw, 740px);
+      aspect-ratio: 860 / 540;
       z-index: 2;
     }
 
@@ -362,11 +406,11 @@
       top: clamp(462px, 52vw, 620px);
     }
 
-    /* ── DESKTOP TITEL: nah am Player ── */
+    /* ── DESKTOP TITEL: direkt unter Boden ── */
     .title-sec {
       position: relative;
       z-index: 5;
-      margin-top: -6rem;
+      margin-top: 1.5rem;
       margin-bottom: clamp(1.8rem, 3vw, 2.7rem);
     }
 
@@ -592,73 +636,25 @@
       <div class="video-wrap">
 
         <!-- ══ DESKTOP: Retro-TV ══ -->
-        <div class="desktop-scene">
+        <div class="tv-room-wrap">
+          <div class="desktop-scene">
           <div class="bwrap-d">
-            <svg id="tv-svg-d" viewBox="0 0 860 750" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+            <svg id="tv-svg-d" viewBox="0 0 860 540" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
               <defs>
                 <clipPath id="screen-clip">
                   <rect x="192" y="88" width="390" height="330" rx="8" ry="8"/>
                 </clipPath>
-                <!-- Wand-Gradient für Raumgefühl -->
-                <linearGradient id="wall-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#2a2118"/>
-                  <stop offset="100%" stop-color="#1a1208"/>
-                </linearGradient>
-                <!-- Boden-Gradient -->
-                <linearGradient id="floor-grad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#2e2010"/>
-                  <stop offset="100%" stop-color="#160e06"/>
-                </linearGradient>
-                <!-- TV-Schatten auf Boden -->
-                <radialGradient id="shadow-grad" cx="50%" cy="0%" r="50%">
-                  <stop offset="0%" stop-color="rgba(0,0,0,0.6)"/>
-                  <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
-                </radialGradient>
               </defs>
 
-              <!-- ══ RAUM ══ -->
-              <!-- Wand -->
-              <rect x="0" y="0" width="860" height="640" fill="url(#wall-grad)"/>
-              <!-- Wandschatten oben (Decke) -->
-              <rect x="0" y="0" width="860" height="40" fill="rgba(0,0,0,0.3)"/>
-              <!-- Boden-Wand Trennlinie (Fussleiste) -->
-              <rect x="0" y="630" width="860" height="8" fill="#3a2a14" stroke="#1a0e06" stroke-width="1"/>
-              <!-- Boden -->
-              <rect x="0" y="638" width="860" height="112" fill="url(#floor-grad)"/>
-
-              <!-- Boden-Holzdielen (perspektivisch, subtil) -->
-              <g opacity="0.6">
-                <!-- Horizontale Fugen — werden nach unten breiter (Perspektive) -->
-                <line x1="0" y1="655" x2="860" y2="655" stroke="#0a0600" stroke-width="1.5"/>
-                <line x1="0" y1="676" x2="860" y2="676" stroke="#0a0600" stroke-width="1.5"/>
-                <line x1="0" y1="700" x2="860" y2="700" stroke="#0a0600" stroke-width="1.5"/>
-                <line x1="0" y1="728" x2="860" y2="728" stroke="#0a0600" stroke-width="1.5"/>
-                <!-- Holz-Highlight (Maserung) -->
-                <line x1="0" y1="646" x2="860" y2="646" stroke="rgba(100,60,20,0.3)" stroke-width="1"/>
-                <line x1="0" y1="667" x2="860" y2="667" stroke="rgba(100,60,20,0.2)" stroke-width="1"/>
-                <line x1="0" y1="690" x2="860" y2="690" stroke="rgba(100,60,20,0.2)" stroke-width="1"/>
-                <line x1="0" y1="714" x2="860" y2="714" stroke="rgba(100,60,20,0.2)" stroke-width="1"/>
-              </g>
-
-              <!-- TV-Schatten auf Boden (oval unter den Beinen) -->
-              <ellipse cx="400" cy="645" rx="220" ry="14" fill="url(#shadow-grad)" opacity="0.7"/>
-
-              <!-- ══ TV-BEINE (vor Boden, hinter Körper) ══ -->
-              <!-- 4 dünne Beine wie im Original -->
-              <line x1="248" y1="524" x2="222" y2="638" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
-              <line x1="272" y1="524" x2="258" y2="620" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
-              <line x1="552" y1="524" x2="538" y2="620" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
-              <line x1="576" y1="524" x2="602" y2="638" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
-              <!-- Bein-Schatten -->
-              <ellipse cx="222" cy="640" rx="18" ry="5" fill="rgba(0,0,0,0.5)"/>
-              <ellipse cx="602" cy="640" rx="18" ry="5" fill="rgba(0,0,0,0.5)"/>
+              <!-- ══ TV-BEINE ══ -->
+              <line x1="248" y1="524" x2="222" y2="538" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
+              <line x1="272" y1="524" x2="260" y2="535" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
+              <line x1="552" y1="524" x2="540" y2="535" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
+              <line x1="576" y1="524" x2="602" y2="538" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
 
               <!-- ══ TV-KÖRPER ══ -->
-              <!-- Körper-Schatten -->
-              <rect x="155" y="56" width="564" height="476" rx="12" ry="12" fill="rgba(0,0,0,0.4)"/>
-              <!-- Körper -->
+              <rect x="155" y="56" width="564" height="476" rx="12" ry="12" fill="rgba(0,0,0,0.35)"/>
               <rect x="148" y="48" width="564" height="476" rx="12" ry="12" fill="#7a4820" stroke="#1a0a00" stroke-width="5"/>
-              <!-- Holzmaserung -->
               <line x1="210" y1="48" x2="195" y2="524" stroke="rgba(255,160,60,0.07)" stroke-width="20"/>
               <line x1="390" y1="48" x2="375" y2="524" stroke="rgba(255,160,60,0.05)" stroke-width="28"/>
               <line x1="600" y1="48" x2="618" y2="524" stroke="rgba(255,160,60,0.06)" stroke-width="18"/>
@@ -669,7 +665,6 @@
               <!-- ══ BILDSCHIRM ══ -->
               <rect x="192" y="88" width="390" height="330" rx="6" ry="6" fill="#080808"/>
 
-              <!-- VIDEO (wird per Canvas ersetzt in Chrome/Edge) -->
               <foreignObject x="192" y="88" width="390" height="330" clip-path="url(#screen-clip)">
                 <video xmlns="http://www.w3.org/1999/xhtml"
                   id="vid-d" class="vid-d" muted playsinline preload="metadata"
@@ -678,28 +673,22 @@
                 </video>
               </foreignObject>
 
-              <!-- Bildschirm Glare -->
               <ellipse cx="290" cy="168" rx="75" ry="38" fill="rgba(255,255,255,0.05)" transform="rotate(-18,290,168)"/>
               <rect x="192" y="88" width="390" height="330" rx="6" ry="6" fill="none" stroke="#1a1a1a" stroke-width="2"/>
 
-              <!-- ══ UNTERE LEISTE MIT KNÖPFEN ══ -->
+              <!-- ══ UNTERE LEISTE + KNÖPFE ══ -->
               <rect x="170" y="466" width="446" height="62" rx="4" ry="4" fill="#5a3214" stroke="#1a0a00" stroke-width="4"/>
 
-              <!-- KNOPF 1: PLAY (links) -->
               <circle cx="280" cy="497" r="20" fill="#2a1606" stroke="#0a0300" stroke-width="3"/>
               <circle cx="280" cy="497" r="14" fill="#1e1004" stroke="#050200" stroke-width="2"/>
-              <!-- Zeiger wird per Canvas gezeichnet -->
               <circle cx="280" cy="497" r="4" fill="#666"/>
-              <!-- Label -->
               <text x="280" y="535" text-anchor="middle" font-size="10" fill="rgba(200,150,80,0.8)" font-family="system-ui" font-weight="bold">PLAY</text>
 
-              <!-- KNOPF 2: PAUSE (mitte) -->
               <circle cx="348" cy="497" r="20" fill="#2a1606" stroke="#0a0300" stroke-width="3"/>
               <circle cx="348" cy="497" r="14" fill="#1e1004" stroke="#050200" stroke-width="2"/>
               <circle cx="348" cy="497" r="4" fill="#666"/>
               <text x="348" y="535" text-anchor="middle" font-size="10" fill="rgba(200,150,80,0.8)" font-family="system-ui" font-weight="bold">PAUSE</text>
 
-              <!-- KNOPF 3: LAUTSTÄRKE (rechts) -->
               <circle cx="416" cy="497" r="20" fill="#2a1606" stroke="#0a0300" stroke-width="3"/>
               <circle cx="416" cy="497" r="14" fill="#1e1004" stroke="#050200" stroke-width="2"/>
               <circle cx="416" cy="497" r="4" fill="#666"/>
@@ -716,15 +705,15 @@
             <!-- viewBox 860×750: Knopf-cy=497, Knopf-cx 280/348/416 -->
             <!-- top = 497/750 = 66.3%, Knopf-r=20 → height ≈ 40/750=5.3% -->
             <button id="dp"  aria-label="Play"  title="Play"
-              style="position:absolute;left:27.9%;top:62.5%;width:5.8%;height:7%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+              style="position:absolute;left:27.9%;top:86%;width:5.8%;height:9%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
             <button id="dpa" aria-label="Pause" title="Pause"
-              style="position:absolute;left:36.4%;top:62.5%;width:5.8%;height:7%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+              style="position:absolute;left:36.4%;top:86%;width:5.8%;height:9%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
             <button id="ds"  aria-label="Lautstärke" title="Lautstärke"
-              style="position:absolute;left:44.9%;top:62.5%;width:5.8%;height:7%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+              style="position:absolute;left:44.9%;top:86%;width:5.8%;height:9%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
           </div>
-        </div>
-
-        <!-- ══ MOBILE: Canvas-Blase + Comic-Button-Blasen ══ -->
+        </div><!-- /desktop-scene -->
+          <div class="tv-floor"></div>
+        </div><!-- /tv-room-wrap -->
         <div class="mobile-scene">
 
           <video
@@ -1204,7 +1193,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
   if (!cvs || !vid) return;
 
   var ctx = cvs.getContext("2d");
-  var W = 860, H = 750;
+  var W = 860, H = 540;
   cvs.width = W; cvs.height = H;
 
   /* Zeiger-Winkel für 3 Knöpfe: PLAY=280, PAUSE=348, VOL=416, cy=497 */
