@@ -191,57 +191,29 @@
       width: 100%;
     }
 
-    /* Boden: direkt unter dem TV, volle Viewport-Breite */
+    /* Dezenter Schatten unter TV — kein Boden-Pattern */
     .tv-floor {
       position: relative;
       left: 50%;
       transform: translateX(-50%);
       width: 100vw;
-      height: clamp(70px, 9vw, 110px);
-      margin-top: -2px;
-      background: linear-gradient(to bottom, #1c1409 0%, #0e0904 100%);
-      z-index: 1;
-      overflow: hidden;
+      height: clamp(30px, 4vw, 50px);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, transparent 100%);
       pointer-events: none;
-    }
-
-    /* Fussleiste oben am Boden */
-    .tv-floor::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 5px;
-      background: #3a2810;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-
-    /* Holzdielen */
-    .tv-floor::after {
-      content: '';
-      position: absolute;
-      inset: 5px 0 0 0;
-      background-image: repeating-linear-gradient(
-        to bottom,
-        transparent 0px, transparent 16px,
-        rgba(0,0,0,0.28) 16px, rgba(0,0,0,0.28) 18px
-      );
     }
 
     .desktop-scene {
       position: relative;
-      /* Höhe passt sich dem TV-Inhalt an, kein künstliches min-height */
       min-height: 0;
-      padding-bottom: clamp(70px, 9vw, 110px); /* Platz für Boden */
       overflow: visible;
       z-index: 2;
     }
 
     .bwrap-d {
-      position: relative; /* nicht absolute — damit desktop-scene die Höhe bekommt */
-      display: inline-block;
-      left: clamp(-20px, -1vw, 0px);
+      position: relative;
+      display: block;
       width: clamp(480px, 62vw, 740px);
-      aspect-ratio: 860 / 540;
+      aspect-ratio: 860 / 600;
       z-index: 2;
     }
 
@@ -476,8 +448,12 @@
         margin-bottom: 1rem;
       }
 
-      .desktop-scene,
-      .dbtns {
+      .desktop-scene {
+        display: none;
+      }
+
+      .tv-room-wrap,
+      .tv-floor {
         display: none;
       }
 
@@ -514,21 +490,20 @@
         margin-bottom: 1rem;
       }
 
-      /* Blasen ÜBER dem Text, aber klickbar */
-      .oval-btns {
-        position: absolute;
-        left: 0; right: 0; top: 0; bottom: 0;
-        pointer-events: none;
-        z-index: 6;
-      }
-
+      /* Blasen-Buttons: unsichtbar — TV-Knöpfe übernehmen */
       .oval-btn {
         position: absolute;
         pointer-events: auto;
         z-index: 6;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        width: 14vw !important;
+        height: 14vw !important;
+        border-radius: 50% !important;
       }
 
-      #m-pl, #m-pa, #m-so { position: absolute; }
+      .oval-btn svg { display: none; }
 
       .mobile-scene {
         display: block;
@@ -554,11 +529,9 @@
       }
     }
 
-    /* Landscape auf Phone: max-height 500px trifft iPhone/Android Querformat */
+    /* Landscape auf Phone */
     @media (max-height: 500px) and (orientation: landscape) {
-      /* Desktop-Player verstecken, mobile Canvas zeigen */
-      .desktop-scene,
-      .dbtns {
+      .desktop-scene, .tv-room-wrap, .tv-floor {
         display: none !important;
       }
 
@@ -639,18 +612,23 @@
         <div class="tv-room-wrap">
           <div class="desktop-scene">
           <div class="bwrap-d">
-            <svg id="tv-svg-d" viewBox="0 0 860 540" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
+            <svg id="tv-svg-d" viewBox="0 0 860 610" aria-hidden="true" style="width:100%;height:100%;display:block;overflow:visible;">
               <defs>
                 <clipPath id="screen-clip">
                   <rect x="192" y="88" width="390" height="330" rx="8" ry="8"/>
                 </clipPath>
               </defs>
 
-              <!-- ══ TV-BEINE ══ -->
-              <line x1="248" y1="524" x2="222" y2="538" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
-              <line x1="272" y1="524" x2="260" y2="535" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
-              <line x1="552" y1="524" x2="540" y2="535" stroke="#2e1a06" stroke-width="12" stroke-linecap="round"/>
-              <line x1="576" y1="524" x2="602" y2="538" stroke="#3a2208" stroke-width="16" stroke-linecap="round"/>
+              <!-- ══ TV-BEINE: lang und dünn wie im Original ══ -->
+              <line x1="248" y1="524" x2="210" y2="590" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
+              <line x1="272" y1="524" x2="250" y2="585" stroke="#2e1a06" stroke-width="10" stroke-linecap="round"/>
+              <line x1="552" y1="524" x2="570" y2="585" stroke="#2e1a06" stroke-width="10" stroke-linecap="round"/>
+              <line x1="576" y1="524" x2="614" y2="590" stroke="#3a2208" stroke-width="14" stroke-linecap="round"/>
+              <!-- Bein-Füsse -->
+              <ellipse cx="210" cy="592" rx="14" ry="5" fill="#2a1604"/>
+              <ellipse cx="614" cy="592" rx="14" ry="5" fill="#2a1604"/>
+              <!-- TV-Schatten am Boden -->
+              <ellipse cx="400" cy="596" rx="190" ry="10" fill="rgba(0,0,0,0.3)"/>
 
               <!-- ══ TV-KÖRPER ══ -->
               <rect x="155" y="56" width="564" height="476" rx="12" ry="12" fill="rgba(0,0,0,0.35)"/>
@@ -705,11 +683,11 @@
             <!-- viewBox 860×750: Knopf-cy=497, Knopf-cx 280/348/416 -->
             <!-- top = 497/750 = 66.3%, Knopf-r=20 → height ≈ 40/750=5.3% -->
             <button id="dp"  aria-label="Play"  title="Play"
-              style="position:absolute;left:27.9%;top:86%;width:5.8%;height:9%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+              style="position:absolute;left:27.9%;top:77%;width:5.8%;height:8%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
             <button id="dpa" aria-label="Pause" title="Pause"
-              style="position:absolute;left:36.4%;top:86%;width:5.8%;height:9%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+              style="position:absolute;left:36.4%;top:77%;width:5.8%;height:8%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
             <button id="ds"  aria-label="Lautstärke" title="Lautstärke"
-              style="position:absolute;left:44.9%;top:86%;width:5.8%;height:9%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
+              style="position:absolute;left:44.9%;top:77%;width:5.8%;height:8%;background:transparent;border:none;cursor:pointer;border-radius:50%;z-index:20;"></button>
           </div>
         </div><!-- /desktop-scene -->
           <div class="tv-floor"></div>
@@ -933,41 +911,43 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     var so = document.getElementById("m-so");
     if (!pl || !pa || !so) return;
 
-    var ch  = parseFloat(cvs.style.height) || 0;
-    var vw  = window.innerWidth;
-    var ref = Math.min(vw, 430); /* Skalierungsbasis, max 430px */
+    var ch = parseFloat(cvs.style.height) || 0;
+    var vw = window.innerWidth;
+    var ref = Math.min(vw, 430);
 
-    /* Grössen */
-    var plW = Math.round(ref * 0.148); var plH = Math.round(plW * 0.60);
-    var paW = Math.round(ref * 0.115); var paH = Math.round(paW * 0.60);
-    var soW = Math.round(ref * 0.090); var soH = Math.round(soW * 0.63);
+    /* Knopf-Grössen */
+    var kr = Math.round(ref * 0.058);
+    var bsize = kr * 2;
+    pl.style.width = pa.style.width = so.style.width = bsize + "px";
+    pl.style.height = pa.style.height = so.style.height = bsize + "px";
 
-    pl.style.width  = plW + "px"; pl.style.height = plH + "px";
-    pa.style.width  = paW + "px"; pa.style.height = paH + "px";
-    so.style.width  = soW + "px"; so.style.height = soH + "px";
+    /* TV-Proportionen: bx=2%, bw=92%, gw=74%*bw, lx=gx, lw=gw */
+    var bx = vw * 0.02, bw = vw * 0.92;
+    var gw = bw * 0.74;
+    var lx = bx + bw*0.022;
+    var lw = gw;
 
-    /* Buttons direkt unter Canvas, enger Abstand */
-    var gap   = Math.round(ref * 0.030); /* ~12px */
-    var plTop = ch + gap;
-    var paTop = plTop + plH + gap;
-    var soTop = paTop + paH + gap;
+    /* Knopf-Positionen: 22%, 46%, 70% von lw */
+    /* TV-Proportionen zum Berechnen der Knopf-Position:
+       bh = ch*0.58, gy = by+bh*0.065, gh = bh*0.72
+       Leiste beginnt bei: by+bh*0.065 + bh*0.72 = by + bh*0.785
+       by = ch*0.02, also Leiste bei: ch*0.02 + ch*0.58*0.785 = ch*(0.02+0.455) = ch*0.475
+       Knopf-Mitte: Leiste-Mitte = ch*0.475 + (bh - bh*0.785)/2 = ch*0.475 + bh*0.107 */
+    var bh_est = ch * 0.58;
+    var kTop = Math.round(ch * 0.02 + bh_est * 0.79); /* Mitte der Knopf-Leiste */
+    pl.style.top  = (kTop - kr) + "px"; pl.style.left  = Math.round(lx + lw*0.22 - kr) + "px";
+    pa.style.top  = (kTop - kr) + "px"; pa.style.left  = Math.round(lx + lw*0.46 - kr) + "px";
+    so.style.top  = (kTop - kr) + "px"; so.style.left  = Math.round(lx + lw*0.70 - kr) + "px";
 
-    pl.style.top = plTop + "px";
-    pa.style.top = paTop + "px";
-    so.style.top = soTop + "px";
-
-    pl.style.left = "50%";
-    pa.style.left = "61%";
-    so.style.left = "72%";
-
-    /* padding-bottom = nur der Bereich UNTER dem Canvas der für Buttons gebraucht wird */
-    var btnZone = (soTop + soH + gap) - ch;
-    scene.style.paddingBottom = btnZone + "px";
+    /* Legroom unten */
+    var legH = ch * 0.70 * 0.38;
+    scene.style.paddingBottom = Math.round(legH + 20) + "px";
   }
 
   function resize(){
     var cw = window.innerWidth;
-    var ratio = (window.innerHeight < 500) ? 0.55 : 0.65;
+    /* 0.90 = Platz für TV + Beine */
+    var ratio = (window.innerHeight < 500) ? 0.65 : 1.10;
     var ch = Math.round(cw * ratio);
     PW = Math.round(cw * DPR);
     PH = Math.round(ch * DPR);
@@ -975,7 +955,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     cvs.height = PH;
     cvs.style.width  = cw + "px";
     cvs.style.height = ch + "px";
-    positionButtons(); /* paddingBottom wird hier gesetzt, nicht extra */
+    positionButtons();
   }
 
   function isVisible(){
@@ -986,134 +966,93 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
     return (window.innerHeight < 500 && window.innerWidth > window.innerHeight);
   }
 
-  /* Retro-TV zeichnen mit Video auf Bildschirm */
+  /* Mobile: TV zeichnen — gleich wie Desktop (grüner Rahmen, Knöpfe unten) */
   function drawTV(c, w, h){
-    /* Proportionen basierend auf Canvas-Grösse */
-    var bx = w*0.05, by = h*0.04;
-    var bw = w*0.78, bh = h*0.78;
-    var br = bw*0.05;
+    var bx = w*0.02, by = h*0.02;
+    var bw = w*0.92, bh = h*0.58;  /* kleiner damit Knöpfe+Beine Platz haben */
+    var br = bw*0.04;
 
-    /* TV-Körper Schatten */
+    /* Schatten */
     c.save();
-    c.shadowColor = "rgba(0,0,0,0.5)";
-    c.shadowBlur  = 18;
-    c.shadowOffsetY = 8;
-    c.beginPath();
-    c.roundRect(bx, by, bw, bh, br);
-    c.fillStyle = "#5c3a1e";
-    c.fill();
+    c.shadowColor = "rgba(0,0,0,0.45)";
+    c.shadowBlur = 18; c.shadowOffsetY = 7;
+    c.beginPath(); c.roundRect(bx, by, bw, bh, br);
+    c.fillStyle = "#7a4820"; c.fill();
     c.restore();
 
-    /* TV-Körper */
-    c.beginPath();
-    c.roundRect(bx, by, bw, bh, br);
-    c.fillStyle = "#5c3a1e";
-    c.fill();
-    c.strokeStyle = "#3a2208";
-    c.lineWidth = 3;
-    c.stroke();
+    /* Körper */
+    c.beginPath(); c.roundRect(bx, by, bw, bh, br);
+    c.fillStyle = "#7a4820"; c.fill();
+    c.strokeStyle = "#1a0a00"; c.lineWidth = 4; c.stroke();
 
-    /* Bildschirm-Bezel */
-    var bzx = bx+bw*0.04, bzy = by+bh*0.06;
-    var bzw = bw*0.66, bzh = bh*0.80;
-    c.beginPath();
-    c.roundRect(bzx, bzy, bzw, bzh, br*0.6);
-    c.fillStyle = "#1a1a1a";
-    c.fill();
+    /* Grüner Rahmen */
+    var gx = bx+bw*0.022, gy = by+bh*0.065;
+    var gw = bw*0.74, gh = bh*0.72;
+    c.beginPath(); c.roundRect(gx, gy, gw, gh, br*0.5);
+    c.fillStyle = "#3d6b2e"; c.fill();
+    c.strokeStyle = "#1a0a00"; c.lineWidth = 4; c.stroke();
 
     /* Bildschirm */
-    var sx = bzx+bw*0.025, sy = bzy+bh*0.04;
-    var sw = bzw-bw*0.05,  sh = bzh-bh*0.08;
-    var sr = br*0.4;
-    c.beginPath();
-    c.roundRect(sx, sy, sw, sh, sr);
-    c.fillStyle = "#000";
-    c.fill();
-    c.clip();
-    return {sx:sx, sy:sy, sw:sw, sh:sh, bx:bx, by:by, bw:bw, bh:bh, br:br};
-  }
+    var sx = gx+gw*0.04, sy = gy+gh*0.07;
+    var sw = gw*0.92, sh = gh*0.87;
+    c.beginPath(); c.roundRect(sx, sy, sw, sh, br*0.25);
+    c.fillStyle = "#080808"; c.fill();
+    c.save(); c.clip();
 
-  function bubblePath(c, w, h){ /* kept for compat — unused */ }
+    return {sx:sx, sy:sy, sw:sw, sh:sh, bx:bx, by:by, bw:bw, bh:bh, br:br, gx:gx, gy:gy, gw:gw, gh:gh};
+  }
 
   function drawTVFrame(c, tv){
     /* Glare */
-    c.save();
-    c.globalAlpha = 0.07;
-    c.fillStyle = "#fff";
+    c.save(); c.globalAlpha=0.06;
     c.beginPath();
-    c.ellipse(tv.sx+tv.sw*0.3, tv.sy+tv.sh*0.3, tv.sw*0.22, tv.sh*0.18, -0.4, 0, Math.PI*2);
-    c.fill();
-    c.restore();
+    c.ellipse(tv.sx+tv.sw*0.28, tv.sy+tv.sh*0.26, tv.sw*0.18, tv.sh*0.14, -0.3, 0, Math.PI*2);
+    c.fillStyle="#fff"; c.fill(); c.restore();
 
-    /* Scanlines */
-    c.save();
-    c.globalAlpha = 0.08;
-    c.fillStyle = "#000";
-    for(var i=tv.sy; i<tv.sy+tv.sh; i+=4){
-      c.fillRect(tv.sx, i, tv.sw, 2);
+    /* Untere Leiste */
+    var lx = tv.gx, ly = tv.gy+tv.gh;
+    var lw = tv.gw, lh = tv.bh - (ly - tv.by);
+    c.beginPath(); c.roundRect(lx, ly, lw, lh, tv.br*0.25);
+    c.fillStyle = "#5a3214"; c.fill();
+    c.strokeStyle = "#1a0a00"; c.lineWidth = 2; c.stroke();
+
+    /* 3 Knöpfe in der Leiste */
+    var kcy = ly + lh*0.48;
+    var kr = tv.bw*0.048;
+    var kcx = [lx+lw*0.22, lx+lw*0.46, lx+lw*0.70];
+    for(var i=0; i<3; i++){
+      c.beginPath(); c.arc(kcx[i], kcy, kr, 0, Math.PI*2);
+      c.fillStyle="#2a1606"; c.fill();
+      c.strokeStyle="#0a0300"; c.lineWidth=2.5; c.stroke();
+      c.beginPath(); c.arc(kcx[i], kcy, kr*0.55, 0, Math.PI*2);
+      c.fillStyle="#1e1004"; c.fill();
+      c.beginPath(); c.arc(kcx[i], kcy, kr*0.22, 0, Math.PI*2);
+      c.fillStyle="#666"; c.fill();
     }
-    c.restore();
+    /* Labels */
+    c.font = "bold "+Math.round(tv.bw*0.042)+"px system-ui";
+    c.textAlign = "center"; c.fillStyle = "rgba(200,150,80,0.85)";
+    var labs=["PLAY","PAUSE","VOL"];
+    for(var j=0;j<3;j++) c.fillText(labs[j], kcx[j], ly+lh+tv.bw*0.038);
 
-    /* Screen border */
-    c.beginPath();
-    c.roundRect(tv.sx, tv.sy, tv.sw, tv.sh, tv.br*0.4);
-    c.strokeStyle = "#2a2a2a";
-    c.lineWidth = 2;
-    c.stroke();
-
-    /* Right panel knobs */
-    var kx = tv.bx + tv.bw*0.73;
-    var DPR = 1;
-
-    /* Big knob */
-    c.beginPath();
-    c.arc(kx+tv.bw*0.06, tv.by+tv.bh*0.28, tv.bw*0.07, 0, Math.PI*2);
-    c.fillStyle = "#3a2208"; c.fill();
-    c.strokeStyle = "#1a0e02"; c.lineWidth=2; c.stroke();
-    c.beginPath();
-    c.arc(kx+tv.bw*0.06, tv.by+tv.bh*0.28, tv.bw*0.025, 0, Math.PI*2);
-    c.fillStyle = "#888"; c.fill();
-
-    /* Small knob */
-    c.beginPath();
-    c.arc(kx+tv.bw*0.065, tv.by+tv.bh*0.58, tv.bw*0.05, 0, Math.PI*2);
-    c.fillStyle = "#3a2208"; c.fill();
-    c.strokeStyle = "#1a0e02"; c.lineWidth=2; c.stroke();
-
-    /* Indicator light */
-    c.beginPath();
-    c.arc(kx+tv.bw*0.065, tv.by+tv.bh*0.76, tv.bw*0.02, 0, Math.PI*2);
-    c.fillStyle = "#ff4422"; c.fill();
-
-    /* Legs */
+    /* Beine — lang und dünn */
     var legY = tv.by + tv.bh;
-    c.fillStyle = "#4a2e10";
-    c.strokeStyle = "#3a2208"; c.lineWidth=2;
-    /* Left leg */
+    var legH = tv.bh * 0.38;
+    c.lineCap="round";
+    c.strokeStyle="#3a2208"; c.lineWidth=tv.bw*0.024;
+    c.beginPath(); c.moveTo(tv.bx+tv.bw*0.19, legY); c.lineTo(tv.bx+tv.bw*0.13, legY+legH); c.stroke();
+    c.beginPath(); c.moveTo(tv.bx+tv.bw*0.61, legY); c.lineTo(tv.bx+tv.bw*0.67, legY+legH); c.stroke();
+    c.strokeStyle="#2e1a06"; c.lineWidth=tv.bw*0.017;
+    c.beginPath(); c.moveTo(tv.bx+tv.bw*0.25, legY); c.lineTo(tv.bx+tv.bw*0.21, legY+legH*0.82); c.stroke();
+    c.beginPath(); c.moveTo(tv.bx+tv.bw*0.55, legY); c.lineTo(tv.bx+tv.bw*0.59, legY+legH*0.82); c.stroke();
+    /* Schatten */
     c.beginPath();
-    c.moveTo(tv.bx+tv.bw*0.18, legY);
-    c.lineTo(tv.bx+tv.bw*0.12, legY+h*0.12);
-    c.lineTo(tv.bx+tv.bw*0.22, legY+h*0.12);
-    c.lineTo(tv.bx+tv.bw*0.26, legY);
-    c.closePath(); c.fill(); c.stroke();
-    /* Right leg */
-    c.beginPath();
-    c.moveTo(tv.bx+tv.bw*0.56, legY);
-    c.lineTo(tv.bx+tv.bw*0.52, legY+h*0.12);
-    c.lineTo(tv.bx+tv.bw*0.62, legY+h*0.12);
-    c.lineTo(tv.bx+tv.bw*0.64, legY);
-    c.closePath(); c.fill(); c.stroke();
+    c.ellipse(tv.bx+tv.bw*0.40, legY+legH+5, tv.bw*0.30, 7, 0, 0, Math.PI*2);
+    c.fillStyle="rgba(0,0,0,0.22)"; c.fill();
 
-    /* Antennas */
-    c.strokeStyle = "#5c3a1e"; c.lineWidth = tv.bw*0.012; c.lineCap="round";
-    c.beginPath();
-    c.moveTo(tv.bx+tv.bw*0.28, tv.by);
-    c.lineTo(tv.bx+tv.bw*0.15, -h*0.08);
-    c.stroke();
-    c.beginPath();
-    c.moveTo(tv.bx+tv.bw*0.44, tv.by);
-    c.lineTo(tv.bx+tv.bw*0.58, -h*0.10);
-    c.stroke();
+    /* Comic-Outline */
+    c.beginPath(); c.roundRect(tv.bx, tv.by, tv.bw, tv.bh, tv.br);
+    c.strokeStyle="rgba(0,0,0,0.6)"; c.lineWidth=3; c.stroke();
   }
 
   var poster = new Image();
@@ -1185,7 +1124,6 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
 }());
 </script>
 <script>
-<script>
 /* Desktop: TV Canvas + funktionierende Knopf-Steuerung */
 (function(){
   var cvs = document.getElementById("cvs-d");
@@ -1193,7 +1131,7 @@ if (!CanvasRenderingContext2D.prototype.roundRect) {
   if (!cvs || !vid) return;
 
   var ctx = cvs.getContext("2d");
-  var W = 860, H = 540;
+  var W = 860, H = 610;
   cvs.width = W; cvs.height = H;
 
   /* Zeiger-Winkel für 3 Knöpfe: PLAY=280, PAUSE=348, VOL=416, cy=497 */
