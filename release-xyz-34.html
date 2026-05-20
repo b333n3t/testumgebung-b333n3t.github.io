@@ -78,11 +78,25 @@ canvas{
     display:inline-block;
 }
 
+.start-title-wrap{
+    text-align:center;
+    margin-bottom:18px;
+}
+
 #startTitle{
     font-size:54px;
-    margin-bottom:18px;
+    margin:0 0 0.35rem;
     letter-spacing:2px;
     text-align:center;
+}
+
+#startSubtitle{
+    margin:0;
+    font-size:1rem;
+    font-weight:600;
+    letter-spacing:0.08em;
+    text-transform:lowercase;
+    opacity:0.86;
 }
 
 #resultBox{
@@ -310,6 +324,10 @@ button:disabled{
         font-size:40px;
     }
 
+    #startSubtitle{
+        font-size:0.95rem;
+    }
+
     #resultHeadline{
         font-size:28px;
     }
@@ -342,10 +360,10 @@ button:disabled{
         <span id="awb-countdown-timer">--:--:--</span>
     </div>
 
-<div class="start-title-wrap">
-    <h1 id="startTitle">NEW RELEASE</h1>
-    <h2 id="startSubtitle">play&amp;listen</h2>
-</div>
+    <div class="start-title-wrap">
+        <h1 id="startTitle">NEW RELEASE</h1>
+        <h2 id="startSubtitle">play&amp;listen</h2>
+    </div>
 
     <div id="resultBox">
         <div id="resultHeadline"></div>
@@ -419,13 +437,13 @@ button:disabled{
                     </picture>
                 </a>
 
-             <a href="https://soundcloud.com/bennet-6942069420"
-                 class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
-                <picture>
-                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
-                </picture>
-              </a>
+                <a href="https://soundcloud.com/bennet-6942069420"
+                   class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
+                    <picture>
+                        <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
+                        <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                    </picture>
+                </a>
             </div>
         </section>
 
@@ -562,15 +580,6 @@ if(typeof window.supabase !== "undefined"){
 /* =====================================
    RETRY LOGIC
 ===================================== */
-
-/*
-  Ablauf:
-  - Seitenaufruf: START + leeres Namensfeld
-  - nach Spiel 1: RETRY
-  - nach Spiel 2: RETRY
-  - nach Spiel 3: RETRY
-  - nach Spiel 4: wieder START + leeres Namensfeld
-*/
 
 let retryCount = 0;
 let waitingForNewName = true;
@@ -1363,6 +1372,88 @@ function getCleanName(){
     .slice(0,12);
 }
 
+function getPlayerId(){
+    let id =
+    localStorage.getItem("playerId");
+
+    if(!id){
+        if(window.crypto && crypto.randomUUID){
+            id = crypto.randomUUID();
+        }else{
+            id =
+            "player_" +
+            Date.now() +
+            "_" +
+            Math.random().toString(16).slice(2);
+        }
+
+        localStorage.setItem(
+            "playerId",
+            id
+        );
+    }
+
+    return id;
+}
+
+function getBrowserCountry(){
+    const lang =
+    navigator.language ||
+    navigator.userLanguage ||
+    "";
+
+    const parts =
+    lang.split("-");
+
+    if(parts.length >= 2){
+        return parts[1].toUpperCase();
+    }
+
+    return null;
+}
+
+async function trackPlay(){
+    if(!supabaseClient){
+        console.warn("No Supabase client. Analytics not saved.");
+        return;
+    }
+
+    const player =
+    getCleanName() || localStorage.getItem("playerName") || "PLAYER";
+
+    const playerId =
+    getPlayerId();
+
+    const device =
+    isMobile
+    ? "mobile"
+    : "desktop";
+
+    const country =
+    getBrowserCountry();
+
+    const { error } =
+    await supabaseClient
+    .from("analytics")
+    .insert([
+        {
+            event:"play",
+            player:player,
+            player_id:playerId,
+            device:device,
+            country:country
+        }
+    ]);
+
+    if(error){
+        console.error(
+            "Analytics insert failed:",
+            error.message,
+            error
+        );
+    }
+}
+
 /* =====================================
    LEADERBOARD
 ===================================== */
@@ -1374,7 +1465,7 @@ async function submitScore(){
     }
 
     const name =
-    getCleanName() || "PLAYER";
+    getCleanName() || localStorage.getItem("playerName") || "PLAYER";
 
     const payload = {
         name,
@@ -1663,6 +1754,8 @@ async function startGame(){
         "playerName",
         playerName || "PLAYER"
     );
+
+    await trackPlay();
 
     resetGameState();
 
