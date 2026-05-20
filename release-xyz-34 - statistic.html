@@ -49,7 +49,7 @@ body{
 
 .topline{
     display:flex;
-    flex-wrap:nowrap;
+    flex-wrap:wrap;
     align-items:baseline;
     gap:0.7rem;
     font-size:0.92rem;
@@ -118,8 +118,36 @@ h1{
     text-transform:lowercase;
 }
 
-.chart-section{
+.small-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
     margin-top:1rem;
+}
+
+.small-card{
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:1rem;
+    background:var(--card);
+}
+
+.small-card strong{
+    display:block;
+    font-size:1.4rem;
+}
+
+.small-card span{
+    display:block;
+    margin-top:0.3rem;
+    opacity:0.75;
+    font-size:0.82rem;
+    letter-spacing:0.04em;
+    text-transform:lowercase;
+}
+
+.chart-section{
+    margin-top:1.4rem;
     border:1px solid var(--border);
     border-radius:22px;
     padding:1.2rem;
@@ -152,38 +180,57 @@ h1{
     display:block;
 }
 
+.country-layout{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:1.4rem;
+    align-items:center;
+}
+
+#countryChart{
+    width:260px;
+    height:260px;
+    display:block;
+}
+
+.country-list{
+    display:flex;
+    flex-direction:column;
+    gap:0.55rem;
+}
+
+.country-row{
+    display:grid;
+    grid-template-columns:1rem 1fr auto auto;
+    gap:0.6rem;
+    align-items:center;
+    font-size:0.95rem;
+}
+
+.country-dot{
+    width:0.8rem;
+    height:0.8rem;
+    border-radius:50%;
+    background:rgba(255,255,255,0.8);
+}
+
+.country-name{
+    font-weight:700;
+    letter-spacing:0.04em;
+}
+
+.country-plays{
+    opacity:0.75;
+}
+
+.country-percent{
+    font-weight:800;
+}
+
 .status{
     margin-top:1.2rem;
     color:var(--muted);
     font-size:0.9rem;
-}
-
-.small-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:1rem;
-    margin-top:1rem;
-}
-
-.small-card{
-    border:1px solid var(--border);
-    border-radius:18px;
-    padding:1rem;
-    background:var(--card);
-}
-
-.small-card strong{
-    display:block;
-    font-size:1.4rem;
-}
-
-.small-card span{
-    display:block;
-    margin-top:0.3rem;
-    opacity:0.75;
-    font-size:0.82rem;
-    letter-spacing:0.04em;
-    text-transform:lowercase;
 }
 
 @media(max-width:768px){
@@ -203,6 +250,16 @@ h1{
     #playsChart{
         height:220px;
     }
+
+    .country-layout{
+        grid-template-columns:1fr;
+    }
+
+    #countryChart{
+        width:220px;
+        height:220px;
+        margin:0 auto;
+    }
 }
 
 @media(max-width:420px){
@@ -212,6 +269,14 @@ h1{
 
     .small-grid{
         grid-template-columns:1fr;
+    }
+
+    .country-row{
+        grid-template-columns:1rem 1fr auto;
+    }
+
+    .country-percent{
+        display:none;
     }
 }
 </style>
@@ -292,6 +357,18 @@ h1{
             </div>
 
             <canvas id="playsChart"></canvas>
+        </section>
+
+        <section class="chart-section country-section">
+            <div class="chart-head">
+                <h2>länder</h2>
+                <span>nach browsersprache</span>
+            </div>
+
+            <div class="country-layout">
+                <canvas id="countryChart"></canvas>
+                <div id="countryList" class="country-list"></div>
+            </div>
         </section>
 
         <div id="status" class="status"></div>
@@ -451,6 +528,11 @@ async function loadDailyChart(){
 }
 
 function drawBarChart(canvas, rows){
+    rows =
+    [...rows].sort(
+        (a, b) => new Date(a.day) - new Date(b.day)
+    );
+
     const ctx =
     canvas.getContext("2d");
 
@@ -494,7 +576,6 @@ function drawBarChart(canvas, rows){
 
     setText("chartMax", "max: " + formatNumber(maxPlays));
 
-    /* y-axis labels */
     ctx.fillStyle =
     "rgba(255,255,255,0.65)";
 
@@ -513,7 +594,6 @@ function drawBarChart(canvas, rows){
         padding.top + chartH
     );
 
-    /* baseline */
     ctx.strokeStyle =
     "rgba(255,255,255,0.16)";
 
@@ -580,6 +660,232 @@ function drawBarChart(canvas, rows){
 }
 
 /* =====================================
+   COUNTRY STATS
+===================================== */
+
+const countryColors = [
+    "rgba(255,255,255,0.95)",
+    "rgba(255,255,255,0.78)",
+    "rgba(255,255,255,0.62)",
+    "rgba(255,255,255,0.48)",
+    "rgba(255,255,255,0.36)",
+    "rgba(255,255,255,0.28)",
+    "rgba(255,255,255,0.22)",
+    "rgba(255,255,255,0.18)",
+    "rgba(255,255,255,0.14)",
+    "rgba(255,255,255,0.10)"
+];
+
+async function loadCountryStats(){
+    if(!supabaseClient){
+        return;
+    }
+
+    const canvas =
+    document.getElementById("countryChart");
+
+    const list =
+    document.getElementById("countryList");
+
+    if(!canvas || !list){
+        return;
+    }
+
+    const { data, error } =
+    await supabaseClient
+    .rpc("get_country_stats");
+
+    if(error){
+        console.error("Country stats load failed:", error);
+        setStatus("Länderstatistik konnte nicht geladen werden.");
+        return;
+    }
+
+    const rows =
+    data || [];
+
+    drawCountryPie(canvas, rows);
+    renderCountryList(list, rows);
+}
+
+function drawCountryPie(canvas, rows){
+    const ctx =
+    canvas.getContext("2d");
+
+    const dpr =
+    window.devicePixelRatio || 1;
+
+    const cssWidth =
+    canvas.clientWidth || 260;
+
+    const cssHeight =
+    canvas.clientHeight || 260;
+
+    canvas.width =
+    Math.floor(cssWidth * dpr);
+
+    canvas.height =
+    Math.floor(cssHeight * dpr);
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    ctx.clearRect(0, 0, cssWidth, cssHeight);
+
+    const total =
+    rows.reduce(
+        (sum, row) => sum + Number(row.plays || 0),
+        0
+    );
+
+    const cx =
+    cssWidth / 2;
+
+    const cy =
+    cssHeight / 2;
+
+    const radius =
+    Math.min(cssWidth, cssHeight) * 0.42;
+
+    if(total <= 0){
+        ctx.strokeStyle =
+        "rgba(255,255,255,0.3)";
+
+        ctx.lineWidth = 2;
+
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle =
+        "rgba(255,255,255,0.65)";
+
+        ctx.font =
+        "14px Arial, sans-serif";
+
+        ctx.textAlign =
+        "center";
+
+        ctx.fillText(
+            "no data",
+            cx,
+            cy + 5
+        );
+
+        return;
+    }
+
+    let startAngle =
+    -Math.PI / 2;
+
+    rows.forEach((row, index) => {
+        const value =
+        Number(row.plays || 0);
+
+        const slice =
+        (value / total) * Math.PI * 2;
+
+        const endAngle =
+        startAngle + slice;
+
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.arc(cx, cy, radius, startAngle, endAngle);
+        ctx.closePath();
+
+        ctx.fillStyle =
+        countryColors[index % countryColors.length];
+
+        ctx.fill();
+
+        ctx.strokeStyle =
+        "rgba(0,0,0,0.55)";
+
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        startAngle =
+        endAngle;
+    });
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.48, 0, Math.PI * 2);
+    ctx.fillStyle =
+    "#000000";
+    ctx.fill();
+
+    ctx.fillStyle =
+    "#ffffff";
+
+    ctx.font =
+    "700 16px Arial, sans-serif";
+
+    ctx.textAlign =
+    "center";
+
+    ctx.fillText(
+        formatNumber(total),
+        cx,
+        cy - 2
+    );
+
+    ctx.fillStyle =
+    "rgba(255,255,255,0.7)";
+
+    ctx.font =
+    "11px Arial, sans-serif";
+
+    ctx.fillText(
+        "plays",
+        cx,
+        cy + 16
+    );
+}
+
+function renderCountryList(container, rows){
+    const total =
+    rows.reduce(
+        (sum, row) => sum + Number(row.plays || 0),
+        0
+    );
+
+    if(total <= 0){
+        container.innerHTML =
+        "<p style='opacity:0.7;margin:0;'>keine länderdaten vorhanden</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    rows.forEach((row, index) => {
+        const plays =
+        Number(row.plays || 0);
+
+        const percent =
+        total > 0
+        ? Math.round((plays / total) * 100)
+        : 0;
+
+        const country =
+        row.country || "UNKNOWN";
+
+        const div =
+        document.createElement("div");
+
+        div.className =
+        "country-row";
+
+        div.innerHTML = `
+            <span class="country-dot" style="background:${countryColors[index % countryColors.length]}"></span>
+            <span class="country-name">${country}</span>
+            <span class="country-plays">${formatNumber(plays)}</span>
+            <span class="country-percent">${percent}%</span>
+        `;
+
+        container.appendChild(div);
+    });
+}
+
+/* =====================================
    INIT
 ===================================== */
 
@@ -588,14 +894,23 @@ async function init(){
 
     await loadStats();
     await loadDailyChart();
+    await loadCountryStats();
 
     setStatus("");
 }
 
 init();
 
+let resizeTimer = null;
+
 window.addEventListener("resize", () => {
-    loadDailyChart();
+    clearTimeout(resizeTimer);
+
+    resizeTimer =
+    setTimeout(() => {
+        loadDailyChart();
+        loadCountryStats();
+    }, 200);
 });
 </script>
 
