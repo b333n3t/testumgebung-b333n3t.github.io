@@ -905,9 +905,59 @@ function spawnObstacle(){
     const heights = cfg.heights[key][phase];
     const widths = cfg.widths[key][phase];
 
-    let h,w,y;
+    let h;
+    let w;
+    let y;
+    let x = window.innerWidth + 100;
+    let vx = null;
+    let vy = 0;
+    let kind = cfg.theme;
     let safeObstacle = false;
     let attempts = 0;
+
+    /* Level 2: Haie plus Wasserpflanzen von unten/oben */
+    if(cfg.theme === "underwater"){
+        const r = Math.random();
+
+        if(r < 0.18){
+            kind = "plantBottom";
+            w = getRandomFrom(isMobile ? [55,70,85] : [70,90,110]);
+            h = getRandomFrom(isMobile ? [150,190,230] : [190,250,310]);
+            y = window.innerHeight - h;
+            safeObstacle = true;
+        }else if(r < 0.32){
+            kind = "plantTop";
+            w = getRandomFrom(isMobile ? [55,70,85] : [70,90,110]);
+            h = getRandomFrom(isMobile ? [130,170,215] : [170,230,290]);
+            y = 0;
+            safeObstacle = true;
+        }
+    }
+
+    /* Level 3: Gewitterwolken, Ballons und Jets */
+    if(cfg.theme === "sky"){
+        const r = Math.random();
+
+        if(r < 0.18){
+            kind = "balloon";
+            w = getRandomFrom(isMobile ? [58,72,86] : [74,92,112]);
+            h = Math.round(w * 1.45);
+            x = window.innerWidth + getRandomFrom([40,120,220]);
+            y = window.innerHeight + h + 20;
+            vy = isMobile ? -1.4 - phase * 0.35 : -1.7 - phase * 0.45;
+            safeObstacle = true;
+        }else if(r < 0.34){
+            kind = "jet";
+            w = getRandomFrom(isMobile ? [130,160,190] : [170,220,260]);
+            h = Math.round(w * 0.34);
+            x = -w - 80;
+            y = getRandomFrom([70,105,145,185]);
+            vx = getCurrentSpeed() * (1.15 + phase * 0.18);
+            safeObstacle = true;
+        }else{
+            kind = "thundercloud";
+        }
+    }
 
     while(!safeObstacle && attempts < 20){
         attempts++;
@@ -919,17 +969,19 @@ function spawnObstacle(){
         if(lane === 1) y = window.innerHeight / 2 - h / 2;
         if(lane === 2) y = window.innerHeight - 180 - h;
 
-        safeObstacle = !obstacleOverlapsOrb(window.innerWidth + 100, y, w, h);
+        safeObstacle = !obstacleOverlapsOrb(x, y, w, h);
     }
 
     const color = obstacleColors[Math.floor(Math.random() * obstacleColors.length)];
 
     obstacles.push({
-        x:window.innerWidth + 100,
-        y,w,h,
+        x,y,w,h,
+        vx,vy,
         color,
         type:cfg.theme,
-        passed:false
+        kind,
+        passed:false,
+        seed:Math.random() * 9999
     });
 
     const threshold = cfg.orbThreshold[phase];
@@ -1083,6 +1135,76 @@ function pointHitsCloud(px, py, o){
     );
 }
 
+function pointHitsThunderCloud(px, py, o){
+    const cloudHit = pointHitsCloud(px, py, o);
+
+    if(cloudHit){
+        return true;
+    }
+
+    const flashOn = Math.floor((performance.now() + o.seed) / 520) % 2 === 0;
+
+    if(flashOn){
+        return pointInTriangle(
+            px, py,
+            o.x + o.w * 0.50, o.y + o.h * 0.66,
+            o.x + o.w * 0.38, o.y + o.h * 1.02,
+            o.x + o.w * 0.58, o.y + o.h * 0.86
+        ) || pointInTriangle(
+            px, py,
+            o.x + o.w * 0.58, o.y + o.h * 0.82,
+            o.x + o.w * 0.46, o.y + o.h * 1.20,
+            o.x + o.w * 0.70, o.y + o.h * 0.94
+        );
+    }
+
+    return false;
+}
+
+function pointHitsBalloon(px, py, o){
+    return (
+        pointInEllipse(px, py, o.x + o.w * 0.50, o.y + o.h * 0.32, o.w * 0.34, o.h * 0.22) ||
+        pointInTriangle(px, py, o.x + o.w * 0.38, o.y + o.h * 0.47, o.x + o.w * 0.62, o.y + o.h * 0.47, o.x + o.w * 0.50, o.y + o.h * 0.62) ||
+        (px >= o.x + o.w * 0.34 && px <= o.x + o.w * 0.66 && py >= o.y + o.h * 0.72 && py <= o.y + o.h * 0.92)
+    );
+}
+
+function pointHitsJet(px, py, o){
+    return (
+        pointInTriangle(px, py, o.x + o.w * 0.05, o.y + o.h * 0.50, o.x + o.w * 0.30, o.y + o.h * 0.26, o.x + o.w * 0.30, o.y + o.h * 0.74) ||
+        (px >= o.x + o.w * 0.25 && px <= o.x + o.w * 0.88 && py >= o.y + o.h * 0.38 && py <= o.y + o.h * 0.62) ||
+        pointInTriangle(px, py, o.x + o.w * 0.48, o.y + o.h * 0.40, o.x + o.w * 0.64, o.y + o.h * 0.05, o.x + o.w * 0.72, o.y + o.h * 0.42) ||
+        pointInTriangle(px, py, o.x + o.w * 0.48, o.y + o.h * 0.60, o.x + o.w * 0.64, o.y + o.h * 0.95, o.x + o.w * 0.72, o.y + o.h * 0.58) ||
+        pointInTriangle(px, py, o.x + o.w * 0.84, o.y + o.h * 0.38, o.x + o.w * 0.98, o.y + o.h * 0.18, o.x + o.w * 0.92, o.y + o.h * 0.48)
+    );
+}
+
+function pointHitsWaterPlant(px, py, o){
+    const stems = [0.28, 0.45, 0.62, 0.76];
+
+    for(let i = 0; i < stems.length; i++){
+        const sx = o.x + o.w * stems[i];
+        const sway = Math.sin(performance.now() * 0.002 + o.seed + i) * o.w * 0.10;
+        const topY = o.kind === "plantTop" ? o.y + o.h : o.y;
+        const bottomY = o.kind === "plantTop" ? o.y : o.y + o.h;
+
+        const minY = Math.min(topY, bottomY);
+        const maxY = Math.max(topY, bottomY);
+        const localY = (py - minY) / Math.max(1, maxY - minY);
+        const curveX = sx + sway * Math.sin(localY * Math.PI);
+
+        if(Math.abs(px - curveX) < o.w * 0.08 && py >= minY && py <= maxY){
+            return true;
+        }
+
+        if(pointInEllipse(px, py, curveX - o.w * 0.10, py, o.w * 0.11, o.w * 0.045)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function pointHitsTree(px, py, o){
     return (
         pointInTriangle(px, py, o.x + o.w * 0.50, o.y + o.h * 0.04, o.x + o.w * 0.10, o.y + o.h * 0.72, o.x + o.w * 0.90, o.y + o.h * 0.72) ||
@@ -1108,12 +1230,32 @@ function hitObstacle(rect, o){
     const points = samplePlayerPoints(rect);
 
     for(const p of points){
-        if(o.type === "underwater" && pointHitsShark(p.x, p.y, o)){
-            return true;
+        if(o.type === "underwater"){
+            if((o.kind === "plantBottom" || o.kind === "plantTop") && pointHitsWaterPlant(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind !== "plantBottom" && o.kind !== "plantTop" && pointHitsShark(p.x, p.y, o)){
+                return true;
+            }
         }
 
-        if(o.type === "sky" && pointHitsCloud(p.x, p.y, o)){
-            return true;
+        if(o.type === "sky"){
+            if(o.kind === "thundercloud" && pointHitsThunderCloud(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind === "balloon" && pointHitsBalloon(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind === "jet" && pointHitsJet(p.x, p.y, o)){
+                return true;
+            }
+
+            if((!o.kind || o.kind === "sky") && pointHitsCloud(p.x, p.y, o)){
+                return true;
+            }
         }
 
         if(o.type === "forest" && pointHitsTree(p.x, p.y, o)){
@@ -1141,16 +1283,29 @@ function update(){
     if(player.y > window.innerHeight - 140) player.y = window.innerHeight - 140;
 
     obstacles.forEach(o => {
-        o.x -= speed;
+        if(typeof o.vx === "number"){
+            o.x += o.vx;
+        }else{
+            o.x -= speed;
+        }
+
+        if(typeof o.vy === "number"){
+            o.y += o.vy;
+        }
 
         if(hitObstacle(player, o)){
             endGame("gameover");
         }
 
-        if(!o.passed && o.x < player.x){
-            o.passed = true;
-            score += Math.round(10 * cfg.scoreMultiplier);
-            if(score % 100 === 0) spawnParticles(player.x, player.y, cfg.playerColor);
+        if(!o.passed){
+            const passedFromRight = (typeof o.vx !== "number" || o.vx <= 0) && o.x < player.x;
+            const passedFromLeft = typeof o.vx === "number" && o.vx > 0 && o.x > player.x + player.w;
+
+            if(passedFromRight || passedFromLeft){
+                o.passed = true;
+                score += Math.round(10 * cfg.scoreMultiplier);
+                if(score % 100 === 0) spawnParticles(player.x, player.y, cfg.playerColor);
+            }
         }
     });
 
@@ -1166,7 +1321,13 @@ function update(){
         }
     });
 
-    obstacles = obstacles.filter(o => o.x > -400);
+    obstacles = obstacles.filter(o => {
+        if(typeof o.vx === "number" && o.vx > 0){
+            return o.x < window.innerWidth + 450 && o.y > -450 && o.y < window.innerHeight + 450;
+        }
+
+        return o.x > -450 && o.y > -450 && o.y < window.innerHeight + 450;
+    });
     orbs = orbs.filter(o => o.x > -100 && !o.taken);
 
     particles.forEach(p => { p.x += p.vx; p.y += p.vy; p.life--; });
@@ -1268,7 +1429,7 @@ function drawPlayer(cfg){
     if(cfg.theme === "underwater"){
         drawFish(player.x + player.w/2, player.y + player.h/2, player.w*1.15, cfg.playerColor, true);
     }else if(cfg.theme === "sky"){
-        drawStar(player.x + player.w/2, player.y + player.h/2, player.w*0.65, cfg.playerColor);
+        drawPlayerPlane(player.x + player.w/2, player.y + player.h/2, player.w*1.5, cfg.playerColor);
     }else if(cfg.theme === "forest"){
         drawLeaf(player.x + player.w/2, player.y + player.h/2, player.w*0.75, cfg.playerColor);
     }else{
@@ -1282,9 +1443,19 @@ function drawObstacle(o){
     ctx.save();
 
     if(o.type === "underwater"){
-        drawShark(o);
+        if(o.kind === "plantBottom" || o.kind === "plantTop"){
+            drawWaterPlant(o);
+        }else{
+            drawShark(o);
+        }
     }else if(o.type === "sky"){
-        drawCloud(o.x, o.y + o.h/2, Math.max(o.w,o.h)*0.72, "rgba(255,255,255,0.72)");
+        if(o.kind === "balloon"){
+            drawHotAirBalloon(o);
+        }else if(o.kind === "jet"){
+            drawJet(o);
+        }else{
+            drawThunderCloud(o);
+        }
     }else if(o.type === "forest"){
         drawTree(o.x + o.w/2, o.y + o.h, Math.max(o.w,o.h)*0.75, "rgba(60,190,90,0.8)");
     }else{
@@ -1448,6 +1619,191 @@ function drawFish(x,y,size,color,faceRight){
     ctx.beginPath();
     ctx.arc(faceRight ? x+size*0.25 : x-size*0.25,y-size*0.06,size*0.045,0,Math.PI*2);
     ctx.fill();
+    ctx.restore();
+}
+
+function drawWaterPlant(o){
+    ctx.save();
+    ctx.strokeStyle = "rgba(80,220,160,0.92)";
+    ctx.lineCap = "round";
+
+    const stems = [0.28, 0.45, 0.62, 0.76];
+
+    stems.forEach((pos, i) => {
+        const sx = o.x + o.w * pos;
+        const sway = Math.sin(performance.now() * 0.002 + o.seed + i) * o.w * 0.18;
+        const startY = o.kind === "plantTop" ? o.y : o.y + o.h;
+        const endY = o.kind === "plantTop" ? o.y + o.h : o.y;
+
+        ctx.lineWidth = Math.max(4, o.w * 0.07);
+        ctx.beginPath();
+        ctx.moveTo(sx, startY);
+        ctx.quadraticCurveTo(sx + sway, (startY + endY) / 2, sx - sway * 0.4, endY);
+        ctx.stroke();
+
+        ctx.fillStyle = "rgba(120,255,190,0.82)";
+        for(let j = 0; j < 3; j++){
+            const yy = startY + (endY - startY) * (0.28 + j * 0.20);
+            const side = j % 2 === 0 ? -1 : 1;
+            ctx.beginPath();
+            ctx.ellipse(sx + side * o.w * 0.12, yy, o.w * 0.14, o.w * 0.045, side * 0.7, 0, Math.PI * 2);
+            ctx.fill();
+        }
+    });
+
+    ctx.restore();
+}
+
+function drawPlayerPlane(x,y,size,color){
+    ctx.save();
+    ctx.fillStyle = color;
+    ctx.strokeStyle = "rgba(0,0,0,0.35)";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(x + size * 0.55, y);
+    ctx.lineTo(x + size * 0.18, y - size * 0.15);
+    ctx.lineTo(x - size * 0.45, y - size * 0.08);
+    ctx.lineTo(x - size * 0.52, y);
+    ctx.lineTo(x - size * 0.45, y + size * 0.08);
+    ctx.lineTo(x + size * 0.18, y + size * 0.15);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(255,255,255,0.55)";
+    ctx.beginPath();
+    ctx.moveTo(x - size * 0.02, y - size * 0.04);
+    ctx.lineTo(x + size * 0.18, y - size * 0.28);
+    ctx.lineTo(x + size * 0.24, y - size * 0.03);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.restore();
+}
+
+function drawThunderCloud(o){
+    ctx.save();
+    const x = o.x;
+    const y = o.y;
+    const w = o.w;
+    const h = o.h;
+    const flashOn = Math.floor((performance.now() + o.seed) / 520) % 2 === 0;
+    const rainOn = !flashOn;
+
+    const cloudColor = flashOn ? "rgba(86,86,92,0.98)" : "rgba(54,56,66,0.96)";
+    drawCloud(x, y + h * 0.52, Math.max(w,h)*0.72, cloudColor);
+
+    if(rainOn){
+        ctx.strokeStyle = "rgba(130,205,255,0.72)";
+        ctx.lineWidth = 2;
+        for(let i=0;i<8;i++){
+            const rx = x + w * (0.18 + i * 0.08);
+            const ry = y + h * (0.70 + (i%2)*0.08);
+            ctx.beginPath();
+            ctx.moveTo(rx, ry);
+            ctx.lineTo(rx - w * 0.035, ry + h * 0.26);
+            ctx.stroke();
+        }
+    }else{
+        ctx.fillStyle = "rgba(255,235,70,0.98)";
+        ctx.beginPath();
+        ctx.moveTo(x + w * 0.50, y + h * 0.66);
+        ctx.lineTo(x + w * 0.38, y + h * 1.02);
+        ctx.lineTo(x + w * 0.58, y + h * 0.86);
+        ctx.lineTo(x + w * 0.46, y + h * 1.22);
+        ctx.lineTo(x + w * 0.70, y + h * 0.80);
+        ctx.lineTo(x + w * 0.55, y + h * 0.90);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    ctx.restore();
+}
+
+function drawHotAirBalloon(o){
+    ctx.save();
+    const x = o.x;
+    const y = o.y;
+    const w = o.w;
+    const h = o.h;
+
+    ctx.fillStyle = "rgba(255,110,90,0.94)";
+    ctx.beginPath();
+    ctx.ellipse(x + w * 0.5, y + h * 0.30, w * 0.34, h * 0.23, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.strokeStyle = "rgba(255,255,255,0.5)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.5, y + h * 0.08);
+    ctx.quadraticCurveTo(x + w * 0.38, y + h * 0.30, x + w * 0.46, y + h * 0.52);
+    ctx.moveTo(x + w * 0.5, y + h * 0.08);
+    ctx.quadraticCurveTo(x + w * 0.62, y + h * 0.30, x + w * 0.54, y + h * 0.52);
+    ctx.stroke();
+
+    ctx.strokeStyle = "rgba(255,255,255,0.62)";
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.40, y + h * 0.52);
+    ctx.lineTo(x + w * 0.36, y + h * 0.72);
+    ctx.moveTo(x + w * 0.60, y + h * 0.52);
+    ctx.lineTo(x + w * 0.64, y + h * 0.72);
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(120,75,35,0.95)";
+    ctx.fillRect(x + w * 0.34, y + h * 0.72, w * 0.32, h * 0.20);
+    ctx.strokeStyle = "rgba(0,0,0,0.45)";
+    ctx.strokeRect(x + w * 0.34, y + h * 0.72, w * 0.32, h * 0.20);
+
+    ctx.restore();
+}
+
+function drawJet(o){
+    ctx.save();
+    const x = o.x;
+    const y = o.y;
+    const w = o.w;
+    const h = o.h;
+
+    ctx.fillStyle = "rgba(210,220,230,0.96)";
+    ctx.strokeStyle = "rgba(0,0,0,0.45)";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.05, y + h * 0.50);
+    ctx.lineTo(x + w * 0.30, y + h * 0.26);
+    ctx.lineTo(x + w * 0.88, y + h * 0.38);
+    ctx.lineTo(x + w * 0.98, y + h * 0.50);
+    ctx.lineTo(x + w * 0.88, y + h * 0.62);
+    ctx.lineTo(x + w * 0.30, y + h * 0.74);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(150,170,190,0.96)";
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.48, y + h * 0.40);
+    ctx.lineTo(x + w * 0.64, y + h * 0.05);
+    ctx.lineTo(x + w * 0.72, y + h * 0.42);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.48, y + h * 0.60);
+    ctx.lineTo(x + w * 0.64, y + h * 0.95);
+    ctx.lineTo(x + w * 0.72, y + h * 0.58);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(255,120,40,0.85)";
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.04, y + h * 0.50);
+    ctx.lineTo(x - w * 0.10, y + h * 0.35);
+    ctx.lineTo(x - w * 0.06, y + h * 0.50);
+    ctx.lineTo(x - w * 0.10, y + h * 0.65);
+    ctx.closePath();
+    ctx.fill();
+
     ctx.restore();
 }
 
