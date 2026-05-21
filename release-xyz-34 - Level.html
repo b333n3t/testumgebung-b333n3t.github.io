@@ -934,6 +934,41 @@ function spawnObstacle(){
         }
     }
 
+    /* Level 4: Tannen, Maulwurfhügel, Adler, Busch und Fuchs */
+    if(cfg.theme === "forest"){
+        const r = Math.random();
+
+        if(r < 0.18){
+            kind = "molehill";
+            w = getRandomFrom(isMobile ? [75,95,115] : [95,125,155]);
+            h = Math.round(w * 0.42);
+            y = window.innerHeight - h - 26;
+            safeObstacle = true;
+        }else if(r < 0.34){
+            kind = "eagle";
+            w = getRandomFrom(isMobile ? [120,150,180] : [165,210,255]);
+            h = Math.round(w * 0.42);
+            x = -w - 80;
+            y = getRandomFrom([55,90,130,170]);
+            vx = getCurrentSpeed() * (1.05 + phase * 0.16);
+            safeObstacle = true;
+        }else if(r < 0.48){
+            kind = "bush";
+            w = getRandomFrom(isMobile ? [85,110,140] : [120,155,195]);
+            h = Math.round(w * 0.55);
+            y = window.innerHeight - h - 32;
+            safeObstacle = true;
+        }else if(r < 0.62){
+            kind = "fox";
+            w = getRandomFrom(isMobile ? [125,155,190] : [165,215,260]);
+            h = Math.round(w * 0.48);
+            y = window.innerHeight - h - 34;
+            safeObstacle = true;
+        }else{
+            kind = "pine";
+        }
+    }
+
     /* Level 3: Gewitterwolken, Ballons und Jets */
     if(cfg.theme === "sky"){
         const r = Math.random();
@@ -1208,8 +1243,58 @@ function pointHitsWaterPlant(px, py, o){
 function pointHitsTree(px, py, o){
     return (
         pointInTriangle(px, py, o.x + o.w * 0.50, o.y + o.h * 0.04, o.x + o.w * 0.10, o.y + o.h * 0.72, o.x + o.w * 0.90, o.y + o.h * 0.72) ||
-        (px >= o.x + o.w * 0.44 && px <= o.x + o.w * 0.56 && py >= o.y + o.h * 0.62 && py <= o.y + o.h * 0.98)
+        pointInTriangle(px, py, o.x + o.w * 0.50, o.y + o.h * 0.18, o.x + o.w * 0.16, o.y + o.h * 0.86, o.x + o.w * 0.84, o.y + o.h * 0.86) ||
+        (px >= o.x + o.w * 0.43 && px <= o.x + o.w * 0.57 && py >= o.y + o.h * 0.68 && py <= o.y + o.h * 0.98)
     );
+}
+
+function pointHitsMolehill(px, py, o){
+    return pointInEllipse(px, py, o.x + o.w * 0.50, o.y + o.h * 0.76, o.w * 0.47, o.h * 0.40);
+}
+
+function pointHitsBush(px, py, o){
+    return (
+        pointInEllipse(px, py, o.x + o.w * 0.24, o.y + o.h * 0.66, o.w * 0.22, o.h * 0.28) ||
+        pointInEllipse(px, py, o.x + o.w * 0.46, o.y + o.h * 0.50, o.w * 0.28, o.h * 0.34) ||
+        pointInEllipse(px, py, o.x + o.w * 0.70, o.y + o.h * 0.66, o.w * 0.24, o.h * 0.28) ||
+        (px >= o.x + o.w * 0.12 && px <= o.x + o.w * 0.86 && py >= o.y + o.h * 0.62 && py <= o.y + o.h * 0.88)
+    );
+}
+
+function pointHitsEagle(px, py, o){
+    const flap = Math.sin(performance.now() * 0.010 + o.seed);
+    const wingLift = flap * o.h * 0.16;
+
+    return (
+        pointInEllipse(px, py, o.x + o.w * 0.50, o.y + o.h * 0.50, o.w * 0.16, o.h * 0.16) ||
+        pointInTriangle(px, py, o.x + o.w * 0.40, o.y + o.h * 0.50, o.x + o.w * 0.06, o.y + o.h * (0.24 - wingLift / o.h), o.x + o.w * 0.38, o.y + o.h * 0.66) ||
+        pointInTriangle(px, py, o.x + o.w * 0.60, o.y + o.h * 0.50, o.x + o.w * 0.94, o.y + o.h * (0.24 - wingLift / o.h), o.x + o.w * 0.62, o.y + o.h * 0.66) ||
+        pointInTriangle(px, py, o.x + o.w * 0.62, o.y + o.h * 0.46, o.x + o.w * 0.82, o.y + o.h * 0.42, o.x + o.w * 0.66, o.y + o.h * 0.58)
+    );
+}
+
+function pointHitsFox(px, py, o){
+    const bodyHit =
+        pointInEllipse(px, py, o.x + o.w * 0.42, o.y + o.h * 0.62, o.w * 0.30, o.h * 0.24) ||
+        pointInEllipse(px, py, o.x + o.w * 0.67, o.y + o.h * 0.50, o.w * 0.20, o.h * 0.18) ||
+        pointInTriangle(px, py, o.x + o.w * 0.16, o.y + o.h * 0.58, o.x + o.w * 0.02, o.y + o.h * 0.28, o.x + o.w * 0.28, o.y + o.h * 0.48) ||
+        pointInTriangle(px, py, o.x + o.w * 0.58, o.y + o.h * 0.36, o.x + o.w * 0.62, o.y + o.h * 0.08, o.x + o.w * 0.72, o.y + o.h * 0.36) ||
+        pointInTriangle(px, py, o.x + o.w * 0.74, o.y + o.h * 0.36, o.x + o.w * 0.82, o.y + o.h * 0.10, o.x + o.w * 0.84, o.y + o.h * 0.42) ||
+        (px >= o.x + o.w * 0.28 && px <= o.x + o.w * 0.76 && py >= o.y + o.h * 0.72 && py <= o.y + o.h * 0.98);
+
+    if(!bodyHit){
+        return false;
+    }
+
+    const mouthOpen = getFoxMouthOpen(o);
+    const inMouthHole = pointInTriangle(
+        px, py,
+        o.x + o.w * 0.83, o.y + o.h * 0.52,
+        o.x + o.w * 0.68, o.y + o.h * (0.48 - mouthOpen * 0.06),
+        o.x + o.w * 0.68, o.y + o.h * (0.56 + mouthOpen * 0.06)
+    );
+
+    return !inMouthHole;
 }
 
 function hitObstacle(rect, o){
@@ -1258,8 +1343,26 @@ function hitObstacle(rect, o){
             }
         }
 
-        if(o.type === "forest" && pointHitsTree(p.x, p.y, o)){
-            return true;
+        if(o.type === "forest"){
+            if((!o.kind || o.kind === "pine") && pointHitsTree(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind === "molehill" && pointHitsMolehill(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind === "eagle" && pointHitsEagle(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind === "bush" && pointHitsBush(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind === "fox" && pointHitsFox(p.x, p.y, o)){
+                return true;
+            }
         }
     }
 
@@ -1408,15 +1511,26 @@ function drawCloud(x,y,size,color){
 }
 
 function drawTree(x,y,size,color){
-    ctx.fillStyle = "rgba(90,55,20,0.16)";
-    ctx.fillRect(x-4,y-size*0.2,8,size*0.35);
+    ctx.fillStyle = "rgba(105,62,24,0.95)";
+    ctx.fillRect(x-size*0.09,y-size*0.30,size*0.18,size*0.32);
+
     ctx.fillStyle = color;
     ctx.beginPath();
     ctx.moveTo(x,y-size);
-    ctx.lineTo(x-size*0.45,y);
-    ctx.lineTo(x+size*0.45,y);
+    ctx.lineTo(x-size*0.45,y-size*0.35);
+    ctx.lineTo(x+size*0.45,y-size*0.35);
     ctx.closePath();
     ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x,y-size*0.78);
+    ctx.lineTo(x-size*0.55,y-size*0.12);
+    ctx.lineTo(x+size*0.55,y-size*0.12);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(72,42,18,0.95)";
+    ctx.fillRect(x-size*0.075,y-size*0.18,size*0.15,size*0.20);
 }
 
 /* =====================================
@@ -1431,7 +1545,7 @@ function drawPlayer(cfg){
     }else if(cfg.theme === "sky"){
         drawPlayerPlane(player.x + player.w/2, player.y + player.h/2, player.w*1.5, cfg.playerColor);
     }else if(cfg.theme === "forest"){
-        drawLeaf(player.x + player.w/2, player.y + player.h/2, player.w*0.75, cfg.playerColor);
+        drawSquirrel(player.x + player.w/2, player.y + player.h/2, player.w*1.35, cfg.playerColor);
     }else{
         ctx.fillRect(player.x,player.y,player.w,player.h);
     }
@@ -1457,7 +1571,17 @@ function drawObstacle(o){
             drawThunderCloud(o);
         }
     }else if(o.type === "forest"){
-        drawTree(o.x + o.w/2, o.y + o.h, Math.max(o.w,o.h)*0.75, "rgba(60,190,90,0.8)");
+        if(o.kind === "molehill"){
+            drawMolehill(o);
+        }else if(o.kind === "eagle"){
+            drawEagle(o);
+        }else if(o.kind === "bush"){
+            drawBush(o);
+        }else if(o.kind === "fox"){
+            drawFox(o);
+        }else{
+            drawTree(o.x + o.w/2, o.y + o.h, Math.max(o.w,o.h)*0.75, "rgba(60,190,90,0.8)");
+        }
     }else{
         ctx.fillStyle = o.color || "red";
         ctx.fillRect(o.x,o.y,o.w,o.h);
@@ -1586,7 +1710,7 @@ function drawOrb(o,cfg){
     }else if(o.type === "sky"){
         drawStar(o.x,o.y,o.r,cfg.orbColor);
     }else if(o.type === "forest"){
-        drawLeaf(o.x,o.y,o.r*1.2,cfg.orbColor);
+        drawPeanut(o.x,o.y,o.r*1.35);
     }else{
         ctx.beginPath();
         ctx.arc(o.x,o.y,o.r,0,Math.PI*2);
@@ -1835,6 +1959,245 @@ function drawLeaf(x,y,size,color){
     ctx.moveTo(x-size*0.3,y+size*0.16);
     ctx.lineTo(x+size*0.34,y-size*0.16);
     ctx.stroke();
+    ctx.restore();
+}
+
+function drawPeanut(x,y,size){
+    ctx.save();
+    ctx.fillStyle = "rgba(214,151,72,0.96)";
+    ctx.strokeStyle = "rgba(80,45,18,0.8)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.ellipse(x-size*0.22,y,size*0.28,size*0.38,-0.35,0,Math.PI*2);
+    ctx.ellipse(x+size*0.22,y,size*0.28,size*0.38,0.35,0,Math.PI*2);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = "rgba(120,75,35,0.32)";
+    for(let i=0;i<5;i++){
+        ctx.beginPath();
+        ctx.arc(x + (i-2)*size*0.16, y + Math.sin(i)*size*0.12, size*0.025, 0, Math.PI*2);
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
+function drawSquirrel(x,y,size,color){
+    ctx.save();
+    const fur = "rgba(182,103,42,0.98)";
+    const belly = "rgba(245,197,126,0.95)";
+    const dark = "rgba(35,20,10,0.9)";
+
+    ctx.fillStyle = fur;
+    ctx.beginPath();
+    ctx.ellipse(x-size*0.32,y-size*0.05,size*0.28,size*0.45,-0.7,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.ellipse(x,y+size*0.06,size*0.28,size*0.23,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = belly;
+    ctx.beginPath();
+    ctx.ellipse(x+size*0.04,y+size*0.08,size*0.13,size*0.15,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = fur;
+    ctx.beginPath();
+    ctx.ellipse(x+size*0.26,y-size*0.10,size*0.18,size*0.16,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x+size*0.20,y-size*0.23);
+    ctx.lineTo(x+size*0.28,y-size*0.39);
+    ctx.lineTo(x+size*0.34,y-size*0.22);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = dark;
+    ctx.beginPath();
+    ctx.arc(x+size*0.32,y-size*0.13,size*0.025,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.strokeStyle = dark;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x+size*0.15,y+size*0.05);
+    ctx.lineTo(x+size*0.35,y+size*0.02);
+    ctx.moveTo(x-size*0.08,y+size*0.23);
+    ctx.lineTo(x-size*0.20,y+size*0.34);
+    ctx.moveTo(x+size*0.12,y+size*0.24);
+    ctx.lineTo(x+size*0.25,y+size*0.33);
+    ctx.stroke();
+
+    ctx.restore();
+}
+
+function drawMolehill(o){
+    ctx.save();
+    ctx.fillStyle = "rgba(112,72,42,0.95)";
+    ctx.beginPath();
+    ctx.ellipse(o.x + o.w*0.50, o.y + o.h*0.76, o.w*0.47, o.h*0.40, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(60,35,18,0.45)";
+    ctx.beginPath();
+    ctx.ellipse(o.x + o.w*0.50, o.y + o.h*0.67, o.w*0.20, o.h*0.10, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+}
+
+function drawBush(o){
+    ctx.save();
+    ctx.fillStyle = "rgba(49,165,72,0.92)";
+    ctx.beginPath();
+    ctx.arc(o.x+o.w*0.24,o.y+o.h*0.66,o.w*0.22,0,Math.PI*2);
+    ctx.arc(o.x+o.w*0.46,o.y+o.h*0.50,o.w*0.28,0,Math.PI*2);
+    ctx.arc(o.x+o.w*0.70,o.y+o.h*0.66,o.w*0.24,0,Math.PI*2);
+    ctx.rect(o.x+o.w*0.12,o.y+o.h*0.62,o.w*0.74,o.h*0.28);
+    ctx.fill();
+    ctx.restore();
+}
+
+function drawEagle(o){
+    ctx.save();
+    const flap = Math.sin(performance.now() * 0.010 + o.seed);
+    const x=o.x, y=o.y, w=o.w, h=o.h;
+    const wingLift = flap * h * 0.16;
+
+    ctx.fillStyle = "rgba(98,65,34,0.96)";
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.40,y+h*0.50);
+    ctx.lineTo(x+w*0.06,y+h*0.24-wingLift);
+    ctx.lineTo(x+w*0.38,y+h*0.66);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.60,y+h*0.50);
+    ctx.lineTo(x+w*0.94,y+h*0.24-wingLift);
+    ctx.lineTo(x+w*0.62,y+h*0.66);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(75,45,22,0.98)";
+    ctx.beginPath();
+    ctx.ellipse(x+w*0.50,y+h*0.50,w*0.16,h*0.16,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(230,230,215,0.96)";
+    ctx.beginPath();
+    ctx.ellipse(x+w*0.66,y+h*0.46,w*0.08,h*0.09,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = "rgba(245,190,40,0.95)";
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.72,y+h*0.46);
+    ctx.lineTo(x+w*0.84,y+h*0.42);
+    ctx.lineTo(x+w*0.74,y+h*0.53);
+    ctx.closePath();
+    ctx.fill();
+    ctx.restore();
+}
+
+function getFoxMouthOpen(o){
+    return 0.5 + 0.5 * Math.sin(performance.now() * 0.010 + o.seed);
+}
+
+function drawFox(o){
+    ctx.save();
+    const x=o.x, y=o.y, w=o.w, h=o.h;
+    const mouthOpen = getFoxMouthOpen(o);
+    const orange = "rgba(218,92,28,0.98)";
+    const cream = "rgba(250,230,190,0.96)";
+    const dark = "rgba(25,14,8,0.9)";
+
+    ctx.fillStyle = orange;
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.18,y+h*0.58);
+    ctx.lineTo(x+w*0.02,y+h*0.28);
+    ctx.lineTo(x+w*0.28,y+h*0.48);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = cream;
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.04,y+h*0.31);
+    ctx.lineTo(x+w*0.02,y+h*0.28);
+    ctx.lineTo(x+w*0.12,y+h*0.36);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = orange;
+    ctx.beginPath();
+    ctx.ellipse(x+w*0.42,y+h*0.62,w*0.30,h*0.24,0,0,Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(x+w*0.67,y+h*0.50,w*0.20,h*0.18,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.58,y+h*0.36);
+    ctx.lineTo(x+w*0.62,y+h*0.08);
+    ctx.lineTo(x+w*0.72,y+h*0.36);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(x+w*0.74,y+h*0.36);
+    ctx.lineTo(x+w*0.82,y+h*0.10);
+    ctx.lineTo(x+w*0.84,y+h*0.42);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = cream;
+    ctx.beginPath();
+    ctx.ellipse(x+w*0.46,y+h*0.67,w*0.17,h*0.11,0,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = dark;
+    ctx.beginPath();
+    ctx.arc(x+w*0.72,y+h*0.45,w*0.018,0,Math.PI*2);
+    ctx.fill();
+
+    const mouthTipX = x+w*0.84;
+    const mouthBackX = x+w*0.68;
+    const mouthTopY = y+h*(0.48 - mouthOpen*0.06);
+    const mouthBottomY = y+h*(0.56 + mouthOpen*0.06);
+
+    ctx.fillStyle = dark;
+    ctx.beginPath();
+    ctx.moveTo(mouthTipX,y+h*0.52);
+    ctx.lineTo(mouthBackX,mouthTopY);
+    ctx.lineTo(mouthBackX,mouthBottomY);
+    ctx.closePath();
+    ctx.fill();
+
+    ctx.fillStyle = "white";
+    for(let i=0;i<4;i++){
+        const tx = x+w*(0.70+i*0.032);
+        ctx.beginPath();
+        ctx.moveTo(tx,mouthTopY+h*0.01);
+        ctx.lineTo(tx+w*0.018,mouthTopY+h*0.01);
+        ctx.lineTo(tx+w*0.009,y+h*0.525);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    for(let i=0;i<4;i++){
+        const tx = x+w*(0.705+i*0.032);
+        ctx.beginPath();
+        ctx.moveTo(tx,mouthBottomY-h*0.01);
+        ctx.lineTo(tx+w*0.018,mouthBottomY-h*0.01);
+        ctx.lineTo(tx+w*0.009,y+h*0.535);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    ctx.fillStyle = dark;
+    ctx.fillRect(x+w*0.32,y+h*0.76,w*0.055,h*0.20);
+    ctx.fillRect(x+w*0.55,y+h*0.76,w*0.055,h*0.20);
+
     ctx.restore();
 }
 
