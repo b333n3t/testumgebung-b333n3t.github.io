@@ -962,6 +962,169 @@ function updateSpawning(){
 }
 
 /* =====================================
+   VISIBLE-SHAPE COLLISION
+   - Level 1 bleibt rechteckig
+   - Level 2 nutzt die sichtbare Hai-/Fischform statt der unsichtbaren Bounding Box
+   - Level 3/4 bekommen ebenfalls weichere Trefferflächen
+===================================== */
+function pointInTriangle(px, py, ax, ay, bx, by, cx, cy){
+    const v0x = cx - ax;
+    const v0y = cy - ay;
+    const v1x = bx - ax;
+    const v1y = by - ay;
+    const v2x = px - ax;
+    const v2y = py - ay;
+
+    const dot00 = v0x * v0x + v0y * v0y;
+    const dot01 = v0x * v1x + v0y * v1y;
+    const dot02 = v0x * v2x + v0y * v2y;
+    const dot11 = v1x * v1x + v1y * v1y;
+    const dot12 = v1x * v2x + v1y * v2y;
+
+    const invDenom = 1 / (dot00 * dot11 - dot01 * dot01 || 1);
+    const u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+    const v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+    return u >= 0 && v >= 0 && u + v <= 1;
+}
+
+function pointInEllipse(px, py, cx, cy, rx, ry){
+    const dx = (px - cx) / rx;
+    const dy = (py - cy) / ry;
+    return dx * dx + dy * dy <= 1;
+}
+
+function samplePlayerPoints(rect){
+    const points = [];
+    const cols = 5;
+    const rows = 5;
+
+    for(let ix = 0; ix < cols; ix++){
+        for(let iy = 0; iy < rows; iy++){
+            points.push({
+                x:rect.x + (rect.w * ix) / (cols - 1),
+                y:rect.y + (rect.h * iy) / (rows - 1)
+            });
+        }
+    }
+
+    return points;
+}
+
+function pointHitsShark(px, py, o){
+    const mouthOpen = getSharkMouthOpen();
+
+    const bodyCx = o.x + o.w * 0.48;
+    const bodyCy = o.y + o.h * 0.52;
+    const bodyRx = o.w * 0.34;
+    const bodyRy = o.h * 0.25;
+
+    const headCx = o.x + o.w * 0.23;
+    const headCy = o.y + o.h * 0.52;
+    const headRx = o.w * 0.20;
+    const headRy = o.h * 0.22;
+
+    const tailHit = pointInTriangle(
+        px, py,
+        o.x + o.w * 0.79, o.y + o.h * 0.52,
+        o.x + o.w * 0.99, o.y + o.h * 0.28,
+        o.x + o.w * 0.99, o.y + o.h * 0.76
+    );
+
+    const topFinHit = pointInTriangle(
+        px, py,
+        o.x + o.w * 0.42, o.y + o.h * 0.34,
+        o.x + o.w * 0.56, o.y + o.h * 0.05,
+        o.x + o.w * 0.62, o.y + o.h * 0.38
+    );
+
+    const bottomFinHit = pointInTriangle(
+        px, py,
+        o.x + o.w * 0.48, o.y + o.h * 0.66,
+        o.x + o.w * 0.61, o.y + o.h * 0.90,
+        o.x + o.w * 0.66, o.y + o.h * 0.64
+    );
+
+    const bodyHit =
+        pointInEllipse(px, py, bodyCx, bodyCy, bodyRx, bodyRy) ||
+        pointInEllipse(px, py, headCx, headCy, headRx, headRy) ||
+        tailHit ||
+        topFinHit ||
+        bottomFinHit;
+
+    if(!bodyHit){
+        return false;
+    }
+
+    /* Der schwarze Maul-Innenraum ist eine visuelle Aussparung.
+       Wenn der Player nur in diese Öffnung ragt, zählt es nicht als Treffer. */
+    const mouthTipX = o.x + o.w * 0.05;
+    const mouthTopX = o.x + o.w * 0.31;
+    const mouthTopY = o.y + o.h * (0.48 - mouthOpen * 0.10);
+    const mouthBottomX = o.x + o.w * 0.31;
+    const mouthBottomY = o.y + o.h * (0.57 + mouthOpen * 0.10);
+
+    const inMouthHole = pointInTriangle(
+        px, py,
+        mouthTipX, o.y + o.h * 0.52,
+        mouthTopX, mouthTopY,
+        mouthBottomX, mouthBottomY
+    );
+
+    return !inMouthHole;
+}
+
+function pointHitsCloud(px, py, o){
+    return (
+        pointInEllipse(px, py, o.x + o.w * 0.24, o.y + o.h * 0.56, o.w * 0.20, o.h * 0.24) ||
+        pointInEllipse(px, py, o.x + o.w * 0.45, o.y + o.h * 0.42, o.w * 0.27, o.h * 0.30) ||
+        pointInEllipse(px, py, o.x + o.w * 0.68, o.y + o.h * 0.56, o.w * 0.22, o.h * 0.24) ||
+        (px >= o.x + o.w * 0.18 && px <= o.x + o.w * 0.78 && py >= o.y + o.h * 0.55 && py <= o.y + o.h * 0.72)
+    );
+}
+
+function pointHitsTree(px, py, o){
+    return (
+        pointInTriangle(px, py, o.x + o.w * 0.50, o.y + o.h * 0.04, o.x + o.w * 0.10, o.y + o.h * 0.72, o.x + o.w * 0.90, o.y + o.h * 0.72) ||
+        (px >= o.x + o.w * 0.44 && px <= o.x + o.w * 0.56 && py >= o.y + o.h * 0.62 && py <= o.y + o.h * 0.98)
+    );
+}
+
+function hitObstacle(rect, o){
+    /* Schneller Vorabcheck: wenn die groben Boxen sich nicht schneiden, ist sicher kein Treffer. */
+    if(
+        rect.x >= o.x + o.w ||
+        rect.x + rect.w <= o.x ||
+        rect.y >= o.y + o.h ||
+        rect.y + rect.h <= o.y
+    ){
+        return false;
+    }
+
+    if(o.type === "normal"){
+        return true;
+    }
+
+    const points = samplePlayerPoints(rect);
+
+    for(const p of points){
+        if(o.type === "underwater" && pointHitsShark(p.x, p.y, o)){
+            return true;
+        }
+
+        if(o.type === "sky" && pointHitsCloud(p.x, p.y, o)){
+            return true;
+        }
+
+        if(o.type === "forest" && pointHitsTree(p.x, p.y, o)){
+            return true;
+        }
+    }
+
+    return false;
+}
+
+/* =====================================
    UPDATE
 ===================================== */
 function update(){
@@ -980,7 +1143,7 @@ function update(){
     obstacles.forEach(o => {
         o.x -= speed;
 
-        if(player.x < o.x + o.w && player.x + player.w > o.x && player.y < o.y + o.h && player.y + player.h > o.y){
+        if(hitObstacle(player, o)){
             endGame("gameover");
         }
 
@@ -1119,21 +1282,118 @@ function drawObstacle(o){
     ctx.save();
 
     if(o.type === "underwater"){
-        drawFish(o.x + o.w/2, o.y + o.h/2, Math.max(o.w,o.h)*0.62, o.color, false);
+        drawShark(o);
     }else if(o.type === "sky"){
         drawCloud(o.x, o.y + o.h/2, Math.max(o.w,o.h)*0.72, "rgba(255,255,255,0.72)");
-        ctx.strokeStyle = "rgba(0,0,0,0.35)";
-        ctx.strokeRect(o.x,o.y,o.w,o.h);
     }else if(o.type === "forest"){
         drawTree(o.x + o.w/2, o.y + o.h, Math.max(o.w,o.h)*0.75, "rgba(60,190,90,0.8)");
-        ctx.strokeStyle = "rgba(255,255,255,0.18)";
-        ctx.strokeRect(o.x,o.y,o.w,o.h);
     }else{
         ctx.fillStyle = o.color || "red";
         ctx.fillRect(o.x,o.y,o.w,o.h);
         ctx.strokeStyle = "rgba(255,255,255,0.35)";
         ctx.lineWidth = 2;
         ctx.strokeRect(o.x,o.y,o.w,o.h);
+    }
+
+    ctx.restore();
+}
+
+function getSharkMouthOpen(){
+    return 0.5 + 0.5 * Math.sin(performance.now() * 0.008);
+}
+
+function drawShark(o){
+    const mouthOpen = getSharkMouthOpen();
+    const x = o.x;
+    const y = o.y;
+    const w = o.w;
+    const h = o.h;
+
+    const bodyColor = o.color || "#18c7e8";
+    const darkColor = "rgba(0,0,0,0.82)";
+    const lightColor = "rgba(255,255,255,0.92)";
+
+    ctx.save();
+
+    /* Schwanzflosse */
+    ctx.fillStyle = bodyColor;
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.79, y + h * 0.52);
+    ctx.lineTo(x + w * 0.99, y + h * 0.22);
+    ctx.lineTo(x + w * 0.99, y + h * 0.82);
+    ctx.closePath();
+    ctx.fill();
+
+    /* Körper */
+    ctx.beginPath();
+    ctx.ellipse(x + w * 0.48, y + h * 0.52, w * 0.35, h * 0.27, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    /* Kopf etwas voller */
+    ctx.beginPath();
+    ctx.ellipse(x + w * 0.23, y + h * 0.52, w * 0.21, h * 0.23, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    /* Rückenflosse */
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.42, y + h * 0.35);
+    ctx.lineTo(x + w * 0.56, y + h * 0.04);
+    ctx.lineTo(x + w * 0.62, y + h * 0.39);
+    ctx.closePath();
+    ctx.fill();
+
+    /* Bauchflosse */
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.48, y + h * 0.65);
+    ctx.lineTo(x + w * 0.61, y + h * 0.91);
+    ctx.lineTo(x + w * 0.66, y + h * 0.64);
+    ctx.closePath();
+    ctx.fill();
+
+    /* Auge */
+    ctx.fillStyle = darkColor;
+    ctx.beginPath();
+    ctx.arc(x + w * 0.27, y + h * 0.40, Math.max(2, w * 0.028), 0, Math.PI * 2);
+    ctx.fill();
+
+    /* Animiertes Maul: schwarze Öffnung */
+    const mouthTopY = y + h * (0.48 - mouthOpen * 0.10);
+    const mouthBottomY = y + h * (0.57 + mouthOpen * 0.10);
+    const mouthTipX = x + w * 0.04;
+    const mouthBackX = x + w * 0.32;
+
+    ctx.fillStyle = darkColor;
+    ctx.beginPath();
+    ctx.moveTo(mouthTipX, y + h * 0.52);
+    ctx.lineTo(mouthBackX, mouthTopY);
+    ctx.lineTo(mouthBackX, mouthBottomY);
+    ctx.closePath();
+    ctx.fill();
+
+    /* Zähne oben */
+    ctx.fillStyle = lightColor;
+    const toothCount = 5;
+    for(let i = 0; i < toothCount; i++){
+        const tx = x + w * (0.10 + i * 0.040);
+        const ty = y + h * (0.495 - mouthOpen * 0.055);
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(tx + w * 0.020, ty);
+        ctx.lineTo(tx + w * 0.010, y + h * 0.535);
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    /* Zähne unten */
+    for(let i = 0; i < toothCount; i++){
+        const tx = x + w * (0.11 + i * 0.040);
+        const ty = y + h * (0.575 + mouthOpen * 0.055);
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(tx + w * 0.020, ty);
+        ctx.lineTo(tx + w * 0.010, y + h * 0.535);
+        ctx.closePath();
+        ctx.fill();
     }
 
     ctx.restore();
