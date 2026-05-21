@@ -549,6 +549,9 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_MRJcYGadARj5Es6fiNcD2A_FJyZ_bX3";
 
+/* Release-Seite = Level 1 */
+const RELEASE_GAME_LEVEL = 1;
+
 function setStartStatus(text){
     const el =
     document.getElementById("startStatus");
@@ -856,7 +859,6 @@ function circleRectOverlap(cx, cy, r, rx, ry, rw, rh, padding = 0){
         <
         (r + padding) * (r + padding)
     );
-
 }
 
 function orbInsideObstacle(x,y,r = 12){
@@ -879,11 +881,9 @@ function orbInsideObstacle(x,y,r = 12){
         ){
             return true;
         }
-
     }
 
     return false;
-
 }
 
 function obstacleOverlapsOrb(x,y,w,h){
@@ -906,11 +906,9 @@ function obstacleOverlapsOrb(x,y,w,h){
         ){
             return true;
         }
-
     }
 
     return false;
-
 }
 
 /* =====================================
@@ -1011,7 +1009,6 @@ function spawnObstacle(){
             w,
             h
         );
-
     }
 
     const color =
@@ -1441,7 +1438,8 @@ async function trackPlay(){
             player:player,
             player_id:playerId,
             device:device,
-            country:country
+            country:country,
+            level:RELEASE_GAME_LEVEL
         }
     ]);
 
@@ -1469,7 +1467,8 @@ async function submitScore(){
 
     const payload = {
         name,
-        score:Number(score)
+        score:Number(score),
+        level:RELEASE_GAME_LEVEL
     };
 
     const { error } =
@@ -1505,10 +1504,22 @@ async function loadLeaderboard(targetId = "startLeaderboard"){
         return;
     }
 
+    /*
+      Release-Seite:
+      Nur Level 1 anzeigen.
+      level.is.null bleibt drin, damit alte Scores ohne level-Spalte
+      weiterhin auf der Release-Seite sichtbar bleiben.
+      Wenn du alte Scores ausblenden möchtest, ersetze diese Zeile:
+      .or("level.eq.1,level.is.null")
+      durch:
+      .eq("level", RELEASE_GAME_LEVEL)
+    */
+
     const { data, error } =
     await supabaseClient
     .from("scores")
-    .select("name, score, created_at")
+    .select("name, score, level, created_at")
+    .or("level.eq.1,level.is.null")
     .order(
         "score",
         {
