@@ -1795,7 +1795,11 @@ function drawWaterPlant(o){
 function drawPlayerPlane(x,y,size,color){
     ctx.save();
 
-    /* Cartoon-Propellerflugzeug wie Vorlage: rot/blauer Körper, Propeller links, Nase links */
+    /* Cartoon-Propellerflugzeug wie Vorlage.
+       Jetzt um 180 Grad horizontal gedreht: Nase/Propeller rechts, Heck links. */
+    ctx.translate(x, y);
+    ctx.scale(-1, 1);
+
     const red = "rgba(255,70,60,0.98)";
     const blue = "rgba(70,190,235,0.96)";
     const yellow = "rgba(255,210,80,0.98)";
@@ -1809,41 +1813,41 @@ function drawPlayerPlane(x,y,size,color){
     ctx.strokeStyle = "rgba(230,235,245,0.95)";
     ctx.lineWidth = 3;
     ctx.beginPath();
-    ctx.moveTo(x-size*0.60,y-size*0.22);
-    ctx.lineTo(x-size*0.60,y+size*0.22);
-    ctx.moveTo(x-size*0.72,y);
-    ctx.lineTo(x-size*0.48,y);
+    ctx.moveTo(-size*0.60,-size*0.22);
+    ctx.lineTo(-size*0.60, size*0.22);
+    ctx.moveTo(-size*0.72,0);
+    ctx.lineTo(-size*0.48,0);
     ctx.stroke();
 
     /* Körper */
     ctx.strokeStyle = dark;
     ctx.fillStyle = red;
     ctx.beginPath();
-    ctx.ellipse(x,y,size*0.55,size*0.20,0,0,Math.PI*2);
+    ctx.ellipse(0,0,size*0.55,size*0.20,0,0,Math.PI*2);
     ctx.fill();
     ctx.stroke();
 
     /* Nase */
     ctx.fillStyle = blue;
     ctx.beginPath();
-    ctx.ellipse(x-size*0.46,y,size*0.18,size*0.18,0,0,Math.PI*2);
+    ctx.ellipse(-size*0.46,0,size*0.18,size*0.18,0,0,Math.PI*2);
     ctx.fill();
     ctx.stroke();
 
     /* Cockpit */
     ctx.fillStyle = "rgba(150,225,255,0.95)";
     ctx.beginPath();
-    ctx.roundRect(x-size*0.17,y-size*0.28,size*0.26,size*0.18,8);
+    ctx.roundRect(-size*0.17,-size*0.28,size*0.26,size*0.18,8);
     ctx.fill();
     ctx.stroke();
 
     /* Flügel */
     ctx.fillStyle = blue;
     ctx.beginPath();
-    ctx.moveTo(x-size*0.06,y+size*0.05);
-    ctx.lineTo(x+size*0.26,y+size*0.45);
-    ctx.lineTo(x+size*0.02,y+size*0.52);
-    ctx.lineTo(x-size*0.22,y+size*0.08);
+    ctx.moveTo(-size*0.06, size*0.05);
+    ctx.lineTo( size*0.26, size*0.45);
+    ctx.lineTo( size*0.02, size*0.52);
+    ctx.lineTo(-size*0.22, size*0.08);
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
@@ -1851,17 +1855,17 @@ function drawPlayerPlane(x,y,size,color){
     /* Heck */
     ctx.fillStyle = yellow;
     ctx.beginPath();
-    ctx.moveTo(x+size*0.44,y-size*0.09);
-    ctx.lineTo(x+size*0.66,y-size*0.34);
-    ctx.lineTo(x+size*0.65,y+size*0.03);
+    ctx.moveTo(size*0.44,-size*0.09);
+    ctx.lineTo(size*0.66,-size*0.34);
+    ctx.lineTo(size*0.65, size*0.03);
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
 
     ctx.beginPath();
-    ctx.moveTo(x+size*0.42,y+size*0.04);
-    ctx.lineTo(x+size*0.66,y+size*0.20);
-    ctx.lineTo(x+size*0.45,y+size*0.25);
+    ctx.moveTo(size*0.42, size*0.04);
+    ctx.lineTo(size*0.66, size*0.20);
+    ctx.lineTo(size*0.45, size*0.25);
     ctx.closePath();
     ctx.fill();
     ctx.stroke();
@@ -1869,8 +1873,8 @@ function drawPlayerPlane(x,y,size,color){
     /* Seitenfenster */
     ctx.fillStyle = white;
     ctx.beginPath();
-    ctx.arc(x-size*0.23,y-size*0.03,size*0.045,0,Math.PI*2);
-    ctx.arc(x-size*0.05,y-size*0.03,size*0.045,0,Math.PI*2);
+    ctx.arc(-size*0.23,-size*0.03,size*0.045,0,Math.PI*2);
+    ctx.arc(-size*0.05,-size*0.03,size*0.045,0,Math.PI*2);
     ctx.fill();
 
     ctx.restore();
