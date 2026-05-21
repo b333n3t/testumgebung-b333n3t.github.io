@@ -919,13 +919,26 @@ function spawnObstacle(){
     if(cfg.theme === "underwater"){
         const r = Math.random();
 
-        if(r < 0.18){
+        if(r < 0.14){
+            kind = "hook";
+            w = getRandomFrom(isMobile ? [85,105,125] : [110,140,170]);
+            h = Math.round(w * 0.72);
+            x = -w - 120;
+            y = getRandomFrom([
+                Math.round(window.innerHeight * 0.18),
+                Math.round(window.innerHeight * 0.32),
+                Math.round(window.innerHeight * 0.48),
+                Math.round(window.innerHeight * 0.64)
+            ]);
+            vx = getCurrentSpeed() * (1.05 + phase * 0.14);
+            safeObstacle = true;
+        }else if(r < 0.28){
             kind = "plantBottom";
             w = getRandomFrom(isMobile ? [55,70,85] : [70,90,110]);
             h = getRandomFrom(isMobile ? [150,190,230] : [190,250,310]);
             y = window.innerHeight - h;
             safeObstacle = true;
-        }else if(r < 0.32){
+        }else if(r < 0.40){
             kind = "plantTop";
             w = getRandomFrom(isMobile ? [55,70,85] : [70,90,110]);
             h = getRandomFrom(isMobile ? [130,170,215] : [170,230,290]);
@@ -1240,6 +1253,38 @@ function pointHitsWaterPlant(px, py, o){
     return false;
 }
 
+function pointHitsHook(px, py, o){
+    const lineY = o.y + o.h * 0.20;
+    const lineLeft = o.x - o.w * 0.85;
+    const lineRight = o.x + o.w * 0.55;
+
+    if(px >= lineLeft && px <= lineRight && Math.abs(py - lineY) < Math.max(3, o.h * 0.035)){
+        return true;
+    }
+
+    const stemX = o.x + o.w * 0.48;
+    if(Math.abs(px - stemX) < o.w * 0.045 && py >= o.y + o.h * 0.18 && py <= o.y + o.h * 0.62){
+        return true;
+    }
+
+    const curveCx = o.x + o.w * 0.43;
+    const curveCy = o.y + o.h * 0.63;
+    const outer = pointInEllipse(px, py, curveCx, curveCy, o.w * 0.26, o.h * 0.26);
+    const inner = pointInEllipse(px, py, curveCx - o.w * 0.02, curveCy - o.h * 0.02, o.w * 0.16, o.h * 0.16);
+    const opening = px < o.x + o.w * 0.34 && py < o.y + o.h * 0.67;
+
+    if(outer && !inner && !opening){
+        return true;
+    }
+
+    return pointInTriangle(
+        px, py,
+        o.x + o.w * 0.26, o.y + o.h * 0.68,
+        o.x + o.w * 0.10, o.y + o.h * 0.60,
+        o.x + o.w * 0.22, o.y + o.h * 0.82
+    );
+}
+
 function pointHitsTree(px, py, o){
     return (
         pointInTriangle(px, py, o.x + o.w * 0.50, o.y + o.h * 0.04, o.x + o.w * 0.10, o.y + o.h * 0.72, o.x + o.w * 0.90, o.y + o.h * 0.72) ||
@@ -1334,7 +1379,11 @@ function hitObstacle(rect, o){
                 return true;
             }
 
-            if(o.kind !== "plantBottom" && o.kind !== "plantTop" && pointHitsShark(p.x, p.y, o)){
+            if(o.kind === "hook" && pointHitsHook(p.x, p.y, o)){
+                return true;
+            }
+
+            if(o.kind !== "plantBottom" && o.kind !== "plantTop" && o.kind !== "hook" && pointHitsShark(p.x, p.y, o)){
                 return true;
             }
         }
@@ -1573,6 +1622,8 @@ function drawObstacle(o){
     if(o.type === "underwater"){
         if(o.kind === "plantBottom" || o.kind === "plantTop"){
             drawWaterPlant(o);
+        }else if(o.kind === "hook"){
+            drawFishingHook(o);
         }else{
             drawShark(o);
         }
@@ -1788,6 +1839,65 @@ function drawWaterPlant(o){
             ctx.fill();
         }
     });
+
+    ctx.restore();
+}
+
+function drawFishingHook(o){
+    ctx.save();
+
+    const lineY = o.y + o.h * 0.20;
+    const stemX = o.x + o.w * 0.48;
+    const curveCx = o.x + o.w * 0.43;
+    const curveCy = o.y + o.h * 0.63;
+
+    /* Angelschnur von links nach rechts */
+    ctx.strokeStyle = "rgba(220,245,255,0.72)";
+    ctx.lineWidth = Math.max(2, o.h * 0.030);
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo(o.x - o.w * 0.90, lineY);
+    ctx.lineTo(o.x + o.w * 0.55, lineY);
+    ctx.stroke();
+
+    /* kleine Verbindung zur Hakenstange */
+    ctx.beginPath();
+    ctx.moveTo(stemX, lineY);
+    ctx.lineTo(stemX, o.y + o.h * 0.34);
+    ctx.stroke();
+
+    /* Metallhaken */
+    ctx.strokeStyle = "rgba(235,240,245,0.96)";
+    ctx.lineWidth = Math.max(4, o.w * 0.055);
+    ctx.beginPath();
+    ctx.moveTo(stemX, o.y + o.h * 0.32);
+    ctx.lineTo(stemX, o.y + o.h * 0.58);
+    ctx.quadraticCurveTo(
+        o.x + o.w * 0.50, o.y + o.h * 0.86,
+        o.x + o.w * 0.25, o.y + o.h * 0.72
+    );
+    ctx.stroke();
+
+    /* Spitze/Widerhaken */
+    ctx.fillStyle = "rgba(235,240,245,0.96)";
+    ctx.beginPath();
+    ctx.moveTo(o.x + o.w * 0.26, o.y + o.h * 0.68);
+    ctx.lineTo(o.x + o.w * 0.10, o.y + o.h * 0.60);
+    ctx.lineTo(o.x + o.w * 0.22, o.y + o.h * 0.82);
+    ctx.closePath();
+    ctx.fill();
+
+    /* dunkle Kontur */
+    ctx.strokeStyle = "rgba(0,0,0,0.45)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(stemX, o.y + o.h * 0.32);
+    ctx.lineTo(stemX, o.y + o.h * 0.58);
+    ctx.quadraticCurveTo(
+        o.x + o.w * 0.50, o.y + o.h * 0.86,
+        o.x + o.w * 0.25, o.y + o.h * 0.72
+    );
+    ctx.stroke();
 
     ctx.restore();
 }
