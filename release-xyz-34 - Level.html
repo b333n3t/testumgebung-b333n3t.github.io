@@ -1254,34 +1254,45 @@ function pointHitsWaterPlant(px, py, o){
 }
 
 function pointHitsHook(px, py, o){
-    const lineY = o.y + o.h * 0.20;
-    const lineLeft = o.x - o.w * 0.85;
-    const lineRight = o.x + o.w * 0.55;
+    /* Haken ist 180 Grad gedreht: offene Spitze zeigt nach rechts.
+       Keine Angelrute mehr, nur eine wellige Schnur von links. */
+    const lineBaseY = o.y + o.h * 0.20;
+    const lineStartX = o.x - o.w * 0.90;
+    const lineEndX = o.x + o.w * 0.55;
 
-    if(px >= lineLeft && px <= lineRight && Math.abs(py - lineY) < Math.max(3, o.h * 0.035)){
-        return true;
+    /* Treffer auf welliger Schnur */
+    if(px >= lineStartX && px <= lineEndX){
+        const t = (px - lineStartX) / Math.max(1, lineEndX - lineStartX);
+        const waveY = lineBaseY + Math.sin(t * Math.PI * 4 + o.seed) * o.h * 0.045;
+
+        if(Math.abs(py - waveY) < Math.max(3, o.h * 0.035)){
+            return true;
+        }
     }
 
-    const stemX = o.x + o.w * 0.48;
+    /* kurze Verbindung zum gedrehten Haken */
+    const stemX = o.x + o.w * 0.42;
     if(Math.abs(px - stemX) < o.w * 0.045 && py >= o.y + o.h * 0.18 && py <= o.y + o.h * 0.62){
         return true;
     }
 
-    const curveCx = o.x + o.w * 0.43;
+    /* Gebogener Haken, Öffnung/Spitze nach rechts */
+    const curveCx = o.x + o.w * 0.48;
     const curveCy = o.y + o.h * 0.63;
     const outer = pointInEllipse(px, py, curveCx, curveCy, o.w * 0.26, o.h * 0.26);
-    const inner = pointInEllipse(px, py, curveCx - o.w * 0.02, curveCy - o.h * 0.02, o.w * 0.16, o.h * 0.16);
-    const opening = px < o.x + o.w * 0.34 && py < o.y + o.h * 0.67;
+    const inner = pointInEllipse(px, py, curveCx + o.w * 0.02, curveCy - o.h * 0.02, o.w * 0.16, o.h * 0.16);
+    const opening = px > o.x + o.w * 0.57 && py < o.y + o.h * 0.67;
 
     if(outer && !inner && !opening){
         return true;
     }
 
+    /* Widerhaken rechts */
     return pointInTriangle(
         px, py,
-        o.x + o.w * 0.26, o.y + o.h * 0.68,
-        o.x + o.w * 0.10, o.y + o.h * 0.60,
-        o.x + o.w * 0.22, o.y + o.h * 0.82
+        o.x + o.w * 0.74, o.y + o.h * 0.68,
+        o.x + o.w * 0.90, o.y + o.h * 0.60,
+        o.x + o.w * 0.78, o.y + o.h * 0.82
     );
 }
 
@@ -1846,44 +1857,55 @@ function drawWaterPlant(o){
 function drawFishingHook(o){
     ctx.save();
 
-    const lineY = o.y + o.h * 0.20;
-    const stemX = o.x + o.w * 0.48;
-    const curveCx = o.x + o.w * 0.43;
-    const curveCy = o.y + o.h * 0.63;
+    const lineBaseY = o.y + o.h * 0.20;
+    const lineStartX = o.x - o.w * 0.90;
+    const lineEndX = o.x + o.w * 0.55;
+    const stemX = o.x + o.w * 0.42;
 
-    /* Angelschnur von links nach rechts */
+    /* Wellig gezogene Angelschnur statt gerader Angelrute */
     ctx.strokeStyle = "rgba(220,245,255,0.72)";
     ctx.lineWidth = Math.max(2, o.h * 0.030);
     ctx.lineCap = "round";
     ctx.beginPath();
-    ctx.moveTo(o.x - o.w * 0.90, lineY);
-    ctx.lineTo(o.x + o.w * 0.55, lineY);
+
+    const segments = 28;
+    for(let i = 0; i <= segments; i++){
+        const t = i / segments;
+        const x = lineStartX + (lineEndX - lineStartX) * t;
+        const y = lineBaseY + Math.sin(t * Math.PI * 4 + o.seed) * o.h * 0.045;
+
+        if(i === 0){
+            ctx.moveTo(x, y);
+        }else{
+            ctx.lineTo(x, y);
+        }
+    }
     ctx.stroke();
 
-    /* kleine Verbindung zur Hakenstange */
+    /* kurze Schnur nach unten zum Haken */
     ctx.beginPath();
-    ctx.moveTo(stemX, lineY);
+    ctx.moveTo(stemX, lineBaseY + Math.sin(((stemX - lineStartX) / Math.max(1, lineEndX - lineStartX)) * Math.PI * 4 + o.seed) * o.h * 0.045);
     ctx.lineTo(stemX, o.y + o.h * 0.34);
     ctx.stroke();
 
-    /* Metallhaken */
+    /* Metallhaken 180 Grad gedreht: Öffnung und Widerhaken rechts */
     ctx.strokeStyle = "rgba(235,240,245,0.96)";
     ctx.lineWidth = Math.max(4, o.w * 0.055);
     ctx.beginPath();
     ctx.moveTo(stemX, o.y + o.h * 0.32);
     ctx.lineTo(stemX, o.y + o.h * 0.58);
     ctx.quadraticCurveTo(
-        o.x + o.w * 0.50, o.y + o.h * 0.86,
-        o.x + o.w * 0.25, o.y + o.h * 0.72
+        o.x + o.w * 0.40, o.y + o.h * 0.86,
+        o.x + o.w * 0.75, o.y + o.h * 0.72
     );
     ctx.stroke();
 
-    /* Spitze/Widerhaken */
+    /* Spitze/Widerhaken rechts */
     ctx.fillStyle = "rgba(235,240,245,0.96)";
     ctx.beginPath();
-    ctx.moveTo(o.x + o.w * 0.26, o.y + o.h * 0.68);
-    ctx.lineTo(o.x + o.w * 0.10, o.y + o.h * 0.60);
-    ctx.lineTo(o.x + o.w * 0.22, o.y + o.h * 0.82);
+    ctx.moveTo(o.x + o.w * 0.74, o.y + o.h * 0.68);
+    ctx.lineTo(o.x + o.w * 0.90, o.y + o.h * 0.60);
+    ctx.lineTo(o.x + o.w * 0.78, o.y + o.h * 0.82);
     ctx.closePath();
     ctx.fill();
 
@@ -1894,8 +1916,8 @@ function drawFishingHook(o){
     ctx.moveTo(stemX, o.y + o.h * 0.32);
     ctx.lineTo(stemX, o.y + o.h * 0.58);
     ctx.quadraticCurveTo(
-        o.x + o.w * 0.50, o.y + o.h * 0.86,
-        o.x + o.w * 0.25, o.y + o.h * 0.72
+        o.x + o.w * 0.40, o.y + o.h * 0.86,
+        o.x + o.w * 0.75, o.y + o.h * 0.72
     );
     ctx.stroke();
 
