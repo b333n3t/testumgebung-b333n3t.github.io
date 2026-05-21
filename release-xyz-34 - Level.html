@@ -1254,25 +1254,25 @@ function pointHitsWaterPlant(px, py, o){
 }
 
 function pointHitsHook(px, py, o){
-    /* Haken 180 Grad gedreht: Öffnung/Spitze zeigt nach rechts.
-       Die wellige Schnur läuft jetzt VOR dem Haken und NACH dem Haken
-       durchgehend von links nach rechts. */
+    /* Level 2: Haken bleibt rechts gedreht.
+       Die Schnur beginnt AM Haken und geht nur nach rechts weiter.
+       Links vom Haken gibt es keine Schnur mehr. */
     const lineBaseY = o.y + o.h * 0.28;
-    const lineStartX = o.x - o.w * 0.95;
-    const lineEndX = o.x + o.w * 1.05;
+    const eyeX = o.x + o.w * 0.43;
+    const lineStartX = eyeX + o.w * 0.08;
+    const lineEndX = o.x + o.w * 1.25;
 
-    /* Treffer auf welliger Schnur */
+    /* Treffer auf welliger Schnur nur rechts vom Haken */
     if(px >= lineStartX && px <= lineEndX){
         const t = (px - lineStartX) / Math.max(1, lineEndX - lineStartX);
-        const waveY = lineBaseY + Math.sin(t * Math.PI * 5 + o.seed) * o.h * 0.045;
+        const waveY = lineBaseY + Math.sin(t * Math.PI * 4 + o.seed) * o.h * 0.045;
 
         if(Math.abs(py - waveY) < Math.max(3, o.h * 0.035)){
             return true;
         }
     }
 
-    /* kleines Haken-Auge an der Schnur */
-    const eyeX = o.x + o.w * 0.43;
+    /* Haken-Auge */
     if(pointInEllipse(px, py, eyeX, lineBaseY, o.w * 0.07, o.h * 0.07)){
         return true;
     }
@@ -1864,23 +1864,23 @@ function drawFishingHook(o){
     ctx.save();
 
     const lineBaseY = o.y + o.h * 0.28;
-    const lineStartX = o.x - o.w * 0.95;
-    const lineEndX = o.x + o.w * 1.05;
     const eyeX = o.x + o.w * 0.43;
+    const lineStartX = eyeX + o.w * 0.08;
+    const lineEndX = o.x + o.w * 1.25;
 
-    /* Wellig gezogene Angelschnur:
-       sie kommt von links, läuft durch das Haken-Auge
-       und geht rechts vom Haken weiter. */
+    /* Wellig gezogene Schnur:
+       sie beginnt direkt rechts vom Haken-Auge
+       und läuft nur nach rechts weiter. Links vom Haken wird nichts gezeichnet. */
     ctx.strokeStyle = "rgba(220,245,255,0.72)";
     ctx.lineWidth = Math.max(2, o.h * 0.030);
     ctx.lineCap = "round";
     ctx.beginPath();
 
-    const segments = 36;
+    const segments = 26;
     for(let i = 0; i <= segments; i++){
         const t = i / segments;
         const x = lineStartX + (lineEndX - lineStartX) * t;
-        const y = lineBaseY + Math.sin(t * Math.PI * 5 + o.seed) * o.h * 0.045;
+        const y = lineBaseY + Math.sin(t * Math.PI * 4 + o.seed) * o.h * 0.045;
 
         if(i === 0){
             ctx.moveTo(x, y);
@@ -1890,7 +1890,13 @@ function drawFishingHook(o){
     }
     ctx.stroke();
 
-    /* Haken-Auge direkt an der Schnur */
+    /* kleines Verbindungsstück vom Haken-Auge zur rechten Schnur */
+    ctx.beginPath();
+    ctx.moveTo(eyeX + o.w * 0.06, lineBaseY);
+    ctx.lineTo(lineStartX, lineBaseY + Math.sin(o.seed) * o.h * 0.045);
+    ctx.stroke();
+
+    /* Haken-Auge */
     ctx.strokeStyle = "rgba(235,240,245,0.96)";
     ctx.lineWidth = Math.max(3, o.w * 0.040);
     ctx.beginPath();
