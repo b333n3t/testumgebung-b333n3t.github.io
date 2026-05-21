@@ -294,7 +294,7 @@ h1{
         </div>
 
         <h1>statistics</h1>
-        <p class="subtitle">release game auswertung</p>
+        <p class="subtitle">release game auswertung · level 1</p>
 
         <div id="gameStats" class="game-stats">
             <div>
@@ -389,6 +389,21 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_MRJcYGadARj5Es6fiNcD2A_FJyZ_bX3";
 
+/*
+  Diese Statistikseite zeigt nur das Release Game / Level 1.
+  true = alte Einträge ohne level werden als Release Game mitgezählt.
+  false = nur Einträge mit level = 1 werden gezählt.
+*/
+const RELEASE_GAME_LEVEL = 1;
+const INCLUDE_OLD_NULL_LEVEL = true;
+
+/*
+  Startdatum des Release-Game-Graphen.
+  Ab Tag 31 verschiebt sich das Fenster automatisch weiter,
+  sodass immer 30 Tage sichtbar bleiben.
+*/
+const RELEASE_GRAPH_START_DATE = "2026-05-20";
+
 let supabaseClient = null;
 
 const statusEl =
@@ -413,6 +428,19 @@ if(typeof window.supabase !== "undefined"){
 /* =====================================
    HELPERS
 ===================================== */
+
+function applyLevelFilter(query){
+    if(INCLUDE_OLD_NULL_LEVEL){
+        return query.or(
+            "level.eq." + RELEASE_GAME_LEVEL + ",level.is.null"
+        );
+    }
+
+    return query.eq(
+        "level",
+        RELEASE_GAME_LEVEL
+    );
+}
 
 function formatNumber(value){
     return new Intl.NumberFormat("de-CH").format(
@@ -446,6 +474,136 @@ function setText(id, value){
     }
 }
 
+function startOfToday(){
+    const d =
+    new Date();
+
+    d.setHours(0,0,0,0);
+
+    return d;
+}
+
+function daysAgo(days){
+    const d =
+    startOfToday();
+
+    d.setDate(
+        d.getDate() - days
+    );
+
+    return d;
+}
+
+function addDays(date, days){
+    const d =
+    new Date(date);
+
+    d.setDate(
+        d.getDate() + days
+    );
+
+    return d;
+}
+
+function dateKey(date){
+    const d =
+    new Date(date);
+
+    const y =
+    d.getFullYear();
+
+    const m =
+    String(d.getMonth() + 1).padStart(2, "0");
+
+    const day =
+    String(d.getDate()).padStart(2, "0");
+
+    return y + "-" + m + "-" + day;
+}
+
+function getChartStartDate(){
+    const releaseStart =
+    new Date(RELEASE_GRAPH_START_DATE + "T00:00:00");
+
+    const rollingStart =
+    daysAgo(29);
+
+    return rollingStart > releaseStart
+    ? rollingStart
+    : releaseStart;
+}
+
+async function countAnalyticsSince(startDate){
+    let query =
+    supabaseClient
+    .from("analytics")
+    .select("id", {
+        count:"exact",
+        head:true
+    })
+    .eq("event", "play")
+    .gte("created_at", startDate.toISOString());
+
+    query =
+    applyLevelFilter(query);
+
+    const { count, error } =
+    await query;
+
+    if(error){
+        throw error;
+    }
+
+    return count || 0;
+}
+
+async function countAnalyticsAll(){
+    let query =
+    supabaseClient
+    .from("analytics")
+    .select("id", {
+        count:"exact",
+        head:true
+    })
+    .eq("event", "play");
+
+    query =
+    applyLevelFilter(query);
+
+    const { count, error } =
+    await query;
+
+    if(error){
+        throw error;
+    }
+
+    return count || 0;
+}
+
+async function countAnalyticsByDevice(device){
+    let query =
+    supabaseClient
+    .from("analytics")
+    .select("id", {
+        count:"exact",
+        head:true
+    })
+    .eq("event", "play")
+    .eq("device", device);
+
+    query =
+    applyLevelFilter(query);
+
+    const { count, error } =
+    await query;
+
+    if(error){
+        throw error;
+    }
+
+    return count || 0;
+}
+
 /* =====================================
    LOAD STATS
 ===================================== */
@@ -455,45 +613,145 @@ async function loadStats(){
         return;
     }
 
-    const { data, error } =
-    await supabaseClient
-    .rpc("get_game_stats");
+    try{
+        const todayStart =
+        startOfToday();
 
-    if(error){
+        const weekStart =
+        daysAgo(6);
+
+        const monthStart =
+        daysAgo(29);
+
+        const [
+            playsToday,
+            playsWeek,
+            playsMonth,
+            playsTotal,
+            mobile,
+            desktop
+        ] =
+        await Promise.all([
+            countAnalyticsSince(todayStart),
+            countAnalyticsSince(weekStart),
+            countAnalyticsSince(monthStart),
+            countAnalyticsAll(),
+            countAnalyticsByDevice("mobile"),
+            countAnalyticsByDevice("desktop")
+        ]);
+
+        /*
+          Unique Players aus Analytics.
+          Für normale Promo-Zahlen reicht das völlig.
+        */
+        let playersQuery =
+        supabaseClient
+        .from("analytics")
+        .select("player_id, player")
+        .eq("event", "play")
+        .limit(10000);
+
+        playersQuery =
+        applyLevelFilter(playersQuery);
+
+        const { data: playerRows, error: playersError } =
+        await playersQuery;
+
+        if(playersError){
+            throw playersError;
+        }
+
+        const playerSet =
+        new Set();
+
+        (playerRows || []).forEach(row => {
+            if(row.player_id){
+                playerSet.add("id:" + row.player_id);
+            }else if(row.player){
+                playerSet.add("name:" + String(row.player).toLowerCase());
+            }
+        });
+
+        /*
+          Top Score nur aus Level 1 Scores.
+        */
+        let topScoreQuery =
+        supabaseClient
+        .from("scores")
+        .select("score")
+        .order("score", {
+            ascending:false
+        })
+        .limit(1);
+
+        topScoreQuery =
+        applyLevelFilter(topScoreQuery);
+
+        const { data: topRows, error: topError } =
+        await topScoreQuery;
+
+        if(topError){
+            throw topError;
+        }
+
+        const topScore =
+        topRows && topRows[0]
+        ? Number(topRows[0].score || 0)
+        : 0;
+
+        /*
+          Last Play nur Level 1.
+        */
+        let lastPlayQuery =
+        supabaseClient
+        .from("analytics")
+        .select("created_at")
+        .eq("event", "play")
+        .order("created_at", {
+            ascending:false
+        })
+        .limit(1);
+
+        lastPlayQuery =
+        applyLevelFilter(lastPlayQuery);
+
+        const { data: lastRows, error: lastError } =
+        await lastPlayQuery;
+
+        if(lastError){
+            throw lastError;
+        }
+
+        const lastPlay =
+        lastRows && lastRows[0]
+        ? lastRows[0].created_at
+        : null;
+
+        const mobileShare =
+        playsTotal > 0
+        ? Math.round((mobile / playsTotal) * 100) + "%"
+        : "--";
+
+        setText("statToday", formatNumber(playsToday));
+        setText("statWeek", formatNumber(playsWeek));
+        setText("statMonth", formatNumber(playsMonth));
+        setText("statTotal", formatNumber(playsTotal));
+        setText("statPlayers", formatNumber(playerSet.size));
+        setText("statTopScore", formatNumber(topScore));
+
+        setText("statMobile", formatNumber(mobile));
+        setText("statDesktop", formatNumber(desktop));
+        setText("statLastPlay", formatTime(lastPlay));
+        setText("statMobileShare", mobileShare);
+
+    }catch(error){
         console.error("Stats load failed:", error);
-        setStatus("Statistik konnte nicht geladen werden.");
-        return;
+
+        setStatus(
+            "Statistik konnte nicht geladen werden: " +
+            (error.message || "unbekannter Fehler")
+        );
     }
-
-    if(!data){
-        return;
-    }
-
-    const total =
-    Number(data.plays_total || 0);
-
-    const mobile =
-    Number(data.mobile_plays || 0);
-
-    const desktop =
-    Number(data.desktop_plays || 0);
-
-    const mobileShare =
-    total > 0
-    ? Math.round((mobile / total) * 100) + "%"
-    : "--";
-
-    setText("statToday", formatNumber(data.plays_today));
-    setText("statWeek", formatNumber(data.plays_week));
-    setText("statMonth", formatNumber(data.plays_month));
-    setText("statTotal", formatNumber(data.plays_total));
-    setText("statPlayers", formatNumber(data.players_total));
-    setText("statTopScore", formatNumber(data.top_score));
-
-    setText("statMobile", formatNumber(mobile));
-    setText("statDesktop", formatNumber(desktop));
-    setText("statLastPlay", formatTime(data.last_play));
-    setText("statMobileShare", mobileShare);
 }
 
 /* =====================================
@@ -512,24 +770,71 @@ async function loadDailyChart(){
         return;
     }
 
-    const { data, error } =
-    await supabaseClient
-   .rpc("get_daily_play_stats", {
-    days_forward: 30
-});
+    try{
+        const chartStart =
+        getChartStartDate();
 
-if(error){
-    console.error("Daily chart load failed:", error);
+        const chartEnd =
+        addDays(chartStart, 29);
 
-    setStatus(
-        "Graph konnte nicht geladen werden: " +
-        (error.message || "unbekannter Fehler")
-    );
+        const queryEnd =
+        addDays(chartEnd, 1);
 
-    return;
-}
+        let query =
+        supabaseClient
+        .from("analytics")
+        .select("created_at")
+        .eq("event", "play")
+        .gte("created_at", chartStart.toISOString())
+        .lt("created_at", queryEnd.toISOString())
+        .limit(10000);
 
-    drawBarChart(canvas, data || []);
+        query =
+        applyLevelFilter(query);
+
+        const { data, error } =
+        await query;
+
+        if(error){
+            throw error;
+        }
+
+        const map = {};
+
+        for(let i = 0; i < 30; i++){
+            const d =
+            addDays(chartStart, i);
+
+            map[dateKey(d)] = 0;
+        }
+
+        (data || []).forEach(row => {
+            const key =
+            dateKey(row.created_at);
+
+            if(Object.prototype.hasOwnProperty.call(map, key)){
+                map[key]++;
+            }
+        });
+
+        const rows =
+        Object.keys(map)
+        .sort()
+        .map(key => ({
+            day:key,
+            plays:map[key]
+        }));
+
+        drawBarChart(canvas, rows);
+
+    }catch(error){
+        console.error("Daily chart load failed:", error);
+
+        setStatus(
+            "Graph konnte nicht geladen werden: " +
+            (error.message || "unbekannter Fehler")
+        );
+    }
 }
 
 function drawBarChart(canvas, rows){
@@ -541,8 +846,6 @@ function drawBarChart(canvas, rows){
             return da.localeCompare(db);
         }
     );
-
-    console.table(rows);
 
     const ctx =
     canvas.getContext("2d");
@@ -590,9 +893,6 @@ function drawBarChart(canvas, rows){
         "max: " + formatNumber(maxPlays)
     );
 
-    /*
-      Hintergrund-Hilfslinien
-    */
     ctx.strokeStyle =
     "rgba(255,255,255,0.10)";
 
@@ -608,9 +908,6 @@ function drawBarChart(canvas, rows){
     ctx.lineTo(padding.left + chartW, padding.top + chartH);
     ctx.stroke();
 
-    /*
-      Y-Achsen Labels
-    */
     ctx.fillStyle =
     "rgba(255,255,255,0.65)";
 
@@ -632,9 +929,6 @@ function drawBarChart(canvas, rows){
         padding.top + chartH + 4
     );
 
-    /*
-      Balken
-    */
     const gap =
     rows.length > 20 ? 3 : 5;
 
@@ -643,7 +937,7 @@ function drawBarChart(canvas, rows){
     ? Math.max(
         6,
         (chartW - gap * (rows.length - 1)) / rows.length
-      )
+    )
     : 0;
 
     rows.forEach((row, index) => {
@@ -653,10 +947,6 @@ function drawBarChart(canvas, rows){
         const x =
         padding.left + index * (barW + gap);
 
-        /*
-          Nullwerte NICHT zeichnen.
-          Dadurch sieht die Grundlinie sauber aus.
-        */
         if(plays <= 0){
             return;
         }
@@ -681,9 +971,6 @@ function drawBarChart(canvas, rows){
         );
     });
 
-    /*
-      Datumslabels
-    */
     const labelIndexes = [
         0,
         14,
@@ -760,21 +1047,54 @@ async function loadCountryStats(){
         return;
     }
 
-    const { data, error } =
-    await supabaseClient
-    .rpc("get_country_stats");
+    try{
+        let query =
+        supabaseClient
+        .from("analytics")
+        .select("country")
+        .eq("event", "play")
+        .limit(10000);
 
-    if(error){
+        query =
+        applyLevelFilter(query);
+
+        const { data, error } =
+        await query;
+
+        if(error){
+            throw error;
+        }
+
+        const counts = {};
+
+        (data || []).forEach(row => {
+            const country =
+            row.country || "UNKNOWN";
+
+            counts[country] =
+            (counts[country] || 0) + 1;
+        });
+
+        const rows =
+        Object.keys(counts)
+        .map(country => ({
+            country,
+            plays:counts[country]
+        }))
+        .sort((a,b) => b.plays - a.plays)
+        .slice(0,10);
+
+        drawCountryPie(canvas, rows);
+        renderCountryList(list, rows);
+
+    }catch(error){
         console.error("Country stats load failed:", error);
-        setStatus("Länderstatistik konnte nicht geladen werden.");
-        return;
+
+        setStatus(
+            "Länderstatistik konnte nicht geladen werden: " +
+            (error.message || "unbekannter Fehler")
+        );
     }
-
-    const rows =
-    data || [];
-
-    drawCountryPie(canvas, rows);
-    renderCountryList(list, rows);
 }
 
 function drawCountryPie(canvas, rows){
