@@ -8,17 +8,23 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     :root {
       --bg: #f4f2ef;
       --ink: #1a1a1a;
       --ink-light: #5a5a5a;
       --ink-faint: #a8a8a8;
     }
-    html, body {
+
+    html,
+    body {
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
@@ -26,119 +32,101 @@
       overflow-x: hidden;
     }
 
-    /* ── SKIP ── */
-    .skip-btn {
-      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
-      font-family: 'Caveat', cursive; font-size: 0.78rem;
-      color: var(--ink-faint); background: none; border: none;
-      cursor: pointer; letter-spacing: 0.06em;
-      transition: color 0.3s; padding: 0.4rem 0.6rem;
+    .page {
+      opacity: 1;
     }
-    .skip-btn:hover { color: var(--ink); }
-    .skip-btn.hidden { display: none; }
 
-    .page { opacity: 0; transition: opacity 0.8s ease; }
-    .page.visible { opacity: 1; }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: saturate(0.9) contrast(0.96);
+    }
 
-    /* ════════════════════════════════
-       HEADER BLOCK
-       fig5 top-left corner, text right+below
-    ════════════════════════════════ */
+    /* HEADER */
+
     .top-header {
       position: relative;
-      padding: 0;
-      min-height: 110px;
+      width: 100%;
+      min-height: 140px;
+      padding: 0 0 0.5rem 0;
     }
 
-    /* fig5 – top-left corner, slightly cut off */
-    .fig5-corner {
+    .fig2 {
       position: absolute;
-      top: 0;
-      left: -3%;
-      width: 30vw;
-      max-width: 110px;
-      transform: rotate(-3deg) translateX(-30px) translateY(-20px);
-      opacity: 0;
-      transition: opacity 1s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
-      z-index: 2;
+      left: 12%;
+      top: 0.5rem;
+      width: 26vw;
+      max-width: 100px;
+      transform: rotate(1.5deg);
     }
-    .fig5-corner.show {
-      opacity: 1;
-      transform: rotate(-3deg) translateX(0) translateY(0);
-    }
-    .fig5-corner img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
-    /* header text: sits to the right of fig5, slightly below top */
     .header-text {
       position: absolute;
-      left: calc(30vw + 0.4rem); /* right of fig5 */
-      top: 1.4rem;
-      max-width: calc(100% - 30vw - 1.5rem);
-      opacity: 0;
-      transform: translateX(-8px);
-      transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+      left: calc(26vw + 14%);
+      top: 1rem;
+      max-width: 55%;
     }
-    .header-text.show { opacity: 1; transform: translateX(0); }
 
     .chapter-label {
       font-family: 'Caveat', cursive;
-      font-size: 0.85rem;
-      color: var(--ink-faint);
-      line-height: 1.4;
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.2;
     }
+
     .artist-name {
       font-family: 'Caveat', cursive;
-      font-size: 1.15rem;
-      color: var(--ink-light);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ink);
       margin-top: 0.1rem;
       line-height: 1.2;
     }
+
     .year-tag {
       font-family: 'Caveat', cursive;
-      font-size: 0.58rem;
+      font-size: 0.72rem;
       color: var(--ink-faint);
       vertical-align: super;
       margin-left: 0.25em;
     }
 
-    /* ── SHOWS STRIP ── */
+    /* SHOWS */
+
     .shows-strip {
       position: relative;
       width: 100%;
-      margin-top: 1.8rem;
-      min-height: 130px;
-      overflow: visible;
+      margin-top: 1.4rem;
+      padding: 0 1.6rem;
+      min-height: 50px;
     }
-    .fig2 {
-      position: absolute;
-      left: -6%; top: 0;
-      width: 26vw; max-width: 105px;
-      transform: rotate(2deg) translateX(-80px);
-      opacity: 0;
-      transition: opacity 1s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
-    }
-    .fig2.show { opacity: 1; transform: rotate(2deg) translateX(0); }
-    .fig2 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
-    .shows {
-      position: absolute;
-      left: 22%; top: 0.2rem;
-      text-align: left; white-space: nowrap; z-index: 10;
-      opacity: 0; transform: translateY(10px);
-      transition: opacity 0.9s ease, transform 0.9s ease;
-    }
-    .shows.show { opacity: 1; transform: translateY(0); }
     .shows-label {
-      font-family: 'Caveat', cursive; font-size: 0.75rem;
-      color: var(--ink-faint); letter-spacing: 0.12em; margin-bottom: 0.4rem;
+      font-family: 'Caveat', cursive;
+      font-size: 0.75rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.12em;
+      margin-bottom: 0.4rem;
     }
-    .shows-list { list-style: none; display: flex; flex-direction: column; gap: 0.32rem; }
-    .shows-list li { font-size: 0.76rem; font-weight: 300; color: var(--ink-light); letter-spacing: 0.02em; }
 
-    /* ════════════════════════════════
-       POEM + DANCER
-       fig3 floats right, shifted higher
-    ════════════════════════════════ */
+    .shows-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.32rem;
+    }
+
+    .shows-list li {
+      font-size: 0.78rem;
+      font-weight: 300;
+      color: var(--ink-light);
+      letter-spacing: 0.02em;
+    }
+
+    /* POEM */
+
     .poem-dancer-wrap {
       position: relative;
       max-width: 320px;
@@ -146,222 +134,191 @@
       padding: 0 2rem;
     }
 
-    /* fig3 – right of poem, shifted upward so it starts above poem top */
-    .fig3-img {
+    .fig3 {
       position: absolute;
       right: -12%;
-      top: -60px;          /* higher — starts above poem */
-      width: 28vw;
-      max-width: 110px;
-      transform: rotate(-1deg) translateY(50px);
-      opacity: 0;
-      transition: opacity 1.2s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
+      top: -55px;
+      width: 26vw;
+      max-width: 100px;
+      transform: rotate(-1deg);
       z-index: 2;
     }
-    .fig3-img.show { opacity: 1; transform: rotate(-1deg) translateY(0); }
-    .fig3-img img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
     #poem-output {
       font-family: 'Caveat', cursive;
-      font-size: 1.12rem; font-weight: 400;
-      color: var(--ink); line-height: 1.95;
-      text-align: center; position: relative; z-index: 1;
+      font-size: 1.12rem;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.95;
+      text-align: center;
+      position: relative;
+      z-index: 1;
     }
-    .poem-last { color: var(--ink-light); }
-    .poem-word { display: inline; opacity: 0; transition: opacity 0.4s ease; }
-    .poem-word.show { opacity: 1; }
 
-    /* ════════════════════════════════
-       BOTTOM STRIP
-       fig1 bottom-left, fig4 more centred
-    ════════════════════════════════ */
+    .poem-last {
+      color: var(--ink-light);
+    }
+
+    /* BOTTOM */
+
     .bottom-strip {
       position: relative;
       width: 100%;
-      height: 200px;
+      height: 180px;
       margin-top: 2rem;
       overflow: visible;
     }
 
-    /* fig1 – pinned bottom-left */
-    .fig1 {
-      position: absolute;
-      left: -5%; bottom: 0;
-      width: 30vw; max-width: 115px;
-      transform: rotate(-5deg) translateX(-70px);
-      opacity: 0;
-      transition: opacity 1s ease, transform 1.5s cubic-bezier(0.16,1,0.3,1);
-    }
-    .fig1.show { opacity: 1; transform: rotate(-5deg) translateX(0); }
-    .fig1 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
-
-    /* fig4 – more centred (was right: 8%, now right: 22% pushes it left/centre) */
     .fig4 {
       position: absolute;
-      right: 22%;
-      bottom: 40px;
-      width: 28vw; max-width: 115px;
-      transform: rotate(2deg);
-      opacity: 1; /* visible from start */
+      left: 50%;
+      transform: translateX(-50%) rotate(2deg);
+      bottom: 30px;
+      width: 26vw;
+      max-width: 105px;
     }
-    .fig4 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
+
     footer {
-      text-align: center; padding: 0.5rem 2rem 3rem;
-      opacity: 0; transition: opacity 1s ease;
+      text-align: center;
+      padding: 0.5rem 2rem 3rem;
     }
-    footer.show { opacity: 1; }
-    footer p { font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.04em; }
-    footer a { color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid var(--ink-faint); transition: color 0.3s, border-color 0.3s; }
-    footer a:hover { color: var(--ink); border-color: var(--ink); }
 
-    /* ── DESKTOP ── */
+    footer p {
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.04em;
+    }
+
+    footer a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink-faint);
+    }
+
+    footer a:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+
+    /* DESKTOP */
+
     @media (min-width: 800px) {
-      .top-header { min-height: 130px; }
-      .fig5-corner { width: 14vw; max-width: 120px; }
-      .header-text { left: calc(14vw + 1rem); top: 1.8rem; }
-      .fig2 { width: 16vw; max-width: 130px; }
-      .shows { left: 20%; }
-      .shows-list li { font-size: 0.86rem; }
-      .shows-strip { min-height: 160px; }
-      .poem-dancer-wrap { max-width: 400px; margin-top: 3.5rem; }
-      .fig3-img { width: 14vw; max-width: 120px; right: -14%; top: -70px; }
-      #poem-output { font-size: 1.22rem; }
-      .bottom-strip { height: 240px; margin-top: 3rem; }
-      .fig1 { width: 13vw; max-width: 130px; }
-      .fig4 { width: 13vw; max-width: 125px; right: 25%; bottom: 60px; }
-    }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { transition: none !important; }
-      .fig5-corner, .header-text, .fig2, .shows, .fig3-img, .fig1, footer { opacity: 1 !important; transform: none !important; }
-      .poem-word { opacity: 1 !important; }
+      .top-header {
+        min-height: 170px;
+      }
+
+      .fig2 {
+        width: 13vw;
+        max-width: 115px;
+      }
+
+      .header-text {
+        left: calc(13vw + 18%);
+        top: 1.4rem;
+        max-width: 55%;
+      }
+
+      .chapter-label {
+        font-size: 1.8rem;
+      }
+
+      .artist-name {
+        font-size: 1.65rem;
+      }
+
+      .shows-strip {
+        padding: 0 2rem;
+      }
+
+      .shows-list li {
+        font-size: 0.88rem;
+      }
+
+      .poem-dancer-wrap {
+        max-width: 400px;
+        margin-top: 3.5rem;
+      }
+
+      .fig3 {
+        width: 13vw;
+        max-width: 115px;
+        right: -14%;
+        top: -65px;
+      }
+
+      #poem-output {
+        font-size: 1.22rem;
+      }
+
+      .bottom-strip {
+        height: 220px;
+        margin-top: 3rem;
+      }
+
+      .fig4 {
+        width: 12vw;
+        max-width: 115px;
+      }
     }
   </style>
 </head>
 <body>
-
-<button class="skip-btn" id="skipBtn">überspringen ↓</button>
-
-<div class="page" id="page">
-
-  <!-- HEADER: fig5 top-left, text to the right -->
+<div class="page">
   <div class="top-header">
-    <div class="fig5-corner" id="fig5"><img src="abschluss/5.jpg" alt="" /></div>
-    <div class="header-text" id="headerText">
-      <div class="chapter-label">die drei letzten shows im kapitel.</div>
-      <div class="artist-name">b3nn3t<span class="year-tag">2023–2026</span></div>
-    </div>
-  </div>
-
-  <!-- SHOWS STRIP -->
-  <div class="shows-strip">
-    <div class="fig2" id="fig2"><img src="abschluss/2.jpg" alt="" /></div>
-    <div class="shows" id="shows">
-      <p class="shows-label">live</p>
-      <ul class="shows-list">
-        <li>13. juni &nbsp;·&nbsp; jugendfestival (ZAK) &nbsp;·&nbsp; Jona</li>
-        <li>26. juni &nbsp;·&nbsp; oya! openairfestival (gleis19) &nbsp;·&nbsp; Wien</li>
-        <li>08. august &nbsp;·&nbsp; winterthurer musikfestwochen &nbsp;·&nbsp; Winterthur</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- POEM + DANCER -->
-  <div class="poem-dancer-wrap">
-    <div class="fig3-img" id="fig3"><img src="abschluss/3.jpg" alt="" /></div>
-    <div id="poem-output"></div>
-  </div>
-
-  <!-- BOTTOM: fig1 bottom-left, fig4 more centred -->
-  <div class="bottom-strip">
-    <div class="fig1" id="fig1"><img src="abschluss/1.jpg" alt="" /></div>
-    <div class="fig4"><img src="abschluss/4.jpg" alt="" /></div>
-  </div>
-
-  <footer id="footer">
-    <p>© b3nn3t &nbsp;·&nbsp; <a href="impressum.html">Impressum / Datenschutz</a></p>
-  </footer>
-
+<div class="fig2">
+  <img src="abschluss/2.jpg" alt="" />
 </div>
 
-<script>
-  const poemLines = [
-    { words: ["ein","schatten","steht","im","rahmen."],              last: false },
-    { words: ["das","holz","war","ein","paar","monate","stumm."],    last: false },
-    { words: ["jetzt","reisst","der","wind","eine","fuge."],         last: false },
-    { words: ["da","drinnen","wird","etwas","abgelegt,"],            last: false },
-    { words: ["das","lange","zu","schwer","war."],                   last: false },
-    { words: ["drei","letzte","windstösse."],                        last: false },
-    { words: ["dann","drückt","die","kälte","die","tür","auf."],     last: false },
-    { words: ["wer","geht,","hat","ein","neues","gesicht."],         last: true  },
-  ];
+<div class="header-text">
+  <div class="chapter-label">
+    die drei letzten shows im kapitel.
+  </div>
 
-  let skipped = false;
-  const delay = ms => new Promise(r => setTimeout(r, ms));
-  const showEl = id => document.getElementById(id)?.classList.add('show');
+  <div class="artist-name">
+    b3nn3t<span class="year-tag">2023–2026</span>
+  </div>
+</div>
+  </div>
+  <div class="shows-strip">
+    <p class="shows-label">live</p>
+<ul class="shows-list">
+  <li>13. juni · jugendfestival (ZAK) · Jona</li>
+  <li>26. juni · oya! openairfestival (gleis19) · Wien</li>
+  <li>08. august · winterthurer musikfestwochen · Winterthur</li>
+</ul>
+  </div>
+  <div class="poem-dancer-wrap">
+<div class="fig3">
+  <img src="abschluss/3.jpg" alt="" />
+</div>
 
-  async function writePoem() {
-    const out = document.getElementById('poem-output');
-    out.innerHTML = '';
-    for (let li = 0; li < poemLines.length; li++) {
-      if (skipped) break;
-      const { words, last } = poemLines[li];
-      for (let wi = 0; wi < words.length; wi++) {
-        if (skipped) break;
-        const span = document.createElement('span');
-        span.className = 'poem-word' + (last ? ' poem-last' : '');
-        span.textContent = words[wi] + '\u00A0';
-        out.appendChild(span);
-        await delay(20);
-        span.classList.add('show');
-        await delay(100 + Math.random() * 80);
-      }
-      if (li < poemLines.length - 1) {
-        out.appendChild(document.createElement('br'));
-        await delay(230);
-      }
-    }
-  }
-
-  function skipAll() {
-    skipped = true;
-    document.getElementById('skipBtn').classList.add('hidden');
-    ['fig5','headerText','fig2','shows','fig3','fig1','footer'].forEach(showEl);
-    document.getElementById('page').classList.add('visible');
-    const out = document.getElementById('poem-output');
-    out.innerHTML = poemLines.map((l, i) =>
-      l.words.map(w => `<span class="poem-word show${l.last ? ' poem-last' : ''}">${w}\u00A0</span>`).join('') +
-      (i < poemLines.length - 1 ? '<br>' : '')
-    ).join('');
-  }
-
-  document.getElementById('skipBtn').addEventListener('click', skipAll);
-
-  async function runSequence() {
-    document.getElementById('page').classList.add('visible');
-    await delay(300);
-    showEl('fig5');
-    await delay(500);
-    showEl('headerText');
-    await delay(700);
-    showEl('fig2');
-    await delay(400);
-    showEl('shows');
-    await delay(800);
-    showEl('fig3');
-    await delay(1000);
-    await writePoem();
-    await delay(500);
-    showEl('fig1');
-    await delay(600);
-    showEl('footer');
-    document.getElementById('skipBtn').classList.add('hidden');
-  }
-
-  window.addEventListener('load', runSequence);
-</script>
+<div id="poem-output">
+  ein schatten steht im rahmen.<br>
+  das holz war ein paar monate stumm.<br>
+  jetzt reisst der wind eine fuge.<br>
+  da drinnen wird etwas abgelegt,<br>
+  das lange zu schwer war.<br>
+  drei letzte windstösse.<br>
+  dann drückt die kälte die tür auf.<br>
+  <span class="poem-last">wer geht, hat ein neues gesicht.</span>
+</div>
+  </div>
+  <div class="bottom-strip">
+<div class="fig4">
+  <img src="abschluss/4.jpg" alt="" />
+</div>
+  </div>
+  <footer>
+    <p>
+      © b3nn3t ·
+      <a href="impressum.html">Impressum / Datenschutz</a>
+    </p>
+  </footer>
+</div>
 </body>
 </html>
+
 
