@@ -12,14 +12,12 @@
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --bg: #f4f2ef;
       --ink: #1a1a1a;
       --ink-light: #5a5a5a;
       --ink-faint: #a8a8a8;
     }
-
     html, body {
       background: var(--bg);
       color: var(--ink);
@@ -30,94 +28,91 @@
 
     /* ── SKIP ── */
     .skip-btn {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      z-index: 100;
-      font-family: 'Caveat', cursive;
-      font-size: 0.78rem;
-      color: var(--ink-faint);
-      background: none;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 0.06em;
-      transition: color 0.3s;
-      padding: 0.4rem 0.6rem;
+      position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100;
+      font-family: 'Caveat', cursive; font-size: 0.78rem;
+      color: var(--ink-faint); background: none; border: none;
+      cursor: pointer; letter-spacing: 0.06em;
+      transition: color 0.3s; padding: 0.4rem 0.6rem;
     }
     .skip-btn:hover { color: var(--ink); }
     .skip-btn.hidden { display: none; }
 
-    /* ── PAGE ── */
     .page { opacity: 0; transition: opacity 0.8s ease; }
     .page.visible { opacity: 1; }
 
-    /* ── HEADER ── */
+    /* ════════════════════════════════
+       HEADER BLOCK
+       fig5 top-left corner, text right+below
+    ════════════════════════════════ */
     .top-header {
       position: relative;
-      padding: 2rem 1.6rem 0;
-      /* tall enough for fig5 to anchor into */
-      min-height: 60px;
+      padding: 0;
+      min-height: 110px;
     }
+
+    /* fig5 – top-left corner, slightly cut off */
+    .fig5-corner {
+      position: absolute;
+      top: 0;
+      left: -3%;
+      width: 30vw;
+      max-width: 110px;
+      transform: rotate(-3deg) translateX(-30px) translateY(-20px);
+      opacity: 0;
+      transition: opacity 1s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
+      z-index: 2;
+    }
+    .fig5-corner.show {
+      opacity: 1;
+      transform: rotate(-3deg) translateX(0) translateY(0);
+    }
+    .fig5-corner img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
+
+    /* header text: sits to the right of fig5, slightly below top */
+    .header-text {
+      position: absolute;
+      left: calc(30vw + 0.4rem); /* right of fig5 */
+      top: 1.4rem;
+      max-width: calc(100% - 30vw - 1.5rem);
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+    }
+    .header-text.show { opacity: 1; transform: translateX(0); }
+
     .chapter-label {
       font-family: 'Caveat', cursive;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--ink-faint);
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      line-height: 1.4;
     }
     .artist-name {
       font-family: 'Caveat', cursive;
-      font-size: 1.18rem;
+      font-size: 1.15rem;
       color: var(--ink-light);
-      margin-top: 0.05rem;
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+      margin-top: 0.1rem;
+      line-height: 1.2;
     }
     .year-tag {
       font-family: 'Caveat', cursive;
       font-size: 0.58rem;
       color: var(--ink-faint);
       vertical-align: super;
-      margin-left: 0.3em;
+      margin-left: 0.25em;
     }
-    .chapter-label.show,
-    .artist-name.show { opacity: 1; transform: translateX(0); }
-
-    /* fig5 – top-right, slightly smaller so fully visible */
-    .fig5-corner {
-      position: absolute;
-      top: 0.4rem;
-      right: 0;          /* flush right, fully visible */
-      width: 22vw;
-      max-width: 90px;   /* smaller than before */
-      transform: rotate(-4deg) translateX(40px) translateY(-30px);
-      opacity: 0;
-      transition: opacity 1s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
-    }
-    .fig5-corner.show {
-      opacity: 1;
-      transform: rotate(-4deg) translateX(0) translateY(0);
-    }
-    .fig5-corner img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
     /* ── SHOWS STRIP ── */
     .shows-strip {
       position: relative;
       width: 100%;
-      margin-top: 1rem;
+      margin-top: 1.8rem;
       min-height: 130px;
       overflow: visible;
     }
-
-    /* fig2 – left, partly cut, slides in from left */
     .fig2 {
       position: absolute;
-      left: -6%;
-      top: 0;
-      width: 26vw;
-      max-width: 105px;
+      left: -6%; top: 0;
+      width: 26vw; max-width: 105px;
       transform: rotate(2deg) translateX(-80px);
       opacity: 0;
       transition: opacity 1s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
@@ -127,35 +122,23 @@
 
     .shows {
       position: absolute;
-      left: 22%;
-      top: 0.2rem;
-      text-align: left;
-      white-space: nowrap;
-      z-index: 10;
-      opacity: 0;
-      transform: translateY(10px);
+      left: 22%; top: 0.2rem;
+      text-align: left; white-space: nowrap; z-index: 10;
+      opacity: 0; transform: translateY(10px);
       transition: opacity 0.9s ease, transform 0.9s ease;
     }
     .shows.show { opacity: 1; transform: translateY(0); }
     .shows-label {
-      font-family: 'Caveat', cursive;
-      font-size: 0.75rem;
-      color: var(--ink-faint);
-      letter-spacing: 0.12em;
-      margin-bottom: 0.4rem;
+      font-family: 'Caveat', cursive; font-size: 0.75rem;
+      color: var(--ink-faint); letter-spacing: 0.12em; margin-bottom: 0.4rem;
     }
     .shows-list { list-style: none; display: flex; flex-direction: column; gap: 0.32rem; }
-    .shows-list li {
-      font-size: 0.76rem;
-      font-weight: 300;
-      color: var(--ink-light);
-      letter-spacing: 0.02em;
-    }
+    .shows-list li { font-size: 0.76rem; font-weight: 300; color: var(--ink-light); letter-spacing: 0.02em; }
 
-    /* ── POEM + DANCER wrapper
-       Relative container so fig3 can be positioned
-       relative to the poem block
-    ── */
+    /* ════════════════════════════════
+       POEM + DANCER
+       fig3 floats right, shifted higher
+    ════════════════════════════════ */
     .poem-dancer-wrap {
       position: relative;
       max-width: 320px;
@@ -163,13 +146,13 @@
       padding: 0 2rem;
     }
 
-    /* fig3 – smaller, offset right, top half of poem */
+    /* fig3 – right of poem, shifted upward so it starts above poem top */
     .fig3-img {
       position: absolute;
-      right: -8%;          /* slightly outside right edge */
-      top: -10px;          /* starts at poem top, sits at half-height visually */
+      right: -12%;
+      top: -60px;          /* higher — starts above poem */
       width: 28vw;
-      max-width: 110px;    /* smaller */
+      max-width: 110px;
       transform: rotate(-1deg) translateY(50px);
       opacity: 0;
       transition: opacity 1.2s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
@@ -178,44 +161,33 @@
     .fig3-img.show { opacity: 1; transform: rotate(-1deg) translateY(0); }
     .fig3-img img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
-    /* poem text */
     #poem-output {
       font-family: 'Caveat', cursive;
-      font-size: 1.12rem;
-      font-weight: 400;
-      color: var(--ink);
-      line-height: 1.95;
-      text-align: center;
-      position: relative;
-      z-index: 1;
+      font-size: 1.12rem; font-weight: 400;
+      color: var(--ink); line-height: 1.95;
+      text-align: center; position: relative; z-index: 1;
     }
     .poem-last { color: var(--ink-light); }
-
-    /* word fade-in */
-    .poem-word {
-      display: inline;
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
+    .poem-word { display: inline; opacity: 0; transition: opacity 0.4s ease; }
     .poem-word.show { opacity: 1; }
 
-    /* ── BOTTOM STRIP ── */
+    /* ════════════════════════════════
+       BOTTOM STRIP
+       fig1 bottom-left, fig4 more centred
+    ════════════════════════════════ */
     .bottom-strip {
       position: relative;
       width: 100%;
-      /* tall enough for fig4 which sits higher */
       height: 200px;
       margin-top: 2rem;
       overflow: visible;
     }
 
-    /* fig1 – bottom-left corner, fully off-screen then slides in */
+    /* fig1 – pinned bottom-left */
     .fig1 {
       position: absolute;
-      left: -5%;
-      bottom: 0;           /* pinned to very bottom */
-      width: 30vw;
-      max-width: 115px;
+      left: -5%; bottom: 0;
+      width: 30vw; max-width: 115px;
       transform: rotate(-5deg) translateX(-70px);
       opacity: 0;
       transition: opacity 1s ease, transform 1.5s cubic-bezier(0.16,1,0.3,1);
@@ -223,53 +195,47 @@
     .fig1.show { opacity: 1; transform: rotate(-5deg) translateX(0); }
     .fig1 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
-    /* fig4 – visible from start, bigger, higher up, more left than before */
+    /* fig4 – more centred (was right: 8%, now right: 22% pushes it left/centre) */
     .fig4 {
       position: absolute;
-      right: 8%;           /* shifted left from edge */
-      bottom: 40px;        /* higher up */
-      width: 28vw;
-      max-width: 115px;    /* bigger */
+      right: 22%;
+      bottom: 40px;
+      width: 28vw; max-width: 115px;
       transform: rotate(2deg);
-      opacity: 1;          /* visible from the start */
+      opacity: 1; /* visible from start */
     }
     .fig4 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
     /* ── FOOTER ── */
     footer {
-      text-align: center;
-      padding: 0.5rem 2rem 3rem;
-      opacity: 0;
-      transition: opacity 1s ease;
+      text-align: center; padding: 0.5rem 2rem 3rem;
+      opacity: 0; transition: opacity 1s ease;
     }
     footer.show { opacity: 1; }
     footer p { font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.04em; }
-    footer a {
-      color: var(--ink-faint); text-decoration: none;
-      border-bottom: 1px solid var(--ink-faint);
-      transition: color 0.3s, border-color 0.3s;
-    }
+    footer a { color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid var(--ink-faint); transition: color 0.3s, border-color 0.3s; }
     footer a:hover { color: var(--ink); border-color: var(--ink); }
 
     /* ── DESKTOP ── */
     @media (min-width: 800px) {
-      .fig5-corner { width: 11vw; max-width: 100px; }
+      .top-header { min-height: 130px; }
+      .fig5-corner { width: 14vw; max-width: 120px; }
+      .header-text { left: calc(14vw + 1rem); top: 1.8rem; }
       .fig2 { width: 16vw; max-width: 130px; }
       .shows { left: 20%; }
       .shows-list li { font-size: 0.86rem; }
       .shows-strip { min-height: 160px; }
       .poem-dancer-wrap { max-width: 400px; margin-top: 3.5rem; }
-      .fig3-img { width: 14vw; max-width: 120px; right: -10%; }
+      .fig3-img { width: 14vw; max-width: 120px; right: -14%; top: -70px; }
       #poem-output { font-size: 1.22rem; }
       .bottom-strip { height: 240px; margin-top: 3rem; }
       .fig1 { width: 13vw; max-width: 130px; }
-      .fig4 { width: 13vw; max-width: 125px; right: 10%; bottom: 60px; }
+      .fig4 { width: 13vw; max-width: 125px; right: 25%; bottom: 60px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition: none !important; }
-      .chapter-label, .artist-name, .fig5-corner,
-      .fig2, .shows, .fig3-img, .fig1, footer { opacity: 1 !important; transform: none !important; }
+      .fig5-corner, .header-text, .fig2, .shows, .fig3-img, .fig1, footer { opacity: 1 !important; transform: none !important; }
       .poem-word { opacity: 1 !important; }
     }
   </style>
@@ -280,12 +246,16 @@
 
 <div class="page" id="page">
 
+  <!-- HEADER: fig5 top-left, text to the right -->
   <div class="top-header">
-    <div class="chapter-label" id="chapLabel">die drei letzten shows im kapitel.</div>
-    <div class="artist-name" id="artistName">b3nn3t<span class="year-tag">2023–2026</span></div>
     <div class="fig5-corner" id="fig5"><img src="abschluss/5.jpg" alt="" /></div>
+    <div class="header-text" id="headerText">
+      <div class="chapter-label">die drei letzten shows im kapitel.</div>
+      <div class="artist-name">b3nn3t<span class="year-tag">2023–2026</span></div>
+    </div>
   </div>
 
+  <!-- SHOWS STRIP -->
   <div class="shows-strip">
     <div class="fig2" id="fig2"><img src="abschluss/2.jpg" alt="" /></div>
     <div class="shows" id="shows">
@@ -298,15 +268,15 @@
     </div>
   </div>
 
-  <!-- poem + dancer in same relative container -->
+  <!-- POEM + DANCER -->
   <div class="poem-dancer-wrap">
     <div class="fig3-img" id="fig3"><img src="abschluss/3.jpg" alt="" /></div>
     <div id="poem-output"></div>
   </div>
 
+  <!-- BOTTOM: fig1 bottom-left, fig4 more centred -->
   <div class="bottom-strip">
     <div class="fig1" id="fig1"><img src="abschluss/1.jpg" alt="" /></div>
-    <!-- fig4 visible immediately, no animation class needed -->
     <div class="fig4"><img src="abschluss/4.jpg" alt="" /></div>
   </div>
 
@@ -318,28 +288,26 @@
 
 <script>
   const poemLines = [
-    { words: ["ein", "schatten", "steht", "im", "rahmen."],             last: false },
-    { words: ["das", "holz", "war", "ein", "paar", "monate", "stumm."],  last: false },
-    { words: ["jetzt", "reisst", "der", "wind", "eine", "fuge."],        last: false },
-    { words: ["da", "drinnen", "wird", "etwas", "abgelegt,"],            last: false },
-    { words: ["das", "lange", "zu", "schwer", "war."],                   last: false },
-    { words: ["drei", "letzte", "windstösse."],                          last: false },
-    { words: ["dann", "drückt", "die", "kälte", "die", "tür", "auf."],  last: false },
-    { words: ["wer", "geht,", "hat", "ein", "neues", "gesicht."],        last: true  },
+    { words: ["ein","schatten","steht","im","rahmen."],              last: false },
+    { words: ["das","holz","war","ein","paar","monate","stumm."],    last: false },
+    { words: ["jetzt","reisst","der","wind","eine","fuge."],         last: false },
+    { words: ["da","drinnen","wird","etwas","abgelegt,"],            last: false },
+    { words: ["das","lange","zu","schwer","war."],                   last: false },
+    { words: ["drei","letzte","windstösse."],                        last: false },
+    { words: ["dann","drückt","die","kälte","die","tür","auf."],     last: false },
+    { words: ["wer","geht,","hat","ein","neues","gesicht."],         last: true  },
   ];
 
   let skipped = false;
   const delay = ms => new Promise(r => setTimeout(r, ms));
-  const show  = id => document.getElementById(id)?.classList.add('show');
+  const showEl = id => document.getElementById(id)?.classList.add('show');
 
   async function writePoem() {
     const out = document.getElementById('poem-output');
     out.innerHTML = '';
-
     for (let li = 0; li < poemLines.length; li++) {
       if (skipped) break;
       const { words, last } = poemLines[li];
-
       for (let wi = 0; wi < words.length; wi++) {
         if (skipped) break;
         const span = document.createElement('span');
@@ -348,12 +316,11 @@
         out.appendChild(span);
         await delay(20);
         span.classList.add('show');
-        await delay(105 + Math.random() * 75);
+        await delay(100 + Math.random() * 80);
       }
-
       if (li < poemLines.length - 1) {
         out.appendChild(document.createElement('br'));
-        await delay(240);
+        await delay(230);
       }
     }
   }
@@ -361,15 +328,12 @@
   function skipAll() {
     skipped = true;
     document.getElementById('skipBtn').classList.add('hidden');
-    ['chapLabel','artistName','fig5','fig2','shows','fig3','fig1','footer']
-      .forEach(show);
+    ['fig5','headerText','fig2','shows','fig3','fig1','footer'].forEach(showEl);
     document.getElementById('page').classList.add('visible');
-
     const out = document.getElementById('poem-output');
     out.innerHTML = poemLines.map((l, i) =>
-      l.words.map(w =>
-        `<span class="poem-word show${l.last ? ' poem-last' : ''}">${w}\u00A0</span>`
-      ).join('') + (i < poemLines.length - 1 ? '<br>' : '')
+      l.words.map(w => `<span class="poem-word show${l.last ? ' poem-last' : ''}">${w}\u00A0</span>`).join('') +
+      (i < poemLines.length - 1 ? '<br>' : '')
     ).join('');
   }
 
@@ -378,22 +342,21 @@
   async function runSequence() {
     document.getElementById('page').classList.add('visible');
     await delay(300);
-    show('chapLabel');
+    showEl('fig5');
+    await delay(500);
+    showEl('headerText');
+    await delay(700);
+    showEl('fig2');
     await delay(400);
-    show('artistName');
-    await delay(600);
-    show('fig5');
-    show('fig2');
-    await delay(900);
-    show('shows');
+    showEl('shows');
     await delay(800);
-    show('fig3');
+    showEl('fig3');
     await delay(1000);
     await writePoem();
     await delay(500);
-    show('fig1');
+    showEl('fig1');
     await delay(600);
-    show('footer');
+    showEl('footer');
     document.getElementById('skipBtn').classList.add('hidden');
   }
 
