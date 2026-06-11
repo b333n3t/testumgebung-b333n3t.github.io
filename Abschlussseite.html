@@ -15,7 +15,6 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* warm paper tone – matches scanned/photographed drawing background */
       --bg:        #f4f2ef;
       --ink:       #1a1a1a;
       --ink-light: #5a5a5a;
@@ -30,7 +29,6 @@
       overflow-x: hidden;
     }
 
-    /* ── FADE IN ── */
     .page { opacity: 0; animation: fadeIn 2s ease 0.2s forwards; }
     @keyframes fadeIn { to { opacity: 1; } }
 
@@ -44,13 +42,10 @@
     }
 
     /* ════════════════════════
-       HEADER – top-left, small
+       HEADER
     ════════════════════════ */
     header {
-      position: absolute;
-      top: 2.2rem;
-      left: 2.5rem;
-      z-index: 20;
+      padding: 2.2rem 2.5rem 0;
     }
     .artist-name {
       font-family: 'Caveat', cursive;
@@ -68,19 +63,22 @@
     }
 
     /* ════════════════════════
-       STAGE
+       STAGE  – top section with figures
+       Position breakdown:
+         fig1 (scribble)  → far left, vertically mid
+         fig2 (stooped)   → left-centre, mid
+         fig3 (dancer)    → centre
+         fig5 (scribble)  → top right
+       Shows text floats right of centre
     ════════════════════════ */
     .stage {
       position: relative;
       width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      height: 620px;   /* fixed canvas height on desktop */
+      height: 460px;
+      margin-top: 1rem;
     }
 
-    .fig {
-      position: absolute;
-    }
+    .fig { position: absolute; }
     .fig img {
       display: block;
       width: 100%;
@@ -88,60 +86,48 @@
       filter: saturate(0.9) contrast(0.96);
     }
 
-    /*
-      POSITIONS (% of stage width / height)
-      – derived from your green-arrow sketch:
-
-      fig1 (scribble)   → top-left area, high up
-      fig2 (stooped)    → left, mid-height
-      fig3 (dancer)     → centre, slightly low
-      fig4 (wardrobe)   → right, mid-height
-      fig5 (scribble)   → top-right
-    */
-
+    /* fig1 – scribble, FAR LEFT, vertically centred */
     .fig1 {
-      left: 2%;
-      top: 10%;
-      width: clamp(100px, 12vw, 150px);
-      transform: rotate(-4deg);
+      left: 1%;
+      top: 30%;
+      width: clamp(100px, 11vw, 140px);
+      transform: rotate(-3deg);
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 0.7s both;
     }
+
+    /* fig2 – stooped figure, left-centre */
     .fig2 {
-      left: 10%;
-      top: 38%;
-      width: clamp(130px, 16vw, 200px);
+      left: 22%;
+      top: 28%;
+      width: clamp(130px, 15vw, 185px);
       transform: rotate(1.5deg);
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.0s both;
     }
+
+    /* fig3 – dancer, centre */
     .fig3 {
       left: 50%;
-      top: 22%;
+      top: 10%;
       transform: translateX(-50%) rotate(-1deg);
-      width: clamp(100px, 13vw, 160px);
+      width: clamp(100px, 12vw, 150px);
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.3s both;
     }
-    .fig4 {
-      right: 5%;
-      top: 30%;
-      width: clamp(90px, 11vw, 135px);
-      transform: rotate(2deg);
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.5s both;
-    }
+
+    /* fig5 – top-right scribble */
     .fig5 {
-      right: 10%;
-      top: 4%;
+      right: 8%;
+      top: 5%;
       width: clamp(100px, 13vw, 160px);
       transform: rotate(-3deg);
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 0.85s both;
     }
 
-    /* ── SHOWS – centre of stage ── */
+    /* ── SHOWS – right of dancer, vertically centred in stage ── */
     .shows {
       position: absolute;
-      left: 50%;
-      top: 55%;
-      transform: translate(-50%, -50%);
-      text-align: center;
+      left: 58%;
+      top: 42%;
+      text-align: left;
       white-space: nowrap;
       z-index: 10;
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.8s both;
@@ -151,7 +137,7 @@
       font-size: clamp(0.72rem, 1.4vw, 0.88rem);
       color: var(--ink-faint);
       letter-spacing: 0.1em;
-      margin-bottom: 0.6rem;
+      margin-bottom: 0.5rem;
     }
     .shows-list { list-style: none; display: flex; flex-direction: column; gap: 0.38rem; }
     .shows-list li {
@@ -166,7 +152,7 @@
     ════════════════════════ */
     .poem-section {
       max-width: 340px;
-      margin: 3.5rem auto 0;
+      margin: 2rem auto 0;
       padding: 0 2rem;
       text-align: center;
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.1s both;
@@ -181,17 +167,24 @@
     .poem em { font-style: normal; color: var(--ink-light); }
 
     /* ════════════════════════
-       FOOTER
+       FOOTER AREA
+       fig4 (wardrobe) floats bottom-right,
+       overlapping the footer zone
     ════════════════════════ */
+    .footer-area {
+      position: relative;
+      margin-top: 3rem;
+      padding-bottom: 4rem;
+    }
+
     .divider {
       width: 1px; height: 44px;
       background: var(--ink-faint);
-      margin: 3rem auto;
+      margin: 0 auto 2rem;
       opacity: 0.35;
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.5s both;
     }
     footer {
-      padding: 0 2rem 3rem;
       text-align: center;
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.5s both;
     }
@@ -199,44 +192,56 @@
     footer a { color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid var(--ink-faint); transition: color 0.3s, border-color 0.3s; }
     footer a:hover { color: var(--ink); border-color: var(--ink); }
 
+    /* fig4 – wardrobe, bottom-right next to footer */
+    .fig4 {
+      position: absolute;
+      right: 6%;
+      bottom: 0;
+      width: clamp(80px, 9vw, 115px);
+      transform: rotate(2deg);
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.3s both;
+    }
+
     /* ════════════════════════
        MOBILE ≤ 700px
     ════════════════════════ */
     @media (max-width: 700px) {
-      header { position: static; padding: 2rem 1.5rem 0; }
-
       .stage {
         height: auto;
         min-height: unset;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: auto auto auto;
         gap: 1rem;
-        padding: 2rem 1rem 0;
+        padding: 1.5rem 1rem 0;
         align-items: end;
       }
       .fig { position: static; transform: none !important; }
-      .fig img { width: 100%; max-width: 140px; margin: 0 auto; }
+      .fig img { max-width: 130px; margin: 0 auto; }
 
-      .fig1 { grid-column: 1; grid-row: 1; justify-self: start; }
-      .fig5 { grid-column: 2; grid-row: 1; justify-self: end; }
-      .fig2 { grid-column: 1; grid-row: 2; justify-self: start; }
-      .fig3 { grid-column: 2; grid-row: 2; justify-self: center; }
-      .fig4 { grid-column: 2; grid-row: 3; justify-self: end; }
+      .fig1 { grid-column: 1; grid-row: 1; }
+      .fig5 { grid-column: 2; grid-row: 1; }
+      .fig2 { grid-column: 1; grid-row: 2; }
+      .fig3 { grid-column: 2; grid-row: 2; transform: none !important; }
 
       .shows {
         position: static;
         transform: none;
         white-space: normal;
         grid-column: 1 / -1;
-        grid-row: 3;
         text-align: center;
         padding: 1rem 0;
       }
+      .fig4 {
+        position: static;
+        transform: none !important;
+        width: 80px;
+        margin: 2rem auto 0;
+        display: block;
+      }
+      .footer-area { padding-bottom: 2rem; }
       .poem-section { margin-top: 2.5rem; }
     }
 
-    /* ── REDUCED MOTION ── */
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; opacity: 1 !important; }
     }
@@ -250,6 +255,7 @@
     <div class="chapter-label">die drei letzten shows im kapitel.</div>
   </header>
 
+  <!-- ── STAGE: fig1, fig2, fig3, fig5 + shows ── -->
   <div class="stage">
 
     <div class="fig fig1">
@@ -262,10 +268,6 @@
 
     <div class="fig fig3">
       <img src="abschluss/3.jpg" alt="" />
-    </div>
-
-    <div class="fig fig4">
-      <img src="abschluss/4.jpg" alt="" />
     </div>
 
     <div class="fig fig5">
@@ -283,6 +285,7 @@
 
   </div>
 
+  <!-- ── POEM ── -->
   <div class="poem-section">
     <p class="poem">
       ein schatten steht im rahmen.<br />
@@ -296,11 +299,17 @@
     </p>
   </div>
 
-  <div class="divider"></div>
-
-  <footer>
-    <p>© b3nn3t &nbsp;·&nbsp; <a href="impressum.html">Impressum / Datenschutz</a></p>
-  </footer>
+  <!-- ── FOOTER AREA with fig4 wardrobe floating bottom-right ── -->
+  <div class="footer-area">
+    <div class="divider"></div>
+    <footer>
+      <p>© b3nn3t &nbsp;·&nbsp; <a href="impressum.html">Impressum / Datenschutz</a></p>
+    </footer>
+    <!-- fig4 – wardrobe anchored bottom-right of footer -->
+    <div class="fig4">
+      <img src="abschluss/4.jpg" alt="" />
+    </div>
+  </div>
 
 </div>
 </body>
