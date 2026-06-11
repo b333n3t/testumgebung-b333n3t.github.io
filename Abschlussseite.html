@@ -6,7 +6,6 @@
   <title>b3nn3t – kapitelende</title>
   <meta name="description" content="b3nn3t – die drei letzten shows im kapitel." />
   <meta name="robots" content="noindex" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
@@ -31,9 +30,8 @@
 
     .page { opacity: 0; animation: fadeIn 2s ease 0.2s forwards; }
     @keyframes fadeIn { to { opacity: 1; } }
-
     @keyframes riseFade {
-      from { opacity: 0; transform: translateY(18px); }
+      from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes driftIn {
@@ -41,16 +39,11 @@
       to   { opacity: 1; transform: translateX(0); }
     }
 
-    /* ════════════════════════
-       HEADER
-    ════════════════════════ */
-    header {
-      padding: 2.2rem 2.5rem 0;
-    }
+    /* ══ HEADER ══ */
+    header { padding: 2rem 2.5rem 0; }
     .artist-name {
       font-family: 'Caveat', cursive;
       font-size: clamp(1rem, 2vw, 1.3rem);
-      font-weight: 400;
       color: var(--ink-light);
       animation: driftIn 1.6s cubic-bezier(0.16,1,0.3,1) 0.5s both;
     }
@@ -62,19 +55,15 @@
       animation: driftIn 1.6s cubic-bezier(0.16,1,0.3,1) 0.75s both;
     }
 
-    /* ════════════════════════
-       STAGE  – top section with figures
-       Position breakdown:
-         fig1 (scribble)  → far left, vertically mid
-         fig2 (stooped)   → left-centre, mid
-         fig3 (dancer)    → centre
-         fig5 (scribble)  → top right
-       Shows text floats right of centre
-    ════════════════════════ */
-    .stage {
+    /* ══════════════════════════════════════════
+       CANVAS – one tall relative container
+       All figures + poem + shows are inside it
+    ══════════════════════════════════════════ */
+    .canvas {
       position: relative;
       width: 100%;
-      height: 460px;
+      /* tall enough to hold everything without overlap */
+      height: 900px;
       margin-top: 1rem;
     }
 
@@ -86,160 +75,143 @@
       filter: saturate(0.9) contrast(0.96);
     }
 
-    /* fig1 – scribble, FAR LEFT, vertically centred */
-    .fig1 {
-      left: 1%;
-      top: 30%;
-      width: clamp(100px, 11vw, 140px);
+    /*
+      FINAL POSITIONS (reading from your screenshot):
+
+      fig2  gebeugte Figur   → left edge (~-2%), top ~18%   (partly cut off)
+      fig5  Scribble gross   → right ~68%, top ~8%           (smaller than before)
+      shows Text             → left ~18%, top ~22%
+      fig3  Tänzerin         → left ~55%, top ~38%
+      fig4  Schrank          → left ~32%, top ~60%
+      fig1  Scribble klein   → right ~72%, top ~68%          (was bottom-right, now lower-right)
+      poem                   → centred, top ~43%
+    */
+
+    /* fig2 – gebeugte Figur, links, halb abgeschnitten */
+    .fig2 {
+      left: -2%;
+      top: 18%;
+      width: clamp(120px, 13vw, 165px);
+      transform: rotate(1deg);
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 0.9s both;
+    }
+
+    /* fig5 – Scribble, oben rechts, kleiner */
+    .fig5 {
+      right: 5%;
+      top: 8%;
+      width: clamp(80px, 9vw, 115px);
       transform: rotate(-3deg);
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 0.7s both;
     }
 
-    /* fig2 – stooped figure, left-centre */
-    .fig2 {
-      left: 22%;
-      top: 28%;
-      width: clamp(130px, 15vw, 185px);
-      transform: rotate(1.5deg);
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.0s both;
-    }
-
-    /* fig3 – dancer, centre */
-    .fig3 {
-      left: 50%;
-      top: 10%;
-      transform: translateX(-50%) rotate(-1deg);
-      width: clamp(100px, 12vw, 150px);
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.3s both;
-    }
-
-    /* fig5 – top-right scribble */
-    .fig5 {
-      right: 8%;
-      top: 5%;
-      width: clamp(100px, 13vw, 160px);
-      transform: rotate(-3deg);
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 0.85s both;
-    }
-
-    /* ── SHOWS – right of dancer, vertically centred in stage ── */
+    /* shows – links, auf Höhe gebeugte Figur, leicht rechts davon */
     .shows {
       position: absolute;
-      left: 58%;
-      top: 42%;
+      left: 18%;
+      top: 22%;
       text-align: left;
       white-space: nowrap;
       z-index: 10;
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.8s both;
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.4s both;
     }
     .shows-label {
       font-family: 'Caveat', cursive;
-      font-size: clamp(0.72rem, 1.4vw, 0.88rem);
+      font-size: clamp(0.7rem, 1.3vw, 0.85rem);
       color: var(--ink-faint);
       letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.45rem;
     }
-    .shows-list { list-style: none; display: flex; flex-direction: column; gap: 0.38rem; }
+    .shows-list { list-style: none; display: flex; flex-direction: column; gap: 0.35rem; }
     .shows-list li {
-      font-size: clamp(0.72rem, 1.3vw, 0.84rem);
+      font-size: clamp(0.7rem, 1.2vw, 0.82rem);
       font-weight: 300;
       color: var(--ink-light);
       letter-spacing: 0.03em;
     }
 
-    /* ════════════════════════
-       POEM
-    ════════════════════════ */
-    .poem-section {
-      max-width: 340px;
-      margin: 2rem auto 0;
-      padding: 0 2rem;
+    /* fig3 – Tänzerin, Mitte-rechts, tiefer */
+    .fig3 {
+      left: 55%;
+      top: 36%;
+      width: clamp(90px, 11vw, 135px);
+      transform: rotate(-1deg);
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.2s both;
+    }
+
+    /* poem – zentriert, auf Höhe Tänzerin */
+    .poem-wrap {
+      position: absolute;
+      left: 50%;
+      top: 43%;
+      transform: translateX(-50%);
+      width: 280px;
       text-align: center;
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.1s both;
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.0s both;
     }
     .poem {
       font-family: 'Caveat', cursive;
-      font-size: clamp(1.05rem, 2.1vw, 1.22rem);
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
       font-weight: 400;
       color: var(--ink);
-      line-height: 1.9;
+      line-height: 1.95;
     }
     .poem em { font-style: normal; color: var(--ink-light); }
 
-    /* ════════════════════════
-       FOOTER AREA
-       fig4 (wardrobe) floats bottom-right,
-       overlapping the footer zone
-    ════════════════════════ */
-    .footer-area {
-      position: relative;
-      margin-top: 3rem;
-      padding-bottom: 4rem;
+    /* fig4 – Schrank, Mitte-unten links */
+    .fig4 {
+      left: 32%;
+      top: 65%;
+      width: clamp(70px, 8vw, 100px);
+      transform: rotate(2deg);
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.6s both;
     }
 
-    .divider {
-      width: 1px; height: 44px;
-      background: var(--ink-faint);
-      margin: 0 auto 2rem;
-      opacity: 0.35;
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.5s both;
+    /* fig1 – kleines Scribble, rechts unten */
+    .fig1 {
+      right: 5%;
+      top: 68%;
+      width: clamp(80px, 10vw, 125px);
+      transform: rotate(-4deg);
+      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 1.8s both;
     }
+
+    /* ══ FOOTER – below canvas ══ */
     footer {
       text-align: center;
+      padding: 2rem 2rem 3rem;
       animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.5s both;
     }
     footer p { font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.04em; }
-    footer a { color: var(--ink-faint); text-decoration: none; border-bottom: 1px solid var(--ink-faint); transition: color 0.3s, border-color 0.3s; }
+    footer a {
+      color: var(--ink-faint);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ink-faint);
+      transition: color 0.3s, border-color 0.3s;
+    }
     footer a:hover { color: var(--ink); border-color: var(--ink); }
 
-    /* fig4 – wardrobe, bottom-right next to footer */
-    .fig4 {
-      position: absolute;
-      right: 6%;
-      bottom: 0;
-      width: clamp(80px, 9vw, 115px);
-      transform: rotate(2deg);
-      animation: riseFade 1.8s cubic-bezier(0.16,1,0.3,1) 2.3s both;
-    }
-
-    /* ════════════════════════
-       MOBILE ≤ 700px
-    ════════════════════════ */
+    /* ══ MOBILE ≤ 700px ══ */
     @media (max-width: 700px) {
-      .stage {
+      .canvas {
         height: auto;
         min-height: unset;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        padding: 1.5rem 1rem 0;
-        align-items: end;
-      }
-      .fig { position: static; transform: none !important; }
-      .fig img { max-width: 130px; margin: 0 auto; }
-
-      .fig1 { grid-column: 1; grid-row: 1; }
-      .fig5 { grid-column: 2; grid-row: 1; }
-      .fig2 { grid-column: 1; grid-row: 2; }
-      .fig3 { grid-column: 2; grid-row: 2; transform: none !important; }
-
-      .shows {
         position: static;
-        transform: none;
-        white-space: normal;
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 1rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem 1rem;
       }
-      .fig4 {
-        position: static;
+      .fig, .shows, .poem-wrap {
+        position: static !important;
         transform: none !important;
-        width: 80px;
-        margin: 2rem auto 0;
-        display: block;
+        left: auto !important; right: auto !important;
+        top: auto !important;
       }
-      .footer-area { padding-bottom: 2rem; }
-      .poem-section { margin-top: 2.5rem; }
+      .fig img { max-width: 130px; margin: 0 auto; }
+      .poem-wrap { width: 90%; max-width: 300px; }
+      .shows { text-align: center; white-space: normal; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -255,25 +227,15 @@
     <div class="chapter-label">die drei letzten shows im kapitel.</div>
   </header>
 
-  <!-- ── STAGE: fig1, fig2, fig3, fig5 + shows ── -->
-  <div class="stage">
+  <div class="canvas">
 
-    <div class="fig fig1">
-      <img src="abschluss/1.jpg" alt="" />
-    </div>
+    <!-- gebeugte Figur, links, halb abgeschnitten -->
+    <div class="fig fig2"><img src="abschluss/2.jpg" alt="" /></div>
 
-    <div class="fig fig2">
-      <img src="abschluss/2.jpg" alt="" />
-    </div>
+    <!-- Scribble oben rechts -->
+    <div class="fig fig5"><img src="abschluss/5.jpg" alt="" /></div>
 
-    <div class="fig fig3">
-      <img src="abschluss/3.jpg" alt="" />
-    </div>
-
-    <div class="fig fig5">
-      <img src="abschluss/5.jpg" alt="" />
-    </div>
-
+    <!-- Show-Daten links neben der Figur -->
     <div class="shows">
       <p class="shows-label">live</p>
       <ul class="shows-list">
@@ -283,33 +245,34 @@
       </ul>
     </div>
 
-  </div>
+    <!-- Tänzerin, Mitte-rechts -->
+    <div class="fig fig3"><img src="abschluss/3.jpg" alt="" /></div>
 
-  <!-- ── POEM ── -->
-  <div class="poem-section">
-    <p class="poem">
-      ein schatten steht im rahmen.<br />
-      das holz war ein paar monate stumm.<br />
-      jetzt reisst der wind eine fuge.<br />
-      da drinnen wird etwas abgelegt,<br />
-      das lange zu schwer war.<br />
-      drei letzte windstösse.<br />
-      dann drückt die kälte die tür auf.<br />
-      <em>wer geht, hat ein neues gesicht.</em>
-    </p>
-  </div>
-
-  <!-- ── FOOTER AREA with fig4 wardrobe floating bottom-right ── -->
-  <div class="footer-area">
-    <div class="divider"></div>
-    <footer>
-      <p>© b3nn3t &nbsp;·&nbsp; <a href="impressum.html">Impressum / Datenschutz</a></p>
-    </footer>
-    <!-- fig4 – wardrobe anchored bottom-right of footer -->
-    <div class="fig4">
-      <img src="abschluss/4.jpg" alt="" />
+    <!-- Gedicht, zentriert -->
+    <div class="poem-wrap">
+      <p class="poem">
+        ein schatten steht im rahmen.<br />
+        das holz war ein paar monate stumm.<br />
+        jetzt reisst der wind eine fuge.<br />
+        da drinnen wird etwas abgelegt,<br />
+        das lange zu schwer war.<br />
+        drei letzte windstösse.<br />
+        dann drückt die kälte die tür auf.<br />
+        <em>wer geht, hat ein neues gesicht.</em>
+      </p>
     </div>
+
+    <!-- Schrank, Mitte unten -->
+    <div class="fig fig4"><img src="abschluss/4.jpg" alt="" /></div>
+
+    <!-- kleines Scribble, rechts unten -->
+    <div class="fig fig1"><img src="abschluss/1.jpg" alt="" /></div>
+
   </div>
+
+  <footer>
+    <p>© b3nn3t &nbsp;·&nbsp; <a href="impressum.html">Impressum / Datenschutz</a></p>
+  </footer>
 
 </div>
 </body>
