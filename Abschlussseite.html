@@ -28,7 +28,7 @@
       overflow-x: hidden;
     }
 
-    /* ── SKIP ANIMATION BUTTON ── */
+    /* ── SKIP ── */
     .skip-btn {
       position: fixed;
       bottom: 1.5rem;
@@ -48,16 +48,15 @@
     .skip-btn.hidden { display: none; }
 
     /* ── PAGE ── */
-    .page {
-      opacity: 0;
-      transition: opacity 0.8s ease;
-    }
+    .page { opacity: 0; transition: opacity 0.8s ease; }
     .page.visible { opacity: 1; }
 
     /* ── HEADER ── */
     .top-header {
       position: relative;
       padding: 2rem 1.6rem 0;
+      /* tall enough for fig5 to anchor into */
+      min-height: 60px;
     }
     .chapter-label {
       font-family: 'Caveat', cursive;
@@ -84,19 +83,16 @@
       margin-left: 0.3em;
     }
     .chapter-label.show,
-    .artist-name.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    .artist-name.show { opacity: 1; transform: translateX(0); }
 
-    /* fig5 – top-right corner */
+    /* fig5 – top-right, slightly smaller so fully visible */
     .fig5-corner {
       position: absolute;
-      top: -0.5rem;
-      right: -4%;
-      width: 28vw;
-      max-width: 120px;
-      transform: rotate(-4deg) translateX(60px) translateY(-40px);
+      top: 0.4rem;
+      right: 0;          /* flush right, fully visible */
+      width: 22vw;
+      max-width: 90px;   /* smaller than before */
+      transform: rotate(-4deg) translateX(40px) translateY(-30px);
       opacity: 0;
       transition: opacity 1s ease, transform 1.4s cubic-bezier(0.16,1,0.3,1);
     }
@@ -115,6 +111,7 @@
       overflow: visible;
     }
 
+    /* fig2 – left, partly cut, slides in from left */
     .fig2 {
       position: absolute;
       left: -6%;
@@ -125,10 +122,7 @@
       opacity: 0;
       transition: opacity 1s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
     }
-    .fig2.show {
-      opacity: 1;
-      transform: rotate(2deg) translateX(0);
-    }
+    .fig2.show { opacity: 1; transform: rotate(2deg) translateX(0); }
     .fig2 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
     .shows {
@@ -158,99 +152,93 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── DANCER ── */
-    .dancer-wrap {
-      display: flex;
-      justify-content: center;
-      margin-top: 1.8rem;
-    }
-    .fig3-img {
-      width: 36vw;
-      max-width: 150px;
-      transform: rotate(-1deg) translateY(60px);
-      opacity: 0;
-      transition: opacity 1.2s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
-    }
-    .fig3-img.show {
-      opacity: 1;
-      transform: rotate(-1deg) translateY(0);
-    }
-    .fig3-img img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
-
-    /* ── POEM SECTION ── */
-    .poem-section {
+    /* ── POEM + DANCER wrapper
+       Relative container so fig3 can be positioned
+       relative to the poem block
+    ── */
+    .poem-dancer-wrap {
+      position: relative;
+      max-width: 320px;
       margin: 2.5rem auto 0;
       padding: 0 2rem;
-      max-width: 320px;
-      text-align: center;
-      min-height: 260px;
     }
 
-    /* The poem is rendered word by word via JS into this container */
+    /* fig3 – smaller, offset right, top half of poem */
+    .fig3-img {
+      position: absolute;
+      right: -8%;          /* slightly outside right edge */
+      top: -10px;          /* starts at poem top, sits at half-height visually */
+      width: 28vw;
+      max-width: 110px;    /* smaller */
+      transform: rotate(-1deg) translateY(50px);
+      opacity: 0;
+      transition: opacity 1.2s ease, transform 1.6s cubic-bezier(0.16,1,0.3,1);
+      z-index: 2;
+    }
+    .fig3-img.show { opacity: 1; transform: rotate(-1deg) translateY(0); }
+    .fig3-img img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
+
+    /* poem text */
     #poem-output {
       font-family: 'Caveat', cursive;
       font-size: 1.12rem;
       font-weight: 400;
       color: var(--ink);
       line-height: 1.95;
+      text-align: center;
       position: relative;
+      z-index: 1;
     }
-
-    /* Ink nib cursor */
-    .nib {
-      display: inline-block;
-      width: 0.9em;
-      height: 1.1em;
-      vertical-align: middle;
-      margin-left: 2px;
-      opacity: 0;
-      transition: opacity 0.2s;
-      position: relative;
-      top: -0.05em;
-    }
-    .nib svg { width: 100%; height: 100%; }
-
-    /* last line in italic/faint */
     .poem-last { color: var(--ink-light); }
+
+    /* word fade-in */
+    .poem-word {
+      display: inline;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .poem-word.show { opacity: 1; }
 
     /* ── BOTTOM STRIP ── */
     .bottom-strip {
       position: relative;
       width: 100%;
-      height: 150px;
+      /* tall enough for fig4 which sits higher */
+      height: 200px;
       margin-top: 2rem;
       overflow: visible;
     }
+
+    /* fig1 – bottom-left corner, fully off-screen then slides in */
     .fig1 {
       position: absolute;
       left: -5%;
-      bottom: 10px;
+      bottom: 0;           /* pinned to very bottom */
       width: 30vw;
       max-width: 115px;
-      transform: rotate(-5deg) translateX(-60px);
+      transform: rotate(-5deg) translateX(-70px);
       opacity: 0;
       transition: opacity 1s ease, transform 1.5s cubic-bezier(0.16,1,0.3,1);
     }
     .fig1.show { opacity: 1; transform: rotate(-5deg) translateX(0); }
     .fig1 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
+    /* fig4 – visible from start, bigger, higher up, more left than before */
     .fig4 {
       position: absolute;
-      right: -4%;
-      bottom: 0;
-      width: 23vw;
-      max-width: 95px;
-      transform: rotate(3deg) translateX(60px);
-      opacity: 0;
-      transition: opacity 1s ease, transform 1.5s cubic-bezier(0.16,1,0.3,1);
+      right: 8%;           /* shifted left from edge */
+      bottom: 40px;        /* higher up */
+      width: 28vw;
+      max-width: 115px;    /* bigger */
+      transform: rotate(2deg);
+      opacity: 1;          /* visible from the start */
     }
-    .fig4.show { opacity: 1; transform: rotate(3deg) translateX(0); }
     .fig4 img { display: block; width: 100%; height: auto; filter: saturate(0.9) contrast(0.96); }
 
     /* ── FOOTER ── */
     footer {
       text-align: center;
-      padding: 1rem 2rem 3rem;
+      padding: 0.5rem 2rem 3rem;
       opacity: 0;
       transition: opacity 1s ease;
     }
@@ -265,30 +253,30 @@
 
     /* ── DESKTOP ── */
     @media (min-width: 800px) {
-      .fig5-corner { width: 13vw; max-width: 130px; right: -2%; }
+      .fig5-corner { width: 11vw; max-width: 100px; }
       .fig2 { width: 16vw; max-width: 130px; }
       .shows { left: 20%; }
       .shows-list li { font-size: 0.86rem; }
       .shows-strip { min-height: 160px; }
-      .fig3-img { width: 15vw; max-width: 180px; }
+      .poem-dancer-wrap { max-width: 400px; margin-top: 3.5rem; }
+      .fig3-img { width: 14vw; max-width: 120px; right: -10%; }
       #poem-output { font-size: 1.22rem; }
-      .poem-section { max-width: 400px; margin-top: 3.5rem; }
-      .bottom-strip { height: 190px; margin-top: 3rem; }
+      .bottom-strip { height: 240px; margin-top: 3rem; }
       .fig1 { width: 13vw; max-width: 130px; }
-      .fig4 { width: 10vw; max-width: 105px; }
+      .fig4 { width: 13vw; max-width: 125px; right: 10%; bottom: 60px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { transition: none !important; animation: none !important; }
-      .chapter-label, .artist-name, .fig5-corner, .fig2,
-      .shows, .fig3-img, .fig1, .fig4, footer,
-      .chapter-label.show, .artist-name.show { opacity: 1 !important; transform: none !important; }
+      *, *::before, *::after { transition: none !important; }
+      .chapter-label, .artist-name, .fig5-corner,
+      .fig2, .shows, .fig3-img, .fig1, footer { opacity: 1 !important; transform: none !important; }
+      .poem-word { opacity: 1 !important; }
     }
   </style>
 </head>
 <body>
 
-<button class="skip-btn" id="skipBtn" aria-label="Animation überspringen">überspringen ↓</button>
+<button class="skip-btn" id="skipBtn">überspringen ↓</button>
 
 <div class="page" id="page">
 
@@ -310,17 +298,16 @@
     </div>
   </div>
 
-  <div class="dancer-wrap">
+  <!-- poem + dancer in same relative container -->
+  <div class="poem-dancer-wrap">
     <div class="fig3-img" id="fig3"><img src="abschluss/3.jpg" alt="" /></div>
-  </div>
-
-  <div class="poem-section">
     <div id="poem-output"></div>
   </div>
 
   <div class="bottom-strip">
     <div class="fig1" id="fig1"><img src="abschluss/1.jpg" alt="" /></div>
-    <div class="fig4" id="fig4"><img src="abschluss/4.jpg" alt="" /></div>
+    <!-- fig4 visible immediately, no animation class needed -->
+    <div class="fig4"><img src="abschluss/4.jpg" alt="" /></div>
   </div>
 
   <footer id="footer">
@@ -330,149 +317,88 @@
 </div>
 
 <script>
-  // ── POEM DATA ──────────────────────────────────────────
-  // Each line is an array of words. Last line flagged.
   const poemLines = [
-    { words: ["ein", "schatten", "steht", "im", "rahmen."],            last: false },
-    { words: ["das", "holz", "war", "ein", "paar", "monate", "stumm."],last: false },
-    { words: ["jetzt", "reisst", "der", "wind", "eine", "fuge."],      last: false },
-    { words: ["da", "drinnen", "wird", "etwas", "abgelegt,"],          last: false },
-    { words: ["das", "lange", "zu", "schwer", "war."],                 last: false },
-    { words: ["drei", "letzte", "windstösse."],                        last: false },
-    { words: ["dann", "drückt", "die", "kälte", "die", "tür", "auf."],last: false },
-    { words: ["wer", "geht,", "hat", "ein", "neues", "gesicht."],      last: true  },
+    { words: ["ein", "schatten", "steht", "im", "rahmen."],             last: false },
+    { words: ["das", "holz", "war", "ein", "paar", "monate", "stumm."],  last: false },
+    { words: ["jetzt", "reisst", "der", "wind", "eine", "fuge."],        last: false },
+    { words: ["da", "drinnen", "wird", "etwas", "abgelegt,"],            last: false },
+    { words: ["das", "lange", "zu", "schwer", "war."],                   last: false },
+    { words: ["drei", "letzte", "windstösse."],                          last: false },
+    { words: ["dann", "drückt", "die", "kälte", "die", "tür", "auf."],  last: false },
+    { words: ["wer", "geht,", "hat", "ein", "neues", "gesicht."],        last: true  },
   ];
 
-  // ── NIB SVG (inline fountain pen nib) ─────────────────
-  const nibSVG = `<svg viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M9 2 C9 2 14 7 14 13 Q14 17 9 20 Q4 17 4 13 C4 7 9 2 9 2Z"
-          fill="#2a2218" opacity="0.85"/>
-    <path d="M9 20 L7 22 L9 19 L11 22 Z" fill="#2a2218" opacity="0.7"/>
-    <ellipse cx="9" cy="18.5" rx="1.2" ry="1.8" fill="#f4f2ef" opacity="0.5"/>
-    <line x1="9" y1="13" x2="9" y2="19" stroke="#f4f2ef" stroke-width="0.7" opacity="0.6"/>
-  </svg>`;
-
-  // ── STATE ──────────────────────────────────────────────
   let skipped = false;
+  const delay = ms => new Promise(r => setTimeout(r, ms));
+  const show  = id => document.getElementById(id)?.classList.add('show');
 
-  // ── UTILITY ───────────────────────────────────────────
-  function delay(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-  function show(el) { el.classList.add('show'); }
-
-  // ── WRITE POEM WORD BY WORD ───────────────────────────
   async function writePoem() {
-    const container = document.getElementById('poem-output');
-    container.innerHTML = '';
-
-    // create nib cursor
-    const nib = document.createElement('span');
-    nib.className = 'nib';
-    nib.innerHTML = nibSVG;
-    nib.style.opacity = '1';
-    container.appendChild(nib);
+    const out = document.getElementById('poem-output');
+    out.innerHTML = '';
 
     for (let li = 0; li < poemLines.length; li++) {
       if (skipped) break;
-      const line = poemLines[li];
+      const { words, last } = poemLines[li];
 
-      // line container (inline, wrapping)
-      const lineSpan = document.createElement('span');
-      if (line.last) lineSpan.className = 'poem-last';
-
-      for (let wi = 0; wi < line.words.length; wi++) {
+      for (let wi = 0; wi < words.length; wi++) {
         if (skipped) break;
-
-        const word = document.createElement('span');
-        word.textContent = (wi === 0 && li > 0 ? '' : '') + line.words[wi] + '\u00A0';
-        word.style.opacity = '0';
-        word.style.transition = 'opacity 0.35s ease';
-
-        // insert before nib
-        container.insertBefore(word, nib);
-
-        // small stagger then fade in
-        await delay(10);
-        word.style.opacity = '1';
-
-        // move nib after this word (re-append)
-        container.appendChild(nib);
-
-        // pause between words – slightly varied for organic feel
-        const pause = 120 + Math.random() * 80;
-        await delay(pause);
+        const span = document.createElement('span');
+        span.className = 'poem-word' + (last ? ' poem-last' : '');
+        span.textContent = words[wi] + '\u00A0';
+        out.appendChild(span);
+        await delay(20);
+        span.classList.add('show');
+        await delay(105 + Math.random() * 75);
       }
 
-      // line break after each line
-      const br = document.createElement('br');
-      container.insertBefore(br, nib);
-      await delay(260); // breath between lines
+      if (li < poemLines.length - 1) {
+        out.appendChild(document.createElement('br'));
+        await delay(240);
+      }
     }
-
-    // hide nib when done
-    nib.style.opacity = '0';
   }
 
-  // ── SKIP ──────────────────────────────────────────────
   function skipAll() {
     skipped = true;
     document.getElementById('skipBtn').classList.add('hidden');
-
-    // show everything immediately
-    const ids = ['chapLabel','artistName','fig5','fig2','shows','fig3','fig1','fig4','footer'];
-    ids.forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('show'); });
-
-    // show page
+    ['chapLabel','artistName','fig5','fig2','shows','fig3','fig1','footer']
+      .forEach(show);
     document.getElementById('page').classList.add('visible');
 
-    // render full poem instantly
-    const container = document.getElementById('poem-output');
-    container.innerHTML = poemLines.map((l, i) =>
-      `<span${l.last ? ' class="poem-last"' : ''}>${l.words.join('\u00A0')}</span>${i < poemLines.length-1 ? '<br>' : ''}`
+    const out = document.getElementById('poem-output');
+    out.innerHTML = poemLines.map((l, i) =>
+      l.words.map(w =>
+        `<span class="poem-word show${l.last ? ' poem-last' : ''}">${w}\u00A0</span>`
+      ).join('') + (i < poemLines.length - 1 ? '<br>' : '')
     ).join('');
   }
 
   document.getElementById('skipBtn').addEventListener('click', skipAll);
 
-  // ── MAIN SEQUENCE ─────────────────────────────────────
   async function runSequence() {
-    const page = document.getElementById('page');
-    page.classList.add('visible');
-
+    document.getElementById('page').classList.add('visible');
     await delay(300);
-    show(document.getElementById('chapLabel'));
+    show('chapLabel');
     await delay(400);
-    show(document.getElementById('artistName'));
-
+    show('artistName');
     await delay(600);
-    show(document.getElementById('fig5'));
-    show(document.getElementById('fig2'));
-
+    show('fig5');
+    show('fig2');
     await delay(900);
-    show(document.getElementById('shows'));
-
-    await delay(700);
-    show(document.getElementById('fig3'));
-
-    await delay(1200);
-    // write the poem
-    await writePoem();
-
-    await delay(600);
-    show(document.getElementById('fig1'));
-    show(document.getElementById('fig4'));
-
+    show('shows');
     await delay(800);
-    show(document.getElementById('footer'));
-
-    // hide skip button
+    show('fig3');
+    await delay(1000);
+    await writePoem();
+    await delay(500);
+    show('fig1');
+    await delay(600);
+    show('footer');
     document.getElementById('skipBtn').classList.add('hidden');
   }
 
-  // start on load
   window.addEventListener('load', runSequence);
 </script>
-
 </body>
 </html>
 
