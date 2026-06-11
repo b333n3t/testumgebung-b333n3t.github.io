@@ -8,7 +8,7 @@
   <meta name="robots" content="noindex" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -23,8 +23,7 @@
       --ink-faint: #a8a8a8;
     }
 
-    html,
-    body {
+    html, body {
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
@@ -33,7 +32,12 @@
     }
 
     .page {
-      opacity: 1;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.1s forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
     }
 
     img {
@@ -46,32 +50,14 @@
     /* HEADER */
 
     .top-header {
-      position: relative;
-      width: 100%;
-      min-height: 140px;
-      padding: 0 0 0.5rem 0;
-    }
-
-    .fig2 {
-      position: absolute;
-      left: 12%;
-      top: 0.5rem;
-      width: 26vw;
-      max-width: 100px;
-      transform: rotate(1.5deg);
-    }
-
-    .header-text {
-      position: absolute;
-      left: calc(26vw + 14%);
-      top: 1rem;
-      max-width: 55%;
+      text-align: center;
+      padding: 1.5rem 1rem 0.5rem;
     }
 
     .chapter-label {
       font-family: 'Caveat', cursive;
       font-size: 1.45rem;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--ink);
       line-height: 1.2;
     }
@@ -79,28 +65,37 @@
     .artist-name {
       font-family: 'Caveat', cursive;
       font-size: 1.35rem;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--ink);
-      margin-top: 0.1rem;
-      line-height: 1.2;
+      margin-top: 0.15rem;
     }
 
     .year-tag {
-      font-family: 'Caveat', cursive;
       font-size: 0.72rem;
       color: var(--ink-faint);
       vertical-align: super;
       margin-left: 0.25em;
     }
 
-    /* SHOWS */
+    /* SHOWS + BILD */
+
+    .shows-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0 1.2rem;
+      margin-top: 1.2rem;
+    }
+
+    .fig2 {
+      width: 95px;
+      flex-shrink: 0;
+      transform: rotate(1.5deg);
+    }
 
     .shows-strip {
-      position: relative;
-      width: 100%;
-      margin-top: 1.4rem;
-      padding: 0 1.6rem;
-      min-height: 50px;
+      flex: 1;
+      min-width: 0;
     }
 
     .shows-label {
@@ -125,12 +120,12 @@
       letter-spacing: 0.02em;
     }
 
-    /* POEM */
+    /* GEDICHT */
 
     .poem-dancer-wrap {
       position: relative;
       max-width: 320px;
-      margin: 2.5rem auto 0;
+      margin: 2.8rem auto 0;
       padding: 0 2rem;
     }
 
@@ -159,6 +154,16 @@
       color: var(--ink-light);
     }
 
+    .poem-word {
+      display: inline;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .poem-word.show {
+      opacity: 1;
+    }
+
     /* BOTTOM */
 
     .bottom-strip {
@@ -166,7 +171,6 @@
       width: 100%;
       height: 180px;
       margin-top: 2rem;
-      overflow: visible;
     }
 
     .fig4 {
@@ -206,31 +210,21 @@
 
     @media (min-width: 800px) {
 
-      .top-header {
-        min-height: 170px;
-      }
-
-      .fig2 {
-        width: 13vw;
-        max-width: 115px;
-      }
-
-      .header-text {
-        left: calc(13vw + 18%);
-        top: 1.4rem;
-        max-width: 55%;
-      }
-
       .chapter-label {
-        font-size: 1.8rem;
-      }
-
-      .artist-name {
         font-size: 1.65rem;
       }
 
-      .shows-strip {
-        padding: 0 2rem;
+      .artist-name {
+        font-size: 1.55rem;
+      }
+
+      .shows-section {
+        max-width: 820px;
+        margin: 1.5rem auto 0;
+      }
+
+      .fig2 {
+        width: 120px;
       }
 
       .shows-list li {
@@ -255,7 +249,6 @@
 
       .bottom-strip {
         height: 220px;
-        margin-top: 3rem;
       }
 
       .fig4 {
@@ -263,48 +256,45 @@
         max-width: 115px;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .poem-word {
+        opacity: 1 !important;
+        transition: none !important;
+      }
+    }
+
   </style>
 </head>
 <body>
 <div class="page">
   <div class="top-header">
+    <div class="chapter-label">die drei letzten shows im kapitel.</div>
+    <div class="artist-name">
+      b3nn3t<span class="year-tag">2023–2026</span>
+    </div>
+  </div>
+  <div class="shows-section">
 <div class="fig2">
   <img src="abschluss/2.jpg" alt="" />
 </div>
 
-<div class="header-text">
-  <div class="chapter-label">
-    die drei letzten shows im kapitel.
-  </div>
+<div class="shows-strip">
+  <p class="shows-label">live</p>
 
-  <div class="artist-name">
-    b3nn3t<span class="year-tag">2023–2026</span>
-  </div>
+  <ul class="shows-list">
+    <li>13. juni · jugendfestival (ZAK) · Jona</li>
+    <li>26. juni · oya! openairfestival (gleis19) · Wien</li>
+    <li>08. august · winterthurer musikfestwochen · Winterthur</li>
+  </ul>
 </div>
-  </div>
-  <div class="shows-strip">
-    <p class="shows-label">live</p>
-<ul class="shows-list">
-  <li>13. juni · jugendfestival (ZAK) · Jona</li>
-  <li>26. juni · oya! openairfestival (gleis19) · Wien</li>
-  <li>08. august · winterthurer musikfestwochen · Winterthur</li>
-</ul>
   </div>
   <div class="poem-dancer-wrap">
 <div class="fig3">
   <img src="abschluss/3.jpg" alt="" />
 </div>
 
-<div id="poem-output">
-  ein schatten steht im rahmen.<br>
-  das holz war ein paar monate stumm.<br>
-  jetzt reisst der wind eine fuge.<br>
-  da drinnen wird etwas abgelegt,<br>
-  das lange zu schwer war.<br>
-  drei letzte windstösse.<br>
-  dann drückt die kälte die tür auf.<br>
-  <span class="poem-last">wer geht, hat ein neues gesicht.</span>
-</div>
+<div id="poem-output"></div>
   </div>
   <div class="bottom-strip">
 <div class="fig4">
@@ -312,12 +302,58 @@
 </div>
   </div>
   <footer>
-    <p>
-      © b3nn3t ·
-      <a href="impressum.html">Impressum / Datenschutz</a>
-    </p>
+    <p>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></p>
   </footer>
 </div>
+<script>
+  const poemLines = [
+    { words: ["ein","schatten","steht","im","rahmen."], last: false },
+    { words: ["das","holz","war","ein","paar","monate","stumm."], last: false },
+    { words: ["jetzt","reisst","der","wind","eine","fuge."], last: false },
+    { words: ["da","drinnen","wird","etwas","abgelegt,"], last: false },
+    { words: ["das","lange","zu","schwer","war."], last: false },
+    { words: ["drei","letzte","windstösse."], last: false },
+    { words: ["dann","drückt","die","kälte","die","tür","auf."], last: false },
+    { words: ["wer","geht,","hat","ein","neues","gesicht."], last: true }
+  ];
+
+  const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  async function writePoem() {
+    const out = document.getElementById('poem-output');
+    out.innerHTML = '';
+
+    for (let li = 0; li < poemLines.length; li++) {
+
+      const { words, last } = poemLines[li];
+
+      for (let wi = 0; wi < words.length; wi++) {
+
+        const span = document.createElement('span');
+
+        span.className =
+          'poem-word' + (last ? ' poem-last' : '');
+
+        span.textContent = words[wi] + '\u00A0';
+
+        out.appendChild(span);
+
+        await delay(20);
+
+        span.classList.add('show');
+
+        await delay(100 + Math.random() * 80);
+      }
+
+      if (li < poemLines.length - 1) {
+        out.appendChild(document.createElement('br'));
+        await delay(220);
+      }
+    }
+  }
+
+  window.addEventListener('load', writePoem);
+</script>
 </body>
 </html>
 
