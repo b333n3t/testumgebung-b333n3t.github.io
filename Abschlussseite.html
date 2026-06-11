@@ -6,9 +6,11 @@
   <title>b3nn3t – kapitelende</title>
   <meta name="description" content="b3nn3t – die drei letzten shows im kapitel." />
   <meta name="robots" content="noindex" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -32,6 +34,8 @@
     }
 
     .page {
+      position: relative;
+      min-height: 100vh;
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -130,7 +134,7 @@
     .poem-dancer-wrap {
       position: relative;
       max-width: 320px;
-      margin: 2.8rem auto 0;
+      margin: 2.8rem auto 260px;
       padding: 0 2rem;
     }
 
@@ -169,18 +173,19 @@
       opacity: 1;
     }
 
-    /* BOTTOM */
+    /* TÜR UNTEN */
 
     .bottom-strip {
-      position: relative;
+      position: absolute;
+      left: 0;
+      bottom: 90px;
       width: 100%;
       height: 140px;
-      margin-top: 1.2rem;
     }
 
     .fig4 {
       position: absolute;
-      left: 56%;
+      left: 58%;
       transform: translateX(-50%);
       bottom: 10px;
       width: 26vw;
@@ -190,8 +195,12 @@
     /* FOOTER */
 
     footer {
+      position: absolute;
+      left: 0;
+      bottom: 20px;
+      width: 100%;
       text-align: center;
-      padding: 0.5rem 2rem 3rem;
+      padding: 0;
     }
 
     footer p {
@@ -234,6 +243,7 @@
       .poem-dancer-wrap {
         max-width: 400px;
         margin-top: 3.5rem;
+        margin-bottom: 280px;
       }
 
       .fig3 {
@@ -249,12 +259,13 @@
 
       .bottom-strip {
         height: 170px;
+        bottom: 100px;
       }
 
       .fig4 {
         width: 12vw;
         max-width: 115px;
-        left: 55%;
+        left: 58%;
       }
     }
 
@@ -266,52 +277,64 @@
     }
   </style>
 </head>
+
 <body>
+
 <div class="page">
+
   <div class="top-header">
     <div class="chapter-label">
       die drei letzten shows im kapitel.
     </div>
-<div class="artist-name">
-  b3nn3t<span class="year-tag">2023–2026</span>
-</div>
+
+    <div class="artist-name">
+      b3nn3t<span class="year-tag">2023–2026</span>
+    </div>
   </div>
+
   <div class="shows-section">
-<div class="fig2">
-  <img src="abschluss/2.jpg" alt="" />
-</div>
 
-<div class="shows-strip">
+    <div class="fig2">
+      <img src="abschluss/2.jpg" alt="" />
+    </div>
 
-  <p class="shows-label">live</p>
+    <div class="shows-strip">
+      <p class="shows-label">live</p>
 
-  <ul class="shows-list">
-    <li>13. juni · jugendfestival (ZAK) · Jona</li>
-    <li>26. juni · oya! openairfestival (gleis19) · Wien</li>
-    <li>08. august · winterthurer musikfestwochen · Winterthur</li>
-  </ul>
+      <ul class="shows-list">
+        <li>13. juni · jugendfestival (ZAK) · Jona</li>
+        <li>26. juni · oya! openairfestival (gleis19) · Wien</li>
+        <li>08. august · winterthurer musikfestwochen · Winterthur</li>
+      </ul>
+    </div>
 
-</div>
   </div>
+
   <div class="poem-dancer-wrap">
-<div class="fig3">
-  <img src="abschluss/3.jpg" alt="" />
-</div>
 
-<div id="poem-output"></div>
+    <div class="fig3">
+      <img src="abschluss/3.jpg" alt="" />
+    </div>
+
+    <div id="poem-output"></div>
+
   </div>
+
   <div class="bottom-strip">
-<div class="fig4">
-  <img src="abschluss/4.jpg" alt="" />
-</div>
+    <div class="fig4">
+      <img src="abschluss/4.jpg" alt="" />
+    </div>
   </div>
+
   <footer>
     <p>
       © b3nn3t ·
       <a href="impressum.html">Impressum / Datenschutz</a>
     </p>
   </footer>
+
 </div>
+
 <script>
 const poemLines = [
   { words: ["ein","schatten","steht","im","rahmen."], last: false },
@@ -346,9 +369,7 @@ async function writePoem() {
       out.appendChild(span);
 
       await delay(20);
-
       span.classList.add('show');
-
       await delay(100 + Math.random() * 80);
     }
 
@@ -361,7 +382,6 @@ async function writePoem() {
 
 window.addEventListener('load', writePoem);
 </script>
+
 </body>
 </html>
-
-
