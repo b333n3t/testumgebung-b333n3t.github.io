@@ -23,17 +23,17 @@
     }
 
     html, body {
-      height: 100%;
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
-      overflow: hidden; /* Body scrollt nicht – nur middle-zone */
+      /* Normale Scrollseite – kein overflow:hidden */
     }
 
+    /* Seite mindestens 100vh hoch, damit Footer bei wenig Inhalt unten bleibt */
     .layout {
       display: flex;
       flex-direction: column;
-      height: 100%;         /* Exakt Viewport-Höhe */
+      min-height: 100svh; /* svh = small viewport height, berücksichtigt Browser-Chrome */
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -48,8 +48,7 @@
 
     /* ── HEADER ── */
     .top-header {
-      flex-shrink: 0;
-      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1.2rem, 3vh, 2.2rem);
+      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1.8rem, 4vh, 3rem);
     }
 
     .chapter-label {
@@ -62,32 +61,32 @@
 
     .artist-name {
       font-family: 'Inter', system-ui, sans-serif;
-      font-size: clamp(0.95rem, 2.8vw, 1.45rem);
       font-weight: 300;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.04em;
+      font-size: clamp(1rem, 3vw, 1.55rem);
+      font-weight: 500;
       color: var(--ink);
-      margin-top: 0.15rem;
+      margin-top: 0.1rem;
     }
 
     .year-tag {
-      font-size: clamp(0.52rem, 1.1vw, 0.68rem);
+      font-size: clamp(0.55rem, 1.2vw, 0.7rem);
       color: var(--ink-faint);
       vertical-align: super;
-      margin-left: 0.25em;
+      margin-left: 0.2em;
     }
 
     /* ── SHOWS ── */
     .shows-section {
-      flex-shrink: 0;
       display: flex;
       align-items: flex-start;
       gap: clamp(0.6rem, 2vw, 1.2rem);
       padding: 0 clamp(1rem, 4vw, 2rem) clamp(0.4rem, 1vh, 0.8rem);
-      margin-left: clamp(2.5rem, 8vw, 6rem);
+      margin-left: clamp(2rem, 7vw, 5rem);
     }
 
     .fig2 {
-      width: clamp(58px, 9.5vw, 115px);
+      width: clamp(60px, 10vw, 120px);
       flex-shrink: 0;
       transform: rotate(1.5deg);
     }
@@ -116,23 +115,27 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── MITTE: scrollbar, Bild 3 fix darin ── */
+    /* ── MITTE: wächst und zentriert Inhalt vertikal ── */
     .middle-zone {
-      flex: 1 1 0;
-      min-height: 0;
-      position: relative;       /* Anker für fig3 */
-      overflow-y: auto;         /* scrollbar wenn Gedicht zu lang */
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+      flex: 1;                  /* nimmt restlichen Platz */
+      display: flex;
+      align-items: flex-start;  /* Gedicht wächst von oben nach unten */
+      justify-content: center;
+      padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 4vw, 2rem);
     }
 
-    /* Gedicht zentriert im verfügbaren Platz */
-    .poem-wrap {
+    .poem-row {
       display: flex;
+      align-items: flex-start;
       justify-content: center;
-      padding: clamp(0.8rem, 3vh, 2rem) clamp(1rem, 4vw, 2rem);
-      /* Rechts Platz für Bild 3 lassen */
-      padding-right: clamp(80px, 18vw, 160px);
+      gap: clamp(0.8rem, 3vw, 2rem);
+      width: 100%;
+      max-width: 700px;
+    }
+
+    .poem-wrap {
+      flex: 0 0 auto;
+      width: clamp(200px, 54vw, 380px);
     }
 
     #poem-output {
@@ -151,22 +154,17 @@
       text-align: center;
     }
 
-    /* Bild 3: fix in der middle-zone, rechts, vertikal mittig */
     .fig3 {
-      position: absolute;
-      right: clamp(0.5rem, 3vw, 2rem);
-      top: clamp(0.5rem, 3vh, 1.5rem);
-      transform: rotate(-1deg);
+      flex: 0 0 clamp(55px, 10vw, 110px);
       width: clamp(55px, 10vw, 110px);
-      pointer-events: none;
+      transform: rotate(-1deg);
     }
 
-    /* ── BILD 4: fix, eigene Zone ── */
+    /* ── BILD 4 ── */
     .fig4-zone {
-      flex-shrink: 0;
       display: flex;
       justify-content: center;
-      padding: clamp(0.4rem, 1.2vh, 1rem) 0;
+      padding: clamp(0.5rem, 1.5vh, 1rem) 0;
     }
 
     .fig4 {
@@ -175,9 +173,8 @@
 
     /* ── FOOTER ── */
     footer {
-      flex-shrink: 0;
       text-align: center;
-      padding: clamp(0.3rem, 0.8vh, 0.6rem) 0 clamp(0.5rem, 1.2vh, 1rem);
+      padding: clamp(0.4rem, 1vh, 0.8rem) 0 clamp(0.6rem, 1.5vh, 1.2rem);
     }
 
     footer p {
@@ -194,7 +191,7 @@
     footer a:hover { color: var(--ink); border-color: var(--ink); }
 
     @media (prefers-reduced-motion: reduce) {
-      .poem-line { opacity: 1 !important; transform: none !important; transition: none !important; }
+      .poem-word { opacity: 1 !important; transition: none !important; }
     }
   </style>
 </head>
@@ -221,21 +218,17 @@
     </div>
   </div>
 
-  <!-- middle-zone: scrollbar, Bild 3 fix positioniert darin -->
   <div class="middle-zone">
-
-    <!-- Bild 3: absolut positioniert, bewegt sich nicht mit Gedicht -->
-    <div class="fig3">
-      <img src="abschluss/3.jpg" alt="" />
+    <div class="poem-row">
+      <div class="poem-wrap">
+        <div id="poem-output"></div>
+      </div>
+      <div class="fig3">
+        <img src="abschluss/3.jpg" alt="" />
+      </div>
     </div>
-
-    <div class="poem-wrap">
-      <div id="poem-output"></div>
-    </div>
-
   </div>
 
-  <!-- Bild 4: immer fix, eigene Zone -->
   <div class="fig4-zone">
     <div class="fig4">
       <img src="abschluss/4.jpg" alt="" />
@@ -269,18 +262,21 @@ async function writePoem() {
   for (let li = 0; li < poemLines.length; li++) {
     const { text, last } = poemLines[li];
 
+    // Zeilencontainer – startet unsichtbar
     const line = document.createElement('div');
     line.className = 'poem-line' + (last ? ' poem-last' : '');
     line.style.opacity = '0';
-    line.style.transform = 'translateY(-5px)';
+    line.style.transform = 'translateY(-6px)';
     line.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
     line.textContent = text;
     out.appendChild(line);
 
+    // Kurz warten, dann einblenden (oben → einrasten)
     await delay(30);
     line.style.opacity = '1';
     line.style.transform = 'translateY(0)';
 
+    // Pause bis zur nächsten Zeile
     await delay(320 + Math.random() * 120);
   }
 }
