@@ -23,21 +23,17 @@
     }
 
     html, body {
-      height: 100%;
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
-      overflow: hidden;
+      /* Normale Scrollseite – kein overflow:hidden */
     }
 
-    /* ═══════════════════════════════════════════
-       HAUPT-LAYOUT: 4 Zeilen, volle Viewport-Höhe
-       Header | Shows | Mitte (scrollbar) | Footer
-    ═══════════════════════════════════════════ */
+    /* Seite mindestens 100vh hoch, damit Footer bei wenig Inhalt unten bleibt */
     .layout {
       display: flex;
       flex-direction: column;
-      height: 100%;
+      min-height: 100svh; /* svh = small viewport height, berücksichtigt Browser-Chrome */
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -52,13 +48,12 @@
 
     /* ── HEADER ── */
     .top-header {
-      flex-shrink: 0;
-      padding: clamp(0.6rem, 1.8vh, 1.4rem) clamp(1rem, 4vw, 2rem) clamp(0.3rem, 0.8vh, 0.6rem);
+      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(0.4rem, 1vh, 0.8rem);
     }
 
     .chapter-label {
       font-family: Georgia, 'Times New Roman', serif;
-      font-size: clamp(1rem, 3.2vw, 1.6rem);
+      font-size: clamp(1.1rem, 3.5vw, 1.65rem);
       font-weight: 400;
       color: var(--ink);
       line-height: 1.2;
@@ -66,7 +61,7 @@
 
     .artist-name {
       font-family: 'Caveat', cursive;
-      font-size: clamp(0.95rem, 2.8vw, 1.5rem);
+      font-size: clamp(1rem, 3vw, 1.55rem);
       font-weight: 500;
       color: var(--ink);
       margin-top: 0.1rem;
@@ -79,17 +74,16 @@
       margin-left: 0.2em;
     }
 
-    /* ── SHOWS-ZEILE ── */
+    /* ── SHOWS ── */
     .shows-section {
-      flex-shrink: 0;
       display: flex;
       align-items: flex-start;
-      gap: clamp(0.5rem, 2vw, 1.2rem);
-      padding: 0 clamp(1rem, 4vw, 2rem) clamp(0.3rem, 0.8vh, 0.7rem);
+      gap: clamp(0.6rem, 2vw, 1.2rem);
+      padding: 0 clamp(1rem, 4vw, 2rem) clamp(0.4rem, 1vh, 0.8rem);
     }
 
     .fig2 {
-      width: clamp(55px, 9vw, 115px);
+      width: clamp(60px, 10vw, 120px);
       flex-shrink: 0;
       transform: rotate(1.5deg);
     }
@@ -101,37 +95,30 @@
       font-size: clamp(0.62rem, 1.3vw, 0.76rem);
       color: var(--ink-faint);
       letter-spacing: 0.12em;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.3rem;
     }
 
     .shows-list {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: clamp(0.1rem, 0.4vh, 0.3rem);
+      gap: clamp(0.1rem, 0.5vh, 0.32rem);
     }
 
     .shows-list li {
-      font-size: clamp(0.68rem, 1.8vw, 0.9rem);
+      font-size: clamp(0.7rem, 1.8vw, 0.9rem);
       font-weight: 300;
       color: var(--ink-blue);
       letter-spacing: 0.02em;
     }
 
-    /* ── MITTE: Gedicht + Bild 3, vertikal zentriert, scrollbar wenn nötig ──
-       Diese Zone nimmt den gesamten Restplatz.
-       Innen: Flexbox mit justify-content:center → Inhalt mittig.
-       overflow-y:auto → scrollbar nur wenn Viewport zu klein.
-    */
+    /* ── MITTE: wächst und zentriert Inhalt vertikal ── */
     .middle-zone {
-      flex: 1 1 0;
-      min-height: 0;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
+      flex: 1;                  /* nimmt restlichen Platz */
       display: flex;
-      align-items: center;       /* vertikal zentriert */
+      align-items: center;      /* vertikal zentriert wenn Platz da */
       justify-content: center;
+      padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 4vw, 2rem);
     }
 
     .poem-row {
@@ -139,19 +126,18 @@
       align-items: center;
       justify-content: center;
       gap: clamp(0.8rem, 3vw, 2rem);
-      padding: clamp(0.8rem, 2vh, 1.5rem) clamp(1rem, 4vw, 2rem);
       width: 100%;
       max-width: 700px;
     }
 
     .poem-wrap {
       flex: 0 0 auto;
-      width: clamp(200px, 52vw, 380px);
+      width: clamp(200px, 54vw, 380px);
     }
 
     #poem-output {
       font-family: 'Caveat', cursive;
-      font-size: clamp(0.92rem, 2.6vw, 1.2rem);
+      font-size: clamp(0.95rem, 2.8vw, 1.22rem);
       font-weight: 400;
       color: var(--ink);
       line-height: 1.95;
@@ -173,12 +159,11 @@
       transform: rotate(-1deg);
     }
 
-    /* ── BILD 4 (Schrank): eigene fixe Zone über dem Footer ── */
+    /* ── BILD 4 ── */
     .fig4-zone {
-      flex-shrink: 0;
       display: flex;
       justify-content: center;
-      padding: clamp(0.3rem, 1vh, 0.8rem) 0;
+      padding: clamp(0.5rem, 1.5vh, 1rem) 0;
     }
 
     .fig4 {
@@ -187,9 +172,8 @@
 
     /* ── FOOTER ── */
     footer {
-      flex-shrink: 0;
       text-align: center;
-      padding: clamp(0.3rem, 0.8vh, 0.7rem) 0;
+      padding: clamp(0.4rem, 1vh, 0.8rem) 0 clamp(0.6rem, 1.5vh, 1.2rem);
     }
 
     footer p {
@@ -214,13 +198,11 @@
 <body>
 <div class="layout">
 
-  <!-- HEADER -->
   <div class="top-header">
     <div class="chapter-label">die drei letzten shows im kapitel.</div>
     <div class="artist-name">b3nn3t<span class="year-tag">2023–2026</span></div>
   </div>
 
-  <!-- SHOWS -->
   <div class="shows-section">
     <div class="fig2">
       <img src="abschluss/2.jpg" alt="" />
@@ -235,7 +217,6 @@
     </div>
   </div>
 
-  <!-- MITTE: Gedicht + Figur 3, vertikal zentriert, scrollbar wenn nötig -->
   <div class="middle-zone">
     <div class="poem-row">
       <div class="poem-wrap">
@@ -247,14 +228,12 @@
     </div>
   </div>
 
-  <!-- BILD 4: fix, eigene Zone, immer gleicher Abstand zum Footer -->
   <div class="fig4-zone">
     <div class="fig4">
       <img src="abschluss/4.jpg" alt="" />
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <p>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></p>
   </footer>
