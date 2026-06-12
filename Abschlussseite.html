@@ -27,22 +27,13 @@
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
-    }
-
-    /*
-      Layout: 5 Zonen in einer Flex-Spalte, exakt 100svh hoch.
-      Wenn Viewport zu klein → ganze Seite scrollt (overflow auf body).
-      middle-zone hat feste Höhe (flex:1) und overflow:hidden →
-      Gedicht wächst DARIN, drückt Bild 4 und Footer NIE weg.
-    */
-    body {
-      overflow-y: auto;
+      overflow: hidden; /* Body scrollt nicht – nur middle-zone */
     }
 
     .layout {
       display: flex;
       flex-direction: column;
-      min-height: 100svh;
+      height: 100%;         /* Exakt Viewport-Höhe */
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -58,7 +49,7 @@
     /* ── HEADER ── */
     .top-header {
       flex-shrink: 0;
-      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1.4rem, 3.5vh, 2.5rem);
+      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1.2rem, 3vh, 2.2rem);
     }
 
     .chapter-label {
@@ -125,31 +116,23 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── MITTE: flex:1 → nimmt genau den Restplatz.
-       overflow:hidden → Gedicht-Aufbau drückt nichts weg.
-       Inhalt vertikal + horizontal zentriert. ── */
+    /* ── MITTE: scrollbar, Bild 3 fix darin ── */
     .middle-zone {
       flex: 1 1 0;
-      min-height: 0;           /* wichtig: verhindert Überlauf über flex-parent */
-      overflow: hidden;        /* Gedicht wächst innen, Zone bleibt fix */
-      display: flex;
-      align-items: center;     /* vertikal zentriert */
-      justify-content: center;
-      padding: clamp(0.8rem, 2vh, 1.5rem) clamp(1rem, 4vw, 2rem);
+      min-height: 0;
+      position: relative;       /* Anker für fig3 */
+      overflow-y: auto;         /* scrollbar wenn Gedicht zu lang */
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .poem-row {
-      display: flex;
-      align-items: flex-start; /* Gedicht und Figur 3 oben bündig */
-      justify-content: center;
-      gap: clamp(0.8rem, 3vw, 2rem);
-      width: 100%;
-      max-width: 700px;
-    }
-
+    /* Gedicht zentriert im verfügbaren Platz */
     .poem-wrap {
-      flex: 0 0 auto;
-      width: clamp(200px, 54vw, 380px);
+      display: flex;
+      justify-content: center;
+      padding: clamp(0.8rem, 3vh, 2rem) clamp(1rem, 4vw, 2rem);
+      /* Rechts Platz für Bild 3 lassen */
+      padding-right: clamp(80px, 18vw, 160px);
     }
 
     #poem-output {
@@ -168,13 +151,17 @@
       text-align: center;
     }
 
+    /* Bild 3: fix in der middle-zone, rechts, vertikal mittig */
     .fig3 {
-      flex: 0 0 clamp(55px, 10vw, 110px);
-      width: clamp(55px, 10vw, 110px);
+      position: absolute;
+      right: clamp(0.5rem, 3vw, 2rem);
+      top: clamp(0.5rem, 3vh, 1.5rem);
       transform: rotate(-1deg);
+      width: clamp(55px, 10vw, 110px);
+      pointer-events: none;
     }
 
-    /* ── BILD 4: fix, eigene Zone, wandert nie ── */
+    /* ── BILD 4: fix, eigene Zone ── */
     .fig4-zone {
       flex-shrink: 0;
       display: flex;
@@ -190,7 +177,7 @@
     footer {
       flex-shrink: 0;
       text-align: center;
-      padding: clamp(0.4rem, 1vh, 0.7rem) 0 clamp(0.5rem, 1.2vh, 1rem);
+      padding: clamp(0.3rem, 0.8vh, 0.6rem) 0 clamp(0.5rem, 1.2vh, 1rem);
     }
 
     footer p {
@@ -234,19 +221,21 @@
     </div>
   </div>
 
-  <!-- middle-zone: feste Höhe, Gedicht wächst innen, drückt nichts weg -->
+  <!-- middle-zone: scrollbar, Bild 3 fix positioniert darin -->
   <div class="middle-zone">
-    <div class="poem-row">
-      <div class="poem-wrap">
-        <div id="poem-output"></div>
-      </div>
-      <div class="fig3">
-        <img src="abschluss/3.jpg" alt="" />
-      </div>
+
+    <!-- Bild 3: absolut positioniert, bewegt sich nicht mit Gedicht -->
+    <div class="fig3">
+      <img src="abschluss/3.jpg" alt="" />
     </div>
+
+    <div class="poem-wrap">
+      <div id="poem-output"></div>
+    </div>
+
   </div>
 
-  <!-- Bild 4: immer an fester Stelle, unabhängig vom Gedicht -->
+  <!-- Bild 4: immer fix, eigene Zone -->
   <div class="fig4-zone">
     <div class="fig4">
       <img src="abschluss/4.jpg" alt="" />
