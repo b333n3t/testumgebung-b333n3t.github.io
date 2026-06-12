@@ -20,8 +20,6 @@
       --ink-light: #5a5a5a;
       --ink-faint: #a8a8a8;
       --ink-blue: #2a5fc9;
-      /* Höhe von Bild4 + Footer – reservierter Platz am unteren Rand */
-      --bottom-reserved: clamp(100px, 20vh, 180px);
     }
 
     html, body {
@@ -30,12 +28,10 @@
       font-family: 'Inter', system-ui, sans-serif;
     }
 
-    /* Layout: normale Scrollseite, min 100svh */
     .layout {
       display: flex;
       flex-direction: column;
       min-height: 100svh;
-
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -46,6 +42,13 @@
       width: 100%;
       height: auto;
       filter: saturate(0.9) contrast(0.96);
+    }
+
+    /* ── Schatten unter Bildern: weich, wie auf Papier gelegt ── */
+    .fig2 img, .fig3 img, .fig4 img {
+      filter: saturate(0.9) contrast(0.96)
+              drop-shadow(0px 6px 12px rgba(40,30,20,0.18))
+              drop-shadow(0px 2px 4px rgba(40,30,20,0.10));
     }
 
     /* ── HEADER ── */
@@ -90,6 +93,8 @@
       width: clamp(60px, 10vw, 120px);
       flex-shrink: 0;
       transform: rotate(1.5deg);
+      /* Parallax: wird per JS gesetzt */
+      will-change: transform;
     }
 
     .shows-strip { flex: 1; min-width: 0; }
@@ -116,11 +121,11 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── MITTE: Gedicht + Bild 3, wächst von oben nach unten ── */
+    /* ── MITTE ── */
     .middle-zone {
       flex: 1;
       display: flex;
-      align-items: center;      /* vertikal zentriert */
+      align-items: center;
       justify-content: center;
       padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 4vw, 2rem);
     }
@@ -150,6 +155,7 @@
 
     .poem-last { color: var(--ink-light); }
 
+    /* Gedichtzeilen: erscheinen leicht von links ── struktureller Tiefeneffekt */
     .poem-line {
       display: block;
       text-align: center;
@@ -159,14 +165,16 @@
       flex: 0 0 clamp(80px, 14vw, 150px);
       width: clamp(80px, 14vw, 150px);
       transform: rotate(-1deg);
+      will-change: transform;
     }
 
-    /* ── BILD 4 + FOOTER: normaler Flow, scrollt mit der Seite ── */
+    /* ── BILD 4 + FOOTER ── */
     .bottom-fixed {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: clamp(0.4rem, 1.2vh, 1rem) 0 clamp(0.5rem, 1.2vh, 1rem);
+      will-change: transform;
     }
 
     .fig4 {
@@ -202,7 +210,7 @@
   </div>
 
   <div class="shows-section">
-    <div class="fig2">
+    <div class="fig2" data-parallax="0.35">
       <img src="abschluss/2.jpg" alt="" />
     </div>
     <div class="shows-strip">
@@ -220,15 +228,13 @@
       <div class="poem-wrap">
         <div id="poem-output"></div>
       </div>
-      <div class="fig3">
+      <div class="fig3" data-parallax="0.18">
         <img src="abschluss/3.jpg" alt="" />
       </div>
     </div>
   </div>
 
-
-  <!-- Bild 4 + Footer: im Flow, bei genug Platz unten, sonst scrollbar -->
-  <div class="bottom-fixed" style="margin-top: auto;">
+  <div class="bottom-fixed" style="margin-top: auto;" data-parallax="0.08">
     <div class="fig4">
       <img src="abschluss/4.jpg" alt="" />
     </div>
@@ -240,6 +246,7 @@
 </div>
 
 <script>
+/* ── Gedicht: Zeilen von links einschwebend ── */
 const poemLines = [
   { text: "ein schatten steht im rahmen.", last: false },
   { text: "das holz war ein paar monate stumm.", last: false },
@@ -262,21 +269,49 @@ async function writePoem() {
 
     const line = document.createElement('div');
     line.className = 'poem-line' + (last ? ' poem-last' : '');
+
+    /* Jede Zeile startet leicht von links versetzt – gibt Schreibgefühl + Tiefe */
+    const startX = -18 - Math.random() * 8;
     line.style.opacity = '0';
-    line.style.transform = 'translateY(-6px)';
-    line.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+    line.style.transform = `translateX(${startX}px) translateY(-4px)`;
+    line.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)';
     line.textContent = text;
     out.appendChild(line);
 
     await delay(30);
     line.style.opacity = '1';
-    line.style.transform = 'translateY(0)';
+    line.style.transform = 'translateX(0) translateY(0)';
 
-    await delay(320 + Math.random() * 120);
+    await delay(300 + Math.random() * 130);
   }
 }
 
 window.addEventListener('load', writePoem);
+
+/* ── Parallax: Bilder bewegen sich langsamer als der Scroll ──
+   Jedes Element mit data-parallax="speed" bekommt einen leichten Offset.
+   speed 0 = mit Scroll, 1 = komplett fix. Wir nutzen 0.08–0.35 = sehr subtil.
+*/
+const parallaxEls = document.querySelectorAll('[data-parallax]');
+
+function onScroll() {
+  const scrollY = window.scrollY;
+  parallaxEls.forEach(el => {
+    const speed = parseFloat(el.dataset.parallax);
+    const baseTransform = el.dataset.baseTransform || '';
+    el.style.transform = baseTransform + ` translateY(${scrollY * speed * -1}px)`;
+  });
+}
+
+/* Basis-Transforms sichern (rotate etc.) */
+parallaxEls.forEach(el => {
+  const computed = window.getComputedStyle(el).transform;
+  /* Wir lesen die CSS-Rotation aus dem data-parallax-Attribut selbst nicht –
+     stattdessen merken wir uns den ursprünglichen inline-transform falls vorhanden */
+  el.dataset.baseTransform = el.style.transform || '';
+});
+
+window.addEventListener('scroll', onScroll, { passive: true });
 </script>
 
 </body>
