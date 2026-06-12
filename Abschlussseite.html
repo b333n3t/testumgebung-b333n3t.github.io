@@ -67,8 +67,7 @@
       font-weight: 300;
       letter-spacing: 0.06em;
       color: var(--ink);
-      margin-top: 0.1rem;
-      margin-bottom: clamp(0.5rem, 1.2vh, 0.9rem);
+      margin-top: clamp(0.5rem, 1.2vh, 0.9rem);
     }
 
     .year-tag {
@@ -138,11 +137,6 @@
     .poem-wrap {
       flex: 0 0 auto;
       width: clamp(200px, 54vw, 380px);
-      /* Exakte Höhe des fertigen Gedichts von Anfang an fix reservieren.
-         8 Zeilen × line-height 1.95 × ~1.09rem (clamp-Mitte) ≈ 17rem.
-         height statt min-height: Gedicht kann die Zone nicht aufblasen. */
-      height: clamp(13rem, 28vh, 17rem);
-      overflow: hidden;
     }
 
     #poem-output {
