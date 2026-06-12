@@ -170,11 +170,18 @@
       transform: rotate(-1deg);
     }
 
-    .poem-line {
-      display: block;
-      text-align: center;
-      white-space: nowrap;
-    }
+.poem-line {
+  display: block;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.poem-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
 
     .poem-last {
       color: var(--ink-light);
@@ -320,26 +327,36 @@ async function writePoem() {
 
     const line = document.createElement('div');
     line.className = 'poem-line' + (last ? ' poem-last' : '');
-    out.appendChild(line);
 
     const words = text.split(' ');
+    const wordSpans = [];
 
-    for (let wi = 0; wi < words.length; wi++) {
+    /*
+      Wichtig:
+      Alle Wörter werden sofort in die Zeile geschrieben,
+      sind aber unsichtbar. Dadurch hat die Zeile von Anfang an
+      ihre finale Breite. Beim Sichtbarwerden wächst sie optisch
+      nur nach rechts.
+    */
+    words.forEach((wordText, index) => {
       const word = document.createElement('span');
-      word.textContent = words[wi];
-
-      word.style.opacity = '0';
-      word.style.transform = 'translateY(-3px)';
-      word.style.display = 'inline-block';
-      word.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+      word.className = 'poem-word';
+      word.textContent = wordText;
 
       line.appendChild(word);
+      wordSpans.push(word);
 
-      if (wi < words.length - 1) {
+      if (index < words.length - 1) {
         line.appendChild(document.createTextNode(' '));
       }
+    });
 
-      await delay(40);
+    out.appendChild(line);
+
+    for (let wi = 0; wi < wordSpans.length; wi++) {
+      const word = wordSpans[wi];
+
+      await delay(80);
 
       word.style.opacity = '1';
       word.style.transform = 'translateY(0)';
