@@ -164,20 +164,12 @@
       transform: rotate(-1deg);
     }
 
-    /* ── BILD 4 + FOOTER: sticky am unteren Rand des Viewports,
-       scrollt mit wenn der Inhalt zu lang ist ── */
+    /* ── BILD 4 + FOOTER: normaler Flow, scrollt mit der Seite ── */
     .bottom-fixed {
-      position: sticky;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background: var(--bg);
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: clamp(0.4rem, 1.2vh, 1rem) 0 clamp(0.5rem, 1.2vh, 1rem);
-      z-index: 10;
-      /* Kein margin-top nötig – sticky bleibt unten bis es erreicht wird */
     }
 
     .fig4 {
@@ -238,8 +230,8 @@
   </div>
 
 
-  <!-- Bild 4 + Footer: sticky, scrollt mit wenn Inhalt zu lang -->
-  <div class="bottom-fixed">
+  <!-- Bild 4 + Footer: im Flow, bei genug Platz unten, sonst scrollbar -->
+  <div class="bottom-fixed" style="margin-top: auto;">
     <div class="fig4">
       <img src="abschluss/4.jpg" alt="" />
     </div>
