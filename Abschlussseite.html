@@ -35,8 +35,7 @@
       display: flex;
       flex-direction: column;
       min-height: 100svh;
-      /* Unten Platz für das fixe Bild 4 + Footer */
-      padding-bottom: var(--bottom-reserved);
+
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -160,23 +159,25 @@
     }
 
     .fig3 {
-      flex: 0 0 clamp(55px, 10vw, 110px);
-      width: clamp(55px, 10vw, 110px);
+      flex: 0 0 clamp(80px, 14vw, 150px);
+      width: clamp(80px, 14vw, 150px);
       transform: rotate(-1deg);
     }
 
-    /* ── BILD 4 + FOOTER: fix am unteren Rand, ausserhalb des Flows ── */
+    /* ── BILD 4 + FOOTER: sticky am unteren Rand des Viewports,
+       scrollt mit wenn der Inhalt zu lang ist ── */
     .bottom-fixed {
-      position: fixed;
+      position: sticky;
       bottom: 0;
       left: 0;
       width: 100%;
-      background: var(--bg); /* gleiche Hintergrundfarbe, kein harter Schnitt */
+      background: var(--bg);
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: clamp(0.4rem, 1.2vh, 1rem) 0 clamp(0.5rem, 1.2vh, 1rem);
       z-index: 10;
+      /* Kein margin-top nötig – sticky bleibt unten bis es erreicht wird */
     }
 
     .fig4 {
@@ -236,16 +237,17 @@
     </div>
   </div>
 
-</div>
 
-<!-- Bild 4 + Footer: position:fixed, immer unten, bewegt sich nie -->
-<div class="bottom-fixed">
-  <div class="fig4">
-    <img src="abschluss/4.jpg" alt="" />
+  <!-- Bild 4 + Footer: sticky, scrollt mit wenn Inhalt zu lang -->
+  <div class="bottom-fixed">
+    <div class="fig4">
+      <img src="abschluss/4.jpg" alt="" />
+    </div>
+    <footer>
+      <p>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></p>
+    </footer>
   </div>
-  <footer>
-    <p>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></p>
-  </footer>
+
 </div>
 
 <script>
