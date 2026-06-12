@@ -23,17 +23,26 @@
     }
 
     html, body {
+      height: 100%;
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
-      /* Normale Scrollseite – kein overflow:hidden */
     }
 
-    /* Seite mindestens 100vh hoch, damit Footer bei wenig Inhalt unten bleibt */
+    /*
+      Layout: 5 Zonen in einer Flex-Spalte, exakt 100svh hoch.
+      Wenn Viewport zu klein → ganze Seite scrollt (overflow auf body).
+      middle-zone hat feste Höhe (flex:1) und overflow:hidden →
+      Gedicht wächst DARIN, drückt Bild 4 und Footer NIE weg.
+    */
+    body {
+      overflow-y: auto;
+    }
+
     .layout {
       display: flex;
       flex-direction: column;
-      min-height: 100svh; /* svh = small viewport height, berücksichtigt Browser-Chrome */
+      min-height: 100svh;
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -48,7 +57,8 @@
 
     /* ── HEADER ── */
     .top-header {
-      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1.8rem, 4vh, 3rem);
+      flex-shrink: 0;
+      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1.4rem, 3.5vh, 2.5rem);
     }
 
     .chapter-label {
@@ -61,32 +71,32 @@
 
     .artist-name {
       font-family: 'Inter', system-ui, sans-serif;
+      font-size: clamp(0.95rem, 2.8vw, 1.45rem);
       font-weight: 300;
-      letter-spacing: 0.04em;
-      font-size: clamp(1rem, 3vw, 1.55rem);
-      font-weight: 500;
+      letter-spacing: 0.06em;
       color: var(--ink);
-      margin-top: 0.1rem;
+      margin-top: 0.15rem;
     }
 
     .year-tag {
-      font-size: clamp(0.55rem, 1.2vw, 0.7rem);
+      font-size: clamp(0.52rem, 1.1vw, 0.68rem);
       color: var(--ink-faint);
       vertical-align: super;
-      margin-left: 0.2em;
+      margin-left: 0.25em;
     }
 
     /* ── SHOWS ── */
     .shows-section {
+      flex-shrink: 0;
       display: flex;
       align-items: flex-start;
       gap: clamp(0.6rem, 2vw, 1.2rem);
       padding: 0 clamp(1rem, 4vw, 2rem) clamp(0.4rem, 1vh, 0.8rem);
-      margin-left: clamp(2rem, 7vw, 5rem);
+      margin-left: clamp(2.5rem, 8vw, 6rem);
     }
 
     .fig2 {
-      width: clamp(60px, 10vw, 120px);
+      width: clamp(58px, 9.5vw, 115px);
       flex-shrink: 0;
       transform: rotate(1.5deg);
     }
@@ -115,18 +125,22 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── MITTE: wächst und zentriert Inhalt vertikal ── */
+    /* ── MITTE: flex:1 → nimmt genau den Restplatz.
+       overflow:hidden → Gedicht-Aufbau drückt nichts weg.
+       Inhalt vertikal + horizontal zentriert. ── */
     .middle-zone {
-      flex: 1;                  /* nimmt restlichen Platz */
+      flex: 1 1 0;
+      min-height: 0;           /* wichtig: verhindert Überlauf über flex-parent */
+      overflow: hidden;        /* Gedicht wächst innen, Zone bleibt fix */
       display: flex;
-      align-items: flex-start;  /* Gedicht wächst von oben nach unten */
+      align-items: center;     /* vertikal zentriert */
       justify-content: center;
-      padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 4vw, 2rem);
+      padding: clamp(0.8rem, 2vh, 1.5rem) clamp(1rem, 4vw, 2rem);
     }
 
     .poem-row {
       display: flex;
-      align-items: flex-start;
+      align-items: flex-start; /* Gedicht und Figur 3 oben bündig */
       justify-content: center;
       gap: clamp(0.8rem, 3vw, 2rem);
       width: 100%;
@@ -160,11 +174,12 @@
       transform: rotate(-1deg);
     }
 
-    /* ── BILD 4 ── */
+    /* ── BILD 4: fix, eigene Zone, wandert nie ── */
     .fig4-zone {
+      flex-shrink: 0;
       display: flex;
       justify-content: center;
-      padding: clamp(0.5rem, 1.5vh, 1rem) 0;
+      padding: clamp(0.4rem, 1.2vh, 1rem) 0;
     }
 
     .fig4 {
@@ -173,8 +188,9 @@
 
     /* ── FOOTER ── */
     footer {
+      flex-shrink: 0;
       text-align: center;
-      padding: clamp(0.4rem, 1vh, 0.8rem) 0 clamp(0.6rem, 1.5vh, 1.2rem);
+      padding: clamp(0.4rem, 1vh, 0.7rem) 0 clamp(0.5rem, 1.2vh, 1rem);
     }
 
     footer p {
@@ -191,7 +207,7 @@
     footer a:hover { color: var(--ink); border-color: var(--ink); }
 
     @media (prefers-reduced-motion: reduce) {
-      .poem-word { opacity: 1 !important; transition: none !important; }
+      .poem-line { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
   </style>
 </head>
@@ -218,6 +234,7 @@
     </div>
   </div>
 
+  <!-- middle-zone: feste Höhe, Gedicht wächst innen, drückt nichts weg -->
   <div class="middle-zone">
     <div class="poem-row">
       <div class="poem-wrap">
@@ -229,6 +246,7 @@
     </div>
   </div>
 
+  <!-- Bild 4: immer an fester Stelle, unabhängig vom Gedicht -->
   <div class="fig4-zone">
     <div class="fig4">
       <img src="abschluss/4.jpg" alt="" />
@@ -262,21 +280,18 @@ async function writePoem() {
   for (let li = 0; li < poemLines.length; li++) {
     const { text, last } = poemLines[li];
 
-    // Zeilencontainer – startet unsichtbar
     const line = document.createElement('div');
     line.className = 'poem-line' + (last ? ' poem-last' : '');
     line.style.opacity = '0';
-    line.style.transform = 'translateY(-6px)';
+    line.style.transform = 'translateY(-5px)';
     line.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
     line.textContent = text;
     out.appendChild(line);
 
-    // Kurz warten, dann einblenden (oben → einrasten)
     await delay(30);
     line.style.opacity = '1';
     line.style.transform = 'translateY(0)';
 
-    // Pause bis zur nächsten Zeile
     await delay(320 + Math.random() * 120);
   }
 }
