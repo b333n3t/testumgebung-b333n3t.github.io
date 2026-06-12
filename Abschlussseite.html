@@ -20,20 +20,23 @@
       --ink-light: #5a5a5a;
       --ink-faint: #a8a8a8;
       --ink-blue: #2a5fc9;
+      /* Höhe von Bild4 + Footer – reservierter Platz am unteren Rand */
+      --bottom-reserved: clamp(100px, 20vh, 180px);
     }
 
     html, body {
       background: var(--bg);
       color: var(--ink);
       font-family: 'Inter', system-ui, sans-serif;
-      /* Normale Scrollseite – kein overflow:hidden */
     }
 
-    /* Seite mindestens 100vh hoch, damit Footer bei wenig Inhalt unten bleibt */
+    /* Layout: normale Scrollseite, min 100svh */
     .layout {
       display: flex;
       flex-direction: column;
-      min-height: 100svh; /* svh = small viewport height, berücksichtigt Browser-Chrome */
+      min-height: 100svh;
+      /* Unten Platz für das fixe Bild 4 + Footer */
+      padding-bottom: var(--bottom-reserved);
       opacity: 0;
       animation: fadeIn 1.2s ease 0.1s forwards;
     }
@@ -61,10 +64,9 @@
 
     .artist-name {
       font-family: 'Inter', system-ui, sans-serif;
-      font-weight: 300;
-      letter-spacing: 0.04em;
       font-size: clamp(1rem, 3vw, 1.55rem);
-      font-weight: 500;
+      font-weight: 300;
+      letter-spacing: 0.06em;
       color: var(--ink);
       margin-top: 0.1rem;
     }
@@ -115,11 +117,11 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── MITTE: wächst und zentriert Inhalt vertikal ── */
+    /* ── MITTE: Gedicht + Bild 3, wächst von oben nach unten ── */
     .middle-zone {
-      flex: 1;                  /* nimmt restlichen Platz */
+      flex: 1;
       display: flex;
-      align-items: flex-start;  /* Gedicht wächst von oben nach unten */
+      align-items: flex-start;
       justify-content: center;
       padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 4vw, 2rem);
     }
@@ -160,21 +162,23 @@
       transform: rotate(-1deg);
     }
 
-    /* ── BILD 4 ── */
-    .fig4-zone {
+    /* ── BILD 4 + FOOTER: fix am unteren Rand, ausserhalb des Flows ── */
+    .bottom-fixed {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: var(--bg); /* gleiche Hintergrundfarbe, kein harter Schnitt */
       display: flex;
-      justify-content: center;
-      padding: clamp(0.5rem, 1.5vh, 1rem) 0;
+      flex-direction: column;
+      align-items: center;
+      padding: clamp(0.4rem, 1.2vh, 1rem) 0 clamp(0.5rem, 1.2vh, 1rem);
+      z-index: 10;
     }
 
     .fig4 {
       width: clamp(65px, 13vw, 115px);
-    }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center;
-      padding: clamp(0.4rem, 1vh, 0.8rem) 0 clamp(0.6rem, 1.5vh, 1.2rem);
+      margin-bottom: clamp(0.3rem, 0.8vh, 0.6rem);
     }
 
     footer p {
@@ -191,7 +195,7 @@
     footer a:hover { color: var(--ink); border-color: var(--ink); }
 
     @media (prefers-reduced-motion: reduce) {
-      .poem-word { opacity: 1 !important; transition: none !important; }
+      .poem-line { opacity: 1 !important; transform: none !important; transition: none !important; }
     }
   </style>
 </head>
@@ -229,16 +233,16 @@
     </div>
   </div>
 
-  <div class="fig4-zone">
-    <div class="fig4">
-      <img src="abschluss/4.jpg" alt="" />
-    </div>
-  </div>
+</div>
 
+<!-- Bild 4 + Footer: position:fixed, immer unten, bewegt sich nie -->
+<div class="bottom-fixed">
+  <div class="fig4">
+    <img src="abschluss/4.jpg" alt="" />
+  </div>
   <footer>
     <p>© b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a></p>
   </footer>
-
 </div>
 
 <script>
@@ -262,7 +266,6 @@ async function writePoem() {
   for (let li = 0; li < poemLines.length; li++) {
     const { text, last } = poemLines[li];
 
-    // Zeilencontainer – startet unsichtbar
     const line = document.createElement('div');
     line.className = 'poem-line' + (last ? ' poem-last' : '');
     line.style.opacity = '0';
@@ -271,12 +274,10 @@ async function writePoem() {
     line.textContent = text;
     out.appendChild(line);
 
-    // Kurz warten, dann einblenden (oben → einrasten)
     await delay(30);
     line.style.opacity = '1';
     line.style.transform = 'translateY(0)';
 
-    // Pause bis zur nächsten Zeile
     await delay(320 + Math.random() * 120);
   }
 }
