@@ -152,8 +152,9 @@ img {
 
     .poem-line {
       display: block;
-      text-align: center;
-      width: fint-content;
+      text-align: left;
+      white-space: nowrap;
+      width: fit-content;
     }
 
     .fig3 {
@@ -261,8 +262,24 @@ async function writePoem() {
   for (let li = 0; li < poemLines.length; li++) {
     const { text, last } = poemLines[li];
 
-    const line = document.createElement('div');
-    line.className = 'poem-line' + (last ? ' poem-last' : '');
+lineEl.className = 'poem-line' + (last ? ' poem-last' : '');
+
+const indents = [
+  "8%",
+  "2%",
+  "6%",
+  "1%",
+  "5%",
+  "11%",
+  "2%",
+  "7%"
+];
+
+
+lineEl.style.marginLeft = indents[li];
+
+out.appendChild(lineEl);
+
     line.style.opacity = '0';
     line.style.transform = 'translateY(-6px)';
     line.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
