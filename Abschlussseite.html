@@ -121,9 +121,9 @@
     .middle-zone {
       flex: 1;
       display: flex;
-      align-items: flex-start;
+      align-items: center;      /* vertikal zentriert */
       justify-content: center;
-      padding: clamp(1.5rem, 4vh, 3rem) clamp(1rem, 4vw, 2rem);
+      padding: clamp(1rem, 3vh, 2rem) clamp(1rem, 4vw, 2rem);
     }
 
     .poem-row {
@@ -138,6 +138,9 @@
     .poem-wrap {
       flex: 0 0 auto;
       width: clamp(200px, 54vw, 380px);
+      /* Höhe des fertigen Gedichts von Anfang an reservieren:
+         8 Zeilen × line-height 1.95 × font-size ~1.1rem ≈ 17rem */
+      min-height: clamp(13rem, 30vh, 18rem);
     }
 
     #poem-output {
