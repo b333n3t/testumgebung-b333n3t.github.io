@@ -170,18 +170,18 @@
       transform: rotate(-1deg);
     }
 
-.poem-line {
-  display: block;
-  text-align: center;
-  white-space: nowrap;
-}
+    .poem-line {
+      display: block;
+      text-align: center;
+      white-space: nowrap;
+    }
 
-.poem-word {
-  display: inline-block;
-  opacity: 0;
-  transform: translateY(-2px);
-  transition: opacity 0.45s ease, transform 0.45s ease;
-}
+    .poem-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(-2px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
 
     .poem-last {
       color: var(--ink-light);
@@ -227,6 +227,47 @@
       border-color: var(--ink);
     }
 
+    /* ── ÜBERSPRINGEN-BUTTON ── */
+
+    .skip-link {
+      position: fixed;
+      right: clamp(0.9rem, 4vw, 1.5rem);
+      bottom: calc(env(safe-area-inset-bottom) + clamp(0.9rem, 3vh, 1.4rem));
+      z-index: 20;
+
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: clamp(0.62rem, 1.5vw, 0.76rem);
+      font-weight: 300;
+      letter-spacing: 0.04em;
+
+      color: var(--ink-faint);
+      text-decoration: none;
+
+      padding: 0.45rem 0.7rem;
+      border: 1px solid rgba(168, 168, 168, 0.45);
+      border-radius: 999px;
+      background: rgba(244, 242, 239, 0.78);
+      backdrop-filter: blur(4px);
+
+      opacity: 0;
+      animation: skipFadeIn 1.2s ease 1.8s forwards;
+      transition:
+        color 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease,
+        opacity 0.25s ease;
+    }
+
+    .skip-link:hover {
+      color: var(--ink);
+      border-color: rgba(26, 26, 26, 0.45);
+      background: rgba(244, 242, 239, 0.95);
+    }
+
+    @keyframes skipFadeIn {
+      to { opacity: 1; }
+    }
+
     @media (max-width: 430px) {
       .poem-row {
         gap: clamp(0.6rem, 2.5vw, 1rem);
@@ -245,13 +286,24 @@
         flex-basis: clamp(72px, 19vw, 92px);
         width: clamp(72px, 19vw, 92px);
       }
+
+      .skip-link {
+        right: clamp(0.8rem, 4vw, 1rem);
+        bottom: calc(env(safe-area-inset-bottom) + 0.8rem);
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .poem-line {
+      .poem-line,
+      .poem-word {
         opacity: 1 !important;
         transform: none !important;
         transition: none !important;
+      }
+
+      .skip-link {
+        opacity: 1 !important;
+        animation: none !important;
       }
     }
   </style>
@@ -304,6 +356,10 @@
 
 </div>
 
+<a class="skip-link" href="https://www.b3nn3t.com/" aria-label="Intro überspringen und zur Hauptseite wechseln">
+  überspringen
+</a>
+
 <script>
 const poemLines = [
   { text: "ein schatten steht im rahmen.", last: false },
@@ -331,13 +387,6 @@ async function writePoem() {
     const words = text.split(' ');
     const wordSpans = [];
 
-    /*
-      Wichtig:
-      Alle Wörter werden sofort in die Zeile geschrieben,
-      sind aber unsichtbar. Dadurch hat die Zeile von Anfang an
-      ihre finale Breite. Beim Sichtbarwerden wächst sie optisch
-      nur nach rechts.
-    */
     words.forEach((wordText, index) => {
       const word = document.createElement('span');
       word.className = 'poem-word';
