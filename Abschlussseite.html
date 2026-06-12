@@ -320,20 +320,34 @@ async function writePoem() {
 
     const line = document.createElement('div');
     line.className = 'poem-line' + (last ? ' poem-last' : '');
-
-    line.style.opacity = '0';
-    line.style.transform = 'translateY(-4px)';
-    line.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-
-    line.textContent = text;
     out.appendChild(line);
 
-    await delay(40);
+    const words = text.split(' ');
 
-    line.style.opacity = '1';
-    line.style.transform = 'translateY(0)';
+    for (let wi = 0; wi < words.length; wi++) {
+      const word = document.createElement('span');
+      word.textContent = words[wi];
 
-    await delay(360 + Math.random() * 120);
+      word.style.opacity = '0';
+      word.style.transform = 'translateY(-3px)';
+      word.style.display = 'inline-block';
+      word.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+
+      line.appendChild(word);
+
+      if (wi < words.length - 1) {
+        line.appendChild(document.createTextNode(' '));
+      }
+
+      await delay(40);
+
+      word.style.opacity = '1';
+      word.style.transform = 'translateY(0)';
+
+      await delay(210 + Math.random() * 90);
+    }
+
+    await delay(360 + Math.random() * 130);
   }
 }
 
