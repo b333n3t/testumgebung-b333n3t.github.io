@@ -48,7 +48,7 @@
 
     /* ── HEADER ── */
     .top-header {
-      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(0.4rem, 1vh, 0.8rem);
+      padding: clamp(0.8rem, 2.5vh, 1.5rem) clamp(1rem, 4vw, 2rem) clamp(1rem, 2.5vh, 2rem);
     }
 
     .chapter-label {
@@ -60,7 +60,7 @@
     }
 
     .artist-name {
-      font-family: 'Caveat', cursive;
+      font-family: Georgia, 'Times New Roman', serif;
       font-size: clamp(1rem, 3vw, 1.55rem);
       font-weight: 500;
       color: var(--ink);
@@ -80,6 +80,7 @@
       align-items: flex-start;
       gap: clamp(0.6rem, 2vw, 1.2rem);
       padding: 0 clamp(1rem, 4vw, 2rem) clamp(0.4rem, 1vh, 0.8rem);
+      margin-left: clamp(1rem, 4vw, 3rem);
     }
 
     .fig2 {
@@ -146,12 +147,10 @@
 
     .poem-last { color: var(--ink-light); }
 
-    .poem-word {
-      display: inline;
-      opacity: 0;
-      transition: opacity 0.4s ease;
+    .poem-line {
+      display: block;
+      text-align: center;
     }
-    .poem-word.show { opacity: 1; }
 
     .fig3 {
       flex: 0 0 clamp(55px, 10vw, 110px);
@@ -199,7 +198,7 @@
 <div class="layout">
 
   <div class="top-header">
-    <div class="chapter-label">die drei letzten shows im kapitel.</div>
+    <div class="chapter-label">die drei letzten shows im kapitel</div>
     <div class="artist-name">b3nn3t<span class="year-tag">2023–2026</span></div>
   </div>
 
@@ -242,14 +241,14 @@
 
 <script>
 const poemLines = [
-  { words: ["ein","schatten","steht","im","rahmen."], last: false },
-  { words: ["das","holz","war","ein","paar","monate","stumm."], last: false },
-  { words: ["jetzt","reisst","der","wind","eine","fuge."], last: false },
-  { words: ["da","drinnen","wird","etwas","abgelegt,"], last: false },
-  { words: ["das","lange","zu","schwer","war."], last: false },
-  { words: ["drei","letzte","windstösse."], last: false },
-  { words: ["dann","drückt","die","kälte","die","tür","auf."], last: false },
-  { words: ["wer","geht,","hat","ein","neues","gesicht."], last: true }
+  { text: "ein schatten steht im rahmen.", last: false },
+  { text: "das holz war ein paar monate stumm.", last: false },
+  { text: "jetzt reisst der wind eine fuge.", last: false },
+  { text: "da drinnen wird etwas abgelegt,", last: false },
+  { text: "das lange zu schwer war.", last: false },
+  { text: "drei letzte windstösse.", last: false },
+  { text: "dann drückt die kälte die tür auf.", last: false },
+  { text: "wer geht, hat ein neues gesicht.", last: true }
 ];
 
 const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -257,21 +256,26 @@ const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 async function writePoem() {
   const out = document.getElementById('poem-output');
   out.innerHTML = '';
+
   for (let li = 0; li < poemLines.length; li++) {
-    const { words, last } = poemLines[li];
-    for (let wi = 0; wi < words.length; wi++) {
-      const span = document.createElement('span');
-      span.className = 'poem-word' + (last ? ' poem-last' : '');
-      span.textContent = words[wi] + '\u00A0';
-      out.appendChild(span);
-      await delay(20);
-      span.classList.add('show');
-      await delay(100 + Math.random() * 80);
-    }
-    if (li < poemLines.length - 1) {
-      out.appendChild(document.createElement('br'));
-      await delay(220);
-    }
+    const { text, last } = poemLines[li];
+
+    // Zeilencontainer – startet unsichtbar
+    const line = document.createElement('div');
+    line.className = 'poem-line' + (last ? ' poem-last' : '');
+    line.style.opacity = '0';
+    line.style.transform = 'translateY(-6px)';
+    line.style.transition = 'opacity 0.45s ease, transform 0.45s ease';
+    line.textContent = text;
+    out.appendChild(line);
+
+    // Kurz warten, dann einblenden (oben → einrasten)
+    await delay(30);
+    line.style.opacity = '1';
+    line.style.transform = 'translateY(0)';
+
+    // Pause bis zur nächsten Zeile
+    await delay(320 + Math.random() * 120);
   }
 }
 
