@@ -190,7 +190,7 @@
     .fig3 {
       flex: 0 0 clamp(80px, 14vw, 150px);
       width: clamp(80px, 14vw, 150px);
-      transform: rotate(-1deg);
+      transform: rotate(-1deg) translateY(15px);
     }
 
     /* ── BILD 4 + FOOTER ── */
@@ -210,7 +210,7 @@
   margin-bottom: clamp(0.3rem, 0.8vh, 0.6rem);
 
   opacity: 0;
-  animation: fadeDoor 4s ease forwards;
+  animation: fadeDoor 7s ease forwards;
   animation-delay: 15s;
 }
 @keyframes fadeDoor {
@@ -426,6 +426,8 @@ async function writePoem() {
 
     await delay(360 + Math.random() * 130);
   }
+  if (li === poemLines.length - 2) {
+    await delay (1200);
 }
 
 window.addEventListener('load', writePoem);
