@@ -30,7 +30,6 @@
     }
     body.ready canvas#c{opacity:1;}
     body.fadeout canvas#c{opacity:0;}
-    body.fadeout canvas#egg{opacity:0 !important; pointer-events:none;}
 
     /* Hidden autostereogram layer (easter egg) */
     canvas#egg{
@@ -42,7 +41,7 @@
       pointer-events:none;
       transition:opacity 350ms ease;
     }
-    canvas#egg.show{opacity:1; pointer-events:auto;}
+    canvas#egg.show{opacity:1;}
 
     .skip{
       position:fixed; top:14px; right:14px; z-index:10;
@@ -61,7 +60,6 @@
     }
     body.ready .loaderWrap{opacity:1;}
     body.fadeout .loaderWrap{opacity:0;}
-    body.eggphase .loaderWrap{opacity:0;}
 
     .loader{
       width:min(720px,78vw);
@@ -438,27 +436,6 @@ if(!ctx){
     setTimeout(()=>{ window.location.replace(INTRO_RETURN_URL); }, FADEOUT_MS + EXTRA_MS);
   }
 
-  const EGG_PHASE_MS = 4500;
-
-  function runEggPhaseThenTransition(){
-    document.body.classList.add('eggphase');
-    if(window.__b3EggReveal) window.__b3EggReveal();
-
-    let done = false;
-    function finish(){
-      if(done) return;
-      done = true;
-      if(window.__b3EggHide) window.__b3EggHide();
-      document.body.classList.remove('eggphase');
-      startTransition();
-    }
-
-    // Ein Klick/Tap während der Stereogramm-Phase überspringt sie sofort
-    document.addEventListener('click', finish, {once:true});
-
-    setTimeout(finish, EGG_PHASE_MS);
-  }
-
   function startProgressAndTunnel(){
     const bar = document.getElementById('bar');
     const start = performance.now();
@@ -476,7 +453,7 @@ if(!ctx){
 
       if(clamped >= 1){
         if(bar) bar.style.width = "100%";
-        runEggPhaseThenTransition();
+        startTransition();
         return;
       }
       requestAnimationFrame(frame);
@@ -493,38 +470,24 @@ if(!ctx){
 
 /* =========================================================
    ✅ Verstecktes Easter Egg: Autostereogram (SIRDS)
-   Dreimal schnell hintereinander auf den Intro-Bildschirm tippen/klicken
-   (innerhalb von 700ms), um ein Random-Dot-Stereogramm ("Magic Eye")
-   erscheinen zu lassen. Es bleibt sichtbar (mit zwei kleinen
-   Fokussier-Punkten oben), bis erneut dreimal getippt wird oder nach
-   12 Sekunden automatisch. Kein sichtbarer Hinweis im UI.
-
-   Zum Sehen: Bildschirm entspannt anschauen, Blick "durch" den Screen
-   hindurch auf einen imaginären Punkt dahinter richten (auseinander-
-   schielen), bis aus den zwei Punkten oben drei werden - dann in
-   dieser Fokusebene bleiben und das Bild "einrasten" lassen.
+   Halte 1,2 Sekunden lang gedrückt/getippt auf dem Intro-Bildschirm,
+   um ein Random-Dot-Stereogramm ("Magic Eye") erscheinen zu lassen.
+   Loslassen -> es verschwindet wieder. Kein sichtbarer Hinweis im UI.
    ========================================================= */
 (function setupAutostereogramEgg(){
-  const TAP_WINDOW_MS = 700;
-  const AUTO_HIDE_MS = 12000;
-  const DOT_UNIT = 2; // Blockbreite pro "Rauschpunkt" - größer = leichter fusionierbar
-
+  const HOLD_MS = 1200;
   const egg = document.getElementById('egg');
   const eggCtx = egg && egg.getContext ? egg.getContext('2d') : null;
   if(!eggCtx) return;
 
+  let holdTimer = null;
   let rendered = false;
-  let tapCount = 0;
-  let tapTimer = null;
-  let hideTimer = null;
-  let lastEyeSep = 0;
 
   function resizeEgg(){
     egg.width  = innerWidth;
     egg.height = innerHeight;
-    rendered = false;
   }
-  addEventListener('resize', resizeEgg);
+  addEventListener('resize', ()=>{ rendered = false; });
   resizeEgg();
 
   /* Tiefenkarte: ein weiches Herz, Weiß = nah, Schwarz = fern */
@@ -548,40 +511,33 @@ if(!ctx){
     octx.restore();
 
     if(octx.filter !== undefined){
-      octx.filter = 'blur(18px)';
+      octx.filter = 'blur(16px)';
       octx.drawImage(off, 0, 0);
       octx.filter = 'none';
     }
     return octx.getImageData(0,0,w,h);
   }
 
-  /* Klassischer SIRDS-Algorithmus (Union-Find, links->rechts),
-     in horizontalen Blöcken von DOT_UNIT Pixeln für leichter
-     erkennbare Punkte. */
+  /* Klassischer SIRDS-Algorithmus (Union-Find, links->rechts) */
   function renderStereogram(){
     const w = egg.width, h = egg.height;
     if(w < 10 || h < 10) return;
 
     const depth = buildDepthMap(w,h);
     const outImg = eggCtx.createImageData(w,h);
-
-    const wB = Math.ceil(w / DOT_UNIT);
-    const eyeSepPx = Math.max(90, Math.floor(w/7));
-    const eyeSepB  = Math.max(6, Math.round(eyeSepPx / DOT_UNIT));
-    const depthMaxB = Math.max(1, Math.round(eyeSepB * 0.30));
-    lastEyeSep = eyeSepB * DOT_UNIT;
+    const eyeSep = Math.max(70, Math.floor(w/8));
+    const depthMax = Math.floor(eyeSep * 0.30);
 
     for(let y=0; y<h; y++){
-      const same = new Int32Array(wB);
-      for(let bx=0; bx<wB; bx++) same[bx] = bx;
+      const same = new Int32Array(w);
+      for(let x=0; x<w; x++) same[x] = x;
 
-      for(let bx=0; bx<wB; bx++){
-        const sampleX = Math.min(w-1, bx*DOT_UNIT + (DOT_UNIT>>1));
-        const dv = depth.data[(y*w+sampleX)*4] / 255;
-        const sep = eyeSepB - Math.round(dv * depthMaxB);
-        const left = bx - (sep >> 1);
+      for(let x=0; x<w; x++){
+        const dv = depth.data[(y*w+x)*4] / 255;
+        const sep = eyeSep - Math.round(dv * depthMax);
+        const left = x - (sep >> 1);
         const right = left + sep;
-        if(left >= 0 && right < wB){
+        if(left >= 0 && right < w){
           let s = right;
           while(same[s] !== s) s = same[s];
           let l = left;
@@ -590,75 +546,49 @@ if(!ctx){
         }
       }
 
-      const rowVals = new Uint8Array(wB);
-      for(let bx=0; bx<wB; bx++){
-        let s = bx;
+      for(let x=0; x<w; x++){
+        let s = x;
         while(same[s] !== s) s = same[s];
-        rowVals[bx] = (s === bx) ? (40 + Math.floor(Math.random()*215)) : rowVals[s];
-      }
-
-      for(let bx=0; bx<wB; bx++){
-        const val = rowVals[bx];
-        const xStart = bx*DOT_UNIT;
-        const xEnd = Math.min(w, xStart+DOT_UNIT);
-        for(let x=xStart; x<xEnd; x++){
-          const idx = (y*w+x)*4;
-          outImg.data[idx] = val;
-          outImg.data[idx+1] = val;
-          outImg.data[idx+2] = val;
-          outImg.data[idx+3] = 255;
+        let val;
+        if(s === x){
+          val = 40 + Math.floor(Math.random()*215);
+        } else {
+          val = outImg.data[(y*w+s)*4];
         }
+        const idx = (y*w+x)*4;
+        outImg.data[idx] = val;
+        outImg.data[idx+1] = val;
+        outImg.data[idx+2] = val;
+        outImg.data[idx+3] = 255;
       }
     }
     eggCtx.putImageData(outImg, 0, 0);
-
-    /* Fokussier-Punkte oben: bei korrekter Divergenz verschmelzen
-       die äußeren zwei zu einem mittleren dritten Punkt. */
-    const dotY = Math.max(24, Math.floor(h*0.06));
-    const cx = w/2;
-    eggCtx.save();
-    eggCtx.fillStyle = 'rgba(255,255,255,0.85)';
-    [cx - lastEyeSep/2, cx + lastEyeSep/2].forEach(dx=>{
-      eggCtx.beginPath();
-      eggCtx.arc(dx, dotY, 4, 0, Math.PI*2);
-      eggCtx.fill();
-    });
-    eggCtx.restore();
-
     rendered = true;
   }
 
   function reveal(){
+    resizeEgg();
     if(!rendered) renderStereogram();
     egg.classList.add('show');
-    clearTimeout(hideTimer);
-    hideTimer = setTimeout(hide, AUTO_HIDE_MS);
   }
   function hide(){
     egg.classList.remove('show');
-    clearTimeout(hideTimer);
   }
 
-  // Für den automatischen Ablauf aus dem Intro heraus verfügbar machen
-  window.__b3EggReveal = reveal;
-  window.__b3EggHide = hide;
-
-  function registerTap(){
-    tapCount++;
-    clearTimeout(tapTimer);
-    tapTimer = setTimeout(()=>{ tapCount = 0; }, TAP_WINDOW_MS);
-    if(tapCount >= 3){
-      tapCount = 0;
-      clearTimeout(tapTimer);
-      if(egg.classList.contains('show')) hide();
-      else reveal();
-    }
+  function startHold(){
+    clearTimeout(holdTimer);
+    holdTimer = setTimeout(reveal, HOLD_MS);
+  }
+  function cancelHold(){
+    clearTimeout(holdTimer);
+    hide();
   }
 
   if(c){
-    c.addEventListener('click', registerTap);
+    c.addEventListener('pointerdown', startHold, {passive:true});
   }
-  egg.addEventListener('click', registerTap);
+  window.addEventListener('pointerup', cancelHold, {passive:true});
+  window.addEventListener('pointercancel', cancelHold, {passive:true});
 })();
 </script>
 </body>
