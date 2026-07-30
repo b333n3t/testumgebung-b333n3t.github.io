@@ -21,14 +21,14 @@
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„desigual“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual-cover.webp">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual.webp">
   <meta property="og:url" content="https://www.b3nn3t.com/release-desigual.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="„desigual“ – neues Release von b3nn3t">
   <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „desigual“ von b3nn3t.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual-cover.webp">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual.webp">
 
   <!-- Strukturierte Daten -->
   <script type="application/ld+json">
@@ -36,24 +36,30 @@
     "@context": "https://schema.org",
     "@type": "MusicRecording",
     "name": "desigual",
-    "byArtist": { "@type": "MusicGroup", "name": "b3nn3t" },
-    "inAlbum": { "@type": "MusicAlbum", "name": "desigual" },
+    "byArtist": {
+      "@type": "MusicGroup",
+      "name": "b3nn3t"
+    },
+    "inAlbum": {
+      "@type": "MusicAlbum",
+      "name": "desigual"
+    },
     "datePublished": "2026-07-31",
-    "image": "https://www.b3nn3t.com/assets/release/desigual/desigual-cover.webp",
+    "image": "https://www.b3nn3t.com/assets/release/desigual/desigual.webp",
     "url": "https://www.b3nn3t.com/release-desigual.html"
   }
   </script>
 
-  <!-- LCP-Poster vorladen und priorisieren -->
-  <link rel="preload" as="image" href="/assets/release/desigual/desigual-cover.webp" fetchpriority="high">
+  <!-- Cover vorladen -->
+  <link rel="preload" as="image" href="/assets/release/desigual/desigual.webp" fetchpriority="high">
 
   <style>
     :root {
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
 
-      /* ✅ Hintergrundfarbe */
-      --awb-bg: #587fa6;
+      --awb-bg: #171716;
+      --awb-bg-soft: #2a2722;
 
       --block-title-gap: 0.95rem;
       --block-par-gap: 0.7rem;
@@ -65,14 +71,35 @@
       --live-green: #3ddc84;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
-      height: 100%;
+      min-height: 100%;
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--awb-text-main);
-      background: var(--awb-bg);
+      background: #171716;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: url("/assets/release/desigual/desigual.webp") center / cover no-repeat;
+      filter: blur(36px) brightness(0.52);
+      transform: scale(1.12);
+      z-index: -2;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.08), transparent 28%),
+        linear-gradient(rgba(12,12,11,0.46), rgba(12,12,11,0.86));
+      z-index: -1;
     }
 
     .page-wrap {
@@ -81,7 +108,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
+      padding: clamp(2.8rem, 4vw, 4rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
       box-sizing: border-box;
       position: relative;
       z-index: 1;
@@ -96,69 +123,119 @@
     main.main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.6rem, 2.4vw, 2.2rem);
+      gap: clamp(1.8rem, 2.6vw, 2.6rem);
     }
 
-    .topline {
+    .brand-row {
       display: flex;
-      flex-wrap: wrap;
-      align-items: baseline;
-      gap: 0.7rem;
-      font-size: 0.92rem;
-      letter-spacing: 0.04em;
-      margin-bottom: clamp(1.6rem, 2.4vw, 2.2rem);
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
     }
 
     .brand-link {
       color: #ffffff;
-      font-weight: 700;
-      letter-spacing: 0.04em;
+      font-weight: 800;
+      letter-spacing: 0.05em;
       text-decoration: none;
       cursor: pointer;
     }
 
-    .count-label { text-transform: none; opacity: 0.9; }
+    .hero {
+      text-align: center;
+    }
 
-    #awb-countdown-timer {
-      font-variant-numeric: tabular-nums;
+    .eyebrow {
+      margin: 0 0 0.45rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.76;
       font-weight: 700;
-      color: #ffffff;
-      min-width: 8ch;
-      display: inline-block;
+    }
+
+    .hero h1 {
+      margin: 0 0 clamp(1.5rem, 3vw, 2.2rem);
+      font-size: clamp(3.2rem, 10vw, 7.4rem);
+      line-height: 0.88;
+      letter-spacing: -0.075em;
+      text-transform: lowercase;
+      font-weight: 850;
     }
 
     .video-wrap {
-      margin: 0 auto clamp(2rem, 3vw, 2.8rem);
-      max-width: 720px;
+      margin: 0 auto clamp(1.35rem, 3vw, 2.1rem);
+      max-width: 680px;
       width: 100%;
     }
 
     .video-inner {
-      border-radius: 22px;
+      border-radius: 30px;
       overflow: hidden;
       background: #000;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 1 / 1;
       position: relative;
+      box-shadow:
+        0 26px 90px rgba(0,0,0,0.46),
+        0 0 0 1px rgba(255,255,255,0.12);
     }
 
-    .release-video {
+    .release-cover {
       width: 100%;
       height: 100%;
       display: block;
-      border-radius: inherit;
-      background: #000;
       object-fit: cover;
+      border-radius: inherit;
     }
 
     .audio-overlay {
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100%;
-      padding: 0.6rem;
-      background: rgba(0,0,0,0.55);
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      width: calc(100% - 2rem);
+      padding: 0;
       box-sizing: border-box;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.86);
+      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+    }
+
+    .presave-wrap {
+      margin-top: 0.2rem;
+    }
+
+    .presave-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.25rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #171716;
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      border: 2px solid rgba(255,255,255,0.62);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+      transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .presave-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+
+    .presave-btn:active {
+      transform: translateY(0px) scale(0.99);
+    }
+
+    .presave-btn:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.85);
+      outline-offset: 4px;
     }
 
     section.block {
@@ -170,7 +247,7 @@
       font-size: 1.06rem;
       letter-spacing: 0.04em;
       text-transform: lowercase;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     section.block p {
@@ -185,40 +262,9 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* ✅ Vorsichern Button */
-    .presave-wrap{ margin-top: 0.2rem; }
-
-    .presave-btn{
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.95rem 1.2rem;
-      border-radius: 999px;
-      background: #ffffff;
-      color: var(--awb-bg);
-      text-decoration: none;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: lowercase;
-      border: 2px solid rgba(255,255,255,0.55);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-      transition: transform .18s ease, box-shadow .25s ease;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+    .social-section {
+      margin: 0 0 0.8rem;
     }
-    .presave-btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
-    }
-    .presave-btn:active{
-      transform: translateY(0px) scale(0.99);
-    }
-    .presave-btn:focus-visible{
-      outline: 3px solid rgba(255,255,255,0.85);
-      outline-offset: 4px;
-    }
-
-    .social-section { margin: 0 0 0.8rem; }
 
     .social-icons {
       display: flex;
@@ -233,6 +279,12 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      transition: transform .18s ease, opacity .2s ease;
+    }
+
+    .social-link:hover {
+      transform: translateY(-1px);
+      opacity: 0.86;
     }
 
     .social-icon-img {
@@ -249,8 +301,13 @@
     }
 
     /* =========================================================
-       ✅ TIMELINE / "traveling around the world"
+       TIMELINE / "traveling around the world"
        ========================================================= */
+
+    .timeline-block {
+      padding-top: 0.4rem;
+    }
+
     .timeline-block p.timeline-sub {
       opacity: 0.9;
       margin-bottom: 0.9rem;
@@ -258,7 +315,7 @@
 
     .timeline-counter {
       font-variant-numeric: tabular-nums;
-      font-weight: 800;
+      font-weight: 850;
       font-size: 1.3rem;
       letter-spacing: 0.04em;
       margin: 0 0 1rem !important;
@@ -313,63 +370,100 @@
 
     .timeline-row.is-live .status-text {
       color: var(--live-green);
-      font-weight: 800;
+      font-weight: 850;
       letter-spacing: 0.06em;
     }
 
     .timeline-row.is-next .status-text {
       opacity: 0.95;
-      font-weight: 600;
+      font-weight: 650;
     }
 
     .timeline-row.is-upcoming {
       opacity: 0.55;
     }
 
-    @media (max-width: 768px) {
-      .page-wrap { padding: 2.4rem 1.2rem 3rem; }
-      .topline { font-size: 0.87rem; gap: 0.45rem; }
-      .timeline-row .country-name { min-width: 7.5rem; }
-    }
-
     /* =========================================================
-       ✅ FULLSCREEN CROSSHAIR (lange linien)
+       FULLSCREEN CROSSHAIR
        ========================================================= */
-    #crosshair{
+
+    #crosshair {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: 99999;
     }
 
-    #crosshair .line-x{
+    #crosshair .line-x {
       position: absolute;
       left: 0;
       top: 50%;
       width: 100vw;
       height: 1px;
       background: #ffffff;
-      opacity: 0.9;
+      opacity: 0.72;
       transform: translateY(-0.5px);
     }
 
-    #crosshair .line-y{
+    #crosshair .line-y {
       position: absolute;
       top: 0;
       left: 50%;
       width: 1px;
       height: 100vh;
       background: #ffffff;
-      opacity: 0.9;
+      opacity: 0.72;
       transform: translateX(-0.5px);
     }
 
-    @media (pointer: coarse){
-      #crosshair{ display:none; }
+    @media (max-width: 768px) {
+      .page-wrap {
+        padding: 2.2rem 1.15rem 3rem;
+      }
+
+      .brand-row {
+        justify-content: flex-start;
+      }
+
+      .hero {
+        text-align: left;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 18vw, 5.6rem);
+      }
+
+      .video-inner {
+        border-radius: 24px;
+      }
+
+      .audio-overlay {
+        left: 0.75rem;
+        right: 0.75rem;
+        bottom: 0.75rem;
+        width: calc(100% - 1.5rem);
+      }
+
+      .timeline-row .country-name {
+        min-width: 7.5rem;
+      }
     }
 
-    @media (prefers-reduced-motion: reduce){
-      #crosshair{ display:none; }
+    @media (pointer: coarse) {
+      #crosshair {
+        display: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #crosshair {
+        display: none;
+      }
+
+      .presave-btn,
+      .social-link {
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -379,31 +473,32 @@
     <div class="content">
       <main class="main">
 
-        <div class="topline" aria-label="Release Countdown">
+        <div class="brand-row">
           <a class="brand-link" href="/index.html">b3nn3t</a>
-          <span class="count-label">released in</span>
-          <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <section class="video-wrap" aria-label="Audio zum Song">
-          <div class="video-inner">
-            <img
-              src="/assets/release/desigual/desigual.WEBP"
-              alt="Cover – desigual von b3nn3t"
-              class="release-video">
+        <section class="hero" aria-label="desigual Release">
+          <p class="eyebrow">new release</p>
+          <h1>desigual</h1>
 
-            <audio
-              id="release-audio"
-              class="audio-overlay"
-              controls
-              preload="metadata">
-              <source src="/assets/release/desigual/desigual.mp3">
-              Dein Browser unterstützt dieses Audioformat nicht.
-            </audio>
+          <div class="video-wrap" aria-label="Audio zum Song">
+            <div class="video-inner">
+              <img
+                src="/assets/release/desigual/desigual.webp"
+                alt="Cover – desigual von b3nn3t"
+                class="release-cover">
+
+              <audio
+                id="release-audio"
+                class="audio-overlay"
+                controls
+                preload="metadata">
+                <source src="/assets/release/desigual/desigual.mp3" type="audio/mpeg">
+                Dein Browser unterstützt dieses Audioformat nicht.
+              </audio>
+            </div>
           </div>
-        </section>
 
-        <section aria-label="Vorsichern" class="block">
           <div class="presave-wrap">
             <a class="presave-btn" href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" target="_blank" rel="noopener">
               "desigual" hören
@@ -418,6 +513,7 @@
           <p class="timeline-counter">
             Released in <span id="released-count">000</span><span class="slash">/</span>251 countries
           </p>
+
           <hr class="timeline-divider">
 
           <div class="timeline-list" id="timeline-list">
@@ -434,40 +530,40 @@
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
                 <picture>
-                  <source srcset="assets/release/spotify_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
+                  <source srcset="/assets/release/spotify_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="/assets/release/spotify_128.png" alt="Spotify">
                 </picture>
               </a>
 
               <a href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                  class="social-link" aria-label="Apple Music – b3nn3t" target="_blank" rel="noopener">
                 <picture>
-                  <source srcset="assets/release/apple_music_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/apple_music_128.png" alt="Apple Music">
+                  <source srcset="/assets/release/apple_music_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="/assets/release/apple_music_128.png" alt="Apple Music">
                 </picture>
               </a>
 
               <a href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
                  class="social-link" aria-label="Instagram – b3nn3t" target="_blank" rel="noopener">
                 <picture>
-                  <source srcset="assets/release/instagram_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/instagram_128.png" alt="Instagram">
+                  <source srcset="/assets/release/instagram_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="/assets/release/instagram_128.png" alt="Instagram">
                 </picture>
               </a>
 
               <a href="https://www.youtube.com/@b333nn3t"
                  class="social-link" aria-label="YouTube – @b333nn3t" target="_blank" rel="noopener">
                 <picture>
-                  <source srcset="assets/release/youtube_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/youtube_128.png" alt="YouTube">
+                  <source srcset="/assets/release/youtube_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="/assets/release/youtube_128.png" alt="YouTube">
                 </picture>
               </a>
 
               <a href="https://soundcloud.com/bennet-6942069420"
                  class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
                 <picture>
-                  <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
-                  <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
+                  <source srcset="/assets/release/soundcloud_128.webp" type="image/webp">
+                  <img class="social-icon-img" src="/assets/release/soundcloud_128.png" alt="SoundCloud">
                 </picture>
               </a>
 
@@ -490,52 +586,16 @@
   </div>
 
   <script>
-    (function () {
-      // Release-Zeitpunkt: 31.07.2026, 00:00 Uhr Schweizer Zeit (CEST, UTC+2)
-      const targetDate = new Date("2026-07-31T00:00:00+02:00").getTime();
-      const el = document.getElementById("awb-countdown-timer");
-      if (!el) return;
-
-      function updateCountdown() {
-        const now = Date.now();
-        const diff = targetDate - now;
-
-        if (diff <= 0) {
-          el.textContent = "OUT NOW";
-          clearInterval(timer);
-          return;
-        }
-
-        const seconds = Math.floor(diff / 1000);
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        el.textContent = (days > 0)
-          ? (days + "d " + hh + ":" + mm + ":" + ss)
-          : (hh + ":" + mm + ":" + ss);
-      }
-
-      updateCountdown();
-      const timer = setInterval(updateCountdown, 1000);
-    })();
-  </script>
-
-  <script>
     /* =========================================================
-       ✅ WELTWEITE RELEASE-TIMELINE
+       WELTWEITE RELEASE-TIMELINE
        Der Song wird um 00:00 Uhr Lokalzeit released – Zeitzone
-       für Zeitzone, von Ost (UTC+14) nach West (UTC-11).
+       für Zeitzone, von Ost UTC+14 nach West UTC-11.
        ========================================================= */
     (function () {
-      const RELEASE_YEAR = 2026, RELEASE_MONTH = 6, RELEASE_DAY = 31; // Monat 0-indexiert -> Juli
+      const RELEASE_YEAR = 2026;
+      const RELEASE_MONTH = 6;
+      const RELEASE_DAY = 31;
 
-      // Sichtbare Timeline-Stationen (Auswahl repräsentativer Länder/Städte je Zeitzone)
       const COUNTRIES = [
         { name: "Kiribati",        flag: "🇰🇮", offset: 14 },
         { name: "Tonga",           flag: "🇹🇴", offset: 13 },
@@ -555,23 +615,51 @@
         { name: "Hawaii",          flag: "🇺🇸", offset: -10 }
       ];
 
-      // Anzahl Länder je UTC-Zeitzone (grobe, weltweite Verteilung), Summe = 251
       const ZONE_WEIGHTS = {
-        "14": 1, "13": 5, "12": 8, "11": 7, "10": 6, "9": 6, "8": 12, "7": 8,
-        "6.5": 1, "6": 5, "5.75": 1, "5.5": 2, "5": 7, "4.5": 1, "4": 9,
-        "3.5": 1, "3": 24, "2": 37, "1": 30, "0": 12, "-1": 3, "-2": 2,
-        "-3": 10, "-3.5": 1, "-4": 19, "-5": 10, "-6": 9, "-7": 6, "-8": 3,
-        "-9": 1, "-9.5": 1, "-10": 2, "-11": 1
+        "14": 1,
+        "13": 5,
+        "12": 8,
+        "11": 7,
+        "10": 6,
+        "9": 6,
+        "8": 12,
+        "7": 8,
+        "6.5": 1,
+        "6": 5,
+        "5.75": 1,
+        "5.5": 2,
+        "5": 7,
+        "4.5": 1,
+        "4": 9,
+        "3.5": 1,
+        "3": 24,
+        "2": 37,
+        "1": 30,
+        "0": 12,
+        "-1": 3,
+        "-2": 2,
+        "-3": 10,
+        "-3.5": 1,
+        "-4": 19,
+        "-5": 10,
+        "-6": 9,
+        "-7": 6,
+        "-8": 3,
+        "-9": 1,
+        "-9.5": 1,
+        "-10": 2,
+        "-11": 1
       };
+
       const TOTAL_COUNTRIES = 251;
 
       function releaseInstant(offsetHours) {
-        // UTC-Zeitpunkt, an dem es an diesem Ort lokal Mitternacht des Release-Tages wird
         return Date.UTC(RELEASE_YEAR, RELEASE_MONTH, RELEASE_DAY, 0, 0, 0) - offsetHours * 3600 * 1000;
       }
 
       const countEl = document.getElementById("released-count");
       const listEl = document.getElementById("timeline-list");
+
       if (!countEl || !listEl) return;
 
       function formatCountdown(ms) {
@@ -580,26 +668,30 @@
         const hours = Math.floor((seconds % (3600 * 24)) / 3600);
         const mins = Math.floor((seconds % 3600) / 60);
         const secs = seconds % 60;
+
         const hh = String(hours).padStart(2, "0");
         const mm = String(mins).padStart(2, "0");
         const ss = String(secs).padStart(2, "0");
-        return (days > 0) ? (days + "d " + hh + ":" + mm + ":" + ss) : (hh + ":" + mm + ":" + ss);
+
+        return days > 0
+          ? days + "d " + hh + ":" + mm + ":" + ss
+          : hh + ":" + mm + ":" + ss;
       }
 
       function render() {
         const now = Date.now();
 
-        // Gesamtzähler über alle Zeitzonen der Welt
         let releasedTotal = 0;
+
         for (const key in ZONE_WEIGHTS) {
           if (releaseInstant(parseFloat(key)) <= now) {
             releasedTotal += ZONE_WEIGHTS[key];
           }
         }
+
         releasedTotal = Math.min(releasedTotal, TOTAL_COUNTRIES);
         countEl.textContent = String(releasedTotal).padStart(3, "0");
 
-        // Sichtbare Timeline-Zeile für Zeile aufbauen
         const rows = COUNTRIES.map(c => ({
           ...c,
           instant: releaseInstant(c.offset),
@@ -609,18 +701,31 @@
         const nextIndex = rows.findIndex(r => !r.isLive);
 
         listEl.innerHTML = "";
+
         rows.forEach((r, i) => {
           const row = document.createElement("div");
-          let statusHtml, rowClass;
+          let statusHtml;
+          let rowClass;
 
           if (r.isLive) {
-            statusHtml = '<span class="status-dot">🟢</span><span class="flag">' + r.flag + '</span><span class="country-name">' + r.name + '</span><span class="status-text">LIVE</span>';
+            statusHtml =
+              '<span class="status-dot">🟢</span>' +
+              '<span class="flag">' + r.flag + '</span>' +
+              '<span class="country-name">' + r.name + '</span>' +
+              '<span class="status-text">LIVE</span>';
             rowClass = "is-live";
           } else if (i === nextIndex) {
-            statusHtml = '<span class="status-dot">▶</span><span class="flag">' + r.flag + '</span><span class="country-name">' + r.name + '</span><span class="status-text">in ' + formatCountdown(r.instant - now) + '</span>';
+            statusHtml =
+              '<span class="status-dot">▶</span>' +
+              '<span class="flag">' + r.flag + '</span>' +
+              '<span class="country-name">' + r.name + '</span>' +
+              '<span class="status-text">in ' + formatCountdown(r.instant - now) + '</span>';
             rowClass = "is-next";
           } else {
-            statusHtml = '<span class="status-dot">○</span><span class="flag">' + r.flag + '</span><span class="country-name">' + r.name + '</span>';
+            statusHtml =
+              '<span class="status-dot">○</span>' +
+              '<span class="flag">' + r.flag + '</span>' +
+              '<span class="country-name">' + r.name + '</span>';
             rowClass = "is-upcoming";
           }
 
@@ -636,43 +741,48 @@
   </script>
 
   <script>
-    (function(){
-      const cross = document.getElementById('crosshair');
-      const lineX = cross?.querySelector('.line-x');
-      const lineY = cross?.querySelector('.line-y');
-      if(!cross || !lineX || !lineY) return;
+    (function () {
+      const cross = document.getElementById("crosshair");
+      const lineX = cross?.querySelector(".line-x");
+      const lineY = cross?.querySelector(".line-y");
 
-      if(!window.matchMedia('(pointer: fine)').matches){
-        cross.style.display = 'none';
+      if (!cross || !lineX || !lineY) return;
+
+      if (!window.matchMedia("(pointer: fine)").matches) {
+        cross.style.display = "none";
         return;
       }
 
-      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-        cross.style.display = 'none';
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        cross.style.display = "none";
         return;
       }
 
-      let x = -9999, y = -9999;
+      let x = -9999;
+      let y = -9999;
       let raf = null;
 
-      function render(){
-        lineX.style.top = y + 'px';
-        lineY.style.left = x + 'px';
+      function render() {
+        lineX.style.top = y + "px";
+        lineY.style.left = x + "px";
         raf = null;
       }
 
-      window.addEventListener('mousemove', (e) => {
+      window.addEventListener("mousemove", function (e) {
         x = e.clientX;
         y = e.clientY;
-        if(!raf) raf = requestAnimationFrame(render);
+
+        if (!raf) {
+          raf = requestAnimationFrame(render);
+        }
       }, { passive: true });
 
-      window.addEventListener('mouseleave', () => {
-        x = -9999; y = -9999;
+      window.addEventListener("mouseleave", function () {
+        x = -9999;
+        y = -9999;
         render();
       });
     })();
   </script>
 </body>
 </html>
-
