@@ -179,43 +179,6 @@
       background: #000;
     }
 
-    .presave-wrap {
-      margin-top: 0.2rem;
-    }
-
-    .presave-btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.95rem 1.25rem;
-      border-radius: 999px;
-      background: #ffffff;
-      color: #171716;
-      text-decoration: none;
-      font-weight: 850;
-      letter-spacing: 0.04em;
-      text-transform: lowercase;
-      border: 2px solid rgba(255,255,255,0.62);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
-      transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .presave-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
-    }
-
-    .presave-btn:active {
-      transform: translateY(0px) scale(0.99);
-    }
-
-    .presave-btn:focus-visible {
-      outline: 3px solid rgba(255,255,255,0.85);
-      outline-offset: 4px;
-    }
-
     section.block {
       margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
@@ -616,7 +579,6 @@
         display: none;
       }
 
-      .presave-btn,
       .social-link,
       .map-tz {
         transition: none;
@@ -648,16 +610,10 @@
                 preload="metadata"
                 playsinline
                 poster="assets/release/desigual/desigual.webp">
-                <source src="assets/release/desigual/desigual.mp4" type="video/mp4">
+                <source src="https://www.b3nn3t.com/assets/release/desigual/desigual.mp4" type="video/mp4">
                 Dein Browser unterstützt dieses Videoformat nicht.
               </video>
             </div>
-          </div>
-
-          <div class="presave-wrap">
-            <a class="presave-btn" href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" target="_blank" rel="noopener">
-              "desigual" hören
-            </a>
           </div>
         </section>
 
@@ -699,8 +655,7 @@
 
           <hr class="timeline-divider">
 
-          <div class="timeline-list" id="timeline-list">
-          </div>
+          <div class="timeline-list" id="timeline-list"></div>
         </section>
 
         <section aria-label="Streaming" class="block tight-after">
