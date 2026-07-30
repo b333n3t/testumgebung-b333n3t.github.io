@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t „¾“ | neuer release 12.02.2026 </title>
-  <meta name="description" content="„¾“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+  <title>b3nn3t „desigual“</title>
+  <meta name="description" content="„desigual“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <!-- Favicons: Google, Browser, Apple -->
@@ -14,44 +14,46 @@
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <!-- ✅ Canonical für Phase1-URL (bitte so lassen) -->
-  <link rel="canonical" href="https://www.b3nn3t.com/release-¾.html" />
+  <link rel="canonical" href="https://www.b3nn3t.com/release-desigual.html" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="music.song">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„¾“ – neues Release von b3nn3t">
+  <meta property="og:title" content="„desigual“ – neues Release von b3nn3t">
   <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/¾-cover.webp">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-¾.html">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual-cover.webp">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-desigual.html">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="„¾“ – neues Release von b3nn3t">
-  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „¾“ von b3nn3t.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/¾-cover.webp">
+  <meta name="twitter:title" content="„desigual“ – neues Release von b3nn3t">
+  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „desigual“ von b3nn3t.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual-cover.webp">
 
   <!-- Strukturierte Daten -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MusicRecording",
-    "name": "DREI",
+    "name": "desigual",
     "byArtist": { "@type": "MusicGroup", "name": "b3nn3t" },
-    "inAlbum": { "@type": "MusicAlbum", "name": "¾" },
-    "image": "https://www.b3nn3t.com/assets/release/¾-cover.webp",
-    "url": "https://www.b3nn3t.com/release-¾.html"
+    "inAlbum": { "@type": "MusicAlbum", "name": "desigual" },
+    "datePublished": "2026-07-31",
+    "image": "https://www.b3nn3t.com/assets/release/desigual/desigual-cover.webp",
+    "url": "https://www.b3nn3t.com/release-desigual.html"
   }
   </script>
 
   <!-- LCP-Poster vorladen und priorisieren -->
-  <link rel="preload" as="image" href="/assets/release/¾-cover.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/release/desigual/desigual-cover.webp" fetchpriority="high">
 
   <style>
     :root {
       --awb-text-main: #fdfdfd;
       --page-max-width: 960px;
-      --awb-bg: #930010;
+
+      /* ✅ Hintergrundfarbe */
+      --awb-bg: #587fa6;
 
       --block-title-gap: 0.95rem;
       --block-par-gap: 0.7rem;
@@ -59,6 +61,8 @@
       --more-link-gap-top: 0.65rem;
       --more-link-gap-bottom: 0.75rem;
       --more-link-indent: 0.25rem;
+
+      --live-green: #3ddc84;
     }
 
     html, body {
@@ -79,6 +83,8 @@
       align-items: flex-start;
       padding: clamp(2.8rem, 4vw, 3.8rem) 1.5rem clamp(3.5rem, 5vw, 4.5rem);
       box-sizing: border-box;
+      position: relative;
+      z-index: 1;
     }
 
     .content {
@@ -121,15 +127,6 @@
       display: inline-block;
     }
 
-    /* Titel */
-    .song-title {
-      margin: 0;
-      font-weight: 600;
-      text-transform: lowercase;
-      font-size: clamp(1.7rem, 3vw, 2.4rem);
-      margin-bottom: clamp(0.9rem, 1.5vw, 1.25rem);
-    }
-
     .video-wrap {
       margin: 0 auto clamp(2rem, 3vw, 2.8rem);
       max-width: 720px;
@@ -151,6 +148,17 @@
       border-radius: inherit;
       background: #000;
       object-fit: cover;
+    }
+
+    .audio-overlay {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      padding: 0.6rem;
+      background: rgba(0,0,0,0.55);
+      box-sizing: border-box;
     }
 
     section.block {
@@ -177,9 +185,37 @@
       margin-top: var(--block-par-gap);
     }
 
-    /* kein Abstand zwischen erklärbär-Absätzen */
-    section.block p.no-gap + p {
-      margin-top: 0 !important;
+    /* ✅ Vorsichern Button */
+    .presave-wrap{ margin-top: 0.2rem; }
+
+    .presave-btn{
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.2rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--awb-bg);
+      text-decoration: none;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      border: 2px solid rgba(255,255,255,0.55);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+      transition: transform .18s ease, box-shadow .25s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .presave-btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
+    }
+    .presave-btn:active{
+      transform: translateY(0px) scale(0.99);
+    }
+    .presave-btn:focus-visible{
+      outline: 3px solid rgba(255,255,255,0.85);
+      outline-offset: 4px;
     }
 
     .social-section { margin: 0 0 0.8rem; }
@@ -212,14 +248,88 @@
       padding-left: var(--more-link-indent);
     }
 
+    /* =========================================================
+       ✅ TIMELINE / "traveling around the world"
+       ========================================================= */
+    .timeline-block p.timeline-sub {
+      opacity: 0.9;
+      margin-bottom: 0.9rem;
+    }
+
+    .timeline-counter {
+      font-variant-numeric: tabular-nums;
+      font-weight: 800;
+      font-size: 1.3rem;
+      letter-spacing: 0.04em;
+      margin: 0 0 1rem !important;
+    }
+
+    .timeline-counter .slash {
+      opacity: 0.55;
+      font-weight: 500;
+      margin: 0 0.3rem;
+    }
+
+    .timeline-divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.3);
+      margin: 0 0 1rem;
+    }
+
+    .timeline-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timeline-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+      font-size: 0.98rem;
+      letter-spacing: 0.02em;
+      flex-wrap: wrap;
+    }
+
+    .timeline-row .status-dot {
+      width: 1.3rem;
+      display: inline-block;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .timeline-row .flag {
+      font-size: 1.1rem;
+    }
+
+    .timeline-row .country-name {
+      min-width: 9rem;
+    }
+
+    .timeline-row.is-live .country-name {
+      font-weight: 700;
+    }
+
+    .timeline-row.is-live .status-text {
+      color: var(--live-green);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .timeline-row.is-next .status-text {
+      opacity: 0.95;
+      font-weight: 600;
+    }
+
+    .timeline-row.is-upcoming {
+      opacity: 0.55;
+    }
+
     @media (max-width: 768px) {
       .page-wrap { padding: 2.4rem 1.2rem 3rem; }
       .topline { font-size: 0.87rem; gap: 0.45rem; }
-      .song-title { letter-spacing: 0.26em; }
-    }
-
-    @media (min-width: 1024px) {
-      .page-wrap { padding-top: 4rem; padding-bottom: 5rem; }
+      .timeline-row .country-name { min-width: 7.5rem; }
     }
 
     /* =========================================================
@@ -232,7 +342,6 @@
       z-index: 99999;
     }
 
-    /* horizontale Linie */
     #crosshair .line-x{
       position: absolute;
       left: 0;
@@ -244,7 +353,6 @@
       transform: translateY(-0.5px);
     }
 
-    /* vertikale Linie */
     #crosshair .line-y{
       position: absolute;
       top: 0;
@@ -256,17 +364,16 @@
       transform: translateX(-0.5px);
     }
 
-    /* auf touch aus */
     @media (pointer: coarse){
       #crosshair{ display:none; }
     }
 
-    /* reduced motion respektieren */
     @media (prefers-reduced-motion: reduce){
       #crosshair{ display:none; }
     }
   </style>
 </head>
+
 <body>
   <div class="page-wrap">
     <div class="content">
@@ -274,48 +381,51 @@
 
         <div class="topline" aria-label="Release Countdown">
           <a class="brand-link" href="/index.html">b3nn3t</a>
-          <span class="count-label">new song "¾" released in</span>
+          <span class="count-label">released in</span>
           <span id="awb-countdown-timer">--:--:--</span>
         </div>
 
-        <!-- ✅ Audio PLAYER (MP3) -->
-                <section class="video-wrap" aria-label="Audio zum Song">
+        <section class="video-wrap" aria-label="Audio zum Song">
           <div class="video-inner">
             <img
-              src="/assets/release/¾-cover-384.webp"
-              srcset="/assets/release/¾-cover-192.webp 192w, /assets/release/¾-cover-384.webp 384w, /assets/release/¾-cover-768.webp 768w"
-              sizes="(max-width: 768px) 92vw, 720px"
-              width="720"
-              height="405"
-              alt="Cover – ¾ von b3nn3t"
-              class="release-video"
-              loading="eager"
-              fetchpriority="high"
-              decoding="async">
+              src="/assets/release/desigual/desigual-cover.webp"
+              alt="Cover – desigual von b3nn3t"
+              class="release-video">
 
             <audio
               id="release-audio"
               class="audio-overlay"
               controls
               preload="metadata">
-              <source src="/assets/release/¾.mp3">
+              <source src="/assets/release/desigual/desigual.prelisten.mp3">
               Dein Browser unterstützt dieses Audioformat nicht.
             </audio>
           </div>
         </section>
 
-        <section class="title-section" aria-label="Songtitel">
-          <h1 class="song-title">¾</h1>
+        <section aria-label="Vorsichern" class="block">
+          <div class="presave-wrap">
+            <a class="presave-btn" href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" target="_blank" rel="noopener">
+              "desigual" hören
+            </a>
+          </div>
         </section>
 
-        <section aria-label="Story zum Song" class="block">
-          <h2>erklärbär</h2>
-          <p class="no-gap">drei songs die mir sehr am herzen liegen, neues zimmer, neuer b3nn3t, neue musik.</p>
-          <p>vergangene ereignisse werden verarbeitet wie sonne bei solar, liebe grüsse an alle die checken :3</p>
+        <section aria-label="Weltweiter Release" class="block timeline-block">
+          <h2>desigual is travelling around the world</h2>
+          <p class="timeline-sub">der song geht live – zeitzone für zeitzone, rund um den globus.</p>
+
+          <p class="timeline-counter">
+            Released in <span id="released-count">000</span><span class="slash">/</span>251 countries
+          </p>
+          <hr class="timeline-divider">
+
+          <div class="timeline-list" id="timeline-list">
+            <!-- wird per JS befüllt -->
+          </div>
         </section>
 
-        <!-- ✅ Streaming -->
-        <section aria-label="Streaming" class="block">
+        <section aria-label="Streaming" class="block tight-after">
           <h2>kuck hier</h2>
 
           <div class="social-section" aria-label="Social Media Links">
@@ -353,7 +463,7 @@
                 </picture>
               </a>
 
-              <a href="https://soundcloud.com/b3nn3t-music?utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+              <a href="https://soundcloud.com/bennet-6942069420"
                  class="social-link" aria-label="SoundCloud – b3nn3t" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/soundcloud_128.webp" type="image/webp">
@@ -374,16 +484,15 @@
     </div>
   </div>
 
-  <!-- ✅ Fullscreen Crosshair Element -->
   <div id="crosshair" aria-hidden="true">
     <div class="line-x"></div>
     <div class="line-y"></div>
   </div>
 
-  <!-- ✅ Countdown läuft jetzt live und aktualisiert jede Sekunde -->
   <script>
     (function () {
-      const targetDate = new Date("2026-02-12T00:00:00+01:00").getTime();
+      // Release-Zeitpunkt: 31.07.2026, 00:00 Uhr Schweizer Zeit (CEST, UTC+2)
+      const targetDate = new Date("2026-07-31T00:00:00+02:00").getTime();
       const el = document.getElementById("awb-countdown-timer");
       if (!el) return;
 
@@ -417,7 +526,115 @@
     })();
   </script>
 
-  <!-- ✅ Fullscreen Crosshair folgt der Maus -->
+  <script>
+    /* =========================================================
+       ✅ WELTWEITE RELEASE-TIMELINE
+       Der Song wird um 00:00 Uhr Lokalzeit released – Zeitzone
+       für Zeitzone, von Ost (UTC+14) nach West (UTC-11).
+       ========================================================= */
+    (function () {
+      const RELEASE_YEAR = 2026, RELEASE_MONTH = 6, RELEASE_DAY = 31; // Monat 0-indexiert -> Juli
+
+      // Sichtbare Timeline-Stationen (Auswahl repräsentativer Länder/Städte je Zeitzone)
+      const COUNTRIES = [
+        { name: "Kiribati",        flag: "🇰🇮", offset: 14 },
+        { name: "Tonga",           flag: "🇹🇴", offset: 13 },
+        { name: "Samoa",           flag: "🇼🇸", offset: 13 },
+        { name: "New Zealand",     flag: "🇳🇿", offset: 12 },
+        { name: "Australia",       flag: "🇦🇺", offset: 10 },
+        { name: "Japan",           flag: "🇯🇵", offset: 9 },
+        { name: "South Korea",     flag: "🇰🇷", offset: 9 },
+        { name: "Singapore",       flag: "🇸🇬", offset: 8 },
+        { name: "India",           flag: "🇮🇳", offset: 5.5 },
+        { name: "UAE",             flag: "🇦🇪", offset: 4 },
+        { name: "Germany",         flag: "🇩🇪", offset: 2 },
+        { name: "Switzerland",     flag: "🇨🇭", offset: 2 },
+        { name: "United Kingdom",  flag: "🇬🇧", offset: 1 },
+        { name: "New York",        flag: "🇺🇸", offset: -4 },
+        { name: "Los Angeles",     flag: "🇺🇸", offset: -7 },
+        { name: "Hawaii",          flag: "🇺🇸", offset: -10 }
+      ];
+
+      // Anzahl Länder je UTC-Zeitzone (grobe, weltweite Verteilung), Summe = 251
+      const ZONE_WEIGHTS = {
+        "14": 1, "13": 5, "12": 8, "11": 7, "10": 6, "9": 6, "8": 12, "7": 8,
+        "6.5": 1, "6": 5, "5.75": 1, "5.5": 2, "5": 7, "4.5": 1, "4": 9,
+        "3.5": 1, "3": 24, "2": 37, "1": 30, "0": 12, "-1": 3, "-2": 2,
+        "-3": 10, "-3.5": 1, "-4": 19, "-5": 10, "-6": 9, "-7": 6, "-8": 3,
+        "-9": 1, "-9.5": 1, "-10": 2, "-11": 1
+      };
+      const TOTAL_COUNTRIES = 251;
+
+      function releaseInstant(offsetHours) {
+        // UTC-Zeitpunkt, an dem es an diesem Ort lokal Mitternacht des Release-Tages wird
+        return Date.UTC(RELEASE_YEAR, RELEASE_MONTH, RELEASE_DAY, 0, 0, 0) - offsetHours * 3600 * 1000;
+      }
+
+      const countEl = document.getElementById("released-count");
+      const listEl = document.getElementById("timeline-list");
+      if (!countEl || !listEl) return;
+
+      function formatCountdown(ms) {
+        const seconds = Math.max(0, Math.floor(ms / 1000));
+        const days = Math.floor(seconds / (3600 * 24));
+        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+        const mins = Math.floor((seconds % 3600) / 60);
+        const secs = seconds % 60;
+        const hh = String(hours).padStart(2, "0");
+        const mm = String(mins).padStart(2, "0");
+        const ss = String(secs).padStart(2, "0");
+        return (days > 0) ? (days + "d " + hh + ":" + mm + ":" + ss) : (hh + ":" + mm + ":" + ss);
+      }
+
+      function render() {
+        const now = Date.now();
+
+        // Gesamtzähler über alle Zeitzonen der Welt
+        let releasedTotal = 0;
+        for (const key in ZONE_WEIGHTS) {
+          if (releaseInstant(parseFloat(key)) <= now) {
+            releasedTotal += ZONE_WEIGHTS[key];
+          }
+        }
+        releasedTotal = Math.min(releasedTotal, TOTAL_COUNTRIES);
+        countEl.textContent = String(releasedTotal).padStart(3, "0");
+
+        // Sichtbare Timeline-Zeile für Zeile aufbauen
+        const rows = COUNTRIES.map(c => ({
+          ...c,
+          instant: releaseInstant(c.offset),
+          isLive: releaseInstant(c.offset) <= now
+        }));
+
+        const nextIndex = rows.findIndex(r => !r.isLive);
+
+        listEl.innerHTML = "";
+        rows.forEach((r, i) => {
+          const row = document.createElement("div");
+          let statusHtml, rowClass;
+
+          if (r.isLive) {
+            statusHtml = '<span class="status-dot">🟢</span><span class="flag">' + r.flag + '</span><span class="country-name">' + r.name + '</span><span class="status-text">LIVE</span>';
+            rowClass = "is-live";
+          } else if (i === nextIndex) {
+            statusHtml = '<span class="status-dot">▶</span><span class="flag">' + r.flag + '</span><span class="country-name">' + r.name + '</span><span class="status-text">in ' + formatCountdown(r.instant - now) + '</span>';
+            rowClass = "is-next";
+          } else {
+            statusHtml = '<span class="status-dot">○</span><span class="flag">' + r.flag + '</span><span class="country-name">' + r.name + '</span>';
+            rowClass = "is-upcoming";
+          }
+
+          row.className = "timeline-row " + rowClass;
+          row.innerHTML = statusHtml;
+          listEl.appendChild(row);
+        });
+      }
+
+      render();
+      setInterval(render, 1000);
+    })();
+  </script>
+
   <script>
     (function(){
       const cross = document.getElementById('crosshair');
@@ -425,13 +642,11 @@
       const lineY = cross?.querySelector('.line-y');
       if(!cross || !lineX || !lineY) return;
 
-      // nur desktop (maus), kein touch
       if(!window.matchMedia('(pointer: fine)').matches){
         cross.style.display = 'none';
         return;
       }
 
-      // reduced motion -> aus
       if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
         cross.style.display = 'none';
         return;
@@ -460,3 +675,4 @@
   </script>
 </body>
 </html>
+
