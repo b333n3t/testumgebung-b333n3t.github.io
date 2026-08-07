@@ -43,7 +43,7 @@
   }
   </script>
 
-  <link rel="preload" as="image" href="assets/gespalten/gespalten.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="/assets/gespalten/gespalten.jpg" fetchpriority="high">
 
   <style>
     :root {
@@ -57,17 +57,14 @@
       --mx: 0;
       --my: 0;
 
-      --gap: calc(var(--split) * 74px);
-      --lift-left: calc(var(--split) * -34px);
-      --lift-right: calc(var(--split) * 28px);
-      --tilt-left: calc(var(--split) * -1.35deg);
-      --tilt-right: calc(var(--split) * 1.1deg);
+      --gap: calc(var(--split) * 92px);
+      --lift-left: calc(var(--split) * -42px);
+      --lift-right: calc(var(--split) * 34px);
+      --tilt-left: calc(var(--split) * -1.7deg);
+      --tilt-right: calc(var(--split) * 1.45deg);
 
       --mouse-x: calc(var(--mx) * 12px);
       --mouse-y: calc(var(--my) * 10px);
-
-      --crack-alpha: calc(0.28 + var(--split) * 0.68);
-      --crack-glow: calc(12px + var(--split) * 42px);
     }
 
     html,
@@ -95,9 +92,9 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 16%, rgba(255,255,255,0.13), transparent 28%),
-        radial-gradient(circle at 52% 62%, rgba(255,255,255,0.06), transparent 36%),
-        linear-gradient(rgba(10,10,10,0.24), rgba(10,10,10,0.94));
+        radial-gradient(circle at 50% 16%, rgba(255,255,255,0.12), transparent 28%),
+        radial-gradient(circle at 52% 62%, rgba(255,255,255,0.055), transparent 36%),
+        linear-gradient(rgba(10,10,10,0.22), rgba(10,10,10,0.95));
       z-index: -8;
       pointer-events: none;
     }
@@ -114,52 +111,60 @@
     .bg-half {
       position: absolute;
       inset: -9%;
-      background: url("assets/gespalten/gespalten.jpg") center / cover no-repeat;
+      background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
       filter: blur(42px) brightness(0.44) saturate(0.88);
-      opacity: 0.95;
+      opacity: 0.96;
       will-change: transform, clip-path;
     }
 
     .bg-half.left {
       clip-path: polygon(
         0 0,
-        52% 0,
-        48% 7%,
-        54% 15%,
-        47% 25%,
-        53% 36%,
-        46% 47%,
-        52% 57%,
-        45% 70%,
-        51% 84%,
-        47% 100%,
+        56% 0,
+        51% 5%,
+        54% 10%,
+        49% 16%,
+        53% 22%,
+        47% 30%,
+        52% 37%,
+        46% 45%,
+        51% 53%,
+        45% 62%,
+        50% 70%,
+        44% 80%,
+        49% 90%,
+        45% 100%,
         0 100%
       );
       transform:
-        translate3d(calc(var(--gap) * -0.72 + var(--mouse-x) * -0.55), calc(var(--lift-left) * 0.55 + var(--mouse-y) * -0.4), 0)
+        translate3d(calc(var(--gap) * -0.72 + var(--mouse-x) * -0.45), calc(var(--lift-left) * 0.55 + var(--mouse-y) * -0.3), 0)
         rotate(calc(var(--tilt-left) * 0.55))
-        scale(1.16);
+        scale(1.17);
     }
 
     .bg-half.right {
       clip-path: polygon(
-        48% 0,
+        44% 0,
         100% 0,
         100% 100%,
-        49% 100%,
-        53% 84%,
-        47% 70%,
-        55% 57%,
-        48% 47%,
-        54% 36%,
-        47% 25%,
-        53% 15%,
-        49% 7%
+        55% 100%,
+        51% 90%,
+        56% 80%,
+        50% 70%,
+        55% 62%,
+        49% 53%,
+        54% 45%,
+        48% 37%,
+        53% 30%,
+        47% 22%,
+        51% 16%,
+        46% 10%,
+        49% 5%
       );
       transform:
-        translate3d(calc(var(--gap) * 0.72 + var(--mouse-x) * 0.55), calc(var(--lift-right) * 0.55 + var(--mouse-y) * 0.4), 0)
+        translate3d(calc(var(--gap) * 0.72 + var(--mouse-x) * 0.45), calc(var(--lift-right) * 0.55 + var(--mouse-y) * 0.3), 0)
         rotate(calc(var(--tilt-right) * 0.55))
-        scale(1.16);
+        scale(1.17);
     }
 
     .bg-cold {
@@ -168,9 +173,59 @@
       z-index: -7;
       pointer-events: none;
       background:
-        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(44% + var(--mouse-y)), rgba(255,255,255,0.13), transparent 18%),
-        linear-gradient(90deg, rgba(0,0,0,0.50), transparent 46%, rgba(255,255,255,0.06) 50%, transparent 54%, rgba(0,0,0,0.58));
-      opacity: 0.88;
+        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(44% + var(--mouse-y)), rgba(255,255,255,0.12), transparent 18%),
+        linear-gradient(90deg, rgba(0,0,0,0.50), transparent 46%, rgba(255,255,255,0.045) 50%, transparent 54%, rgba(0,0,0,0.58));
+      opacity: 0.9;
+    }
+
+    .rift-depth {
+      position: fixed;
+      top: -12vh;
+      bottom: -12vh;
+      left: 50%;
+      width: calc(18px + var(--split) * 82px);
+      transform:
+        translateX(-50%)
+        translateY(calc(var(--mouse-y) * 0.1))
+        rotate(calc(var(--mx) * 0.18deg));
+      z-index: 0;
+      pointer-events: none;
+      opacity: calc(0.18 + var(--split) * 0.46);
+      background:
+        radial-gradient(ellipse at 50% 12%, rgba(255,255,255,0.08), transparent 26%),
+        linear-gradient(
+          to bottom,
+          rgba(0,0,0,0.02),
+          rgba(0,0,0,0.66) 18%,
+          rgba(0,0,0,0.92) 44%,
+          rgba(0,0,0,0.72) 70%,
+          rgba(0,0,0,0.04)
+        );
+      clip-path: polygon(
+        47% 0,
+        62% 8%,
+        44% 16%,
+        58% 25%,
+        39% 35%,
+        55% 45%,
+        36% 56%,
+        59% 68%,
+        42% 79%,
+        61% 91%,
+        49% 100%,
+        30% 100%,
+        42% 91%,
+        24% 79%,
+        39% 68%,
+        21% 56%,
+        38% 45%,
+        23% 35%,
+        40% 25%,
+        26% 16%,
+        43% 8%,
+        31% 0
+      );
+      filter: blur(10px);
     }
 
     .page-wrap {
@@ -207,47 +262,55 @@
     .ice-layer.left {
       clip-path: polygon(
         -8% -4%,
-        52% -4%,
-        48% 6%,
-        54% 13%,
-        47% 23%,
-        53% 32%,
-        45% 42%,
-        51% 52%,
-        44% 63%,
-        52% 74%,
-        46% 86%,
-        50% 104%,
+        56% -4%,
+        51% 5%,
+        55% 11%,
+        49% 18%,
+        54% 25%,
+        47% 34%,
+        52% 43%,
+        45% 52%,
+        51% 61%,
+        44% 72%,
+        50% 83%,
+        45% 94%,
+        49% 104%,
         -8% 104%
       );
       transform:
-        translate3d(calc(var(--gap) * -1 + var(--mouse-x) * -0.95), calc(var(--lift-left) + var(--mouse-y) * -0.75), 0)
+        translate3d(calc(var(--gap) * -1 + var(--mouse-x) * -0.8), calc(var(--lift-left) + var(--mouse-y) * -0.55), 0)
         rotate(var(--tilt-left));
-      transform-origin: 42% 38%;
-      filter: drop-shadow(18px 24px 38px rgba(0,0,0,0.28));
+      transform-origin: 38% 40%;
+      filter:
+        drop-shadow(24px 28px 42px rgba(0,0,0,0.34))
+        drop-shadow(0 0 22px rgba(255,255,255,0.04));
     }
 
     .ice-layer.right {
       clip-path: polygon(
-        48% -4%,
+        44% -4%,
         108% -4%,
         108% 104%,
-        50% 104%,
-        54% 86%,
-        48% 74%,
-        56% 63%,
-        49% 52%,
-        55% 42%,
-        47% 32%,
-        53% 23%,
-        46% 13%,
-        52% 6%
+        51% 104%,
+        55% 94%,
+        50% 83%,
+        56% 72%,
+        49% 61%,
+        55% 52%,
+        48% 43%,
+        53% 34%,
+        46% 25%,
+        51% 18%,
+        45% 11%,
+        49% 5%
       );
       transform:
-        translate3d(calc(var(--gap) * 1 + var(--mouse-x) * 0.95), calc(var(--lift-right) + var(--mouse-y) * 0.75), 0)
+        translate3d(calc(var(--gap) * 1 + var(--mouse-x) * 0.8), calc(var(--lift-right) + var(--mouse-y) * 0.55), 0)
         rotate(var(--tilt-right));
-      transform-origin: 58% 42%;
-      filter: drop-shadow(-18px 24px 38px rgba(0,0,0,0.30));
+      transform-origin: 62% 44%;
+      filter:
+        drop-shadow(-24px 28px 42px rgba(0,0,0,0.36))
+        drop-shadow(0 0 22px rgba(255,255,255,0.04));
     }
 
     .ice-layer::after {
@@ -256,13 +319,11 @@
       inset: -1.5rem;
       pointer-events: none;
       background:
-        linear-gradient(90deg, rgba(255,255,255,0.07), transparent 31%, rgba(255,255,255,0.12) 50%, transparent 69%, rgba(0,0,0,0.08)),
-        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.10), transparent 28%);
-      opacity: calc(0.18 + var(--split) * 0.32);
+        linear-gradient(90deg, rgba(255,255,255,0.055), transparent 31%, rgba(255,255,255,0.10) 50%, transparent 69%, rgba(0,0,0,0.08)),
+        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.08), transparent 28%);
+      opacity: calc(0.12 + var(--split) * 0.25);
       mix-blend-mode: screen;
     }
-
-    
 
     main.main {
       display: flex;
@@ -343,27 +404,27 @@
       isolation: isolate;
     }
 
-.album-video {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-  border-radius: inherit;
-  background: #000;
-  filter: contrast(1.04) saturate(0.97);
-}
+    .album-video {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: inherit;
+      background: #000;
+      filter: contrast(1.04) saturate(0.97);
+    }
 
     .cover-inner::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(42% + var(--mouse-y)), rgba(255,255,255,0.18), transparent 18%),
-        linear-gradient(90deg, rgba(0,0,0,0.18), transparent 47%, rgba(255,255,255,0.17) 50%, transparent 54%, rgba(0,0,0,0.14));
+        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(42% + var(--mouse-y)), rgba(255,255,255,0.14), transparent 18%),
+        linear-gradient(90deg, rgba(0,0,0,0.14), transparent 47%, rgba(255,255,255,0.10) 50%, transparent 54%, rgba(0,0,0,0.12));
       mix-blend-mode: overlay;
       z-index: 2;
       pointer-events: none;
-      opacity: calc(0.42 + var(--split) * 0.32);
+      opacity: calc(0.36 + var(--split) * 0.22);
     }
 
     .cover-inner::after {
@@ -372,14 +433,12 @@
       inset: 0;
       z-index: 3;
       pointer-events: none;
-      opacity: calc(0.14 + var(--split) * 0.24);
+      opacity: calc(0.10 + var(--split) * 0.18);
       background:
-        repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,0.12) 18px 19px, transparent 19px 44px),
-        repeating-linear-gradient(58deg, transparent 0 26px, rgba(255,255,255,0.09) 26px 27px, transparent 27px 61px);
+        repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,0.08) 18px 19px, transparent 19px 44px),
+        repeating-linear-gradient(58deg, transparent 0 26px, rgba(255,255,255,0.06) 26px 27px, transparent 27px 61px);
       mix-blend-mode: screen;
     }
-
-
 
     .listen-wrap {
       margin-top: 1.6rem;
@@ -470,10 +529,10 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      opacity: calc(0.20 + var(--split) * 0.42);
+      opacity: calc(0.14 + var(--split) * 0.28);
       background:
-        radial-gradient(circle at 50% 46%, rgba(255,255,255,0.12), transparent 20%),
-        repeating-linear-gradient(112deg, transparent 0 28px, rgba(255,255,255,0.09) 28px 29px, transparent 29px 64px);
+        radial-gradient(circle at 50% 46%, rgba(255,255,255,0.10), transparent 20%),
+        repeating-linear-gradient(112deg, transparent 0 28px, rgba(255,255,255,0.06) 28px 29px, transparent 29px 64px);
       mix-blend-mode: screen;
     }
 
@@ -561,8 +620,8 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(135deg, rgba(255,255,255,0.12), transparent 42%),
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.10), transparent 52%);
+        linear-gradient(135deg, rgba(255,255,255,0.10), transparent 42%),
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.08), transparent 52%);
       opacity: 0.42;
       pointer-events: none;
     }
@@ -695,9 +754,9 @@
 
     @media (max-width: 768px) {
       :root {
-        --gap: calc(var(--split) * 28px);
-        --lift-left: calc(var(--split) * -16px);
-        --lift-right: calc(var(--split) * 14px);
+        --gap: calc(var(--split) * 42px);
+        --lift-left: calc(var(--split) * -20px);
+        --lift-right: calc(var(--split) * 18px);
       }
 
       .page-wrap {
@@ -723,14 +782,6 @@
 
       .cover-inner {
         border-radius: 24px;
-      }
-
-      .cover-caption {
-        left: 0.75rem;
-        right: 0.75rem;
-        bottom: 0.75rem;
-        padding: 0.72rem 0.82rem;
-        font-size: 0.62rem;
       }
 
       .listen-wrap {
@@ -806,7 +857,8 @@
     <div class="bg-half right"></div>
   </div>
 
-
+  <div class="bg-cold" aria-hidden="true"></div>
+  <div class="rift-depth" aria-hidden="true"></div>
 
   <div class="page-wrap">
     <div class="content-shell" id="content-shell">
@@ -831,22 +883,21 @@
 
           <p class="hero-sub">
             <strong>10 songs · 12 minutes</strong><br>
-            ein kurzes spaltungs - album 
+            ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
           </p>
 
-          <div class="cover-wrap" aria-label="Albumcover gespalten">
+          <div class="cover-wrap" aria-label="Albumvideo gespalten">
             <div class="cover-inner">
-  <video
-    id="release-video"
-    class="album-video"
-    controls
-    preload="metadata"
-    playsinline
-    poster="/assets/gespalten/gespalten.jpg">
-    <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
-    Dein Browser unterstützt dieses Videoformat nicht.
-  </video>
-</div>
+              <video
+                class="album-video"
+                controls
+                preload="metadata"
+                playsinline
+                poster="/assets/gespalten/gespalten.jpg">
+                <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                Dein Browser unterstützt dieses Videoformat nicht.
+              </video>
+            </div>
           </div>
 
           <div class="listen-wrap">
@@ -1035,7 +1086,6 @@
         const clone = source.cloneNode(true);
         clone.classList.remove("main-source");
         clone.classList.add("main-clone");
-        clone.setAttribute("aria-hidden", "false");
         target.appendChild(clone);
       });
 
@@ -1060,10 +1110,9 @@
       function updateSplit() {
         const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         const raw = clamp(window.scrollY / maxScroll, 0, 1);
+        const eased = 1 - Math.pow(1 - raw, 2.65);
 
-        const eased = 1 - Math.pow(1 - raw, 2.75);
         root.style.setProperty("--split", eased.toFixed(4));
-
         ticking = false;
       }
 
