@@ -58,13 +58,19 @@
       --mx: 0;
       --my: 0;
 
+      --page-gap: calc(var(--split) * 78px);
+      --page-lift-left: calc(var(--split) * -28px);
+      --page-lift-right: calc(var(--split) * 23px);
+      --page-tilt-left: calc(var(--split) * -0.75deg);
+      --page-tilt-right: calc(var(--split) * 0.62deg);
+
       --video-gap: calc(var(--split) * 44px);
       --video-lift-left: calc(var(--split) * -10px);
       --video-lift-right: calc(var(--split) * 9px);
       --video-tilt-left: calc(var(--split) * -0.55deg);
       --video-tilt-right: calc(var(--split) * 0.48deg);
 
-      --bg-gap: calc(var(--split) * 26px);
+      --bg-gap: calc(var(--split) * 32px);
       --mouse-x: calc(var(--mx) * 5px);
       --mouse-y: calc(var(--my) * 4px);
     }
@@ -120,14 +126,34 @@
     }
 
     .bg-half.left {
-      clip-path: polygon(0 0, 50% 0, 48% 10%, 53% 24%, 49% 40%, 56% 58%, 52% 77%, 64% 100%, 0 100%);
+      clip-path: polygon(
+        0 0,
+        50% 0,
+        48% 10%,
+        53% 24%,
+        49% 40%,
+        56% 58%,
+        52% 77%,
+        64% 100%,
+        0 100%
+      );
       transform:
         translate3d(calc(var(--bg-gap) * -1 + var(--mouse-x) * -0.2), calc(var(--mouse-y) * -0.08), 0)
         scale(1.12);
     }
 
     .bg-half.right {
-      clip-path: polygon(50% 0, 100% 0, 100% 100%, 64% 100%, 52% 77%, 56% 58%, 49% 40%, 53% 24%, 48% 10%);
+      clip-path: polygon(
+        50% 0,
+        100% 0,
+        100% 100%,
+        64% 100%,
+        52% 77%,
+        56% 58%,
+        49% 40%,
+        53% 24%,
+        48% 10%
+      );
       transform:
         translate3d(calc(var(--bg-gap) * 1 + var(--mouse-x) * 0.2), calc(var(--mouse-y) * 0.08), 0)
         scale(1.12);
@@ -167,6 +193,88 @@
       flex-direction: column;
       gap: clamp(1.55rem, 2.2vw, 2.25rem);
       position: relative;
+    }
+
+    .page-crack-zone {
+      position: relative;
+    }
+
+    .page-crack-base {
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-crack-base .split-copy-source {
+      opacity: calc(1 - var(--split-visual));
+      transition: opacity 0.12s linear;
+    }
+
+    .page-crack-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      opacity: var(--split-visual);
+      pointer-events: none;
+      will-change: transform, opacity;
+      transition: opacity 0.12s linear;
+    }
+
+    .page-crack-layer.left {
+      clip-path: polygon(
+        -8% -4%,
+        50% -4%,
+        48% 8%,
+        52% 16%,
+        49% 26%,
+        55% 39%,
+        52% 51%,
+        60% 64%,
+        56% 78%,
+        68% 104%,
+        -8% 104%
+      );
+      transform:
+        translate3d(
+          calc(var(--page-gap) * -1 + var(--mouse-x) * -0.28),
+          calc(var(--page-lift-left) + var(--mouse-y) * -0.16),
+          0
+        )
+        rotate(var(--page-tilt-left));
+      transform-origin: 34% 42%;
+      filter: drop-shadow(8px 12px 20px rgba(0,0,0,0.22));
+    }
+
+    .page-crack-layer.right {
+      clip-path: polygon(
+        50% -4%,
+        108% -4%,
+        108% 104%,
+        68% 104%,
+        56% 78%,
+        60% 64%,
+        52% 51%,
+        55% 39%,
+        49% 26%,
+        52% 16%,
+        48% 8%
+      );
+      transform:
+        translate3d(
+          calc(var(--page-gap) * 1 + var(--mouse-x) * 0.28),
+          calc(var(--page-lift-right) + var(--mouse-y) * 0.16),
+          0
+        )
+        rotate(var(--page-tilt-right));
+      transform-origin: 66% 44%;
+      filter: drop-shadow(-8px 12px 20px rgba(0,0,0,0.24));
+    }
+
+    .page-crack-layer .cover-wrap {
+      visibility: hidden;
+    }
+
+    .page-crack-layer .listen-wrap {
+      visibility: hidden;
     }
 
     .brand-row {
@@ -227,6 +335,8 @@
       transform:
         translateY(calc(var(--split) * 4px))
         translateX(calc(var(--mx) * 1px));
+      position: relative;
+      z-index: 3;
     }
 
     .cover-inner {
@@ -331,6 +441,8 @@
       justify-content: center;
       gap: 0.75rem;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 5;
     }
 
     .listen-btn {
@@ -533,7 +645,7 @@
 
     .footer-combined {
       position: relative;
-      z-index: 5;
+      z-index: 10;
       display: grid;
       grid-template-columns: 1fr;
       gap: 1.4rem;
@@ -576,6 +688,12 @@
 
     @media (max-width: 768px) {
       :root {
+        --page-gap: calc(var(--split) * 92px);
+        --page-lift-left: calc(var(--split) * -16px);
+        --page-lift-right: calc(var(--split) * 14px);
+        --page-tilt-left: calc(var(--split) * -0.42deg);
+        --page-tilt-right: calc(var(--split) * 0.36deg);
+
         --video-gap: calc(var(--split) * 64px);
         --video-lift-left: calc(var(--split) * -8px);
         --video-lift-right: calc(var(--split) * 7px);
@@ -698,6 +816,11 @@
         font-size: 0.92rem;
         line-height: 1.58;
       }
+
+      .page-crack-layer.left,
+      .page-crack-layer.right {
+        filter: none;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -713,11 +836,13 @@
         transition: none;
       }
 
-      .split-video-layer {
+      .split-video-layer,
+      .page-crack-layer {
         display: none;
       }
 
-      .base-video {
+      .base-video,
+      .page-crack-base .split-copy-source {
         opacity: 1;
       }
     }
@@ -736,173 +861,190 @@
     <div class="content">
       <main class="main" aria-label="gespalten Albumseite">
 
-        <div class="brand-row">
-          <a class="brand-link" href="index.html">b3nn3t</a>
+        <div class="page-crack-zone" id="page-crack-zone">
+
+          <div class="page-crack-layer left" aria-hidden="true">
+            <div class="page-crack-layer-inner"></div>
+          </div>
+
+          <div class="page-crack-layer right" aria-hidden="true">
+            <div class="page-crack-layer-inner"></div>
+          </div>
+
+          <div class="page-crack-base">
+            <div class="split-copy-source" id="split-copy-source">
+
+              <div class="brand-row">
+                <a class="brand-link" href="index.html">b3nn3t</a>
+              </div>
+
+              <section class="hero" aria-label="gespalten Album">
+                <p class="eyebrow">new album</p>
+                <h1>gespalten</h1>
+
+                <p class="hero-sub">
+                  <strong>10 songs · 12 minutes</strong><br>
+                  ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
+                </p>
+
+                <div class="cover-wrap" aria-label="Albumvideo gespalten">
+                  <div class="cover-inner">
+
+                    <video
+                      id="video-base"
+                      class="album-video base-video"
+                      controls
+                      preload="metadata"
+                      playsinline
+                      poster="/assets/gespalten/gespalten.jpg">
+                      <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                      Dein Browser unterstützt dieses Videoformat nicht.
+                    </video>
+
+                    <div class="split-video-layer" aria-hidden="true">
+                      <div class="video-half left">
+                        <video
+                          id="video-left"
+                          class="split-video"
+                          muted
+                          preload="metadata"
+                          playsinline
+                          poster="/assets/gespalten/gespalten.jpg">
+                          <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                        </video>
+                      </div>
+
+                      <div class="video-half right">
+                        <video
+                          id="video-right"
+                          class="split-video"
+                          muted
+                          preload="metadata"
+                          playsinline
+                          poster="/assets/gespalten/gespalten.jpg">
+                          <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="listen-wrap">
+                  <a
+                    class="listen-btn main-cta"
+                    href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                    target="_blank"
+                    rel="noopener">
+                    album vormerken
+                  </a>
+                </div>
+              </section>
+
+              <section aria-label="Album Countdown" class="block countdown-plain">
+                <p class="countdown-label">album unlocks in</p>
+                <p class="countdown-time album-countdown">--d --:--:--</p>
+                <p class="countdown-note release-note">
+                  Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
+                </p>
+              </section>
+
+              <section aria-label="Album Fragmente" class="block">
+                <div class="fragment-head">
+                  <strong>10 fragments / 12 minutes</strong>
+                  <span>short album</span>
+                </div>
+
+                <div class="fragment-zone">
+                  <div class="fragment-sides" aria-label="Songs auf gespalten">
+                    <div class="fragment-side fragment-side-left">
+                      <div class="shard released l1">
+                        <div class="shard-no">01</div>
+                        <div class="shard-title">desigual</div>
+                        <div class="shard-status">released</div>
+                      </div>
+
+                      <div class="shard locked l2">
+                        <div class="shard-no">02</div>
+                        <div class="shard-title">aergerlich</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked l3">
+                        <div class="shard-no">03</div>
+                        <div class="shard-title">3</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked l4">
+                        <div class="shard-no">04</div>
+                        <div class="shard-title">(fenster scherben)</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+                    </div>
+
+                    <div class="fragment-side fragment-side-right">
+                      <div class="shard locked r1">
+                        <div class="shard-no">05</div>
+                        <div class="shard-title">5r</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked r2">
+                        <div class="shard-no">06</div>
+                        <div class="shard-title">6</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked r3">
+                        <div class="shard-no">07</div>
+                        <div class="shard-title">7</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked r4">
+                        <div class="shard-no">08</div>
+                        <div class="shard-title">8?</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked r5">
+                        <div class="shard-no">09</div>
+                        <div class="shard-title">wegwerfkamera</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+
+                      <div class="shard locked r6">
+                        <div class="shard-no">10</div>
+                        <div class="shard-title">2011</div>
+                        <div class="shard-status">locked</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <section aria-label="Über das Album" class="block">
+                <h2>über das album</h2>
+
+                <p>
+                  „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
+                  melancholischem bedroom-pop und deutschsprachigen skizzen.
+                </p>
+
+                <p>
+                  manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
+                  kurz, direkt, unfertig im besten sinn.
+                </p>
+
+                <div class="quote-block">
+                  10 songs. 12 minutes. ein album wie eis, das bricht.
+                </div>
+              </section>
+
+            </div>
+          </div>
         </div>
-
-        <section class="hero" aria-label="gespalten Album">
-          <p class="eyebrow">new album</p>
-          <h1>gespalten</h1>
-
-          <p class="hero-sub">
-            <strong>10 songs · 12 minutes</strong><br>
-            ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
-          </p>
-
-          <div class="cover-wrap" aria-label="Albumvideo gespalten">
-            <div class="cover-inner">
-
-              <video
-                id="video-base"
-                class="album-video base-video"
-                controls
-                preload="metadata"
-                playsinline
-                poster="/assets/gespalten/gespalten.jpg">
-                <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
-                Dein Browser unterstützt dieses Videoformat nicht.
-              </video>
-
-              <div class="split-video-layer" aria-hidden="true">
-                <div class="video-half left">
-                  <video
-                    id="video-left"
-                    class="split-video"
-                    muted
-                    preload="metadata"
-                    playsinline
-                    poster="/assets/gespalten/gespalten.jpg">
-                    <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
-                  </video>
-                </div>
-
-                <div class="video-half right">
-                  <video
-                    id="video-right"
-                    class="split-video"
-                    muted
-                    preload="metadata"
-                    playsinline
-                    poster="/assets/gespalten/gespalten.jpg">
-                    <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
-                  </video>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div class="listen-wrap">
-            <a
-              class="listen-btn main-cta"
-              href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-              target="_blank"
-              rel="noopener">
-              album vormerken
-            </a>
-          </div>
-        </section>
-
-        <section aria-label="Album Countdown" class="block countdown-plain">
-          <p class="countdown-label">album unlocks in</p>
-          <p class="countdown-time album-countdown">--d --:--:--</p>
-          <p class="countdown-note release-note">
-            Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
-          </p>
-        </section>
-
-        <section aria-label="Album Fragmente" class="block">
-          <div class="fragment-head">
-            <strong>10 fragments / 12 minutes</strong>
-            <span>short album</span>
-          </div>
-
-          <div class="fragment-zone">
-            <div class="fragment-sides" aria-label="Songs auf gespalten">
-              <div class="fragment-side fragment-side-left">
-                <div class="shard released l1">
-                  <div class="shard-no">01</div>
-                  <div class="shard-title">desigual</div>
-                  <div class="shard-status">released</div>
-                </div>
-
-                <div class="shard locked l2">
-                  <div class="shard-no">02</div>
-                  <div class="shard-title">aergerlich</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked l3">
-                  <div class="shard-no">03</div>
-                  <div class="shard-title">3</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked l4">
-                  <div class="shard-no">04</div>
-                  <div class="shard-title">(fenster scherben)</div>
-                  <div class="shard-status">locked</div>
-                </div>
-              </div>
-
-              <div class="fragment-side fragment-side-right">
-                <div class="shard locked r1">
-                  <div class="shard-no">05</div>
-                  <div class="shard-title">5r</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked r2">
-                  <div class="shard-no">06</div>
-                  <div class="shard-title">6</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked r3">
-                  <div class="shard-no">07</div>
-                  <div class="shard-title">7</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked r4">
-                  <div class="shard-no">08</div>
-                  <div class="shard-title">8?</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked r5">
-                  <div class="shard-no">09</div>
-                  <div class="shard-title">wegwerfkamera</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked r6">
-                  <div class="shard-no">10</div>
-                  <div class="shard-title">2011</div>
-                  <div class="shard-status">locked</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section aria-label="Über das Album" class="block">
-          <h2>über das album</h2>
-
-          <p>
-            „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
-            melancholischem bedroom-pop und deutschsprachigen skizzen.
-          </p>
-
-          <p>
-            manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
-            kurz, direkt, unfertig im besten sinn.
-          </p>
-
-          <div class="quote-block">
-            10 songs. 12 minutes. ein album wie eis, das bricht.
-          </div>
-        </section>
 
         <div class="footer-combined">
           <section aria-label="Streaming" class="block">
@@ -963,6 +1105,38 @@
 
   <script>
     (function () {
+      const source = document.getElementById("split-copy-source");
+      const targets = document.querySelectorAll(".page-crack-layer-inner");
+
+      if (!source || !targets.length) return;
+
+      targets.forEach(function (target) {
+        const clone = source.cloneNode(true);
+        clone.removeAttribute("id");
+
+        clone.querySelectorAll("video").forEach(function (video) {
+          video.remove();
+        });
+
+        clone.querySelectorAll(".split-video-layer").forEach(function (layer) {
+          layer.remove();
+        });
+
+        clone.querySelectorAll(".cover-inner").forEach(function (inner) {
+          inner.innerHTML = "";
+        });
+
+        clone.querySelectorAll("a").forEach(function (link) {
+          link.setAttribute("tabindex", "-1");
+        });
+
+        target.appendChild(clone);
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
       const root = document.documentElement;
 
       let ticking = false;
@@ -979,14 +1153,14 @@
 
       function applySplit() {
         const split = clamp(Math.max(scrollSplit, mouseBurst), 0, 1);
-        const splitVisual = clamp(split * 2.1, 0, 1);
+        const splitVisual = clamp(split * 2.05, 0, 1);
 
         root.style.setProperty("--split", split.toFixed(4));
         root.style.setProperty("--split-visual", splitVisual.toFixed(4));
       }
 
       function updateScroll() {
-        const raw = clamp(window.scrollY / 520, 0, 1);
+        const raw = clamp(window.scrollY / 560, 0, 1);
         scrollSplit = 1 - Math.pow(1 - raw, 1.8);
         applySplit();
         ticking = false;
