@@ -18,13 +18,13 @@
   <meta property="og:type" content="music.album">
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„gespalten“ – neues Album von b3nn3t">
-  <meta property="og:description" content="10 Songs. 12 Minuten. Ein Album wie ein Riss.">
+  <meta property="og:description" content="10 Songs. 12 Minuten. Ein Album wie Eis, das bricht.">
   <meta property="og:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
   <meta property="og:url" content="https://www.b3nn3t.com/release-gespalten.html">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="„gespalten“ – neues Album von b3nn3t">
-  <meta name="twitter:description" content="10 Songs. 12 Minuten. Ein Album wie ein Riss.">
+  <meta name="twitter:description" content="10 Songs. 12 Minuten. Ein Album wie Eis, das bricht.">
   <meta name="twitter:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
 
   <script type="application/ld+json">
@@ -49,21 +49,25 @@
     :root {
       --text-main: #fdfdfd;
       --text-muted: rgba(255,255,255,0.68);
-      --text-soft: rgba(255,255,255,0.48);
+      --text-soft: rgba(255,255,255,0.46);
       --page-max-width: 960px;
-      --line: rgba(255,255,255,0.14);
       --release-green: #3ddc84;
 
       --split: 0;
-      --mouse-x: 0;
-      --mouse-y: 0;
+      --mx: 0;
+      --my: 0;
 
-      --split-bg: calc(var(--split) * 34px);
-      --split-cover: calc(var(--split) * 18px);
-      --crack-glow: calc(14px + var(--split) * 42px);
-      --crack-opacity: calc(0.42 + var(--split) * 0.58);
-      --mouse-shift-x: calc(var(--mouse-x) * 10px);
-      --mouse-shift-y: calc(var(--mouse-y) * 8px);
+      --gap: calc(var(--split) * 74px);
+      --lift-left: calc(var(--split) * -34px);
+      --lift-right: calc(var(--split) * 28px);
+      --tilt-left: calc(var(--split) * -1.35deg);
+      --tilt-right: calc(var(--split) * 1.1deg);
+
+      --mouse-x: calc(var(--mx) * 12px);
+      --mouse-y: calc(var(--my) * 10px);
+
+      --crack-alpha: calc(0.28 + var(--split) * 0.68);
+      --crack-glow: calc(12px + var(--split) * 42px);
     }
 
     html,
@@ -74,8 +78,16 @@
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--text-main);
-      background: #151514;
+      background: #121313;
       scroll-behavior: smooth;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: #121313;
+      z-index: -10;
     }
 
     body::after {
@@ -83,105 +95,82 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.13), transparent 28%),
-        linear-gradient(rgba(12,12,11,0.34), rgba(12,12,11,0.95));
-      z-index: -6;
+        radial-gradient(circle at 50% 16%, rgba(255,255,255,0.13), transparent 28%),
+        radial-gradient(circle at 52% 62%, rgba(255,255,255,0.06), transparent 36%),
+        linear-gradient(rgba(10,10,10,0.24), rgba(10,10,10,0.94));
+      z-index: -8;
       pointer-events: none;
     }
 
-    .split-bg {
+    .bg-ice {
       position: fixed;
       inset: 0;
-      z-index: -5;
-      pointer-events: none;
       overflow: hidden;
-      background: #151514;
+      z-index: -9;
+      pointer-events: none;
+      background: #111;
     }
 
-    .split-half {
+    .bg-half {
       position: absolute;
-      inset: -8%;
+      inset: -9%;
       background: url("assets/gespalten/gespalten.jpg") center / cover no-repeat;
-      filter: blur(40px) brightness(0.48) saturate(0.9);
+      filter: blur(42px) brightness(0.44) saturate(0.88);
       opacity: 0.95;
       will-change: transform, clip-path;
     }
 
-    .split-half.left {
-      clip-path: polygon(0 0, 51% 0, 47% 14%, 53% 28%, 46% 42%, 51% 58%, 45% 73%, 52% 100%, 0 100%);
+    .bg-half.left {
+      clip-path: polygon(
+        0 0,
+        52% 0,
+        48% 7%,
+        54% 15%,
+        47% 25%,
+        53% 36%,
+        46% 47%,
+        52% 57%,
+        45% 70%,
+        51% 84%,
+        47% 100%,
+        0 100%
+      );
       transform:
-        translateX(calc(var(--split-bg) * -1))
-        translateY(calc(var(--mouse-shift-y) * -0.3))
-        scale(1.14);
+        translate3d(calc(var(--gap) * -0.72 + var(--mouse-x) * -0.55), calc(var(--lift-left) * 0.55 + var(--mouse-y) * -0.4), 0)
+        rotate(calc(var(--tilt-left) * 0.55))
+        scale(1.16);
     }
 
-    .split-half.right {
-      clip-path: polygon(49% 0, 100% 0, 100% 100%, 48% 100%, 55% 73%, 49% 58%, 54% 42%, 47% 28%, 53% 14%);
+    .bg-half.right {
+      clip-path: polygon(
+        48% 0,
+        100% 0,
+        100% 100%,
+        49% 100%,
+        53% 84%,
+        47% 70%,
+        55% 57%,
+        48% 47%,
+        54% 36%,
+        47% 25%,
+        53% 15%,
+        49% 7%
+      );
       transform:
-        translateX(var(--split-bg))
-        translateY(calc(var(--mouse-shift-y) * 0.3))
-        scale(1.14);
+        translate3d(calc(var(--gap) * 0.72 + var(--mouse-x) * 0.55), calc(var(--lift-right) * 0.55 + var(--mouse-y) * 0.4), 0)
+        rotate(calc(var(--tilt-right) * 0.55))
+        scale(1.16);
     }
 
-    .dark-vignette {
+    .bg-cold {
       position: fixed;
       inset: 0;
-      z-index: -4;
+      z-index: -7;
       pointer-events: none;
       background:
-        radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.22) 48%, rgba(0,0,0,0.66) 100%),
-        linear-gradient(90deg, rgba(0,0,0,0.32), transparent 50%, rgba(0,0,0,0.42));
-    }
-
-    .global-crack {
-      position: fixed;
-      inset: -8vh 0;
-      z-index: 2;
-      pointer-events: none;
-      opacity: var(--crack-opacity);
-      mix-blend-mode: screen;
-      transform:
-        translateX(calc(var(--mouse-shift-x) * 0.3))
-        translateY(calc(var(--mouse-shift-y) * 0.12));
-    }
-
-    .global-crack svg {
-      width: 100%;
-      height: 116vh;
-      display: block;
-      overflow: visible;
-    }
-
-    .crack-main {
-      fill: none;
-      stroke: rgba(255,255,255,0.9);
-      stroke-width: calc(1.6 + var(--split) * 2.5);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 var(--crack-glow) rgba(255,255,255,0.58));
-      stroke-dasharray: 1700;
-      stroke-dashoffset: calc(720 - var(--split) * 720);
-    }
-
-    .crack-side {
-      fill: none;
-      stroke: rgba(255,255,255,0.46);
-      stroke-width: calc(0.8 + var(--split) * 1.5);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 22px rgba(255,255,255,0.34));
-      stroke-dasharray: 900;
-      stroke-dashoffset: calc(520 - var(--split) * 520);
-    }
-
-    .crack-shadow {
-      fill: none;
-      stroke: rgba(0,0,0,0.72);
-      stroke-width: calc(12 + var(--split) * 18);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      opacity: calc(0.15 + var(--split) * 0.28);
-      filter: blur(8px);
+        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(44% + var(--mouse-y)), rgba(255,255,255,0.13), transparent 18%),
+        linear-gradient(90deg, rgba(0,0,0,0.50), transparent 46%, rgba(255,255,255,0.06) 50%, transparent 54%, rgba(0,0,0,0.58));
+      opacity: 0.88;
     }
 
     .page-wrap {
@@ -196,16 +185,153 @@
       z-index: 1;
     }
 
-    .content {
+    .content-shell {
       width: 100%;
       max-width: var(--page-max-width);
       position: relative;
+    }
+
+    .content-shell.has-ice .main-source {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .ice-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      will-change: transform, clip-path, filter;
+      transform-style: preserve-3d;
+    }
+
+    .ice-layer.left {
+      clip-path: polygon(
+        -8% -4%,
+        52% -4%,
+        48% 6%,
+        54% 13%,
+        47% 23%,
+        53% 32%,
+        45% 42%,
+        51% 52%,
+        44% 63%,
+        52% 74%,
+        46% 86%,
+        50% 104%,
+        -8% 104%
+      );
+      transform:
+        translate3d(calc(var(--gap) * -1 + var(--mouse-x) * -0.95), calc(var(--lift-left) + var(--mouse-y) * -0.75), 0)
+        rotate(var(--tilt-left));
+      transform-origin: 42% 38%;
+      filter: drop-shadow(18px 24px 38px rgba(0,0,0,0.28));
+    }
+
+    .ice-layer.right {
+      clip-path: polygon(
+        48% -4%,
+        108% -4%,
+        108% 104%,
+        50% 104%,
+        54% 86%,
+        48% 74%,
+        56% 63%,
+        49% 52%,
+        55% 42%,
+        47% 32%,
+        53% 23%,
+        46% 13%,
+        52% 6%
+      );
+      transform:
+        translate3d(calc(var(--gap) * 1 + var(--mouse-x) * 0.95), calc(var(--lift-right) + var(--mouse-y) * 0.75), 0)
+        rotate(var(--tilt-right));
+      transform-origin: 58% 42%;
+      filter: drop-shadow(-18px 24px 38px rgba(0,0,0,0.30));
+    }
+
+    .ice-layer::after {
+      content: "";
+      position: absolute;
+      inset: -1.5rem;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.07), transparent 31%, rgba(255,255,255,0.12) 50%, transparent 69%, rgba(0,0,0,0.08)),
+        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.10), transparent 28%);
+      opacity: calc(0.18 + var(--split) * 0.32);
+      mix-blend-mode: screen;
+    }
+
+    .ice-crack {
+      position: fixed;
+      inset: -10vh 0;
+      z-index: 40;
+      pointer-events: none;
+      opacity: var(--crack-alpha);
+      mix-blend-mode: screen;
+      transform:
+        translate3d(calc(var(--mouse-x) * 0.45), calc(var(--mouse-y) * 0.22), 0)
+        rotate(calc(var(--mx) * 0.45deg));
+      will-change: transform, opacity;
+    }
+
+    .ice-crack svg {
+      width: 100%;
+      height: 120vh;
+      display: block;
+      overflow: visible;
+    }
+
+    .crack-water {
+      fill: none;
+      stroke: rgba(0,0,0,0.88);
+      stroke-width: calc(16 + var(--split) * 34);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: calc(0.18 + var(--split) * 0.36);
+      filter: blur(9px);
+    }
+
+    .crack-main {
+      fill: none;
+      stroke: rgba(255,255,255,0.92);
+      stroke-width: calc(1.2 + var(--split) * 3.2);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 1900;
+      stroke-dashoffset: calc(900 - var(--split) * 900);
+      filter:
+        drop-shadow(0 0 var(--crack-glow) rgba(255,255,255,0.7))
+        drop-shadow(0 0 30px rgba(190,220,255,0.26));
+    }
+
+    .crack-side {
+      fill: none;
+      stroke: rgba(255,255,255,0.48);
+      stroke-width: calc(0.7 + var(--split) * 1.8);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 900;
+      stroke-dashoffset: calc(560 - var(--split) * 560);
+      filter: drop-shadow(0 0 18px rgba(255,255,255,0.42));
+    }
+
+    .crack-splinter {
+      fill: none;
+      stroke: rgba(255,255,255,0.30);
+      stroke-width: calc(0.45 + var(--split) * 1.1);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 520;
+      stroke-dashoffset: calc(360 - var(--split) * 360);
+      filter: drop-shadow(0 0 14px rgba(255,255,255,0.28));
     }
 
     main.main {
       display: flex;
       flex-direction: column;
       gap: clamp(1.8rem, 2.6vw, 2.6rem);
+      position: relative;
     }
 
     .brand-row {
@@ -265,8 +391,7 @@
       width: 100%;
       transform:
         translateY(calc(var(--split) * 8px))
-        translateX(calc(var(--mouse-shift-x) * 0.08));
-      will-change: transform;
+        translateX(calc(var(--mx) * 3px));
     }
 
     .cover-inner {
@@ -287,96 +412,34 @@
       display: block;
       object-fit: cover;
       border-radius: inherit;
-      opacity: 0;
+      filter: contrast(1.04) saturate(0.97);
+      transform: scale(1.002);
     }
 
-    .cover-left,
-    .cover-right {
+    .cover-inner::before {
+      content: "";
       position: absolute;
       inset: 0;
-      background: url("assets/gespalten/gespalten.jpg") center / cover no-repeat;
-      z-index: 1;
-      pointer-events: none;
-      will-change: transform, clip-path;
-    }
-
-    .cover-left {
-      clip-path: polygon(0 0, 51% 0, 47% 14%, 53% 28%, 46% 42%, 52% 59%, 45% 74%, 51% 100%, 0 100%);
-      transform:
-        translateX(calc(var(--split-cover) * -1))
-        translateY(calc(var(--mouse-shift-y) * -0.16))
-        rotate(calc(var(--split) * -0.35deg));
-    }
-
-    .cover-right {
-      clip-path: polygon(49% 0, 100% 0, 100% 100%, 49% 100%, 55% 74%, 48% 59%, 54% 42%, 47% 28%, 53% 14%);
-      transform:
-        translateX(var(--split-cover))
-        translateY(calc(var(--mouse-shift-y) * 0.16))
-        rotate(calc(var(--split) * 0.35deg));
-    }
-
-    .cover-glass {
-      position: absolute;
-      inset: 0;
+      background:
+        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(42% + var(--mouse-y)), rgba(255,255,255,0.18), transparent 18%),
+        linear-gradient(90deg, rgba(0,0,0,0.18), transparent 47%, rgba(255,255,255,0.17) 50%, transparent 54%, rgba(0,0,0,0.14));
+      mix-blend-mode: overlay;
       z-index: 2;
       pointer-events: none;
-      background:
-        radial-gradient(circle at calc(50% + var(--mouse-shift-x)) calc(45% + var(--mouse-shift-y)), rgba(255,255,255,0.22), transparent 16%),
-        linear-gradient(90deg, rgba(0,0,0,0.16), transparent 48%, rgba(255,255,255,0.18) 50%, transparent 53%, rgba(0,0,0,0.18));
-      opacity: calc(0.38 + var(--split) * 0.35);
-      mix-blend-mode: overlay;
+      opacity: calc(0.42 + var(--split) * 0.32);
     }
 
-    .cover-crack {
+    .cover-inner::after {
+      content: "";
       position: absolute;
       inset: 0;
       z-index: 3;
       pointer-events: none;
-      opacity: var(--crack-opacity);
+      opacity: calc(0.14 + var(--split) * 0.24);
+      background:
+        repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,0.12) 18px 19px, transparent 19px 44px),
+        repeating-linear-gradient(58deg, transparent 0 26px, rgba(255,255,255,0.09) 26px 27px, transparent 27px 61px);
       mix-blend-mode: screen;
-      transform:
-        translateX(calc(var(--mouse-shift-x) * 0.16))
-        translateY(calc(var(--mouse-shift-y) * 0.12));
-    }
-
-    .cover-crack svg {
-      width: 100%;
-      height: 100%;
-      display: block;
-      overflow: visible;
-    }
-
-    .cover-crack .cover-shadow {
-      fill: none;
-      stroke: rgba(0,0,0,0.82);
-      stroke-width: calc(10 + var(--split) * 18);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      opacity: calc(0.22 + var(--split) * 0.22);
-      filter: blur(5px);
-    }
-
-    .cover-crack .cover-main {
-      fill: none;
-      stroke: rgba(255,255,255,0.94);
-      stroke-width: calc(1.8 + var(--split) * 2.4);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      filter: drop-shadow(0 0 calc(14px + var(--split) * 34px) rgba(255,255,255,0.72));
-      stroke-dasharray: 1300;
-      stroke-dashoffset: calc(520 - var(--split) * 520);
-    }
-
-    .cover-crack .cover-branch {
-      fill: none;
-      stroke: rgba(255,255,255,0.58);
-      stroke-width: calc(0.9 + var(--split) * 1.25);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 700;
-      stroke-dashoffset: calc(420 - var(--split) * 420);
-      filter: drop-shadow(0 0 16px rgba(255,255,255,0.38));
     }
 
     .cover-caption {
@@ -486,6 +549,8 @@
         inset 0 0 0 1px rgba(255,255,255,0.04);
       overflow: hidden;
       position: relative;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .countdown-panel::before,
@@ -493,17 +558,12 @@
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(90deg,
-          transparent 0%,
-          transparent 48.5%,
-          rgba(0,0,0,0.2) 49%,
-          rgba(255,255,255,0.22) 50%,
-          rgba(0,0,0,0.24) 51%,
-          transparent 52%,
-          transparent 100%);
       pointer-events: none;
-      opacity: calc(0.25 + var(--split) * 0.5);
+      opacity: calc(0.20 + var(--split) * 0.42);
+      background:
+        radial-gradient(circle at 50% 46%, rgba(255,255,255,0.12), transparent 20%),
+        repeating-linear-gradient(112deg, transparent 0 28px, rgba(255,255,255,0.09) 28px 29px, transparent 29px 64px);
+      mix-blend-mode: screen;
     }
 
     .countdown-label {
@@ -562,90 +622,82 @@
       white-space: nowrap;
     }
 
-    .fragment-bar {
+    .track-grid {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
-      gap: 0.36rem;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.65rem;
       position: relative;
       z-index: 2;
     }
 
-    .fragment {
-      position: relative;
-      min-height: 54px;
-      border-radius: 16px;
+    .track-card {
+      min-height: 92px;
+      border-radius: 20px;
       border: 1px solid rgba(255,255,255,0.14);
       background:
         linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
+      padding: 0.75rem;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       overflow: hidden;
+      position: relative;
     }
 
-    .fragment::before {
+    .track-card::before {
       content: "";
       position: absolute;
-      inset: auto 0 0;
-      height: var(--h);
+      inset: 0;
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.14));
-      opacity: 0.9;
+        linear-gradient(135deg, rgba(255,255,255,0.12), transparent 42%),
+        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.10), transparent 52%);
+      opacity: 0.42;
+      pointer-events: none;
     }
 
-    .fragment span {
-      position: absolute;
-      left: 0.45rem;
-      bottom: 0.35rem;
-      font-size: 0.64rem;
-      font-weight: 850;
-      letter-spacing: 0.04em;
-      color: rgba(255,255,255,0.76);
+    .track-number,
+    .track-title,
+    .track-status {
+      position: relative;
       z-index: 2;
     }
 
-    .tracklist {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .track-row {
-      display: grid;
-      grid-template-columns: 2.4rem 1fr auto;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.82rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.09);
-      letter-spacing: 0.035em;
-    }
-
-    .track-no {
+    .track-number {
       color: var(--text-soft);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       font-weight: 850;
-      font-size: 0.82rem;
     }
 
     .track-title {
-      font-weight: 760;
-      min-width: 0;
+      margin-top: 0.55rem;
+      font-size: clamp(0.92rem, 1.5vw, 1.04rem);
+      line-height: 1.13;
+      letter-spacing: -0.015em;
+      font-weight: 820;
+      color: rgba(255,255,255,0.92);
+      word-break: break-word;
     }
 
-    .track-meta {
+    .track-status {
+      margin-top: 0.7rem;
+      font-size: 0.68rem;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      font-weight: 880;
       color: var(--text-muted);
-      font-size: 0.82rem;
-      white-space: nowrap;
     }
 
-    .track-row.locked .track-title {
-      color: rgba(255,255,255,0.62);
-    }
-
-    .track-row.featured .track-title {
-      color: #ffffff;
-    }
-
-    .track-row.featured .track-meta {
+    .track-card.released .track-status {
       color: var(--release-green);
-      font-weight: 800;
+    }
+
+    .track-card.released {
+      border-color: rgba(61,220,132,0.30);
+      background:
+        linear-gradient(180deg, rgba(61,220,132,0.15), rgba(255,255,255,0.035));
     }
 
     .quote-block {
@@ -724,10 +776,17 @@
       transform: translateX(-0.5px);
     }
 
+    @media (max-width: 900px) {
+      .track-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 768px) {
       :root {
-        --split-bg: calc(var(--split) * 17px);
-        --split-cover: calc(var(--split) * 8px);
+        --gap: calc(var(--split) * 28px);
+        --lift-left: calc(var(--split) * -16px);
+        --lift-right: calc(var(--split) * 14px);
       }
 
       .page-wrap {
@@ -787,30 +846,21 @@
         gap: 0.35rem;
       }
 
-      .fragment-bar {
-        gap: 0.25rem;
+      .track-grid {
+        grid-template-columns: 1fr;
       }
 
-      .fragment {
-        min-height: 42px;
-        border-radius: 12px;
+      .track-card {
+        min-height: auto;
+        padding: 0.85rem;
       }
 
-      .fragment span {
-        left: 0.32rem;
-        bottom: 0.28rem;
-        font-size: 0.52rem;
+      .track-title {
+        margin-top: 0.35rem;
       }
 
-      .track-row {
-        grid-template-columns: 2rem 1fr;
-        gap: 0.45rem 0.7rem;
-        padding: 0.76rem 0;
-      }
-
-      .track-meta {
-        grid-column: 2 / -1;
-        font-size: 0.78rem;
+      .track-status {
+        margin-top: 0.5rem;
       }
     }
 
@@ -823,8 +873,8 @@
     @media (prefers-reduced-motion: reduce) {
       :root {
         --split: 0.22;
-        --mouse-x: 0;
-        --mouse-y: 0;
+        --mx: 0;
+        --my: 0;
       }
 
       #crosshair {
@@ -840,28 +890,43 @@
 </head>
 
 <body>
-  <div class="split-bg" aria-hidden="true">
-    <div class="split-half left"></div>
-    <div class="split-half right"></div>
+  <div class="bg-ice" aria-hidden="true">
+    <div class="bg-half left"></div>
+    <div class="bg-half right"></div>
   </div>
 
-  <div class="dark-vignette" aria-hidden="true"></div>
+  <div class="bg-cold" aria-hidden="true"></div>
 
-  <div class="global-crack" aria-hidden="true">
+  <div class="ice-crack" aria-hidden="true">
     <svg viewBox="0 0 100 120" preserveAspectRatio="none">
-      <path class="crack-shadow" d="M50 0 C48 8 53 14 49 21 C45 29 54 35 50 44 C47 51 52 58 47 66 C43 74 54 83 50 92 C46 102 53 110 49 120" />
-      <path class="crack-main" d="M50 0 C48 8 53 14 49 21 C45 29 54 35 50 44 C47 51 52 58 47 66 C43 74 54 83 50 92 C46 102 53 110 49 120" />
-      <path class="crack-side" d="M49 20 C43 24 40 30 35 35" />
-      <path class="crack-side" d="M51 36 C57 40 60 46 66 50" />
-      <path class="crack-side" d="M48 62 C41 67 37 73 30 80" />
-      <path class="crack-side" d="M50 83 C58 87 63 94 71 101" />
-      <path class="crack-side" d="M49 98 C43 103 39 110 34 118" />
+      <path class="crack-water" d="M50 0 C47 7 54 12 49 20 C44 29 56 35 50 45 C44 56 55 62 48 73 C42 84 56 93 50 103 C46 111 52 116 49 120" />
+      <path class="crack-main" d="M50 0 C47 7 54 12 49 20 C44 29 56 35 50 45 C44 56 55 62 48 73 C42 84 56 93 50 103 C46 111 52 116 49 120" />
+
+      <path class="crack-side" d="M49 18 C43 21 39 27 34 35" />
+      <path class="crack-side" d="M51 34 C58 37 63 43 69 51" />
+      <path class="crack-side" d="M49 45 C43 49 38 55 32 61" />
+      <path class="crack-side" d="M48 72 C40 77 34 84 27 93" />
+      <path class="crack-side" d="M50 92 C58 96 65 103 73 112" />
+
+      <path class="crack-splinter" d="M47 27 C44 30 41 33 38 37" />
+      <path class="crack-splinter" d="M52 51 C56 55 60 58 64 63" />
+      <path class="crack-splinter" d="M47 61 C43 64 39 68 35 73" />
+      <path class="crack-splinter" d="M51 104 C55 108 59 112 63 118" />
     </svg>
   </div>
 
   <div class="page-wrap">
-    <div class="content">
-      <main class="main">
+    <div class="content-shell" id="content-shell">
+
+      <div class="ice-layer left" aria-hidden="true">
+        <div class="ice-layer-inner"></div>
+      </div>
+
+      <div class="ice-layer right" aria-hidden="true">
+        <div class="ice-layer-inner"></div>
+      </div>
+
+      <main class="main main-source" aria-label="gespalten Albumseite">
 
         <div class="brand-row">
           <a class="brand-link" href="index.html">b3nn3t</a>
@@ -883,33 +948,16 @@
                 alt="Cover – gespalten von b3nn3t"
                 class="album-cover">
 
-              <div class="cover-left" aria-hidden="true"></div>
-              <div class="cover-right" aria-hidden="true"></div>
-              <div class="cover-glass" aria-hidden="true"></div>
-
-              <div class="cover-crack" aria-hidden="true">
-                <svg viewBox="0 0 100 100" preserveAspectRatio="none">
-                  <path class="cover-shadow" d="M51 0 C47 9 55 17 50 26 C45 36 56 42 50 52 C45 61 54 68 48 78 C42 88 53 94 50 100" />
-                  <path class="cover-main" d="M51 0 C47 9 55 17 50 26 C45 36 56 42 50 52 C45 61 54 68 48 78 C42 88 53 94 50 100" />
-                  <path class="cover-branch" d="M50 25 C43 29 38 34 32 40" />
-                  <path class="cover-branch" d="M51 42 C58 45 64 51 70 58" />
-                  <path class="cover-branch" d="M48 76 C40 80 34 87 27 95" />
-                  <path class="cover-branch" d="M50 58 C44 63 40 66 36 70" />
-                  <path class="cover-branch" d="M49 83 C56 87 62 91 68 97" />
-                </svg>
-              </div>
-
               <div class="cover-caption" aria-hidden="true">
-                <span>10 fragments</span>
-                <span>12 minutes</span>
+                <span>white horse</span>
+                <span>ice breaks</span>
               </div>
             </div>
           </div>
 
           <div class="listen-wrap">
             <a
-              id="main-cta"
-              class="listen-btn"
+              class="listen-btn main-cta"
               href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
               target="_blank"
               rel="noopener">
@@ -921,8 +969,8 @@
         <section aria-label="Album Countdown" class="block">
           <div class="countdown-panel">
             <p class="countdown-label">album unlocks in</p>
-            <p class="countdown-time" id="album-countdown">--d --:--:--</p>
-            <div class="countdown-note" id="release-note">
+            <p class="countdown-time album-countdown">--d --:--:--</p>
+            <div class="countdown-note release-note">
               Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
             </div>
           </div>
@@ -935,85 +983,68 @@
               <span>short album</span>
             </div>
 
-            <div class="fragment-bar" aria-label="10 Fragmente des Albums">
-              <div class="fragment" style="--h: 88%;"><span>01</span></div>
-              <div class="fragment" style="--h: 42%;"><span>02</span></div>
-              <div class="fragment" style="--h: 56%;"><span>03</span></div>
-              <div class="fragment" style="--h: 34%;"><span>04</span></div>
-              <div class="fragment" style="--h: 62%;"><span>05</span></div>
-              <div class="fragment" style="--h: 38%;"><span>06</span></div>
-              <div class="fragment" style="--h: 50%;"><span>07</span></div>
-              <div class="fragment" style="--h: 30%;"><span>08</span></div>
-              <div class="fragment" style="--h: 46%;"><span>09</span></div>
-              <div class="fragment" style="--h: 72%;"><span>10</span></div>
+            <div class="track-grid" aria-label="Songs auf gespalten">
+              <div class="track-card released">
+                <div class="track-number">01</div>
+                <div class="track-title">desigual</div>
+                <div class="track-status">released</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">02</div>
+                <div class="track-title">aergerlich</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">03</div>
+                <div class="track-title">3</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">04</div>
+                <div class="track-title">(fenster scherben)</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">05</div>
+                <div class="track-title">5r</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">06</div>
+                <div class="track-title">6</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">07</div>
+                <div class="track-title">7</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">08</div>
+                <div class="track-title">8?</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">09</div>
+                <div class="track-title">wegwerfkamera</div>
+                <div class="track-status">locked</div>
+              </div>
+
+              <div class="track-card locked">
+                <div class="track-number">10</div>
+                <div class="track-title">2011</div>
+                <div class="track-status">locked</div>
+              </div>
             </div>
           </div>
-        </section>
-
-        <section id="tracklist" aria-label="Tracklist" class="block">
-          <h2>tracklist</h2>
-
-          <div class="tracklist">
-  <div class="track-row featured">
-    <span class="track-no">01</span>
-    <span class="track-title">desigual</span>
-    <span class="track-meta">released</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">02</span>
-    <span class="track-title">aergerlich</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">03</span>
-    <span class="track-title">3</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">04</span>
-    <span class="track-title">(fenster scherben)</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">05</span>
-    <span class="track-title">5r</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">06</span>
-    <span class="track-title">6</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">07</span>
-    <span class="track-title">7</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">08</span>
-    <span class="track-title">8?</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">09</span>
-    <span class="track-title">wegwerfkamera</span>
-    <span class="track-meta">locked</span>
-  </div>
-
-  <div class="track-row locked">
-    <span class="track-no">10</span>
-    <span class="track-title">2011</span>
-    <span class="track-meta">locked</span>
-  </div>
-</div>
         </section>
 
         <section aria-label="Über das Album" class="block">
@@ -1030,7 +1061,7 @@
           </p>
 
           <div class="quote-block">
-            10 songs. 12 minutes. ein album wie ein riss.
+            10 songs. 12 minutes. ein album wie eis, das bricht.
           </div>
         </section>
 
@@ -1100,8 +1131,33 @@
 
   <script>
     (function () {
+      const shell = document.getElementById("content-shell");
+      const source = document.querySelector(".main-source");
+      const targets = document.querySelectorAll(".ice-layer-inner");
+
+      if (!shell || !source || !targets.length) return;
+
+      targets.forEach(function (target) {
+        const clone = source.cloneNode(true);
+        clone.classList.remove("main-source");
+        clone.classList.add("main-clone");
+        clone.setAttribute("aria-hidden", "false");
+        target.appendChild(clone);
+      });
+
+      shell.classList.add("has-ice");
+    })();
+  </script>
+
+  <script>
+    (function () {
       const root = document.documentElement;
       let ticking = false;
+      let mouseTargetX = 0;
+      let mouseTargetY = 0;
+      let mouseX = 0;
+      let mouseY = 0;
+      let mouseRaf = null;
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -1109,43 +1165,55 @@
 
       function updateSplit() {
         const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        const progress = clamp(window.scrollY / maxScroll, 0, 1);
-        const eased = 1 - Math.pow(1 - progress, 2.4);
+        const raw = clamp(window.scrollY / maxScroll, 0, 1);
 
+        const eased = 1 - Math.pow(1 - raw, 2.75);
         root.style.setProperty("--split", eased.toFixed(4));
+
         ticking = false;
       }
 
-      function requestUpdate() {
+      function requestSplitUpdate() {
         if (!ticking) {
           requestAnimationFrame(updateSplit);
           ticking = true;
         }
       }
 
+      function animateMouse() {
+        mouseX += (mouseTargetX - mouseX) * 0.08;
+        mouseY += (mouseTargetY - mouseY) * 0.08;
+
+        root.style.setProperty("--mx", mouseX.toFixed(4));
+        root.style.setProperty("--my", mouseY.toFixed(4));
+
+        mouseRaf = requestAnimationFrame(animateMouse);
+      }
+
       function updateMouse(e) {
         const x = (e.clientX / window.innerWidth - 0.5) * 2;
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
-        root.style.setProperty("--mouse-x", clamp(x, -1, 1).toFixed(4));
-        root.style.setProperty("--mouse-y", clamp(y, -1, 1).toFixed(4));
+        mouseTargetX = clamp(x, -1, 1);
+        mouseTargetY = clamp(y, -1, 1);
+
+        if (!mouseRaf) {
+          mouseRaf = requestAnimationFrame(animateMouse);
+        }
       }
 
-      window.addEventListener("scroll", requestUpdate, { passive: true });
-      window.addEventListener("resize", requestUpdate);
+      window.addEventListener("scroll", requestSplitUpdate, { passive: true });
+      window.addEventListener("resize", requestSplitUpdate);
       window.addEventListener("mousemove", updateMouse, { passive: true });
 
       updateSplit();
+      animateMouse();
     })();
   </script>
 
   <script>
     (function () {
       const RELEASE_DATE = new Date("2026-08-13T13:00:00+02:00").getTime();
-
-      const countdownEl = document.getElementById("album-countdown");
-      const releaseNoteEl = document.getElementById("release-note");
-      const mainCtaEl = document.getElementById("main-cta");
 
       const ALBUM_LINK = "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
@@ -1154,52 +1222,46 @@
       }
 
       function renderCountdown() {
-        if (!countdownEl) return;
-
         const now = Date.now();
         const diff = RELEASE_DATE - now;
 
- if (diff <= 0) {
-  countdownEl.textContent = "out now";
+        document.querySelectorAll(".album-countdown").forEach(function (countdownEl) {
+          if (diff <= 0) {
+            countdownEl.textContent = "out now";
+            return;
+          }
 
-  if (releaseNoteEl) {
-    releaseNoteEl.textContent = "„gespalten“ ist jetzt draussen.";
-  }
+          const totalSeconds = Math.floor(diff / 1000);
+          const days = Math.floor(totalSeconds / (3600 * 24));
+          const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+          const minutes = Math.floor((totalSeconds % 3600) / 60);
+          const seconds = totalSeconds % 60;
 
-  if (mainCtaEl) {
-    mainCtaEl.textContent = "gespalten hören";
-    mainCtaEl.href = ALBUM_LINK;
-  }
+          countdownEl.textContent =
+            pad(days) + "d " + pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
+        });
 
-  document.querySelectorAll(".track-row.locked").forEach(function (row) {
-    row.classList.remove("locked");
-    row.classList.add("featured");
+        document.querySelectorAll(".release-note").forEach(function (noteEl) {
+          noteEl.textContent = diff <= 0
+            ? "„gespalten“ ist jetzt draussen."
+            : "Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit";
+        });
 
-    const meta = row.querySelector(".track-meta");
-    if (meta) {
-      meta.textContent = "released";
-    }
-  });
+        document.querySelectorAll(".main-cta").forEach(function (ctaEl) {
+          ctaEl.href = ALBUM_LINK;
+          ctaEl.textContent = diff <= 0 ? "gespalten hören" : "album vormerken";
+        });
 
-  return;
-}
+        if (diff <= 0) {
+          document.querySelectorAll(".track-card.locked").forEach(function (card) {
+            card.classList.remove("locked");
+            card.classList.add("released");
 
-        const totalSeconds = Math.floor(diff / 1000);
-        const days = Math.floor(totalSeconds / (3600 * 24));
-        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-
-        countdownEl.textContent =
-          pad(days) + "d " + pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
-
-        if (releaseNoteEl) {
-          releaseNoteEl.textContent = "Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit";
-        }
-
-        if (mainCtaEl) {
-          mainCtaEl.textContent = "album vormerken";
-          mainCtaEl.href = ALBUM_LINK;
+            const status = card.querySelector(".track-status");
+            if (status) {
+              status.textContent = "released";
+            }
+          });
         }
       }
 
