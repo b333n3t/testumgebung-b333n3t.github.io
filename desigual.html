@@ -19,13 +19,13 @@
   <meta property="og:site_name" content="b3nn3t">
   <meta property="og:title" content="„gespalten“ – neues Album von b3nn3t">
   <meta property="og:description" content="10 Songs. 12 Minuten. Ein Album wie ein Riss.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/gespalten/gespalten.webp">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
   <meta property="og:url" content="https://www.b3nn3t.com/release-gespalten.html">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="„gespalten“ – neues Album von b3nn3t">
   <meta name="twitter:description" content="10 Songs. 12 Minuten. Ein Album wie ein Riss.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/gespalten/gespalten.webp">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
 
   <script type="application/ld+json">
   {
@@ -38,12 +38,12 @@
     },
     "numTracks": 10,
     "datePublished": "2026-08-13T13:00:00+02:00",
-    "image": "https://www.b3nn3t.com/assets/release/gespalten/gespalten.webp",
+    "image": "https://www.b3nn3t.com/assets/gespalten/gespalten.jpg",
     "url": "https://www.b3nn3t.com/release-gespalten.html"
   }
   </script>
 
-  <link rel="preload" as="image" href="assets/release/gespalten/gespalten.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/gespalten/gespalten.jpg" fetchpriority="high">
 
   <style>
     :root {
@@ -52,12 +52,18 @@
       --text-soft: rgba(255,255,255,0.48);
       --page-max-width: 960px;
       --line: rgba(255,255,255,0.14);
-      --panel: rgba(255,255,255,0.055);
       --release-green: #3ddc84;
+
       --split: 0;
-      --split-px: calc(var(--split) * 26px);
-      --split-small: calc(var(--split) * 10px);
-      --rift-opacity: calc(0.22 + var(--split) * 0.78);
+      --mouse-x: 0;
+      --mouse-y: 0;
+
+      --split-bg: calc(var(--split) * 34px);
+      --split-cover: calc(var(--split) * 18px);
+      --crack-glow: calc(14px + var(--split) * 42px);
+      --crack-opacity: calc(0.42 + var(--split) * 0.58);
+      --mouse-shift-x: calc(var(--mouse-x) * 10px);
+      --mouse-shift-y: calc(var(--mouse-y) * 8px);
     }
 
     html,
@@ -77,16 +83,16 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.14), transparent 28%),
-        linear-gradient(rgba(12,12,11,0.38), rgba(12,12,11,0.94));
-      z-index: -5;
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.13), transparent 28%),
+        linear-gradient(rgba(12,12,11,0.34), rgba(12,12,11,0.95));
+      z-index: -6;
       pointer-events: none;
     }
 
     .split-bg {
       position: fixed;
       inset: 0;
-      z-index: -4;
+      z-index: -5;
       pointer-events: none;
       overflow: hidden;
       background: #151514;
@@ -95,95 +101,87 @@
     .split-half {
       position: absolute;
       inset: -8%;
-      background: url("assets/release/gespalten/gespalten.webp") center / cover no-repeat;
-      filter: blur(38px) brightness(0.46) saturate(0.95);
-      transform: scale(1.12);
-      opacity: 0.94;
+      background: url("assets/gespalten/gespalten.jpg") center / cover no-repeat;
+      filter: blur(40px) brightness(0.48) saturate(0.9);
+      opacity: 0.95;
       will-change: transform, clip-path;
     }
 
     .split-half.left {
-      clip-path: inset(0 50% 0 0);
-      transform: translateX(calc(var(--split-px) * -1)) scale(1.13);
+      clip-path: polygon(0 0, 51% 0, 47% 14%, 53% 28%, 46% 42%, 51% 58%, 45% 73%, 52% 100%, 0 100%);
+      transform:
+        translateX(calc(var(--split-bg) * -1))
+        translateY(calc(var(--mouse-shift-y) * -0.3))
+        scale(1.14);
     }
 
     .split-half.right {
-      clip-path: inset(0 0 0 50%);
-      transform: translateX(var(--split-px)) scale(1.13);
+      clip-path: polygon(49% 0, 100% 0, 100% 100%, 48% 100%, 55% 73%, 49% 58%, 54% 42%, 47% 28%, 53% 14%);
+      transform:
+        translateX(var(--split-bg))
+        translateY(calc(var(--mouse-shift-y) * 0.3))
+        scale(1.14);
     }
 
-    .split-shadow {
+    .dark-vignette {
       position: fixed;
       inset: 0;
-      z-index: -3;
+      z-index: -4;
       pointer-events: none;
       background:
-        linear-gradient(90deg,
-          rgba(0,0,0,0.42) 0%,
-          rgba(0,0,0,0.24) 46%,
-          rgba(255,255,255,0.18) 49.8%,
-          rgba(255,255,255,0.36) 50%,
-          rgba(255,255,255,0.06) 50.2%,
-          rgba(0,0,0,0.28) 54%,
-          rgba(0,0,0,0.46) 100%);
-      opacity: calc(0.28 + var(--split) * 0.42);
-      mix-blend-mode: screen;
+        radial-gradient(circle at 50% 50%, transparent 0%, rgba(0,0,0,0.22) 48%, rgba(0,0,0,0.66) 100%),
+        linear-gradient(90deg, rgba(0,0,0,0.32), transparent 50%, rgba(0,0,0,0.42));
     }
 
-    .page-rift {
+    .global-crack {
       position: fixed;
-      top: -10vh;
-      bottom: -10vh;
-      left: 50%;
-      width: calc(2px + var(--split) * 6px);
-      transform: translateX(-50%) rotate(calc(-0.6deg + var(--split) * 1.2deg));
+      inset: -8vh 0;
       z-index: 2;
       pointer-events: none;
-      opacity: var(--rift-opacity);
-      background:
-        linear-gradient(
-          to bottom,
-          transparent 0%,
-          rgba(255,255,255,0.15) 10%,
-          rgba(255,255,255,0.78) 22%,
-          rgba(255,255,255,0.18) 31%,
-          rgba(255,255,255,0.86) 44%,
-          rgba(255,255,255,0.22) 56%,
-          rgba(255,255,255,0.9) 72%,
-          rgba(255,255,255,0.18) 88%,
-          transparent 100%
-        );
-      box-shadow:
-        0 0 calc(16px + var(--split) * 38px) rgba(255,255,255,0.48),
-        0 0 calc(34px + var(--split) * 54px) rgba(255,255,255,0.16);
+      opacity: var(--crack-opacity);
       mix-blend-mode: screen;
+      transform:
+        translateX(calc(var(--mouse-shift-x) * 0.3))
+        translateY(calc(var(--mouse-shift-y) * 0.12));
     }
 
-    .page-rift::before,
-    .page-rift::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 16px;
-      opacity: calc(0.12 + var(--split) * 0.36);
-      background:
-        repeating-linear-gradient(
-          to bottom,
-          transparent 0 18px,
-          rgba(255,255,255,0.32) 18px 20px,
-          transparent 20px 43px
-        );
+    .global-crack svg {
+      width: 100%;
+      height: 116vh;
+      display: block;
+      overflow: visible;
     }
 
-    .page-rift::before {
-      right: 100%;
-      transform: skewY(-18deg);
+    .crack-main {
+      fill: none;
+      stroke: rgba(255,255,255,0.9);
+      stroke-width: calc(1.6 + var(--split) * 2.5);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 var(--crack-glow) rgba(255,255,255,0.58));
+      stroke-dasharray: 1700;
+      stroke-dashoffset: calc(720 - var(--split) * 720);
     }
 
-    .page-rift::after {
-      left: 100%;
-      transform: skewY(18deg);
+    .crack-side {
+      fill: none;
+      stroke: rgba(255,255,255,0.46);
+      stroke-width: calc(0.8 + var(--split) * 1.5);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 22px rgba(255,255,255,0.34));
+      stroke-dasharray: 900;
+      stroke-dashoffset: calc(520 - var(--split) * 520);
+    }
+
+    .crack-shadow {
+      fill: none;
+      stroke: rgba(0,0,0,0.72);
+      stroke-width: calc(12 + var(--split) * 18);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: calc(0.15 + var(--split) * 0.28);
+      filter: blur(8px);
     }
 
     .page-wrap {
@@ -265,8 +263,10 @@
       margin: 0 auto clamp(1.35rem, 3vw, 2.1rem);
       max-width: 680px;
       width: 100%;
-      transform: translateY(calc(var(--split) * 8px));
-      transition: transform 0.08s linear;
+      transform:
+        translateY(calc(var(--split) * 8px))
+        translateX(calc(var(--mouse-shift-x) * 0.08));
+      will-change: transform;
     }
 
     .cover-inner {
@@ -287,74 +287,96 @@
       display: block;
       object-fit: cover;
       border-radius: inherit;
-      filter: contrast(1.04) saturate(0.98);
-      transform: scale(1.002);
+      opacity: 0;
     }
 
-    .cover-split-left,
-    .cover-split-right {
+    .cover-left,
+    .cover-right {
       position: absolute;
       inset: 0;
-      background: url("assets/release/gespalten/gespalten.webp") center / cover no-repeat;
-      z-index: 2;
+      background: url("assets/gespalten/gespalten.jpg") center / cover no-repeat;
+      z-index: 1;
       pointer-events: none;
       will-change: transform, clip-path;
     }
 
-    .cover-split-left {
-      clip-path: inset(0 50% 0 0);
-      transform: translateX(calc(var(--split-small) * -1));
+    .cover-left {
+      clip-path: polygon(0 0, 51% 0, 47% 14%, 53% 28%, 46% 42%, 52% 59%, 45% 74%, 51% 100%, 0 100%);
+      transform:
+        translateX(calc(var(--split-cover) * -1))
+        translateY(calc(var(--mouse-shift-y) * -0.16))
+        rotate(calc(var(--split) * -0.35deg));
     }
 
-    .cover-split-right {
-      clip-path: inset(0 0 0 50%);
-      transform: translateX(var(--split-small));
+    .cover-right {
+      clip-path: polygon(49% 0, 100% 0, 100% 100%, 49% 100%, 55% 74%, 48% 59%, 54% 42%, 47% 28%, 53% 14%);
+      transform:
+        translateX(var(--split-cover))
+        translateY(calc(var(--mouse-shift-y) * 0.16))
+        rotate(calc(var(--split) * 0.35deg));
     }
 
-    .album-cover {
-      opacity: 0;
-    }
-
-    .cover-inner::before {
-      content: "";
+    .cover-glass {
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(90deg,
-          rgba(0,0,0,0.22) 0%,
-          rgba(0,0,0,0.08) 48.5%,
-          rgba(255,255,255,0.35) 50%,
-          rgba(255,255,255,0.06) 51.5%,
-          rgba(0,0,0,0.10) 100%);
-      mix-blend-mode: overlay;
-      z-index: 3;
+      z-index: 2;
       pointer-events: none;
-      opacity: calc(0.45 + var(--split) * 0.45);
+      background:
+        radial-gradient(circle at calc(50% + var(--mouse-shift-x)) calc(45% + var(--mouse-shift-y)), rgba(255,255,255,0.22), transparent 16%),
+        linear-gradient(90deg, rgba(0,0,0,0.16), transparent 48%, rgba(255,255,255,0.18) 50%, transparent 53%, rgba(0,0,0,0.18));
+      opacity: calc(0.38 + var(--split) * 0.35);
+      mix-blend-mode: overlay;
     }
 
-    .cover-inner::after {
-      content: "";
+    .cover-crack {
       position: absolute;
-      top: -8%;
-      bottom: -8%;
-      left: 50%;
-      width: calc(2px + var(--split) * 5px);
-      transform: translateX(-50%) rotate(calc(-1.2deg + var(--split) * 2.4deg));
-      background:
-        linear-gradient(
-          to bottom,
-          transparent,
-          rgba(255,255,255,0.18),
-          rgba(255,255,255,0.95),
-          rgba(255,255,255,0.24),
-          transparent
-        );
-      box-shadow:
-        0 0 calc(18px + var(--split) * 34px) rgba(255,255,255,0.55),
-        0 0 calc(44px + var(--split) * 48px) rgba(255,255,255,0.22);
-      z-index: 4;
+      inset: 0;
+      z-index: 3;
       pointer-events: none;
-      opacity: var(--rift-opacity);
+      opacity: var(--crack-opacity);
+      mix-blend-mode: screen;
+      transform:
+        translateX(calc(var(--mouse-shift-x) * 0.16))
+        translateY(calc(var(--mouse-shift-y) * 0.12));
+    }
+
+    .cover-crack svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .cover-crack .cover-shadow {
+      fill: none;
+      stroke: rgba(0,0,0,0.82);
+      stroke-width: calc(10 + var(--split) * 18);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: calc(0.22 + var(--split) * 0.22);
+      filter: blur(5px);
+    }
+
+    .cover-crack .cover-main {
+      fill: none;
+      stroke: rgba(255,255,255,0.94);
+      stroke-width: calc(1.8 + var(--split) * 2.4);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 calc(14px + var(--split) * 34px) rgba(255,255,255,0.72));
+      stroke-dasharray: 1300;
+      stroke-dashoffset: calc(520 - var(--split) * 520);
+    }
+
+    .cover-crack .cover-branch {
+      fill: none;
+      stroke: rgba(255,255,255,0.58);
+      stroke-width: calc(0.9 + var(--split) * 1.25);
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 700;
+      stroke-dashoffset: calc(420 - var(--split) * 420);
+      filter: drop-shadow(0 0 16px rgba(255,255,255,0.38));
     }
 
     .cover-caption {
@@ -393,8 +415,7 @@
       flex-wrap: wrap;
     }
 
-    .listen-btn,
-    .ghost-btn {
+    .listen-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -407,35 +428,22 @@
       transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease, background .2s ease;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
-    }
-
-    .listen-btn {
       background: #ffffff;
       color: #171716;
       border: 2px solid rgba(255,255,255,0.68);
       box-shadow: 0 8px 24px rgba(0,0,0,0.24);
     }
 
-    .ghost-btn {
-      background: rgba(255,255,255,0.065);
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.22);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
-    }
-
-    .listen-btn:hover,
-    .ghost-btn:hover {
+    .listen-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.3);
     }
 
-    .listen-btn:active,
-    .ghost-btn:active {
+    .listen-btn:active {
       transform: translateY(0px) scale(0.99);
     }
 
-    .listen-btn:focus-visible,
-    .ghost-btn:focus-visible {
+    .listen-btn:focus-visible {
       outline: 3px solid rgba(255,255,255,0.85);
       outline-offset: 4px;
     }
@@ -465,7 +473,8 @@
       margin-top: 0.75rem;
     }
 
-    .countdown-panel {
+    .countdown-panel,
+    .fragment-panel {
       border: 1px solid rgba(255,255,255,0.16);
       border-radius: 30px;
       padding: clamp(1.2rem, 3vw, 2rem);
@@ -479,19 +488,22 @@
       position: relative;
     }
 
-    .countdown-panel::before {
+    .countdown-panel::before,
+    .fragment-panel::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
         linear-gradient(90deg,
-          transparent,
-          transparent 49.8%,
-          rgba(255,255,255,0.18) 50%,
-          transparent 50.2%,
-          transparent);
+          transparent 0%,
+          transparent 48.5%,
+          rgba(0,0,0,0.2) 49%,
+          rgba(255,255,255,0.22) 50%,
+          rgba(0,0,0,0.24) 51%,
+          transparent 52%,
+          transparent 100%);
       pointer-events: none;
-      opacity: calc(0.34 + var(--split) * 0.45);
+      opacity: calc(0.25 + var(--split) * 0.5);
     }
 
     .countdown-label {
@@ -501,6 +513,8 @@
       text-transform: uppercase;
       font-weight: 850;
       color: var(--text-muted);
+      position: relative;
+      z-index: 2;
     }
 
     .countdown-time {
@@ -510,6 +524,8 @@
       letter-spacing: -0.065em;
       font-weight: 900;
       font-variant-numeric: tabular-nums;
+      position: relative;
+      z-index: 2;
     }
 
     .countdown-note {
@@ -517,33 +533,8 @@
       color: var(--text-muted);
       letter-spacing: 0.04em;
       line-height: 1.55;
-    }
-
-    .fragment-panel {
-      border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 30px;
-      padding: clamp(1.15rem, 3vw, 1.7rem);
-      background: rgba(255,255,255,0.052);
-      box-shadow:
-        0 16px 42px rgba(0,0,0,0.22),
-        inset 0 0 0 1px rgba(255,255,255,0.025);
-      overflow: hidden;
       position: relative;
-    }
-
-    .fragment-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(90deg,
-          transparent 0%,
-          transparent 49.7%,
-          rgba(255,255,255,0.18) 50%,
-          transparent 50.3%,
-          transparent 100%);
-      opacity: calc(0.2 + var(--split) * 0.45);
-      pointer-events: none;
+      z-index: 2;
     }
 
     .fragment-head {
@@ -735,8 +726,8 @@
 
     @media (max-width: 768px) {
       :root {
-        --split-px: calc(var(--split) * 14px);
-        --split-small: calc(var(--split) * 6px);
+        --split-bg: calc(var(--split) * 17px);
+        --split-cover: calc(var(--split) * 8px);
       }
 
       .page-wrap {
@@ -777,8 +768,7 @@
         margin-top: 1.25rem;
       }
 
-      .listen-btn,
-      .ghost-btn {
+      .listen-btn {
         padding: 0.85rem 1.15rem;
         font-size: 0.92rem;
       }
@@ -832,7 +822,9 @@
 
     @media (prefers-reduced-motion: reduce) {
       :root {
-        --split: 0.28;
+        --split: 0.22;
+        --mouse-x: 0;
+        --mouse-y: 0;
       }
 
       #crosshair {
@@ -840,15 +832,7 @@
       }
 
       .listen-btn,
-      .ghost-btn,
       .social-link {
-        transition: none;
-      }
-
-      .page-rift,
-      .split-half,
-      .cover-split-left,
-      .cover-split-right {
         transition: none;
       }
     }
@@ -861,8 +845,19 @@
     <div class="split-half right"></div>
   </div>
 
-  <div class="split-shadow" aria-hidden="true"></div>
-  <div class="page-rift" aria-hidden="true"></div>
+  <div class="dark-vignette" aria-hidden="true"></div>
+
+  <div class="global-crack" aria-hidden="true">
+    <svg viewBox="0 0 100 120" preserveAspectRatio="none">
+      <path class="crack-shadow" d="M50 0 C48 8 53 14 49 21 C45 29 54 35 50 44 C47 51 52 58 47 66 C43 74 54 83 50 92 C46 102 53 110 49 120" />
+      <path class="crack-main" d="M50 0 C48 8 53 14 49 21 C45 29 54 35 50 44 C47 51 52 58 47 66 C43 74 54 83 50 92 C46 102 53 110 49 120" />
+      <path class="crack-side" d="M49 20 C43 24 40 30 35 35" />
+      <path class="crack-side" d="M51 36 C57 40 60 46 66 50" />
+      <path class="crack-side" d="M48 62 C41 67 37 73 30 80" />
+      <path class="crack-side" d="M50 83 C58 87 63 94 71 101" />
+      <path class="crack-side" d="M49 98 C43 103 39 110 34 118" />
+    </svg>
+  </div>
 
   <div class="page-wrap">
     <div class="content">
@@ -884,12 +879,25 @@
           <div class="cover-wrap" aria-label="Albumcover gespalten">
             <div class="cover-inner">
               <img
-                src="assets/release/gespalten/gespalten.webp"
+                src="assets/gespalten/gespalten.jpg"
                 alt="Cover – gespalten von b3nn3t"
                 class="album-cover">
 
-              <div class="cover-split-left" aria-hidden="true"></div>
-              <div class="cover-split-right" aria-hidden="true"></div>
+              <div class="cover-left" aria-hidden="true"></div>
+              <div class="cover-right" aria-hidden="true"></div>
+              <div class="cover-glass" aria-hidden="true"></div>
+
+              <div class="cover-crack" aria-hidden="true">
+                <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                  <path class="cover-shadow" d="M51 0 C47 9 55 17 50 26 C45 36 56 42 50 52 C45 61 54 68 48 78 C42 88 53 94 50 100" />
+                  <path class="cover-main" d="M51 0 C47 9 55 17 50 26 C45 36 56 42 50 52 C45 61 54 68 48 78 C42 88 53 94 50 100" />
+                  <path class="cover-branch" d="M50 25 C43 29 38 34 32 40" />
+                  <path class="cover-branch" d="M51 42 C58 45 64 51 70 58" />
+                  <path class="cover-branch" d="M48 76 C40 80 34 87 27 95" />
+                  <path class="cover-branch" d="M50 58 C44 63 40 66 36 70" />
+                  <path class="cover-branch" d="M49 83 C56 87 62 91 68 97" />
+                </svg>
+              </div>
 
               <div class="cover-caption" aria-hidden="true">
                 <span>10 fragments</span>
@@ -906,12 +914,6 @@
               target="_blank"
               rel="noopener">
               album vormerken
-            </a>
-
-            <a
-              class="ghost-btn"
-              href="#tracklist">
-              tracklist ansehen
             </a>
           </div>
         </section>
@@ -1108,10 +1110,9 @@
       function updateSplit() {
         const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         const progress = clamp(window.scrollY / maxScroll, 0, 1);
+        const eased = 1 - Math.pow(1 - progress, 2.4);
 
-        const eased = 1 - Math.pow(1 - progress, 2.2);
         root.style.setProperty("--split", eased.toFixed(4));
-
         ticking = false;
       }
 
@@ -1122,8 +1123,18 @@
         }
       }
 
+      function updateMouse(e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+
+        root.style.setProperty("--mouse-x", clamp(x, -1, 1).toFixed(4));
+        root.style.setProperty("--mouse-y", clamp(y, -1, 1).toFixed(4));
+      }
+
       window.addEventListener("scroll", requestUpdate, { passive: true });
       window.addEventListener("resize", requestUpdate);
+      window.addEventListener("mousemove", updateMouse, { passive: true });
+
       updateSplit();
     })();
   </script>
