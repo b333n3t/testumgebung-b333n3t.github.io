@@ -57,14 +57,14 @@
       --mx: 0;
       --my: 0;
 
-      --gap: calc(var(--split) * 42px);
+      --gap: calc(var(--split) * 56px);
       --lift-left: calc(var(--split) * -22px);
-      --lift-right: calc(var(--split) * 18px);
-      --tilt-left: calc(var(--split) * -0.65deg);
-      --tilt-right: calc(var(--split) * 0.58deg);
+      --lift-right: calc(var(--split) * 20px);
+      --tilt-left: calc(var(--split) * -0.55deg);
+      --tilt-right: calc(var(--split) * 0.5deg);
 
-      --mouse-x: calc(var(--mx) * 8px);
-      --mouse-y: calc(var(--my) * 7px);
+      --mouse-x: calc(var(--mx) * 7px);
+      --mouse-y: calc(var(--my) * 6px);
     }
 
     html,
@@ -114,8 +114,8 @@
       background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
       filter: blur(42px) brightness(0.44) saturate(0.88);
       opacity: 0;
-      will-change: transform, clip-path, opacity;
-      transition: opacity 0.45s ease;
+      will-change: transform, opacity;
+      transition: opacity 0.35s ease;
     }
 
     .is-cracked .bg-half {
@@ -125,21 +125,21 @@
     .bg-half.left {
       clip-path: polygon(
         0 0,
-        53% 0,
-        50% 8%,
-        55% 17%,
+        50% 0,
+        48% 8%,
+        53% 17%,
         49% 28%,
-        57% 41%,
+        55% 41%,
         51% 53%,
-        60% 67%,
+        59% 67%,
         55% 82%,
-        66% 100%,
+        64% 100%,
         0 100%
       );
       transform:
         translate3d(
-          calc(var(--gap) * -0.55 + var(--mouse-x) * -0.28),
-          calc(var(--lift-left) * 0.5 + var(--mouse-y) * -0.18),
+          calc(var(--gap) * -0.55 + var(--mouse-x) * -0.25),
+          calc(var(--lift-left) * 0.5 + var(--mouse-y) * -0.16),
           0
         )
         rotate(calc(var(--tilt-left) * 0.5))
@@ -148,22 +148,22 @@
 
     .bg-half.right {
       clip-path: polygon(
-        47% 0,
+        50% 0,
         100% 0,
         100% 100%,
-        34% 100%,
-        45% 82%,
-        40% 67%,
-        49% 53%,
-        43% 41%,
-        51% 28%,
-        45% 17%,
-        50% 8%
+        64% 100%,
+        55% 82%,
+        59% 67%,
+        51% 53%,
+        55% 41%,
+        49% 28%,
+        53% 17%,
+        48% 8%
       );
       transform:
         translate3d(
-          calc(var(--gap) * 0.55 + var(--mouse-x) * 0.28),
-          calc(var(--lift-right) * 0.5 + var(--mouse-y) * 0.18),
+          calc(var(--gap) * 0.55 + var(--mouse-x) * 0.25),
+          calc(var(--lift-right) * 0.5 + var(--mouse-y) * 0.16),
           0
         )
         rotate(calc(var(--tilt-right) * 0.5))
@@ -199,15 +199,25 @@
       position: relative;
     }
 
+    .main-source {
+      opacity: 1;
+      transition: opacity 0.22s ease;
+    }
+
+    .is-cracked .main-source {
+      opacity: 0;
+      pointer-events: none;
+    }
+
     .ice-layer {
       position: absolute;
       inset: 0;
       z-index: 2;
       opacity: 0;
       pointer-events: none;
-      will-change: transform, clip-path, filter, opacity;
+      will-change: transform, opacity;
       transform-style: preserve-3d;
-      transition: opacity 0.38s ease;
+      transition: opacity 0.22s ease;
     }
 
     .is-cracked .ice-layer {
@@ -215,81 +225,64 @@
       pointer-events: auto;
     }
 
-    .is-cracked .main-source {
-      visibility: hidden;
-      pointer-events: none;
-    }
-
     .ice-layer.left {
       clip-path: polygon(
         -8% -4%,
-        53% -4%,
-        50% 8%,
-        55% 17%,
+        50% -4%,
+        48% 8%,
+        53% 17%,
         49% 28%,
-        57% 41%,
+        55% 41%,
         51% 53%,
-        60% 67%,
+        59% 67%,
         55% 82%,
-        66% 104%,
+        64% 104%,
         -8% 104%
       );
       transform:
         translate3d(
-          calc(var(--gap) * -1 + var(--mouse-x) * -0.48),
-          calc(var(--lift-left) + var(--mouse-y) * -0.26),
+          calc(var(--gap) * -1 + var(--mouse-x) * -0.42),
+          calc(var(--lift-left) + var(--mouse-y) * -0.22),
           0
         )
         rotate(var(--tilt-left));
       transform-origin: 36% 42%;
       filter:
-        drop-shadow(10px 16px 28px rgba(0,0,0,0.24))
-        drop-shadow(0 0 12px rgba(255,255,255,0.025));
+        drop-shadow(9px 14px 24px rgba(0,0,0,0.23))
+        drop-shadow(0 0 10px rgba(255,255,255,0.02));
     }
 
     .ice-layer.right {
       clip-path: polygon(
-        47% -4%,
+        50% -4%,
         108% -4%,
         108% 104%,
-        34% 104%,
-        45% 82%,
-        40% 67%,
-        49% 53%,
-        43% 41%,
-        51% 28%,
-        45% 17%,
-        50% 8%
+        64% 104%,
+        55% 82%,
+        59% 67%,
+        51% 53%,
+        55% 41%,
+        49% 28%,
+        53% 17%,
+        48% 8%
       );
       transform:
         translate3d(
-          calc(var(--gap) * 1 + var(--mouse-x) * 0.48),
-          calc(var(--lift-right) + var(--mouse-y) * 0.26),
+          calc(var(--gap) * 1 + var(--mouse-x) * 0.42),
+          calc(var(--lift-right) + var(--mouse-y) * 0.22),
           0
         )
         rotate(var(--tilt-right));
       transform-origin: 64% 44%;
       filter:
-        drop-shadow(-10px 16px 28px rgba(0,0,0,0.26))
-        drop-shadow(0 0 12px rgba(255,255,255,0.025));
-    }
-
-    .ice-layer::after {
-      content: "";
-      position: absolute;
-      inset: -1.5rem;
-      pointer-events: none;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,0.04), transparent 32%, rgba(255,255,255,0.07) 50%, transparent 68%, rgba(0,0,0,0.06)),
-        radial-gradient(circle at 50% 30%, rgba(255,255,255,0.055), transparent 28%);
-      opacity: calc(0.06 + var(--split) * 0.16);
-      mix-blend-mode: screen;
+        drop-shadow(-9px 14px 24px rgba(0,0,0,0.25))
+        drop-shadow(0 0 10px rgba(255,255,255,0.02));
     }
 
     main.main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.8rem, 2.6vw, 2.6rem);
+      gap: clamp(1.65rem, 2.3vw, 2.35rem);
       position: relative;
     }
 
@@ -297,7 +290,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: clamp(1.4rem, 2.4vw, 2rem);
+      margin-bottom: clamp(1.2rem, 2vw, 1.8rem);
     }
 
     .brand-link {
@@ -331,7 +324,7 @@
     }
 
     .hero-sub {
-      margin: 0 auto clamp(1.6rem, 3vw, 2.25rem);
+      margin: 0 auto clamp(1.45rem, 2.7vw, 2.05rem);
       color: var(--text-muted);
       font-size: clamp(0.95rem, 1.5vw, 1.08rem);
       letter-spacing: 0.045em;
@@ -345,12 +338,12 @@
     }
 
     .cover-wrap {
-      margin: 0 auto clamp(1.35rem, 3vw, 2.1rem);
+      margin: 0 auto clamp(1.2rem, 2.6vw, 1.9rem);
       max-width: 680px;
       width: 100%;
       transform:
-        translateY(calc(var(--split) * 5px))
-        translateX(calc(var(--mx) * 2px));
+        translateY(calc(var(--split) * 4px))
+        translateX(calc(var(--mx) * 1.5px));
     }
 
     .cover-inner {
@@ -375,34 +368,8 @@
       filter: contrast(1.04) saturate(0.97);
     }
 
-    .cover-inner::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(42% + var(--mouse-y)), rgba(255,255,255,0.12), transparent 18%),
-        linear-gradient(90deg, rgba(0,0,0,0.12), transparent 47%, rgba(255,255,255,0.07) 50%, transparent 54%, rgba(0,0,0,0.10));
-      mix-blend-mode: overlay;
-      z-index: 2;
-      pointer-events: none;
-      opacity: calc(0.24 + var(--split) * 0.14);
-    }
-
-    .cover-inner::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      pointer-events: none;
-      opacity: calc(0.04 + var(--split) * 0.10);
-      background:
-        repeating-linear-gradient(115deg, transparent 0 18px, rgba(255,255,255,0.04) 18px 19px, transparent 19px 44px),
-        repeating-linear-gradient(58deg, transparent 0 26px, rgba(255,255,255,0.035) 26px 27px, transparent 27px 61px);
-      mix-blend-mode: screen;
-    }
-
     .listen-wrap {
-      margin-top: 1.6rem;
+      margin-top: 1.45rem;
       display: flex;
       justify-content: center;
       gap: 0.75rem;
@@ -433,17 +400,8 @@
       box-shadow: 0 12px 32px rgba(0,0,0,0.3);
     }
 
-    .listen-btn:active {
-      transform: translateY(0px) scale(0.99);
-    }
-
-    .listen-btn:focus-visible {
-      outline: 3px solid rgba(255,255,255,0.85);
-      outline-offset: 4px;
-    }
-
     section.block {
-      margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
+      margin-bottom: clamp(1.55rem, 2.2vw, 2.15rem);
     }
 
     section.block h2 {
@@ -471,7 +429,7 @@
     .fragment-panel {
       border: 1px solid rgba(255,255,255,0.16);
       border-radius: 30px;
-      padding: clamp(1.2rem, 3vw, 2rem);
+      padding: clamp(1.15rem, 2.6vw, 1.8rem);
       background:
         linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025)),
         radial-gradient(circle at 50% 10%, rgba(255,255,255,0.08), transparent 36%);
@@ -480,21 +438,8 @@
         inset 0 0 0 1px rgba(255,255,255,0.04);
       overflow: hidden;
       position: relative;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .countdown-panel::before,
-    .fragment-panel::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: calc(0.08 + var(--split) * 0.18);
-      background:
-        radial-gradient(circle at 50% 46%, rgba(255,255,255,0.08), transparent 20%),
-        repeating-linear-gradient(112deg, transparent 0 28px, rgba(255,255,255,0.04) 28px 29px, transparent 29px 64px);
-      mix-blend-mode: screen;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
 
     .countdown-label {
@@ -539,14 +484,14 @@
     }
 
     .fragment-head strong {
-      font-size: clamp(1.35rem, 4vw, 2.45rem);
-      letter-spacing: -0.055em;
+      font-size: clamp(1.25rem, 3vw, 2.1rem);
+      letter-spacing: -0.045em;
       line-height: 1;
     }
 
     .fragment-head span {
       color: var(--text-muted);
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 850;
@@ -556,35 +501,24 @@
     .track-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 0.65rem;
+      gap: 0.6rem;
       position: relative;
       z-index: 2;
     }
 
     .track-card {
-      min-height: 92px;
-      border-radius: 20px;
+      min-height: 86px;
+      border-radius: 18px;
       border: 1px solid rgba(255,255,255,0.14);
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
-      padding: 0.75rem;
+        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.032));
+      padding: 0.72rem;
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
       position: relative;
-    }
-
-    .track-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.10), transparent 42%),
-        radial-gradient(circle at 50% 0%, rgba(255,255,255,0.08), transparent 52%);
-      opacity: 0.42;
-      pointer-events: none;
     }
 
     .track-number,
@@ -596,16 +530,16 @@
 
     .track-number {
       color: var(--text-soft);
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 850;
     }
 
     .track-title {
-      margin-top: 0.55rem;
-      font-size: clamp(0.92rem, 1.5vw, 1.04rem);
-      line-height: 1.13;
+      margin-top: 0.48rem;
+      font-size: clamp(0.9rem, 1.4vw, 1rem);
+      line-height: 1.12;
       letter-spacing: -0.015em;
       font-weight: 820;
       color: rgba(255,255,255,0.92);
@@ -613,8 +547,8 @@
     }
 
     .track-status {
-      margin-top: 0.7rem;
-      font-size: 0.68rem;
+      margin-top: 0.62rem;
+      font-size: 0.65rem;
       letter-spacing: 0.13em;
       text-transform: uppercase;
       font-weight: 880;
@@ -628,7 +562,7 @@
     .track-card.released {
       border-color: rgba(61,220,132,0.30);
       background:
-        linear-gradient(180deg, rgba(61,220,132,0.15), rgba(255,255,255,0.035));
+        linear-gradient(180deg, rgba(61,220,132,0.14), rgba(255,255,255,0.032));
     }
 
     .quote-block {
@@ -686,17 +620,26 @@
 
     @media (max-width: 768px) {
       :root {
-        --gap: calc(var(--split) * 20px);
-        --lift-left: calc(var(--split) * -10px);
-        --lift-right: calc(var(--split) * 9px);
+        --gap: calc(var(--split) * 66px);
+        --lift-left: calc(var(--split) * -16px);
+        --lift-right: calc(var(--split) * 14px);
+        --tilt-left: calc(var(--split) * -0.45deg);
+        --tilt-right: calc(var(--split) * 0.42deg);
+        --mouse-x: calc(var(--mx) * 4px);
+        --mouse-y: calc(var(--my) * 4px);
       }
 
       .page-wrap {
-        padding: 2.2rem 1.15rem 3rem;
+        padding: 2.15rem 1.05rem 3rem;
+      }
+
+      main.main {
+        gap: 1.45rem;
       }
 
       .brand-row {
         justify-content: flex-start;
+        margin-bottom: 1.15rem;
       }
 
       .hero {
@@ -704,57 +647,94 @@
       }
 
       .hero h1 {
-        font-size: clamp(3rem, 18vw, 5.8rem);
+        font-size: clamp(3rem, 17vw, 5.6rem);
       }
 
       .hero-sub {
         margin-left: 0;
         margin-right: 0;
+        font-size: 0.92rem;
+        line-height: 1.48;
       }
 
       .cover-inner {
-        border-radius: 24px;
+        border-radius: 22px;
       }
 
       .listen-wrap {
         justify-content: flex-start;
-        margin-top: 1.25rem;
+        margin-top: 1.15rem;
       }
 
       .listen-btn {
-        padding: 0.85rem 1.15rem;
-        font-size: 0.92rem;
+        padding: 0.82rem 1.08rem;
+        font-size: 0.9rem;
       }
 
       .countdown-panel,
       .fragment-panel {
-        border-radius: 24px;
+        border-radius: 22px;
+        padding: 1rem;
+      }
+
+      .countdown-label {
+        font-size: 0.68rem;
+        margin-bottom: 0.55rem;
       }
 
       .countdown-time {
-        font-size: clamp(2.1rem, 12vw, 3.8rem);
+        font-size: clamp(2rem, 11vw, 3.35rem);
+      }
+
+      .countdown-note {
+        font-size: 0.86rem;
+        line-height: 1.45;
       }
 
       .fragment-head {
         flex-direction: column;
-        gap: 0.35rem;
+        gap: 0.2rem;
+        margin-bottom: 0.7rem;
+      }
+
+      .fragment-head strong {
+        font-size: 1.25rem;
+        letter-spacing: -0.035em;
+      }
+
+      .fragment-head span {
+        font-size: 0.66rem;
       }
 
       .track-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.45rem;
       }
 
       .track-card {
-        min-height: auto;
-        padding: 0.85rem;
+        min-height: 66px;
+        border-radius: 14px;
+        padding: 0.55rem;
+      }
+
+      .track-number {
+        font-size: 0.58rem;
       }
 
       .track-title {
-        margin-top: 0.35rem;
+        margin-top: 0.28rem;
+        font-size: 0.82rem;
+        line-height: 1.08;
       }
 
       .track-status {
-        margin-top: 0.5rem;
+        margin-top: 0.35rem;
+        font-size: 0.54rem;
+      }
+
+      section.block p {
+        font-size: 0.92rem;
+        line-height: 1.58;
       }
     }
 
@@ -992,25 +972,12 @@
 
   <script>
     (function () {
+      const root = document.documentElement;
       const shell = document.getElementById("content-shell");
       const source = document.querySelector(".main-source");
       const targets = document.querySelectorAll(".ice-layer-inner");
 
-      if (!shell || !source || !targets.length) return;
-
-      targets.forEach(function (target) {
-        const clone = source.cloneNode(true);
-        clone.classList.remove("main-source");
-        clone.classList.add("main-clone");
-        target.appendChild(clone);
-      });
-    })();
-  </script>
-
-  <script>
-    (function () {
-      const root = document.documentElement;
-
+      let clonesCreated = false;
       let activated = false;
       let readyForMouseActivation = false;
       let ticking = false;
@@ -1023,6 +990,9 @@
       let scrollSplit = 0;
       let mouseRaf = null;
 
+      const POSTER_URL = "/assets/gespalten/gespalten.jpg";
+      const VIDEO_URL = "/assets/gespalten/gespalten.mp4";
+
       setTimeout(function () {
         readyForMouseActivation = true;
       }, 700);
@@ -1031,11 +1001,50 @@
         return Math.min(Math.max(value, min), max);
       }
 
+      function getVideos() {
+        return Array.from(document.querySelectorAll(".album-video"));
+      }
+
+      function createClones() {
+        if (clonesCreated || !shell || !source || !targets.length) return;
+
+        targets.forEach(function (target) {
+          const clone = source.cloneNode(true);
+          clone.classList.remove("main-source");
+          clone.classList.add("main-clone");
+
+          clone.querySelectorAll("video").forEach(function (video) {
+            video.setAttribute("poster", POSTER_URL);
+            video.setAttribute("preload", "metadata");
+
+            const sourceEl = video.querySelector("source");
+            if (sourceEl) {
+              sourceEl.setAttribute("src", VIDEO_URL);
+              sourceEl.setAttribute("type", "video/mp4");
+            }
+
+            try {
+              video.load();
+            } catch (e) {}
+          });
+
+          target.appendChild(clone);
+        });
+
+        clonesCreated = true;
+        bindVideos();
+      }
+
       function activate() {
         if (activated) return;
+
+        createClones();
+
         activated = true;
         document.body.classList.add("is-cracked");
+
         syncAllVideos();
+        applySplit();
       }
 
       function applySplit() {
@@ -1047,12 +1056,12 @@
         const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
         const raw = clamp(window.scrollY / maxScroll, 0, 1);
 
-        if (window.scrollY > 6) {
+        if (window.scrollY > 8) {
           activate();
         }
 
         scrollSplit = activated
-          ? 1 - Math.pow(1 - raw, 2.35)
+          ? 1 - Math.pow(1 - raw, 2.15)
           : 0;
 
         applySplit();
@@ -1067,8 +1076,8 @@
       }
 
       function animateMouse() {
-        mouseX += (mouseTargetX - mouseX) * 0.08;
-        mouseY += (mouseTargetY - mouseY) * 0.08;
+        mouseX += (mouseTargetX - mouseX) * 0.12;
+        mouseY += (mouseTargetY - mouseY) * 0.12;
 
         root.style.setProperty("--mx", mouseX.toFixed(4));
         root.style.setProperty("--my", mouseY.toFixed(4));
@@ -1093,37 +1102,78 @@
         mouseTargetY = clamp(y, -1, 1);
 
         const distance = Math.sqrt(mouseTargetX * mouseTargetX + mouseTargetY * mouseTargetY);
-        mouseSplit = activated ? clamp(0.055 + distance * 0.10, 0.055, 0.18) : 0;
+        mouseSplit = activated ? clamp(0.07 + distance * 0.11, 0.07, 0.2) : 0;
 
         if (!mouseRaf) {
           mouseRaf = requestAnimationFrame(animateMouse);
         }
       }
 
-      function getVideos() {
-        return Array.from(document.querySelectorAll(".album-video"));
+      let videoSyncing = false;
+      let videosBound = false;
+
+      function syncFrom(sourceVideo, eventName) {
+        if (videoSyncing) return;
+        videoSyncing = true;
+
+        getVideos().forEach(function (video) {
+          if (video === sourceVideo) return;
+
+          if (Math.abs(video.currentTime - sourceVideo.currentTime) > 0.35) {
+            try {
+              video.currentTime = sourceVideo.currentTime;
+            } catch (e) {}
+          }
+
+          video.volume = sourceVideo.volume;
+          video.muted = sourceVideo.muted;
+          video.playbackRate = sourceVideo.playbackRate;
+
+          if (eventName === "play" && video.paused) {
+            video.play().catch(function () {});
+          }
+
+          if (eventName === "pause" && !video.paused) {
+            video.pause();
+          }
+        });
+
+        videoSyncing = false;
+      }
+
+      function bindVideos() {
+        if (videosBound) return;
+        videosBound = true;
+
+        getVideos().forEach(function (video) {
+          ["play", "pause", "seeked", "volumechange", "ratechange"].forEach(function (eventName) {
+            video.addEventListener(eventName, function () {
+              syncFrom(video, eventName);
+            });
+          });
+        });
       }
 
       function syncAllVideos() {
         const videos = getVideos();
         if (!videos.length) return;
 
-        const source = videos.find(function (video) {
+        const sourceVideo = videos.find(function (video) {
           return !video.closest(".ice-layer");
         }) || videos[0];
 
         videos.forEach(function (video) {
-          if (video === source) return;
+          if (video === sourceVideo) return;
 
           try {
-            video.currentTime = source.currentTime;
+            video.currentTime = sourceVideo.currentTime;
           } catch (e) {}
 
-          video.volume = source.volume;
-          video.muted = source.muted;
-          video.playbackRate = source.playbackRate;
+          video.volume = sourceVideo.volume;
+          video.muted = sourceVideo.muted;
+          video.playbackRate = sourceVideo.playbackRate;
 
-          if (!source.paused) {
+          if (!sourceVideo.paused) {
             video.play().catch(function () {});
           }
         });
@@ -1137,6 +1187,7 @@
       root.style.setProperty("--mx", "0");
       root.style.setProperty("--my", "0");
 
+      bindVideos();
       updateScrollSplit();
       animateMouse();
     })();
@@ -1144,61 +1195,7 @@
 
   <script>
     (function () {
-      function getVideos() {
-        return Array.from(document.querySelectorAll(".album-video"));
-      }
-
-      let syncing = false;
-
-      function syncFrom(source, eventName) {
-        if (syncing) return;
-        syncing = true;
-
-        getVideos().forEach(function (video) {
-          if (video === source) return;
-
-          if (Math.abs(video.currentTime - source.currentTime) > 0.25) {
-            try {
-              video.currentTime = source.currentTime;
-            } catch (e) {}
-          }
-
-          video.volume = source.volume;
-          video.muted = source.muted;
-          video.playbackRate = source.playbackRate;
-
-          if (eventName === "play" && video.paused) {
-            video.play().catch(function () {});
-          }
-
-          if (eventName === "pause" && !video.paused) {
-            video.pause();
-          }
-        });
-
-        syncing = false;
-      }
-
-      function bindVideo(video) {
-        ["play", "pause", "seeked", "volumechange", "ratechange"].forEach(function (eventName) {
-          video.addEventListener(eventName, function () {
-            syncFrom(video, eventName);
-          });
-        });
-
-        video.addEventListener("timeupdate", function () {
-          syncFrom(video, "timeupdate");
-        });
-      }
-
-      getVideos().forEach(bindVideo);
-    })();
-  </script>
-
-  <script>
-    (function () {
       const RELEASE_DATE = new Date("2026-08-13T13:00:00+02:00").getTime();
-
       const ALBUM_LINK = "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
       function pad(value) {
