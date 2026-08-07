@@ -4,71 +4,60 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t „desigual“</title>
-  <meta name="description" content="„desigual“ – das neue Release von b3nn3t. Deutschrap & Indie-Pop aus der Schweiz." />
+  <title>b3nn3t „gespalten“</title>
+  <meta name="description" content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten, zwischen Indie-Pop, Rap und melancholischem Bedroom-Pop." />
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
-  <!-- Favicons -->
   <link rel="icon" href="favicon.ico" sizes="any">
   <link rel="icon" type="image/png" href="favicon-48.png" sizes="48x48">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-  <link rel="canonical" href="https://www.b3nn3t.com/release-desigual.html" />
+  <link rel="canonical" href="https://www.b3nn3t.com/release-gespalten.html" />
 
-  <!-- Open Graph -->
-  <meta property="og:type" content="music.song">
+  <meta property="og:type" content="music.album">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„desigual“ – neues Release von b3nn3t">
-  <meta property="og:description" content="Das neue Release von b3nn3t. Cover, Story, Plattformen & mehr.">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual.webp">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-desigual.html">
+  <meta property="og:title" content="„gespalten“ – neues Album von b3nn3t">
+  <meta property="og:description" content="10 Songs. 12 Minuten. Ein Album wie ein Riss.">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/release/gespalten/gespalten.webp">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-gespalten.html">
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="„desigual“ – neues Release von b3nn3t">
-  <meta name="twitter:description" content="Deutschrap & Indie-Pop aus der Schweiz – das neue Release „desigual“ von b3nn3t.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/desigual/desigual.webp">
+  <meta name="twitter:title" content="„gespalten“ – neues Album von b3nn3t">
+  <meta name="twitter:description" content="10 Songs. 12 Minuten. Ein Album wie ein Riss.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/release/gespalten/gespalten.webp">
 
-  <!-- Strukturierte Daten -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
-    "@type": "MusicRecording",
-    "name": "desigual",
+    "@type": "MusicAlbum",
+    "name": "gespalten",
     "byArtist": {
       "@type": "MusicGroup",
       "name": "b3nn3t"
     },
-    "inAlbum": {
-      "@type": "MusicAlbum",
-      "name": "desigual"
-    },
-    "datePublished": "2026-07-31",
-    "image": "https://www.b3nn3t.com/assets/release/desigual/desigual.webp",
-    "url": "https://www.b3nn3t.com/release-desigual.html"
+    "numTracks": 10,
+    "datePublished": "2026-08-13T13:00:00+02:00",
+    "image": "https://www.b3nn3t.com/assets/release/gespalten/gespalten.webp",
+    "url": "https://www.b3nn3t.com/release-gespalten.html"
   }
   </script>
 
-  <!-- Cover vorladen -->
-  <link rel="preload" as="image" href="assets/release/desigual/desigual.webp" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/release/gespalten/gespalten.webp" fetchpriority="high">
 
   <style>
     :root {
-      --awb-text-main: #fdfdfd;
+      --text-main: #fdfdfd;
+      --text-muted: rgba(255,255,255,0.68);
+      --text-soft: rgba(255,255,255,0.48);
       --page-max-width: 960px;
-
-      --awb-bg: #171716;
-      --awb-bg-soft: #2a2722;
-
-      --block-title-gap: 0.95rem;
-      --block-par-gap: 0.7rem;
-
-      --more-link-gap-top: 0.65rem;
-      --more-link-gap-bottom: 0.75rem;
-      --more-link-indent: 0.25rem;
-
-      --live-green: #3ddc84;
+      --line: rgba(255,255,255,0.14);
+      --panel: rgba(255,255,255,0.055);
+      --panel-strong: rgba(255,255,255,0.095);
+      --accent: #ffffff;
+      --dark: #121211;
+      --light: #f4f1e8;
+      --release-green: #3ddc84;
     }
 
     html,
@@ -78,18 +67,18 @@
       min-height: 100%;
       overflow-x: hidden;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-      color: var(--awb-text-main);
-      background: #171716;
+      color: var(--text-main);
+      background: #151514;
     }
 
     body::before {
       content: "";
       position: fixed;
       inset: 0;
-      background: url("assets/release/desigual/desigual.webp") center / cover no-repeat;
-      filter: blur(36px) brightness(0.52);
-      transform: scale(1.12);
-      z-index: -2;
+      background: url("assets/release/gespalten/gespalten.webp") center / cover no-repeat;
+      filter: blur(38px) brightness(0.48) saturate(0.92);
+      transform: scale(1.14);
+      z-index: -3;
     }
 
     body::after {
@@ -97,9 +86,25 @@
       position: fixed;
       inset: 0;
       background:
-        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.08), transparent 28%),
-        linear-gradient(rgba(12,12,11,0.46), rgba(12,12,11,0.86));
+        linear-gradient(90deg, rgba(0,0,0,0.48), rgba(255,255,255,0.035) 50%, rgba(0,0,0,0.58)),
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.13), transparent 28%),
+        linear-gradient(rgba(12,12,11,0.36), rgba(12,12,11,0.92));
+      z-index: -2;
+    }
+
+    .split-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
       z-index: -1;
+      opacity: 0.55;
+      background:
+        linear-gradient(90deg,
+          rgba(0,0,0,0.28) 0%,
+          rgba(0,0,0,0.20) 49.7%,
+          rgba(255,255,255,0.22) 50%,
+          rgba(255,255,255,0.025) 50.3%,
+          rgba(0,0,0,0.15) 100%);
     }
 
     .page-wrap {
@@ -151,89 +156,179 @@
       letter-spacing: 0.18em;
       text-transform: uppercase;
       opacity: 0.76;
-      font-weight: 700;
+      font-weight: 750;
     }
 
     .hero h1 {
-      margin: 0 0 clamp(1.5rem, 3vw, 2.2rem);
-      font-size: clamp(3.2rem, 10vw, 7.4rem);
+      margin: 0 0 0.65rem;
+      font-size: clamp(3.2rem, 10vw, 7.6rem);
       line-height: 0.88;
-      letter-spacing: -0.075em;
+      letter-spacing: -0.078em;
       text-transform: lowercase;
+      font-weight: 880;
+    }
+
+    .hero-sub {
+      margin: 0 auto clamp(1.6rem, 3vw, 2.25rem);
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 1.5vw, 1.08rem);
+      letter-spacing: 0.045em;
+      line-height: 1.55;
+      max-width: 42rem;
+    }
+
+    .hero-sub strong {
+      color: #ffffff;
       font-weight: 850;
     }
 
-    .video-wrap {
+    .cover-wrap {
       margin: 0 auto clamp(1.35rem, 3vw, 2.1rem);
       max-width: 680px;
       width: 100%;
     }
 
-    .video-inner {
+    .cover-inner {
       border-radius: 30px;
       overflow: hidden;
       background: #000;
       aspect-ratio: 1 / 1;
       position: relative;
       box-shadow:
-        0 26px 90px rgba(0,0,0,0.46),
-        0 0 0 1px rgba(255,255,255,0.12);
+        0 26px 90px rgba(0,0,0,0.48),
+        0 0 0 1px rgba(255,255,255,0.13);
+      isolation: isolate;
     }
 
-    .release-cover {
+    .album-cover {
       width: 100%;
       height: 100%;
       display: block;
       object-fit: cover;
       border-radius: inherit;
+      filter: contrast(1.04) saturate(0.98);
+      transform: scale(1.001);
     }
 
-    .audio-overlay {
+    .cover-inner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg,
+          rgba(0,0,0,0.28) 0%,
+          rgba(0,0,0,0.12) 49.6%,
+          rgba(255,255,255,0.26) 50%,
+          rgba(255,255,255,0.08) 50.4%,
+          rgba(255,255,255,0.02) 100%);
+      mix-blend-mode: overlay;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .cover-inner::after {
+      content: "";
+      position: absolute;
+      top: -8%;
+      bottom: -8%;
+      left: 50%;
+      width: 2px;
+      transform: translateX(-50%) rotate(1.5deg);
+      background:
+        linear-gradient(
+          to bottom,
+          transparent,
+          rgba(255,255,255,0.25),
+          rgba(255,255,255,0.95),
+          rgba(255,255,255,0.22),
+          transparent
+        );
+      box-shadow:
+        0 0 18px rgba(255,255,255,0.55),
+        0 0 44px rgba(255,255,255,0.22);
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    .split-caption {
       position: absolute;
       left: 1rem;
       right: 1rem;
       bottom: 1rem;
-      width: calc(100% - 2rem);
-      padding: 0;
-      box-sizing: border-box;
+      z-index: 4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.85rem 1rem;
       border-radius: 999px;
-      background: rgba(255,255,255,0.86);
-      box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+      background: rgba(0,0,0,0.42);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.15);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 850;
+      color: rgba(255,255,255,0.82);
     }
 
-    .presave-wrap {
-      margin-top: 0.2rem;
+    .split-caption span:nth-child(2) {
+      color: #ffffff;
+      opacity: 0.95;
     }
 
-    .presave-btn {
+    .listen-wrap {
+      margin-top: 1.6rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .listen-btn,
+    .ghost-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 0.95rem 1.25rem;
+      padding: 0.95rem 1.35rem;
       border-radius: 999px;
-      background: #ffffff;
-      color: #171716;
       text-decoration: none;
       font-weight: 850;
       letter-spacing: 0.04em;
       text-transform: lowercase;
-      border: 2px solid rgba(255,255,255,0.62);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
-      transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease;
+      transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease, background .2s ease;
       user-select: none;
       -webkit-tap-highlight-color: transparent;
     }
 
-    .presave-btn:hover {
+    .listen-btn {
+      background: #ffffff;
+      color: #171716;
+      border: 2px solid rgba(255,255,255,0.68);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+    }
+
+    .ghost-btn {
+      background: rgba(255,255,255,0.065);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+    }
+
+    .listen-btn:hover,
+    .ghost-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.3);
     }
 
-    .presave-btn:active {
+    .listen-btn:active,
+    .ghost-btn:active {
       transform: translateY(0px) scale(0.99);
     }
 
-    .presave-btn:focus-visible {
+    .listen-btn:focus-visible,
+    .ghost-btn:focus-visible {
       outline: 3px solid rgba(255,255,255,0.85);
       outline-offset: 4px;
     }
@@ -243,11 +338,11 @@
     }
 
     section.block h2 {
-      margin: 0 0 var(--block-title-gap);
+      margin: 0 0 0.95rem;
       font-size: 1.06rem;
       letter-spacing: 0.04em;
       text-transform: lowercase;
-      font-weight: 700;
+      font-weight: 720;
     }
 
     section.block p {
@@ -256,10 +351,200 @@
       letter-spacing: 0.04em;
       max-width: 60rem;
       font-size: 1rem;
+      color: rgba(255,255,255,0.9);
     }
 
     section.block p + p {
-      margin-top: var(--block-par-gap);
+      margin-top: 0.75rem;
+    }
+
+    .countdown-panel {
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 30px;
+      padding: clamp(1.2rem, 3vw, 2rem);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025)),
+        radial-gradient(circle at 50% 10%, rgba(255,255,255,0.08), transparent 36%);
+      box-shadow:
+        0 22px 70px rgba(0,0,0,0.31),
+        inset 0 0 0 1px rgba(255,255,255,0.04);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .countdown-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg,
+          transparent,
+          transparent 49.8%,
+          rgba(255,255,255,0.18) 50%,
+          transparent 50.2%,
+          transparent);
+      pointer-events: none;
+      opacity: 0.76;
+    }
+
+    .countdown-label {
+      margin: 0 0 0.75rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 850;
+      color: var(--text-muted);
+    }
+
+    .countdown-time {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.065em;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-note {
+      margin-top: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      line-height: 1.55;
+    }
+
+    .album-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1rem, 2vw, 1.3rem);
+    }
+
+    .mini-card {
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 26px;
+      padding: clamp(1rem, 2.2vw, 1.35rem);
+      background: rgba(255,255,255,0.055);
+      box-shadow:
+        0 16px 42px rgba(0,0,0,0.21),
+        inset 0 0 0 1px rgba(255,255,255,0.025);
+    }
+
+    .mini-card-title {
+      margin: 0 0 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 850;
+    }
+
+    .mini-card-value {
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.055em;
+      font-weight: 900;
+    }
+
+    .mini-card-note {
+      margin-top: 0.65rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      letter-spacing: 0.035em;
+      font-size: 0.92rem;
+    }
+
+    .fragment-bar {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 0.36rem;
+      margin-top: 1rem;
+    }
+
+    .fragment {
+      position: relative;
+      min-height: 54px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.035));
+      overflow: hidden;
+    }
+
+    .fragment::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: var(--h);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.62), rgba(255,255,255,0.14));
+      opacity: 0.9;
+    }
+
+    .fragment span {
+      position: absolute;
+      left: 0.45rem;
+      bottom: 0.35rem;
+      font-size: 0.64rem;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      color: rgba(255,255,255,0.76);
+      z-index: 2;
+    }
+
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .track-row {
+      display: grid;
+      grid-template-columns: 2.4rem 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.82rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.09);
+      letter-spacing: 0.035em;
+    }
+
+    .track-no {
+      color: var(--text-soft);
+      font-weight: 850;
+      font-size: 0.82rem;
+    }
+
+    .track-title {
+      font-weight: 760;
+      min-width: 0;
+    }
+
+    .track-meta {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .track-row.locked .track-title {
+      color: rgba(255,255,255,0.62);
+    }
+
+    .track-row.featured .track-title {
+      color: #ffffff;
+    }
+
+    .track-row.featured .track-meta {
+      color: var(--release-green);
+      font-weight: 800;
+    }
+
+    .quote-block {
+      border-left: 2px solid rgba(255,255,255,0.55);
+      padding-left: 1rem;
+      margin-top: 1rem;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.7;
+      letter-spacing: 0.04em;
     }
 
     .social-section {
@@ -295,113 +580,10 @@
 
     .more-link {
       display: inline-block;
-      margin-top: var(--more-link-gap-top);
-      margin-bottom: var(--more-link-gap-bottom);
-      padding-left: var(--more-link-indent);
+      margin-top: 0.65rem;
+      margin-bottom: 0.75rem;
+      padding-left: 0.25rem;
     }
-
-    /* =========================================================
-       TIMELINE
-       ========================================================= */
-
-    .timeline-block {
-      padding-top: 0.4rem;
-    }
-
-    .timeline-block p.timeline-sub {
-      opacity: 0.9;
-      margin-bottom: 0.9rem;
-    }
-
-    .timeline-counter {
-      font-variant-numeric: tabular-nums;
-      font-weight: 850;
-      font-size: 1.3rem;
-      letter-spacing: 0.04em;
-      margin: 0 0 1rem !important;
-    }
-
-    .timeline-counter .slash {
-      opacity: 0.55;
-      font-weight: 500;
-      margin: 0 0.3rem;
-    }
-
-    .timeline-divider {
-      border: none;
-      border-top: 1px solid rgba(255,255,255,0.3);
-      margin: 0 0 1rem;
-    }
-
-    .timeline-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .timeline-row {
-      display: grid;
-      grid-template-columns: 1.3rem 2rem minmax(9rem, 1.2fr) 6.4rem 4.3rem minmax(7rem, 1fr);
-      align-items: baseline;
-      gap: 0.55rem;
-      font-size: 0.98rem;
-      letter-spacing: 0.02em;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .timeline-row .status-dot {
-      width: 1.3rem;
-      display: inline-block;
-      text-align: center;
-    }
-
-    .timeline-row .country-code {
-      font-size: 0.78rem;
-      font-weight: 800;
-      opacity: 0.95;
-    }
-
-    .timeline-row .country-name {
-      min-width: 0;
-    }
-
-    .timeline-row .release-time {
-      font-weight: 700;
-      opacity: 0.9;
-      white-space: nowrap;
-    }
-
-    .timeline-row.is-live .country-name {
-      font-weight: 700;
-    }
-
-    .timeline-row.is-live .status-text {
-      color: var(--live-green);
-      font-weight: 850;
-      letter-spacing: 0.06em;
-    }
-
-    .timeline-row.is-live .online-since {
-      color: var(--live-green);
-      opacity: 0.92;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .timeline-row.is-next .status-text {
-      opacity: 0.95;
-      font-weight: 650;
-      white-space: nowrap;
-    }
-
-    .timeline-row.is-upcoming {
-      opacity: 0.55;
-    }
-
-    /* =========================================================
-       CROSSHAIR
-       ========================================================= */
 
     #crosshair {
       position: fixed;
@@ -446,32 +628,73 @@
       }
 
       .hero h1 {
-        font-size: clamp(3rem, 18vw, 5.6rem);
+        font-size: clamp(3rem, 18vw, 5.8rem);
       }
 
-      .video-inner {
+      .hero-sub {
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .cover-inner {
         border-radius: 24px;
       }
 
-      .audio-overlay {
+      .split-caption {
         left: 0.75rem;
         right: 0.75rem;
         bottom: 0.75rem;
-        width: calc(100% - 1.5rem);
+        padding: 0.72rem 0.82rem;
+        font-size: 0.62rem;
       }
 
-      .timeline-row {
-        grid-template-columns: 1.2rem 1.8rem minmax(6.5rem, 1fr) 5.2rem;
-        gap: 0.45rem;
+      .listen-wrap {
+        justify-content: flex-start;
+        margin-top: 1.25rem;
       }
 
-      .timeline-row .status-text {
-        grid-column: 4 / -1;
+      .listen-btn,
+      .ghost-btn {
+        padding: 0.85rem 1.15rem;
+        font-size: 0.92rem;
       }
 
-      .timeline-row .online-since {
-        grid-column: 3 / -1;
-        font-size: 0.9rem;
+      .album-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .countdown-panel {
+        border-radius: 24px;
+      }
+
+      .countdown-time {
+        font-size: clamp(2.1rem, 12vw, 3.8rem);
+      }
+
+      .fragment-bar {
+        gap: 0.25rem;
+      }
+
+      .fragment {
+        min-height: 42px;
+        border-radius: 12px;
+      }
+
+      .fragment span {
+        left: 0.32rem;
+        bottom: 0.28rem;
+        font-size: 0.52rem;
+      }
+
+      .track-row {
+        grid-template-columns: 2rem 1fr;
+        gap: 0.45rem 0.7rem;
+        padding: 0.76rem 0;
+      }
+
+      .track-meta {
+        grid-column: 2 / -1;
+        font-size: 0.78rem;
       }
     }
 
@@ -486,7 +709,8 @@
         display: none;
       }
 
-      .presave-btn,
+      .listen-btn,
+      .ghost-btn,
       .social-link {
         transition: none;
       }
@@ -495,6 +719,8 @@
 </head>
 
 <body>
+  <div class="split-bg" aria-hidden="true"></div>
+
   <div class="page-wrap">
     <div class="content">
       <main class="main">
@@ -503,51 +729,175 @@
           <a class="brand-link" href="index.html">b3nn3t</a>
         </div>
 
-        <section class="hero" aria-label="desigual Release">
-          <p class="eyebrow">new release</p>
-          <h1>desigual</h1>
+        <section class="hero" aria-label="gespalten Album">
+          <p class="eyebrow">new album</p>
+          <h1>gespalten</h1>
 
-          <div class="video-wrap" aria-label="Audio zum Song">
-            <div class="video-inner">
+          <p class="hero-sub">
+            <strong>10 songs · 12 minutes</strong><br>
+            ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
+          </p>
+
+          <div class="cover-wrap" aria-label="Albumcover gespalten">
+            <div class="cover-inner">
               <img
-                src="assets/release/desigual/desigual.webp"
-                alt="Cover – desigual von b3nn3t"
-                class="release-cover">
+                src="assets/release/gespalten/gespalten.webp"
+                alt="Cover – gespalten von b3nn3t"
+                class="album-cover">
 
-              <audio
-                id="release-audio"
-                class="audio-overlay"
-                controls
-                preload="metadata">
-                <source src="assets/release/desigual/desigual.mp3" type="audio/mpeg">
-                Dein Browser unterstützt dieses Audioformat nicht.
-              </audio>
+              <div class="split-caption" aria-hidden="true">
+                <span>black horse</span>
+                <span>white horse</span>
+              </div>
             </div>
           </div>
 
-          <div class="presave-wrap">
-            <a class="presave-btn" href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A" target="_blank" rel="noopener">
-              "desigual" hören
+          <div class="listen-wrap">
+            <a
+              id="main-cta"
+              class="listen-btn"
+              href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+              target="_blank"
+              rel="noopener">
+              album vormerken
+            </a>
+
+            <a
+              class="ghost-btn"
+              href="#tracklist">
+              tracklist ansehen
             </a>
           </div>
         </section>
 
-        <section aria-label="Weltweiter Release" class="block timeline-block">
-          <h2>desigual is travelling around the world</h2>
-          <p class="timeline-sub">der song geht live – zeitzone für zeitzone, rund um den globus.</p>
-
-          <p class="timeline-counter">
-            Released in <span id="released-count">000</span><span class="slash">/</span>251 countries
-          </p>
-
-          <hr class="timeline-divider">
-
-          <div class="timeline-list" id="timeline-list">
-            <!-- wird per JS befüllt -->
+        <section aria-label="Album Countdown" class="block">
+          <div class="countdown-panel">
+            <p class="countdown-label">album unlocks in</p>
+            <p class="countdown-time" id="album-countdown">--d --:--:--</p>
+            <div class="countdown-note" id="release-note">
+              Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
+            </div>
           </div>
         </section>
 
-        <section aria-label="Streaming" class="block tight-after">
+        <section aria-label="Album Fakten" class="block">
+          <div class="album-grid">
+            <div class="mini-card">
+              <p class="mini-card-title">tracks</p>
+              <p class="mini-card-value">10</p>
+              <div class="mini-card-note">
+                zehn kurze stücke — eher fragmente als klassische songs.
+              </div>
+            </div>
+
+            <div class="mini-card">
+              <p class="mini-card-title">runtime</p>
+              <p class="mini-card-value">12:00</p>
+              <div class="mini-card-note">
+                ein album, das schnell vorbeigeht, aber nachhallt.
+              </div>
+            </div>
+          </div>
+
+          <div class="fragment-bar" aria-label="10 Fragmente des Albums">
+            <div class="fragment" style="--h: 88%;"><span>01</span></div>
+            <div class="fragment" style="--h: 42%;"><span>02</span></div>
+            <div class="fragment" style="--h: 56%;"><span>03</span></div>
+            <div class="fragment" style="--h: 34%;"><span>04</span></div>
+            <div class="fragment" style="--h: 62%;"><span>05</span></div>
+            <div class="fragment" style="--h: 38%;"><span>06</span></div>
+            <div class="fragment" style="--h: 50%;"><span>07</span></div>
+            <div class="fragment" style="--h: 30%;"><span>08</span></div>
+            <div class="fragment" style="--h: 46%;"><span>09</span></div>
+            <div class="fragment" style="--h: 72%;"><span>10</span></div>
+          </div>
+        </section>
+
+        <section id="tracklist" aria-label="Tracklist" class="block">
+          <h2>tracklist</h2>
+
+          <div class="tracklist">
+            <div class="track-row featured">
+              <span class="track-no">01</span>
+              <span class="track-title">desigual</span>
+              <span class="track-meta">released</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">02</span>
+              <span class="track-title">fragment ii</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">03</span>
+              <span class="track-title">fragment iii</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">04</span>
+              <span class="track-title">fragment iv</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">05</span>
+              <span class="track-title">fragment v</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">06</span>
+              <span class="track-title">fragment vi</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">07</span>
+              <span class="track-title">fragment vii</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">08</span>
+              <span class="track-title">fragment viii</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">09</span>
+              <span class="track-title">fragment ix</span>
+              <span class="track-meta">locked</span>
+            </div>
+
+            <div class="track-row locked">
+              <span class="track-no">10</span>
+              <span class="track-title">fragment x</span>
+              <span class="track-meta">locked</span>
+            </div>
+          </div>
+        </section>
+
+        <section aria-label="Über das Album" class="block">
+          <h2>über das album</h2>
+
+          <p>
+            „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
+            melancholischem bedroom-pop und deutschsprachigen skizzen.
+          </p>
+
+          <p>
+            manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
+            kurz, direkt, unfertig im besten sinn.
+          </p>
+
+          <div class="quote-block">
+            10 songs. 12 minutes. ein album wie ein riss.
+          </div>
+        </section>
+
+        <section aria-label="Streaming" class="block">
           <h2>kuck hier</h2>
 
           <div class="social-section" aria-label="Social Media Links">
@@ -612,199 +962,61 @@
   </div>
 
   <script>
-    /* =========================================================
-       WELTWEITE RELEASE-TIMELINE
-       Anzeige:
-       - Release-Datum/Uhrzeit in Schweizer Zeit vor LIVE
-       - Dauer seit Release hinter LIVE
-       ========================================================= */
     (function () {
-      const RELEASE_YEAR = 2026;
-      const RELEASE_MONTH = 6;
-      const RELEASE_DAY = 31;
+      const RELEASE_DATE = new Date("2026-08-13T13:00:00+02:00").getTime();
 
-      const COUNTRIES = [
-        { name: "Kiribati",        code: "KI", offset: 14 },
-        { name: "Tonga",           code: "TO", offset: 13 },
-        { name: "Samoa",           code: "WS", offset: 13 },
-        { name: "New Zealand",     code: "NZ", offset: 12 },
-        { name: "Australia",       code: "AU", offset: 10 },
-        { name: "Japan",           code: "JP", offset: 9 },
-        { name: "South Korea",     code: "KR", offset: 9 },
-        { name: "Singapore",       code: "SG", offset: 8 },
-        { name: "India",           code: "IN", offset: 5.5 },
-        { name: "UAE",             code: "AE", offset: 4 },
-        { name: "Germany",         code: "DE", offset: 2 },
-        { name: "Switzerland",     code: "CH", offset: 2 },
-        { name: "United Kingdom",  code: "GB", offset: 1 },
-        { name: "New York",        code: "US", offset: -4 },
-        { name: "Los Angeles",     code: "US", offset: -7 },
-        { name: "Hawaii",          code: "US", offset: -10 }
-      ];
+      const countdownEl = document.getElementById("album-countdown");
+      const releaseNoteEl = document.getElementById("release-note");
+      const mainCtaEl = document.getElementById("main-cta");
 
-      const ZONE_WEIGHTS = {
-        "14": 1,
-        "13": 5,
-        "12": 8,
-        "11": 7,
-        "10": 6,
-        "9": 6,
-        "8": 12,
-        "7": 8,
-        "6.5": 1,
-        "6": 5,
-        "5.75": 1,
-        "5.5": 2,
-        "5": 7,
-        "4.5": 1,
-        "4": 9,
-        "3.5": 1,
-        "3": 24,
-        "2": 37,
-        "1": 30,
-        "0": 12,
-        "-1": 3,
-        "-2": 2,
-        "-3": 10,
-        "-3.5": 1,
-        "-4": 19,
-        "-5": 10,
-        "-6": 9,
-        "-7": 6,
-        "-8": 3,
-        "-9": 1,
-        "-9.5": 1,
-        "-10": 2,
-        "-11": 1
-      };
+      const ALBUM_LINK = "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
-      const TOTAL_COUNTRIES = 251;
-
-      function releaseInstant(offsetHours) {
-        return Date.UTC(RELEASE_YEAR, RELEASE_MONTH, RELEASE_DAY, 0, 0, 0) - offsetHours * 3600 * 1000;
+      function pad(value) {
+        return String(value).padStart(2, "0");
       }
 
-      const countEl = document.getElementById("released-count");
-      const listEl = document.getElementById("timeline-list");
+      function renderCountdown() {
+        if (!countdownEl) return;
 
-      if (!countEl || !listEl) return;
-
-      function formatCountdown(ms) {
-        const seconds = Math.max(0, Math.floor(ms / 1000));
-        const days = Math.floor(seconds / (3600 * 24));
-        const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-        const mins = Math.floor((seconds % 3600) / 60);
-        const secs = seconds % 60;
-
-        const hh = String(hours).padStart(2, "0");
-        const mm = String(mins).padStart(2, "0");
-        const ss = String(secs).padStart(2, "0");
-
-        return days > 0
-          ? days + "d " + hh + ":" + mm + ":" + ss
-          : hh + ":" + mm + ":" + ss;
-      }
-
-      function formatSwissTime(timestamp) {
-        const date = new Date(timestamp);
-
-        return new Intl.DateTimeFormat("de-CH", {
-          timeZone: "Europe/Zurich",
-          day: "2-digit",
-          month: "2-digit",
-          hour: "2-digit",
-          minute: "2-digit"
-        }).format(date);
-      }
-
-      function formatOnlineSince(ms) {
-        const totalMinutes = Math.max(0, Math.floor(ms / 60000));
-        const days = Math.floor(totalMinutes / (60 * 24));
-        const hours = Math.floor((totalMinutes % (60 * 24)) / 60);
-        const minutes = totalMinutes % 60;
-
-        if (days > 0) {
-          return "seit " + days + "d " + hours + "h " + minutes + "min";
-        }
-
-        if (hours > 0) {
-          return "seit " + hours + "h " + minutes + "min";
-        }
-
-        return "seit " + minutes + "min";
-      }
-
-      function render() {
         const now = Date.now();
+        const diff = RELEASE_DATE - now;
 
-        let releasedTotal = 0;
+        if (diff <= 0) {
+          countdownEl.textContent = "out now";
 
-        for (const key in ZONE_WEIGHTS) {
-          if (releaseInstant(parseFloat(key)) <= now) {
-            releasedTotal += ZONE_WEIGHTS[key];
+          if (releaseNoteEl) {
+            releaseNoteEl.textContent = "„gespalten“ ist jetzt draussen.";
           }
+
+          if (mainCtaEl) {
+            mainCtaEl.textContent = "gespalten hören";
+            mainCtaEl.href = ALBUM_LINK;
+          }
+
+          return;
         }
 
-        releasedTotal = Math.min(releasedTotal, TOTAL_COUNTRIES);
-        countEl.textContent = String(releasedTotal).padStart(3, "0");
+        const totalSeconds = Math.floor(diff / 1000);
+        const days = Math.floor(totalSeconds / (3600 * 24));
+        const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
 
-        const rows = COUNTRIES.map(c => ({
-          ...c,
-          instant: releaseInstant(c.offset),
-          isLive: releaseInstant(c.offset) <= now
-        }));
+        countdownEl.textContent =
+          pad(days) + "d " + pad(hours) + ":" + pad(minutes) + ":" + pad(seconds);
 
-        const nextIndex = rows.findIndex(r => !r.isLive);
+        if (releaseNoteEl) {
+          releaseNoteEl.textContent = "Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit";
+        }
 
-        listEl.innerHTML = "";
-
-        rows.forEach((r, i) => {
-          const row = document.createElement("div");
-          let statusHtml;
-          let rowClass;
-
-          const swissTime = formatSwissTime(r.instant);
-
-          if (r.isLive) {
-            statusHtml =
-              '<span class="status-dot">🟢</span>' +
-              '<span class="country-code">' + r.code + '</span>' +
-              '<span class="country-name">' + r.name + '</span>' +
-              '<span class="release-time">' + swissTime + '</span>' +
-              '<span class="status-text">LIVE</span>' +
-              '<span class="online-since">' + formatOnlineSince(now - r.instant) + '</span>';
-
-            rowClass = "is-live";
-          } else if (i === nextIndex) {
-            statusHtml =
-              '<span class="status-dot">▶</span>' +
-              '<span class="country-code">' + r.code + '</span>' +
-              '<span class="country-name">' + r.name + '</span>' +
-              '<span class="release-time">' + swissTime + '</span>' +
-              '<span class="status-text">in ' + formatCountdown(r.instant - now) + '</span>' +
-              '<span class="online-since"></span>';
-
-            rowClass = "is-next";
-          } else {
-            statusHtml =
-              '<span class="status-dot">○</span>' +
-              '<span class="country-code">' + r.code + '</span>' +
-              '<span class="country-name">' + r.name + '</span>' +
-              '<span class="release-time">' + swissTime + '</span>' +
-              '<span class="status-text"></span>' +
-              '<span class="online-since"></span>';
-
-            rowClass = "is-upcoming";
-          }
-
-          row.className = "timeline-row " + rowClass;
-          row.innerHTML = statusHtml;
-          listEl.appendChild(row);
-        });
+        if (mainCtaEl) {
+          mainCtaEl.textContent = "album vormerken";
+          mainCtaEl.href = ALBUM_LINK;
+        }
       }
 
-      render();
-      setInterval(render, 1000);
+      renderCountdown();
+      setInterval(renderCountdown, 1000);
     })();
   </script>
 
