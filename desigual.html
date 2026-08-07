@@ -954,66 +954,66 @@
           <h2>tracklist</h2>
 
           <div class="tracklist">
-            <div class="track-row featured">
-              <span class="track-no">01</span>
-              <span class="track-title">desigual</span>
-              <span class="track-meta">released</span>
-            </div>
+  <div class="track-row featured">
+    <span class="track-no">01</span>
+    <span class="track-title">desigual</span>
+    <span class="track-meta">released</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">02</span>
-              <span class="track-title">fragment ii</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">02</span>
+    <span class="track-title">aergerlich</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">03</span>
-              <span class="track-title">fragment iii</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">03</span>
+    <span class="track-title">3</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">04</span>
-              <span class="track-title">fragment iv</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">04</span>
+    <span class="track-title">(fenster scherben)</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">05</span>
-              <span class="track-title">fragment v</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">05</span>
+    <span class="track-title">5r</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">06</span>
-              <span class="track-title">fragment vi</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">06</span>
+    <span class="track-title">6</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">07</span>
-              <span class="track-title">fragment vii</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">07</span>
+    <span class="track-title">7</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">08</span>
-              <span class="track-title">fragment viii</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">08</span>
+    <span class="track-title">8?</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">09</span>
-              <span class="track-title">fragment ix</span>
-              <span class="track-meta">locked</span>
-            </div>
+  <div class="track-row locked">
+    <span class="track-no">09</span>
+    <span class="track-title">wegwerfkamera</span>
+    <span class="track-meta">locked</span>
+  </div>
 
-            <div class="track-row locked">
-              <span class="track-no">10</span>
-              <span class="track-title">fragment x</span>
-              <span class="track-meta">locked</span>
-            </div>
-          </div>
+  <div class="track-row locked">
+    <span class="track-no">10</span>
+    <span class="track-title">2011</span>
+    <span class="track-meta">locked</span>
+  </div>
+</div>
         </section>
 
         <section aria-label="Über das Album" class="block">
@@ -1159,20 +1159,30 @@
         const now = Date.now();
         const diff = RELEASE_DATE - now;
 
-        if (diff <= 0) {
-          countdownEl.textContent = "out now";
+ if (diff <= 0) {
+  countdownEl.textContent = "out now";
 
-          if (releaseNoteEl) {
-            releaseNoteEl.textContent = "„gespalten“ ist jetzt draussen.";
-          }
+  if (releaseNoteEl) {
+    releaseNoteEl.textContent = "„gespalten“ ist jetzt draussen.";
+  }
 
-          if (mainCtaEl) {
-            mainCtaEl.textContent = "gespalten hören";
-            mainCtaEl.href = ALBUM_LINK;
-          }
+  if (mainCtaEl) {
+    mainCtaEl.textContent = "gespalten hören";
+    mainCtaEl.href = ALBUM_LINK;
+  }
 
-          return;
-        }
+  document.querySelectorAll(".track-row.locked").forEach(function (row) {
+    row.classList.remove("locked");
+    row.classList.add("featured");
+
+    const meta = row.querySelector(".track-meta");
+    if (meta) {
+      meta.textContent = "released";
+    }
+  });
+
+  return;
+}
 
         const totalSeconds = Math.floor(diff / 1000);
         const days = Math.floor(totalSeconds / (3600 * 24));
