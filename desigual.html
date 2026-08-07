@@ -343,15 +343,15 @@
       isolation: isolate;
     }
 
-    .album-cover {
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-      border-radius: inherit;
-      filter: contrast(1.04) saturate(0.97);
-      transform: scale(1.002);
-    }
+.album-video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  border-radius: inherit;
+  background: #000;
+  filter: contrast(1.04) saturate(0.97);
+}
 
     .cover-inner::before {
       content: "";
@@ -379,33 +379,7 @@
       mix-blend-mode: screen;
     }
 
-    .cover-caption {
-      position: absolute;
-      left: 1rem;
-      right: 1rem;
-      bottom: 1rem;
-      z-index: 5;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      padding: 0.85rem 1rem;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.42);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.15);
-      font-size: 0.78rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 850;
-      color: rgba(255,255,255,0.82);
-    }
 
-    .cover-caption span:nth-child(2) {
-      color: #ffffff;
-      opacity: 0.95;
-    }
 
     .listen-wrap {
       margin-top: 1.6rem;
@@ -857,21 +831,22 @@
 
           <p class="hero-sub">
             <strong>10 songs · 12 minutes</strong><br>
-            ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
+            ein kurzes spaltungs - album 
           </p>
 
           <div class="cover-wrap" aria-label="Albumcover gespalten">
             <div class="cover-inner">
-              <img
-                src="assets/gespalten/gespalten.jpg"
-                alt="Cover – gespalten von b3nn3t"
-                class="album-cover">
-
-              <div class="cover-caption" aria-hidden="true">
-                <span>white horse</span>
-                <span>ice breaks</span>
-              </div>
-            </div>
+  <video
+    id="release-video"
+    class="album-video"
+    controls
+    preload="metadata"
+    playsinline
+    poster="/assets/gespalten/gespalten.jpg">
+    <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+    Dein Browser unterstützt dieses Videoformat nicht.
+  </video>
+</div>
           </div>
 
           <div class="listen-wrap">
