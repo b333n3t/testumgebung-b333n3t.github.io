@@ -57,14 +57,14 @@
       --mx: 0;
       --my: 0;
 
-      --gap: calc(var(--split) * 56px);
+      --gap: calc(var(--split) * 64px);
       --lift-left: calc(var(--split) * -22px);
-      --lift-right: calc(var(--split) * 20px);
-      --tilt-left: calc(var(--split) * -0.55deg);
-      --tilt-right: calc(var(--split) * 0.5deg);
+      --lift-right: calc(var(--split) * 18px);
+      --tilt-left: calc(var(--split) * -0.45deg);
+      --tilt-right: calc(var(--split) * 0.4deg);
 
-      --mouse-x: calc(var(--mx) * 7px);
-      --mouse-y: calc(var(--my) * 6px);
+      --mouse-x: calc(var(--mx) * 6px);
+      --mouse-y: calc(var(--my) * 5px);
     }
 
     html,
@@ -110,12 +110,12 @@
 
     .bg-half {
       position: absolute;
-      inset: -9%;
+      inset: -8%;
       background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
-      filter: blur(42px) brightness(0.44) saturate(0.88);
+      filter: blur(38px) brightness(0.44) saturate(0.9);
       opacity: 0;
       will-change: transform, opacity;
-      transition: opacity 0.35s ease;
+      transition: opacity 0.25s ease;
     }
 
     .is-cracked .bg-half {
@@ -127,23 +127,23 @@
         0 0,
         50% 0,
         48% 8%,
-        53% 17%,
-        49% 28%,
-        55% 41%,
-        51% 53%,
-        59% 67%,
-        55% 82%,
-        64% 100%,
+        52% 16%,
+        49% 26%,
+        55% 39%,
+        52% 51%,
+        60% 64%,
+        56% 78%,
+        68% 100%,
         0 100%
       );
       transform:
         translate3d(
-          calc(var(--gap) * -0.55 + var(--mouse-x) * -0.25),
-          calc(var(--lift-left) * 0.5 + var(--mouse-y) * -0.16),
+          calc(var(--gap) * -0.48 + var(--mouse-x) * -0.22),
+          calc(var(--lift-left) * 0.45 + var(--mouse-y) * -0.12),
           0
         )
-        rotate(calc(var(--tilt-left) * 0.5))
-        scale(1.14);
+        rotate(calc(var(--tilt-left) * 0.45))
+        scale(1.12);
     }
 
     .bg-half.right {
@@ -151,23 +151,23 @@
         50% 0,
         100% 0,
         100% 100%,
-        64% 100%,
-        55% 82%,
-        59% 67%,
-        51% 53%,
-        55% 41%,
-        49% 28%,
-        53% 17%,
+        68% 100%,
+        56% 78%,
+        60% 64%,
+        52% 51%,
+        55% 39%,
+        49% 26%,
+        52% 16%,
         48% 8%
       );
       transform:
         translate3d(
-          calc(var(--gap) * 0.55 + var(--mouse-x) * 0.25),
-          calc(var(--lift-right) * 0.5 + var(--mouse-y) * 0.16),
+          calc(var(--gap) * 0.48 + var(--mouse-x) * 0.22),
+          calc(var(--lift-right) * 0.45 + var(--mouse-y) * 0.12),
           0
         )
-        rotate(calc(var(--tilt-right) * 0.5))
-        scale(1.14);
+        rotate(calc(var(--tilt-right) * 0.45))
+        scale(1.12);
     }
 
     .bg-cold {
@@ -176,8 +176,8 @@
       z-index: -7;
       pointer-events: none;
       background:
-        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(44% + var(--mouse-y)), rgba(255,255,255,0.11), transparent 18%),
-        linear-gradient(90deg, rgba(0,0,0,0.50), transparent 46%, rgba(255,255,255,0.035) 50%, transparent 54%, rgba(0,0,0,0.58));
+        radial-gradient(circle at calc(50% + var(--mouse-x)) calc(44% + var(--mouse-y)), rgba(255,255,255,0.10), transparent 18%),
+        linear-gradient(90deg, rgba(0,0,0,0.50), transparent 46%, rgba(255,255,255,0.025) 50%, transparent 54%, rgba(0,0,0,0.58));
       opacity: 0.9;
     }
 
@@ -201,12 +201,17 @@
 
     .main-source {
       opacity: 1;
-      transition: opacity 0.22s ease;
+      transition: opacity 0.16s ease;
     }
 
-    .is-cracked .main-source {
+    .is-cracked .main-source .split-me {
       opacity: 0;
       pointer-events: none;
+    }
+
+    .is-cracked .main-source .no-split {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .ice-layer {
@@ -217,7 +222,7 @@
       pointer-events: none;
       will-change: transform, opacity;
       transform-style: preserve-3d;
-      transition: opacity 0.22s ease;
+      transition: opacity 0.16s ease;
     }
 
     .is-cracked .ice-layer {
@@ -225,31 +230,34 @@
       pointer-events: auto;
     }
 
+    .ice-layer .no-split {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
     .ice-layer.left {
       clip-path: polygon(
         -8% -4%,
         50% -4%,
         48% 8%,
-        53% 17%,
-        49% 28%,
-        55% 41%,
-        51% 53%,
-        59% 67%,
-        55% 82%,
-        64% 104%,
+        52% 16%,
+        49% 26%,
+        55% 39%,
+        52% 51%,
+        60% 64%,
+        56% 78%,
+        68% 104%,
         -8% 104%
       );
       transform:
         translate3d(
-          calc(var(--gap) * -1 + var(--mouse-x) * -0.42),
-          calc(var(--lift-left) + var(--mouse-y) * -0.22),
+          calc(var(--gap) * -1 + var(--mouse-x) * -0.32),
+          calc(var(--lift-left) + var(--mouse-y) * -0.16),
           0
         )
         rotate(var(--tilt-left));
-      transform-origin: 36% 42%;
-      filter:
-        drop-shadow(9px 14px 24px rgba(0,0,0,0.23))
-        drop-shadow(0 0 10px rgba(255,255,255,0.02));
+      transform-origin: 34% 42%;
+      filter: drop-shadow(8px 12px 20px rgba(0,0,0,0.22));
     }
 
     .ice-layer.right {
@@ -257,32 +265,30 @@
         50% -4%,
         108% -4%,
         108% 104%,
-        64% 104%,
-        55% 82%,
-        59% 67%,
-        51% 53%,
-        55% 41%,
-        49% 28%,
-        53% 17%,
+        68% 104%,
+        56% 78%,
+        60% 64%,
+        52% 51%,
+        55% 39%,
+        49% 26%,
+        52% 16%,
         48% 8%
       );
       transform:
         translate3d(
-          calc(var(--gap) * 1 + var(--mouse-x) * 0.42),
-          calc(var(--lift-right) + var(--mouse-y) * 0.22),
+          calc(var(--gap) * 1 + var(--mouse-x) * 0.32),
+          calc(var(--lift-right) + var(--mouse-y) * 0.16),
           0
         )
         rotate(var(--tilt-right));
-      transform-origin: 64% 44%;
-      filter:
-        drop-shadow(-9px 14px 24px rgba(0,0,0,0.25))
-        drop-shadow(0 0 10px rgba(255,255,255,0.02));
+      transform-origin: 66% 44%;
+      filter: drop-shadow(-8px 12px 20px rgba(0,0,0,0.24));
     }
 
     main.main {
       display: flex;
       flex-direction: column;
-      gap: clamp(1.65rem, 2.3vw, 2.35rem);
+      gap: clamp(1.55rem, 2.2vw, 2.25rem);
       position: relative;
     }
 
@@ -343,7 +349,7 @@
       width: 100%;
       transform:
         translateY(calc(var(--split) * 4px))
-        translateX(calc(var(--mx) * 1.5px));
+        translateX(calc(var(--mx) * 1.2px));
     }
 
     .cover-inner {
@@ -425,67 +431,87 @@
       margin-top: 0.75rem;
     }
 
-    .countdown-panel,
-    .fragment-panel {
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 30px;
-      padding: clamp(1.15rem, 2.6vw, 1.8rem);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025)),
-        radial-gradient(circle at 50% 10%, rgba(255,255,255,0.08), transparent 36%);
-      box-shadow:
-        0 22px 70px rgba(0,0,0,0.31),
-        inset 0 0 0 1px rgba(255,255,255,0.04);
-      overflow: hidden;
-      position: relative;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+    .countdown-plain {
+      margin-top: -0.25rem;
     }
 
     .countdown-label {
-      margin: 0 0 0.75rem;
-      font-size: 0.78rem;
-      letter-spacing: 0.15em;
+      margin: 0 0 0.45rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
       font-weight: 850;
       color: var(--text-muted);
-      position: relative;
-      z-index: 2;
     }
 
     .countdown-time {
       margin: 0;
-      font-size: clamp(2rem, 7vw, 5rem);
+      font-size: clamp(2rem, 6vw, 4.6rem);
       line-height: 0.95;
       letter-spacing: -0.065em;
       font-weight: 900;
       font-variant-numeric: tabular-nums;
-      position: relative;
-      z-index: 2;
     }
 
     .countdown-note {
-      margin-top: 0.85rem;
+      margin-top: 0.7rem;
       color: var(--text-muted);
       letter-spacing: 0.04em;
       line-height: 1.55;
+    }
+
+    .fragment-zone {
       position: relative;
-      z-index: 2;
+      min-height: 440px;
+      margin-top: 0.4rem;
+      border-radius: 30px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 48% 42%, rgba(255,255,255,0.12), transparent 16%),
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.055), transparent 42%);
+    }
+
+    .fragment-zone::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-radial-gradient(
+          circle at 50% 45%,
+          rgba(255,255,255,0.16) 0 1px,
+          transparent 1px 42px
+        );
+      opacity: 0.22;
+      pointer-events: none;
+    }
+
+    .fragment-zone::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(33deg, transparent 0 44%, rgba(255,255,255,0.35) 44.2%, transparent 44.6%),
+        linear-gradient(118deg, transparent 0 48%, rgba(255,255,255,0.24) 48.2%, transparent 48.6%),
+        linear-gradient(78deg, transparent 0 53%, rgba(255,255,255,0.18) 53.2%, transparent 53.6%),
+        linear-gradient(147deg, transparent 0 42%, rgba(255,255,255,0.16) 42.2%, transparent 42.6%);
+      opacity: 0.55;
+      pointer-events: none;
+      mix-blend-mode: screen;
     }
 
     .fragment-head {
+      position: relative;
+      z-index: 3;
       display: flex;
       justify-content: space-between;
       gap: 1rem;
       align-items: baseline;
       margin-bottom: 1rem;
-      position: relative;
-      z-index: 2;
     }
 
     .fragment-head strong {
-      font-size: clamp(1.25rem, 3vw, 2.1rem);
-      letter-spacing: -0.045em;
+      font-size: clamp(1.35rem, 3.5vw, 2.35rem);
+      letter-spacing: -0.05em;
       line-height: 1;
     }
 
@@ -498,72 +524,94 @@
       white-space: nowrap;
     }
 
-    .track-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 0.6rem;
+    .shards {
       position: relative;
       z-index: 2;
+      height: 390px;
     }
 
-    .track-card {
-      min-height: 86px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0.032));
-      padding: 0.72rem;
-      box-sizing: border-box;
+    .shard {
+      position: absolute;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      padding: 0.78rem;
+      box-sizing: border-box;
+      border: 1px solid rgba(255,255,255,0.18);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.035)),
+        radial-gradient(circle at 45% 25%, rgba(255,255,255,0.18), transparent 42%);
+      box-shadow:
+        inset 0 0 24px rgba(255,255,255,0.035),
+        0 12px 32px rgba(0,0,0,0.18);
       overflow: hidden;
-      position: relative;
     }
 
-    .track-number,
-    .track-title,
-    .track-status {
+    .shard::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(118deg, transparent 0 46%, rgba(255,255,255,0.22) 46.4%, transparent 47%),
+        linear-gradient(35deg, transparent 0 58%, rgba(255,255,255,0.16) 58.4%, transparent 59%);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .shard-no,
+    .shard-title,
+    .shard-status {
       position: relative;
       z-index: 2;
     }
 
-    .track-number {
-      color: var(--text-soft);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
+    .shard-no {
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
+      color: var(--text-soft);
       font-weight: 850;
     }
 
-    .track-title {
-      margin-top: 0.48rem;
-      font-size: clamp(0.9rem, 1.4vw, 1rem);
-      line-height: 1.12;
-      letter-spacing: -0.015em;
-      font-weight: 820;
-      color: rgba(255,255,255,0.92);
+    .shard-title {
+      font-size: clamp(0.88rem, 1.35vw, 1.02rem);
+      line-height: 1.1;
+      font-weight: 850;
+      color: rgba(255,255,255,0.94);
       word-break: break-word;
     }
 
-    .track-status {
-      margin-top: 0.62rem;
-      font-size: 0.65rem;
-      letter-spacing: 0.13em;
+    .shard-status {
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      font-weight: 880;
       color: var(--text-muted);
+      font-weight: 900;
     }
 
-    .track-card.released .track-status {
+    .shard.released .shard-status {
       color: var(--release-green);
     }
 
-    .track-card.released {
-      border-color: rgba(61,220,132,0.30);
+    .shard.released {
+      border-color: rgba(61,220,132,0.34);
       background:
-        linear-gradient(180deg, rgba(61,220,132,0.14), rgba(255,255,255,0.032));
+        linear-gradient(135deg, rgba(61,220,132,0.22), rgba(255,255,255,0.035)),
+        radial-gradient(circle at 45% 25%, rgba(255,255,255,0.18), transparent 42%);
     }
+
+    .s1  { left: 3%;  top: 7%;  width: 21%; height: 31%; clip-path: polygon(0 0, 88% 8%, 100% 74%, 28% 100%, 0 52%); }
+    .s2  { left: 25%; top: 5%;  width: 17%; height: 34%; clip-path: polygon(12% 0, 100% 0, 84% 100%, 0 72%, 20% 38%); }
+    .s3  { left: 43%; top: 3%;  width: 23%; height: 32%; clip-path: polygon(0 14%, 72% 0, 100% 46%, 78% 100%, 18% 86%); }
+    .s4  { left: 67%; top: 8%;  width: 25%; height: 33%; clip-path: polygon(0 0, 100% 14%, 82% 100%, 18% 86%, 8% 44%); }
+
+    .s5  { left: 8%;  top: 42%; width: 20%; height: 31%; clip-path: polygon(12% 0, 100% 24%, 78% 100%, 0 86%, 18% 42%); }
+    .s6  { left: 30%; top: 39%; width: 17%; height: 36%; clip-path: polygon(0 18%, 66% 0, 100% 55%, 70% 100%, 10% 82%); }
+    .s7  { left: 49%; top: 38%; width: 20%; height: 35%; clip-path: polygon(10% 0, 100% 18%, 84% 92%, 30% 100%, 0 44%); }
+    .s8  { left: 70%; top: 45%; width: 23%; height: 31%; clip-path: polygon(0 8%, 86% 0, 100% 70%, 40% 100%, 10% 58%); }
+
+    .s9  { left: 20%; top: 76%; width: 28%; height: 22%; clip-path: polygon(0 18%, 82% 0, 100% 88%, 24% 100%); }
+    .s10 { left: 51%; top: 76%; width: 30%; height: 22%; clip-path: polygon(12% 0, 100% 20%, 82% 100%, 0 78%); }
 
     .quote-block {
       border-left: 2px solid rgba(255,255,255,0.55);
@@ -574,8 +622,13 @@
       letter-spacing: 0.04em;
     }
 
-    .social-section {
-      margin: 0 0 0.8rem;
+    .footer-combined {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.4rem;
+      padding-top: 0.4rem;
     }
 
     .social-icons {
@@ -612,34 +665,28 @@
       padding-left: 0.25rem;
     }
 
-    @media (max-width: 900px) {
-      .track-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
     @media (max-width: 768px) {
       :root {
-        --gap: calc(var(--split) * 66px);
+        --gap: calc(var(--split) * 84px);
         --lift-left: calc(var(--split) * -16px);
         --lift-right: calc(var(--split) * 14px);
-        --tilt-left: calc(var(--split) * -0.45deg);
-        --tilt-right: calc(var(--split) * 0.42deg);
-        --mouse-x: calc(var(--mx) * 4px);
-        --mouse-y: calc(var(--my) * 4px);
+        --tilt-left: calc(var(--split) * -0.38deg);
+        --tilt-right: calc(var(--split) * 0.34deg);
+        --mouse-x: calc(var(--mx) * 3px);
+        --mouse-y: calc(var(--my) * 3px);
       }
 
       .page-wrap {
-        padding: 2.15rem 1.05rem 3rem;
+        padding: 2.1rem 1.05rem 3rem;
       }
 
       main.main {
-        gap: 1.45rem;
+        gap: 1.35rem;
       }
 
       .brand-row {
         justify-content: flex-start;
-        margin-bottom: 1.15rem;
+        margin-bottom: 1.05rem;
       }
 
       .hero {
@@ -671,19 +718,13 @@
         font-size: 0.9rem;
       }
 
-      .countdown-panel,
-      .fragment-panel {
-        border-radius: 22px;
-        padding: 1rem;
-      }
-
       .countdown-label {
-        font-size: 0.68rem;
-        margin-bottom: 0.55rem;
+        font-size: 0.66rem;
+        margin-bottom: 0.4rem;
       }
 
       .countdown-time {
-        font-size: clamp(2rem, 11vw, 3.35rem);
+        font-size: clamp(2rem, 11vw, 3.25rem);
       }
 
       .countdown-note {
@@ -694,7 +735,7 @@
       .fragment-head {
         flex-direction: column;
         gap: 0.2rem;
-        margin-bottom: 0.7rem;
+        margin-bottom: 0.65rem;
       }
 
       .fragment-head strong {
@@ -706,35 +747,52 @@
         font-size: 0.66rem;
       }
 
-      .track-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.45rem;
+      .fragment-zone {
+        min-height: 520px;
+        border-radius: 22px;
       }
 
-      .track-card {
-        min-height: 66px;
-        border-radius: 14px;
+      .shards {
+        height: 470px;
+      }
+
+      .shard {
         padding: 0.55rem;
       }
 
-      .track-number {
-        font-size: 0.58rem;
+      .shard-title {
+        font-size: 0.78rem;
       }
 
-      .track-title {
-        margin-top: 0.28rem;
-        font-size: 0.82rem;
-        line-height: 1.08;
-      }
-
-      .track-status {
-        margin-top: 0.35rem;
+      .shard-no {
         font-size: 0.54rem;
       }
+
+      .shard-status {
+        font-size: 0.5rem;
+      }
+
+      .s1  { left: 0%;  top: 5%;  width: 45%; height: 18%; }
+      .s2  { left: 48%; top: 3%;  width: 46%; height: 19%; }
+      .s3  { left: 7%;  top: 24%; width: 39%; height: 17%; }
+      .s4  { left: 50%; top: 23%; width: 45%; height: 18%; }
+
+      .s5  { left: 0%;  top: 43%; width: 44%; height: 17%; }
+      .s6  { left: 47%; top: 42%; width: 46%; height: 18%; }
+      .s7  { left: 5%;  top: 61%; width: 40%; height: 17%; }
+      .s8  { left: 50%; top: 61%; width: 44%; height: 17%; }
+
+      .s9  { left: 0%;  top: 80%; width: 46%; height: 17%; }
+      .s10 { left: 49%; top: 80%; width: 47%; height: 17%; }
 
       section.block p {
         font-size: 0.92rem;
         line-height: 1.58;
+      }
+
+      .ice-layer.left,
+      .ice-layer.right {
+        filter: none;
       }
     }
 
@@ -774,149 +832,148 @@
 
       <main class="main main-source" aria-label="gespalten Albumseite">
 
-        <div class="brand-row">
-          <a class="brand-link" href="index.html">b3nn3t</a>
-        </div>
+        <div class="split-me">
+          <div class="brand-row">
+            <a class="brand-link" href="index.html">b3nn3t</a>
+          </div>
 
-        <section class="hero" aria-label="gespalten Album">
-          <p class="eyebrow">new album</p>
-          <h1>gespalten</h1>
+          <section class="hero" aria-label="gespalten Album">
+            <p class="eyebrow">new album</p>
+            <h1>gespalten</h1>
 
-          <p class="hero-sub">
-            <strong>10 songs · 12 minutes</strong><br>
-            ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
-          </p>
+            <p class="hero-sub">
+              <strong>10 songs · 12 minutes</strong><br>
+              ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
+            </p>
 
-          <div class="cover-wrap" aria-label="Albumvideo gespalten">
-            <div class="cover-inner">
-              <video
-                class="album-video"
-                controls
-                preload="metadata"
-                playsinline
-                poster="/assets/gespalten/gespalten.jpg">
-                <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
-                Dein Browser unterstützt dieses Videoformat nicht.
-              </video>
+            <div class="cover-wrap" aria-label="Albumvideo gespalten">
+              <div class="cover-inner">
+                <video
+                  class="album-video"
+                  controls
+                  preload="metadata"
+                  playsinline
+                  poster="/assets/gespalten/gespalten.jpg">
+                  <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                  Dein Browser unterstützt dieses Videoformat nicht.
+                </video>
+              </div>
             </div>
-          </div>
 
-          <div class="listen-wrap">
-            <a
-              class="listen-btn main-cta"
-              href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-              target="_blank"
-              rel="noopener">
-              album vormerken
-            </a>
-          </div>
-        </section>
+            <div class="listen-wrap">
+              <a
+                class="listen-btn main-cta"
+                href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                target="_blank"
+                rel="noopener">
+                album vormerken
+              </a>
+            </div>
+          </section>
 
-        <section aria-label="Album Countdown" class="block">
-          <div class="countdown-panel">
+          <section aria-label="Album Countdown" class="block countdown-plain">
             <p class="countdown-label">album unlocks in</p>
             <p class="countdown-time album-countdown">--d --:--:--</p>
-            <div class="countdown-note release-note">
+            <p class="countdown-note release-note">
               Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
-            </div>
-          </div>
-        </section>
+            </p>
+          </section>
 
-        <section aria-label="Album Fragmente" class="block">
-          <div class="fragment-panel">
+          <section aria-label="Album Fragmente" class="block">
             <div class="fragment-head">
               <strong>10 fragments / 12 minutes</strong>
               <span>short album</span>
             </div>
 
-            <div class="track-grid" aria-label="Songs auf gespalten">
-              <div class="track-card released">
-                <div class="track-number">01</div>
-                <div class="track-title">desigual</div>
-                <div class="track-status">released</div>
-              </div>
+            <div class="fragment-zone">
+              <div class="shards" aria-label="Songs auf gespalten">
+                <div class="shard released s1">
+                  <div class="shard-no">01</div>
+                  <div class="shard-title">desigual</div>
+                  <div class="shard-status">released</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">02</div>
-                <div class="track-title">aergerlich</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s2">
+                  <div class="shard-no">02</div>
+                  <div class="shard-title">aergerlich</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">03</div>
-                <div class="track-title">3</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s3">
+                  <div class="shard-no">03</div>
+                  <div class="shard-title">3</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">04</div>
-                <div class="track-title">(fenster scherben)</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s4">
+                  <div class="shard-no">04</div>
+                  <div class="shard-title">(fenster scherben)</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">05</div>
-                <div class="track-title">5r</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s5">
+                  <div class="shard-no">05</div>
+                  <div class="shard-title">5r</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">06</div>
-                <div class="track-title">6</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s6">
+                  <div class="shard-no">06</div>
+                  <div class="shard-title">6</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">07</div>
-                <div class="track-title">7</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s7">
+                  <div class="shard-no">07</div>
+                  <div class="shard-title">7</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">08</div>
-                <div class="track-title">8?</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s8">
+                  <div class="shard-no">08</div>
+                  <div class="shard-title">8?</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">09</div>
-                <div class="track-title">wegwerfkamera</div>
-                <div class="track-status">locked</div>
-              </div>
+                <div class="shard locked s9">
+                  <div class="shard-no">09</div>
+                  <div class="shard-title">wegwerfkamera</div>
+                  <div class="shard-status">locked</div>
+                </div>
 
-              <div class="track-card locked">
-                <div class="track-number">10</div>
-                <div class="track-title">2011</div>
-                <div class="track-status">locked</div>
+                <div class="shard locked s10">
+                  <div class="shard-no">10</div>
+                  <div class="shard-title">2011</div>
+                  <div class="shard-status">locked</div>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section aria-label="Über das Album" class="block">
-          <h2>über das album</h2>
+          <section aria-label="Über das Album" class="block">
+            <h2>über das album</h2>
 
-          <p>
-            „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
-            melancholischem bedroom-pop und deutschsprachigen skizzen.
-          </p>
+            <p>
+              „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
+              melancholischem bedroom-pop und deutschsprachigen skizzen.
+            </p>
 
-          <p>
-            manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
-            kurz, direkt, unfertig im besten sinn.
-          </p>
+            <p>
+              manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
+              kurz, direkt, unfertig im besten sinn.
+            </p>
 
-          <div class="quote-block">
-            10 songs. 12 minutes. ein album wie eis, das bricht.
-          </div>
-        </section>
+            <div class="quote-block">
+              10 songs. 12 minutes. ein album wie eis, das bricht.
+            </div>
+          </section>
+        </div>
 
-        <section aria-label="Streaming" class="block">
-          <h2>kuck hier</h2>
+        <div class="no-split footer-combined">
+          <section aria-label="Streaming" class="block">
+            <h2>kuck hier</h2>
 
-          <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
-
               <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
                  class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
                 <picture>
@@ -956,15 +1013,14 @@
                   <img class="social-icon-img" src="assets/release/soundcloud_128.png" alt="SoundCloud">
                 </picture>
               </a>
-
             </div>
-          </div>
-        </section>
+          </section>
 
-        <section aria-label="Mehr von b3nn3t" class="block">
-          <p>mehr auf meiner webseite :p</p>
-          <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
-        </section>
+          <section aria-label="Mehr von b3nn3t" class="block">
+            <p>mehr auf meiner webseite :p</p>
+            <a class="brand-link more-link" href="https://www.b3nn3t.com/index.html">b3nn3t.com</a>
+          </section>
+        </div>
 
       </main>
     </div>
@@ -995,7 +1051,7 @@
 
       setTimeout(function () {
         readyForMouseActivation = true;
-      }, 700);
+      }, 650);
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
@@ -1061,7 +1117,7 @@
         }
 
         scrollSplit = activated
-          ? 1 - Math.pow(1 - raw, 2.15)
+          ? 1 - Math.pow(1 - raw, 1.85)
           : 0;
 
         applySplit();
@@ -1076,8 +1132,8 @@
       }
 
       function animateMouse() {
-        mouseX += (mouseTargetX - mouseX) * 0.12;
-        mouseY += (mouseTargetY - mouseY) * 0.12;
+        mouseX += (mouseTargetX - mouseX) * 0.16;
+        mouseY += (mouseTargetY - mouseY) * 0.16;
 
         root.style.setProperty("--mx", mouseX.toFixed(4));
         root.style.setProperty("--my", mouseY.toFixed(4));
@@ -1102,7 +1158,7 @@
         mouseTargetY = clamp(y, -1, 1);
 
         const distance = Math.sqrt(mouseTargetX * mouseTargetX + mouseTargetY * mouseTargetY);
-        mouseSplit = activated ? clamp(0.07 + distance * 0.11, 0.07, 0.2) : 0;
+        mouseSplit = activated ? clamp(0.08 + distance * 0.12, 0.08, 0.22) : 0;
 
         if (!mouseRaf) {
           mouseRaf = requestAnimationFrame(animateMouse);
@@ -1119,7 +1175,7 @@
         getVideos().forEach(function (video) {
           if (video === sourceVideo) return;
 
-          if (Math.abs(video.currentTime - sourceVideo.currentTime) > 0.35) {
+          if (Math.abs(video.currentTime - sourceVideo.currentTime) > 0.22) {
             try {
               video.currentTime = sourceVideo.currentTime;
             } catch (e) {}
@@ -1234,11 +1290,11 @@
         });
 
         if (diff <= 0) {
-          document.querySelectorAll(".track-card.locked").forEach(function (card) {
+          document.querySelectorAll(".shard.locked").forEach(function (card) {
             card.classList.remove("locked");
             card.classList.add("released");
 
-            const status = card.querySelector(".track-status");
+            const status = card.querySelector(".shard-status");
             if (status) {
               status.textContent = "released";
             }
