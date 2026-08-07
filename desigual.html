@@ -53,11 +53,11 @@
       --page-max-width: 960px;
       --line: rgba(255,255,255,0.14);
       --panel: rgba(255,255,255,0.055);
-      --panel-strong: rgba(255,255,255,0.095);
-      --accent: #ffffff;
-      --dark: #121211;
-      --light: #f4f1e8;
       --release-green: #3ddc84;
+      --split: 0;
+      --split-px: calc(var(--split) * 26px);
+      --split-small: calc(var(--split) * 10px);
+      --rift-opacity: calc(0.22 + var(--split) * 0.78);
     }
 
     html,
@@ -69,16 +69,7 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       color: var(--text-main);
       background: #151514;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: url("assets/release/gespalten/gespalten.webp") center / cover no-repeat;
-      filter: blur(38px) brightness(0.48) saturate(0.92);
-      transform: scale(1.14);
-      z-index: -3;
+      scroll-behavior: smooth;
     }
 
     body::after {
@@ -86,25 +77,113 @@
       position: fixed;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(0,0,0,0.48), rgba(255,255,255,0.035) 50%, rgba(0,0,0,0.58)),
-        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.13), transparent 28%),
-        linear-gradient(rgba(12,12,11,0.36), rgba(12,12,11,0.92));
-      z-index: -2;
+        radial-gradient(circle at 50% 18%, rgba(255,255,255,0.14), transparent 28%),
+        linear-gradient(rgba(12,12,11,0.38), rgba(12,12,11,0.94));
+      z-index: -5;
+      pointer-events: none;
     }
 
     .split-bg {
       position: fixed;
       inset: 0;
+      z-index: -4;
       pointer-events: none;
-      z-index: -1;
-      opacity: 0.55;
+      overflow: hidden;
+      background: #151514;
+    }
+
+    .split-half {
+      position: absolute;
+      inset: -8%;
+      background: url("assets/release/gespalten/gespalten.webp") center / cover no-repeat;
+      filter: blur(38px) brightness(0.46) saturate(0.95);
+      transform: scale(1.12);
+      opacity: 0.94;
+      will-change: transform, clip-path;
+    }
+
+    .split-half.left {
+      clip-path: inset(0 50% 0 0);
+      transform: translateX(calc(var(--split-px) * -1)) scale(1.13);
+    }
+
+    .split-half.right {
+      clip-path: inset(0 0 0 50%);
+      transform: translateX(var(--split-px)) scale(1.13);
+    }
+
+    .split-shadow {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
       background:
         linear-gradient(90deg,
-          rgba(0,0,0,0.28) 0%,
-          rgba(0,0,0,0.20) 49.7%,
-          rgba(255,255,255,0.22) 50%,
-          rgba(255,255,255,0.025) 50.3%,
-          rgba(0,0,0,0.15) 100%);
+          rgba(0,0,0,0.42) 0%,
+          rgba(0,0,0,0.24) 46%,
+          rgba(255,255,255,0.18) 49.8%,
+          rgba(255,255,255,0.36) 50%,
+          rgba(255,255,255,0.06) 50.2%,
+          rgba(0,0,0,0.28) 54%,
+          rgba(0,0,0,0.46) 100%);
+      opacity: calc(0.28 + var(--split) * 0.42);
+      mix-blend-mode: screen;
+    }
+
+    .page-rift {
+      position: fixed;
+      top: -10vh;
+      bottom: -10vh;
+      left: 50%;
+      width: calc(2px + var(--split) * 6px);
+      transform: translateX(-50%) rotate(calc(-0.6deg + var(--split) * 1.2deg));
+      z-index: 2;
+      pointer-events: none;
+      opacity: var(--rift-opacity);
+      background:
+        linear-gradient(
+          to bottom,
+          transparent 0%,
+          rgba(255,255,255,0.15) 10%,
+          rgba(255,255,255,0.78) 22%,
+          rgba(255,255,255,0.18) 31%,
+          rgba(255,255,255,0.86) 44%,
+          rgba(255,255,255,0.22) 56%,
+          rgba(255,255,255,0.9) 72%,
+          rgba(255,255,255,0.18) 88%,
+          transparent 100%
+        );
+      box-shadow:
+        0 0 calc(16px + var(--split) * 38px) rgba(255,255,255,0.48),
+        0 0 calc(34px + var(--split) * 54px) rgba(255,255,255,0.16);
+      mix-blend-mode: screen;
+    }
+
+    .page-rift::before,
+    .page-rift::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 16px;
+      opacity: calc(0.12 + var(--split) * 0.36);
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          transparent 0 18px,
+          rgba(255,255,255,0.32) 18px 20px,
+          transparent 20px 43px
+        );
+    }
+
+    .page-rift::before {
+      right: 100%;
+      transform: skewY(-18deg);
+    }
+
+    .page-rift::after {
+      left: 100%;
+      transform: skewY(18deg);
     }
 
     .page-wrap {
@@ -186,6 +265,8 @@
       margin: 0 auto clamp(1.35rem, 3vw, 2.1rem);
       max-width: 680px;
       width: 100%;
+      transform: translateY(calc(var(--split) * 8px));
+      transition: transform 0.08s linear;
     }
 
     .cover-inner {
@@ -207,7 +288,31 @@
       object-fit: cover;
       border-radius: inherit;
       filter: contrast(1.04) saturate(0.98);
-      transform: scale(1.001);
+      transform: scale(1.002);
+    }
+
+    .cover-split-left,
+    .cover-split-right {
+      position: absolute;
+      inset: 0;
+      background: url("assets/release/gespalten/gespalten.webp") center / cover no-repeat;
+      z-index: 2;
+      pointer-events: none;
+      will-change: transform, clip-path;
+    }
+
+    .cover-split-left {
+      clip-path: inset(0 50% 0 0);
+      transform: translateX(calc(var(--split-small) * -1));
+    }
+
+    .cover-split-right {
+      clip-path: inset(0 0 0 50%);
+      transform: translateX(var(--split-small));
+    }
+
+    .album-cover {
+      opacity: 0;
     }
 
     .cover-inner::before {
@@ -216,14 +321,15 @@
       inset: 0;
       background:
         linear-gradient(90deg,
-          rgba(0,0,0,0.28) 0%,
-          rgba(0,0,0,0.12) 49.6%,
-          rgba(255,255,255,0.26) 50%,
-          rgba(255,255,255,0.08) 50.4%,
-          rgba(255,255,255,0.02) 100%);
+          rgba(0,0,0,0.22) 0%,
+          rgba(0,0,0,0.08) 48.5%,
+          rgba(255,255,255,0.35) 50%,
+          rgba(255,255,255,0.06) 51.5%,
+          rgba(0,0,0,0.10) 100%);
       mix-blend-mode: overlay;
-      z-index: 2;
+      z-index: 3;
       pointer-events: none;
+      opacity: calc(0.45 + var(--split) * 0.45);
     }
 
     .cover-inner::after {
@@ -232,30 +338,31 @@
       top: -8%;
       bottom: -8%;
       left: 50%;
-      width: 2px;
-      transform: translateX(-50%) rotate(1.5deg);
+      width: calc(2px + var(--split) * 5px);
+      transform: translateX(-50%) rotate(calc(-1.2deg + var(--split) * 2.4deg));
       background:
         linear-gradient(
           to bottom,
           transparent,
-          rgba(255,255,255,0.25),
+          rgba(255,255,255,0.18),
           rgba(255,255,255,0.95),
-          rgba(255,255,255,0.22),
+          rgba(255,255,255,0.24),
           transparent
         );
       box-shadow:
-        0 0 18px rgba(255,255,255,0.55),
-        0 0 44px rgba(255,255,255,0.22);
-      z-index: 3;
+        0 0 calc(18px + var(--split) * 34px) rgba(255,255,255,0.55),
+        0 0 calc(44px + var(--split) * 48px) rgba(255,255,255,0.22);
+      z-index: 4;
       pointer-events: none;
+      opacity: var(--rift-opacity);
     }
 
-    .split-caption {
+    .cover-caption {
       position: absolute;
       left: 1rem;
       right: 1rem;
       bottom: 1rem;
-      z-index: 4;
+      z-index: 5;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -273,7 +380,7 @@
       color: rgba(255,255,255,0.82);
     }
 
-    .split-caption span:nth-child(2) {
+    .cover-caption span:nth-child(2) {
       color: #ffffff;
       opacity: 0.95;
     }
@@ -384,7 +491,7 @@
           transparent 50.2%,
           transparent);
       pointer-events: none;
-      opacity: 0.76;
+      opacity: calc(0.34 + var(--split) * 0.45);
     }
 
     .countdown-label {
@@ -412,52 +519,64 @@
       line-height: 1.55;
     }
 
-    .album-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(1rem, 2vw, 1.3rem);
-    }
-
-    .mini-card {
+    .fragment-panel {
       border: 1px solid rgba(255,255,255,0.14);
-      border-radius: 26px;
-      padding: clamp(1rem, 2.2vw, 1.35rem);
-      background: rgba(255,255,255,0.055);
+      border-radius: 30px;
+      padding: clamp(1.15rem, 3vw, 1.7rem);
+      background: rgba(255,255,255,0.052);
       box-shadow:
-        0 16px 42px rgba(0,0,0,0.21),
+        0 16px 42px rgba(0,0,0,0.22),
         inset 0 0 0 1px rgba(255,255,255,0.025);
+      overflow: hidden;
+      position: relative;
     }
 
-    .mini-card-title {
-      margin: 0 0 0.5rem;
+    .fragment-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg,
+          transparent 0%,
+          transparent 49.7%,
+          rgba(255,255,255,0.18) 50%,
+          transparent 50.3%,
+          transparent 100%);
+      opacity: calc(0.2 + var(--split) * 0.45);
+      pointer-events: none;
+    }
+
+    .fragment-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: baseline;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .fragment-head strong {
+      font-size: clamp(1.35rem, 4vw, 2.45rem);
+      letter-spacing: -0.055em;
+      line-height: 1;
+    }
+
+    .fragment-head span {
       color: var(--text-muted);
-      font-size: 0.76rem;
-      letter-spacing: 0.15em;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       font-weight: 850;
-    }
-
-    .mini-card-value {
-      margin: 0;
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      line-height: 1;
-      letter-spacing: -0.055em;
-      font-weight: 900;
-    }
-
-    .mini-card-note {
-      margin-top: 0.65rem;
-      color: var(--text-muted);
-      line-height: 1.55;
-      letter-spacing: 0.035em;
-      font-size: 0.92rem;
+      white-space: nowrap;
     }
 
     .fragment-bar {
       display: grid;
       grid-template-columns: repeat(10, 1fr);
       gap: 0.36rem;
-      margin-top: 1rem;
+      position: relative;
+      z-index: 2;
     }
 
     .fragment {
@@ -615,6 +734,11 @@
     }
 
     @media (max-width: 768px) {
+      :root {
+        --split-px: calc(var(--split) * 14px);
+        --split-small: calc(var(--split) * 6px);
+      }
+
       .page-wrap {
         padding: 2.2rem 1.15rem 3rem;
       }
@@ -640,7 +764,7 @@
         border-radius: 24px;
       }
 
-      .split-caption {
+      .cover-caption {
         left: 0.75rem;
         right: 0.75rem;
         bottom: 0.75rem;
@@ -659,16 +783,18 @@
         font-size: 0.92rem;
       }
 
-      .album-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .countdown-panel {
+      .countdown-panel,
+      .fragment-panel {
         border-radius: 24px;
       }
 
       .countdown-time {
         font-size: clamp(2.1rem, 12vw, 3.8rem);
+      }
+
+      .fragment-head {
+        flex-direction: column;
+        gap: 0.35rem;
       }
 
       .fragment-bar {
@@ -705,6 +831,10 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
+      :root {
+        --split: 0.28;
+      }
+
       #crosshair {
         display: none;
       }
@@ -714,12 +844,25 @@
       .social-link {
         transition: none;
       }
+
+      .page-rift,
+      .split-half,
+      .cover-split-left,
+      .cover-split-right {
+        transition: none;
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="split-bg" aria-hidden="true"></div>
+  <div class="split-bg" aria-hidden="true">
+    <div class="split-half left"></div>
+    <div class="split-half right"></div>
+  </div>
+
+  <div class="split-shadow" aria-hidden="true"></div>
+  <div class="page-rift" aria-hidden="true"></div>
 
   <div class="page-wrap">
     <div class="content">
@@ -745,9 +888,12 @@
                 alt="Cover – gespalten von b3nn3t"
                 class="album-cover">
 
-              <div class="split-caption" aria-hidden="true">
-                <span>black horse</span>
-                <span>white horse</span>
+              <div class="cover-split-left" aria-hidden="true"></div>
+              <div class="cover-split-right" aria-hidden="true"></div>
+
+              <div class="cover-caption" aria-hidden="true">
+                <span>10 fragments</span>
+                <span>12 minutes</span>
               </div>
             </div>
           </div>
@@ -780,36 +926,25 @@
           </div>
         </section>
 
-        <section aria-label="Album Fakten" class="block">
-          <div class="album-grid">
-            <div class="mini-card">
-              <p class="mini-card-title">tracks</p>
-              <p class="mini-card-value">10</p>
-              <div class="mini-card-note">
-                zehn kurze stücke — eher fragmente als klassische songs.
-              </div>
+        <section aria-label="Album Fragmente" class="block">
+          <div class="fragment-panel">
+            <div class="fragment-head">
+              <strong>10 fragments / 12 minutes</strong>
+              <span>short album</span>
             </div>
 
-            <div class="mini-card">
-              <p class="mini-card-title">runtime</p>
-              <p class="mini-card-value">12:00</p>
-              <div class="mini-card-note">
-                ein album, das schnell vorbeigeht, aber nachhallt.
-              </div>
+            <div class="fragment-bar" aria-label="10 Fragmente des Albums">
+              <div class="fragment" style="--h: 88%;"><span>01</span></div>
+              <div class="fragment" style="--h: 42%;"><span>02</span></div>
+              <div class="fragment" style="--h: 56%;"><span>03</span></div>
+              <div class="fragment" style="--h: 34%;"><span>04</span></div>
+              <div class="fragment" style="--h: 62%;"><span>05</span></div>
+              <div class="fragment" style="--h: 38%;"><span>06</span></div>
+              <div class="fragment" style="--h: 50%;"><span>07</span></div>
+              <div class="fragment" style="--h: 30%;"><span>08</span></div>
+              <div class="fragment" style="--h: 46%;"><span>09</span></div>
+              <div class="fragment" style="--h: 72%;"><span>10</span></div>
             </div>
-          </div>
-
-          <div class="fragment-bar" aria-label="10 Fragmente des Albums">
-            <div class="fragment" style="--h: 88%;"><span>01</span></div>
-            <div class="fragment" style="--h: 42%;"><span>02</span></div>
-            <div class="fragment" style="--h: 56%;"><span>03</span></div>
-            <div class="fragment" style="--h: 34%;"><span>04</span></div>
-            <div class="fragment" style="--h: 62%;"><span>05</span></div>
-            <div class="fragment" style="--h: 38%;"><span>06</span></div>
-            <div class="fragment" style="--h: 50%;"><span>07</span></div>
-            <div class="fragment" style="--h: 30%;"><span>08</span></div>
-            <div class="fragment" style="--h: 46%;"><span>09</span></div>
-            <div class="fragment" style="--h: 72%;"><span>10</span></div>
           </div>
         </section>
 
@@ -960,6 +1095,38 @@
     <div class="line-x"></div>
     <div class="line-y"></div>
   </div>
+
+  <script>
+    (function () {
+      const root = document.documentElement;
+      let ticking = false;
+
+      function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+      }
+
+      function updateSplit() {
+        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        const progress = clamp(window.scrollY / maxScroll, 0, 1);
+
+        const eased = 1 - Math.pow(1 - progress, 2.2);
+        root.style.setProperty("--split", eased.toFixed(4));
+
+        ticking = false;
+      }
+
+      function requestUpdate() {
+        if (!ticking) {
+          requestAnimationFrame(updateSplit);
+          ticking = true;
+        }
+      }
+
+      window.addEventListener("scroll", requestUpdate, { passive: true });
+      window.addEventListener("resize", requestUpdate);
+      updateSplit();
+    })();
+  </script>
 
   <script>
     (function () {
