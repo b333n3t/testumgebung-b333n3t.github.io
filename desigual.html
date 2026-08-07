@@ -262,70 +262,7 @@
       mix-blend-mode: screen;
     }
 
-    .ice-crack {
-      position: fixed;
-      inset: -10vh 0;
-      z-index: 40;
-      pointer-events: none;
-      opacity: var(--crack-alpha);
-      mix-blend-mode: screen;
-      transform:
-        translate3d(calc(var(--mouse-x) * 0.45), calc(var(--mouse-y) * 0.22), 0)
-        rotate(calc(var(--mx) * 0.45deg));
-      will-change: transform, opacity;
-    }
-
-    .ice-crack svg {
-      width: 100%;
-      height: 120vh;
-      display: block;
-      overflow: visible;
-    }
-
-    .crack-water {
-      fill: none;
-      stroke: rgba(0,0,0,0.88);
-      stroke-width: calc(16 + var(--split) * 34);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      opacity: calc(0.18 + var(--split) * 0.36);
-      filter: blur(9px);
-    }
-
-    .crack-main {
-      fill: none;
-      stroke: rgba(255,255,255,0.92);
-      stroke-width: calc(1.2 + var(--split) * 3.2);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 1900;
-      stroke-dashoffset: calc(900 - var(--split) * 900);
-      filter:
-        drop-shadow(0 0 var(--crack-glow) rgba(255,255,255,0.7))
-        drop-shadow(0 0 30px rgba(190,220,255,0.26));
-    }
-
-    .crack-side {
-      fill: none;
-      stroke: rgba(255,255,255,0.48);
-      stroke-width: calc(0.7 + var(--split) * 1.8);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 900;
-      stroke-dashoffset: calc(560 - var(--split) * 560);
-      filter: drop-shadow(0 0 18px rgba(255,255,255,0.42));
-    }
-
-    .crack-splinter {
-      fill: none;
-      stroke: rgba(255,255,255,0.30);
-      stroke-width: calc(0.45 + var(--split) * 1.1);
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 520;
-      stroke-dashoffset: calc(360 - var(--split) * 360);
-      filter: drop-shadow(0 0 14px rgba(255,255,255,0.28));
-    }
+    
 
     main.main {
       display: flex;
@@ -895,25 +832,7 @@
     <div class="bg-half right"></div>
   </div>
 
-  <div class="bg-cold" aria-hidden="true"></div>
 
-  <div class="ice-crack" aria-hidden="true">
-    <svg viewBox="0 0 100 120" preserveAspectRatio="none">
-      <path class="crack-water" d="M50 0 C47 7 54 12 49 20 C44 29 56 35 50 45 C44 56 55 62 48 73 C42 84 56 93 50 103 C46 111 52 116 49 120" />
-      <path class="crack-main" d="M50 0 C47 7 54 12 49 20 C44 29 56 35 50 45 C44 56 55 62 48 73 C42 84 56 93 50 103 C46 111 52 116 49 120" />
-
-      <path class="crack-side" d="M49 18 C43 21 39 27 34 35" />
-      <path class="crack-side" d="M51 34 C58 37 63 43 69 51" />
-      <path class="crack-side" d="M49 45 C43 49 38 55 32 61" />
-      <path class="crack-side" d="M48 72 C40 77 34 84 27 93" />
-      <path class="crack-side" d="M50 92 C58 96 65 103 73 112" />
-
-      <path class="crack-splinter" d="M47 27 C44 30 41 33 38 37" />
-      <path class="crack-splinter" d="M52 51 C56 55 60 58 64 63" />
-      <path class="crack-splinter" d="M47 61 C43 64 39 68 35 73" />
-      <path class="crack-splinter" d="M51 104 C55 108 59 112 63 118" />
-    </svg>
-  </div>
 
   <div class="page-wrap">
     <div class="content-shell" id="content-shell">
