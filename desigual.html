@@ -57,7 +57,7 @@
       --mx: 0;
       --my: 0;
 
-      --gap: calc(var(--split) * 64px);
+      --gap: calc(var(--split) * 72px);
       --lift-left: calc(var(--split) * -22px);
       --lift-right: calc(var(--split) * 18px);
       --tilt-left: calc(var(--split) * -0.45deg);
@@ -460,45 +460,6 @@
       line-height: 1.55;
     }
 
-    .fragment-zone {
-      position: relative;
-      min-height: 440px;
-      margin-top: 0.4rem;
-      border-radius: 30px;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 48% 42%, rgba(255,255,255,0.12), transparent 16%),
-        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.055), transparent 42%);
-    }
-
-    .fragment-zone::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-radial-gradient(
-          circle at 50% 45%,
-          rgba(255,255,255,0.16) 0 1px,
-          transparent 1px 42px
-        );
-      opacity: 0.22;
-      pointer-events: none;
-    }
-
-    .fragment-zone::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(33deg, transparent 0 44%, rgba(255,255,255,0.35) 44.2%, transparent 44.6%),
-        linear-gradient(118deg, transparent 0 48%, rgba(255,255,255,0.24) 48.2%, transparent 48.6%),
-        linear-gradient(78deg, transparent 0 53%, rgba(255,255,255,0.18) 53.2%, transparent 53.6%),
-        linear-gradient(147deg, transparent 0 42%, rgba(255,255,255,0.16) 42.2%, transparent 42.6%);
-      opacity: 0.55;
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-
     .fragment-head {
       position: relative;
       z-index: 3;
@@ -524,10 +485,25 @@
       white-space: nowrap;
     }
 
-    .shards {
+    .fragment-zone {
       position: relative;
-      z-index: 2;
-      height: 390px;
+      min-height: 460px;
+      margin-top: 0.4rem;
+      border-radius: 30px;
+      overflow: visible;
+      background: transparent;
+    }
+
+    .fragment-sides {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 1.1rem;
+      height: 460px;
+    }
+
+    .fragment-side {
+      position: relative;
+      min-height: 100%;
     }
 
     .shard {
@@ -535,27 +511,15 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 0.78rem;
+      padding: 0.72rem;
       box-sizing: border-box;
-      border: 1px solid rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.13);
       background:
-        linear-gradient(135deg, rgba(255,255,255,0.18), rgba(255,255,255,0.035)),
-        radial-gradient(circle at 45% 25%, rgba(255,255,255,0.18), transparent 42%);
+        linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.035));
       box-shadow:
-        inset 0 0 24px rgba(255,255,255,0.035),
-        0 12px 32px rgba(0,0,0,0.18);
+        inset 0 0 18px rgba(255,255,255,0.025),
+        0 10px 24px rgba(0,0,0,0.16);
       overflow: hidden;
-    }
-
-    .shard::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(118deg, transparent 0 46%, rgba(255,255,255,0.22) 46.4%, transparent 47%),
-        linear-gradient(35deg, transparent 0 58%, rgba(255,255,255,0.16) 58.4%, transparent 59%);
-      opacity: 0.65;
-      pointer-events: none;
     }
 
     .shard-no,
@@ -566,7 +530,7 @@
     }
 
     .shard-no {
-      font-size: 0.66rem;
+      font-size: 0.64rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-soft);
@@ -574,15 +538,15 @@
     }
 
     .shard-title {
-      font-size: clamp(0.88rem, 1.35vw, 1.02rem);
-      line-height: 1.1;
+      font-size: clamp(0.84rem, 1.25vw, 0.98rem);
+      line-height: 1.08;
       font-weight: 850;
       color: rgba(255,255,255,0.94);
       word-break: break-word;
     }
 
     .shard-status {
-      font-size: 0.58rem;
+      font-size: 0.56rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--text-muted);
@@ -594,24 +558,22 @@
     }
 
     .shard.released {
-      border-color: rgba(61,220,132,0.34);
-      background:
-        linear-gradient(135deg, rgba(61,220,132,0.22), rgba(255,255,255,0.035)),
-        radial-gradient(circle at 45% 25%, rgba(255,255,255,0.18), transparent 42%);
+      border-color: rgba(61,220,132,0.28);
+      background: linear-gradient(135deg, rgba(61,220,132,0.18), rgba(255,255,255,0.035));
     }
 
-    .s1  { left: 3%;  top: 7%;  width: 21%; height: 31%; clip-path: polygon(0 0, 88% 8%, 100% 74%, 28% 100%, 0 52%); }
-    .s2  { left: 25%; top: 5%;  width: 17%; height: 34%; clip-path: polygon(12% 0, 100% 0, 84% 100%, 0 72%, 20% 38%); }
-    .s3  { left: 43%; top: 3%;  width: 23%; height: 32%; clip-path: polygon(0 14%, 72% 0, 100% 46%, 78% 100%, 18% 86%); }
-    .s4  { left: 67%; top: 8%;  width: 25%; height: 33%; clip-path: polygon(0 0, 100% 14%, 82% 100%, 18% 86%, 8% 44%); }
+    .l1 { left: 0%;  top: 0%;  width: 58%; height: 38%; clip-path: polygon(0 0, 92% 8%, 100% 70%, 34% 100%, 0 58%); }
+    .l2 { left: 48%; top: 3%;  width: 50%; height: 39%; clip-path: polygon(14% 0, 100% 0, 84% 100%, 0 76%, 20% 35%); }
+    .l3 { left: 5%;  top: 43%; width: 52%; height: 48%; clip-path: polygon(12% 0, 100% 20%, 78% 100%, 0 86%, 20% 42%); }
+    .l4 { left: 51%; top: 46%; width: 47%; height: 45%; clip-path: polygon(0 12%, 76% 0, 100% 58%, 70% 100%, 10% 82%); }
 
-    .s5  { left: 8%;  top: 42%; width: 20%; height: 31%; clip-path: polygon(12% 0, 100% 24%, 78% 100%, 0 86%, 18% 42%); }
-    .s6  { left: 30%; top: 39%; width: 17%; height: 36%; clip-path: polygon(0 18%, 66% 0, 100% 55%, 70% 100%, 10% 82%); }
-    .s7  { left: 49%; top: 38%; width: 20%; height: 35%; clip-path: polygon(10% 0, 100% 18%, 84% 92%, 30% 100%, 0 44%); }
-    .s8  { left: 70%; top: 45%; width: 23%; height: 31%; clip-path: polygon(0 8%, 86% 0, 100% 70%, 40% 100%, 10% 58%); }
+    .r1 { left: 0%;  top: 0%;  width: 38%; height: 30%; clip-path: polygon(0 0, 88% 8%, 100% 74%, 28% 100%, 0 52%); }
+    .r2 { left: 39%; top: 0%;  width: 31%; height: 32%; clip-path: polygon(12% 0, 100% 0, 84% 100%, 0 72%, 20% 38%); }
+    .r3 { left: 70%; top: 4%;  width: 30%; height: 30%; clip-path: polygon(0 14%, 72% 0, 100% 46%, 78% 100%, 18% 86%); }
 
-    .s9  { left: 20%; top: 76%; width: 28%; height: 22%; clip-path: polygon(0 18%, 82% 0, 100% 88%, 24% 100%); }
-    .s10 { left: 51%; top: 76%; width: 30%; height: 22%; clip-path: polygon(12% 0, 100% 20%, 82% 100%, 0 78%); }
+    .r4 { left: 3%;  top: 34%; width: 32%; height: 31%; clip-path: polygon(10% 0, 100% 18%, 84% 92%, 30% 100%, 0 44%); }
+    .r5 { left: 35%; top: 35%; width: 31%; height: 31%; clip-path: polygon(0 8%, 86% 0, 100% 70%, 40% 100%, 10% 58%); }
+    .r6 { left: 65%; top: 36%; width: 33%; height: 31%; clip-path: polygon(12% 0, 100% 20%, 82% 100%, 0 78%); }
 
     .quote-block {
       border-left: 2px solid rgba(255,255,255,0.55);
@@ -667,11 +629,11 @@
 
     @media (max-width: 768px) {
       :root {
-        --gap: calc(var(--split) * 84px);
-        --lift-left: calc(var(--split) * -16px);
-        --lift-right: calc(var(--split) * 14px);
-        --tilt-left: calc(var(--split) * -0.38deg);
-        --tilt-right: calc(var(--split) * 0.34deg);
+        --gap: calc(var(--split) * 92px);
+        --lift-left: calc(var(--split) * -14px);
+        --lift-right: calc(var(--split) * 12px);
+        --tilt-left: calc(var(--split) * -0.3deg);
+        --tilt-right: calc(var(--split) * 0.28deg);
         --mouse-x: calc(var(--mx) * 3px);
         --mouse-y: calc(var(--my) * 3px);
       }
@@ -748,42 +710,44 @@
       }
 
       .fragment-zone {
-        min-height: 520px;
+        min-height: auto;
         border-radius: 22px;
       }
 
-      .shards {
-        height: 470px;
+      .fragment-sides {
+        grid-template-columns: 1fr 1fr;
+        height: 560px;
+        gap: 0.55rem;
       }
 
       .shard {
-        padding: 0.55rem;
+        padding: 0.45rem;
       }
 
       .shard-title {
-        font-size: 0.78rem;
+        font-size: 0.68rem;
+        line-height: 1.06;
       }
 
       .shard-no {
-        font-size: 0.54rem;
+        font-size: 0.48rem;
       }
 
       .shard-status {
-        font-size: 0.5rem;
+        font-size: 0.45rem;
       }
 
-      .s1  { left: 0%;  top: 5%;  width: 45%; height: 18%; }
-      .s2  { left: 48%; top: 3%;  width: 46%; height: 19%; }
-      .s3  { left: 7%;  top: 24%; width: 39%; height: 17%; }
-      .s4  { left: 50%; top: 23%; width: 45%; height: 18%; }
+      .l1 { left: 0%;  top: 0%;  width: 92%; height: 23%; }
+      .l2 { left: 8%;  top: 24%; width: 88%; height: 23%; }
+      .l3 { left: 0%;  top: 48%; width: 92%; height: 24%; }
+      .l4 { left: 10%; top: 73%; width: 86%; height: 24%; }
 
-      .s5  { left: 0%;  top: 43%; width: 44%; height: 17%; }
-      .s6  { left: 47%; top: 42%; width: 46%; height: 18%; }
-      .s7  { left: 5%;  top: 61%; width: 40%; height: 17%; }
-      .s8  { left: 50%; top: 61%; width: 44%; height: 17%; }
-
-      .s9  { left: 0%;  top: 80%; width: 46%; height: 17%; }
-      .s10 { left: 49%; top: 80%; width: 47%; height: 17%; }
+      .r1 { left: 0%;  top: 0%;  width: 92%; height: 15.5%; }
+      .r2 { left: 8%;  top: 16.5%; width: 88%; height: 15.5%; }
+      .r3 { left: 0%;  top: 33%; width: 92%; height: 15.5%; }
+      .r4 { left: 8%;  top: 49.5%; width: 88%; height: 15.5%; }
+      .r5 { left: 0%;  top: 66%; width: 92%; height: 15.5%; }
+      .r6 { left: 8%;  top: 82.5%; width: 88%; height: 15.5%; }
 
       section.block p {
         font-size: 0.92rem;
@@ -886,65 +850,69 @@
             </div>
 
             <div class="fragment-zone">
-              <div class="shards" aria-label="Songs auf gespalten">
-                <div class="shard released s1">
-                  <div class="shard-no">01</div>
-                  <div class="shard-title">desigual</div>
-                  <div class="shard-status">released</div>
+              <div class="fragment-sides" aria-label="Songs auf gespalten">
+                <div class="fragment-side fragment-side-left">
+                  <div class="shard released l1">
+                    <div class="shard-no">01</div>
+                    <div class="shard-title">desigual</div>
+                    <div class="shard-status">released</div>
+                  </div>
+
+                  <div class="shard locked l2">
+                    <div class="shard-no">02</div>
+                    <div class="shard-title">aergerlich</div>
+                    <div class="shard-status">locked</div>
+                  </div>
+
+                  <div class="shard locked l3">
+                    <div class="shard-no">03</div>
+                    <div class="shard-title">3</div>
+                    <div class="shard-status">locked</div>
+                  </div>
+
+                  <div class="shard locked l4">
+                    <div class="shard-no">04</div>
+                    <div class="shard-title">(fenster scherben)</div>
+                    <div class="shard-status">locked</div>
+                  </div>
                 </div>
 
-                <div class="shard locked s2">
-                  <div class="shard-no">02</div>
-                  <div class="shard-title">aergerlich</div>
-                  <div class="shard-status">locked</div>
-                </div>
+                <div class="fragment-side fragment-side-right">
+                  <div class="shard locked r1">
+                    <div class="shard-no">05</div>
+                    <div class="shard-title">5r</div>
+                    <div class="shard-status">locked</div>
+                  </div>
 
-                <div class="shard locked s3">
-                  <div class="shard-no">03</div>
-                  <div class="shard-title">3</div>
-                  <div class="shard-status">locked</div>
-                </div>
+                  <div class="shard locked r2">
+                    <div class="shard-no">06</div>
+                    <div class="shard-title">6</div>
+                    <div class="shard-status">locked</div>
+                  </div>
 
-                <div class="shard locked s4">
-                  <div class="shard-no">04</div>
-                  <div class="shard-title">(fenster scherben)</div>
-                  <div class="shard-status">locked</div>
-                </div>
+                  <div class="shard locked r3">
+                    <div class="shard-no">07</div>
+                    <div class="shard-title">7</div>
+                    <div class="shard-status">locked</div>
+                  </div>
 
-                <div class="shard locked s5">
-                  <div class="shard-no">05</div>
-                  <div class="shard-title">5r</div>
-                  <div class="shard-status">locked</div>
-                </div>
+                  <div class="shard locked r4">
+                    <div class="shard-no">08</div>
+                    <div class="shard-title">8?</div>
+                    <div class="shard-status">locked</div>
+                  </div>
 
-                <div class="shard locked s6">
-                  <div class="shard-no">06</div>
-                  <div class="shard-title">6</div>
-                  <div class="shard-status">locked</div>
-                </div>
+                  <div class="shard locked r5">
+                    <div class="shard-no">09</div>
+                    <div class="shard-title">wegwerfkamera</div>
+                    <div class="shard-status">locked</div>
+                  </div>
 
-                <div class="shard locked s7">
-                  <div class="shard-no">07</div>
-                  <div class="shard-title">7</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked s8">
-                  <div class="shard-no">08</div>
-                  <div class="shard-title">8?</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked s9">
-                  <div class="shard-no">09</div>
-                  <div class="shard-title">wegwerfkamera</div>
-                  <div class="shard-status">locked</div>
-                </div>
-
-                <div class="shard locked s10">
-                  <div class="shard-no">10</div>
-                  <div class="shard-title">2011</div>
-                  <div class="shard-status">locked</div>
+                  <div class="shard locked r6">
+                    <div class="shard-no">10</div>
+                    <div class="shard-title">2011</div>
+                    <div class="shard-status">locked</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1045,6 +1013,8 @@
       let mouseSplit = 0;
       let scrollSplit = 0;
       let mouseRaf = null;
+
+      const boundVideos = new WeakSet();
 
       const POSTER_URL = "/assets/gespalten/gespalten.jpg";
       const VIDEO_URL = "/assets/gespalten/gespalten.mp4";
@@ -1166,7 +1136,6 @@
       }
 
       let videoSyncing = false;
-      let videosBound = false;
 
       function syncFrom(sourceVideo, eventName) {
         if (videoSyncing) return;
@@ -1175,7 +1144,7 @@
         getVideos().forEach(function (video) {
           if (video === sourceVideo) return;
 
-          if (Math.abs(video.currentTime - sourceVideo.currentTime) > 0.22) {
+          if (Math.abs(video.currentTime - sourceVideo.currentTime) > 0.12) {
             try {
               video.currentTime = sourceVideo.currentTime;
             } catch (e) {}
@@ -1198,14 +1167,18 @@
       }
 
       function bindVideos() {
-        if (videosBound) return;
-        videosBound = true;
-
         getVideos().forEach(function (video) {
+          if (boundVideos.has(video)) return;
+          boundVideos.add(video);
+
           ["play", "pause", "seeked", "volumechange", "ratechange"].forEach(function (eventName) {
             video.addEventListener(eventName, function () {
               syncFrom(video, eventName);
             });
+          });
+
+          video.addEventListener("timeupdate", function () {
+            syncFrom(video, "timeupdate");
           });
         });
       }
