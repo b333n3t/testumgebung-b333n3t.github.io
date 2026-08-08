@@ -378,6 +378,10 @@
       display: none;
     }
 
+    .mobile-play-button {
+      display: none;
+    }
+
     .listen-wrap {
       margin-top: 1.45rem;
       display: flex;
@@ -464,23 +468,27 @@
       line-height: 1.55;
     }
 
-    .fragment-head {
-      position: relative;
-      z-index: 3;
+    .song-list-section {
+      margin-top: 0.25rem;
+      text-align: center;
+    }
+
+    .song-list-head {
       display: flex;
       justify-content: space-between;
       gap: 1rem;
       align-items: baseline;
-      margin-bottom: 1rem;
+      margin-bottom: 1.05rem;
+      text-align: left;
     }
 
-    .fragment-head strong {
+    .song-list-head strong {
       font-size: clamp(1.35rem, 3.5vw, 2.35rem);
       letter-spacing: -0.05em;
       line-height: 1;
     }
 
-    .fragment-head span {
+    .song-list-head span {
       color: var(--text-muted);
       font-size: 0.78rem;
       letter-spacing: 0.12em;
@@ -489,95 +497,28 @@
       white-space: nowrap;
     }
 
-    .fragment-zone {
-      position: relative;
-      min-height: 460px;
-      margin-top: 0.4rem;
-      border-radius: 30px;
-      overflow: visible;
-      background: transparent;
-    }
-
-    .fragment-sides {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 1.1rem;
-      height: 460px;
-    }
-
-    .fragment-side {
-      position: relative;
-      min-height: 100%;
-    }
-
-    .shard {
-      position: absolute;
+    .song-lines {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 0.72rem;
-      box-sizing: border-box;
-      border: 1px solid rgba(255,255,255,0.13);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.035));
-      box-shadow:
-        inset 0 0 18px rgba(255,255,255,0.025),
-        0 10px 24px rgba(0,0,0,0.16);
-      overflow: hidden;
+      align-items: center;
+      gap: 0.55rem;
+      margin: 0 auto;
+      max-width: 58rem;
     }
 
-    .shard-no,
-    .shard-title,
-    .shard-status {
-      position: relative;
-      z-index: 2;
+    .song-line {
+      margin: 0;
+      color: rgba(255,255,255,0.9);
+      font-size: clamp(0.92rem, 1.5vw, 1.1rem);
+      line-height: 1.65;
+      letter-spacing: 0.045em;
+      text-transform: lowercase;
+      text-align: center;
     }
 
-    .shard-no {
-      font-size: 0.64rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      font-weight: 850;
+    .song-line span {
+      white-space: nowrap;
     }
-
-    .shard-title {
-      font-size: clamp(0.84rem, 1.25vw, 0.98rem);
-      line-height: 1.08;
-      font-weight: 850;
-      color: rgba(255,255,255,0.94);
-      word-break: break-word;
-    }
-
-    .shard-status {
-      font-size: 0.56rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      font-weight: 900;
-    }
-
-    .shard.released .shard-status {
-      color: var(--release-green);
-    }
-
-    .shard.released {
-      border-color: rgba(61,220,132,0.28);
-      background: linear-gradient(135deg, rgba(61,220,132,0.18), rgba(255,255,255,0.035));
-    }
-
-    .l1 { left: 0%;  top: 0%;  width: 58%; height: 38%; clip-path: polygon(0 0, 92% 8%, 100% 70%, 34% 100%, 0 58%); }
-    .l2 { left: 48%; top: 3%;  width: 50%; height: 39%; clip-path: polygon(14% 0, 100% 0, 84% 100%, 0 76%, 20% 35%); }
-    .l3 { left: 5%;  top: 43%; width: 52%; height: 48%; clip-path: polygon(12% 0, 100% 20%, 78% 100%, 0 86%, 20% 42%); }
-    .l4 { left: 51%; top: 46%; width: 47%; height: 45%; clip-path: polygon(0 12%, 76% 0, 100% 58%, 70% 100%, 10% 82%); }
-
-    .r1 { left: 0%;  top: 0%;  width: 38%; height: 30%; clip-path: polygon(0 0, 88% 8%, 100% 74%, 28% 100%, 0 52%); }
-    .r2 { left: 39%; top: 0%;  width: 31%; height: 32%; clip-path: polygon(12% 0, 100% 0, 84% 100%, 0 72%, 20% 38%); }
-    .r3 { left: 70%; top: 4%;  width: 30%; height: 30%; clip-path: polygon(0 14%, 72% 0, 100% 46%, 78% 100%, 18% 86%); }
-
-    .r4 { left: 3%;  top: 34%; width: 32%; height: 31%; clip-path: polygon(10% 0, 100% 18%, 84% 92%, 30% 100%, 0 44%); }
-    .r5 { left: 35%; top: 35%; width: 31%; height: 31%; clip-path: polygon(0 8%, 86% 0, 100% 70%, 40% 100%, 10% 58%); }
-    .r6 { left: 65%; top: 36%; width: 33%; height: 31%; clip-path: polygon(12% 0, 100% 20%, 82% 100%, 0 78%); }
 
     .quote-block {
       border-left: 2px solid rgba(255,255,255,0.55);
@@ -700,60 +641,36 @@
         line-height: 1.45;
       }
 
-      .fragment-head {
-        flex-direction: column;
-        gap: 0.2rem;
-        margin-bottom: 0.65rem;
+      .song-list-section {
+        text-align: left;
       }
 
-      .fragment-head strong {
+      .song-list-head {
+        flex-direction: column;
+        gap: 0.2rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .song-list-head strong {
         font-size: 1.25rem;
         letter-spacing: -0.035em;
       }
 
-      .fragment-head span {
+      .song-list-head span {
         font-size: 0.66rem;
       }
 
-      .fragment-zone {
-        min-height: auto;
-        border-radius: 22px;
+      .song-lines {
+        align-items: center;
+        gap: 0.42rem;
+        max-width: 100%;
       }
 
-      .fragment-sides {
-        grid-template-columns: 1fr 1fr;
-        height: 560px;
-        gap: 0.55rem;
+      .song-line {
+        font-size: 0.84rem;
+        line-height: 1.55;
+        text-align: center;
       }
-
-      .shard {
-        padding: 0.45rem;
-      }
-
-      .shard-title {
-        font-size: 0.68rem;
-        line-height: 1.06;
-      }
-
-      .shard-no {
-        font-size: 0.48rem;
-      }
-
-      .shard-status {
-        font-size: 0.45rem;
-      }
-
-      .l1 { left: 0%;  top: 0%;  width: 92%; height: 23%; }
-      .l2 { left: 8%;  top: 24%; width: 88%; height: 23%; }
-      .l3 { left: 0%;  top: 48%; width: 92%; height: 24%; }
-      .l4 { left: 10%; top: 73%; width: 86%; height: 24%; }
-
-      .r1 { left: 0%;  top: 0%;  width: 92%; height: 15.5%; }
-      .r2 { left: 8%;  top: 16.5%; width: 88%; height: 15.5%; }
-      .r3 { left: 0%;  top: 33%; width: 92%; height: 15.5%; }
-      .r4 { left: 8%;  top: 49.5%; width: 88%; height: 15.5%; }
-      .r5 { left: 0%;  top: 66%; width: 92%; height: 15.5%; }
-      .r6 { left: 8%;  top: 82.5%; width: 88%; height: 15.5%; }
 
       section.block p {
         font-size: 0.92rem;
@@ -785,7 +702,8 @@
     }
 
     .mobile-precrack .ice-layer video,
-    .mobile-precrack .ice-layer .mobile-video-split {
+    .mobile-precrack .ice-layer .mobile-video-split,
+    .mobile-precrack .ice-layer .mobile-play-button {
       display: none !important;
     }
 
@@ -905,6 +823,83 @@
       background: #000;
     }
 
+    .mobile-precrack .mobile-play-button {
+      display: flex;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 12;
+      width: 4.2rem;
+      height: 4.2rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.72);
+      background: rgba(0,0,0,0.42);
+      color: #ffffff;
+      font-size: 1.45rem;
+      line-height: 1;
+      transform: translate(-50%, -50%);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      opacity: 1;
+      pointer-events: auto;
+      cursor: pointer;
+    }
+
+    .mobile-precrack .mobile-play-button.is-hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .mobile-precrack .mobile-rift-connector {
+      display: block;
+    }
+
+    .mobile-rift-connector {
+      display: none;
+      position: relative;
+      height: 2.5rem;
+      margin: -0.3rem auto 0.4rem;
+      pointer-events: none;
+    }
+
+    .mobile-rift-connector::before,
+    .mobile-rift-connector::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50%;
+      background: transparent;
+    }
+
+    .mobile-rift-connector::before {
+      left: 0;
+      clip-path: polygon(0 0, 68% 0, 60% 42%, 56% 100%, 0 100%);
+      transform:
+        translate3d(
+          calc((var(--split) + 0.035) * -64px),
+          calc((var(--split) + 0.035) * -2px),
+          0
+        )
+        rotate(calc((var(--split) + 0.035) * -0.15deg));
+      border-right: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .mobile-rift-connector::after {
+      right: 0;
+      clip-path: polygon(32% 0, 100% 0, 100% 100%, 44% 100%, 40% 42%);
+      transform:
+        translate3d(
+          calc((var(--split) + 0.035) * 64px),
+          calc((var(--split) + 0.035) * 2px),
+          0
+        )
+        rotate(calc((var(--split) + 0.035) * 0.15deg));
+      border-left: 1px solid rgba(255,255,255,0.04);
+    }
+
     @media (prefers-reduced-motion: reduce) {
       :root {
         --split: 0;
@@ -917,7 +912,9 @@
         transition: none;
       }
 
-      .mobile-video-split {
+      .mobile-video-split,
+      .mobile-play-button,
+      .mobile-rift-connector {
         display: none !important;
       }
 
@@ -1001,8 +998,14 @@
                     </video>
                   </div>
                 </div>
+
+                <button class="mobile-play-button" type="button" aria-label="Video abspielen">
+                  ▶
+                </button>
               </div>
             </div>
+
+            <div class="mobile-rift-connector" aria-hidden="true"></div>
 
             <div class="listen-wrap">
               <a
@@ -1023,78 +1026,31 @@
             </p>
           </section>
 
-          <section aria-label="Album Fragmente" class="block">
-            <div class="fragment-head">
+          <section aria-label="Songs auf gespalten" class="block song-list-section">
+            <div class="song-list-head">
               <strong>10 fragments / 12 minutes</strong>
               <span>short album</span>
             </div>
 
-            <div class="fragment-zone">
-              <div class="fragment-sides" aria-label="Songs auf gespalten">
-                <div class="fragment-side fragment-side-left">
-                  <div class="shard released l1">
-                    <div class="shard-no">01</div>
-                    <div class="shard-title">desigual</div>
-                    <div class="shard-status">released</div>
-                  </div>
+            <div class="song-lines">
+              <p class="song-line">
+                <span>- desigual -</span>
+                <span>- aergerlich -</span>
+                <span>- 3 -</span>
+                <span>- (fenster scherben) -</span>
+              </p>
 
-                  <div class="shard locked l2">
-                    <div class="shard-no">02</div>
-                    <div class="shard-title">aergerlich</div>
-                    <div class="shard-status">locked</div>
-                  </div>
+              <p class="song-line">
+                <span>- 5r -</span>
+                <span>- 6 -</span>
+                <span>- 7 -</span>
+              </p>
 
-                  <div class="shard locked l3">
-                    <div class="shard-no">03</div>
-                    <div class="shard-title">3</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked l4">
-                    <div class="shard-no">04</div>
-                    <div class="shard-title">(fenster scherben)</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-                </div>
-
-                <div class="fragment-side fragment-side-right">
-                  <div class="shard locked r1">
-                    <div class="shard-no">05</div>
-                    <div class="shard-title">5r</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r2">
-                    <div class="shard-no">06</div>
-                    <div class="shard-title">6</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r3">
-                    <div class="shard-no">07</div>
-                    <div class="shard-title">7</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r4">
-                    <div class="shard-no">08</div>
-                    <div class="shard-title">8?</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r5">
-                    <div class="shard-no">09</div>
-                    <div class="shard-title">wegwerfkamera</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r6">
-                    <div class="shard-no">10</div>
-                    <div class="shard-title">2011</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-                </div>
-              </div>
+              <p class="song-line">
+                <span>- 8? -</span>
+                <span>- wegwerfkamera -</span>
+                <span>- 2011 -</span>
+              </p>
             </div>
           </section>
 
@@ -1205,6 +1161,10 @@
               layer.remove();
             });
 
+            clone.querySelectorAll(".mobile-play-button").forEach(function (button) {
+              button.remove();
+            });
+
             clone.querySelectorAll(".cover-inner").forEach(function (inner) {
               inner.innerHTML = "";
             });
@@ -1220,8 +1180,8 @@
         let mobileTicking = false;
 
         function updateMobileSplit() {
-          const raw = Math.min(Math.max(window.scrollY / 460, 0), 1);
-          const split = 1 - Math.pow(1 - raw, 1.75);
+          const raw = Math.min(Math.max(window.scrollY / 720, 0), 1);
+          const split = Math.pow(raw, 0.92);
 
           root.style.setProperty("--split", split.toFixed(4));
           mobileTicking = false;
@@ -1238,11 +1198,22 @@
           const base = document.getElementById("mobile-video-base");
           const left = document.getElementById("mobile-video-left");
           const right = document.getElementById("mobile-video-right");
+          const playButton = document.querySelector(".mobile-play-button");
 
           if (!base || !left || !right) return;
 
           const mirrors = [left, right];
           let syncing = false;
+
+          function showPlayButton(show) {
+            if (!playButton) return;
+
+            if (show) {
+              playButton.classList.remove("is-hidden");
+            } else {
+              playButton.classList.add("is-hidden");
+            }
+          }
 
           function syncMirrors(eventName) {
             if (syncing) return;
@@ -1261,7 +1232,7 @@
                 video.play().catch(function () {});
               }
 
-              if (eventName === "pause" && !video.paused) {
+              if ((eventName === "pause" || eventName === "ended") && !video.paused) {
                 video.pause();
               }
             });
@@ -1279,12 +1250,38 @@
             });
           }
 
+          function startVideo() {
+            if (base.ended) {
+              try {
+                base.currentTime = 0;
+              } catch (e) {}
+            }
+
+            syncMirrors("seeked");
+
+            base.play().then(function () {
+              showPlayButton(false);
+              syncMirrors("play");
+            }).catch(function () {
+              showPlayButton(true);
+            });
+          }
+
           base.addEventListener("play", function () {
+            showPlayButton(false);
             syncMirrors("play");
           });
 
           base.addEventListener("pause", function () {
+            if (!base.ended) {
+              showPlayButton(true);
+            }
             syncMirrors("pause");
+          });
+
+          base.addEventListener("ended", function () {
+            showPlayButton(true);
+            syncMirrors("ended");
           });
 
           base.addEventListener("seeked", function () {
@@ -1297,6 +1294,7 @@
 
           base.addEventListener("loadedmetadata", function () {
             syncMirrors("loadedmetadata");
+            showPlayButton(base.paused);
           });
 
           base.addEventListener("timeupdate", keepClose);
@@ -1306,6 +1304,16 @@
             video.controls = false;
             video.playsInline = true;
           });
+
+          if (playButton) {
+            playButton.addEventListener("click", function (event) {
+              event.preventDefault();
+              event.stopPropagation();
+              startVideo();
+            });
+          }
+
+          showPlayButton(true);
         }
 
         window.addEventListener("scroll", requestMobileUpdate, { passive: true });
@@ -1361,6 +1369,10 @@
 
           clone.querySelectorAll(".mobile-video-split").forEach(function (layer) {
             layer.remove();
+          });
+
+          clone.querySelectorAll(".mobile-play-button").forEach(function (button) {
+            button.remove();
           });
 
           clone.querySelectorAll("video").forEach(function (video) {
@@ -1593,18 +1605,6 @@
           ctaEl.href = ALBUM_LINK;
           ctaEl.textContent = diff <= 0 ? "gespalten hören" : "album vormerken";
         });
-
-        if (diff <= 0) {
-          document.querySelectorAll(".shard.locked").forEach(function (card) {
-            card.classList.remove("locked");
-            card.classList.add("released");
-
-            const status = card.querySelector(".shard-status");
-            if (status) {
-              status.textContent = "released";
-            }
-          });
-        }
       }
 
       renderCountdown();
