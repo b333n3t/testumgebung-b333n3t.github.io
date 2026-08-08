@@ -54,17 +54,25 @@
       --release-green: #3ddc84;
 
       --split: 0;
+      --split-visual: 0;
       --mx: 0;
       --my: 0;
 
-      --gap: calc(var(--split) * 72px);
-      --lift-left: calc(var(--split) * -22px);
-      --lift-right: calc(var(--split) * 18px);
-      --tilt-left: calc(var(--split) * -0.45deg);
-      --tilt-right: calc(var(--split) * 0.4deg);
+      --page-gap: calc(var(--split) * 82px);
+      --page-lift-left: calc(var(--split) * -24px);
+      --page-lift-right: calc(var(--split) * 20px);
+      --page-tilt-left: calc(var(--split) * -0.62deg);
+      --page-tilt-right: calc(var(--split) * 0.52deg);
 
-      --mouse-x: calc(var(--mx) * 6px);
-      --mouse-y: calc(var(--my) * 5px);
+      --video-gap: calc(var(--split) * 46px);
+      --video-lift-left: calc(var(--split) * -10px);
+      --video-lift-right: calc(var(--split) * 9px);
+      --video-tilt-left: calc(var(--split) * -0.55deg);
+      --video-tilt-right: calc(var(--split) * 0.48deg);
+
+      --bg-gap: calc(var(--split) * 34px);
+      --mouse-x: calc(var(--mx) * 5px);
+      --mouse-y: calc(var(--my) * 4px);
     }
 
     html,
@@ -113,13 +121,8 @@
       inset: -8%;
       background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
       filter: blur(38px) brightness(0.44) saturate(0.9);
-      opacity: 0;
-      will-change: transform, opacity;
-      transition: opacity 0.25s ease;
-    }
-
-    .is-cracked .bg-half {
-      opacity: 0.96;
+      opacity: calc(0.82 + var(--split) * 0.14);
+      will-change: transform;
     }
 
     .bg-half.left {
@@ -138,11 +141,10 @@
       );
       transform:
         translate3d(
-          calc(var(--gap) * -0.48 + var(--mouse-x) * -0.22),
-          calc(var(--lift-left) * 0.45 + var(--mouse-y) * -0.12),
+          calc(var(--bg-gap) * -1 + var(--mouse-x) * -0.2),
+          calc(var(--mouse-y) * -0.08),
           0
         )
-        rotate(calc(var(--tilt-left) * 0.45))
         scale(1.12);
     }
 
@@ -162,11 +164,10 @@
       );
       transform:
         translate3d(
-          calc(var(--gap) * 0.48 + var(--mouse-x) * 0.22),
-          calc(var(--lift-right) * 0.45 + var(--mouse-y) * 0.12),
+          calc(var(--bg-gap) * 1 + var(--mouse-x) * 0.2),
+          calc(var(--mouse-y) * 0.08),
           0
         )
-        rotate(calc(var(--tilt-right) * 0.45))
         scale(1.12);
     }
 
@@ -193,49 +194,44 @@
       z-index: 1;
     }
 
-    .content-shell {
+    .content {
       width: 100%;
       max-width: var(--page-max-width);
       position: relative;
     }
 
-    .main-source {
-      opacity: 1;
-      transition: opacity 0.16s ease;
+    main.main {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.55rem, 2.2vw, 2.25rem);
+      position: relative;
     }
 
-    .is-cracked .main-source .split-me {
-      opacity: 0;
-      pointer-events: none;
+    .page-crack-zone {
+      position: relative;
     }
 
-    .is-cracked .main-source .no-split {
-      opacity: 1;
-      pointer-events: auto;
+    .page-crack-base {
+      position: relative;
+      z-index: 1;
     }
 
-    .ice-layer {
+    .crack-fade {
+      opacity: calc(1 - var(--split-visual));
+      transition: opacity 0.12s linear;
+    }
+
+    .page-crack-layer {
       position: absolute;
       inset: 0;
-      z-index: 2;
-      opacity: 0;
+      z-index: 4;
+      opacity: var(--split-visual);
       pointer-events: none;
       will-change: transform, opacity;
-      transform-style: preserve-3d;
-      transition: opacity 0.16s ease;
+      transition: opacity 0.12s linear;
     }
 
-    .is-cracked .ice-layer {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .ice-layer .no-split {
-      visibility: hidden;
-      pointer-events: none;
-    }
-
-    .ice-layer.left {
+    .page-crack-layer.left {
       clip-path: polygon(
         -8% -4%,
         50% -4%,
@@ -251,16 +247,16 @@
       );
       transform:
         translate3d(
-          calc(var(--gap) * -1 + var(--mouse-x) * -0.32),
-          calc(var(--lift-left) + var(--mouse-y) * -0.16),
+          calc(var(--page-gap) * -1 + var(--mouse-x) * -0.28),
+          calc(var(--page-lift-left) + var(--mouse-y) * -0.16),
           0
         )
-        rotate(var(--tilt-left));
+        rotate(var(--page-tilt-left));
       transform-origin: 34% 42%;
       filter: drop-shadow(8px 12px 20px rgba(0,0,0,0.22));
     }
 
-    .ice-layer.right {
+    .page-crack-layer.right {
       clip-path: polygon(
         50% -4%,
         108% -4%,
@@ -276,20 +272,22 @@
       );
       transform:
         translate3d(
-          calc(var(--gap) * 1 + var(--mouse-x) * 0.32),
-          calc(var(--lift-right) + var(--mouse-y) * 0.16),
+          calc(var(--page-gap) * 1 + var(--mouse-x) * 0.28),
+          calc(var(--page-lift-right) + var(--mouse-y) * 0.16),
           0
         )
-        rotate(var(--tilt-right));
+        rotate(var(--page-tilt-right));
       transform-origin: 66% 44%;
       filter: drop-shadow(-8px 12px 20px rgba(0,0,0,0.24));
     }
 
-    main.main {
-      display: flex;
-      flex-direction: column;
-      gap: clamp(1.55rem, 2.2vw, 2.25rem);
-      position: relative;
+    .page-crack-layer .cover-wrap {
+      visibility: hidden;
+    }
+
+    .page-crack-layer video,
+    .page-crack-layer .split-video-layer {
+      display: none;
     }
 
     .brand-row {
@@ -349,7 +347,9 @@
       width: 100%;
       transform:
         translateY(calc(var(--split) * 4px))
-        translateX(calc(var(--mx) * 1.2px));
+        translateX(calc(var(--mx) * 1px));
+      position: relative;
+      z-index: 6;
     }
 
     .cover-inner {
@@ -374,12 +374,88 @@
       filter: contrast(1.04) saturate(0.97);
     }
 
+    .base-video {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: calc(1 - var(--split-visual));
+      transition: opacity 0.12s linear;
+    }
+
+    .split-video-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: var(--split-visual);
+      transition: opacity 0.12s linear;
+    }
+
+    .video-half {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    .video-half.left {
+      clip-path: polygon(
+        0 0,
+        50% 0,
+        48% 9%,
+        53% 18%,
+        49% 31%,
+        55% 45%,
+        51% 58%,
+        60% 74%,
+        55% 88%,
+        64% 100%,
+        0 100%
+      );
+      transform:
+        translate3d(calc(var(--video-gap) * -1), var(--video-lift-left), 0)
+        rotate(var(--video-tilt-left));
+      transform-origin: 35% 45%;
+    }
+
+    .video-half.right {
+      clip-path: polygon(
+        50% 0,
+        100% 0,
+        100% 100%,
+        64% 100%,
+        55% 88%,
+        60% 74%,
+        51% 58%,
+        55% 45%,
+        49% 31%,
+        53% 18%,
+        48% 9%
+      );
+      transform:
+        translate3d(var(--video-gap), var(--video-lift-right), 0)
+        rotate(var(--video-tilt-right));
+      transform-origin: 65% 45%;
+    }
+
+    .split-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
     .listen-wrap {
       margin-top: 1.45rem;
       display: flex;
       justify-content: center;
       gap: 0.75rem;
       flex-wrap: wrap;
+      position: relative;
+      z-index: 5;
     }
 
     .listen-btn {
@@ -460,9 +536,11 @@
       line-height: 1.55;
     }
 
-    .fragment-head {
-      position: relative;
-      z-index: 3;
+    .songs-section {
+      margin-top: 0.3rem;
+    }
+
+    .songs-head {
       display: flex;
       justify-content: space-between;
       gap: 1rem;
@@ -470,13 +548,13 @@
       margin-bottom: 1rem;
     }
 
-    .fragment-head strong {
+    .songs-head strong {
       font-size: clamp(1.35rem, 3.5vw, 2.35rem);
       letter-spacing: -0.05em;
       line-height: 1;
     }
 
-    .fragment-head span {
+    .songs-head span {
       color: var(--text-muted);
       font-size: 0.78rem;
       letter-spacing: 0.12em;
@@ -485,95 +563,27 @@
       white-space: nowrap;
     }
 
-    .fragment-zone {
-      position: relative;
-      min-height: 460px;
-      margin-top: 0.4rem;
-      border-radius: 30px;
-      overflow: visible;
-      background: transparent;
-    }
-
-    .fragment-sides {
-      display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 1.1rem;
-      height: 460px;
-    }
-
-    .fragment-side {
-      position: relative;
-      min-height: 100%;
-    }
-
-    .shard {
-      position: absolute;
+    .song-lines {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: 0.72rem;
-      box-sizing: border-box;
-      border: 1px solid rgba(255,255,255,0.13);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.035));
-      box-shadow:
-        inset 0 0 18px rgba(255,255,255,0.025),
-        0 10px 24px rgba(0,0,0,0.16);
-      overflow: hidden;
+      gap: 0.62rem;
+      margin-top: 0.2rem;
+      max-width: 56rem;
     }
 
-    .shard-no,
-    .shard-title,
-    .shard-status {
-      position: relative;
-      z-index: 2;
+    .song-line {
+      margin: 0;
+      color: rgba(255,255,255,0.88);
+      font-size: clamp(0.92rem, 1.55vw, 1.12rem);
+      line-height: 1.55;
+      letter-spacing: 0.045em;
+      text-transform: lowercase;
     }
 
-    .shard-no {
-      font-size: 0.64rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-soft);
-      font-weight: 850;
+    .song-line span {
+      color: rgba(255,255,255,0.96);
+      white-space: nowrap;
     }
-
-    .shard-title {
-      font-size: clamp(0.84rem, 1.25vw, 0.98rem);
-      line-height: 1.08;
-      font-weight: 850;
-      color: rgba(255,255,255,0.94);
-      word-break: break-word;
-    }
-
-    .shard-status {
-      font-size: 0.56rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      font-weight: 900;
-    }
-
-    .shard.released .shard-status {
-      color: var(--release-green);
-    }
-
-    .shard.released {
-      border-color: rgba(61,220,132,0.28);
-      background: linear-gradient(135deg, rgba(61,220,132,0.18), rgba(255,255,255,0.035));
-    }
-
-    .l1 { left: 0%;  top: 0%;  width: 58%; height: 38%; clip-path: polygon(0 0, 92% 8%, 100% 70%, 34% 100%, 0 58%); }
-    .l2 { left: 48%; top: 3%;  width: 50%; height: 39%; clip-path: polygon(14% 0, 100% 0, 84% 100%, 0 76%, 20% 35%); }
-    .l3 { left: 5%;  top: 43%; width: 52%; height: 48%; clip-path: polygon(12% 0, 100% 20%, 78% 100%, 0 86%, 20% 42%); }
-    .l4 { left: 51%; top: 46%; width: 47%; height: 45%; clip-path: polygon(0 12%, 76% 0, 100% 58%, 70% 100%, 10% 82%); }
-
-    .r1 { left: 0%;  top: 0%;  width: 38%; height: 30%; clip-path: polygon(0 0, 88% 8%, 100% 74%, 28% 100%, 0 52%); }
-    .r2 { left: 39%; top: 0%;  width: 31%; height: 32%; clip-path: polygon(12% 0, 100% 0, 84% 100%, 0 72%, 20% 38%); }
-    .r3 { left: 70%; top: 4%;  width: 30%; height: 30%; clip-path: polygon(0 14%, 72% 0, 100% 46%, 78% 100%, 18% 86%); }
-
-    .r4 { left: 3%;  top: 34%; width: 32%; height: 31%; clip-path: polygon(10% 0, 100% 18%, 84% 92%, 30% 100%, 0 44%); }
-    .r5 { left: 35%; top: 35%; width: 31%; height: 31%; clip-path: polygon(0 8%, 86% 0, 100% 70%, 40% 100%, 10% 58%); }
-    .r6 { left: 65%; top: 36%; width: 33%; height: 31%; clip-path: polygon(12% 0, 100% 20%, 82% 100%, 0 78%); }
 
     .quote-block {
       border-left: 2px solid rgba(255,255,255,0.55);
@@ -586,7 +596,7 @@
 
     .footer-combined {
       position: relative;
-      z-index: 5;
+      z-index: 10;
       display: grid;
       grid-template-columns: 1fr;
       gap: 1.4rem;
@@ -629,11 +639,17 @@
 
     @media (max-width: 768px) {
       :root {
-        --gap: calc(var(--split) * 92px);
-        --lift-left: calc(var(--split) * -14px);
-        --lift-right: calc(var(--split) * 12px);
-        --tilt-left: calc(var(--split) * -0.3deg);
-        --tilt-right: calc(var(--split) * 0.28deg);
+        --page-gap: calc(var(--split) * 96px);
+        --page-lift-left: calc(var(--split) * -14px);
+        --page-lift-right: calc(var(--split) * 12px);
+        --page-tilt-left: calc(var(--split) * -0.32deg);
+        --page-tilt-right: calc(var(--split) * 0.28deg);
+
+        --video-gap: calc(var(--split) * 66px);
+        --video-lift-left: calc(var(--split) * -8px);
+        --video-lift-right: calc(var(--split) * 7px);
+
+        --bg-gap: calc(var(--split) * 36px);
         --mouse-x: calc(var(--mx) * 3px);
         --mouse-y: calc(var(--my) * 3px);
       }
@@ -694,68 +710,37 @@
         line-height: 1.45;
       }
 
-      .fragment-head {
+      .songs-head {
         flex-direction: column;
         gap: 0.2rem;
         margin-bottom: 0.65rem;
       }
 
-      .fragment-head strong {
+      .songs-head strong {
         font-size: 1.25rem;
         letter-spacing: -0.035em;
       }
 
-      .fragment-head span {
+      .songs-head span {
         font-size: 0.66rem;
       }
 
-      .fragment-zone {
-        min-height: auto;
-        border-radius: 22px;
+      .song-lines {
+        gap: 0.48rem;
       }
 
-      .fragment-sides {
-        grid-template-columns: 1fr 1fr;
-        height: 560px;
-        gap: 0.55rem;
+      .song-line {
+        font-size: 0.86rem;
+        line-height: 1.52;
       }
-
-      .shard {
-        padding: 0.45rem;
-      }
-
-      .shard-title {
-        font-size: 0.68rem;
-        line-height: 1.06;
-      }
-
-      .shard-no {
-        font-size: 0.48rem;
-      }
-
-      .shard-status {
-        font-size: 0.45rem;
-      }
-
-      .l1 { left: 0%;  top: 0%;  width: 92%; height: 23%; }
-      .l2 { left: 8%;  top: 24%; width: 88%; height: 23%; }
-      .l3 { left: 0%;  top: 48%; width: 92%; height: 24%; }
-      .l4 { left: 10%; top: 73%; width: 86%; height: 24%; }
-
-      .r1 { left: 0%;  top: 0%;  width: 92%; height: 15.5%; }
-      .r2 { left: 8%;  top: 16.5%; width: 88%; height: 15.5%; }
-      .r3 { left: 0%;  top: 33%; width: 92%; height: 15.5%; }
-      .r4 { left: 8%;  top: 49.5%; width: 88%; height: 15.5%; }
-      .r5 { left: 0%;  top: 66%; width: 92%; height: 15.5%; }
-      .r6 { left: 8%;  top: 82.5%; width: 88%; height: 15.5%; }
 
       section.block p {
         font-size: 0.92rem;
         line-height: 1.58;
       }
 
-      .ice-layer.left,
-      .ice-layer.right {
+      .page-crack-layer.left,
+      .page-crack-layer.right {
         filter: none;
       }
     }
@@ -763,6 +748,7 @@
     @media (prefers-reduced-motion: reduce) {
       :root {
         --split: 0;
+        --split-visual: 0;
         --mx: 0;
         --my: 0;
       }
@@ -770,6 +756,16 @@
       .listen-btn,
       .social-link {
         transition: none;
+      }
+
+      .split-video-layer,
+      .page-crack-layer {
+        display: none;
+      }
+
+      .base-video,
+      .crack-fade {
+        opacity: 1;
       }
     }
   </style>
@@ -784,160 +780,150 @@
   <div class="bg-cold" aria-hidden="true"></div>
 
   <div class="page-wrap">
-    <div class="content-shell" id="content-shell">
+    <div class="content">
+      <main class="main" aria-label="gespalten Albumseite">
 
-      <div class="ice-layer left" aria-hidden="true">
-        <div class="ice-layer-inner"></div>
-      </div>
+        <div class="page-crack-zone" id="page-crack-zone">
 
-      <div class="ice-layer right" aria-hidden="true">
-        <div class="ice-layer-inner"></div>
-      </div>
-
-      <main class="main main-source" aria-label="gespalten Albumseite">
-
-        <div class="split-me">
-          <div class="brand-row">
-            <a class="brand-link" href="index.html">b3nn3t</a>
+          <div class="page-crack-layer left" aria-hidden="true">
+            <div class="page-crack-layer-inner"></div>
           </div>
 
-          <section class="hero" aria-label="gespalten Album">
-            <p class="eyebrow">new album</p>
-            <h1>gespalten</h1>
+          <div class="page-crack-layer right" aria-hidden="true">
+            <div class="page-crack-layer-inner"></div>
+          </div>
 
-            <p class="hero-sub">
-              <strong>10 songs · 12 minutes</strong><br>
-              ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
-            </p>
+          <div class="page-crack-base">
+            <div id="split-copy-source">
 
-            <div class="cover-wrap" aria-label="Albumvideo gespalten">
-              <div class="cover-inner">
-                <video
-                  class="album-video"
-                  controls
-                  preload="metadata"
-                  playsinline
-                  poster="/assets/gespalten/gespalten.jpg">
-                  <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
-                  Dein Browser unterstützt dieses Videoformat nicht.
-                </video>
+              <div class="brand-row crack-fade">
+                <a class="brand-link" href="index.html">b3nn3t</a>
               </div>
-            </div>
 
-            <div class="listen-wrap">
-              <a
-                class="listen-btn main-cta"
-                href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                target="_blank"
-                rel="noopener">
-                album vormerken
-              </a>
-            </div>
-          </section>
+              <section class="hero" aria-label="gespalten Album">
+                <div class="crack-fade">
+                  <p class="eyebrow">new album</p>
+                  <h1>gespalten</h1>
 
-          <section aria-label="Album Countdown" class="block countdown-plain">
-            <p class="countdown-label">album unlocks in</p>
-            <p class="countdown-time album-countdown">--d --:--:--</p>
-            <p class="countdown-note release-note">
-              Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
-            </p>
-          </section>
+                  <p class="hero-sub">
+                    <strong>10 songs · 12 minutes</strong><br>
+                    ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
+                  </p>
+                </div>
 
-          <section aria-label="Album Fragmente" class="block">
-            <div class="fragment-head">
-              <strong>10 fragments / 12 minutes</strong>
-              <span>short album</span>
-            </div>
+                <div class="cover-wrap" aria-label="Albumvideo gespalten">
+                  <div class="cover-inner">
 
-            <div class="fragment-zone">
-              <div class="fragment-sides" aria-label="Songs auf gespalten">
-                <div class="fragment-side fragment-side-left">
-                  <div class="shard released l1">
-                    <div class="shard-no">01</div>
-                    <div class="shard-title">desigual</div>
-                    <div class="shard-status">released</div>
-                  </div>
+                    <video
+                      id="video-base"
+                      class="album-video base-video"
+                      controls
+                      preload="metadata"
+                      playsinline
+                      poster="/assets/gespalten/gespalten.jpg">
+                      <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                      Dein Browser unterstützt dieses Videoformat nicht.
+                    </video>
 
-                  <div class="shard locked l2">
-                    <div class="shard-no">02</div>
-                    <div class="shard-title">aergerlich</div>
-                    <div class="shard-status">locked</div>
-                  </div>
+                    <div class="split-video-layer" aria-hidden="true">
+                      <div class="video-half left">
+                        <video
+                          id="video-left"
+                          class="split-video"
+                          muted
+                          preload="metadata"
+                          playsinline
+                          poster="/assets/gespalten/gespalten.jpg">
+                          <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                        </video>
+                      </div>
 
-                  <div class="shard locked l3">
-                    <div class="shard-no">03</div>
-                    <div class="shard-title">3</div>
-                    <div class="shard-status">locked</div>
-                  </div>
+                      <div class="video-half right">
+                        <video
+                          id="video-right"
+                          class="split-video"
+                          muted
+                          preload="metadata"
+                          playsinline
+                          poster="/assets/gespalten/gespalten.jpg">
+                          <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
+                        </video>
+                      </div>
+                    </div>
 
-                  <div class="shard locked l4">
-                    <div class="shard-no">04</div>
-                    <div class="shard-title">(fenster scherben)</div>
-                    <div class="shard-status">locked</div>
                   </div>
                 </div>
 
-                <div class="fragment-side fragment-side-right">
-                  <div class="shard locked r1">
-                    <div class="shard-no">05</div>
-                    <div class="shard-title">5r</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r2">
-                    <div class="shard-no">06</div>
-                    <div class="shard-title">6</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r3">
-                    <div class="shard-no">07</div>
-                    <div class="shard-title">7</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r4">
-                    <div class="shard-no">08</div>
-                    <div class="shard-title">8?</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r5">
-                    <div class="shard-no">09</div>
-                    <div class="shard-title">wegwerfkamera</div>
-                    <div class="shard-status">locked</div>
-                  </div>
-
-                  <div class="shard locked r6">
-                    <div class="shard-no">10</div>
-                    <div class="shard-title">2011</div>
-                    <div class="shard-status">locked</div>
-                  </div>
+                <div class="listen-wrap crack-fade">
+                  <a
+                    class="listen-btn main-cta"
+                    href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                    target="_blank"
+                    rel="noopener">
+                    album vormerken
+                  </a>
                 </div>
-              </div>
+              </section>
+
+              <section aria-label="Album Countdown" class="block countdown-plain crack-fade">
+                <p class="countdown-label">album unlocks in</p>
+                <p class="countdown-time album-countdown">--d --:--:--</p>
+                <p class="countdown-note release-note">
+                  Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
+                </p>
+              </section>
+
+              <section aria-label="Songs auf gespalten" class="block songs-section crack-fade">
+                <div class="songs-head">
+                  <strong>10 fragments / 12 minutes</strong>
+                  <span>short album</span>
+                </div>
+
+                <div class="song-lines">
+                  <p class="song-line">
+                    <span>- desigual -</span>
+                    <span>- aergerlich -</span>
+                    <span>- 3 -</span>
+                    <span>- (fenster scherben) -</span>
+                  </p>
+
+                  <p class="song-line">
+                    <span>- 5r -</span>
+                    <span>- 6 -</span>
+                    <span>- 7 -</span>
+                  </p>
+
+                  <p class="song-line">
+                    <span>- 8? -</span>
+                    <span>- wegwerfkamera -</span>
+                    <span>- 2011 -</span>
+                  </p>
+                </div>
+              </section>
+
+              <section aria-label="Über das Album" class="block crack-fade">
+                <h2>über das album</h2>
+
+                <p>
+                  „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
+                  melancholischem bedroom-pop und deutschsprachigen skizzen.
+                </p>
+
+                <p>
+                  manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
+                  kurz, direkt, unfertig im besten sinn.
+                </p>
+
+                <div class="quote-block">
+                  10 songs. 12 minutes. ein album wie eis, das bricht.
+                </div>
+              </section>
+
             </div>
-          </section>
-
-          <section aria-label="Über das Album" class="block">
-            <h2>über das album</h2>
-
-            <p>
-              „gespalten“ ist ein kurzes album aus 10 fragmenten. 12 minuten zwischen indie-pop,
-              melancholischem bedroom-pop und deutschsprachigen skizzen.
-            </p>
-
-            <p>
-              manche songs fühlen sich eher wie gedanken an als wie klassische tracks —
-              kurz, direkt, unfertig im besten sinn.
-            </p>
-
-            <div class="quote-block">
-              10 songs. 12 minutes. ein album wie eis, das bricht.
-            </div>
-          </section>
+          </div>
         </div>
 
-        <div class="no-split footer-combined">
+        <div class="footer-combined">
           <section aria-label="Streaming" class="block">
             <h2>kuck hier</h2>
 
@@ -996,163 +982,133 @@
 
   <script>
     (function () {
+      const source = document.getElementById("split-copy-source");
+      const targets = document.querySelectorAll(".page-crack-layer-inner");
+
+      if (!source || !targets.length) return;
+
+      targets.forEach(function (target) {
+        const clone = source.cloneNode(true);
+        clone.removeAttribute("id");
+
+        clone.querySelectorAll("video").forEach(function (video) {
+          video.remove();
+        });
+
+        clone.querySelectorAll(".split-video-layer").forEach(function (layer) {
+          layer.remove();
+        });
+
+        clone.querySelectorAll(".cover-inner").forEach(function (inner) {
+          inner.innerHTML = "";
+        });
+
+        clone.querySelectorAll("a").forEach(function (link) {
+          link.setAttribute("tabindex", "-1");
+        });
+
+        target.appendChild(clone);
+      });
+    })();
+  </script>
+
+  <script>
+    (function () {
       const root = document.documentElement;
-      const shell = document.getElementById("content-shell");
-      const source = document.querySelector(".main-source");
-      const targets = document.querySelectorAll(".ice-layer-inner");
 
-      let clonesCreated = false;
-      let activated = false;
-      let readyForMouseActivation = false;
       let ticking = false;
-
       let mouseTargetX = 0;
       let mouseTargetY = 0;
       let mouseX = 0;
       let mouseY = 0;
-      let mouseSplit = 0;
+      let mouseBurst = 0;
       let scrollSplit = 0;
-      let mouseRaf = null;
-
-      const boundVideos = new WeakSet();
-
-      const POSTER_URL = "/assets/gespalten/gespalten.jpg";
-      const VIDEO_URL = "/assets/gespalten/gespalten.mp4";
-
-      setTimeout(function () {
-        readyForMouseActivation = true;
-      }, 650);
 
       function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
       }
 
-      function getVideos() {
-        return Array.from(document.querySelectorAll(".album-video"));
-      }
-
-      function createClones() {
-        if (clonesCreated || !shell || !source || !targets.length) return;
-
-        targets.forEach(function (target) {
-          const clone = source.cloneNode(true);
-          clone.classList.remove("main-source");
-          clone.classList.add("main-clone");
-
-          clone.querySelectorAll("video").forEach(function (video) {
-            video.setAttribute("poster", POSTER_URL);
-            video.setAttribute("preload", "metadata");
-
-            const sourceEl = video.querySelector("source");
-            if (sourceEl) {
-              sourceEl.setAttribute("src", VIDEO_URL);
-              sourceEl.setAttribute("type", "video/mp4");
-            }
-
-            try {
-              video.load();
-            } catch (e) {}
-          });
-
-          target.appendChild(clone);
-        });
-
-        clonesCreated = true;
-        bindVideos();
-      }
-
-      function activate() {
-        if (activated) return;
-
-        createClones();
-
-        activated = true;
-        document.body.classList.add("is-cracked");
-
-        syncAllVideos();
-        applySplit();
-      }
-
       function applySplit() {
-        const split = activated ? Math.max(scrollSplit, mouseSplit) : 0;
+        const split = clamp(Math.max(scrollSplit, mouseBurst), 0, 1);
+        const splitVisual = clamp(split * 2.05, 0, 1);
+
         root.style.setProperty("--split", split.toFixed(4));
+        root.style.setProperty("--split-visual", splitVisual.toFixed(4));
       }
 
-      function updateScrollSplit() {
-        const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        const raw = clamp(window.scrollY / maxScroll, 0, 1);
-
-        if (window.scrollY > 8) {
-          activate();
-        }
-
-        scrollSplit = activated
-          ? 1 - Math.pow(1 - raw, 1.85)
-          : 0;
-
+      function updateScroll() {
+        const raw = clamp(window.scrollY / 560, 0, 1);
+        scrollSplit = 1 - Math.pow(1 - raw, 1.8);
         applySplit();
         ticking = false;
       }
 
-      function requestScrollUpdate() {
+      function requestScroll() {
         if (!ticking) {
-          requestAnimationFrame(updateScrollSplit);
           ticking = true;
+          requestAnimationFrame(updateScroll);
         }
       }
 
       function animateMouse() {
-        mouseX += (mouseTargetX - mouseX) * 0.16;
-        mouseY += (mouseTargetY - mouseY) * 0.16;
+        mouseX += (mouseTargetX - mouseX) * 0.14;
+        mouseY += (mouseTargetY - mouseY) * 0.14;
+
+        mouseBurst *= 0.965;
+        if (mouseBurst < 0.003) mouseBurst = 0;
 
         root.style.setProperty("--mx", mouseX.toFixed(4));
         root.style.setProperty("--my", mouseY.toFixed(4));
 
         applySplit();
-
-        mouseRaf = requestAnimationFrame(animateMouse);
+        requestAnimationFrame(animateMouse);
       }
 
       function updateMouse(e) {
-        const movedEnough =
-          Math.abs(e.movementX || 0) + Math.abs(e.movementY || 0) > 1;
-
-        if (readyForMouseActivation && movedEnough) {
-          activate();
-        }
-
         const x = (e.clientX / window.innerWidth - 0.5) * 2;
         const y = (e.clientY / window.innerHeight - 0.5) * 2;
 
         mouseTargetX = clamp(x, -1, 1);
         mouseTargetY = clamp(y, -1, 1);
 
-        const distance = Math.sqrt(mouseTargetX * mouseTargetX + mouseTargetY * mouseTargetY);
-        mouseSplit = activated ? clamp(0.08 + distance * 0.12, 0.08, 0.22) : 0;
-
-        if (!mouseRaf) {
-          mouseRaf = requestAnimationFrame(animateMouse);
+        const moved = Math.abs(e.movementX || 0) + Math.abs(e.movementY || 0);
+        if (moved > 1) {
+          mouseBurst = Math.max(mouseBurst, 0.16);
         }
       }
 
-      let videoSyncing = false;
+      window.addEventListener("scroll", requestScroll, { passive: true });
+      window.addEventListener("resize", requestScroll);
+      window.addEventListener("mousemove", updateMouse, { passive: true });
 
-      function syncFrom(sourceVideo, eventName) {
-        if (videoSyncing) return;
-        videoSyncing = true;
+      updateScroll();
+      animateMouse();
+    })();
+  </script>
 
-        getVideos().forEach(function (video) {
-          if (video === sourceVideo) return;
+  <script>
+    (function () {
+      const base = document.getElementById("video-base");
+      const left = document.getElementById("video-left");
+      const right = document.getElementById("video-right");
 
-          if (Math.abs(video.currentTime - sourceVideo.currentTime) > 0.12) {
+      if (!base || !left || !right) return;
+
+      const mirrors = [left, right];
+      let syncing = false;
+
+      function syncMirrors(eventName) {
+        if (syncing) return;
+        syncing = true;
+
+        mirrors.forEach(function (video) {
+          if (Math.abs(video.currentTime - base.currentTime) > 0.12) {
             try {
-              video.currentTime = sourceVideo.currentTime;
+              video.currentTime = base.currentTime;
             } catch (e) {}
           }
 
-          video.volume = sourceVideo.volume;
-          video.muted = sourceVideo.muted;
-          video.playbackRate = sourceVideo.playbackRate;
+          video.playbackRate = base.playbackRate;
 
           if (eventName === "play" && video.paused) {
             video.play().catch(function () {});
@@ -1163,62 +1119,46 @@
           }
         });
 
-        videoSyncing = false;
+        syncing = false;
       }
 
-      function bindVideos() {
-        getVideos().forEach(function (video) {
-          if (boundVideos.has(video)) return;
-          boundVideos.add(video);
-
-          ["play", "pause", "seeked", "volumechange", "ratechange"].forEach(function (eventName) {
-            video.addEventListener(eventName, function () {
-              syncFrom(video, eventName);
-            });
-          });
-
-          video.addEventListener("timeupdate", function () {
-            syncFrom(video, "timeupdate");
-          });
-        });
-      }
-
-      function syncAllVideos() {
-        const videos = getVideos();
-        if (!videos.length) return;
-
-        const sourceVideo = videos.find(function (video) {
-          return !video.closest(".ice-layer");
-        }) || videos[0];
-
-        videos.forEach(function (video) {
-          if (video === sourceVideo) return;
-
-          try {
-            video.currentTime = sourceVideo.currentTime;
-          } catch (e) {}
-
-          video.volume = sourceVideo.volume;
-          video.muted = sourceVideo.muted;
-          video.playbackRate = sourceVideo.playbackRate;
-
-          if (!sourceVideo.paused) {
-            video.play().catch(function () {});
+      function keepClose() {
+        mirrors.forEach(function (video) {
+          if (!base.paused && Math.abs(video.currentTime - base.currentTime) > 0.18) {
+            try {
+              video.currentTime = base.currentTime;
+            } catch (e) {}
           }
         });
       }
 
-      window.addEventListener("scroll", requestScrollUpdate, { passive: true });
-      window.addEventListener("resize", requestScrollUpdate);
-      window.addEventListener("mousemove", updateMouse, { passive: true });
+      base.addEventListener("play", function () {
+        syncMirrors("play");
+      });
 
-      root.style.setProperty("--split", "0");
-      root.style.setProperty("--mx", "0");
-      root.style.setProperty("--my", "0");
+      base.addEventListener("pause", function () {
+        syncMirrors("pause");
+      });
 
-      bindVideos();
-      updateScrollSplit();
-      animateMouse();
+      base.addEventListener("seeked", function () {
+        syncMirrors("seeked");
+      });
+
+      base.addEventListener("ratechange", function () {
+        syncMirrors("ratechange");
+      });
+
+      base.addEventListener("loadedmetadata", function () {
+        syncMirrors("loadedmetadata");
+      });
+
+      base.addEventListener("timeupdate", keepClose);
+
+      mirrors.forEach(function (video) {
+        video.muted = true;
+        video.controls = false;
+        video.playsInline = true;
+      });
     })();
   </script>
 
@@ -1261,18 +1201,6 @@
           ctaEl.href = ALBUM_LINK;
           ctaEl.textContent = diff <= 0 ? "gespalten hören" : "album vormerken";
         });
-
-        if (diff <= 0) {
-          document.querySelectorAll(".shard.locked").forEach(function (card) {
-            card.classList.remove("locked");
-            card.classList.add("released");
-
-            const status = card.querySelector(".shard-status");
-            if (status) {
-              status.textContent = "released";
-            }
-          });
-        }
       }
 
       renderCountdown();
