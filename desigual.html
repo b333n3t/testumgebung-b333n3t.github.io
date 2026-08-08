@@ -44,32 +44,7 @@
   </script>
 
   <link rel="preload" as="image" href="/assets/gespalten/gespalten.jpg" fetchpriority="high">
-/* zusätzliche Abstände Desktop + Mobile */
-.countdown-plain {
-  margin-top: clamp(1.6rem, 3vw, 2.4rem);
-}
 
-.song-list-section {
-  margin-top: clamp(1.7rem, 3vw, 2.5rem);
-}
-
-.about-section {
-  margin-top: clamp(1.7rem, 3vw, 2.5rem);
-}
-
-@media (max-width: 768px) {
-  .countdown-plain {
-    margin-top: 1rem;
-  }
-
-  .song-list-section {
-    margin-top: 1.15rem;
-  }
-
-  .about-section {
-    margin-top: 1.15rem;
-  }
-}
   <style>
     :root {
       --text-main: #fdfdfd;
@@ -467,9 +442,9 @@
       margin-top: 0.75rem;
     }
 
-.countdown-plain {
-  margin-top: clamp(1.6rem, 3vw, 2.4rem);
-}
+    .countdown-plain {
+      margin-top: clamp(1.6rem, 3vw, 2.4rem);
+    }
 
     .countdown-label {
       margin: 0 0 0.45rem;
@@ -496,10 +471,10 @@
       line-height: 1.55;
     }
 
-.song-list-section {
-  margin-top: clamp(1.7rem, 3vw, 2.5rem);
-  text-align: center;
-}
+    .song-list-section {
+      margin-top: clamp(1.7rem, 3vw, 2.5rem);
+      text-align: center;
+    }
 
     .song-list-head {
       display: flex;
@@ -571,6 +546,10 @@
 
     .song-line span:nth-child(4) {
       transform: rotate(2deg) translateY(-0.02rem);
+    }
+
+    .about-section {
+      margin-top: clamp(1.7rem, 3vw, 2.5rem);
     }
 
     .quote-block {
@@ -680,6 +659,10 @@
         font-size: 0.9rem;
       }
 
+      .countdown-plain {
+        margin-top: 1rem;
+      }
+
       .countdown-label {
         font-size: 0.66rem;
         margin-bottom: 0.4rem;
@@ -695,6 +678,7 @@
       }
 
       .song-list-section {
+        margin-top: 1.15rem;
         text-align: left;
       }
 
@@ -727,6 +711,10 @@
 
       .song-line span {
         margin: 0 0.14rem;
+      }
+
+      .about-section {
+        margin-top: 1.15rem;
       }
 
       section.block p {
@@ -1136,7 +1124,7 @@
             </div>
           </section>
 
-         <section aria-label="Über das Album" class="block about-section">
+          <section aria-label="Über das Album" class="block about-section">
             <h2>über das album</h2>
 
             <p>
