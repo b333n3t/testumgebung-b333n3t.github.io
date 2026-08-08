@@ -770,6 +770,48 @@
       display: none !important;
     }
 
+    /* Lightweight mobile-only split: two clipped copies of the already-
+       loaded poster image over the cover, scroll-driven only. No DOM
+       cloning, no extra video, no blur, no drop-shadow — just clip-path
+       + transform on two small elements. */
+    .cover-crack {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      display: none;
+    }
+
+    .mobile-lite-split .cover-crack {
+      display: block;
+      opacity: var(--split);
+    }
+
+    .mobile-lite-split .album-video {
+      opacity: calc(1 - var(--split) * 0.92);
+    }
+
+    .crack-half {
+      position: absolute;
+      inset: -2%;
+      background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
+    }
+
+    .crack-half.left {
+      clip-path: polygon(0 0, 50% 0, 47% 22%, 53% 45%, 48% 68%, 55% 88%, 60% 100%, 0 100%);
+      transform:
+        translate3d(calc(var(--split) * -30px), calc(var(--split) * -8px), 0)
+        rotate(calc(var(--split) * -0.55deg));
+    }
+
+    .crack-half.right {
+      clip-path: polygon(50% 0, 100% 0, 100% 100%, 60% 100%, 55% 88%, 48% 68%, 53% 45%, 47% 22%);
+      transform:
+        translate3d(calc(var(--split) * 30px), calc(var(--split) * 8px), 0)
+        rotate(calc(var(--split) * 0.5deg));
+    }
+
     /* Defers the footer from layout/paint until it's near the viewport */
     .footer-combined {
       content-visibility: auto;
@@ -837,6 +879,11 @@
                   <source src="/assets/gespalten/gespalten.mp4" type="video/mp4">
                   Dein Browser unterstützt dieses Videoformat nicht.
                 </video>
+
+                <div class="cover-crack" aria-hidden="true">
+                  <div class="crack-half left"></div>
+                  <div class="crack-half right"></div>
+                </div>
               </div>
             </div>
  
@@ -1026,10 +1073,32 @@
         window.matchMedia("(max-width: 768px)").matches;
 
       if (isMobile) {
-        root.classList.add("no-crack-fx");
-        root.style.setProperty("--split", "0");
+        root.classList.add("no-crack-fx", "mobile-lite-split");
         root.style.setProperty("--mx", "0");
         root.style.setProperty("--my", "0");
+
+        // Pure scroll-driven split for the lightweight mobile version.
+        // No mouse tracking, no DOM cloning, no extra video — just one
+        // CSS variable updated on scroll (already rAF-throttled).
+        let liteTicking = false;
+
+        function updateLiteSplit() {
+          const raw = Math.min(Math.max(window.scrollY / 420, 0), 1);
+          const split = 1 - Math.pow(1 - raw, 1.8);
+          root.style.setProperty("--split", split.toFixed(4));
+          liteTicking = false;
+        }
+
+        function requestLiteUpdate() {
+          if (!liteTicking) {
+            liteTicking = true;
+            requestAnimationFrame(updateLiteSplit);
+          }
+        }
+
+        window.addEventListener("scroll", requestLiteUpdate, { passive: true });
+        window.addEventListener("resize", requestLiteUpdate);
+        updateLiteSplit();
         return;
       }
 
