@@ -509,19 +509,53 @@
       max-width: 58rem;
     }
 
-    .song-line {
-      margin: 0;
-      color: rgba(255,255,255,0.9);
-      font-size: clamp(0.92rem, 1.5vw, 1.1rem);
-      line-height: 1.65;
-      letter-spacing: 0.045em;
-      text-transform: lowercase;
-      text-align: center;
-    }
+.song-lines {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.78rem;
+  margin: 0 auto;
+  max-width: 60rem;
+}
 
-    .song-line span {
-      white-space: nowrap;
-    }
+.song-line {
+  margin: 0;
+  color: rgba(255,255,255,0.92);
+  font-size: clamp(1.18rem, 2vw, 1.55rem);
+  line-height: 1.65;
+  letter-spacing: 0.045em;
+  text-transform: lowercase;
+  text-align: center;
+  font-weight: 760;
+}
+
+.song-line span {
+  display: inline-block;
+  white-space: nowrap;
+  margin: 0 0.22rem;
+  transform-origin: center;
+}
+
+.song-line span::before {
+  content: "· ";
+  color: rgba(255,255,255,0.62);
+}
+
+.song-line span:nth-child(1) {
+  transform: rotate(-2.2deg) translateY(0.02rem);
+}
+
+.song-line span:nth-child(2) {
+  transform: rotate(1.4deg) translateY(-0.04rem);
+}
+
+.song-line span:nth-child(3) {
+  transform: rotate(-1.1deg) translateY(0.05rem);
+}
+
+.song-line span:nth-child(4) {
+  transform: rotate(2deg) translateY(-0.02rem);
+}
 
     .quote-block {
       border-left: 2px solid rgba(255,255,255,0.55);
@@ -980,12 +1014,12 @@
           </div>
 
           <section class="hero" aria-label="gespalten Album">
-            <p class="eyebrow">new album</p>
+            <p class="eyebrow"></p>
             <h1>gespalten</h1>
 
             <p class="hero-sub">
-              <strong>10 songs · 12 minutes</strong><br>
-              ein kurzes album zwischen indie-pop, rap und melancholischem bedroom-pop.
+              <strong></strong><br>
+              ein kurzes album zwischen alt und neu
             </p>
 
             <div class="cover-wrap" aria-label="Albumvideo gespalten">
@@ -1043,6 +1077,8 @@
                 rel="noopener">
                 album vormerken
               </a>
+               <span></span>
+               <span></span>
             </div>
           </section>
 
@@ -1050,14 +1086,14 @@
             <p class="countdown-label">album unlocks in</p>
             <p class="countdown-time album-countdown">--d --:--:--</p>
             <p class="countdown-note release-note">
-              Release: 13. August 2026 · 13:00 Uhr Schweizer Zeit
+              Release: 13. August 2026 · 24:00 Uhr 
             </p>
           </section>
 
-          <section aria-label="Songs auf gespalten" class="block song-list-section">
+          <section aria-label= class="block song-list-section">
             <div class="song-list-head">
               <strong>10 fragments / 12 minutes</strong>
-              <span>short album</span>
+              <span></span>
             </div>
 
             <div class="song-lines">
@@ -1557,23 +1593,44 @@
         videoSyncing = false;
       }
 
-      function bindVideos() {
-        getVideos().forEach(function (video) {
-          if (boundVideos.has(video)) return;
-          boundVideos.add(video);
+function bindVideos() {
+  getVideos().forEach(function (video) {
+    if (boundVideos.has(video)) return;
+    boundVideos.add(video);
 
-          ["play", "pause", "seeked", "volumechange", "ratechange"].forEach(function (eventName) {
-            video.addEventListener(eventName, function () {
-              syncFrom(video, eventName);
-            });
-          });
+    ["play", "pause", "seeked", "volumechange", "ratechange"].forEach(function (eventName) {
+      video.addEventListener(eventName, function () {
+        syncFrom(video, eventName);
+      });
+    });
 
-          video.addEventListener("timeupdate", function () {
-            syncFrom(video, "timeupdate");
-          });
-        });
-      }
+    video.addEventListener("timeupdate", function () {
+      syncFrom(video, "timeupdate");
+    });
 
+    video.addEventListener("ended", function () {
+      resetDesktopVideosToPoster();
+    });
+  });
+}
+
+function resetDesktopVideosToPoster() {
+  getVideos().forEach(function (video) {
+    try {
+      video.pause();
+      video.currentTime = 0;
+    } catch (e) {}
+  });
+
+  setTimeout(function () {
+    getVideos().forEach(function (video) {
+      try {
+        video.load();
+      } catch (e) {}
+    });
+  }, 80);
+}
+      
       function syncAllVideos() {
         const videos = getVideos();
         if (!videos.length) return;
@@ -1614,7 +1671,7 @@
 
   <script>
     (function () {
-      const RELEASE_DATE = new Date("2026-08-13T13:00:00+02:00").getTime();
+      const RELEASE_DATE = new Date("2026-08-13T24:00:00+02:00").getTime();
       const ALBUM_LINK = "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
       function pad(value) {
