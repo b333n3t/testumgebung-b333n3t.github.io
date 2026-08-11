@@ -1,837 +1,3509 @@
-
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>aktuell (b3nn3t) | neuigkeiten & termine</title>
-  <meta name="description" content="Aktuelle Neuigkeiten von b3nn3t – Updates zu Musik, Releases, Projekten, Events und besonderen Momenten." />
-  <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://www.b3nn3t.com/aktuell.html" />
 
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="b3nn3t" />
-  <meta property="og:title" content="Aktuell – b3nn3t" />
-  <meta property="og:description" content="Neuigkeiten, Releases & Termine von b3nn3t." />
-  <meta property="og:url" content="https://www.b3nn3t.com/aktuell.html" />
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.webp" />
+<meta charset="UTF-8">
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Aktuell – b3nn3t" />
-  <meta name="twitter:description" content="Neuigkeiten, Releases & Termine von b3nn3t." />
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.webp" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-  <!-- Favicons: Google, Browser, Apple -->
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<title>b3nn3t „gespalten“</title>
 
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles_nav_arrows.css" />
-  <link rel="stylesheet" href="swipe-helper.css" />
+<meta
+  name="description"
+  content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten zwischen alt und neu."
+>
 
-  <style>
-    :root{
-      --bottom-gap:60px;
+<meta
+  name="robots"
+  content="index,follow,max-image-preview:large"
+>
 
-      /* Footer (hochkant rechts) – feinjustierbar */
-      --footer-top-desktop: 430px;
-      --footer-right-desktop: 0px;
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-      --footer-top-mobile: 520px;
-      --footer-right-mobile: 0.2px;
-    }
-    @media (max-width:768px){ :root{ --bottom-gap:20px; } }
+<link
+  rel="preload"
+  as="image"
+  href="/assets/gespalten/gespalten.jpg"
+  fetchpriority="high"
+>
 
-    html, body{ overflow:hidden; }
-    @media (max-width:767px){
-      html, body{ overflow:auto; -webkit-overflow-scrolling:touch; }
+
+<style>
+
+/* =========================================================
+   B3NN3T – GESPALTEN
+   JEANS / ZIPPER VERSION
+========================================================= */
+
+
+/* =========================================================
+   FARBEN
+========================================================= */
+
+:root {
+
+    --denim-dark: #0b2038;
+    --denim: #173b63;
+    --denim-mid: #24537b;
+    --denim-light: #32688e;
+
+    --denim-shadow: rgba(4, 15, 28, .55);
+
+    --thread: #c47732;
+    --thread-light: #e09a4a;
+    --thread-dark: #814518;
+
+    --metal-light: #f0f0ec;
+    --metal: #a9aaa5;
+    --metal-dark: #555852;
+
+    --text-main: #d98b43;
+    --text-light: #efaa60;
+    --text-muted: rgba(218, 151, 91, .72);
+
+    --page-max-width: 960px;
+
+    /*
+       0 = geschlossen
+       1 = komplett geöffnet
+    */
+    --zip: 0;
+
+    --zip-position: 0px;
+
+    --mx: 0;
+    --my: 0;
+
+    --zip-width: 20px;
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    min-height: 100%;
+
+    overflow-x: hidden;
+
+    background:
+        var(--denim-dark);
+
+    color:
+        var(--text-main);
+
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        sans-serif;
+
+    scroll-behavior: auto;
+}
+
+
+/* =========================================================
+   DENIM-HINTERGRUND
+========================================================= */
+
+body {
+
+    /*
+       Jeansstoff-Grundfarbe
+    */
+
+    background:
+
+        radial-gradient(
+            ellipse at 25% 15%,
+            rgba(74, 132, 171, .34),
+            transparent 34%
+        ),
+
+        radial-gradient(
+            ellipse at 80% 70%,
+            rgba(3, 20, 38, .55),
+            transparent 45%
+        ),
+
+        linear-gradient(
+            135deg,
+            #0d2947,
+            #1b456c 46%,
+            #102e4e
+        );
+
+}
+
+
+/*
+   Sehr feine Denim-Struktur.
+   Kein Bild notwendig.
+*/
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    opacity: .28;
+
+    background:
+
+        repeating-linear-gradient(
+            0deg,
+            transparent 0,
+            transparent 2px,
+            rgba(255,255,255,.025) 2px,
+            rgba(255,255,255,.025) 3px
+        ),
+
+        repeating-linear-gradient(
+            90deg,
+            transparent 0,
+            transparent 3px,
+            rgba(0,0,0,.045) 3px,
+            rgba(0,0,0,.045) 4px
+        );
+
+}
+
+
+/*
+   Stoff-Waschung / Denim-Noise
+*/
+
+body::after {
+
+    content: "";
+
+    position: fixed;
+
+    inset: -20%;
+
+    pointer-events: none;
+
+    z-index: 0;
+
+    opacity: .34;
+
+    background:
+
+        radial-gradient(
+            ellipse at 30% 25%,
+            rgba(255,255,255,.08),
+            transparent 28%
+        ),
+
+        radial-gradient(
+            ellipse at 70% 80%,
+            rgba(0,0,0,.20),
+            transparent 35%
+        );
+
+    filter: blur(16px);
+
+}
+
+
+/* =========================================================
+   SCROLL-BÜHNE
+========================================================= */
+
+.zip-scroll {
+
+    position: relative;
+
+    /*
+       Eine komplette Scrollbewegung
+       öffnet den Reißverschluss.
+
+       Mehr Höhe = langsameres Öffnen.
+    */
+
+    height: 230vh;
+
+}
+
+
+/* =========================================================
+   FIXIERTE HAUPTBÜHNE
+========================================================= */
+
+.zip-stage {
+
+    position: fixed;
+
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    z-index: 1;
+
+}
+
+
+/* =========================================================
+   PAGE 2
+========================================================= */
+
+.page-2 {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    padding:
+        clamp(2.5rem, 5vw, 5rem)
+        1.5rem
+        8rem;
+
+    /*
+       Seite 2 liegt bereits unter Seite 1.
+    */
+
+    background:
+
+        radial-gradient(
+            ellipse at 50% 10%,
+            rgba(58, 111, 148, .35),
+            transparent 42%
+        ),
+
+        linear-gradient(
+            135deg,
+            #102f50,
+            #1a466b 48%,
+            #0c2947
+        );
+
+    color:
+        var(--text-main);
+
+}
+
+
+.page-2-inner {
+
+    width: 100%;
+
+    max-width:
+        var(--page-max-width);
+
+    margin:
+        0 auto;
+
+    min-height: 100vh;
+
+}
+
+
+/* =========================================================
+   PAGE 2 TEXT
+========================================================= */
+
+.page-2 h2 {
+
+    margin:
+        0 0 1rem;
+
+    font-size:
+        clamp(
+            3.5rem,
+            10vw,
+            8rem
+        );
+
+    line-height: .88;
+
+    letter-spacing: -.075em;
+
+    color:
+        var(--text-main);
+
+}
+
+
+.page-2 p {
+
+    max-width: 700px;
+
+    font-size:
+        clamp(
+            1rem,
+            1.5vw,
+            1.15rem
+        );
+
+    line-height: 1.75;
+
+    letter-spacing: .045em;
+
+    color:
+        var(--text-muted);
+
+}
+
+
+.page-2-block {
+
+    margin-top:
+        clamp(
+            4rem,
+            9vh,
+            8rem
+        );
+
+}
+
+
+.page-2-line {
+
+    width: 100%;
+
+    height: 1px;
+
+    margin:
+        2rem 0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            var(--thread),
+            transparent
+        );
+
+}
+
+
+/* =========================================================
+   PAGE 1
+========================================================= */
+
+.page-1 {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 5;
+
+    overflow: hidden;
+
+}
+
+
+/*
+   Beide Hälften enthalten denselben Seiteninhalt.
+
+   Durch clip-path sieht man jeweils nur
+   die entsprechende Seite des Inhalts.
+*/
+
+.page-1-half {
+
+    position: absolute;
+
+    inset: 0;
+
+    overflow: hidden;
+
+    will-change:
+        transform,
+        clip-path;
+
+}
+
+
+/* =========================================================
+   LINKES JEANSSTÜCK
+========================================================= */
+
+.page-1-left {
+
+    clip-path:
+
+        polygon(
+
+            0 0,
+
+            calc(
+                50% -
+                (
+                    var(--zip) * 24px
+                )
+            ) 0,
+
+            calc(
+                49% -
+                (
+                    var(--zip) * 28px
+                )
+            ) 8%,
+
+            calc(
+                51% -
+                (
+                    var(--zip) * 30px
+                )
+            ) 16%,
+
+            calc(
+                48.7% -
+                (
+                    var(--zip) * 26px
+                )
+            ) 25%,
+
+            calc(
+                52% -
+                (
+                    var(--zip) * 34px
+                )
+            ) 37%,
+
+            calc(
+                49% -
+                (
+                    var(--zip) * 30px
+                )
+            ) 50%,
+
+            calc(
+                54% -
+                (
+                    var(--zip) * 36px
+                )
+            ) 63%,
+
+            calc(
+                52% -
+                (
+                    var(--zip) * 32px
+                )
+            ) 77%,
+
+            calc(
+                57% -
+                (
+                    var(--zip) * 42px
+                )
+            ) 100%,
+
+            0 100%
+
+        );
+
+
+    transform:
+
+        translate3d(
+
+            calc(
+                var(--zip) * -62vw
+                +
+                var(--mx) * -5px
+            ),
+
+            calc(
+                var(--my) * -3px
+            ),
+
+            0
+
+        )
+
+        rotate(
+            calc(
+                var(--zip) * -0.7deg
+            )
+        );
+
+}
+
+
+/* =========================================================
+   RECHTES JEANSSTÜCK
+========================================================= */
+
+.page-1-right {
+
+    clip-path:
+
+        polygon(
+
+            calc(
+                50% +
+                (
+                    var(--zip) * 24px
+                )
+            ) 0,
+
+            100% 0,
+
+            100% 100%,
+
+            calc(
+                57% +
+                (
+                    var(--zip) * 42px
+                )
+            ) 100%,
+
+            calc(
+                52% +
+                (
+                    var(--zip) * 32px
+                )
+            ) 77%,
+
+            calc(
+                54% +
+                (
+                    var(--zip) * 36px
+                )
+            ) 63%,
+
+            calc(
+                49% +
+                (
+                    var(--zip) * 30px
+                )
+            ) 50%,
+
+            calc(
+                52% +
+                (
+                    var(--zip) * 34px
+                )
+            ) 37%,
+
+            calc(
+                48.7% +
+                (
+                    var(--zip) * 26px
+                )
+            ) 25%,
+
+            calc(
+                51% +
+                (
+                    var(--zip) * 30px
+                )
+            ) 16%,
+
+            calc(
+                49% +
+                (
+                    var(--zip) * 28px
+                )
+            ) 8%
+
+        );
+
+
+    transform:
+
+        translate3d(
+
+            calc(
+                var(--zip) * 62vw
+                +
+                var(--mx) * 5px
+            ),
+
+            calc(
+                var(--my) * 3px
+            ),
+
+            0
+
+        )
+
+        rotate(
+            calc(
+                var(--zip) * .7deg
+            )
+        );
+
+}
+
+
+/* =========================================================
+   PAGE-1 INHALT
+========================================================= */
+
+.page-1-inner {
+
+    width: 100%;
+
+    max-width:
+        var(--page-max-width);
+
+    min-height: 100vh;
+
+    margin:
+        0 auto;
+
+    padding:
+        clamp(2.8rem, 4vw, 4rem)
+        1.5rem
+        5rem;
+
+}
+
+
+/* =========================================================
+   TEXT
+========================================================= */
+
+.brand-row {
+
+    display: flex;
+
+    justify-content: center;
+
+    margin-bottom:
+        clamp(
+            1.5rem,
+            3vw,
+            2.5rem
+        );
+
+}
+
+
+.brand-link {
+
+    color:
+        var(--text-main);
+
+    font-weight: 900;
+
+    letter-spacing: .08em;
+
+    text-decoration: none;
+
+    /*
+       Faden-/Stick-Effekt
+    */
+
+    text-shadow:
+
+        1px 1px 0 var(--thread-dark),
+
+        -0.5px -0.5px 0 var(--thread-light),
+
+        0 0 7px rgba(224,154,74,.12);
+
+}
+
+
+.hero {
+
+    text-align: center;
+
+}
+
+
+.eyebrow {
+
+    margin:
+        0 0 .45rem;
+
+    font-size:
+        .78rem;
+
+    letter-spacing:
+        .18em;
+
+    text-transform:
+        uppercase;
+
+    color:
+        var(--text-muted);
+
+}
+
+
+.hero h1 {
+
+    margin:
+        0 0 .7rem;
+
+    font-size:
+        clamp(
+            3.2rem,
+            10vw,
+            7.6rem
+        );
+
+    line-height:
+        .88;
+
+    letter-spacing:
+        -.078em;
+
+    font-weight:
+        900;
+
+    color:
+        var(--text-main);
+
+    text-shadow:
+
+        1px 1px 0 var(--thread-dark),
+
+        -1px -1px 0 var(--thread-light),
+
+        0 2px 14px rgba(0,0,0,.15);
+
+}
+
+
+.hero-sub {
+
+    margin:
+        0 auto
+        clamp(
+            1.5rem,
+            2.7vw,
+            2.2rem
+        );
+
+    max-width:
+        42rem;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        clamp(
+            .95rem,
+            1.5vw,
+            1.08rem
+        );
+
+    letter-spacing:
+        .045em;
+
+    line-height:
+        1.55;
+
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.cover-wrap {
+
+    width: 100%;
+
+    max-width: 680px;
+
+    margin:
+        0 auto
+        1.8rem;
+
+}
+
+
+.cover-inner {
+
+    position: relative;
+
+    aspect-ratio: 1 / 1;
+
+    border-radius: 30px;
+
+    overflow: hidden;
+
+    background: #071624;
+
+    box-shadow:
+
+        0 30px 90px
+        rgba(0,0,0,.45),
+
+        0 0 0 2px
+        rgba(196,119,50,.18);
+
+}
+
+
+.album-video {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    border: 0;
+
+    outline: 0;
+
+    background: #000;
+
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.listen-wrap {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: .75rem;
+
+    flex-wrap: wrap;
+
+}
+
+
+.listen-btn {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding:
+        .95rem 1.35rem;
+
+    border-radius:
+        999px;
+
+    text-decoration:
+        none;
+
+    font-weight:
+        900;
+
+    letter-spacing:
+        .045em;
+
+    text-transform:
+        lowercase;
+
+    color:
+        #163858;
+
+    background:
+        var(--thread);
+
+    border:
+        2px solid
+        var(--thread-light);
+
+    box-shadow:
+
+        0 7px 22px
+        rgba(0,0,0,.28),
+
+        inset 0 1px 0
+        rgba(255,255,255,.22);
+
+    transition:
+        transform .18s ease,
+        box-shadow .2s ease;
+
+}
+
+
+.listen-btn:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+
+        0 12px 30px
+        rgba(0,0,0,.34),
+
+        0 0 18px
+        rgba(224,154,74,.18);
+
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+section.block {
+
+    margin-bottom:
+        clamp(
+            2rem,
+            3vw,
+            3rem
+        );
+
+}
+
+
+section.block h2 {
+
+    margin:
+        0 0 1rem;
+
+    font-size:
+        1.08rem;
+
+    letter-spacing:
+        .06em;
+
+    text-transform:
+        lowercase;
+
+    color:
+        var(--text-main);
+
+}
+
+
+section.block p {
+
+    margin:
+        0;
+
+    max-width:
+        60rem;
+
+    font-size:
+        1rem;
+
+    line-height:
+        1.7;
+
+    letter-spacing:
+        .04em;
+
+    color:
+        var(--text-muted);
+
+}
+
+
+section.block p + p {
+
+    margin-top:
+        .75rem;
+
+}
+
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.countdown-plain {
+
+    margin-top:
+        2rem;
+
+}
+
+
+.countdown-label {
+
+    margin:
+        0 0 .45rem;
+
+    font-size:
+        .72rem;
+
+    letter-spacing:
+        .16em;
+
+    text-transform:
+        uppercase;
+
+    font-weight:
+        900;
+
+    color:
+        var(--text-muted);
+
+}
+
+
+.countdown-time {
+
+    margin:
+        0;
+
+    font-size:
+        clamp(
+            2rem,
+            6vw,
+            4.6rem
+        );
+
+    line-height:
+        .95;
+
+    letter-spacing:
+        -.065em;
+
+    font-weight:
+        900;
+
+    font-variant-numeric:
+        tabular-nums;
+
+    color:
+        var(--text-main);
+
+}
+
+
+.countdown-note {
+
+    margin-top:
+        .7rem;
+
+    color:
+        var(--text-muted);
+
+}
+
+
+/* =========================================================
+   SONG LIST
+========================================================= */
+
+.song-list-section {
+
+    margin-top:
+        2.5rem;
+
+    text-align:
+        center;
+
+}
+
+
+.song-list-head {
+
+    margin-bottom:
+        1.15rem;
+
+    text-align:
+        left;
+
+}
+
+
+.song-list-head strong {
+
+    font-size:
+        clamp(
+            1.35rem,
+            3.5vw,
+            2.35rem
+        );
+
+    letter-spacing:
+        -.05em;
+
+    color:
+        var(--text-main);
+
+}
+
+
+.song-lines {
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    gap:
+        .78rem;
+
+}
+
+
+.song-line {
+
+    margin:
+        0;
+
+    font-size:
+        clamp(
+            1.18rem,
+            2vw,
+            1.55rem
+        );
+
+    line-height:
+        1.65;
+
+    letter-spacing:
+        .045em;
+
+    text-align:
+        center;
+
+    font-weight:
+        760;
+
+    color:
+        var(--text-main);
+
+}
+
+
+.song-line span {
+
+    display:
+        inline-block;
+
+    white-space:
+        nowrap;
+
+    margin:
+        0 .22rem;
+
+}
+
+
+.song-line span::before {
+
+    content:
+        "· ";
+
+    color:
+        var(--thread-dark);
+
+}
+
+
+.song-line span:nth-child(1) {
+
+    transform:
+        rotate(-2.2deg);
+
+}
+
+
+.song-line span:nth-child(2) {
+
+    transform:
+        rotate(1.4deg);
+
+}
+
+
+.song-line span:nth-child(3) {
+
+    transform:
+        rotate(-1.1deg);
+
+}
+
+
+.song-line span:nth-child(4) {
+
+    transform:
+        rotate(2deg);
+
+}
+
+
+/* =========================================================
+   ABOUT
+========================================================= */
+
+.about-section {
+
+    margin-top:
+        2.5rem;
+
+}
+
+
+.quote-block {
+
+    border-left:
+        2px solid
+        var(--thread);
+
+    padding-left:
+        1rem;
+
+    margin-top:
+        1rem;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer-combined {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr;
+
+    gap:
+        1.4rem;
+
+    padding-top:
+        .5rem;
+
+}
+
+
+.social-icons {
+
+    display:
+        flex;
+
+    flex-wrap:
+        wrap;
+
+    gap:
+        1.4rem;
+
+    align-items:
+        center;
+
+}
+
+
+.social-link {
+
+    display:
+        inline-flex;
+
+    text-decoration:
+        none;
+
+    transition:
+        transform .18s ease,
+        opacity .2s ease;
+
+}
+
+
+.social-link:hover {
+
+    transform:
+        translateY(-2px);
+
+    opacity:
+        .8;
+
+}
+
+
+.social-icon-img {
+
+    width:
+        clamp(
+            1.6rem,
+            1.3vw + 1rem,
+            2.2rem
+        );
+
+    height:
+        auto;
+
+}
+
+
+.more-link {
+
+    display:
+        inline-block;
+
+    margin-top:
+        .65rem;
+
+}
+
+
+/* =========================================================
+   =========================================================
+   DER REISSVERSCHLUSS
+   =========================================================
+========================================================= */
+
+
+/*
+   Gesamter Zipper liegt über Seite 1.
+*/
+
+.zipper {
+
+    position:
+        absolute;
+
+    top: 0;
+    left: 50%;
+
+    width:
+        90px;
+
+    height:
+        100vh;
+
+    transform:
+        translateX(-50%);
+
+    z-index:
+        30;
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   ÖFFNUNG / DUNKLER SPALT
+========================================================= */
+
+.zipper-opening {
+
+    position:
+        absolute;
+
+    top: 0;
+    left: 50%;
+
+    width:
+        calc(
+            8px +
+            var(--zip) * 42px
+        );
+
+    height:
+        100%;
+
+    transform:
+        translateX(-50%);
+
+    /*
+       Leicht unregelmäßige Seiten.
+    */
+
+    clip-path:
+
+        polygon(
+
+            38% 0%,
+            63% 0%,
+
+            55% 8%,
+            68% 16%,
+
+            45% 25%,
+            62% 37%,
+
+            43% 49%,
+            67% 63%,
+
+            47% 77%,
+            61% 88%,
+
+            42% 100%,
+            58% 100%,
+
+            40% 88%,
+            55% 77%,
+
+            36% 63%,
+            58% 49%,
+
+            38% 37%,
+            55% 25%,
+
+            32% 16%,
+            45% 8%
+
+        );
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #02070c,
+            #111820 35%,
+            #02070c 70%
+        );
+
+    box-shadow:
+
+        inset 0 0 12px
+        rgba(0,0,0,.8),
+
+        0 0 20px
+        rgba(0,0,0,.4);
+
+}
+
+
+/* =========================================================
+   JEANSFADEN LINKS / RECHTS
+========================================================= */
+
+.zip-thread {
+
+    position:
+        absolute;
+
+    top: 0;
+
+    width:
+        2px;
+
+    height:
+        100%;
+
+    background:
+
+        repeating-linear-gradient(
+            180deg,
+            var(--thread-light) 0px,
+            var(--thread-light) 4px,
+            var(--thread) 4px,
+            var(--thread) 8px,
+            var(--thread-dark) 8px,
+            var(--thread-dark) 11px
+        );
+
+    box-shadow:
+        0 0 3px
+        rgba(224,154,74,.4);
+
+}
+
+
+/*
+   Faden wandert mit der Öffnung
+*/
+
+.zip-thread-left {
+
+    left:
+        calc(
+            50% -
+            12px -
+            var(--zip) * 24px
+        );
+
+    transform:
+        rotate(
+            calc(
+                var(--zip) * -1deg
+            )
+        );
+
+}
+
+
+.zip-thread-right {
+
+    right:
+        calc(
+            50% -
+            12px -
+            var(--zip) * 24px
+        );
+
+    transform:
+        rotate(
+            calc(
+                var(--zip) * 1deg
+            )
+        );
+
+}
+
+
+/* =========================================================
+   REISSVERSCHLUSS-ZÄHNE
+========================================================= */
+
+.zip-teeth {
+
+    position:
+        absolute;
+
+    top: 0;
+
+    width:
+        24px;
+
+    height:
+        100%;
+
+    opacity:
+        calc(
+            .95 -
+            var(--zip) * .25
+        );
+
+}
+
+
+.zip-teeth-left {
+
+    left:
+        calc(
+            50% -
+            22px -
+            var(--zip) * 20px
+        );
+
+}
+
+
+.zip-teeth-right {
+
+    right:
+        calc(
+            50% -
+            22px -
+            var(--zip) * 20px
+        );
+
+}
+
+
+/*
+   Einzelne Zähne.
+*/
+
+.zip-teeth span {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    width:
+        13px;
+
+    height:
+        8px;
+
+    transform:
+        translateX(-50%);
+
+    background:
+
+        linear-gradient(
+            180deg,
+            var(--metal-light),
+            var(--metal),
+            var(--metal-dark)
+        );
+
+    border-radius:
+        2px;
+
+    box-shadow:
+
+        0 1px 2px
+        rgba(0,0,0,.5);
+
+}
+
+
+/*
+   Die einzelnen Zähne werden per JS erzeugt.
+*/
+
+
+/* =========================================================
+   SCHIEBER
+========================================================= */
+
+.zip-slider {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        calc(
+            var(--zip) * 100vh
+        );
+
+    width:
+        48px;
+
+    height:
+        62px;
+
+    transform:
+        translate(
+            -50%,
+            -50%
+        );
+
+    border-radius:
+        9px 9px 12px 12px;
+
+    background:
+
+        linear-gradient(
+            110deg,
+            #686b66,
+            #f3f3ee 28%,
+            #aaa 47%,
+            #fafaf7 64%,
+            #646762
+        );
+
+    box-shadow:
+
+        0 8px 18px
+        rgba(0,0,0,.65),
+
+        0 0 0 1px
+        rgba(255,255,255,.28),
+
+        inset 0 1px 1px
+        rgba(255,255,255,.8),
+
+        inset 0 -4px 5px
+        rgba(0,0,0,.28);
+
+}
+
+
+/*
+   Schiebergriff
+*/
+
+.zip-slider::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        8px;
+
+    width:
+        25px;
+
+    height:
+        22px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        7px;
+
+    border:
+        3px solid
+        #6a6d68;
+
+    background:
+        linear-gradient(
+            180deg,
+            #e7e7e2,
+            #8d908a
+        );
+
+}
+
+
+/*
+   Loch im Schieber
+*/
+
+.zip-slider::after {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top:
+        14px;
+
+    width:
+        9px;
+
+    height:
+        9px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        50%;
+
+    background:
+        #172131;
+
+    box-shadow:
+        inset 0 1px 3px
+        rgba(0,0,0,.8);
+
+}
+
+
+/* =========================================================
+   METALLISCHE LICHTKANTE
+========================================================= */
+
+.zip-light {
+
+    position:
+        absolute;
+
+    left:
+        50%;
+
+    top: 0;
+
+    width:
+        3px;
+
+    height:
+        100%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+
+        linear-gradient(
+            180deg,
+            transparent,
+            rgba(255,255,255,.65),
+            transparent
+        );
+
+    opacity:
+        calc(
+            .15 +
+            var(--zip) * .55
+        );
+
+    filter:
+        blur(.3px);
+
+}
+
+
+/* =========================================================
+   SCROLL HINWEIS
+========================================================= */
+
+.scroll-hint {
+
+    position:
+        fixed;
+
+    bottom:
+        24px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    z-index:
+        50;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        .68rem;
+
+    letter-spacing:
+        .18em;
+
+    text-transform:
+        uppercase;
+
+    opacity:
+        calc(
+            1 -
+            var(--zip) * 3
+        );
+
+    pointer-events:
+        none;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+    .zip-scroll {
+
+        height:
+            190vh;
+
     }
 
-    body{
-      min-height:100vh;
-      display:flex;
-      flex-direction:column;
-      color:#fff;
+
+    .page-1-inner {
+
+        padding:
+            2.1rem
+            1.05rem
+            3rem;
+
     }
 
-    main.main{
-      flex:1 0 auto;
-      border-radius:12px;
-      padding:0;
-      position:relative;
-      z-index:1;
-      overflow:visible;
-      background:transparent !important;
-      box-shadow:none !important;
-      backdrop-filter:none !important;
-      -webkit-backdrop-filter:none !important;
-      filter:none !important;
-      opacity:1 !important;
-    }
-    main.main::before,
-    main.main::after{
-      background:transparent !important;
-      backdrop-filter:none !important;
-      -webkit-backdrop-filter:none !important;
-      filter:none !important;
-      opacity:0 !important;
+
+    .page-2 {
+
+        padding:
+            2.1rem
+            1.05rem
+            5rem;
+
     }
 
-    /* Pfeile komplett AUS */
-    .nav-arrow,
-    .scroll-cue{
-      display:none !important;
-      opacity:0 !important;
-      visibility:hidden !important;
-      pointer-events:none !important;
+
+    .brand-row {
+
+        justify-content:
+            flex-start;
+
     }
 
-    /* ===== Hamburger-Menü ===== */
-    .hamburger{
-      position:fixed;top:14px;right:18px;width:20px;height:20px;
-      border:0;background:transparent;display:grid;place-items:center;
-      cursor:pointer;z-index:2200;padding:0; /* über allem */
-      -webkit-tap-highlight-color: transparent;
-    }
-    .hamburger span{
-      display:block;width:12px;height:1.4px;margin:1.5px 0;
-      background:#000;border-radius:2px;
-      transition:transform .2s,opacity .2s
-    }
-    body.menu-open .hamburger span:nth-child(1){transform:translateY(3.5px) rotate(45deg)}
-    body.menu-open .hamburger span:nth-child(2){opacity:0}
-    body.menu-open .hamburger span:nth-child(3){transform:translateY(-3.5px) rotate(-45deg)}
 
-    .menu-overlay{
-      position:fixed;inset:0;background:rgba(0,0,0,.08);
-      backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
-      z-index:1099
-    }
-    #menu-overlay[hidden]{display:none}
+    .hero {
 
-    .site-menu{
-      position:fixed;top:0;right:0;height:auto;max-height:90vh;
-      width:min(40vw,150px);
-      background:rgba(255,255,255,.32);
-      backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
-      box-shadow:0 20px 50px rgba(0,0,0,.08);
-      transform:translateX(100%);transition:transform .25s;
-      z-index:1101;padding:46px 10px 14px;
-      will-change: transform;
-    }
-    body.menu-open .site-menu{transform:translateX(0)}
-    .site-menu ul{list-style:none;margin:0;padding:0}
-    .site-menu li{margin:0 0 10px}
-    .site-menu li.sep{
-      margin-top:18px;padding-top:8px;
-      border-top:1px solid rgba(0,0,0,.08)
-    }
-    .site-menu a{
-      display:block;
-      padding:8px 6px;
-      border-radius:10px;
-      color:#000;
-      text-decoration:none;
-      font-size:1rem;
-      font-weight:500;
-    }
-    .site-menu a:hover{background:rgba(0,0,0,.05)}
+        text-align:
+            left;
 
-    /* Scroll-Panel */
-    .scroll-panel{
-      max-width:min(1000px,94vw);
-      max-height:75vh; /* wird per JS angepasst */
-      margin:0;
-      overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
-      background:transparent;
-      backdrop-filter:none;
-      -webkit-backdrop-filter:none;
-      border-radius:0;
-      box-shadow:none;
-      padding:1.25rem 1rem 1.5rem;
-      scrollbar-width:none;
-      -ms-overflow-style:none;
-    }
-    .scroll-panel::-webkit-scrollbar{display:none;}
-    .content-offset{ padding-top:1.5rem; }
-
-    .grid{
-      display:flex;
-      flex-direction:column;
-      gap:1rem;
     }
 
-    .page-link{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:1.1rem;
-      text-decoration:none;
-      color:inherit;
-    }
-    .page-link:visited{ color:inherit; }
-    .page-link .arrow{
-      display:inline-block;
-      transition:transform .2s ease;
-    }
-    .page-link:active .arrow{ transform:rotate(90deg); }
 
-    .page-toggle{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:1.1rem;
-      background:transparent;
-      border:none;
-      padding:0;
-      color:inherit;
-      cursor:pointer;
-      font-family: inherit;
-      font-weight: inherit;
-      letter-spacing: inherit;
-      line-height: inherit;
-      appearance:none;
-      -webkit-appearance:none;
-    }
-    .page-toggle .arrow{
-      display:inline-block;
-      transition:transform .2s ease;
-    }
-    .page-group > .page-content{
-      display:none;
-      margin-left:18px;
-      margin-top:.75rem;
-    }
-    .page-group.open > .page-content{display:block;}
-    .page-group.open > .page-toggle .arrow{transform:rotate(90deg);}
+    .hero-sub {
 
-    /* Unter-Akkordeons (nur noch für termine gebraucht) */
-    .sub-toggle{
-      display:flex;
-      align-items:center;
-      gap:6px;
-      font-size:1.1rem;
-      background:transparent;
-      border:none;
-      padding:0;
-      color:inherit;
-      cursor:pointer;
-      font-family: inherit;
-      font-weight: inherit;
-      letter-spacing: inherit;
-      line-height: inherit;
-      appearance:none;
-      -webkit-appearance:none;
-    }
-    .sub-toggle .arrow{
-      display:inline-block;
-      transition:transform .2s ease;
-    }
-    .sub-group > .sub-content{
-      display:none;
-      margin-left:18px;
-      margin-top:1.2rem;
-    }
-    .sub-group.open > .sub-content{display:block;}
-    .sub-group.open > .sub-toggle .arrow{transform:rotate(90deg);}
-    .sub-group + .sub-group{ margin-top:1.0rem; }
+        margin-left:
+            0;
 
-    /* Footer (WICHTIG: über Menü + klickbar) */
-    .footer-inline{
-      position: fixed;
-      right: var(--footer-right-desktop);
-      top: var(--footer-top-desktop);
-      bottom: auto;
-      left: auto;
+        margin-right:
+            0;
 
-      z-index: 2100;
-      pointer-events: auto;
-
-      writing-mode: vertical-rl;
-      text-orientation: mixed;
-
-      color:#930010;
-      font-size:.82rem;
-      padding: 6px 4px;
-
-      white-space: nowrap;
-      max-height: calc(100vh - 16px);
-    }
-    .footer-inline a,
-    .footer-inline a:visited,
-    .footer-inline a:active,
-    .footer-inline a:focus{
-      color:#930010;
-      text-decoration:none;
-      white-space: nowrap;
-      display:inline-block;
-      padding:6px 6px;
-    }
-    .footer-inline a:hover{ text-decoration:underline; }
-
-    @media (max-width: 768px){
-      .footer-inline{
-        right: var(--footer-right-mobile);
-        top: var(--footer-top-mobile);
-        bottom: auto;
-      }
-    }
-    @media (max-height: 720px){
-      .footer-inline{
-        top: auto !important;
-        bottom: 16px !important;
-        font-size: .78rem;
-      }
-    }
-    @media (max-height: 620px){
-      .footer-inline{
-        top: auto !important;
-        bottom: 12px !important;
-        font-size: .72rem;
-      }
     }
 
-    /* swipe helper */
-    .edge-swipe {
-      position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 28px;
-      z-index: 1201;
-      background: transparent;
-      pointer-events: none;
-    }
-    .edge-swipe.left  { left: 0; }
-    .edge-swipe.right { right: 0; }
-    @media (pointer: coarse){
-      .edge-swipe{ pointer-events: auto; }
-      .edge-swipe.right{ pointer-events: none !important; }
+
+    .cover-inner {
+
+        border-radius:
+            22px;
+
     }
 
-    /* Release Card */
-    .release-card {
-      display: flex;
-      align-items: center;
-      gap: 1.6rem;
-      margin: 2.2rem 0;
-      padding: 1.6rem 1.6rem;
-      width: 100%;
-      max-width: 440px;
-      background: #fff;
-      border-radius: 16px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
-      text-decoration: none !important;
-      color: #000;
-      transition: transform .25s ease, box-shadow .45s ease;
-    }
-    .release-card:hover {
-      transform: scale(1.025);
-      box-shadow:
-        0 0 14px rgba(0,0,0,0.35),
-        0 0 28px rgba(0,0,0,0.30),
-        0 0 45px rgba(0,0,0,0.25);
-    }
-    .release-card img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 12px;
-    }
-    .release-info {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    .release-info .subtitle {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      text-align: left;
-      text-decoration: none;
-    }
-    .release-info .desc {
-      font-size: 0.95rem;
-      opacity: 0.85;
-      text-align: center;
-      text-decoration: none;
-    }
-    .release-card *,.release-card:hover * { text-decoration: none; }
-    .songtitle {
-      font-size: 1.55rem;
-      font-weight: 700;
-      text-align: center;
-      margin: 1.1rem 0 1.1rem 0;
-    }
-    @media(max-width:600px){
-      .release-card { flex-direction: column; text-align: center; }
-      .release-card img { width: 75%; height: auto; }
+
+    .listen-wrap {
+
+        justify-content:
+            center;
+
     }
 
-    /* Termine */
-    .termine-list {
-      display: grid;
-      gap: 0.75rem;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    .termin-row {
-      display: grid;
-      grid-template-columns: 8ch 1fr auto;
-      gap: 0.5rem 1rem;
-      align-items: baseline;
-      padding: 0.6rem 0.8rem;
-      border-radius: 12px;
-      background: transparent;
-    }
-    .termin-row .datum {
-      font-variant-numeric: tabular-nums;
-      font-weight: 600;
-      white-space: nowrap;
-      position: relative;
-      display: inline-block;
-    }
-    .termin-row .veranstaltung { font-weight: 500; min-width: 10rem; }
-    .termin-row .ort { opacity: .85; white-space: nowrap; text-align: right; }
-    @media (max-width: 800px) {
-      .termin-row { grid-template-columns: 8ch 1fr; }
-      .termin-row .ort { grid-column: 2 / -1; text-align: left; }
-    }
-    @media (max-width: 480px) {
-      .termin-row {
-        grid-template-columns: 1fr;
-        gap: 0.35rem;
-        padding: 0.75rem 0.9rem;
-        background: rgba(255,255,255,0.20);
-        box-shadow: 0 3px 10px rgba(0,0,0,0.06);
-      }
-      .termin-row .datum,
-      .termin-row .veranstaltung,
-      .termin-row .ort { text-align: left; white-space: normal; }
-    }
-    .termin-row.completed .datum::before {
-      content: "✔";
-      position: absolute;
-      left: -1.2em;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #F2F2F2;
-      font-weight: 900;
-      font-size: 1.1em;
-      pointer-events: none;
+
+    .song-list-section {
+
+        text-align:
+            left;
+
     }
 
-    /* Typo */
-    .page-content h1,
-    .page-content h2,
-    .page-content p{
-      font-family: 'Press Start 2P', Arial, sans-serif;
-      font-size: 1.1rem !important;
-      font-weight: 400 !important;
-      letter-spacing: 0.03em !important;
-      line-height: 1.6 !important;
-      color: #fff;
+
+    .song-lines {
+
+        align-items:
+            center;
+
     }
-    .page-content h1{ margin-bottom: 0.4rem; }
-    .page-content p{ margin-top: 0; margin-bottom: 1rem; }
 
-    a{ color:#fff; }
-    .brand{ color:#fff !important; }
-    .release-card{ color:#000; }
-    .release-card *{ color:inherit; }
-    .termine-list, .termin-row, .termin-row *{ color:#fff; }
-  </style>
 
-<!-- Plausible Analytics -->
-<script defer data-domain="www.b3nn3t.com" src="https://plausible.io/js/script.js"></script>
+    .song-line {
+
+        font-size:
+            clamp(
+                1rem,
+                4.4vw,
+                1.22rem
+            );
+
+    }
+
+
+    /*
+       Auf Mobilgeräten wird weniger weit
+       seitlich geschoben.
+    */
+
+    .page-1-left {
+
+        transform:
+
+            translate3d(
+
+                calc(
+                    var(--zip) * -82vw
+                ),
+
+                0,
+
+                0
+
+            )
+
+            rotate(
+                calc(
+                    var(--zip) * -.45deg
+                )
+            );
+
+    }
+
+
+    .page-1-right {
+
+        transform:
+
+            translate3d(
+
+                calc(
+                    var(--zip) * 82vw
+                ),
+
+                0,
+
+                0
+
+            )
+
+            rotate(
+                calc(
+                    var(--zip) * .45deg
+                )
+            );
+
+    }
+
+
+    .zipper {
+
+        width:
+            70px;
+
+    }
+
+
+    .zip-slider {
+
+        width:
+            40px;
+
+        height:
+            52px;
+
+    }
+
+
+    .zip-teeth {
+
+        width:
+            19px;
+
+    }
+
+
+    .zip-teeth span {
+
+        width:
+            10px;
+
+        height:
+            7px;
+
+    }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .page-1-left,
+    .page-1-right {
+
+        transform:
+            none !important;
+
+    }
+
+}
+
+
+</style>
 
 </head>
 
+
 <body>
-  <header class="header">
-    <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img src="/favicon.svg" alt="b3nn3t logo" aria-hidden="true"><strong>b3nn3t</strong>
-    </a>
-  </header>
 
-  <!-- Burger -->
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu" type="button">
-    <span></span><span></span><span></span>
-  </button>
-  <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-  <!-- ✅ wie plattformen.html: aria-hidden + inert + tabindex=-1 solange geschlossen -->
-  <nav id="site-menu" class="site-menu" aria-hidden="true" inert>
-    <ul>
-      <li><a href="ueber-mich.html" tabindex="-1">über mich</a></li>
-      <li><a href="diskografie.html" tabindex="-1">diskografie</a></li>
-      <li><a href="kontakt.html" tabindex="-1">kontakt</a></li>
-      <li><a href="aktuell.html" tabindex="-1">aktuell</a></li>
-      <li><a href="gesehen.html" tabindex="-1">gesehen</a></li>
-      <li><a href="plattformen.html" tabindex="-1">links</a></li>
-      <li class="sep"><a href="impressum.html" tabindex="-1">Impressum / Datenschutz</a></li>
-    </ul>
-  </nav>
+<!-- =======================================================
+     SCROLL-STRECKE
+======================================================= -->
 
-  <main class="main">
-    <div class="scroll-panel">
-      <div class="content-offset">
-        <section class="grid" aria-label="Seitenübersicht">
+<div class="zip-scroll">
 
-          <a class="page-link" href="ueber-mich.html"><span class="arrow" aria-hidden="true">►</span><span>über mich</span></a>
-          <a class="page-link" href="diskografie.html"><span class="arrow" aria-hidden="true">►</span><span>diskografie</span></a>
-          <a class="page-link" href="kontakt.html"><span class="arrow" aria-hidden="true">►</span><span>kontakt</span></a>
 
-          <div class="page-group current open" id="page-aktuell">
-            <button class="page-toggle" type="button" aria-expanded="true" aria-controls="page-aktuell-content">
-              <span class="arrow" aria-hidden="true">►</span>
-              <span id="aktuell-title">aktuell</span>
-            </button>
+    <!-- ===================================================
+         FIXIERTE BÜHNE
+    ==================================================== -->
 
-            <div class="page-content" id="page-aktuell-content">
-              <h1></h1>
-              <p></p>
+    <div class="zip-stage">
 
-              
-              <div class="sub-content" id="neuigkeiten-content">
-                <p>neu: „desigual“</p>
 
-                <!-- ✅ NEU: Release-Card "desigual" (Teaser) -->
-                <a class="release-card" href="https://www.b3nn3t.com/release-desigual.html" target="_blank" rel="noopener noreferrer">
-                  <img
-                    src="assets/release/desigual/desigual.webp"
-                    srcset="
-                      assets/release/desigual/desigual.webp 192w,
-                      assets/release/desigual/desigual.webp 384w,
-                      assets/release/desigual/desigual.webp 768w"
-                    sizes="(max-width: 600px) 75vw, 120px"
-                    alt="Cover: ¾"
-                    width="120"
-                    height="120"
-                    decoding="async"
-                    fetchpriority="high"
-                    loading="eager">
+        <!-- ===============================================
+             SEITE 2
+        ================================================ -->
 
-                  <div class="release-info">
-                    <div class="subtitle"></div>
-                    <div class="songtitle"> desigual </div>
-                    <div class="desc">ab 31.07.2026, ohren offen halten++</div>
-                  </div>
-                </a>
+        <section
+            class="page-2"
+            aria-label="zweite Seite"
+        >
 
-                                <p> „¾“</p>
+            <div class="page-2-inner">
 
-                <!-- ✅ Release-Card "¾" (Teaser) -->
-                <a class="release-card" href="https://www.b3nn3t.com/release-drei-viertel.html" target="_blank" rel="noopener noreferrer">
-                  <img
-                    src="assets/release/3-4/drei-viertel-cover-192.webp"
-                    srcset="
-                      assets/release/3-4/drei-viertel-cover-192.webp 192w,
-                      assets/release/3-4/drei-viertel-cover-384.webp 384w,
-                      assets/release/3-4/drei-viertel-cover-768.webp 768w"
-                    sizes="(max-width: 600px) 75vw, 120px"
-                    alt="Cover: ¾"
-                    width="120"
-                    height="120"
-                    decoding="async"
-                    fetchpriority="high"
-                    loading="eager">
+                <div class="brand-row">
 
-                  <div class="release-info">
-                    <div class="subtitle"></div>
-                    <div class="songtitle"> ¾ </div>
-                    <div class="desc">++</div>
-                  </div>
-                </a>
-              </div>
+                    <a
+                        class="brand-link"
+                        href="index.html"
+                    >
+                        b3nn3t
+                    </a>
 
-              <div class="sub-group" id="acc-termine">
-                <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="termine-content">
-                  <span class="arrow" aria-hidden="true">►</span>
-                  <span>termine</span>
-                </button>
-
-                <div class="sub-content" id="termine-content">
-                  <p></p>
-
-                  <div class="termine-responsive" style="margin-top: 2rem;">
-                    <div class="termine-list" role="table" aria-label="Termine">
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
-                        <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
-                        <div class="ort" role="cell"> frauenfeld · 17:15 Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
-                        <div class="veranstaltung" role="cell">· jugendfestival 2025 (ZAK)</div>
-                        <div class="ort" role="cell"> jona · 20:00 Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
-                        <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
-                        <div class="ort" role="cell"> wien · 20:30 Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
-                        <div class="veranstaltung" role="cell">· oya open air (gleis19)(abgesagt)</div>
-                        <div class="ort" role="cell"> wien · 20:00 Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
-                        <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
-                        <div class="ort" role="cell"> rüti · 18:00 Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
-                        <div class="veranstaltung" role="cell">· full HD (grün&gold)</div>
-                        <div class="ort" role="cell"> heidelberg · 21:00 Uhr</div>
-                      </div>
-
-                      <div class="termin-row" role="row">
-                        <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
-                        <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
-                        <div class="ort" role="cell"> jona · ≈19:00 Uhr</div>
-                      </div>
-
-                    </div>
-                  </div>
                 </div>
-              </div>
 
-              <a class="home-btn" href="index.html" aria-label="Zur Startseite">startseite</a>
+
+                <h2>
+                    weiter
+                </h2>
+
+
+                <p>
+                    Hinter „gespalten“ beginnt eine neue
+                    Seite.
+                </p>
+
+
+                <p>
+                    Der Reißverschluss öffnet den Weg von
+                    der ersten Seite in diesen Bereich.
+                </p>
+
+
+                <div class="page-2-line"></div>
+
+
+                <div class="page-2-block">
+
+                    <h2>
+                        die zweite seite
+                    </h2>
+
+                    <p>
+                        Diesen Bereich kannst du später mit
+                        deinem eigentlichen Inhalt füllen.
+                    </p>
+
+                    <p>
+                        Bilder, Texte, weitere Musik,
+                        Projekte oder was immer auf deine
+                        Hauptseite folgen soll.
+                    </p>
+
+                </div>
+
+
+                <div class="page-2-block">
+
+                    <h2>
+                        noch mehr
+                    </h2>
+
+                    <p>
+                        Beim Zurückscrollen schließt der
+                        Reißverschluss wieder und die
+                        ursprüngliche Seite erscheint.
+                    </p>
+
+                </div>
+
             </div>
-          </div>
-
-          <a class="page-link" href="gesehen.html"><span class="arrow" aria-hidden="true">►</span><span>gesehen</span></a>
-          <a class="page-link" href="plattformen.html"><span class="arrow" aria-hidden="true">►</span><span>links</span></a>
 
         </section>
-      </div>
+
+
+
+        <!-- ===============================================
+             SEITE 1
+        ================================================ -->
+
+        <section
+            class="page-1"
+            aria-label="gespalten Albumseite"
+        >
+
+
+            <!-- ===========================================
+                 LINKES JEANSSTÜCK
+            ============================================ -->
+
+            <div
+                class="page-1-half page-1-left"
+            >
+
+                <div class="page-1-inner">
+
+                    <div class="brand-row">
+
+                        <a
+                            class="brand-link"
+                            href="index.html"
+                        >
+                            b3nn3t
+                        </a>
+
+                    </div>
+
+
+                    <section
+                        class="hero"
+                        aria-label="gespalten Album"
+                    >
+
+                        <p class="eyebrow">
+                        </p>
+
+
+                        <h1>
+                            gespalten
+                        </h1>
+
+
+                        <p class="hero-sub">
+
+                            <strong></strong>
+
+                            <br>
+
+                            übergang zwischen alt und neu
+
+                        </p>
+
+
+                        <div
+                            class="cover-wrap"
+                            aria-label="Albumvideo gespalten"
+                        >
+
+                            <div class="cover-inner">
+
+                                <video
+                                    id="album-video-left"
+                                    class="album-video"
+                                    controls
+                                    preload="metadata"
+                                    playsinline
+                                    poster="/assets/gespalten/gespalten.jpg"
+                                >
+
+                                    <source
+                                        src="/assets/gespalten/gespalten.mp4"
+                                        type="video/mp4"
+                                    >
+
+                                    Dein Browser unterstützt
+                                    dieses Videoformat nicht.
+
+                                </video>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="listen-wrap">
+
+                            <a
+                                class="listen-btn main-cta"
+                                href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                album vormerken
+                            </a>
+
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="block countdown-plain"
+                        aria-label="Album Countdown"
+                    >
+
+                        <p class="countdown-label">
+                            album unlocks in
+                        </p>
+
+                        <p class="countdown-time album-countdown">
+                            --d --:--:--
+                        </p>
+
+                        <p class="countdown-note release-note">
+                            release: 13. august 2026 · 24:00 uhr
+                        </p>
+
+                    </section>
+
+
+                    <section
+                        class="block song-list-section"
+                        aria-label="Songs auf gespalten"
+                    >
+
+                        <div class="song-list-head">
+
+                            <strong>
+                                10 fragments
+                            </strong>
+
+                        </div>
+
+
+                        <div class="song-lines">
+
+                            <p class="song-line">
+
+                                <span>
+                                    desigual
+                                </span>
+
+                                <span>
+                                    aergerlich
+                                </span>
+
+                                <span>
+                                    3
+                                </span>
+
+                                <span>
+                                    (fenster scherben)
+                                </span>
+
+                            </p>
+
+
+                            <p class="song-line">
+
+                                <span>
+                                    5r
+                                </span>
+
+                                <span>
+                                    6
+                                </span>
+
+                                <span>
+                                    7
+                                </span>
+
+                            </p>
+
+
+                            <p class="song-line">
+
+                                <span>
+                                    8?
+                                </span>
+
+                                <span>
+                                    wegwerfkamera
+                                </span>
+
+                                <span>
+                                    2011
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="block about-section"
+                        aria-label="über das Album"
+                    >
+
+                        <h2>
+                            über das Album
+                        </h2>
+
+
+                        <p>
+                            „gespalten“ ist ein kurzes album
+                            aus 10 fragmenten. 12 minuten im
+                            übergang zwischen alt mit
+                            deutschsprachigen skizzen.
+                        </p>
+
+
+                        <p>
+                            die songs sind eher gedanken und
+                            gefühle als klassische tracks
+                            kurz, direkt, unfertig im besten
+                            sinn.
+                        </p>
+
+
+                        <div class="quote-block">
+                            <br>
+                        </div>
+
+                    </section>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================================
+                 RECHTES JEANSSTÜCK
+            ============================================ -->
+
+            <div
+                class="page-1-half page-1-right"
+            >
+
+                <div class="page-1-inner">
+
+                    <div class="brand-row">
+
+                        <a
+                            class="brand-link"
+                            href="index.html"
+                        >
+                            b3nn3t
+                        </a>
+
+                    </div>
+
+
+                    <section
+                        class="hero"
+                        aria-label="gespalten Album"
+                    >
+
+                        <p class="eyebrow">
+                        </p>
+
+
+                        <h1>
+                            gespalten
+                        </h1>
+
+
+                        <p class="hero-sub">
+
+                            <strong></strong>
+
+                            <br>
+
+                            übergang zwischen alt und neu
+
+                        </p>
+
+
+                        <div
+                            class="cover-wrap"
+                            aria-label="Albumvideo gespalten"
+                        >
+
+                            <div class="cover-inner">
+
+                                <video
+                                    id="album-video-right"
+                                    class="album-video"
+                                    controls
+                                    preload="metadata"
+                                    playsinline
+                                    poster="/assets/gespalten/gespalten.jpg"
+                                >
+
+                                    <source
+                                        src="/assets/gespalten/gespalten.mp4"
+                                        type="video/mp4"
+                                    >
+
+                                </video>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="listen-wrap">
+
+                            <a
+                                class="listen-btn main-cta"
+                                href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
+                                target="_blank"
+                                rel="noopener"
+                            >
+                                album vormerken
+                            </a>
+
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="block countdown-plain"
+                    >
+
+                        <p class="countdown-label">
+                            album unlocks in
+                        </p>
+
+                        <p class="countdown-time album-countdown">
+                            --d --:--:--
+                        </p>
+
+                        <p class="countdown-note release-note">
+                            release: 13. august 2026 · 24:00 uhr
+                        </p>
+
+                    </section>
+
+
+                    <section
+                        class="block song-list-section"
+                    >
+
+                        <div class="song-list-head">
+
+                            <strong>
+                                10 fragments
+                            </strong>
+
+                        </div>
+
+
+                        <div class="song-lines">
+
+                            <p class="song-line">
+
+                                <span>
+                                    desigual
+                                </span>
+
+                                <span>
+                                    aergerlich
+                                </span>
+
+                                <span>
+                                    3
+                                </span>
+
+                                <span>
+                                    (fenster scherben)
+                                </span>
+
+                            </p>
+
+
+                            <p class="song-line">
+
+                                <span>
+                                    5r
+                                </span>
+
+                                <span>
+                                    6
+                                </span>
+
+                                <span>
+                                    7
+                                </span>
+
+                            </p>
+
+
+                            <p class="song-line">
+
+                                <span>
+                                    8?
+                                </span>
+
+                                <span>
+                                    wegwerfkamera
+                                </span>
+
+                                <span>
+                                    2011
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                    </section>
+
+
+                    <section
+                        class="block about-section"
+                    >
+
+                        <h2>
+                            über das Album
+                        </h2>
+
+
+                        <p>
+                            „gespalten“ ist ein kurzes album
+                            aus 10 fragmenten. 12 minuten im
+                            übergang zwischen alt mit
+                            deutschsprachigen skizzen.
+                        </p>
+
+
+                        <p>
+                            die songs sind eher gedanken und
+                            gefühle als klassische tracks
+                            kurz, direkt, unfertig im besten
+                            sinn.
+                        </p>
+
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ===============================================
+             REISSVERSCHLUSS
+        ================================================ -->
+
+        <div
+            class="zipper"
+            aria-hidden="true"
+        >
+
+
+            <!-- dunkle Öffnung -->
+
+            <div
+                class="zipper-opening"
+            ></div>
+
+
+            <!-- Jeansfäden -->
+
+            <div
+                class="zip-thread zip-thread-left"
+            ></div>
+
+            <div
+                class="zip-thread zip-thread-right"
+            ></div>
+
+
+            <!-- Reißverschlusszähne -->
+
+            <div
+                class="zip-teeth zip-teeth-left"
+                id="zip-teeth-left"
+            ></div>
+
+            <div
+                class="zip-teeth zip-teeth-right"
+                id="zip-teeth-right"
+            ></div>
+
+
+            <!-- Lichtkante -->
+
+            <div
+                class="zip-light"
+            ></div>
+
+
+            <!-- Schieber -->
+
+            <div
+                class="zip-slider"
+            ></div>
+
+        </div>
+
+
+        <div class="scroll-hint">
+            scroll to open
+        </div>
+
+
     </div>
-  </main>
 
-  <div class="footer-inline">
-    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-  </div>
+</div>
 
-  <div class="edge-swipe left" aria-hidden="true"></div>
-  <div class="edge-swipe right" aria-hidden="true"></div>
 
-  <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
 
-  <!-- ✅ Burger-Menü: exakt robust wie plattformen.html (capture + stopImmediatePropagation) -->
-  <script>
-  (function(){
-    const btn = document.querySelector('.hamburger');
-    const nav = document.getElementById('site-menu');
-    const overlay = document.getElementById('menu-overlay');
-    if(!btn || !nav || !overlay) return;
+<script>
 
-    const focusablesSelector = 'a, button, input, select, textarea, [tabindex]';
+/* =========================================================
+   REISSVERSCHLUSS-STEUERUNG
+========================================================= */
 
-    function setMenuFocus(enabled){
-      const items = nav.querySelectorAll(focusablesSelector);
-      items.forEach(el => {
-        el.tabIndex = enabled ? 0 : -1;
-      });
+(function () {
+
+    "use strict";
+
+
+    const root =
+        document.documentElement;
+
+
+    const scrollArea =
+        document.querySelector(
+            ".zip-scroll"
+        );
+
+
+    let target =
+        0;
+
+
+    let current =
+        0;
+
+
+    let animationRunning =
+        false;
+
+
+    /*
+       -----------------------------------------------------
+       Begrenzung
+       -----------------------------------------------------
+    */
+
+    function clamp(
+        value,
+        min,
+        max
+    ) {
+
+        return Math.min(
+            Math.max(
+                value,
+                min
+            ),
+            max
+        );
+
     }
 
-    function openMenu(){
-      document.body.classList.add('menu-open');
-      btn.setAttribute('aria-expanded','true');
-      btn.setAttribute('aria-label','Menü schließen');
 
-      nav.setAttribute('aria-hidden','false');
-      nav.removeAttribute('inert');
+    /*
+       -----------------------------------------------------
+       Öffnungsfortschritt berechnen
+       -----------------------------------------------------
+    */
 
-      overlay.hidden = false;
+    function updateTarget() {
 
-      setMenuFocus(true);
+        if (!scrollArea) {
+            return;
+        }
 
-      const firstLink = nav.querySelector('a');
-      if(firstLink) firstLink.focus({ preventScroll: true });
+
+        const maxScroll =
+            scrollArea.offsetHeight -
+            window.innerHeight;
+
+
+        const scrollTop =
+            window.scrollY;
+
+
+        let progress =
+            scrollTop /
+            Math.max(
+                1,
+                maxScroll
+            );
+
+
+        progress =
+            clamp(
+                progress,
+                0,
+                1
+            );
+
+
+        /*
+           leicht weiches Easing
+        */
+
+        progress =
+            Math.pow(
+                progress,
+                .88
+            );
+
+
+        target =
+            progress;
+
+
+        startAnimation();
+
     }
 
-    function closeMenu(){
-      document.body.classList.remove('menu-open');
-      btn.setAttribute('aria-expanded','false');
-      btn.setAttribute('aria-label','Menü öffnen');
 
-      nav.setAttribute('aria-hidden','true');
-      nav.setAttribute('inert','');
+    /*
+       -----------------------------------------------------
+       Animation
+       -----------------------------------------------------
+    */
 
-      overlay.hidden = true;
+    function startAnimation() {
 
-      setMenuFocus(false);
+        if (animationRunning) {
+            return;
+        }
 
-      btn.focus({ preventScroll: true });
+
+        animationRunning =
+            true;
+
+
+        requestAnimationFrame(
+            animate
+        );
+
     }
 
-    // initial sicher
-    setMenuFocus(false);
-    nav.setAttribute('aria-hidden','true');
-    nav.setAttribute('inert','');
-    overlay.hidden = true;
 
-    // capture + stopImmediatePropagation: gewinnt gegen evtl. script.js-handler
-    btn.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      const isOpen = document.body.classList.contains('menu-open');
-      if(isOpen) closeMenu();
-      else openMenu();
-    }, true);
+    function animate() {
 
-    overlay.addEventListener('click', function(e){
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      closeMenu();
-    }, true);
+        current +=
+            (
+                target -
+                current
+            ) * .14;
 
-    document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && document.body.classList.contains('menu-open')) closeMenu();
-    });
 
-    nav.querySelectorAll('a').forEach(a=>{
-      a.addEventListener('click', closeMenu);
-    });
-  })();
-  </script>
+        if (
+            Math.abs(
+                target -
+                current
+            ) < .0005
+        ) {
 
-  <!-- ✅ aktuell-title typewriter + accordions + Panelhöhe -->
-  <script>
-    (function(){
-      const group  = document.querySelector('.page-group.current');
-      const toggle = group?.querySelector('.page-toggle');
-      const panel  = document.querySelector('.scroll-panel');
-      const titleEl = document.getElementById('aktuell-title');
+            current =
+                target;
 
-      const BASE = 'aktuell';
-      const SUFFIX = '/termine';
+        }
 
-      let timer = null;
 
-      function stopAnim(){
-        if(timer) clearInterval(timer);
-        timer = null;
-      }
+        root.style.setProperty(
+            "--zip",
+            current.toFixed(4)
+        );
 
-      function typeSuffix(){
-        if(!titleEl) return;
-        stopAnim();
-        if(titleEl.textContent === BASE + SUFFIX) return;
 
-        titleEl.textContent = BASE;
+        root.style.setProperty(
+            "--zip-position",
+            (
+                current *
+                window.innerHeight
+            ).toFixed(2)
+            + "px"
+        );
+
+
+        if (
+            Math.abs(
+                target -
+                current
+            ) >= .0005
+        ) {
+
+            requestAnimationFrame(
+                animate
+            );
+
+        } else {
+
+            animationRunning =
+                false;
+
+        }
+
+    }
+
+
+    /*
+       -----------------------------------------------------
+       Maus-Parallax
+       -----------------------------------------------------
+    */
+
+    let mouseX =
+        0;
+
+
+    let mouseY =
+        0;
+
+
+    document.addEventListener(
+        "mousemove",
+        function (event) {
+
+            const targetX =
+                (
+                    event.clientX /
+                    window.innerWidth -
+                    .5
+                ) * 2;
+
+
+            const targetY =
+                (
+                    event.clientY /
+                    window.innerHeight -
+                    .5
+                ) * 2;
+
+
+            mouseX +=
+                (
+                    targetX -
+                    mouseX
+                ) * .08;
+
+
+            mouseY +=
+                (
+                    targetY -
+                    mouseY
+                ) * .08;
+
+
+            root.style.setProperty(
+                "--mx",
+                mouseX.toFixed(3)
+            );
+
+
+            root.style.setProperty(
+                "--my",
+                mouseY.toFixed(3)
+            );
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /*
+       -----------------------------------------------------
+       Events
+       -----------------------------------------------------
+    */
+
+    window.addEventListener(
+        "scroll",
+        updateTarget,
+        {
+            passive: true
+        }
+    );
+
+
+    window.addEventListener(
+        "resize",
+        updateTarget
+    );
+
+
+    /*
+       -----------------------------------------------------
+       Start
+       -----------------------------------------------------
+    */
+
+    updateTarget();
+
+})();
+
+
+
+/* =========================================================
+   REISSVERSCHLUSS-ZÄHNE ERZEUGEN
+========================================================= */
+
+(function () {
+
+    "use strict";
+
+
+    const left =
+        document.getElementById(
+            "zip-teeth-left"
+        );
+
+
+    const right =
+        document.getElementById(
+            "zip-teeth-right"
+        );
+
+
+    if (!left || !right) {
+        return;
+    }
+
+
+    /*
+       58 Zähne pro Seite.
+
+       Dadurch sieht der Reißverschluss
+       tatsächlich wie ein Reißverschluss aus.
+    */
+
+    const count =
+        58;
+
+
+    for (
         let i = 0;
-        timer = setInterval(() => {
-          i++;
-          titleEl.textContent = BASE + SUFFIX.slice(0, i);
-          if(i >= SUFFIX.length) stopAnim();
-        }, 55);
-      }
+        i < count;
+        i++
+    ) {
 
-      function eraseSuffix(){
-        if(!titleEl) return;
-        stopAnim();
 
-        const full = BASE + SUFFIX;
-        let current = titleEl.textContent;
-        if(current !== full && current !== BASE){
-          current = full;
-          titleEl.textContent = current;
+        const y =
+            (
+                i /
+                (count - 1)
+            ) *
+            100;
+
+
+        const toothLeft =
+            document.createElement(
+                "span"
+            );
+
+
+        toothLeft.style.top =
+            y + "%";
+
+
+        /*
+           kleine Unregelmäßigkeit
+           im Abstand
+        */
+
+        toothLeft.style.transform =
+            "translateX(-50%) rotate(" +
+            (
+                i % 2 === 0
+                ? -8
+                : 8
+            ) +
+            "deg)";
+
+
+        left.appendChild(
+            toothLeft
+        );
+
+
+        const toothRight =
+            document.createElement(
+                "span"
+            );
+
+
+        toothRight.style.top =
+            y + "%";
+
+
+        toothRight.style.transform =
+            "translateX(-50%) rotate(" +
+            (
+                i % 2 === 0
+                ? 8
+                : -8
+            ) +
+            "deg)";
+
+
+        right.appendChild(
+            toothRight
+        );
+
+    }
+
+})();
+
+
+
+/* =========================================================
+   VIDEOS SYNCHRONISIEREN
+========================================================= */
+
+(function () {
+
+    "use strict";
+
+
+    const videos =
+        Array.from(
+            document.querySelectorAll(
+                ".album-video"
+            )
+        );
+
+
+    if (
+        videos.length <
+        2
+    ) {
+
+        return;
+
+    }
+
+
+    let syncing =
+        false;
+
+
+    function syncFrom(
+        source,
+        eventName
+    ) {
+
+        if (syncing) {
+            return;
         }
 
-        let len = titleEl.textContent.length;
-        timer = setInterval(() => {
-          len--;
-          titleEl.textContent = titleEl.textContent.slice(0, len);
-          if(len <= BASE.length){
-            titleEl.textContent = BASE;
-            stopAnim();
-          }
-        }, 40);
-      }
 
-      function resizePanel(){
-        if(!panel) return;
-        const header = document.querySelector('.header');
-        const main   = document.querySelector('.main');
+        syncing =
+            true;
 
-        const hh = header ? header.offsetHeight : 0;
-        let pt = 0, pb = 0;
-        if(main){
-          const cs = getComputedStyle(main);
-          pt = parseFloat(cs.paddingTop)  || 0;
-          pb = parseFloat(cs.paddingBottom) || 0;
+
+        videos.forEach(
+            function (video) {
+
+                if (
+                    video === source
+                ) {
+
+                    return;
+
+                }
+
+
+                /*
+                   Zeit synchronisieren
+                */
+
+                if (
+                    Math.abs(
+                        video.currentTime -
+                        source.currentTime
+                    ) > .12
+                ) {
+
+                    try {
+
+                        video.currentTime =
+                            source.currentTime;
+
+                    }
+                    catch (e) {}
+
+                }
+
+
+                /*
+                   Play / Pause
+                */
+
+                if (
+                    eventName === "play" &&
+                    video.paused
+                ) {
+
+                    video.play()
+                        .catch(
+                            function () {}
+                        );
+
+                }
+
+
+                if (
+                    eventName === "pause" &&
+                    !video.paused
+                ) {
+
+                    video.pause();
+
+                }
+
+
+                video.playbackRate =
+                    source.playbackRate;
+
+            });
+
+
+        syncing =
+            false;
+
+    }
+
+
+    videos.forEach(
+        function (video) {
+
+
+            [
+                "play",
+                "pause",
+                "seeked",
+                "ratechange"
+            ]
+            .forEach(
+                function (eventName) {
+
+                    video.addEventListener(
+                        eventName,
+                        function () {
+
+                            syncFrom(
+                                video,
+                                eventName
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            video.addEventListener(
+                "timeupdate",
+                function () {
+
+                    syncFrom(
+                        video,
+                        "timeupdate"
+                    );
+
+                }
+            );
+
         }
+    );
 
-        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
-        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+})();
 
-        let max = vh - hh - pt - pb - gap;
-        if(max < 260) max = 260;
-        panel.style.maxHeight = max + 'px';
-      }
 
-      document.addEventListener('DOMContentLoaded', () => {
-        resizePanel();
-        if(group?.classList.contains('open')) typeSuffix();
-        else if(titleEl) titleEl.textContent = BASE;
-      });
 
-      window.addEventListener('load', resizePanel);
-      window.addEventListener('resize', resizePanel);
-      if(window.visualViewport){
-        window.visualViewport.addEventListener('resize', resizePanel);
-      }
+/* =========================================================
+   COUNTDOWN
+========================================================= */
 
-      if(toggle && group){
-        toggle.addEventListener('click', () => {
-          const isOpen = group.classList.contains('open');
-          group.classList.toggle('open', !isOpen);
-          toggle.setAttribute('aria-expanded', String(!isOpen));
+(function () {
 
-          if(!isOpen) typeSuffix();
-          else eraseSuffix();
-        });
-      }
+    "use strict";
 
-      document.querySelectorAll('.sub-group').forEach(subGroup => {
-        const btn = subGroup.querySelector('.sub-toggle');
-        if(!btn) return;
 
-        btn.addEventListener('click', () => {
-          const isOpen = subGroup.classList.contains('open');
-          subGroup.classList.toggle('open', !isOpen);
-          btn.setAttribute('aria-expanded', String(!isOpen));
-        });
-      });
-    })();
-  </script>
+    /*
+       Release-Datum aus deinem
+       bisherigen Code übernommen.
+    */
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const today = new Date();
+    const RELEASE_DATE =
+        new Date(
+            "2026-08-14T00:00:00+02:00"
+        ).getTime();
 
-      document.querySelectorAll('.termin-row').forEach(row => {
-        const timeElem = row.querySelector("time");
-        if (!timeElem) return;
 
-        const dateString = timeElem.getAttribute("datetime");
-        if (!dateString || dateString.includes("xx")) return;
+    const ALBUM_LINK =
+        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
-        const date = new Date(dateString);
-        if (date < today) row.classList.add("completed");
-      });
-    });
-  </script>
+
+    function pad(
+        value
+    ) {
+
+        return String(
+            value
+        ).padStart(
+            2,
+            "0"
+        );
+
+    }
+
+
+    function renderCountdown() {
+
+        const now =
+            Date.now();
+
+
+        const diff =
+            RELEASE_DATE -
+            now;
+
+
+        document
+            .querySelectorAll(
+                ".album-countdown"
+            )
+            .forEach(
+                function (element) {
+
+                    if (
+                        diff <= 0
+                    ) {
+
+                        element.textContent =
+                            "out now";
+
+                        return;
+
+                    }
+
+
+                    const totalSeconds =
+                        Math.floor(
+                            diff /
+                            1000
+                        );
+
+
+                    const days =
+                        Math.floor(
+                            totalSeconds /
+                            (3600 * 24)
+                        );
+
+
+                    const hours =
+                        Math.floor(
+                            (
+                                totalSeconds %
+                                (3600 * 24)
+                            ) /
+                            3600
+                        );
+
+
+                    const minutes =
+                        Math.floor(
+                            (
+                                totalSeconds %
+                                3600
+                            ) /
+                            60
+                        );
+
+
+                    const seconds =
+                        totalSeconds %
+                        60;
+
+
+                    element.textContent =
+
+                        pad(days) +
+                        "d " +
+
+                        pad(hours) +
+                        ":" +
+
+                        pad(minutes) +
+                        ":" +
+
+                        pad(seconds);
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".release-note"
+            )
+            .forEach(
+                function (element) {
+
+                    element.textContent =
+                        diff <= 0
+
+                        ? "„gespalten“ ist jetzt draussen."
+
+                        : "release: 13. august 2026 · 24:00 uhr";
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".main-cta"
+            )
+            .forEach(
+                function (element) {
+
+                    element.href =
+                        ALBUM_LINK;
+
+
+                    element.textContent =
+                        diff <= 0
+
+                        ? "gespalten hören"
+
+                        : "album vormerken";
+
+                }
+            );
+
+    }
+
+
+    renderCountdown();
+
+
+    setInterval(
+        renderCountdown,
+        1000
+    );
+
+})();
+
+</script>
+
 </body>
+
 </html>
