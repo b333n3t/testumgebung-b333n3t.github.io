@@ -1,169 +1,45 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
-
-<title>b3nn3t „gespalten“</title>
-
-<meta
-    name="description"
-    content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten zwischen alt und neu."
->
-
-<meta
-    name="robots"
-    content="index,follow,max-image-preview:large"
->
-
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="favicon-48.png" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-<link
-    rel="preload"
-    as="image"
-    href="/assets/gespalten/gespalten.jpg"
-    fetchpriority="high"
->
-
+<title>b3nn3t – gespalten</title>
 
 <style>
 
 /* =========================================================
-   B3NN3T – GESPALTEN
-   JEANS + REALISTIC ZIPPER
-========================================================= */
-
-
-/* =========================================================
-   GRUNDFARBEN
+   GRUNDWERTE
 ========================================================= */
 
 :root {
+    --denim-dark: #071725;
+    --denim: #0b2437;
+    --denim-light: #123750;
 
-    /* Seite 1 – blauer Denim */
+    --olive: #3e4321;
+    --olive-dark: #2d3218;
 
-    --denim-1: #0b223c;
-    --denim-2: #12385c;
-    --denim-3: #1c4b73;
-    --denim-4: #285c83;
+    --thread: #c47725;
+    --thread-light: #e09a3b;
 
-    /* Seite 2 – oliver Denim */
+    --metal: #a8a8a0;
+    --metal-light: #e2e0d3;
+    --metal-dark: #575954;
 
-    --olive-1: #292d20;
-    --olive-2: #464b2d;
-    --olive-3: #62663b;
-    --olive-4: #747749;
+    --black: #10100d;
 
-    /* Jeansfaden */
-
-    --thread-dark: #743b16;
-    --thread: #bd6e2b;
-    --thread-light: #e39a4c;
-
-    /* Metall */
-
-    --metal-dark: #4b504d;
-    --metal: #a8aaa4;
-    --metal-light: #eeeeea;
-    --metal-white: #ffffff;
-
-    /* Text */
-
-    --text-main: #d8873c;
-    --text-light: #efa354;
-    --text-muted: rgba(226, 158, 95, .76);
-
-    /* Breite */
-
-    --page-max-width: 960px;
-
-    /* =====================================================
-       REISSVERSCHLUSS
-    ===================================================== */
-
-    /*
-       0 = geschlossen
-       1 = komplett geöffnet
-    */
-
-    --zip: 0;
-
-    /*
-       Position des Schiebers
-    */
-
-    --zip-y: 0vh;
-
-    /*
-       Breite der Öffnung ganz oben
-    */
-
-    --zip-gap: 0px;
-
-    /*
-       Bewegung der geöffneten Jeanshälften
-    */
-
-    --zip-move: 0px;
-
-    /*
-       Mausbewegung
-    */
-
-    --mx: 0;
-    --my: 0;
-
+    --zip-width: 82px;
+    --opening-max: 45vw;
 }
 
-
-/* =========================================================
-   RESET
-========================================================= */
 
 * {
     box-sizing: border-box;
-}
-
-
-html,
-body {
-
     margin: 0;
     padding: 0;
-
-    width: 100%;
-    min-height: 100%;
-
-    overflow-x: hidden;
-
-    background: var(--denim-1);
-
-    font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Text",
-        sans-serif;
-
-    color: var(--text-main);
-
 }
 
-
-/*
-   Kein smooth scrolling.
-   Der Reißverschluss soll direkt auf
-   die Scrollposition reagieren.
-*/
 
 html {
     scroll-behavior: auto;
@@ -171,1592 +47,821 @@ html {
 
 
 body {
+    background: var(--olive);
+    color: var(--thread);
+    font-family: Arial, Helvetica, sans-serif;
     overflow-x: hidden;
 }
 
 
 /* =========================================================
-   FEINE JEANSSTRUKTUR
+   SCROLL-BÜHNE
 ========================================================= */
 
-.denim-texture {
+/*
+   260vh bedeutet:
+   Die erste Seite bleibt sehr lange sichtbar.
 
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 0;
-
-    pointer-events: none;
-
-    opacity: .28;
-
-    background:
-
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent 2px,
-            rgba(255,255,255,.025) 2px,
-            rgba(255,255,255,.025) 3px
-        ),
-
-        repeating-linear-gradient(
-            90deg,
-            transparent 0,
-            transparent 3px,
-            rgba(0,0,0,.045) 3px,
-            rgba(0,0,0,.045) 4px
-        );
-
-}
-
-
-/* =========================================================
-   HAUPT-SCROLL-STRECKE
-========================================================= */
-
-.zip-scroll {
-
-    /*
-       Der gesamte Scrollweg dient dazu,
-       den Reißverschluss zu öffnen.
-
-       220vh bedeutet:
-       ca. 1,2 Bildschirmhöhen tatsächliche
-       Öffnungsbewegung.
-    */
-
-    height: 220vh;
-
-    position: relative;
-
-    z-index: 1;
-
-}
-
-
-/* =========================================================
-   FIXIERTE BÜHNE
-========================================================= */
+   Während dieser Zeit wird der Reißverschluss
+   Schritt für Schritt geöffnet.
+*/
 
 .zip-stage {
-
-    position: fixed;
-
-    inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    overflow: hidden;
-
-    z-index: 2;
-
-}
-
-
-/* =========================================================
-   SEITE 2
-   OLIVER DENIM
-========================================================= */
-
-.page-2 {
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 1;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    color: var(--text-main);
-
-    background:
-
-        radial-gradient(
-            ellipse at 25% 15%,
-            rgba(143,148,83,.20),
-            transparent 32%
-        ),
-
-        radial-gradient(
-            ellipse at 80% 80%,
-            rgba(10,14,8,.42),
-            transparent 42%
-        ),
-
-        linear-gradient(
-            135deg,
-            var(--olive-1),
-            var(--olive-2) 45%,
-            var(--olive-3) 70%,
-            var(--olive-1)
-        );
-
-}
-
-
-/*
-   zusätzliche Oliv-Jeansstruktur
-*/
-
-.page-2::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: .18;
-
-    background:
-
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent 2px,
-            rgba(255,255,255,.035) 2px,
-            rgba(255,255,255,.035) 3px
-        ),
-
-        repeating-linear-gradient(
-            90deg,
-            transparent 0,
-            transparent 3px,
-            rgba(0,0,0,.055) 3px,
-            rgba(0,0,0,.055) 4px
-        );
-
-}
-
-
-.page-2-inner {
-
     position: relative;
-
-    width: 100%;
-
-    max-width: var(--page-max-width);
-
-    min-height: 100%;
-
-    margin: 0 auto;
-
-    padding:
-        clamp(3rem, 7vw, 6rem)
-        1.5rem
-        8rem;
-
+    height: 260vh;
 }
 
 
 /* =========================================================
-   SEITE 2 TYPOGRAFIE
+   ZWEITE SEITE – OLIV
 ========================================================= */
 
-.page-2 .brand-link {
-
-    color: var(--text-main);
-
-}
-
-
-.page-2 h2 {
-
-    margin: 0 0 1rem;
-
-    font-size:
-        clamp(
-            3.4rem,
-            10vw,
-            8rem
-        );
-
-    line-height: .86;
-
-    letter-spacing: -.075em;
-
-    font-weight: 900;
-
-    color: var(--text-main);
-
-    text-shadow:
-
-        1px 1px 0 var(--thread-dark),
-
-        -1px -1px 0 var(--thread-light);
-
-}
-
-
-.page-2 p {
-
-    max-width: 700px;
-
-    font-size:
-        clamp(
-            1rem,
-            1.5vw,
-            1.12rem
-        );
-
-    line-height: 1.75;
-
-    letter-spacing: .045em;
-
-    color: rgba(236,194,137,.76);
-
-}
-
-
-.page-2-line {
-
-    width: 100%;
-
-    height: 1px;
-
-    margin: 3rem 0;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--thread),
-            transparent
-        );
-
-}
-
-
-.page-2-block {
-
-    margin-top:
-        clamp(
-            4rem,
-            9vh,
-            8rem
-        );
-
-}
-
-
-/* =========================================================
-   PAGE 1 – GRUNDLAYER
-========================================================= */
-
-.page-1 {
-
+.second-page {
     position: absolute;
-
-    inset: 0;
-
-    z-index: 5;
-
-    /*
-       Wichtig:
-       Die Seite selbst ist NICHT transparent.
-    */
-
-    background:
-
-        radial-gradient(
-            ellipse at 25% 10%,
-            rgba(68,126,164,.30),
-            transparent 35%
-        ),
-
-        radial-gradient(
-            ellipse at 80% 80%,
-            rgba(3,15,27,.45),
-            transparent 45%
-        ),
-
-        linear-gradient(
-            135deg,
-            var(--denim-1),
-            var(--denim-2) 42%,
-            var(--denim-3) 70%,
-            var(--denim-1)
-        );
-
-}
-
-
-/* =========================================================
-   JEANSSTRUKTUR AUF SEITE 1
-========================================================= */
-
-.page-1::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: .24;
-
-    background:
-
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent 2px,
-            rgba(255,255,255,.028) 2px,
-            rgba(255,255,255,.028) 3px
-        ),
-
-        repeating-linear-gradient(
-            90deg,
-            transparent 0,
-            transparent 3px,
-            rgba(0,0,0,.05) 3px,
-            rgba(0,0,0,.05) 4px
-        );
-
-}
-
-
-/* =========================================================
-   PAGE 1 LAYER
-========================================================= */
-
-.page1-layer {
-
-    position: absolute;
-
-    inset: 0;
-
-    overflow: hidden;
-
-    will-change:
-        clip-path,
-        transform;
-
-}
-
-
-/*
-   ==========================================================
-   UNTERER TEIL
-
-   Dieser Teil bleibt geschlossen.
-
-   Genau deshalb wird Seite 1 nicht transparent.
-   ==========================================================
-*/
-
-.page1-closed {
-
-    z-index: 8;
-
-    /*
-       Alles UNTERHALB des Schiebers bleibt Seite 1.
-
-       inset(top right bottom left)
-    */
-
-    clip-path:
-        inset(
-            var(--zip-y)
-            0
-            0
-            0
-        );
-
-}
-
-
-/*
-   ==========================================================
-   OBERE LINKE JEANSHÄLFTE
-   ==========================================================
-*/
-
-.page1-open-left {
-
-    z-index: 9;
-
-    /*
-       Die Öffnung beginnt oben.
-
-       Links bleibt eine Jeansfläche.
-       Die Kante läuft V-förmig zum Schieber.
-    */
-
-    clip-path:
-
-        polygon(
-
-            0 0,
-
-            calc(
-                50% -
-                var(--zip-gap)
-            ) 0,
-
-            50% var(--zip-y),
-
-            0 var(--zip-y)
-
-        );
-
-    transform:
-
-        translate3d(
-            calc(
-                var(--zip-move) * -1
-            ),
-            0,
-            0
-        );
-
-}
-
-
-/*
-   ==========================================================
-   OBERE RECHTE JEANSHÄLFTE
-   ==========================================================
-*/
-
-.page1-open-right {
-
-    z-index: 9;
-
-    clip-path:
-
-        polygon(
-
-            calc(
-                50% +
-                var(--zip-gap)
-            ) 0,
-
-            100% 0,
-
-            100% var(--zip-y),
-
-            50% var(--zip-y)
-
-        );
-
-    transform:
-
-        translate3d(
-            var(--zip-move),
-            0,
-            0
-        );
-
-}
-
-
-/* =========================================================
-   PAGE CONTENT
-========================================================= */
-
-.page-content {
-
-    width: 100%;
-
-    max-width: var(--page-max-width);
-
-    min-height: 100vh;
-
-    margin: 0 auto;
-
-    padding:
-        clamp(2.8rem, 4vw, 4rem)
-        1.5rem
-        5rem;
-
-}
-
-
-/*
-   Der Content der geöffneten Hälften
-   wird optisch etwas nach außen gezogen.
-*/
-
-.page1-open-left .page-content {
-
-    transform:
-
-        translateX(
-            calc(
-                var(--zip-move) * -.12
-            )
-        );
-
-}
-
-
-.page1-open-right .page-content {
-
-    transform:
-
-        translateX(
-            calc(
-                var(--zip-move) * .12
-            )
-        );
-
-}
-
-
-/* =========================================================
-   BRAND
-========================================================= */
-
-.brand-row {
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    margin-bottom:
-        clamp(
-            1.2rem,
-            2vw,
-            1.8rem
-        );
-
-}
-
-
-.brand-link {
-
-    color: var(--text-main);
-
-    font-weight: 900;
-
-    letter-spacing: .08em;
-
-    text-decoration: none;
-
-    text-shadow:
-
-        1px 1px 0 var(--thread-dark),
-
-        -1px -1px 0 var(--thread-light),
-
-        0 0 7px rgba(224,154,74,.12);
-
-}
-
-
-/* =========================================================
-   HERO
-========================================================= */
-
-.hero {
-
-    text-align: center;
-
-}
-
-
-.eyebrow {
-
-    margin: 0 0 .45rem;
-
-    font-size: .78rem;
-
-    letter-spacing: .18em;
-
-    text-transform: uppercase;
-
-    color: var(--text-muted);
-
-}
-
-
-.hero h1 {
-
-    margin: 0 0 .65rem;
-
-    font-size:
-        clamp(
-            3.2rem,
-            10vw,
-            7.6rem
-        );
-
-    line-height: .88;
-
-    letter-spacing: -.078em;
-
-    text-transform: lowercase;
-
-    font-weight: 900;
-
-    color: var(--text-main);
-
-    text-shadow:
-
-        1px 1px 0 var(--thread-dark),
-
-        -1px -1px 0 var(--thread-light),
-
-        0 3px 12px rgba(0,0,0,.18);
-
-}
-
-
-.hero-sub {
-
-    margin:
-        0 auto
-        clamp(
-            1.45rem,
-            2.7vw,
-            2.05rem
-        );
-
-    color: var(--text-muted);
-
-    font-size:
-        clamp(
-            .95rem,
-            1.5vw,
-            1.08rem
-        );
-
-    letter-spacing: .045em;
-
-    line-height: 1.55;
-
-    max-width: 42rem;
-
-}
-
-
-/* =========================================================
-   VIDEO
-========================================================= */
-
-.cover-wrap {
-
-    margin:
-        0 auto
-        clamp(
-            1.2rem,
-            2.6vw,
-            1.9rem
-        );
-
-    max-width: 680px;
-
-    width: 100%;
-
-}
-
-
-.cover-inner {
-
-    border-radius: 30px;
-
-    overflow: hidden;
-
-    background: #000;
-
-    aspect-ratio: 1 / 1;
-
-    position: relative;
-
-    box-shadow:
-
-        0 26px 90px
-        rgba(0,0,0,.48),
-
-        0 0 0 2px
-        rgba(189,110,43,.12);
-
-}
-
-
-.album-video {
+    top: 0;
+    left: 0;
 
     width: 100%;
     height: 100%;
 
-    display: block;
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135, 139, 72, 0.14),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            #323718,
+            #4a5027 45%,
+            #343919
+        );
 
-    object-fit: cover;
-
-    border-radius: inherit;
-
-    background: #000;
-
-    outline: none;
-
-    border: 0;
-
+    overflow: hidden;
 }
 
 
 /*
-   Die Videos in den oberen, bewegten Hälften
-   zeigen keine Bedienelemente.
+   Leichte Stoffstruktur für die olivfarbene Seite.
 */
 
-.page1-open-left .album-video,
-.page1-open-right .album-video {
+.second-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    opacity: 0.17;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.08) 0px,
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 5px
+        );
 
     pointer-events: none;
-
 }
 
 
 /* =========================================================
-   BUTTON
+   INHALT DER ZWEITEN SEITE
 ========================================================= */
 
-.listen-wrap {
+.second-content {
+    position: relative;
 
-    margin-top: 1.45rem;
-
-    display: flex;
-
-    justify-content: center;
-
-    gap: .75rem;
-
-    flex-wrap: wrap;
-
-}
-
-
-.listen-btn {
-
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    padding:
-        .95rem
-        1.35rem;
-
-    border-radius: 999px;
-
-    text-decoration: none;
-
-    font-weight: 900;
-
-    letter-spacing: .045em;
-
-    text-transform: lowercase;
-
-    background: var(--thread);
-
-    color: #173958;
-
-    border:
-        2px solid
-        var(--thread-light);
-
-    box-shadow:
-
-        0 8px 24px
-        rgba(0,0,0,.30),
-
-        inset 0 1px 0
-        rgba(255,255,255,.22);
-
-    transition:
-        transform .18s ease,
-        box-shadow .2s ease;
-
-}
-
-
-.listen-btn:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-
-        0 12px 32px
-        rgba(0,0,0,.34),
-
-        0 0 18px
-        rgba(224,154,74,.15);
-
-}
-
-
-/* =========================================================
-   NORMALE SECTIONS
-========================================================= */
-
-section.block {
-
-    margin-bottom:
-        clamp(
-            1.55rem,
-            2.2vw,
-            2.15rem
-        );
-
-}
-
-
-section.block h2 {
-
-    margin:
-        0 0 .95rem;
-
-    font-size: 1.06rem;
-
-    letter-spacing: .04em;
-
-    text-transform: lowercase;
-
-    font-weight: 800;
-
-    color: var(--text-main);
-
-}
-
-
-section.block p {
-
-    margin: 0;
-
-    line-height: 1.7;
-
-    letter-spacing: .04em;
-
-    max-width: 60rem;
-
-    font-size: 1rem;
-
-    color: rgba(228,177,119,.84);
-
-}
-
-
-section.block p + p {
-
-    margin-top: .75rem;
-
-}
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-.countdown-plain {
-
-    margin-top:
-        clamp(
-            1.6rem,
-            3vw,
-            2.4rem
-        );
-
-}
-
-
-.countdown-label {
-
-    margin:
-        0 0 .45rem;
-
-    font-size: .72rem;
-
-    letter-spacing: .16em;
-
-    text-transform: uppercase;
-
-    font-weight: 900;
-
-    color: var(--text-muted);
-
-}
-
-
-.countdown-time {
-
-    margin: 0;
-
-    font-size:
-        clamp(
-            2rem,
-            6vw,
-            4.6rem
-        );
-
-    line-height: .95;
-
-    letter-spacing: -.065em;
-
-    font-weight: 900;
-
-    font-variant-numeric:
-        tabular-nums;
-
-    color: var(--text-main);
-
-}
-
-
-.countdown-note {
-
-    margin-top: .7rem;
-
-    color: var(--text-muted);
-
-    letter-spacing: .04em;
-
-    line-height: 1.55;
-
-}
-
-
-/* =========================================================
-   SONG LISTE
-========================================================= */
-
-.song-list-section {
-
-    margin-top:
-        clamp(
-            1.7rem,
-            3vw,
-            2.5rem
-        );
-
-    text-align: center;
-
-}
-
-
-.song-list-head {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    gap: 1rem;
-
-    align-items: baseline;
-
-    margin-bottom: 1.15rem;
-
-    text-align: left;
-
-}
-
-
-.song-list-head strong {
-
-    font-size:
-        clamp(
-            1.35rem,
-            3.5vw,
-            2.35rem
-        );
-
-    letter-spacing: -.05em;
-
-    line-height: 1;
-
-    color: var(--text-main);
-
-}
-
-
-.song-lines {
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: center;
-
-    gap: .78rem;
+    width: min(720px, 80vw);
 
     margin: 0 auto;
 
-    max-width: 60rem;
-
-}
-
-
-.song-line {
-
-    margin: 0;
-
-    color: var(--text-main);
-
-    font-size:
-        clamp(
-            1.18rem,
-            2vw,
-            1.55rem
-        );
-
-    line-height: 1.65;
-
-    letter-spacing: .045em;
-
-    text-transform: lowercase;
+    padding-top: 12vh;
 
     text-align: center;
 
-    font-weight: 800;
-
+    z-index: 2;
 }
 
 
-.song-line span {
-
-    display: inline-block;
-
-    white-space: nowrap;
-
-    margin:
-        0 .22rem;
-
-    transform-origin: center;
-
-}
-
-
-.song-line span::before {
-
-    content: "· ";
+.second-kicker {
+    font-size: 1rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
 
     color: var(--thread-light);
 
+    margin-bottom: 18px;
 }
 
 
-.song-line span:nth-child(1) {
+.second-content h1 {
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.85;
 
-    transform:
-        rotate(-2.2deg);
+    text-transform: lowercase;
 
+    color: var(--thread);
+
+    letter-spacing: -0.07em;
+
+    margin-bottom: 30px;
 }
 
 
-.song-line span:nth-child(2) {
+.second-intro {
+    max-width: 600px;
 
-    transform:
-        rotate(1.4deg);
+    margin: 0 auto 60px;
 
+    font-size: clamp(1rem, 2vw, 1.3rem);
+
+    line-height: 1.7;
+
+    color: #d4c99c;
 }
 
 
-.song-line span:nth-child(3) {
-
-    transform:
-        rotate(-1.1deg);
-
-}
-
-
-.song-line span:nth-child(4) {
-
-    transform:
-        rotate(2deg);
-
-}
-
-
-/* =========================================================
-   ABOUT
-========================================================= */
-
-.about-section {
-
-    margin-top:
-        clamp(
-            1.7rem,
-            3vw,
-            2.5rem
-        );
-
-}
-
-
-.quote-block {
-
-    border-left:
-        2px solid
-        var(--thread);
-
-    padding-left: 1rem;
-
-    margin-top: 1rem;
-
-    color: var(--text-muted);
-
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer-combined {
-
-    position: relative;
-
-    z-index: 5;
-
+.second-grid {
     display: grid;
 
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
 
-    gap: 1.4rem;
+    gap: 50px;
 
-    padding-top: .4rem;
+    text-align: left;
 
+    margin-top: 50px;
 }
 
 
-.social-icons {
+.second-box h2 {
+    color: var(--thread);
 
-    display: flex;
+    font-size: 1.3rem;
 
-    flex-wrap: wrap;
+    text-transform: lowercase;
 
-    gap:
-        clamp(
-            1.1rem,
-            1.6vw,
-            1.6rem
-        );
-
-    align-items: center;
-
-    margin-bottom: .4rem;
-
+    margin-bottom: 15px;
 }
 
 
-.social-link {
+.second-box p {
+    color: #d0c89d;
 
-    text-decoration: none;
+    line-height: 1.7;
 
-    display: inline-flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    transition:
-        transform .18s ease,
-        opacity .2s ease;
-
+    font-size: 1rem;
 }
 
 
-.social-link:hover {
+@media (max-width: 700px) {
 
-    transform:
-        translateY(-2px);
-
-    opacity: .84;
-
-}
-
-
-.social-icon-img {
-
-    width:
-        clamp(
-            1.6rem,
-            1.3vw + 1rem,
-            2.2rem
-        );
-
-    height: auto;
-
-    display: block;
-
-}
-
-
-.more-link {
-
-    display: inline-block;
-
-    margin-top: .65rem;
-
-    margin-bottom: .75rem;
+    .second-grid {
+        grid-template-columns: 1fr;
+    }
 
 }
 
 
 /* =========================================================
-   DER EIGENTLICHE REISSVERSCHLUSS
+   ERSTE SEITE – JEANS
 ========================================================= */
 
-.zipper {
+.first-page {
+    position: sticky;
 
-    position: absolute;
+    top: 0;
 
-    inset: 0;
+    height: 100vh;
 
-    z-index: 50;
+    width: 100%;
+
+    z-index: 10;
+
+    overflow: hidden;
 
     pointer-events: none;
+}
 
+
+/*
+   Linke und rechte Jeanshälfte.
+
+   Wichtig:
+   Die beiden Flächen sind NICHT transparent.
+
+   Sie liegen über der oliven zweiten Seite.
+*/
+
+.denim-panel {
+    position: absolute;
+
+    top: 0;
+
+    width: 50%;
+    height: 100%;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 30%,
+            rgba(50, 100, 135, 0.22),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #0a1d2d
+        );
+
+    overflow: hidden;
+
+    will-change: transform;
+}
+
+
+/* Linke Seite */
+
+.denim-left {
+    left: 0;
+
+    transform-origin: right center;
+}
+
+
+/* Rechte Seite */
+
+.denim-right {
+    right: 0;
+
+    transform-origin: left center;
 }
 
 
 /* =========================================================
-   ZIPPER SVG
+   JEANS-STOFFSTRUKTUR
 ========================================================= */
 
-.zipper-svg {
+.denim-panel::before {
+    content: "";
 
     position: absolute;
 
     inset: 0;
 
+    opacity: 0.27;
+
+    background-image:
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.035) 0px,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        repeating-linear-gradient(
+            25deg,
+            rgba(0,0,0,0.09) 0px,
+            rgba(0,0,0,0.09) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    pointer-events: none;
+}
+
+
+/*
+   Leichte unregelmäßige Denim-Flecken.
+*/
+
+.denim-panel::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.18;
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #47718d 0,
+            transparent 18%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            #294b61 0,
+            transparent 20%
+        ),
+        radial-gradient(
+            circle at 45% 75%,
+            #061522 0,
+            transparent 25%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INHALT DER ERSTEN SEITE
+========================================================= */
+
+.first-content {
+    position: absolute;
+
+    top: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    z-index: 3;
+}
+
+
+/*
+   Inhalt links
+*/
+
+.content-left {
+    position: absolute;
+
+    left: 7vw;
+
+    top: 35vh;
+
+    width: 35vw;
+
+    text-align: left;
+}
+
+
+/*
+   Inhalt rechts
+*/
+
+.content-right {
+    position: absolute;
+
+    right: 7vw;
+
+    top: 13vh;
+
+    width: 35vw;
+
+    text-align: right;
+}
+
+
+.brand {
+    font-size: 1rem;
+
+    font-weight: bold;
+
+    letter-spacing: 0.22em;
+
+    color: var(--thread-light);
+
+    margin-bottom: 18px;
+}
+
+
+.first-title {
+    font-size: clamp(4rem, 9vw, 9rem);
+
+    line-height: 0.8;
+
+    letter-spacing: -0.07em;
+
+    color: var(--thread);
+
+    text-transform: lowercase;
+
+    margin-bottom: 25px;
+}
+
+
+.first-subtitle {
+    color: #d2b98d;
+
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+
+    line-height: 1.6;
+}
+
+
+.content-right h2 {
+    font-size: clamp(3rem, 6vw, 6rem);
+
+    line-height: 0.85;
+
+    color: var(--thread);
+
+    text-transform: lowercase;
+
+    margin-bottom: 20px;
+}
+
+
+.content-right p {
+    color: #d0bb8d;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   VIDEO / BILD
+========================================================= */
+
+.media-card {
+    margin-top: 35px;
+
+    width: min(370px, 35vw);
+
+    aspect-ratio: 16 / 10;
+
+    border: 2px solid rgba(230,220,190,0.65);
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #8b8a78,
+            #c1b99d
+        );
+
+    position: relative;
+}
+
+
+.media-card img {
     width: 100%;
     height: 100%;
 
-    overflow: visible;
+    object-fit: cover;
 
+    display: block;
 }
 
 
-/*
-   Metallkante
-*/
+.media-placeholder {
+    width: 100%;
+    height: 100%;
 
-.zip-metal-line {
+    display: flex;
 
-    fill: none;
+    align-items: center;
+    justify-content: center;
 
-    stroke:
-        rgba(245,245,239,.82);
+    text-align: center;
 
-    stroke-width: 2.2;
+    color: #333;
 
-    stroke-linecap: round;
+    font-weight: bold;
 
-    filter:
-        drop-shadow(
-            0 1px 1px rgba(0,0,0,.65)
-        );
-
-}
-
-
-.zip-metal-shadow {
-
-    fill: none;
-
-    stroke:
-        rgba(50,55,52,.92);
-
-    stroke-width: 5;
-
-    stroke-linecap: round;
-
-}
-
-
-/*
-   Orange Jeansnaht
-*/
-
-.zip-thread-line {
-
-    fill: none;
-
-    stroke:
-        var(--thread);
-
-    stroke-width: 2;
-
-    stroke-linecap: round;
-
-    stroke-dasharray:
-        3 4;
-
-    filter:
-        drop-shadow(
-            0 0 2px rgba(224,154,74,.30)
-        );
-
+    padding: 20px;
 }
 
 
 /* =========================================================
-   ZIPPER TEETH
+   JEANS-NAHT
 ========================================================= */
 
-.zip-teeth {
-
+.seam {
     position: absolute;
 
-    inset: 0;
+    top: 0;
 
+    width: 3px;
+
+    height: 100%;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            var(--thread) 0px,
+            var(--thread) 8px,
+            transparent 8px,
+            transparent 16px
+        );
+
+    opacity: 0.9;
+
+    z-index: 5;
+
+    pointer-events: none;
 }
 
 
-.zip-tooth {
+.seam-left {
+    right: 11px;
+}
+
+
+.seam-right {
+    left: 11px;
+}
+
+
+/* =========================================================
+   REISSVERSCHLUSS
+========================================================= */
+
+.zipper-system {
+
+    position: fixed;
+
+    top: 0;
+    left: 50%;
+
+    width: 120px;
+
+    height: 100vh;
+
+    transform: translateX(-50%);
+
+    z-index: 100;
+
+    pointer-events: none;
+}
+
+
+/*
+   Die beiden äußeren Reißverschluss-Schienen.
+
+   Sie laufen schräg nach außen,
+   genau wie bei einer geöffneten Hose.
+*/
+
+.zip-rail {
+
+    position: absolute;
+
+    top: 0;
+
+    width: 9px;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #3b3d3a,
+            #d5d3c7,
+            #696a65
+        );
+
+    box-shadow:
+        0 0 5px rgba(0,0,0,0.8);
+
+    transform-origin: top center;
+}
+
+
+.zip-rail.left {
+    left: 22px;
+
+    transform:
+        rotate(-18deg);
+}
+
+
+.zip-rail.right {
+    right: 22px;
+
+    transform:
+        rotate(18deg);
+}
+
+
+/*
+   Zähne links/rechts
+*/
+
+.teeth {
+    position: absolute;
+
+    top: 0;
+
+    width: 14px;
+
+    height: 100%;
+
+    z-index: 3;
+}
+
+
+.teeth.left {
+    left: 14px;
+}
+
+
+.teeth.right {
+    right: 14px;
+}
+
+
+.tooth {
 
     position: absolute;
 
     width: 13px;
 
-    height: 8px;
+    height: 6px;
 
     border-radius: 2px;
 
     background:
-
         linear-gradient(
-            180deg,
-            var(--metal-white) 0%,
-            var(--metal-light) 22%,
-            var(--metal) 52%,
-            var(--metal-dark) 100%
+            to bottom,
+            #eeeeea,
+            #888984
         );
 
     box-shadow:
+        0 1px 1px #222,
+        inset 0 1px rgba(255,255,255,0.65);
 
-        0 1px 2px
-        rgba(0,0,0,.65),
-
-        inset 0 1px 0
-        rgba(255,255,255,.65);
-
+    transform-origin: center;
 }
 
 
 /*
-   kleiner dunkler Spalt zwischen den Zähnen
+   Zähne werden per JavaScript erzeugt.
 */
 
-.zip-tooth::after {
 
-    content: "";
+/* =========================================================
+   ÖFFNUNG / INNERER REISSVERSCHLUSS
+========================================================= */
+
+.opening {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 50%;
+
+    width: 4px;
+
+    height: 100vh;
+
+    transform: translateX(-50%);
+
+    z-index: 90;
+
+    pointer-events: none;
+}
+
+
+/*
+   Der sichtbare olivfarbene Bereich.
+
+   Er liegt hinter den Jeansflächen.
+*/
+
+.opening-shape {
 
     position: absolute;
 
-    left: 2px;
-    right: 2px;
+    top: 0;
 
-    top: 3px;
+    left: 50%;
 
-    height: 2px;
+    width: 0;
+
+    height: 100%;
+
+    transform: translateX(-50%);
 
     background:
-        rgba(70,74,71,.55);
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0.4),
+            transparent 12%,
+            transparent 88%,
+            rgba(0,0,0,0.4)
+        );
 
+    z-index: 1;
+
+    will-change: width;
+}
+
+
+/*
+   Metallkante am geöffneten Rand.
+*/
+
+.open-edge {
+
+    position: absolute;
+
+    top: 0;
+
+    width: 6px;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #565852,
+            #dddcd1,
+            #797a73
+        );
+
+    opacity: 0;
+
+    z-index: 5;
+
+    will-change: left, right, opacity;
 }
 
 
 /* =========================================================
-   ZIPPER SCHIEBER
+   SCHIEBER
 ========================================================= */
 
-.zip-slider {
+.slider {
 
-    position: absolute;
-
-    left: 50%;
-
-    top:
-        calc(
-            10px +
-            var(--zip) *
-            (
-                100vh - 20px
-            )
-        );
-
-    width: 46px;
-
-    height: 58px;
-
-    transform:
-        translate(
-            -50%,
-            -50%
-        );
-
-    border-radius:
-        9px 9px 13px 13px;
-
-    background:
-
-        linear-gradient(
-            105deg,
-            #555955 0%,
-            #a5a7a2 20%,
-            #f5f5f0 36%,
-            #9c9f9a 55%,
-            #f8f8f3 73%,
-            #5c605c 100%
-        );
-
-    box-shadow:
-
-        0 7px 18px
-        rgba(0,0,0,.68),
-
-        0 0 0 1px
-        rgba(255,255,255,.28),
-
-        inset 0 1px 1px
-        rgba(255,255,255,.85),
-
-        inset 0 -5px 6px
-        rgba(0,0,0,.28);
-
-}
-
-
-/*
-   Schiebergriff
-*/
-
-.zip-slider::before {
-
-    content: "";
-
-    position: absolute;
+    position: fixed;
 
     left: 50%;
 
-    top: 8px;
+    top: 4vh;
 
-    width: 26px;
+    width: 58px;
 
-    height: 24px;
+    height: 82px;
 
     transform:
         translateX(-50%);
 
-    border-radius: 7px;
+    z-index: 200;
 
-    border:
-        3px solid
-        #666a66;
+    will-change: top;
 
-    background:
-
-        linear-gradient(
-            180deg,
-            #f1f1ed,
-            #8f928d
+    filter:
+        drop-shadow(
+            0 8px 5px rgba(0,0,0,0.55)
         );
-
-    box-shadow:
-
-        inset 0 1px 1px
-        rgba(255,255,255,.7);
-
 }
 
 
 /*
-   Griffloch
+   Griff oben
 */
 
-.zip-slider::after {
-
-    content: "";
+.slider-handle {
 
     position: absolute;
 
     left: 50%;
 
-    top: 15px;
+    top: 0;
 
-    width: 9px;
-
-    height: 9px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius: 50%;
-
-    background:
-        #182231;
-
-    box-shadow:
-        inset 0 1px 3px
-        rgba(0,0,0,.9);
-
-}
-
-
-/* =========================================================
-   KLEINE METALL-ENDKAPPE OBEN
-========================================================= */
-
-.zip-top-stop {
-
-    position: absolute;
-
-    left: 50%;
-
-    top: -2px;
-
-    width: 32px;
+    width: 34px;
 
     height: 30px;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
-    border-radius:
-        5px 5px 8px 8px;
+    border-radius: 8px 8px 4px 4px;
 
     background:
-
         linear-gradient(
-            100deg,
-            #555954,
-            #f4f4ef 35%,
-            #969995 60%,
-            #eeeeea
+            90deg,
+            #666762,
+            #ece9dc 45%,
+            #777872
         );
 
-    box-shadow:
-
-        0 4px 10px
-        rgba(0,0,0,.6),
-
-        inset 0 1px 1px
-        rgba(255,255,255,.8);
-
+    border: 2px solid #41433f;
 }
 
 
 /*
-   kleiner schwarzer Punkt auf der Kappe
+   Loch im Schieber
 */
 
-.zip-top-stop::after {
+.slider-handle::after {
 
     content: "";
 
@@ -1765,16 +870,122 @@ section.block p + p {
     left: 50%;
     top: 7px;
 
-    width: 7px;
-    height: 7px;
+    width: 11px;
+    height: 11px;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     border-radius: 50%;
 
-    background: #1a2020;
+    background: #171914;
 
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+
+/*
+   eigentlicher Schieber
+*/
+
+.slider-body {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 23px;
+
+    width: 45px;
+
+    height: 58px;
+
+    transform: translateX(-50%);
+
+    border-radius: 6px 6px 12px 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #555650,
+            #d9d7cb 42%,
+            #777872 72%,
+            #4a4b46
+        );
+
+    border: 2px solid #343631;
+}
+
+
+/*
+   Mittlere Vertiefung
+*/
+
+.slider-body::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 9px;
+
+    width: 12px;
+    height: 30px;
+
+    transform: translateX(-50%);
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #555650,
+            #e5e3d7,
+            #666761
+        );
+
+    box-shadow:
+        inset 0 0 4px rgba(0,0,0,0.7);
+}
+
+
+/* =========================================================
+   ORANGE FADEN
+========================================================= */
+
+.thread-line {
+
+    position: fixed;
+
+    top: 0;
+
+    width: 2px;
+
+    height: 100vh;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            var(--thread) 0px,
+            var(--thread) 8px,
+            transparent 8px,
+            transparent 17px
+        );
+
+    z-index: 70;
+
+    pointer-events: none;
+}
+
+
+.thread-left {
+    left: calc(50% - 40px);
+}
+
+
+.thread-right {
+    left: calc(50% + 40px);
 }
 
 
@@ -1786,32 +997,87 @@ section.block p + p {
 
     position: fixed;
 
+    bottom: 35px;
+
     left: 50%;
 
-    bottom: 24px;
+    transform: translateX(-50%);
 
-    transform:
-        translateX(-50%);
+    z-index: 300;
 
-    z-index: 70;
+    text-align: center;
 
-    pointer-events: none;
+    color: var(--thread);
 
-    color:
-        rgba(224,154,74,.72);
+    font-size: 0.8rem;
 
-    font-size: .68rem;
-
-    letter-spacing: .18em;
+    letter-spacing: 0.2em;
 
     text-transform: uppercase;
 
-    opacity:
-        calc(
-            1 -
-            var(--zip) * 3
+    transition:
+        opacity 0.4s ease;
+}
+
+
+.scroll-arrow {
+
+    width: 18px;
+    height: 18px;
+
+    margin: 12px auto 0;
+
+    border-right: 2px solid var(--thread);
+    border-bottom: 2px solid var(--thread);
+
+    transform: rotate(45deg);
+}
+
+
+/* =========================================================
+   NACHFOLGENDE SEITE
+========================================================= */
+
+.after-page {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    padding: 120px 8vw;
+
+    background:
+        linear-gradient(
+            135deg,
+            #343919,
+            #4b5128
         );
 
+    color: #d8cda0;
+
+    z-index: 2;
+}
+
+
+.after-page h2 {
+
+    color: var(--thread);
+
+    font-size: clamp(3rem, 8vw, 7rem);
+
+    line-height: 0.85;
+
+    margin-bottom: 30px;
+}
+
+
+.after-page p {
+
+    max-width: 700px;
+
+    font-size: 1.2rem;
+
+    line-height: 1.8;
 }
 
 
@@ -1819,186 +1085,81 @@ section.block p + p {
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
 
-    .zip-scroll {
-
-        height: 205vh;
-
+    .zip-stage {
+        height: 230vh;
     }
 
 
-    .page-content {
+    .content-left {
+        left: 8vw;
 
-        padding:
-            2.1rem
-            1.05rem
-            3rem;
+        top: 43vh;
 
+        width: 40vw;
     }
 
 
-    .page-2-inner {
+    .content-right {
+        right: 8vw;
 
-        padding:
-            2.1rem
-            1.05rem
-            5rem;
+        top: 15vh;
 
+        width: 40vw;
     }
 
 
-    .brand-row {
-
-        justify-content:
-            flex-start;
-
+    .first-title {
+        font-size: 14vw;
     }
 
 
-    .hero {
-
-        text-align:
-            left;
-
+    .content-right h2 {
+        font-size: 9vw;
     }
 
 
-    .hero-sub {
-
-        margin-left: 0;
-        margin-right: 0;
-
-        font-size: .92rem;
-
+    .media-card {
+        width: 38vw;
     }
 
 
-    .hero h1 {
-
-        font-size:
-            clamp(
-                3rem,
-                17vw,
-                5.6rem
-            );
-
+    .zip-rail.left {
+        transform: rotate(-12deg);
     }
 
 
-    .cover-inner {
-
-        border-radius: 22px;
-
+    .zip-rail.right {
+        transform: rotate(12deg);
     }
 
 
-    .listen-wrap {
-
-        justify-content:
-            center;
-
+    .thread-left {
+        left: calc(50% - 28px);
     }
 
 
-    .listen-btn {
-
-        padding:
-            .82rem
-            1.08rem;
-
-        font-size: .9rem;
-
-    }
-
-
-    .countdown-time {
-
-        font-size:
-            clamp(
-                2rem,
-                11vw,
-                3.25rem
-            );
-
-    }
-
-
-    .song-list-section {
-
-        text-align: left;
-
-    }
-
-
-    .song-lines {
-
-        align-items: center;
-
-    }
-
-
-    .song-line {
-
-        font-size:
-            clamp(
-                1rem,
-                4.4vw,
-                1.22rem
-            );
-
-    }
-
-
-    /*
-       Mobile:
-       kleinere Öffnung
-    */
-
-    .zip-slider {
-
-        width: 40px;
-
-        height: 52px;
-
-    }
-
-
-    .zip-top-stop {
-
-        width: 27px;
-
-        height: 26px;
-
+    .thread-right {
+        left: calc(50% + 28px);
     }
 
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   REDUZIERTE BEWEGUNG
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .page1-open-left,
-    .page1-open-right {
-
-        transition: none;
-
-    }
-
-    .listen-btn,
-    .social-link {
-
-        transition: none;
-
+    html {
+        scroll-behavior: auto;
     }
 
 }
 
 </style>
-
 </head>
 
 
@@ -2006,2110 +1167,603 @@ section.block p + p {
 
 
 <!-- =======================================================
-     FEINE JEANSSTRUKTUR
-======================================================== -->
+     HAUPTBÜHNE
+======================================================= -->
 
-<div
-    class="denim-texture"
-    aria-hidden="true"
-></div>
-
-
-<!-- =======================================================
-     SCROLL-BEREICH
-======================================================== -->
-
-<div class="zip-scroll">
+<section class="zip-stage" id="zipStage">
 
 
     <!-- ===================================================
-         FIXIERTE BÜHNE
+         ZWEITE SEITE
     ==================================================== -->
 
-    <div class="zip-stage">
+    <div class="second-page" id="secondPage">
+
+        <div class="second-content">
+
+            <div class="second-kicker">
+                b3nn3t
+            </div>
+
+            <h1>
+                weiter
+            </h1>
+
+            <p class="second-intro">
+                Hinter „gespalten“ beginnt eine neue Seite.
+                Der Reißverschluss öffnet den Weg zwischen
+                dem Alten und dem Neuen.
+            </p>
 
 
-        <!-- ===============================================
-             SEITE 2 – OLIV
-        ================================================ -->
+            <div class="second-grid">
 
-        <section
-            class="page-2"
-            aria-label="zweite Seite"
-        >
-
-            <div class="page-2-inner">
-
-
-                <div class="brand-row">
-
-                    <a
-                        class="brand-link"
-                        href="index.html"
-                    >
-                        b3nn3t
-                    </a>
-
-                </div>
-
-
-                <h2>
-                    weiter
-                </h2>
-
-
-                <p>
-                    Hinter „gespalten“ beginnt eine neue Seite.
-                </p>
-
-
-                <p>
-                    Der Reißverschluss öffnet den Weg von
-                    der blauen Jeansseite in diese olivfarbene
-                    zweite Seite.
-                </p>
-
-
-                <div class="page-2-line"></div>
-
-
-                <div class="page-2-block">
+                <div class="second-box">
 
                     <h2>
-                        die zweite seite
+                        neue inhalte
                     </h2>
 
-
                     <p>
-                        Hier kann später dein eigentlicher
-                        zweiter Seitenbereich stehen.
-                    </p>
-
-
-                    <p>
-                        Bilder, Texte, weitere Musik,
-                        Projekte oder andere Inhalte können
-                        hier eingefügt werden.
+                        Hier ist Platz für alles,
+                        was auf der zweiten Seite
+                        wichtig ist.
                     </p>
 
                 </div>
 
 
-                <div class="page-2-block">
+                <div class="second-box">
 
                     <h2>
-                        noch mehr
+                        projekte
                     </h2>
 
-
                     <p>
-                        Beim Zurückscrollen fährt der Schieber
-                        wieder nach oben und die blaue
-                        Jeansseite schließt sich hinter ihm.
+                        Musik, Texte, Bilder,
+                        Videos oder was immer
+                        du zeigen willst.
                     </p>
 
                 </div>
 
-
             </div>
 
-        </section>
-
-
-
-        <!-- ===============================================
-             SEITE 1
-        ================================================ -->
-
-        <section
-            class="page-1"
-            aria-label="gespalten Albumseite"
-        >
-
-
-            <!-- ===========================================
-                 UNTERER / GESCHLOSSENER BEREICH
-            ============================================ -->
 
             <div
-                class="page1-layer page1-closed"
+                style="
+                    margin-top:80px;
+                    color:#d5c99b;
+                    line-height:1.8;
+                "
             >
+                <strong style="color:#c47725;">
+                    mehr erfahren
+                </strong>
 
-                <div
-                    class="page-content"
-                    id="page1-source"
-                >
+                <br>
 
-
-                    <!-- ===================================
-                         BRAND
-                    ==================================== -->
-
-                    <div class="brand-row">
-
-                        <a
-                            class="brand-link"
-                            href="index.html"
-                        >
-                            b3nn3t
-                        </a>
-
-                    </div>
-
-
-                    <!-- ===================================
-                         HERO
-                    ==================================== -->
-
-                    <section
-                        class="hero"
-                        aria-label="gespalten Album"
-                    >
-
-                        <p class="eyebrow">
-                        </p>
-
-
-                        <h1>
-                            gespalten
-                        </h1>
-
-
-                        <p class="hero-sub">
-
-                            <strong></strong>
-
-                            <br>
-
-                            übergang zwischen alt und neu
-
-                        </p>
-
-
-                        <!-- VIDEO -->
-
-                        <div
-                            class="cover-wrap"
-                            aria-label="Albumvideo gespalten"
-                        >
-
-                            <div class="cover-inner">
-
-                                <video
-                                    class="album-video"
-                                    controls
-                                    preload="metadata"
-                                    playsinline
-                                    poster="/assets/gespalten/gespalten.jpg"
-                                >
-
-                                    <source
-                                        src="/assets/gespalten/gespalten.mp4"
-                                        type="video/mp4"
-                                    >
-
-                                    Dein Browser unterstützt
-                                    dieses Videoformat nicht.
-
-                                </video>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- BUTTON -->
-
-                        <div class="listen-wrap">
-
-                            <a
-                                class="listen-btn main-cta"
-                                href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                album vormerken
-                            </a>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- ===================================
-                         COUNTDOWN
-                    ==================================== -->
-
-                    <section
-                        class="block countdown-plain"
-                        aria-label="Album Countdown"
-                    >
-
-                        <p class="countdown-label">
-                            album unlocks in
-                        </p>
-
-
-                        <p class="countdown-time album-countdown">
-                            --d --:--:--
-                        </p>
-
-
-                        <p class="countdown-note release-note">
-                            release: 13. august 2026 · 24:00 uhr
-                        </p>
-
-                    </section>
-
-
-                    <!-- ===================================
-                         SONGS
-                    ==================================== -->
-
-                    <section
-                        class="block song-list-section"
-                        aria-label="Songs auf gespalten"
-                    >
-
-                        <div class="song-list-head">
-
-                            <strong>
-                                10 fragments
-                            </strong>
-
-                        </div>
-
-
-                        <div class="song-lines">
-
-                            <p class="song-line">
-
-                                <span>
-                                    desigual
-                                </span>
-
-                                <span>
-                                    aergerlich
-                                </span>
-
-                                <span>
-                                    3
-                                </span>
-
-                                <span>
-                                    (fenster scherben)
-                                </span>
-
-                            </p>
-
-
-                            <p class="song-line">
-
-                                <span>
-                                    5r
-                                </span>
-
-                                <span>
-                                    6
-                                </span>
-
-                                <span>
-                                    7
-                                </span>
-
-                            </p>
-
-
-                            <p class="song-line">
-
-                                <span>
-                                    8?
-                                </span>
-
-                                <span>
-                                    wegwerfkamera
-                                </span>
-
-                                <span>
-                                    2011
-                                </span>
-
-                            </p>
-
-                        </div>
-
-                    </section>
-
-
-                    <!-- ===================================
-                         ABOUT
-                    ==================================== -->
-
-                    <section
-                        class="block about-section"
-                        aria-label="über das Album"
-                    >
-
-                        <h2>
-                            über das Album
-                        </h2>
-
-
-                        <p>
-                            „gespalten“ ist ein kurzes album
-                            aus 10 fragmenten. 12 minuten im
-                            übergang zwischen alt mit
-                            deutschsprachigen skizzen.
-                        </p>
-
-
-                        <p>
-                            die songs sind eher gedanken und
-                            gefühle als klassische tracks
-                            kurz, direkt, unfertig im besten
-                            sinn.
-                        </p>
-
-
-                        <div class="quote-block">
-                            <br>
-                        </div>
-
-                    </section>
-
-
-                    <!-- ===================================
-                         FOOTER / STREAMING
-                    ==================================== -->
-
-                    <div class="footer-combined">
-
-                        <section
-                            aria-label="Streaming"
-                            class="block"
-                        >
-
-                            <h2>
-                                kuck hier
-                            </h2>
-
-
-                            <div class="social-icons">
-
-
-                                <!-- SPOTIFY -->
-
-                                <a
-                                    href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                                    class="social-link"
-                                    aria-label="Spotify – b3nn3t"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-
-                                    <picture>
-
-                                        <source
-                                            srcset="assets/release/spotify_128.webp"
-                                            type="image/webp"
-                                        >
-
-                                        <img
-                                            class="social-icon-img"
-                                            src="assets/release/spotify_128.png"
-                                            alt="Spotify"
-                                        >
-
-                                    </picture>
-
-                                </a>
-
-
-                                <!-- APPLE MUSIC -->
-
-                                <a
-                                    href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-                                    class="social-link"
-                                    aria-label="Apple Music – b3nn3t"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-
-                                    <picture>
-
-                                        <source
-                                            srcset="assets/release/apple_music_128.webp"
-                                            type="image/webp"
-                                        >
-
-                                        <img
-                                            class="social-icon-img"
-                                            src="assets/release/apple_music_128.png"
-                                            alt="Apple Music"
-                                        >
-
-                                    </picture>
-
-                                </a>
-
-
-                                <!-- INSTAGRAM -->
-
-                                <a
-                                    href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-                                    class="social-link"
-                                    aria-label="Instagram – b3nn3t"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-
-                                    <picture>
-
-                                        <source
-                                            srcset="assets/release/instagram_128.webp"
-                                            type="image/webp"
-                                        >
-
-                                        <img
-                                            class="social-icon-img"
-                                            src="assets/release/instagram_128.png"
-                                            alt="Instagram"
-                                        >
-
-                                    </picture>
-
-                                </a>
-
-
-                                <!-- YOUTUBE -->
-
-                                <a
-                                    href="https://www.youtube.com/@b333nn3t"
-                                    class="social-link"
-                                    aria-label="YouTube – b3nn3t"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-
-                                    <picture>
-
-                                        <source
-                                            srcset="assets/release/youtube_128.webp"
-                                            type="image/webp"
-                                        >
-
-                                        <img
-                                            class="social-icon-img"
-                                            src="assets/release/youtube_128.png"
-                                            alt="YouTube"
-                                        >
-
-                                    </picture>
-
-                                </a>
-
-
-                                <!-- SOUNDCLOUD -->
-
-                                <a
-                                    href="https://soundcloud.com/bennet-6942069420"
-                                    class="social-link"
-                                    aria-label="SoundCloud – b3nn3t"
-                                    target="_blank"
-                                    rel="noopener"
-                                >
-
-                                    <picture>
-
-                                        <source
-                                            srcset="assets/release/soundcloud_128.webp"
-                                            type="image/webp"
-                                        >
-
-                                        <img
-                                            class="social-icon-img"
-                                            src="assets/release/soundcloud_128.png"
-                                            alt="SoundCloud"
-                                        >
-
-                                    </picture>
-
-                                </a>
-
-                            </div>
-
-                        </section>
-
-
-                        <section
-                            aria-label="Mehr von b3nn3t"
-                            class="block"
-                        >
-
-                            <p>
-                                mehr auf meiner webseite :p
-                            </p>
-
-
-                            <a
-                                class="brand-link more-link"
-                                href="https://www.b3nn3t.com/index.html"
-                            >
-                                b3nn3t.com
-                            </a>
-
-                        </section>
-
-                    </div>
-
-
-                </div>
-
+                Scroll weiter und öffne den
+                Reißverschluss vollständig.
             </div>
 
+        </div>
 
-
-            <!-- ===========================================
-                 OBERE LINKE HÄLFTE
-            ============================================ -->
-
-            <div
-                class="page1-layer page1-open-left"
-                aria-hidden="true"
-            >
-
-                <div
-                    class="page-content"
-                    id="page1-left"
-                ></div>
-
-            </div>
+    </div>
 
 
 
-            <!-- ===========================================
-                 OBERE RECHTE HÄLFTE
-            ============================================ -->
+    <!-- ===================================================
+         ERSTE SEITE – JEANS
+    ==================================================== -->
 
-            <div
-                class="page1-layer page1-open-right"
-                aria-hidden="true"
-            >
-
-                <div
-                    class="page-content"
-                    id="page1-right"
-                ></div>
-
-            </div>
+    <div class="first-page" id="firstPage">
 
 
-        </section>
-
-
-
-        <!-- ===============================================
-             REISSVERSCHLUSS
-        ================================================ -->
+        <!-- LINKE JEANS-HÄLFTE -->
 
         <div
-            class="zipper"
-            aria-hidden="true"
+            class="denim-panel denim-left"
+            id="denimLeft"
         >
 
+            <div class="seam seam-left"></div>
 
-            <!-- SVG für die V-förmigen Metallkanten -->
+            <div class="content-left">
 
-            <svg
-                class="zipper-svg"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-            >
+                <div class="brand">
+                    b3nn3t
+                </div>
 
-                <path
-                    id="zip-shadow-left"
-                    class="zip-metal-shadow"
-                    d=""
-                ></path>
+                <h1 class="first-title">
+                    gespalten
+                </h1>
 
-
-                <path
-                    id="zip-shadow-right"
-                    class="zip-metal-shadow"
-                    d=""
-                ></path>
+                <p class="first-subtitle">
+                    übergang zwischen alt und neu
+                </p>
 
 
-                <path
-                    id="zip-metal-left"
-                    class="zip-metal-line"
-                    d=""
-                ></path>
+                <div class="media-card">
 
+                    <!--
+                        HIER DEIN BILD EINSETZEN:
 
-                <path
-                    id="zip-metal-right"
-                    class="zip-metal-line"
-                    d=""
-                ></path>
+                        <img src="images/dein-bild.jpg" alt="...">
 
+                        Aktuell nur Platzhalter.
+                    -->
 
-                <path
-                    id="zip-thread-left"
-                    class="zip-thread-line"
-                    d=""
-                ></path>
+                    <div class="media-placeholder">
+                        DEIN VIDEO / BILD
+                    </div>
 
+                </div>
 
-                <path
-                    id="zip-thread-right"
-                    class="zip-thread-line"
-                    d=""
-                ></path>
-
-            </svg>
-
-
-            <!-- Reißverschlusszähne -->
-
-            <div
-                class="zip-teeth"
-                id="zip-teeth"
-            ></div>
-
-
-            <!-- obere Endkappe -->
-
-            <div
-                class="zip-top-stop"
-            ></div>
-
-
-            <!-- Schieber -->
-
-            <div
-                class="zip-slider"
-            ></div>
+            </div>
 
         </div>
 
 
-        <!-- Scroll-Hinweis -->
+
+        <!-- RECHTE JEANS-HÄLFTE -->
 
         <div
-            class="scroll-hint"
+            class="denim-panel denim-right"
+            id="denimRight"
         >
-            scroll to open
+
+            <div class="seam seam-right"></div>
+
+            <div class="content-right">
+
+                <div class="brand">
+                    b3nn3t
+                </div>
+
+                <h2>
+                    alt
+                </h2>
+
+                <p>
+                    Musik, Erinnerungen und
+                    Fragmente aus einer anderen Zeit.
+                </p>
+
+            </div>
+
         </div>
 
 
     </div>
 
-</div>
+
+
+    <!-- ===================================================
+         REISSVERSCHLUSS
+    ==================================================== -->
+
+    <div class="zipper-system">
+
+        <div class="zip-rail left"></div>
+        <div class="zip-rail right"></div>
+
+        <div
+            class="teeth left"
+            id="teethLeft"
+        ></div>
+
+        <div
+            class="teeth right"
+            id="teethRight"
+        ></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         ÖFFNUNG
+    ==================================================== -->
+
+    <div class="opening">
+
+        <div
+            class="opening-shape"
+            id="openingShape"
+        ></div>
+
+        <div
+            class="open-edge"
+            id="edgeLeft"
+        ></div>
+
+        <div
+            class="open-edge"
+            id="edgeRight"
+        ></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         ORANGE NÄHTE
+    ==================================================== -->
+
+    <div class="thread-line thread-left"></div>
+    <div class="thread-line thread-right"></div>
+
+
+
+    <!-- ===================================================
+         SCHIEBER
+    ==================================================== -->
+
+    <div
+        class="slider"
+        id="slider"
+    >
+
+        <div class="slider-handle"></div>
+
+        <div class="slider-body"></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         SCROLL-HINWEIS
+    ==================================================== -->
+
+    <div
+        class="scroll-hint"
+        id="scrollHint"
+    >
+
+        nach unten öffnen
+
+        <div class="scroll-arrow"></div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE NACH DEM REISSVERSCHLUSS
+======================================================= -->
+
+<section class="after-page">
+
+    <h2>
+        offen.
+    </h2>
+
+    <p>
+        Der Reißverschluss ist jetzt vollständig geöffnet.
+        Die zweite Seite kann ab hier ganz normal weiter
+        gescrollt und mit deinen eigentlichen Inhalten
+        gefüllt werden.
+    </p>
+
+</section>
 
 
 
 <script>
 
 /* =========================================================
-   B3NN3T – ZIPPER ENGINE
+   REISSVERSCHLUSS – JAVASCRIPT
 ========================================================= */
 
-(function () {
 
-    "use strict";
+/*
+   Elemente holen
+*/
 
+const stage =
+    document.getElementById("zipStage");
 
-    /* =====================================================
-       ELEMENTE
-    ===================================================== */
+const leftPanel =
+    document.getElementById("denimLeft");
 
-    const root =
-        document.documentElement;
+const rightPanel =
+    document.getElementById("denimRight");
 
+const opening =
+    document.getElementById("openingShape");
 
-    const scrollArea =
-        document.querySelector(
-            ".zip-scroll"
-        );
+const edgeLeft =
+    document.getElementById("edgeLeft");
 
+const edgeRight =
+    document.getElementById("edgeRight");
 
-    const source =
-        document.getElementById(
-            "page1-source"
-        );
+const slider =
+    document.getElementById("slider");
 
+const scrollHint =
+    document.getElementById("scrollHint");
 
-    const leftTarget =
-        document.getElementById(
-            "page1-left"
-        );
+const teethLeft =
+    document.getElementById("teethLeft");
 
+const teethRight =
+    document.getElementById("teethRight");
 
-    const rightTarget =
-        document.getElementById(
-            "page1-right"
-        );
 
+/* =========================================================
+   REISSVERSCHLUSS-ZÄHNE ERZEUGEN
+========================================================= */
 
-    const teethContainer =
-        document.getElementById(
-            "zip-teeth"
-        );
+const toothCount = 85;
 
 
-    const metalLeft =
-        document.getElementById(
-            "zip-metal-left"
-        );
+for (let i = 0; i < toothCount; i++) {
 
+    const toothL =
+        document.createElement("div");
 
-    const metalRight =
-        document.getElementById(
-            "zip-metal-right"
-        );
+    toothL.className = "tooth";
 
+    toothL.style.top =
+        (i * (100 / toothCount)) + "%";
 
-    const shadowLeft =
-        document.getElementById(
-            "zip-shadow-left"
-        );
+    toothL.style.transform =
+        `rotate(${(Math.random() * 4) - 2}deg)`;
 
+    teethLeft.appendChild(toothL);
 
-    const shadowRight =
-        document.getElementById(
-            "zip-shadow-right"
-        );
 
+    const toothR =
+        document.createElement("div");
 
-    const threadLeft =
-        document.getElementById(
-            "zip-thread-left"
-        );
+    toothR.className = "tooth";
 
+    toothR.style.top =
+        (i * (100 / toothCount)) + "%";
 
-    const threadRight =
-        document.getElementById(
-            "zip-thread-right"
-        );
+    toothR.style.transform =
+        `rotate(${(Math.random() * 4) - 2}deg)`;
 
+    teethRight.appendChild(toothR);
 
-    if (
-        !scrollArea ||
-        !source ||
-        !leftTarget ||
-        !rightTarget
-    ) {
+}
 
-        return;
 
-    }
+/* =========================================================
+   SCROLL-FUNKTION
+========================================================= */
 
+function updateZipper() {
 
-    /* =====================================================
-       CLONES FÜR DIE GEÖFFNETEN JEANSHÄLFTEN
-    ===================================================== */
+    const rect =
+        stage.getBoundingClientRect();
 
-    function createOpenClone() {
+    const stageHeight =
+        stage.offsetHeight;
 
-        const clone =
-            source.cloneNode(true);
+    const viewportHeight =
+        window.innerHeight;
 
 
-        /*
-           IDs entfernen.
-           Dadurch entstehen keine
-           doppelten IDs im Dokument.
-        */
+    /*
+       Scrollfortschritt innerhalb
+       der 260vh-Bühne.
 
-        clone.removeAttribute(
-            "id"
-        );
+       0 = komplett geschlossen
 
+       1 = maximal geöffnet
+    */
 
-        /*
-           In den seitlich bewegten Bereichen
-           sollen Videos nur dargestellt werden.
-
-           Die sichtbare Steuerung bleibt
-           im geschlossenen Bereich.
-        */
-
-        clone
-            .querySelectorAll(
-                ".album-video"
-            )
-            .forEach(
-                function (video) {
-
-                    video.removeAttribute(
-                        "controls"
-                    );
-
-                    video.muted =
-                        true;
-
-                    video.setAttribute(
-                        "aria-hidden",
-                        "true"
-                    );
-
-                    video.tabIndex =
-                        -1;
-
-                }
-            );
-
-
-        /*
-           Links in den Klonen nicht anklickbar.
-        */
-
-        clone
-            .querySelectorAll(
-                "a"
-            )
-            .forEach(
-                function (link) {
-
-                    link.tabIndex =
-                        -1;
-
-                    link.setAttribute(
-                        "aria-hidden",
-                        "true"
-                    );
-
-                }
-            );
-
-
-        return clone;
-
-    }
-
-
-    leftTarget.appendChild(
-        createOpenClone()
-    );
-
-
-    rightTarget.appendChild(
-        createOpenClone()
-    );
-
-
-    /* =====================================================
-       HILFSFUNKTIONEN
-    ===================================================== */
-
-    function clamp(
-        value,
-        min,
-        max
-    ) {
-
-        return Math.min(
-            Math.max(
-                value,
-                min
-            ),
-            max
-        );
-
-    }
-
-
-    /* =====================================================
-       SCROLLFORTSCHRITT
-    ===================================================== */
-
-    let targetProgress =
-        0;
-
-
-    let currentProgress =
-        0;
-
-
-    let animationFrame =
-        null;
-
-
-    function calculateProgress() {
-
-        /*
-           Der komplette 220vh Scrollbereich
-           entspricht 0 → 1.
-        */
-
-        const maxScroll =
-            Math.max(
+    let progress =
+        -rect.top /
+        (stageHeight - viewportHeight);
+
+
+    progress =
+        Math.max(
+            0,
+            Math.min(
                 1,
-                scrollArea.offsetHeight -
-                window.innerHeight
-            );
-
-
-        const raw =
-            clamp(
-                window.scrollY /
-                maxScroll,
-                0,
-                1
-            );
-
-
-        /*
-           Eine kleine Kurve sorgt dafür,
-           dass sich der Reißverschluss am Anfang
-           und Ende etwas natürlicher verhält.
-        */
-
-        targetProgress =
-            Math.pow(
-                raw,
-                .92
-            );
-
-
-        startAnimation();
-
-    }
-
-
-    /* =====================================================
-       ANIMATION
-    ===================================================== */
-
-    function startAnimation() {
-
-        if (animationFrame !== null) {
-
-            return;
-
-        }
-
-
-        animationFrame =
-            requestAnimationFrame(
-                animate
-            );
-
-    }
-
-
-    function animate() {
-
-        currentProgress +=
-            (
-                targetProgress -
-                currentProgress
-            ) * .16;
-
-
-        if (
-            Math.abs(
-                targetProgress -
-                currentProgress
-            ) < .0004
-        ) {
-
-            currentProgress =
-                targetProgress;
-
-        }
-
-
-        updateVisuals(
-            currentProgress
+                progress
+            )
         );
-
-
-        if (
-            Math.abs(
-                targetProgress -
-                currentProgress
-            ) >= .0004
-        ) {
-
-            animationFrame =
-                requestAnimationFrame(
-                    animate
-                );
-
-        } else {
-
-            animationFrame =
-                null;
-
-        }
-
-    }
-
-
-    /* =====================================================
-       VISUELLE ZIPPER-POSITION
-    ===================================================== */
-
-    function updateVisuals(
-        progress
-    ) {
-
-
-        /*
-           Öffnungsposition.
-
-           Der Schieber läuft von
-           oben nach unten.
-        */
-
-        const zipY =
-            progress * 100;
-
-
-        /*
-           maximale Öffnungsbreite
-           am oberen Rand.
-
-           Auf Desktop etwa 28vw.
-        */
-
-        const gap =
-            progress *
-            Math.min(
-                window.innerWidth * .16,
-                230
-            );
-
-
-        /*
-           Seitliche Bewegung der geöffneten
-           Jeanshälften.
-        */
-
-        const move =
-            progress *
-            Math.min(
-                window.innerWidth * .17,
-                210
-            );
-
-
-        root.style.setProperty(
-            "--zip",
-            progress.toFixed(4)
-        );
-
-
-        root.style.setProperty(
-            "--zip-y",
-            zipY.toFixed(3) + "%"
-        );
-
-
-        root.style.setProperty(
-            "--zip-gap",
-            gap.toFixed(2) + "px"
-        );
-
-
-        root.style.setProperty(
-            "--zip-move",
-            move.toFixed(2) + "px"
-        );
-
-
-        updateZipperSVG(
-            progress,
-            gap
-        );
-
-
-        updateTeeth(
-            progress,
-            gap
-        );
-
-    }
-
-
-    /* =====================================================
-       V-FÖRMIGE METALLKANTEN
-    ===================================================== */
-
-    function updateZipperSVG(
-        progress,
-        gap
-    ) {
-
-        /*
-           SVG arbeitet mit 0–100.
-
-           Oben = weit auseinander
-           Schieber = zusammen
-        */
-
-        const gapPercent =
-            (
-                gap /
-                window.innerWidth
-            ) *
-            100;
-
-
-        const topLeft =
-            50 -
-            gapPercent;
-
-
-        const topRight =
-            50 +
-            gapPercent;
-
-
-        const y =
-            progress *
-            100;
-
-
-        /*
-           leichte zusätzliche Unregelmäßigkeit
-        */
-
-        const leftPath =
-
-            "M " +
-            topLeft +
-            " 0 " +
-
-            "L 49.4 " +
-            (
-                y * .18
-            ) +
-            " " +
-
-            "L 50.7 " +
-            (
-                y * .42
-            ) +
-            " " +
-
-            "L 49.2 " +
-            (
-                y * .68
-            ) +
-            " " +
-
-            "L 50 " +
-            y;
-
-
-        const rightPath =
-
-            "M " +
-            topRight +
-            " 0 " +
-
-            "L 50.6 " +
-            (
-                y * .18
-            ) +
-            " " +
-
-            "L 49.3 " +
-            (
-                y * .42
-            ) +
-            " " +
-
-            "L 50.8 " +
-            (
-                y * .68
-            ) +
-            " " +
-
-            "L 50 " +
-            y;
-
-
-        metalLeft.setAttribute(
-            "d",
-            leftPath
-        );
-
-
-        metalRight.setAttribute(
-            "d",
-            rightPath
-        );
-
-
-        shadowLeft.setAttribute(
-            "d",
-            leftPath
-        );
-
-
-        shadowRight.setAttribute(
-            "d",
-            rightPath
-        );
-
-
-        /*
-           Faden etwas weiter außen
-        */
-
-        const threadGap =
-            gapPercent + .9;
-
-
-        const threadLeftPath =
-
-            "M " +
-            (
-                50 -
-                threadGap
-            ) +
-            " 0 " +
-
-            "L 49.1 " +
-            (
-                y * .22
-            ) +
-            " " +
-
-            "L 50.9 " +
-            (
-                y * .48
-            ) +
-            " " +
-
-            "L 49.3 " +
-            (
-                y * .72
-            ) +
-            " " +
-
-            "L 50 " +
-            y;
-
-
-        const threadRightPath =
-
-            "M " +
-            (
-                50 +
-                threadGap
-            ) +
-            " 0 " +
-
-            "L 50.9 " +
-            (
-                y * .22
-            ) +
-            " " +
-
-            "L 49.1 " +
-            (
-                y * .48
-            ) +
-            " " +
-
-            "L 50.7 " +
-            (
-                y * .72
-            ) +
-            " " +
-
-            "L 50 " +
-            y;
-
-
-        threadLeft.setAttribute(
-            "d",
-            threadLeftPath
-        );
-
-
-        threadRight.setAttribute(
-            "d",
-            threadRightPath
-        );
-
-    }
-
-
-    /* =====================================================
-       REISSVERSCHLUSS-ZÄHNE
-    ===================================================== */
-
-    const teeth = [];
 
 
     /*
-       Zähne einmal erzeugen.
+       Easing.
+
+       Der Anfang öffnet etwas langsamer.
+       Danach geht es stärker auf.
     */
 
-    const toothCount =
-        64;
+    const eased =
+        progress < 0.5
+
+        ? 2 * progress * progress
+
+        : 1 -
+          Math.pow(
+              -2 * progress + 2,
+              2
+          ) / 2;
 
 
-    for (
-        let i = 0;
-        i < toothCount;
-        i++
-    ) {
+    /* =====================================================
+       ÖFFNUNGSBREITE
+    ===================================================== */
 
-        const leftTooth =
-            document.createElement(
-                "span"
-            );
+    /*
+       WICHTIG:
 
+       Der Reißverschluss geht jetzt SEHR weit auf.
 
-        leftTooth.className =
-            "zip-tooth";
+       Am Ende beträgt die Öffnung ungefähr
+       86% der Bildschirmbreite.
 
+       Dadurch wird die zweite Seite
+       fast vollständig sichtbar.
+    */
 
-        const rightTooth =
-            document.createElement(
-                "span"
-            );
-
-
-        rightTooth.className =
-            "zip-tooth";
-
-
-        teethContainer.appendChild(
-            leftTooth
+    const maxOpening =
+        Math.min(
+            window.innerWidth * 0.86,
+            window.innerWidth - 30
         );
 
 
-        teethContainer.appendChild(
-            rightTooth
+    const openingWidth =
+        maxOpening * eased;
+
+
+    opening.style.width =
+        openingWidth + "px";
+
+
+    /* =====================================================
+       JEANS-HÄLFTEN
+    ===================================================== */
+
+    /*
+       Die Jeans bewegt sich nicht einfach
+       als vertikaler Spalt auseinander.
+
+       Stattdessen wird sie leicht gedreht,
+       sodass die Öffnung wie ein V wirkt.
+    */
+
+
+    const move =
+        openingWidth * 0.53;
+
+
+    const rotation =
+        8 * eased;
+
+
+    leftPanel.style.transform =
+        `translateX(${-move}px)
+         rotate(${-rotation}deg)`;
+
+
+    rightPanel.style.transform =
+        `translateX(${move}px)
+         rotate(${rotation}deg)`;
+
+
+    /* =====================================================
+       SCHIEBER
+    ===================================================== */
+
+    /*
+       Der Schieber startet oben.
+
+       Er wandert bis ungefähr 88%
+       der Bildschirmhöhe nach unten.
+
+       Damit öffnet sich der Reißverschluss
+       über einen sehr langen Bereich.
+    */
+
+    const sliderTop =
+        4 +
+        eased * 86;
+
+
+    slider.style.top =
+        sliderTop + "vh";
+
+
+    /* =====================================================
+       V-KANTEN
+    ===================================================== */
+
+    const center =
+        window.innerWidth / 2;
+
+
+    const edgeDistance =
+        openingWidth / 2;
+
+
+    edgeLeft.style.left =
+        (center - edgeDistance) + "px";
+
+
+    edgeRight.style.left =
+        (center + edgeDistance) + "px";
+
+
+    edgeLeft.style.opacity =
+        eased > 0.03 ? 0.85 : 0;
+
+
+    edgeRight.style.opacity =
+        eased > 0.03 ? 0.85 : 0;
+
+
+    /* =====================================================
+       SCROLL-HINWEIS
+    ===================================================== */
+
+    scrollHint.style.opacity =
+        Math.max(
+            0,
+            1 - eased * 5
         );
 
 
-        teeth.push({
+    /*
+       Wenn fast vollständig geöffnet:
+       Schieber etwas kleiner erscheinen lassen.
+    */
 
-            left:
-                leftTooth,
+    if (eased > 0.96) {
 
-            right:
-                rightTooth,
+        slider.style.opacity = "0.85";
 
-            y:
-                i /
-                (
-                    toothCount - 1
-                )
+    } else {
 
-        });
+        slider.style.opacity = "1";
 
     }
 
-
-    /* =====================================================
-       ZÄHNE POSITIONIEREN
-    ===================================================== */
-
-    function updateTeeth(
-        progress,
-        gap
-    ) {
-
-        const width =
-            window.innerWidth;
-
-
-        const center =
-            width / 2;
-
-
-        /*
-           Maximale Öffnung oben.
-        */
-
-        const maximumGap =
-            gap;
-
-
-        teeth.forEach(
-            function (tooth) {
-
-                /*
-                   Position des Zahns
-                   in Pixeln.
-                */
-
-                const y =
-                    tooth.y *
-                    window.innerHeight;
-
-
-                /*
-                   Ist der Zahn bereits
-                   geöffnet?
-
-                   Alles OBERHALB des
-                   Schiebers ist offen.
-                */
-
-                const isOpen =
-                    progress > 0 &&
-                    tooth.y < progress;
-
-
-                let opening =
-                    0;
-
-
-                if (isOpen) {
-
-                    /*
-                       Ganz oben:
-                       maximale Öffnung.
-
-                       Direkt am Schieber:
-                       0.
-                    */
-
-                    const distanceFromSlider =
-                        (
-                            progress -
-                            tooth.y
-                        ) /
-                        Math.max(
-                            progress,
-                            .0001
-                        );
-
-
-                    opening =
-                        maximumGap *
-                        distanceFromSlider;
-
-                }
-
-
-                /*
-                   Unterhalb des Schiebers
-                   liegen die Zähne eng zusammen.
-                */
-
-                const closedOffset =
-                    7;
-
-
-                const leftX =
-                    center -
-                    (
-                        isOpen
-                            ? opening
-                            : closedOffset
-                    );
-
-
-                const rightX =
-                    center +
-                    (
-                        isOpen
-                            ? opening
-                            : closedOffset
-                    );
-
-
-                /*
-                   Kleine Unregelmäßigkeit.
-                */
-
-                const wobble =
-                    (
-                        Math.sin(
-                            tooth.y * 91
-                        ) *
-                        1.25
-                    );
-
-
-                tooth.left.style.left =
-                    (
-                        leftX +
-                        wobble
-                    ) + "px";
-
-
-                tooth.right.style.left =
-                    (
-                        rightX -
-                        wobble
-                    ) + "px";
-
-
-                tooth.left.style.top =
-                    y + "px";
-
-
-                tooth.right.style.top =
-                    y + "px";
-
-
-                /*
-                   Zähne oberhalb des Schiebers
-                   zeigen leicht nach außen.
-
-                   Unterhalb:
-                   gegeneinander versetzt.
-                */
-
-                if (isOpen) {
-
-                    tooth.left.style.transform =
-                        "translate(-50%, -50%) rotate(-8deg)";
-
-
-                    tooth.right.style.transform =
-                        "translate(-50%, -50%) rotate(8deg)";
-
-                } else {
-
-                    const even =
-                        (
-                            Math.round(
-                                tooth.y *
-                                toothCount
-                            ) % 2
-                        ) === 0;
-
-
-                    tooth.left.style.transform =
-                        "translate(-50%, -50%) rotate(" +
-                        (
-                            even ? -3 : 3
-                        ) +
-                        "deg)";
-
-
-                    tooth.right.style.transform =
-                        "translate(-50%, -50%) rotate(" +
-                        (
-                            even ? 3 : -3
-                        ) +
-                        "deg)";
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       MOUSE PARALLAX
-    ===================================================== */
-
-    let mouseX =
-        0;
-
-
-    let mouseY =
-        0;
-
-
-    document.addEventListener(
-        "mousemove",
-        function (event) {
-
-            const x =
-                (
-                    event.clientX /
-                    window.innerWidth -
-                    .5
-                ) * 2;
-
-
-            const y =
-                (
-                    event.clientY /
-                    window.innerHeight -
-                    .5
-                ) * 2;
-
-
-            mouseX +=
-                (
-                    x -
-                    mouseX
-                ) * .08;
-
-
-            mouseY +=
-                (
-                    y -
-                    mouseY
-                ) * .08;
-
-
-            root.style.setProperty(
-                "--mx",
-                mouseX.toFixed(3)
-            );
-
-
-            root.style.setProperty(
-                "--my",
-                mouseY.toFixed(3)
-            );
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    /* =====================================================
-       SCROLL EVENTS
-    ===================================================== */
-
-    window.addEventListener(
-        "scroll",
-        calculateProgress,
-        {
-            passive: true
-        }
-    );
-
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-            calculateProgress();
-
-            updateVisuals(
-                currentProgress
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       INITIAL
-    ===================================================== */
-
-    updateVisuals(
-        0
-    );
-
-
-    calculateProgress();
-
-
-})();
-
+}
 
 
 /* =========================================================
-   VIDEO-SYNCHRONISATION
+   SCROLL EVENT
 ========================================================= */
 
-(function () {
-
-    "use strict";
-
-
-    const videos =
-        Array.from(
-            document.querySelectorAll(
-                ".album-video"
-            )
-        );
-
-
-    if (
-        videos.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    /*
-       Das erste Video ist das
-       steuerbare Hauptvideo.
-    */
-
-    const mainVideo =
-        videos[0];
-
-
-    /*
-       Alle anderen Videos sind
-       visuelle Spiegelungen.
-    */
-
-    const mirrors =
-        videos.slice(1);
-
-
-    let syncing =
-        false;
-
-
-    function syncVideos(
-        eventName
-    ) {
-
-        if (syncing) {
-
-            return;
-
-        }
-
-
-        syncing =
-            true;
-
-
-        mirrors.forEach(
-            function (video) {
-
-                try {
-
-                    /*
-                       Zeit angleichen
-                    */
-
-                    if (
-                        Math.abs(
-                            video.currentTime -
-                            mainVideo.currentTime
-                        ) > .12
-                    ) {
-
-                        video.currentTime =
-                            mainVideo.currentTime;
-
-                    }
-
-
-                    /*
-                       Geschwindigkeit
-                    */
-
-                    video.playbackRate =
-                        mainVideo.playbackRate;
-
-
-                    /*
-                       Wiedergabe
-                    */
-
-                    if (
-                        eventName === "play" &&
-                        video.paused
-                    ) {
-
-                        video.play()
-                            .catch(
-                                function () {}
-                            );
-
-                    }
-
-
-                    /*
-                       Pause
-                    */
-
-                    if (
-                        (
-                            eventName === "pause" ||
-                            eventName === "ended"
-                        ) &&
-                        !video.paused
-                    ) {
-
-                        video.pause();
-
-                    }
-
-                }
-                catch (error) {
-
-                    /*
-                       Browser kann ein noch
-                       nicht geladenes Video
-                       ablehnen.
-
-                       Das soll die Seite
-                       nicht blockieren.
-                    */
-
-                }
-
-            }
-        );
-
-
-        syncing =
-            false;
-
-    }
-
-
-    [
-        "play",
-        "pause",
-        "seeked",
-        "ratechange"
-    ]
-    .forEach(
-        function (eventName) {
-
-            mainVideo.addEventListener(
-                eventName,
-                function () {
-
-                    syncVideos(
-                        eventName
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-    mainVideo.addEventListener(
-        "timeupdate",
-        function () {
-
-            syncVideos(
-                "timeupdate"
-            );
-
-        }
-    );
-
-
-    /*
-       Spiegelvideos stumm schalten
-    */
-
-    mirrors.forEach(
-        function (video) {
-
-            video.muted =
-                true;
-
-            video.controls =
-                false;
-
-            video.playsInline =
-                true;
-
-        }
-    );
-
-
-})();
-
+window.addEventListener(
+    "scroll",
+    updateZipper,
+    { passive: true }
+);
 
 
 /* =========================================================
-   COUNTDOWN
+   RESIZE
 ========================================================= */
 
-(function () {
-
-    "use strict";
-
-
-    /*
-       Aus deiner bestehenden Seite übernommen:
-       14.08.2026 00:00 Uhr deutscher Sommerzeit.
-    */
-
-    const RELEASE_DATE =
-        new Date(
-            "2026-08-14T00:00:00+02:00"
-        ).getTime();
+window.addEventListener(
+    "resize",
+    updateZipper
+);
 
 
-    const ALBUM_LINK =
-        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
+/* =========================================================
+   START
+========================================================= */
 
-
-    function pad(
-        value
-    ) {
-
-        return String(
-            value
-        ).padStart(
-            2,
-            "0"
-        );
-
-    }
-
-
-    function renderCountdown() {
-
-        const now =
-            Date.now();
-
-
-        const difference =
-            RELEASE_DATE -
-            now;
-
-
-        document
-            .querySelectorAll(
-                ".album-countdown"
-            )
-            .forEach(
-                function (element) {
-
-                    if (
-                        difference <= 0
-                    ) {
-
-                        element.textContent =
-                            "out now";
-
-                        return;
-
-                    }
-
-
-                    const totalSeconds =
-                        Math.floor(
-                            difference /
-                            1000
-                        );
-
-
-                    const days =
-                        Math.floor(
-                            totalSeconds /
-                            86400
-                        );
-
-
-                    const hours =
-                        Math.floor(
-                            (
-                                totalSeconds %
-                                86400
-                            ) /
-                            3600
-                        );
-
-
-                    const minutes =
-                        Math.floor(
-                            (
-                                totalSeconds %
-                                3600
-                            ) /
-                            60
-                        );
-
-
-                    const seconds =
-                        totalSeconds %
-                        60;
-
-
-                    element.textContent =
-
-                        pad(days) +
-                        "d " +
-
-                        pad(hours) +
-                        ":" +
-
-                        pad(minutes) +
-                        ":" +
-
-                        pad(seconds);
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                ".release-note"
-            )
-            .forEach(
-                function (element) {
-
-                    if (
-                        difference <= 0
-                    ) {
-
-                        element.textContent =
-                            "„gespalten“ ist jetzt draussen.";
-
-                    }
-                    else {
-
-                        element.textContent =
-                            "release: 13. august 2026 · 24:00 uhr";
-
-                    }
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                ".main-cta"
-            )
-            .forEach(
-                function (button) {
-
-                    button.href =
-                        ALBUM_LINK;
-
-
-                    button.textContent =
-                        difference <= 0
-                            ? "gespalten hören"
-                            : "album vormerken";
-
-                }
-            );
-
-    }
-
-
-    renderCountdown();
-
-
-    setInterval(
-        renderCountdown,
-        1000
-    );
-
-
-})();
+updateZipper();
 
 </script>
 
-
 </body>
-
 </html>
