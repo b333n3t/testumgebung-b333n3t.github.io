@@ -310,7 +310,15 @@ body {
 .denim-left {
     left: 0;
 
-    transform-origin: right center;
+    /*
+       Drehpunkt unten statt in der Mitte:
+       Das Panel klappt wie eine Tür auf, die
+       am unteren Rand angeschlagen ist. Oben
+       entsteht so ein V, unten bleibt der Stoff
+       (und damit auch der Reißverschluss) fest
+       zusammen.
+    */
+    transform-origin: right bottom;
 }
 
 
@@ -319,7 +327,7 @@ body {
 .denim-right {
     right: 0;
 
-    transform-origin: left center;
+    transform-origin: left bottom;
 }
 
 
@@ -1314,6 +1322,16 @@ const toothCount = 60;
 
 for (let i = 0; i < toothCount; i++) {
 
+    /*
+       Leichter Zufalls-Versatz pro Zahn,
+       damit die Reihe nicht zu maschinell-
+       gerade wirkt, sondern etwas genäht/
+       organisch aussieht.
+    */
+
+    const jitterL = (Math.random() * 3) - 1.5;
+    const jitterR = (Math.random() * 3) - 1.5;
+
     const toothL =
         document.createElement("div");
 
@@ -1321,6 +1339,9 @@ for (let i = 0; i < toothCount; i++) {
 
     toothL.style.top =
         (i * (100 / toothCount)) + "%";
+
+    toothL.style.transform =
+        `translateX(${jitterL}px) rotate(${jitterL}deg)`;
 
     teethLeft.appendChild(toothL);
 
@@ -1332,6 +1353,9 @@ for (let i = 0; i < toothCount; i++) {
 
     toothR.style.top =
         (i * (100 / toothCount)) + "%";
+
+    toothR.style.transform =
+        `translateX(${jitterR}px) rotate(${jitterR}deg)`;
 
     teethRight.appendChild(toothR);
 
@@ -1400,35 +1424,34 @@ function updateZipper() {
     /* =====================================================
        JEANS-HÄLFTEN
 
-       Die Panels verschieben und drehen sich. Weil der
+       Nur noch reine Rotation, kein translateX mehr.
+       Drehpunkt ist jetzt die untere Kante (siehe
+       transform-origin: right/left bottom oben in CSS).
+
+       Dadurch bleibt der untere Rand der Panels IMMER
+       exakt an Ort und Stelle (Stoff bleibt unten zu),
+       während sich oben ein V öffnet. Weil der
        Reißverschluss (.zip-half) ein Kind-Element jedes
-       Panels ist, läuft er automatisch entlang derselben
-       Kante mit – ohne eigene Berechnung.
+       Panels ist, dreht er sich exakt mit derselben Kante
+       mit – ohne eigene Berechnung.
+
+       maxRotation steuert, wie weit sich das V oben
+       öffnet. Bei Bedarf hier anpassen (größer = weiter
+       offen, kleiner = dezenter).
     ===================================================== */
 
-    const maxOpening =
-        Math.min(
-            window.innerWidth * 0.86,
-            window.innerWidth - 30
-        );
-
-
-    const move =
-        maxOpening * 0.53 * eased;
-
+    const maxRotation = 42;
 
     const rotation =
-        8 * eased;
+        maxRotation * eased;
 
 
     leftPanel.style.transform =
-        `translateX(${-move}px)
-         rotate(${-rotation}deg)`;
+        `rotate(${-rotation}deg)`;
 
 
     rightPanel.style.transform =
-        `translateX(${move}px)
-         rotate(${rotation}deg)`;
+        `rotate(${rotation}deg)`;
 
 
     /* =====================================================
