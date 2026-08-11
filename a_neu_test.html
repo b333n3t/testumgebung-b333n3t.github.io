@@ -1,233 +1,56 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>b3nn3t „gespalten“</title>
-
-<meta
-  name="description"
-  content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten zwischen alt und neu."
->
-
-<meta
-  name="robots"
-  content="index,follow,max-image-preview:large"
->
-
-<link rel="icon" href="favicon.ico" sizes="any">
-<link rel="icon" type="image/png" href="favicon-48.png" sizes="48x48">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-
-<link
-  rel="preload"
-  as="image"
-  href="/assets/gespalten/gespalten.jpg"
-  fetchpriority="high"
->
-
+<title>b3nn3t – gespalten</title>
 
 <style>
 
 /* =========================================================
-   B3NN3T – GESPALTEN
-   JEANS / ZIPPER VERSION
-========================================================= */
-
-
-/* =========================================================
-   FARBEN
+   GRUNDWERTE
 ========================================================= */
 
 :root {
+    --denim-dark: #071725;
+    --denim: #0b2437;
+    --denim-light: #123750;
 
-    --denim-dark: #0b2038;
-    --denim: #173b63;
-    --denim-mid: #24537b;
-    --denim-light: #32688e;
+    --olive: #3e4321;
+    --olive-dark: #2d3218;
 
-    --denim-shadow: rgba(4, 15, 28, .55);
+    --thread: #c47725;
+    --thread-light: #e09a3b;
 
-    --thread: #c47732;
-    --thread-light: #e09a4a;
-    --thread-dark: #814518;
+    --metal: #a8a8a0;
+    --metal-light: #e2e0d3;
+    --metal-dark: #575954;
 
-    --metal-light: #f0f0ec;
-    --metal: #a9aaa5;
-    --metal-dark: #555852;
+    --black: #10100d;
 
-    --text-main: #d98b43;
-    --text-light: #efaa60;
-    --text-muted: rgba(218, 151, 91, .72);
-
-    --page-max-width: 960px;
-
-    /*
-       0 = geschlossen
-       1 = komplett geöffnet
-    */
-    --zip: 0;
-
-    --zip-position: 0px;
-
-    --mx: 0;
-    --my: 0;
-
-    --zip-width: 20px;
-
+    --zip-width: 82px;
+    --opening-max: 45vw;
 }
 
-
-/* =========================================================
-   RESET
-========================================================= */
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 
-html,
-body {
-
-    margin: 0;
-    padding: 0;
-
-    min-height: 100%;
-
-    overflow-x: hidden;
-
-    background:
-        var(--denim-dark);
-
-    color:
-        var(--text-main);
-
-    font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "SF Pro Text",
-        sans-serif;
-
+html {
     scroll-behavior: auto;
 }
 
 
-/* =========================================================
-   DENIM-HINTERGRUND
-========================================================= */
-
 body {
-
-    /*
-       Jeansstoff-Grundfarbe
-    */
-
-    background:
-
-        radial-gradient(
-            ellipse at 25% 15%,
-            rgba(74, 132, 171, .34),
-            transparent 34%
-        ),
-
-        radial-gradient(
-            ellipse at 80% 70%,
-            rgba(3, 20, 38, .55),
-            transparent 45%
-        ),
-
-        linear-gradient(
-            135deg,
-            #0d2947,
-            #1b456c 46%,
-            #102e4e
-        );
-
-}
-
-
-/*
-   Sehr feine Denim-Struktur.
-   Kein Bild notwendig.
-*/
-
-body::before {
-
-    content: "";
-
-    position: fixed;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    z-index: 0;
-
-    opacity: .28;
-
-    background:
-
-        repeating-linear-gradient(
-            0deg,
-            transparent 0,
-            transparent 2px,
-            rgba(255,255,255,.025) 2px,
-            rgba(255,255,255,.025) 3px
-        ),
-
-        repeating-linear-gradient(
-            90deg,
-            transparent 0,
-            transparent 3px,
-            rgba(0,0,0,.045) 3px,
-            rgba(0,0,0,.045) 4px
-        );
-
-}
-
-
-/*
-   Stoff-Waschung / Denim-Noise
-*/
-
-body::after {
-
-    content: "";
-
-    position: fixed;
-
-    inset: -20%;
-
-    pointer-events: none;
-
-    z-index: 0;
-
-    opacity: .34;
-
-    background:
-
-        radial-gradient(
-            ellipse at 30% 25%,
-            rgba(255,255,255,.08),
-            transparent 28%
-        ),
-
-        radial-gradient(
-            ellipse at 70% 80%,
-            rgba(0,0,0,.20),
-            transparent 35%
-        );
-
-    filter: blur(16px);
-
+    background: var(--olive);
+    color: var(--thread);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
 
@@ -235,1544 +58,802 @@ body::after {
    SCROLL-BÜHNE
 ========================================================= */
 
-.zip-scroll {
+/*
+   260vh bedeutet:
+   Die erste Seite bleibt sehr lange sichtbar.
 
-    position: relative;
-
-    /*
-       Eine komplette Scrollbewegung
-       öffnet den Reißverschluss.
-
-       Mehr Höhe = langsameres Öffnen.
-    */
-
-    height: 230vh;
-
-}
-
-
-/* =========================================================
-   FIXIERTE HAUPTBÜHNE
-========================================================= */
+   Während dieser Zeit wird der Reißverschluss
+   Schritt für Schritt geöffnet.
+*/
 
 .zip-stage {
-
-    position: fixed;
-
-    inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    overflow: hidden;
-
-    z-index: 1;
-
+    position: relative;
+    height: 260vh;
 }
 
 
 /* =========================================================
-   PAGE 2
+   ZWEITE SEITE – OLIV
 ========================================================= */
 
-.page-2 {
-
+.second-page {
     position: absolute;
+    top: 0;
+    left: 0;
 
-    inset: 0;
-
-    z-index: 1;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-
-    padding:
-        clamp(2.5rem, 5vw, 5rem)
-        1.5rem
-        8rem;
-
-    /*
-       Seite 2 liegt bereits unter Seite 1.
-    */
+    width: 100%;
+    height: 100%;
 
     background:
-
         radial-gradient(
-            ellipse at 50% 10%,
-            rgba(58, 111, 148, .35),
-            transparent 42%
+            ellipse at center,
+            rgba(135, 139, 72, 0.14),
+            transparent 55%
         ),
-
         linear-gradient(
             135deg,
-            #102f50,
-            #1a466b 48%,
-            #0c2947
+            #323718,
+            #4a5027 45%,
+            #343919
         );
-
-    color:
-        var(--text-main);
-
-}
-
-
-.page-2-inner {
-
-    width: 100%;
-
-    max-width:
-        var(--page-max-width);
-
-    margin:
-        0 auto;
-
-    min-height: 100vh;
-
-}
-
-
-/* =========================================================
-   PAGE 2 TEXT
-========================================================= */
-
-.page-2 h2 {
-
-    margin:
-        0 0 1rem;
-
-    font-size:
-        clamp(
-            3.5rem,
-            10vw,
-            8rem
-        );
-
-    line-height: .88;
-
-    letter-spacing: -.075em;
-
-    color:
-        var(--text-main);
-
-}
-
-
-.page-2 p {
-
-    max-width: 700px;
-
-    font-size:
-        clamp(
-            1rem,
-            1.5vw,
-            1.15rem
-        );
-
-    line-height: 1.75;
-
-    letter-spacing: .045em;
-
-    color:
-        var(--text-muted);
-
-}
-
-
-.page-2-block {
-
-    margin-top:
-        clamp(
-            4rem,
-            9vh,
-            8rem
-        );
-
-}
-
-
-.page-2-line {
-
-    width: 100%;
-
-    height: 1px;
-
-    margin:
-        2rem 0;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            var(--thread),
-            transparent
-        );
-
-}
-
-
-/* =========================================================
-   PAGE 1
-========================================================= */
-
-.page-1 {
-
-    position: absolute;
-
-    inset: 0;
-
-    z-index: 5;
 
     overflow: hidden;
-
 }
 
 
 /*
-   Beide Hälften enthalten denselben Seiteninhalt.
-
-   Durch clip-path sieht man jeweils nur
-   die entsprechende Seite des Inhalts.
+   Leichte Stoffstruktur für die olivfarbene Seite.
 */
 
-.page-1-half {
+.second-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    opacity: 0.17;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.08) 0px,
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INHALT DER ZWEITEN SEITE
+========================================================= */
+
+.second-content {
+    position: relative;
+
+    width: min(720px, 80vw);
+
+    margin: 0 auto;
+
+    padding-top: 12vh;
+
+    text-align: center;
+
+    z-index: 2;
+}
+
+
+.second-kicker {
+    font-size: 1rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+
+    color: var(--thread-light);
+
+    margin-bottom: 18px;
+}
+
+
+.second-content h1 {
+    font-size: clamp(4rem, 10vw, 9rem);
+    line-height: 0.85;
+
+    text-transform: lowercase;
+
+    color: var(--thread);
+
+    letter-spacing: -0.07em;
+
+    margin-bottom: 30px;
+}
+
+
+.second-intro {
+    max-width: 600px;
+
+    margin: 0 auto 60px;
+
+    font-size: clamp(1rem, 2vw, 1.3rem);
+
+    line-height: 1.7;
+
+    color: #d4c99c;
+}
+
+
+.second-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 50px;
+
+    text-align: left;
+
+    margin-top: 50px;
+}
+
+
+.second-box h2 {
+    color: var(--thread);
+
+    font-size: 1.3rem;
+
+    text-transform: lowercase;
+
+    margin-bottom: 15px;
+}
+
+
+.second-box p {
+    color: #d0c89d;
+
+    line-height: 1.7;
+
+    font-size: 1rem;
+}
+
+
+@media (max-width: 700px) {
+
+    .second-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   ERSTE SEITE – JEANS
+========================================================= */
+
+.first-page {
+    position: sticky;
+
+    top: 0;
+
+    height: 100vh;
+
+    width: 100%;
+
+    z-index: 10;
+
+    overflow: hidden;
+
+    pointer-events: none;
+}
+
+
+/*
+   Linke und rechte Jeanshälfte.
+
+   Wichtig:
+   Die beiden Flächen sind NICHT transparent.
+
+   Sie liegen über der oliven zweiten Seite.
+*/
+
+.denim-panel {
+    position: absolute;
+
+    top: 0;
+
+    width: 50%;
+    height: 100%;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 30%,
+            rgba(50, 100, 135, 0.22),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #0a1d2d
+        );
+
+    overflow: hidden;
+
+    will-change: transform;
+}
+
+
+/* Linke Seite */
+
+.denim-left {
+    left: 0;
+
+    transform-origin: right center;
+}
+
+
+/* Rechte Seite */
+
+.denim-right {
+    right: 0;
+
+    transform-origin: left center;
+}
+
+
+/* =========================================================
+   JEANS-STOFFSTRUKTUR
+========================================================= */
+
+.denim-panel::before {
+    content: "";
 
     position: absolute;
 
     inset: 0;
 
+    opacity: 0.27;
+
+    background-image:
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.035) 0px,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        repeating-linear-gradient(
+            25deg,
+            rgba(0,0,0,0.09) 0px,
+            rgba(0,0,0,0.09) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    pointer-events: none;
+}
+
+
+/*
+   Leichte unregelmäßige Denim-Flecken.
+*/
+
+.denim-panel::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: 0.18;
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #47718d 0,
+            transparent 18%
+        ),
+        radial-gradient(
+            circle at 80% 70%,
+            #294b61 0,
+            transparent 20%
+        ),
+        radial-gradient(
+            circle at 45% 75%,
+            #061522 0,
+            transparent 25%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   INHALT DER ERSTEN SEITE
+========================================================= */
+
+.first-content {
+    position: absolute;
+
+    top: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    z-index: 3;
+}
+
+
+/*
+   Inhalt links
+*/
+
+.content-left {
+    position: absolute;
+
+    left: 7vw;
+
+    top: 35vh;
+
+    width: 35vw;
+
+    text-align: left;
+}
+
+
+/*
+   Inhalt rechts
+*/
+
+.content-right {
+    position: absolute;
+
+    right: 7vw;
+
+    top: 13vh;
+
+    width: 35vw;
+
+    text-align: right;
+}
+
+
+.brand {
+    font-size: 1rem;
+
+    font-weight: bold;
+
+    letter-spacing: 0.22em;
+
+    color: var(--thread-light);
+
+    margin-bottom: 18px;
+}
+
+
+.first-title {
+    font-size: clamp(4rem, 9vw, 9rem);
+
+    line-height: 0.8;
+
+    letter-spacing: -0.07em;
+
+    color: var(--thread);
+
+    text-transform: lowercase;
+
+    margin-bottom: 25px;
+}
+
+
+.first-subtitle {
+    color: #d2b98d;
+
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+
+    line-height: 1.6;
+}
+
+
+.content-right h2 {
+    font-size: clamp(3rem, 6vw, 6rem);
+
+    line-height: 0.85;
+
+    color: var(--thread);
+
+    text-transform: lowercase;
+
+    margin-bottom: 20px;
+}
+
+
+.content-right p {
+    color: #d0bb8d;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   VIDEO / BILD
+========================================================= */
+
+.media-card {
+    margin-top: 35px;
+
+    width: min(370px, 35vw);
+
+    aspect-ratio: 16 / 10;
+
+    border: 2px solid rgba(230,220,190,0.65);
+
+    border-radius: 15px;
+
     overflow: hidden;
 
-    will-change:
-        transform,
-        clip-path;
-
-}
-
-
-/* =========================================================
-   LINKES JEANSSTÜCK
-========================================================= */
-
-.page-1-left {
-
-    clip-path:
-
-        polygon(
-
-            0 0,
-
-            calc(
-                50% -
-                (
-                    var(--zip) * 24px
-                )
-            ) 0,
-
-            calc(
-                49% -
-                (
-                    var(--zip) * 28px
-                )
-            ) 8%,
-
-            calc(
-                51% -
-                (
-                    var(--zip) * 30px
-                )
-            ) 16%,
-
-            calc(
-                48.7% -
-                (
-                    var(--zip) * 26px
-                )
-            ) 25%,
-
-            calc(
-                52% -
-                (
-                    var(--zip) * 34px
-                )
-            ) 37%,
-
-            calc(
-                49% -
-                (
-                    var(--zip) * 30px
-                )
-            ) 50%,
-
-            calc(
-                54% -
-                (
-                    var(--zip) * 36px
-                )
-            ) 63%,
-
-            calc(
-                52% -
-                (
-                    var(--zip) * 32px
-                )
-            ) 77%,
-
-            calc(
-                57% -
-                (
-                    var(--zip) * 42px
-                )
-            ) 100%,
-
-            0 100%
-
+    background:
+        linear-gradient(
+            135deg,
+            #8b8a78,
+            #c1b99d
         );
-
-
-    transform:
-
-        translate3d(
-
-            calc(
-                var(--zip) * -62vw
-                +
-                var(--mx) * -5px
-            ),
-
-            calc(
-                var(--my) * -3px
-            ),
-
-            0
-
-        )
-
-        rotate(
-            calc(
-                var(--zip) * -0.7deg
-            )
-        );
-
-}
-
-
-/* =========================================================
-   RECHTES JEANSSTÜCK
-========================================================= */
-
-.page-1-right {
-
-    clip-path:
-
-        polygon(
-
-            calc(
-                50% +
-                (
-                    var(--zip) * 24px
-                )
-            ) 0,
-
-            100% 0,
-
-            100% 100%,
-
-            calc(
-                57% +
-                (
-                    var(--zip) * 42px
-                )
-            ) 100%,
-
-            calc(
-                52% +
-                (
-                    var(--zip) * 32px
-                )
-            ) 77%,
-
-            calc(
-                54% +
-                (
-                    var(--zip) * 36px
-                )
-            ) 63%,
-
-            calc(
-                49% +
-                (
-                    var(--zip) * 30px
-                )
-            ) 50%,
-
-            calc(
-                52% +
-                (
-                    var(--zip) * 34px
-                )
-            ) 37%,
-
-            calc(
-                48.7% +
-                (
-                    var(--zip) * 26px
-                )
-            ) 25%,
-
-            calc(
-                51% +
-                (
-                    var(--zip) * 30px
-                )
-            ) 16%,
-
-            calc(
-                49% +
-                (
-                    var(--zip) * 28px
-                )
-            ) 8%
-
-        );
-
-
-    transform:
-
-        translate3d(
-
-            calc(
-                var(--zip) * 62vw
-                +
-                var(--mx) * 5px
-            ),
-
-            calc(
-                var(--my) * 3px
-            ),
-
-            0
-
-        )
-
-        rotate(
-            calc(
-                var(--zip) * .7deg
-            )
-        );
-
-}
-
-
-/* =========================================================
-   PAGE-1 INHALT
-========================================================= */
-
-.page-1-inner {
-
-    width: 100%;
-
-    max-width:
-        var(--page-max-width);
-
-    min-height: 100vh;
-
-    margin:
-        0 auto;
-
-    padding:
-        clamp(2.8rem, 4vw, 4rem)
-        1.5rem
-        5rem;
-
-}
-
-
-/* =========================================================
-   TEXT
-========================================================= */
-
-.brand-row {
-
-    display: flex;
-
-    justify-content: center;
-
-    margin-bottom:
-        clamp(
-            1.5rem,
-            3vw,
-            2.5rem
-        );
-
-}
-
-
-.brand-link {
-
-    color:
-        var(--text-main);
-
-    font-weight: 900;
-
-    letter-spacing: .08em;
-
-    text-decoration: none;
-
-    /*
-       Faden-/Stick-Effekt
-    */
-
-    text-shadow:
-
-        1px 1px 0 var(--thread-dark),
-
-        -0.5px -0.5px 0 var(--thread-light),
-
-        0 0 7px rgba(224,154,74,.12);
-
-}
-
-
-.hero {
-
-    text-align: center;
-
-}
-
-
-.eyebrow {
-
-    margin:
-        0 0 .45rem;
-
-    font-size:
-        .78rem;
-
-    letter-spacing:
-        .18em;
-
-    text-transform:
-        uppercase;
-
-    color:
-        var(--text-muted);
-
-}
-
-
-.hero h1 {
-
-    margin:
-        0 0 .7rem;
-
-    font-size:
-        clamp(
-            3.2rem,
-            10vw,
-            7.6rem
-        );
-
-    line-height:
-        .88;
-
-    letter-spacing:
-        -.078em;
-
-    font-weight:
-        900;
-
-    color:
-        var(--text-main);
-
-    text-shadow:
-
-        1px 1px 0 var(--thread-dark),
-
-        -1px -1px 0 var(--thread-light),
-
-        0 2px 14px rgba(0,0,0,.15);
-
-}
-
-
-.hero-sub {
-
-    margin:
-        0 auto
-        clamp(
-            1.5rem,
-            2.7vw,
-            2.2rem
-        );
-
-    max-width:
-        42rem;
-
-    color:
-        var(--text-muted);
-
-    font-size:
-        clamp(
-            .95rem,
-            1.5vw,
-            1.08rem
-        );
-
-    letter-spacing:
-        .045em;
-
-    line-height:
-        1.55;
-
-}
-
-
-/* =========================================================
-   VIDEO
-========================================================= */
-
-.cover-wrap {
-
-    width: 100%;
-
-    max-width: 680px;
-
-    margin:
-        0 auto
-        1.8rem;
-
-}
-
-
-.cover-inner {
 
     position: relative;
-
-    aspect-ratio: 1 / 1;
-
-    border-radius: 30px;
-
-    overflow: hidden;
-
-    background: #071624;
-
-    box-shadow:
-
-        0 30px 90px
-        rgba(0,0,0,.45),
-
-        0 0 0 2px
-        rgba(196,119,50,.18);
-
 }
 
 
-.album-video {
-
-    display: block;
-
+.media-card img {
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
-    border: 0;
-
-    outline: 0;
-
-    background: #000;
-
+    display: block;
 }
 
 
-/* =========================================================
-   BUTTON
-========================================================= */
-
-.listen-wrap {
+.media-placeholder {
+    width: 100%;
+    height: 100%;
 
     display: flex;
 
+    align-items: center;
     justify-content: center;
 
-    gap: .75rem;
+    text-align: center;
 
-    flex-wrap: wrap;
+    color: #333;
 
+    font-weight: bold;
+
+    padding: 20px;
 }
 
 
-.listen-btn {
+/* =========================================================
+   JEANS-NAHT
+========================================================= */
 
-    display: inline-flex;
+.seam {
+    position: absolute;
 
-    align-items: center;
+    top: 0;
 
-    justify-content: center;
+    width: 3px;
 
-    padding:
-        .95rem 1.35rem;
-
-    border-radius:
-        999px;
-
-    text-decoration:
-        none;
-
-    font-weight:
-        900;
-
-    letter-spacing:
-        .045em;
-
-    text-transform:
-        lowercase;
-
-    color:
-        #163858;
+    height: 100%;
 
     background:
-        var(--thread);
-
-    border:
-        2px solid
-        var(--thread-light);
-
-    box-shadow:
-
-        0 7px 22px
-        rgba(0,0,0,.28),
-
-        inset 0 1px 0
-        rgba(255,255,255,.22);
-
-    transition:
-        transform .18s ease,
-        box-shadow .2s ease;
-
-}
-
-
-.listen-btn:hover {
-
-    transform:
-        translateY(-2px);
-
-    box-shadow:
-
-        0 12px 30px
-        rgba(0,0,0,.34),
-
-        0 0 18px
-        rgba(224,154,74,.18);
-
-}
-
-
-/* =========================================================
-   CONTENT
-========================================================= */
-
-section.block {
-
-    margin-bottom:
-        clamp(
-            2rem,
-            3vw,
-            3rem
+        repeating-linear-gradient(
+            to bottom,
+            var(--thread) 0px,
+            var(--thread) 8px,
+            transparent 8px,
+            transparent 16px
         );
 
+    opacity: 0.9;
+
+    z-index: 5;
+
+    pointer-events: none;
 }
 
 
-section.block h2 {
-
-    margin:
-        0 0 1rem;
-
-    font-size:
-        1.08rem;
-
-    letter-spacing:
-        .06em;
-
-    text-transform:
-        lowercase;
-
-    color:
-        var(--text-main);
-
+.seam-left {
+    right: 11px;
 }
 
 
-section.block p {
-
-    margin:
-        0;
-
-    max-width:
-        60rem;
-
-    font-size:
-        1rem;
-
-    line-height:
-        1.7;
-
-    letter-spacing:
-        .04em;
-
-    color:
-        var(--text-muted);
-
-}
-
-
-section.block p + p {
-
-    margin-top:
-        .75rem;
-
+.seam-right {
+    left: 11px;
 }
 
 
 /* =========================================================
-   COUNTDOWN
+   REISSVERSCHLUSS
 ========================================================= */
 
-.countdown-plain {
+.zipper-system {
 
-    margin-top:
-        2rem;
+    position: fixed;
 
+    top: 0;
+    left: 50%;
+
+    width: 120px;
+
+    height: 100vh;
+
+    transform: translateX(-50%);
+
+    z-index: 100;
+
+    pointer-events: none;
 }
-
-
-.countdown-label {
-
-    margin:
-        0 0 .45rem;
-
-    font-size:
-        .72rem;
-
-    letter-spacing:
-        .16em;
-
-    text-transform:
-        uppercase;
-
-    font-weight:
-        900;
-
-    color:
-        var(--text-muted);
-
-}
-
-
-.countdown-time {
-
-    margin:
-        0;
-
-    font-size:
-        clamp(
-            2rem,
-            6vw,
-            4.6rem
-        );
-
-    line-height:
-        .95;
-
-    letter-spacing:
-        -.065em;
-
-    font-weight:
-        900;
-
-    font-variant-numeric:
-        tabular-nums;
-
-    color:
-        var(--text-main);
-
-}
-
-
-.countdown-note {
-
-    margin-top:
-        .7rem;
-
-    color:
-        var(--text-muted);
-
-}
-
-
-/* =========================================================
-   SONG LIST
-========================================================= */
-
-.song-list-section {
-
-    margin-top:
-        2.5rem;
-
-    text-align:
-        center;
-
-}
-
-
-.song-list-head {
-
-    margin-bottom:
-        1.15rem;
-
-    text-align:
-        left;
-
-}
-
-
-.song-list-head strong {
-
-    font-size:
-        clamp(
-            1.35rem,
-            3.5vw,
-            2.35rem
-        );
-
-    letter-spacing:
-        -.05em;
-
-    color:
-        var(--text-main);
-
-}
-
-
-.song-lines {
-
-    display:
-        flex;
-
-    flex-direction:
-        column;
-
-    align-items:
-        center;
-
-    gap:
-        .78rem;
-
-}
-
-
-.song-line {
-
-    margin:
-        0;
-
-    font-size:
-        clamp(
-            1.18rem,
-            2vw,
-            1.55rem
-        );
-
-    line-height:
-        1.65;
-
-    letter-spacing:
-        .045em;
-
-    text-align:
-        center;
-
-    font-weight:
-        760;
-
-    color:
-        var(--text-main);
-
-}
-
-
-.song-line span {
-
-    display:
-        inline-block;
-
-    white-space:
-        nowrap;
-
-    margin:
-        0 .22rem;
-
-}
-
-
-.song-line span::before {
-
-    content:
-        "· ";
-
-    color:
-        var(--thread-dark);
-
-}
-
-
-.song-line span:nth-child(1) {
-
-    transform:
-        rotate(-2.2deg);
-
-}
-
-
-.song-line span:nth-child(2) {
-
-    transform:
-        rotate(1.4deg);
-
-}
-
-
-.song-line span:nth-child(3) {
-
-    transform:
-        rotate(-1.1deg);
-
-}
-
-
-.song-line span:nth-child(4) {
-
-    transform:
-        rotate(2deg);
-
-}
-
-
-/* =========================================================
-   ABOUT
-========================================================= */
-
-.about-section {
-
-    margin-top:
-        2.5rem;
-
-}
-
-
-.quote-block {
-
-    border-left:
-        2px solid
-        var(--thread);
-
-    padding-left:
-        1rem;
-
-    margin-top:
-        1rem;
-
-}
-
-
-/* =========================================================
-   FOOTER
-========================================================= */
-
-.footer-combined {
-
-    display:
-        grid;
-
-    grid-template-columns:
-        1fr;
-
-    gap:
-        1.4rem;
-
-    padding-top:
-        .5rem;
-
-}
-
-
-.social-icons {
-
-    display:
-        flex;
-
-    flex-wrap:
-        wrap;
-
-    gap:
-        1.4rem;
-
-    align-items:
-        center;
-
-}
-
-
-.social-link {
-
-    display:
-        inline-flex;
-
-    text-decoration:
-        none;
-
-    transition:
-        transform .18s ease,
-        opacity .2s ease;
-
-}
-
-
-.social-link:hover {
-
-    transform:
-        translateY(-2px);
-
-    opacity:
-        .8;
-
-}
-
-
-.social-icon-img {
-
-    width:
-        clamp(
-            1.6rem,
-            1.3vw + 1rem,
-            2.2rem
-        );
-
-    height:
-        auto;
-
-}
-
-
-.more-link {
-
-    display:
-        inline-block;
-
-    margin-top:
-        .65rem;
-
-}
-
-
-/* =========================================================
-   =========================================================
-   DER REISSVERSCHLUSS
-   =========================================================
-========================================================= */
 
 
 /*
-   Gesamter Zipper liegt über Seite 1.
+   Die beiden äußeren Reißverschluss-Schienen.
+
+   Sie laufen schräg nach außen,
+   genau wie bei einer geöffneten Hose.
 */
 
-.zipper {
+.zip-rail {
 
-    position:
-        absolute;
-
-    top: 0;
-    left: 50%;
-
-    width:
-        90px;
-
-    height:
-        100vh;
-
-    transform:
-        translateX(-50%);
-
-    z-index:
-        30;
-
-    pointer-events:
-        none;
-
-}
-
-
-/* =========================================================
-   ÖFFNUNG / DUNKLER SPALT
-========================================================= */
-
-.zipper-opening {
-
-    position:
-        absolute;
+    position: absolute;
 
     top: 0;
-    left: 50%;
 
-    width:
-        calc(
-            8px +
-            var(--zip) * 42px
-        );
+    width: 9px;
 
-    height:
-        100%;
-
-    transform:
-        translateX(-50%);
-
-    /*
-       Leicht unregelmäßige Seiten.
-    */
-
-    clip-path:
-
-        polygon(
-
-            38% 0%,
-            63% 0%,
-
-            55% 8%,
-            68% 16%,
-
-            45% 25%,
-            62% 37%,
-
-            43% 49%,
-            67% 63%,
-
-            47% 77%,
-            61% 88%,
-
-            42% 100%,
-            58% 100%,
-
-            40% 88%,
-            55% 77%,
-
-            36% 63%,
-            58% 49%,
-
-            38% 37%,
-            55% 25%,
-
-            32% 16%,
-            45% 8%
-
-        );
+    height: 100%;
 
     background:
-
         linear-gradient(
             90deg,
-            #02070c,
-            #111820 35%,
-            #02070c 70%
+            #3b3d3a,
+            #d5d3c7,
+            #696a65
         );
 
     box-shadow:
+        0 0 5px rgba(0,0,0,0.8);
 
-        inset 0 0 12px
-        rgba(0,0,0,.8),
-
-        0 0 20px
-        rgba(0,0,0,.4);
-
+    transform-origin: top center;
 }
 
 
-/* =========================================================
-   JEANSFADEN LINKS / RECHTS
-========================================================= */
+.zip-rail.left {
+    left: 22px;
 
-.zip-thread {
+    transform:
+        rotate(-18deg);
+}
 
-    position:
-        absolute;
 
-    top: 0;
+.zip-rail.right {
+    right: 22px;
 
-    width:
-        2px;
-
-    height:
-        100%;
-
-    background:
-
-        repeating-linear-gradient(
-            180deg,
-            var(--thread-light) 0px,
-            var(--thread-light) 4px,
-            var(--thread) 4px,
-            var(--thread) 8px,
-            var(--thread-dark) 8px,
-            var(--thread-dark) 11px
-        );
-
-    box-shadow:
-        0 0 3px
-        rgba(224,154,74,.4);
-
+    transform:
+        rotate(18deg);
 }
 
 
 /*
-   Faden wandert mit der Öffnung
+   Zähne links/rechts
 */
 
-.zip-thread-left {
-
-    left:
-        calc(
-            50% -
-            12px -
-            var(--zip) * 24px
-        );
-
-    transform:
-        rotate(
-            calc(
-                var(--zip) * -1deg
-            )
-        );
-
-}
-
-
-.zip-thread-right {
-
-    right:
-        calc(
-            50% -
-            12px -
-            var(--zip) * 24px
-        );
-
-    transform:
-        rotate(
-            calc(
-                var(--zip) * 1deg
-            )
-        );
-
-}
-
-
-/* =========================================================
-   REISSVERSCHLUSS-ZÄHNE
-========================================================= */
-
-.zip-teeth {
-
-    position:
-        absolute;
+.teeth {
+    position: absolute;
 
     top: 0;
 
-    width:
-        24px;
+    width: 14px;
 
-    height:
-        100%;
+    height: 100%;
 
-    opacity:
-        calc(
-            .95 -
-            var(--zip) * .25
-        );
-
+    z-index: 3;
 }
 
 
-.zip-teeth-left {
-
-    left:
-        calc(
-            50% -
-            22px -
-            var(--zip) * 20px
-        );
-
+.teeth.left {
+    left: 14px;
 }
 
 
-.zip-teeth-right {
-
-    right:
-        calc(
-            50% -
-            22px -
-            var(--zip) * 20px
-        );
-
+.teeth.right {
+    right: 14px;
 }
 
 
-/*
-   Einzelne Zähne.
-*/
+.tooth {
 
-.zip-teeth span {
+    position: absolute;
 
-    position:
-        absolute;
+    width: 13px;
 
-    left:
-        50%;
+    height: 6px;
 
-    width:
-        13px;
-
-    height:
-        8px;
-
-    transform:
-        translateX(-50%);
+    border-radius: 2px;
 
     background:
-
         linear-gradient(
-            180deg,
-            var(--metal-light),
-            var(--metal),
-            var(--metal-dark)
+            to bottom,
+            #eeeeea,
+            #888984
         );
 
-    border-radius:
-        2px;
-
     box-shadow:
+        0 1px 1px #222,
+        inset 0 1px rgba(255,255,255,0.65);
 
-        0 1px 2px
-        rgba(0,0,0,.5);
-
+    transform-origin: center;
 }
 
 
 /*
-   Die einzelnen Zähne werden per JS erzeugt.
+   Zähne werden per JavaScript erzeugt.
 */
+
+
+/* =========================================================
+   ÖFFNUNG / INNERER REISSVERSCHLUSS
+========================================================= */
+
+.opening {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 50%;
+
+    width: 4px;
+
+    height: 100vh;
+
+    transform: translateX(-50%);
+
+    z-index: 90;
+
+    pointer-events: none;
+}
+
+
+/*
+   Der sichtbare olivfarbene Bereich.
+
+   Er liegt hinter den Jeansflächen.
+*/
+
+.opening-shape {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 50%;
+
+    width: 0;
+
+    height: 100%;
+
+    transform: translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0,0,0,0.4),
+            transparent 12%,
+            transparent 88%,
+            rgba(0,0,0,0.4)
+        );
+
+    z-index: 1;
+
+    will-change: width;
+}
+
+
+/*
+   Metallkante am geöffneten Rand.
+*/
+
+.open-edge {
+
+    position: absolute;
+
+    top: 0;
+
+    width: 6px;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #565852,
+            #dddcd1,
+            #797a73
+        );
+
+    opacity: 0;
+
+    z-index: 5;
+
+    will-change: left, right, opacity;
+}
 
 
 /* =========================================================
    SCHIEBER
 ========================================================= */
 
-.zip-slider {
+.slider {
 
-    position:
-        absolute;
+    position: fixed;
 
-    left:
-        50%;
+    left: 50%;
 
-    top:
-        calc(
-            var(--zip) * 100vh
-        );
+    top: 4vh;
 
-    width:
-        48px;
+    width: 58px;
 
-    height:
-        62px;
-
-    transform:
-        translate(
-            -50%,
-            -50%
-        );
-
-    border-radius:
-        9px 9px 12px 12px;
-
-    background:
-
-        linear-gradient(
-            110deg,
-            #686b66,
-            #f3f3ee 28%,
-            #aaa 47%,
-            #fafaf7 64%,
-            #646762
-        );
-
-    box-shadow:
-
-        0 8px 18px
-        rgba(0,0,0,.65),
-
-        0 0 0 1px
-        rgba(255,255,255,.28),
-
-        inset 0 1px 1px
-        rgba(255,255,255,.8),
-
-        inset 0 -4px 5px
-        rgba(0,0,0,.28);
-
-}
-
-
-/*
-   Schiebergriff
-*/
-
-.zip-slider::before {
-
-    content:
-        "";
-
-    position:
-        absolute;
-
-    left:
-        50%;
-
-    top:
-        8px;
-
-    width:
-        25px;
-
-    height:
-        22px;
+    height: 82px;
 
     transform:
         translateX(-50%);
 
-    border-radius:
-        7px;
+    z-index: 200;
 
-    border:
-        3px solid
-        #6a6d68;
+    will-change: top;
+
+    filter:
+        drop-shadow(
+            0 8px 5px rgba(0,0,0,0.55)
+        );
+}
+
+
+/*
+   Griff oben
+*/
+
+.slider-handle {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 0;
+
+    width: 34px;
+
+    height: 30px;
+
+    transform: translateX(-50%);
+
+    border-radius: 8px 8px 4px 4px;
 
     background:
         linear-gradient(
-            180deg,
-            #e7e7e2,
-            #8d908a
+            90deg,
+            #666762,
+            #ece9dc 45%,
+            #777872
         );
 
+    border: 2px solid #41433f;
 }
 
 
@@ -1780,128 +861,223 @@ section.block p + p {
    Loch im Schieber
 */
 
-.zip-slider::after {
+.slider-handle::after {
 
-    content:
-        "";
+    content: "";
 
-    position:
-        absolute;
+    position: absolute;
 
-    left:
-        50%;
+    left: 50%;
+    top: 7px;
 
-    top:
-        14px;
+    width: 11px;
+    height: 11px;
 
-    width:
-        9px;
+    transform: translateX(-50%);
 
-    height:
-        9px;
+    border-radius: 50%;
 
-    transform:
-        translateX(-50%);
-
-    border-radius:
-        50%;
-
-    background:
-        #172131;
+    background: #171914;
 
     box-shadow:
-        inset 0 1px 3px
-        rgba(0,0,0,.8);
+        inset 0 1px 2px rgba(255,255,255,0.3);
+}
 
+
+/*
+   eigentlicher Schieber
+*/
+
+.slider-body {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 23px;
+
+    width: 45px;
+
+    height: 58px;
+
+    transform: translateX(-50%);
+
+    border-radius: 6px 6px 12px 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #555650,
+            #d9d7cb 42%,
+            #777872 72%,
+            #4a4b46
+        );
+
+    border: 2px solid #343631;
+}
+
+
+/*
+   Mittlere Vertiefung
+*/
+
+.slider-body::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+    top: 9px;
+
+    width: 12px;
+    height: 30px;
+
+    transform: translateX(-50%);
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #555650,
+            #e5e3d7,
+            #666761
+        );
+
+    box-shadow:
+        inset 0 0 4px rgba(0,0,0,0.7);
 }
 
 
 /* =========================================================
-   METALLISCHE LICHTKANTE
+   ORANGE FADEN
 ========================================================= */
 
-.zip-light {
+.thread-line {
 
-    position:
-        absolute;
-
-    left:
-        50%;
+    position: fixed;
 
     top: 0;
 
-    width:
-        3px;
+    width: 2px;
 
-    height:
-        100%;
-
-    transform:
-        translateX(-50%);
+    height: 100vh;
 
     background:
-
-        linear-gradient(
-            180deg,
-            transparent,
-            rgba(255,255,255,.65),
-            transparent
+        repeating-linear-gradient(
+            to bottom,
+            var(--thread) 0px,
+            var(--thread) 8px,
+            transparent 8px,
+            transparent 17px
         );
 
-    opacity:
-        calc(
-            .15 +
-            var(--zip) * .55
-        );
+    z-index: 70;
 
-    filter:
-        blur(.3px);
+    pointer-events: none;
+}
 
+
+.thread-left {
+    left: calc(50% - 40px);
+}
+
+
+.thread-right {
+    left: calc(50% + 40px);
 }
 
 
 /* =========================================================
-   SCROLL HINWEIS
+   SCROLL-HINWEIS
 ========================================================= */
 
 .scroll-hint {
 
-    position:
-        fixed;
+    position: fixed;
 
-    bottom:
-        24px;
+    bottom: 35px;
 
-    left:
-        50%;
+    left: 50%;
 
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
-    z-index:
-        50;
+    z-index: 300;
 
-    color:
-        var(--text-muted);
+    text-align: center;
 
-    font-size:
-        .68rem;
+    color: var(--thread);
 
-    letter-spacing:
-        .18em;
+    font-size: 0.8rem;
 
-    text-transform:
-        uppercase;
+    letter-spacing: 0.2em;
 
-    opacity:
-        calc(
-            1 -
-            var(--zip) * 3
+    text-transform: uppercase;
+
+    transition:
+        opacity 0.4s ease;
+}
+
+
+.scroll-arrow {
+
+    width: 18px;
+    height: 18px;
+
+    margin: 12px auto 0;
+
+    border-right: 2px solid var(--thread);
+    border-bottom: 2px solid var(--thread);
+
+    transform: rotate(45deg);
+}
+
+
+/* =========================================================
+   NACHFOLGENDE SEITE
+========================================================= */
+
+.after-page {
+
+    position: relative;
+
+    min-height: 100vh;
+
+    padding: 120px 8vw;
+
+    background:
+        linear-gradient(
+            135deg,
+            #343919,
+            #4b5128
         );
 
-    pointer-events:
-        none;
+    color: #d8cda0;
 
+    z-index: 2;
+}
+
+
+.after-page h2 {
+
+    color: var(--thread);
+
+    font-size: clamp(3rem, 8vw, 7rem);
+
+    line-height: 0.85;
+
+    margin-bottom: 30px;
+}
+
+
+.after-page p {
+
+    max-width: 700px;
+
+    font-size: 1.2rem;
+
+    line-height: 1.8;
 }
 
 
@@ -1909,221 +1085,81 @@ section.block p + p {
    MOBILE
 ========================================================= */
 
-@media (max-width: 768px) {
+@media (max-width: 700px) {
 
-    .zip-scroll {
-
-        height:
-            190vh;
-
+    .zip-stage {
+        height: 230vh;
     }
 
 
-    .page-1-inner {
+    .content-left {
+        left: 8vw;
 
-        padding:
-            2.1rem
-            1.05rem
-            3rem;
+        top: 43vh;
 
+        width: 40vw;
     }
 
 
-    .page-2 {
+    .content-right {
+        right: 8vw;
 
-        padding:
-            2.1rem
-            1.05rem
-            5rem;
+        top: 15vh;
 
+        width: 40vw;
     }
 
 
-    .brand-row {
-
-        justify-content:
-            flex-start;
-
+    .first-title {
+        font-size: 14vw;
     }
 
 
-    .hero {
-
-        text-align:
-            left;
-
+    .content-right h2 {
+        font-size: 9vw;
     }
 
 
-    .hero-sub {
-
-        margin-left:
-            0;
-
-        margin-right:
-            0;
-
+    .media-card {
+        width: 38vw;
     }
 
 
-    .cover-inner {
-
-        border-radius:
-            22px;
-
+    .zip-rail.left {
+        transform: rotate(-12deg);
     }
 
 
-    .listen-wrap {
-
-        justify-content:
-            center;
-
+    .zip-rail.right {
+        transform: rotate(12deg);
     }
 
 
-    .song-list-section {
-
-        text-align:
-            left;
-
+    .thread-left {
+        left: calc(50% - 28px);
     }
 
 
-    .song-lines {
-
-        align-items:
-            center;
-
-    }
-
-
-    .song-line {
-
-        font-size:
-            clamp(
-                1rem,
-                4.4vw,
-                1.22rem
-            );
-
-    }
-
-
-    /*
-       Auf Mobilgeräten wird weniger weit
-       seitlich geschoben.
-    */
-
-    .page-1-left {
-
-        transform:
-
-            translate3d(
-
-                calc(
-                    var(--zip) * -82vw
-                ),
-
-                0,
-
-                0
-
-            )
-
-            rotate(
-                calc(
-                    var(--zip) * -.45deg
-                )
-            );
-
-    }
-
-
-    .page-1-right {
-
-        transform:
-
-            translate3d(
-
-                calc(
-                    var(--zip) * 82vw
-                ),
-
-                0,
-
-                0
-
-            )
-
-            rotate(
-                calc(
-                    var(--zip) * .45deg
-                )
-            );
-
-    }
-
-
-    .zipper {
-
-        width:
-            70px;
-
-    }
-
-
-    .zip-slider {
-
-        width:
-            40px;
-
-        height:
-            52px;
-
-    }
-
-
-    .zip-teeth {
-
-        width:
-            19px;
-
-    }
-
-
-    .zip-teeth span {
-
-        width:
-            10px;
-
-        height:
-            7px;
-
+    .thread-right {
+        left: calc(50% + 28px);
     }
 
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   REDUZIERTE BEWEGUNG
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .page-1-left,
-    .page-1-right {
-
-        transform:
-            none !important;
-
+    html {
+        scroll-behavior: auto;
     }
 
 }
 
-
 </style>
-
 </head>
 
 
@@ -2131,1379 +1167,603 @@ section.block p + p {
 
 
 <!-- =======================================================
-     SCROLL-STRECKE
+     HAUPTBÜHNE
 ======================================================= -->
 
-<div class="zip-scroll">
+<section class="zip-stage" id="zipStage">
 
 
     <!-- ===================================================
-         FIXIERTE BÜHNE
+         ZWEITE SEITE
     ==================================================== -->
 
-    <div class="zip-stage">
+    <div class="second-page" id="secondPage">
+
+        <div class="second-content">
+
+            <div class="second-kicker">
+                b3nn3t
+            </div>
+
+            <h1>
+                weiter
+            </h1>
+
+            <p class="second-intro">
+                Hinter „gespalten“ beginnt eine neue Seite.
+                Der Reißverschluss öffnet den Weg zwischen
+                dem Alten und dem Neuen.
+            </p>
 
 
-        <!-- ===============================================
-             SEITE 2
-        ================================================ -->
+            <div class="second-grid">
 
-        <section
-            class="page-2"
-            aria-label="zweite Seite"
-        >
-
-            <div class="page-2-inner">
-
-                <div class="brand-row">
-
-                    <a
-                        class="brand-link"
-                        href="index.html"
-                    >
-                        b3nn3t
-                    </a>
-
-                </div>
-
-
-                <h2>
-                    weiter
-                </h2>
-
-
-                <p>
-                    Hinter „gespalten“ beginnt eine neue
-                    Seite.
-                </p>
-
-
-                <p>
-                    Der Reißverschluss öffnet den Weg von
-                    der ersten Seite in diesen Bereich.
-                </p>
-
-
-                <div class="page-2-line"></div>
-
-
-                <div class="page-2-block">
+                <div class="second-box">
 
                     <h2>
-                        die zweite seite
+                        neue inhalte
                     </h2>
 
                     <p>
-                        Diesen Bereich kannst du später mit
-                        deinem eigentlichen Inhalt füllen.
-                    </p>
-
-                    <p>
-                        Bilder, Texte, weitere Musik,
-                        Projekte oder was immer auf deine
-                        Hauptseite folgen soll.
+                        Hier ist Platz für alles,
+                        was auf der zweiten Seite
+                        wichtig ist.
                     </p>
 
                 </div>
 
 
-                <div class="page-2-block">
+                <div class="second-box">
 
                     <h2>
-                        noch mehr
+                        projekte
                     </h2>
 
                     <p>
-                        Beim Zurückscrollen schließt der
-                        Reißverschluss wieder und die
-                        ursprüngliche Seite erscheint.
+                        Musik, Texte, Bilder,
+                        Videos oder was immer
+                        du zeigen willst.
                     </p>
 
                 </div>
 
             </div>
 
-        </section>
-
-
-
-        <!-- ===============================================
-             SEITE 1
-        ================================================ -->
-
-        <section
-            class="page-1"
-            aria-label="gespalten Albumseite"
-        >
-
-
-            <!-- ===========================================
-                 LINKES JEANSSTÜCK
-            ============================================ -->
 
             <div
-                class="page-1-half page-1-left"
+                style="
+                    margin-top:80px;
+                    color:#d5c99b;
+                    line-height:1.8;
+                "
             >
+                <strong style="color:#c47725;">
+                    mehr erfahren
+                </strong>
 
-                <div class="page-1-inner">
+                <br>
 
-                    <div class="brand-row">
-
-                        <a
-                            class="brand-link"
-                            href="index.html"
-                        >
-                            b3nn3t
-                        </a>
-
-                    </div>
-
-
-                    <section
-                        class="hero"
-                        aria-label="gespalten Album"
-                    >
-
-                        <p class="eyebrow">
-                        </p>
-
-
-                        <h1>
-                            gespalten
-                        </h1>
-
-
-                        <p class="hero-sub">
-
-                            <strong></strong>
-
-                            <br>
-
-                            übergang zwischen alt und neu
-
-                        </p>
-
-
-                        <div
-                            class="cover-wrap"
-                            aria-label="Albumvideo gespalten"
-                        >
-
-                            <div class="cover-inner">
-
-                                <video
-                                    id="album-video-left"
-                                    class="album-video"
-                                    controls
-                                    preload="metadata"
-                                    playsinline
-                                    poster="/assets/gespalten/gespalten.jpg"
-                                >
-
-                                    <source
-                                        src="/assets/gespalten/gespalten.mp4"
-                                        type="video/mp4"
-                                    >
-
-                                    Dein Browser unterstützt
-                                    dieses Videoformat nicht.
-
-                                </video>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="listen-wrap">
-
-                            <a
-                                class="listen-btn main-cta"
-                                href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                album vormerken
-                            </a>
-
-                        </div>
-
-                    </section>
-
-
-                    <section
-                        class="block countdown-plain"
-                        aria-label="Album Countdown"
-                    >
-
-                        <p class="countdown-label">
-                            album unlocks in
-                        </p>
-
-                        <p class="countdown-time album-countdown">
-                            --d --:--:--
-                        </p>
-
-                        <p class="countdown-note release-note">
-                            release: 13. august 2026 · 24:00 uhr
-                        </p>
-
-                    </section>
-
-
-                    <section
-                        class="block song-list-section"
-                        aria-label="Songs auf gespalten"
-                    >
-
-                        <div class="song-list-head">
-
-                            <strong>
-                                10 fragments
-                            </strong>
-
-                        </div>
-
-
-                        <div class="song-lines">
-
-                            <p class="song-line">
-
-                                <span>
-                                    desigual
-                                </span>
-
-                                <span>
-                                    aergerlich
-                                </span>
-
-                                <span>
-                                    3
-                                </span>
-
-                                <span>
-                                    (fenster scherben)
-                                </span>
-
-                            </p>
-
-
-                            <p class="song-line">
-
-                                <span>
-                                    5r
-                                </span>
-
-                                <span>
-                                    6
-                                </span>
-
-                                <span>
-                                    7
-                                </span>
-
-                            </p>
-
-
-                            <p class="song-line">
-
-                                <span>
-                                    8?
-                                </span>
-
-                                <span>
-                                    wegwerfkamera
-                                </span>
-
-                                <span>
-                                    2011
-                                </span>
-
-                            </p>
-
-                        </div>
-
-                    </section>
-
-
-                    <section
-                        class="block about-section"
-                        aria-label="über das Album"
-                    >
-
-                        <h2>
-                            über das Album
-                        </h2>
-
-
-                        <p>
-                            „gespalten“ ist ein kurzes album
-                            aus 10 fragmenten. 12 minuten im
-                            übergang zwischen alt mit
-                            deutschsprachigen skizzen.
-                        </p>
-
-
-                        <p>
-                            die songs sind eher gedanken und
-                            gefühle als klassische tracks
-                            kurz, direkt, unfertig im besten
-                            sinn.
-                        </p>
-
-
-                        <div class="quote-block">
-                            <br>
-                        </div>
-
-                    </section>
-
-
-                </div>
-
+                Scroll weiter und öffne den
+                Reißverschluss vollständig.
             </div>
 
+        </div>
 
+    </div>
 
-            <!-- ===========================================
-                 RECHTES JEANSSTÜCK
-            ============================================ -->
 
-            <div
-                class="page-1-half page-1-right"
-            >
 
-                <div class="page-1-inner">
+    <!-- ===================================================
+         ERSTE SEITE – JEANS
+    ==================================================== -->
 
-                    <div class="brand-row">
+    <div class="first-page" id="firstPage">
 
-                        <a
-                            class="brand-link"
-                            href="index.html"
-                        >
-                            b3nn3t
-                        </a>
 
-                    </div>
-
-
-                    <section
-                        class="hero"
-                        aria-label="gespalten Album"
-                    >
-
-                        <p class="eyebrow">
-                        </p>
-
-
-                        <h1>
-                            gespalten
-                        </h1>
-
-
-                        <p class="hero-sub">
-
-                            <strong></strong>
-
-                            <br>
-
-                            übergang zwischen alt und neu
-
-                        </p>
-
-
-                        <div
-                            class="cover-wrap"
-                            aria-label="Albumvideo gespalten"
-                        >
-
-                            <div class="cover-inner">
-
-                                <video
-                                    id="album-video-right"
-                                    class="album-video"
-                                    controls
-                                    preload="metadata"
-                                    playsinline
-                                    poster="/assets/gespalten/gespalten.jpg"
-                                >
-
-                                    <source
-                                        src="/assets/gespalten/gespalten.mp4"
-                                        type="video/mp4"
-                                    >
-
-                                </video>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="listen-wrap">
-
-                            <a
-                                class="listen-btn main-cta"
-                                href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                album vormerken
-                            </a>
-
-                        </div>
-
-                    </section>
-
-
-                    <section
-                        class="block countdown-plain"
-                    >
-
-                        <p class="countdown-label">
-                            album unlocks in
-                        </p>
-
-                        <p class="countdown-time album-countdown">
-                            --d --:--:--
-                        </p>
-
-                        <p class="countdown-note release-note">
-                            release: 13. august 2026 · 24:00 uhr
-                        </p>
-
-                    </section>
-
-
-                    <section
-                        class="block song-list-section"
-                    >
-
-                        <div class="song-list-head">
-
-                            <strong>
-                                10 fragments
-                            </strong>
-
-                        </div>
-
-
-                        <div class="song-lines">
-
-                            <p class="song-line">
-
-                                <span>
-                                    desigual
-                                </span>
-
-                                <span>
-                                    aergerlich
-                                </span>
-
-                                <span>
-                                    3
-                                </span>
-
-                                <span>
-                                    (fenster scherben)
-                                </span>
-
-                            </p>
-
-
-                            <p class="song-line">
-
-                                <span>
-                                    5r
-                                </span>
-
-                                <span>
-                                    6
-                                </span>
-
-                                <span>
-                                    7
-                                </span>
-
-                            </p>
-
-
-                            <p class="song-line">
-
-                                <span>
-                                    8?
-                                </span>
-
-                                <span>
-                                    wegwerfkamera
-                                </span>
-
-                                <span>
-                                    2011
-                                </span>
-
-                            </p>
-
-                        </div>
-
-                    </section>
-
-
-                    <section
-                        class="block about-section"
-                    >
-
-                        <h2>
-                            über das Album
-                        </h2>
-
-
-                        <p>
-                            „gespalten“ ist ein kurzes album
-                            aus 10 fragmenten. 12 minuten im
-                            übergang zwischen alt mit
-                            deutschsprachigen skizzen.
-                        </p>
-
-
-                        <p>
-                            die songs sind eher gedanken und
-                            gefühle als klassische tracks
-                            kurz, direkt, unfertig im besten
-                            sinn.
-                        </p>
-
-
-                    </section>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- ===============================================
-             REISSVERSCHLUSS
-        ================================================ -->
+        <!-- LINKE JEANS-HÄLFTE -->
 
         <div
-            class="zipper"
-            aria-hidden="true"
+            class="denim-panel denim-left"
+            id="denimLeft"
         >
 
+            <div class="seam seam-left"></div>
 
-            <!-- dunkle Öffnung -->
+            <div class="content-left">
 
-            <div
-                class="zipper-opening"
-            ></div>
+                <div class="brand">
+                    b3nn3t
+                </div>
 
+                <h1 class="first-title">
+                    gespalten
+                </h1>
 
-            <!-- Jeansfäden -->
-
-            <div
-                class="zip-thread zip-thread-left"
-            ></div>
-
-            <div
-                class="zip-thread zip-thread-right"
-            ></div>
+                <p class="first-subtitle">
+                    übergang zwischen alt und neu
+                </p>
 
 
-            <!-- Reißverschlusszähne -->
+                <div class="media-card">
 
-            <div
-                class="zip-teeth zip-teeth-left"
-                id="zip-teeth-left"
-            ></div>
+                    <!--
+                        HIER DEIN BILD EINSETZEN:
 
-            <div
-                class="zip-teeth zip-teeth-right"
-                id="zip-teeth-right"
-            ></div>
+                        <img src="images/dein-bild.jpg" alt="...">
 
+                        Aktuell nur Platzhalter.
+                    -->
 
-            <!-- Lichtkante -->
+                    <div class="media-placeholder">
+                        DEIN VIDEO / BILD
+                    </div>
 
-            <div
-                class="zip-light"
-            ></div>
+                </div>
 
-
-            <!-- Schieber -->
-
-            <div
-                class="zip-slider"
-            ></div>
+            </div>
 
         </div>
 
 
-        <div class="scroll-hint">
-            scroll to open
+
+        <!-- RECHTE JEANS-HÄLFTE -->
+
+        <div
+            class="denim-panel denim-right"
+            id="denimRight"
+        >
+
+            <div class="seam seam-right"></div>
+
+            <div class="content-right">
+
+                <div class="brand">
+                    b3nn3t
+                </div>
+
+                <h2>
+                    alt
+                </h2>
+
+                <p>
+                    Musik, Erinnerungen und
+                    Fragmente aus einer anderen Zeit.
+                </p>
+
+            </div>
+
         </div>
 
 
     </div>
 
-</div>
+
+
+    <!-- ===================================================
+         REISSVERSCHLUSS
+    ==================================================== -->
+
+    <div class="zipper-system">
+
+        <div class="zip-rail left"></div>
+        <div class="zip-rail right"></div>
+
+        <div
+            class="teeth left"
+            id="teethLeft"
+        ></div>
+
+        <div
+            class="teeth right"
+            id="teethRight"
+        ></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         ÖFFNUNG
+    ==================================================== -->
+
+    <div class="opening">
+
+        <div
+            class="opening-shape"
+            id="openingShape"
+        ></div>
+
+        <div
+            class="open-edge"
+            id="edgeLeft"
+        ></div>
+
+        <div
+            class="open-edge"
+            id="edgeRight"
+        ></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         ORANGE NÄHTE
+    ==================================================== -->
+
+    <div class="thread-line thread-left"></div>
+    <div class="thread-line thread-right"></div>
+
+
+
+    <!-- ===================================================
+         SCHIEBER
+    ==================================================== -->
+
+    <div
+        class="slider"
+        id="slider"
+    >
+
+        <div class="slider-handle"></div>
+
+        <div class="slider-body"></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         SCROLL-HINWEIS
+    ==================================================== -->
+
+    <div
+        class="scroll-hint"
+        id="scrollHint"
+    >
+
+        nach unten öffnen
+
+        <div class="scroll-arrow"></div>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE NACH DEM REISSVERSCHLUSS
+======================================================= -->
+
+<section class="after-page">
+
+    <h2>
+        offen.
+    </h2>
+
+    <p>
+        Der Reißverschluss ist jetzt vollständig geöffnet.
+        Die zweite Seite kann ab hier ganz normal weiter
+        gescrollt und mit deinen eigentlichen Inhalten
+        gefüllt werden.
+    </p>
+
+</section>
 
 
 
 <script>
 
 /* =========================================================
-   REISSVERSCHLUSS-STEUERUNG
+   REISSVERSCHLUSS – JAVASCRIPT
 ========================================================= */
 
-(function () {
 
-    "use strict";
+/*
+   Elemente holen
+*/
 
+const stage =
+    document.getElementById("zipStage");
 
-    const root =
-        document.documentElement;
+const leftPanel =
+    document.getElementById("denimLeft");
 
+const rightPanel =
+    document.getElementById("denimRight");
 
-    const scrollArea =
-        document.querySelector(
-            ".zip-scroll"
-        );
+const opening =
+    document.getElementById("openingShape");
 
+const edgeLeft =
+    document.getElementById("edgeLeft");
 
-    let target =
-        0;
+const edgeRight =
+    document.getElementById("edgeRight");
 
+const slider =
+    document.getElementById("slider");
 
-    let current =
-        0;
+const scrollHint =
+    document.getElementById("scrollHint");
 
+const teethLeft =
+    document.getElementById("teethLeft");
 
-    let animationRunning =
-        false;
-
-
-    /*
-       -----------------------------------------------------
-       Begrenzung
-       -----------------------------------------------------
-    */
-
-    function clamp(
-        value,
-        min,
-        max
-    ) {
-
-        return Math.min(
-            Math.max(
-                value,
-                min
-            ),
-            max
-        );
-
-    }
-
-
-    /*
-       -----------------------------------------------------
-       Öffnungsfortschritt berechnen
-       -----------------------------------------------------
-    */
-
-    function updateTarget() {
-
-        if (!scrollArea) {
-            return;
-        }
-
-
-        const maxScroll =
-            scrollArea.offsetHeight -
-            window.innerHeight;
-
-
-        const scrollTop =
-            window.scrollY;
-
-
-        let progress =
-            scrollTop /
-            Math.max(
-                1,
-                maxScroll
-            );
-
-
-        progress =
-            clamp(
-                progress,
-                0,
-                1
-            );
-
-
-        /*
-           leicht weiches Easing
-        */
-
-        progress =
-            Math.pow(
-                progress,
-                .88
-            );
-
-
-        target =
-            progress;
-
-
-        startAnimation();
-
-    }
-
-
-    /*
-       -----------------------------------------------------
-       Animation
-       -----------------------------------------------------
-    */
-
-    function startAnimation() {
-
-        if (animationRunning) {
-            return;
-        }
-
-
-        animationRunning =
-            true;
-
-
-        requestAnimationFrame(
-            animate
-        );
-
-    }
-
-
-    function animate() {
-
-        current +=
-            (
-                target -
-                current
-            ) * .14;
-
-
-        if (
-            Math.abs(
-                target -
-                current
-            ) < .0005
-        ) {
-
-            current =
-                target;
-
-        }
-
-
-        root.style.setProperty(
-            "--zip",
-            current.toFixed(4)
-        );
-
-
-        root.style.setProperty(
-            "--zip-position",
-            (
-                current *
-                window.innerHeight
-            ).toFixed(2)
-            + "px"
-        );
-
-
-        if (
-            Math.abs(
-                target -
-                current
-            ) >= .0005
-        ) {
-
-            requestAnimationFrame(
-                animate
-            );
-
-        } else {
-
-            animationRunning =
-                false;
-
-        }
-
-    }
-
-
-    /*
-       -----------------------------------------------------
-       Maus-Parallax
-       -----------------------------------------------------
-    */
-
-    let mouseX =
-        0;
-
-
-    let mouseY =
-        0;
-
-
-    document.addEventListener(
-        "mousemove",
-        function (event) {
-
-            const targetX =
-                (
-                    event.clientX /
-                    window.innerWidth -
-                    .5
-                ) * 2;
-
-
-            const targetY =
-                (
-                    event.clientY /
-                    window.innerHeight -
-                    .5
-                ) * 2;
-
-
-            mouseX +=
-                (
-                    targetX -
-                    mouseX
-                ) * .08;
-
-
-            mouseY +=
-                (
-                    targetY -
-                    mouseY
-                ) * .08;
-
-
-            root.style.setProperty(
-                "--mx",
-                mouseX.toFixed(3)
-            );
-
-
-            root.style.setProperty(
-                "--my",
-                mouseY.toFixed(3)
-            );
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    /*
-       -----------------------------------------------------
-       Events
-       -----------------------------------------------------
-    */
-
-    window.addEventListener(
-        "scroll",
-        updateTarget,
-        {
-            passive: true
-        }
-    );
-
-
-    window.addEventListener(
-        "resize",
-        updateTarget
-    );
-
-
-    /*
-       -----------------------------------------------------
-       Start
-       -----------------------------------------------------
-    */
-
-    updateTarget();
-
-})();
-
+const teethRight =
+    document.getElementById("teethRight");
 
 
 /* =========================================================
    REISSVERSCHLUSS-ZÄHNE ERZEUGEN
 ========================================================= */
 
-(function () {
-
-    "use strict";
+const toothCount = 85;
 
 
-    const left =
-        document.getElementById(
-            "zip-teeth-left"
-        );
+for (let i = 0; i < toothCount; i++) {
+
+    const toothL =
+        document.createElement("div");
+
+    toothL.className = "tooth";
+
+    toothL.style.top =
+        (i * (100 / toothCount)) + "%";
+
+    toothL.style.transform =
+        `rotate(${(Math.random() * 4) - 2}deg)`;
+
+    teethLeft.appendChild(toothL);
 
 
-    const right =
-        document.getElementById(
-            "zip-teeth-right"
-        );
+    const toothR =
+        document.createElement("div");
 
+    toothR.className = "tooth";
 
-    if (!left || !right) {
-        return;
-    }
+    toothR.style.top =
+        (i * (100 / toothCount)) + "%";
 
+    toothR.style.transform =
+        `rotate(${(Math.random() * 4) - 2}deg)`;
 
-    /*
-       58 Zähne pro Seite.
+    teethRight.appendChild(toothR);
 
-       Dadurch sieht der Reißverschluss
-       tatsächlich wie ein Reißverschluss aus.
-    */
-
-    const count =
-        58;
-
-
-    for (
-        let i = 0;
-        i < count;
-        i++
-    ) {
-
-
-        const y =
-            (
-                i /
-                (count - 1)
-            ) *
-            100;
-
-
-        const toothLeft =
-            document.createElement(
-                "span"
-            );
-
-
-        toothLeft.style.top =
-            y + "%";
-
-
-        /*
-           kleine Unregelmäßigkeit
-           im Abstand
-        */
-
-        toothLeft.style.transform =
-            "translateX(-50%) rotate(" +
-            (
-                i % 2 === 0
-                ? -8
-                : 8
-            ) +
-            "deg)";
-
-
-        left.appendChild(
-            toothLeft
-        );
-
-
-        const toothRight =
-            document.createElement(
-                "span"
-            );
-
-
-        toothRight.style.top =
-            y + "%";
-
-
-        toothRight.style.transform =
-            "translateX(-50%) rotate(" +
-            (
-                i % 2 === 0
-                ? 8
-                : -8
-            ) +
-            "deg)";
-
-
-        right.appendChild(
-            toothRight
-        );
-
-    }
-
-})();
-
+}
 
 
 /* =========================================================
-   VIDEOS SYNCHRONISIEREN
+   SCROLL-FUNKTION
 ========================================================= */
 
-(function () {
+function updateZipper() {
 
-    "use strict";
+    const rect =
+        stage.getBoundingClientRect();
 
+    const stageHeight =
+        stage.offsetHeight;
 
-    const videos =
-        Array.from(
-            document.querySelectorAll(
-                ".album-video"
-            )
-        );
-
-
-    if (
-        videos.length <
-        2
-    ) {
-
-        return;
-
-    }
-
-
-    let syncing =
-        false;
-
-
-    function syncFrom(
-        source,
-        eventName
-    ) {
-
-        if (syncing) {
-            return;
-        }
-
-
-        syncing =
-            true;
-
-
-        videos.forEach(
-            function (video) {
-
-                if (
-                    video === source
-                ) {
-
-                    return;
-
-                }
-
-
-                /*
-                   Zeit synchronisieren
-                */
-
-                if (
-                    Math.abs(
-                        video.currentTime -
-                        source.currentTime
-                    ) > .12
-                ) {
-
-                    try {
-
-                        video.currentTime =
-                            source.currentTime;
-
-                    }
-                    catch (e) {}
-
-                }
-
-
-                /*
-                   Play / Pause
-                */
-
-                if (
-                    eventName === "play" &&
-                    video.paused
-                ) {
-
-                    video.play()
-                        .catch(
-                            function () {}
-                        );
-
-                }
-
-
-                if (
-                    eventName === "pause" &&
-                    !video.paused
-                ) {
-
-                    video.pause();
-
-                }
-
-
-                video.playbackRate =
-                    source.playbackRate;
-
-            });
-
-
-        syncing =
-            false;
-
-    }
-
-
-    videos.forEach(
-        function (video) {
-
-
-            [
-                "play",
-                "pause",
-                "seeked",
-                "ratechange"
-            ]
-            .forEach(
-                function (eventName) {
-
-                    video.addEventListener(
-                        eventName,
-                        function () {
-
-                            syncFrom(
-                                video,
-                                eventName
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-
-            video.addEventListener(
-                "timeupdate",
-                function () {
-
-                    syncFrom(
-                        video,
-                        "timeupdate"
-                    );
-
-                }
-            );
-
-        }
-    );
-
-})();
-
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-(function () {
-
-    "use strict";
+    const viewportHeight =
+        window.innerHeight;
 
 
     /*
-       Release-Datum aus deinem
-       bisherigen Code übernommen.
+       Scrollfortschritt innerhalb
+       der 260vh-Bühne.
+
+       0 = komplett geschlossen
+
+       1 = maximal geöffnet
     */
 
-    const RELEASE_DATE =
-        new Date(
-            "2026-08-14T00:00:00+02:00"
-        ).getTime();
+    let progress =
+        -rect.top /
+        (stageHeight - viewportHeight);
 
 
-    const ALBUM_LINK =
-        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
-
-
-    function pad(
-        value
-    ) {
-
-        return String(
-            value
-        ).padStart(
-            2,
-            "0"
+    progress =
+        Math.max(
+            0,
+            Math.min(
+                1,
+                progress
+            )
         );
 
+
+    /*
+       Easing.
+
+       Der Anfang öffnet etwas langsamer.
+       Danach geht es stärker auf.
+    */
+
+    const eased =
+        progress < 0.5
+
+        ? 2 * progress * progress
+
+        : 1 -
+          Math.pow(
+              -2 * progress + 2,
+              2
+          ) / 2;
+
+
+    /* =====================================================
+       ÖFFNUNGSBREITE
+    ===================================================== */
+
+    /*
+       WICHTIG:
+
+       Der Reißverschluss geht jetzt SEHR weit auf.
+
+       Am Ende beträgt die Öffnung ungefähr
+       86% der Bildschirmbreite.
+
+       Dadurch wird die zweite Seite
+       fast vollständig sichtbar.
+    */
+
+    const maxOpening =
+        Math.min(
+            window.innerWidth * 0.86,
+            window.innerWidth - 30
+        );
+
+
+    const openingWidth =
+        maxOpening * eased;
+
+
+    opening.style.width =
+        openingWidth + "px";
+
+
+    /* =====================================================
+       JEANS-HÄLFTEN
+    ===================================================== */
+
+    /*
+       Die Jeans bewegt sich nicht einfach
+       als vertikaler Spalt auseinander.
+
+       Stattdessen wird sie leicht gedreht,
+       sodass die Öffnung wie ein V wirkt.
+    */
+
+
+    const move =
+        openingWidth * 0.53;
+
+
+    const rotation =
+        8 * eased;
+
+
+    leftPanel.style.transform =
+        `translateX(${-move}px)
+         rotate(${-rotation}deg)`;
+
+
+    rightPanel.style.transform =
+        `translateX(${move}px)
+         rotate(${rotation}deg)`;
+
+
+    /* =====================================================
+       SCHIEBER
+    ===================================================== */
+
+    /*
+       Der Schieber startet oben.
+
+       Er wandert bis ungefähr 88%
+       der Bildschirmhöhe nach unten.
+
+       Damit öffnet sich der Reißverschluss
+       über einen sehr langen Bereich.
+    */
+
+    const sliderTop =
+        4 +
+        eased * 86;
+
+
+    slider.style.top =
+        sliderTop + "vh";
+
+
+    /* =====================================================
+       V-KANTEN
+    ===================================================== */
+
+    const center =
+        window.innerWidth / 2;
+
+
+    const edgeDistance =
+        openingWidth / 2;
+
+
+    edgeLeft.style.left =
+        (center - edgeDistance) + "px";
+
+
+    edgeRight.style.left =
+        (center + edgeDistance) + "px";
+
+
+    edgeLeft.style.opacity =
+        eased > 0.03 ? 0.85 : 0;
+
+
+    edgeRight.style.opacity =
+        eased > 0.03 ? 0.85 : 0;
+
+
+    /* =====================================================
+       SCROLL-HINWEIS
+    ===================================================== */
+
+    scrollHint.style.opacity =
+        Math.max(
+            0,
+            1 - eased * 5
+        );
+
+
+    /*
+       Wenn fast vollständig geöffnet:
+       Schieber etwas kleiner erscheinen lassen.
+    */
+
+    if (eased > 0.96) {
+
+        slider.style.opacity = "0.85";
+
+    } else {
+
+        slider.style.opacity = "1";
+
     }
 
-
-    function renderCountdown() {
-
-        const now =
-            Date.now();
+}
 
 
-        const diff =
-            RELEASE_DATE -
-            now;
+/* =========================================================
+   SCROLL EVENT
+========================================================= */
+
+window.addEventListener(
+    "scroll",
+    updateZipper,
+    { passive: true }
+);
 
 
-        document
-            .querySelectorAll(
-                ".album-countdown"
-            )
-            .forEach(
-                function (element) {
+/* =========================================================
+   RESIZE
+========================================================= */
 
-                    if (
-                        diff <= 0
-                    ) {
-
-                        element.textContent =
-                            "out now";
-
-                        return;
-
-                    }
+window.addEventListener(
+    "resize",
+    updateZipper
+);
 
 
-                    const totalSeconds =
-                        Math.floor(
-                            diff /
-                            1000
-                        );
+/* =========================================================
+   START
+========================================================= */
 
-
-                    const days =
-                        Math.floor(
-                            totalSeconds /
-                            (3600 * 24)
-                        );
-
-
-                    const hours =
-                        Math.floor(
-                            (
-                                totalSeconds %
-                                (3600 * 24)
-                            ) /
-                            3600
-                        );
-
-
-                    const minutes =
-                        Math.floor(
-                            (
-                                totalSeconds %
-                                3600
-                            ) /
-                            60
-                        );
-
-
-                    const seconds =
-                        totalSeconds %
-                        60;
-
-
-                    element.textContent =
-
-                        pad(days) +
-                        "d " +
-
-                        pad(hours) +
-                        ":" +
-
-                        pad(minutes) +
-                        ":" +
-
-                        pad(seconds);
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                ".release-note"
-            )
-            .forEach(
-                function (element) {
-
-                    element.textContent =
-                        diff <= 0
-
-                        ? "„gespalten“ ist jetzt draussen."
-
-                        : "release: 13. august 2026 · 24:00 uhr";
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                ".main-cta"
-            )
-            .forEach(
-                function (element) {
-
-                    element.href =
-                        ALBUM_LINK;
-
-
-                    element.textContent =
-                        diff <= 0
-
-                        ? "gespalten hören"
-
-                        : "album vormerken";
-
-                }
-            );
-
-    }
-
-
-    renderCountdown();
-
-
-    setInterval(
-        renderCountdown,
-        1000
-    );
-
-})();
+updateZipper();
 
 </script>
 
 </body>
-
 </html>
