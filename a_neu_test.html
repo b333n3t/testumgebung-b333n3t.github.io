@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -13,21 +15,25 @@
 ========================================================= */
 
 :root {
-    --denim-dark: #071725;
-    --denim: #0b2437;
-    --denim-light: #123750;
 
-    --olive: #3e4321;
-    --olive-dark: #2d3218;
+    --denim-1: #061522;
+    --denim-2: #0b2438;
+    --denim-3: #123650;
 
-    --thread: #c47725;
-    --thread-light: #e09a3b;
+    --olive-1: #303618;
+    --olive-2: #454b23;
+    --olive-3: #262b15;
 
-    --metal: #a8a8a0;
-    --metal-light: #e2e0d3;
-    --metal-dark: #575954;
+    --orange: #c87522;
+    --orange-light: #e0993a;
 
-    --black: #10100d;
+    --metal-dark: #4c4d48;
+    --metal: #9b9b91;
+    --metal-light: #deddd1;
+
+    --cream: #d6c99e;
+
+    --zipper-width: 76px;
 }
 
 
@@ -44,331 +50,99 @@ html {
 
 
 body {
-    background: var(--olive);
-    color: var(--thread);
-    font-family: Arial, Helvetica, sans-serif;
+
+    margin: 0;
+
     overflow-x: hidden;
+
+    background: var(--olive-1);
+
+    color: var(--orange);
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
 
 /* =========================================================
-   SCROLL-BÜHNE
+   HAUPT-BÜHNE
+
+   320vh = lange erste Seite.
+
+   Die eigentliche Szene bleibt sticky.
 ========================================================= */
 
-/*
-   260vh bedeutet:
-   Die erste Seite bleibt sehr lange sichtbar.
-
-   Während dieser Zeit wird der Reißverschluss
-   Schritt für Schritt geöffnet.
-*/
-
 .zip-stage {
+
     position: relative;
-    height: 260vh;
+
+    height: 320vh;
+
+    width: 100%;
 }
 
 
-/*
-   NEU: gemeinsamer Sticky-Viewport.
+.zip-scene {
 
-   Seite 1 UND Seite 2 liegen beide absolut
-   in diesem einen gepinnten Container.
-
-   Dadurch bleiben beide exakt gleich lang
-   fixiert – Seite 2 kann also nicht vorzeitig
-   mitscrollen, bevor der Reißverschluss fertig
-   offen ist. Erst wenn .zip-stage komplett
-   durchgescrollt ist, löst sich der Viewport
-   und der normale Seitenfluss (.after-page)
-   übernimmt.
-*/
-
-.zip-viewport {
     position: sticky;
+
     top: 0;
 
     width: 100%;
+
     height: 100vh;
 
     overflow: hidden;
+
+    isolation: isolate;
 }
 
 
 /* =========================================================
-   ZWEITE SEITE – OLIV
+   ZWEITE SEITE
+
+   Sie liegt komplett HINTER der Jeans.
+
+   Wichtig:
+   Sie wird nicht direkt sichtbar.
+
+   Die Sichtbarkeit wird später durch
+   den SVG-Clip begrenzt.
 ========================================================= */
 
 .second-page {
+
     position: absolute;
+
     inset: 0;
 
     z-index: 1;
 
+    overflow: hidden;
+
     background:
+
         radial-gradient(
-            ellipse at center,
-            rgba(135, 139, 72, 0.14),
-            transparent 55%
+            ellipse at 50% 25%,
+            rgba(116, 126, 62, 0.22),
+            transparent 50%
         ),
+
         linear-gradient(
             135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
+            var(--olive-3),
+            var(--olive-2),
+            var(--olive-1)
         );
-
-    overflow: hidden;
 }
 
 
-/*
-   Leichte Stoffstruktur für die olivfarbene Seite.
-*/
+/* leichte Stoffstruktur */
 
 .second-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
 
-    opacity: 0.17;
-
-    background-image:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 1px,
-            transparent 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,0.08) 0px,
-            rgba(0,0,0,0.08) 1px,
-            transparent 1px,
-            transparent 5px
-        );
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   INHALT DER ZWEITEN SEITE
-========================================================= */
-
-.second-content {
-    position: relative;
-
-    width: min(720px, 80vw);
-
-    margin: 0 auto;
-
-    padding-top: 12vh;
-
-    text-align: center;
-
-    z-index: 2;
-}
-
-
-.second-kicker {
-    font-size: 1rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-
-    color: var(--thread-light);
-
-    margin-bottom: 18px;
-}
-
-
-.second-content h1 {
-    font-size: clamp(4rem, 10vw, 9rem);
-    line-height: 0.85;
-
-    text-transform: lowercase;
-
-    color: var(--thread);
-
-    letter-spacing: -0.07em;
-
-    margin-bottom: 30px;
-}
-
-
-.second-intro {
-    max-width: 600px;
-
-    margin: 0 auto 60px;
-
-    font-size: clamp(1rem, 2vw, 1.3rem);
-
-    line-height: 1.7;
-
-    color: #d4c99c;
-}
-
-
-.second-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 50px;
-
-    text-align: left;
-
-    margin-top: 50px;
-}
-
-
-.second-box h2 {
-    color: var(--thread);
-
-    font-size: 1.3rem;
-
-    text-transform: lowercase;
-
-    margin-bottom: 15px;
-}
-
-
-.second-box p {
-    color: #d0c89d;
-
-    line-height: 1.7;
-
-    font-size: 1rem;
-}
-
-
-@media (max-width: 700px) {
-
-    .second-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-/* =========================================================
-   ERSTE SEITE – JEANS
-========================================================= */
-
-.first-page {
-    /* war vorher position: sticky – jetzt Teil von .zip-viewport */
-    position: absolute;
-    inset: 0;
-
-    z-index: 10;
-
-    overflow: hidden;
-
-    pointer-events: none;
-}
-
-
-/*
-   Linke und rechte Jeanshälfte.
-
-   Wichtig:
-   Die beiden Flächen sind NICHT transparent.
-
-   Sie liegen über der oliven zweiten Seite.
-*/
-
-.denim-panel {
-    position: absolute;
-
-    top: 0;
-
-    width: 50%;
-    height: 100%;
-
-    background:
-        radial-gradient(
-            ellipse at 50% 30%,
-            rgba(50, 100, 135, 0.22),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            #061523,
-            #0b2438 50%,
-            #0a1d2d
-        );
-
-    overflow: visible;
-
-    will-change: transform;
-}
-
-
-/* Linke Seite */
-
-.denim-left {
-    left: 0;
-
-    /*
-       Drehpunkt unten statt in der Mitte:
-       Das Panel klappt wie eine Tür auf, die
-       am unteren Rand angeschlagen ist. Oben
-       entsteht so ein V, unten bleibt der Stoff
-       (und damit auch der Reißverschluss) fest
-       zusammen.
-    */
-    transform-origin: right bottom;
-}
-
-
-/* Rechte Seite */
-
-.denim-right {
-    right: 0;
-
-    transform-origin: left bottom;
-}
-
-
-/* =========================================================
-   JEANS-STOFFSTRUKTUR
-========================================================= */
-
-.denim-panel::before {
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    opacity: 0.27;
-
-    background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.035) 0px,
-            rgba(255,255,255,0.035) 1px,
-            transparent 1px,
-            transparent 3px
-        ),
-        repeating-linear-gradient(
-            25deg,
-            rgba(0,0,0,0.09) 0px,
-            rgba(0,0,0,0.09) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-
-    pointer-events: none;
-}
-
-
-/*
-   Leichte unregelmäßige Denim-Flecken.
-*/
-
-.denim-panel::after {
     content: "";
 
     position: absolute;
@@ -377,24 +151,329 @@ body {
 
     opacity: 0.18;
 
-    background:
-        radial-gradient(
-            circle at 20% 30%,
-            #47718d 0,
-            transparent 18%
+    background-image:
+
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,.06) 0px,
+            rgba(255,255,255,.06) 1px,
+            transparent 1px,
+            transparent 4px
         ),
-        radial-gradient(
-            circle at 80% 70%,
-            #294b61 0,
-            transparent 20%
-        ),
-        radial-gradient(
-            circle at 45% 75%,
-            #061522 0,
-            transparent 25%
+
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,.07) 0px,
+            rgba(0,0,0,.07) 1px,
+            transparent 1px,
+            transparent 5px
         );
+}
+
+
+/* =========================================================
+   INHALT DER OLIVEN SEITE
+========================================================= */
+
+.second-content {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    width: min(620px, 80vw);
+
+    min-height: 100vh;
+
+    padding-top: 8vh;
+
+    text-align: center;
+
+    color: var(--cream);
+}
+
+
+.second-kicker {
+
+    font-size: 1rem;
+
+    letter-spacing: .25em;
+
+    text-transform: uppercase;
+
+    color: var(--orange-light);
+
+    margin-bottom: 18px;
+}
+
+
+.second-content h1 {
+
+    font-size: clamp(4rem, 9vw, 8rem);
+
+    line-height: .82;
+
+    letter-spacing: -.07em;
+
+    color: var(--orange);
+
+    margin-bottom: 30px;
+
+    text-transform: lowercase;
+}
+
+
+.second-intro {
+
+    font-size: clamp(
+        .95rem,
+        1.7vw,
+        1.2rem
+    );
+
+    line-height: 1.7;
+
+    max-width: 560px;
+
+    margin: 0 auto;
+
+    color: #d5cba7;
+}
+
+
+.second-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 42px;
+
+    margin-top: 70px;
+
+    text-align: left;
+}
+
+
+.second-box h2 {
+
+    font-size: 1.25rem;
+
+    color: var(--orange);
+
+    margin-bottom: 15px;
+
+    text-transform: lowercase;
+}
+
+
+.second-box p {
+
+    color: #cfc59f;
+
+    line-height: 1.7;
+
+    font-size: .98rem;
+}
+
+
+.second-more {
+
+    margin-top: 70px;
+
+    color: #d0c6a0;
+
+    line-height: 1.8;
+}
+
+
+.second-more strong {
+
+    color: var(--orange);
+}
+
+
+@media(max-width:700px) {
+
+    .second-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+}
+
+
+/* =========================================================
+   SVG CLIP-SYSTEM
+
+   Das SVG selbst ist unsichtbar.
+
+   Seine Pfade bestimmen ausschließlich,
+   welcher Teil der zweiten Seite sichtbar ist.
+========================================================= */
+
+.clip-svg {
+
+    position: absolute;
+
+    width: 0;
+
+    height: 0;
 
     pointer-events: none;
+}
+
+
+/* =========================================================
+   OLIVENE ÖFFNUNG
+
+   Sie bekommt ihren sichtbaren Bereich
+   über den SVG-Clip.
+========================================================= */
+
+.opening-layer {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    clip-path: url(#openingClip);
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   ERSTE SEITE – JEANS
+
+   Zwei getrennte Jeansflächen.
+
+   Beide werden per SVG geclippt.
+========================================================= */
+
+.denim {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 10;
+
+    background:
+
+        radial-gradient(
+            ellipse at 30% 30%,
+            rgba(40,91,123,.28),
+            transparent 45%
+        ),
+
+        radial-gradient(
+            ellipse at 80% 70%,
+            rgba(26,58,78,.25),
+            transparent 40%
+        ),
+
+        linear-gradient(
+            115deg,
+            var(--denim-1),
+            var(--denim-2),
+            var(--denim-1)
+        );
+
+    overflow: hidden;
+}
+
+
+/* Denim-Struktur */
+
+.denim::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .3;
+
+    background-image:
+
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,.035) 0px,
+            rgba(255,255,255,.035) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+
+        repeating-linear-gradient(
+            25deg,
+            rgba(0,0,0,.10) 0px,
+            rgba(0,0,0,.10) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+
+/* leichte Denim-Flecken */
+
+.denim::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    opacity: .16;
+
+    background:
+
+        radial-gradient(
+            circle at 20% 25%,
+            #527890,
+            transparent 20%
+        ),
+
+        radial-gradient(
+            circle at 80% 70%,
+            #345b72,
+            transparent 23%
+        ),
+
+        radial-gradient(
+            circle at 42% 82%,
+            #03111d,
+            transparent 25%
+        );
+}
+
+
+/* =========================================================
+   LINKES / RECHTES JEANS-PANEL
+
+   Die eigentliche Clip-Form wird per SVG gesetzt.
+========================================================= */
+
+.denim-left {
+
+    clip-path: url(#leftClip);
+
+}
+
+
+.denim-right {
+
+    clip-path: url(#rightClip);
+
 }
 
 
@@ -402,160 +481,169 @@ body {
    INHALT DER ERSTEN SEITE
 ========================================================= */
 
-.first-content {
-    position: absolute;
+.first-left-content {
 
-    top: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    z-index: 3;
-}
-
-
-/*
-   Inhalt links
-*/
-
-.content-left {
     position: absolute;
 
     left: 7vw;
 
     top: 35vh;
 
-    width: 35vw;
+    width: 36vw;
 
-    text-align: left;
+    z-index: 20;
+
+    pointer-events: auto;
 }
 
 
-/*
-   Inhalt rechts
-*/
+.first-right-content {
 
-.content-right {
     position: absolute;
 
     right: 7vw;
 
     top: 13vh;
 
-    width: 35vw;
+    width: 34vw;
 
     text-align: right;
+
+    z-index: 20;
+
+    pointer-events: auto;
 }
 
 
 .brand {
+
     font-size: 1rem;
 
     font-weight: bold;
 
-    letter-spacing: 0.22em;
+    letter-spacing: .22em;
 
-    color: var(--thread-light);
+    color: var(--orange-light);
 
     margin-bottom: 18px;
 }
 
 
-.first-title {
-    font-size: clamp(4rem, 9vw, 9rem);
+.main-title {
 
-    line-height: 0.8;
+    font-size: clamp(
+        4rem,
+        9vw,
+        9rem
+    );
 
-    letter-spacing: -0.07em;
+    line-height: .78;
 
-    color: var(--thread);
+    letter-spacing: -.08em;
+
+    color: var(--orange);
+
+    margin-bottom: 22px;
 
     text-transform: lowercase;
-
-    margin-bottom: 25px;
 }
 
 
-.first-subtitle {
-    color: #d2b98d;
+.subtitle {
 
-    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    color: var(--cream);
+
+    font-size: clamp(
+        .95rem,
+        1.6vw,
+        1.25rem
+    );
 
     line-height: 1.6;
 }
 
 
-.content-right h2 {
-    font-size: clamp(3rem, 6vw, 6rem);
+.first-right-content h2 {
 
-    line-height: 0.85;
+    font-size: clamp(
+        3rem,
+        6vw,
+        6rem
+    );
 
-    color: var(--thread);
+    line-height: .82;
 
-    text-transform: lowercase;
+    color: var(--orange);
 
     margin-bottom: 20px;
+
+    text-transform: lowercase;
 }
 
 
-.content-right p {
-    color: #d0bb8d;
+.first-right-content p {
 
-    line-height: 1.6;
+    color: var(--cream);
+
+    line-height: 1.7;
 }
 
 
 /* =========================================================
-   VIDEO / BILD
+   BILD
 ========================================================= */
 
 .media-card {
-    margin-top: 35px;
 
-    width: min(370px, 35vw);
+    margin-top: 34px;
+
+    width: min(
+        380px,
+        36vw
+    );
 
     aspect-ratio: 16 / 10;
 
-    border: 2px solid rgba(230,220,190,0.65);
+    border:
+
+        2px solid
+        rgba(230,220,190,.65);
 
     border-radius: 15px;
 
     overflow: hidden;
 
-    background:
-        linear-gradient(
-            135deg,
-            #8b8a78,
-            #c1b99d
-        );
-
-    position: relative;
+    background: #aaa28a;
 }
 
 
 .media-card img {
+
+    display: block;
+
     width: 100%;
+
     height: 100%;
 
     object-fit: cover;
-
-    display: block;
 }
 
 
 .media-placeholder {
-    width: 100%;
+
     height: 100%;
+
+    width: 100%;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     text-align: center;
 
-    color: #333;
+    color: #38362e;
 
     font-weight: bold;
 
@@ -564,127 +652,156 @@ body {
 
 
 /* =========================================================
-   JEANS-NAHT (dekoratives Stichmuster, etwas weiter innen
-   als der Reißverschluss)
+   ORANGE JEANS-NÄHTE
+
+   Die Naht wird ebenfalls gekrümmt.
 ========================================================= */
 
-.seam {
+.sewing-thread {
+
     position: absolute;
 
     top: 0;
 
-    width: 3px;
-
     height: 100%;
 
+    width: 3px;
+
+    z-index: 40;
+
+    pointer-events: none;
+
+    opacity: .95;
+
     background:
+
         repeating-linear-gradient(
             to bottom,
-            var(--thread) 0px,
-            var(--thread) 8px,
+            var(--orange) 0px,
+            var(--orange) 8px,
             transparent 8px,
             transparent 16px
         );
-
-    opacity: 0.9;
-
-    z-index: 5;
-
-    pointer-events: none;
-}
-
-
-.seam-left {
-    right: 34px;
-}
-
-
-.seam-right {
-    left: 34px;
 }
 
 
 /* =========================================================
-   REISSVERSCHLUSS – JETZT AN DER PANEL-KANTE
-
-   Diese Elemente sind Kinder von .denim-left / .denim-right.
-   Dadurch erben sie automatisch translateX()/rotate() des
-   jeweiligen Panels und laufen exakt entlang der Öffnung –
-   die rechte Hälfte klebt am rechten Rand der Öffnung, die
-   linke am linken, genau wie bei einer echten Hose.
+   REISSVERSCHLUSS
 ========================================================= */
 
-.zip-half {
-    position: absolute;
-    top: 0;
-    width: 26px;
-    height: 100%;
+.zipper {
 
-    z-index: 6;
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 100;
+
     pointer-events: none;
 }
 
-.denim-left .zip-half {
-    right: -2px;
-}
 
-.denim-right .zip-half {
-    left: -2px;
-}
+/*
+   Die beiden Zahn-Reihen werden dynamisch
+   als einzelne Elemente erzeugt.
+*/
 
-.zip-tape {
+.zip-teeth {
+
     position: absolute;
-    top: 0;
-    left: 7px;
-    width: 10px;
-    height: 100%;
 
-    background:
-        linear-gradient(
-            90deg,
-            #3b3d3a,
-            #8f9089 45%,
-            #3b3d3a
-        );
+    inset: 0;
 
-    box-shadow: 0 0 4px rgba(0,0,0,0.6);
+    z-index: 110;
+
+    pointer-events: none;
 }
 
-.teeth-col {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
 
 .tooth {
 
     position: absolute;
 
-    left: 0;
-
     width: 13px;
 
     height: 6px;
 
+    margin-left: -6.5px;
+
+    margin-top: -3px;
+
     border-radius: 2px;
 
     background:
+
         linear-gradient(
             to bottom,
-            #eeeeea,
-            #888984
+            #f0eee4,
+            #8d8e87
         );
 
     box-shadow:
-        0 1px 1px #222,
-        inset 0 1px rgba(255,255,255,0.65);
+
+        0 1px 2px rgba(0,0,0,.75),
+
+        inset 0 1px
+        rgba(255,255,255,.7);
+
+    transform-origin: center center;
 }
 
-/*
-   Zähne werden per JavaScript erzeugt.
-*/
+
+/* =========================================================
+   REISSVERSCHLUSS-BAND
+========================================================= */
+
+.zip-band {
+
+    position: absolute;
+
+    z-index: 105;
+
+    width: 7px;
+
+    border-radius: 4px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #555650,
+            #e1dfd4,
+            #777872
+        );
+
+    box-shadow:
+
+        0 0 5px rgba(0,0,0,.7);
+}
+
+
+/* =========================================================
+   ORANGE NÄHTE AM REISSVERSCHLUSS
+========================================================= */
+
+.zip-stitch {
+
+    position: absolute;
+
+    z-index: 115;
+
+    width: 2px;
+
+    background:
+
+        repeating-linear-gradient(
+            to bottom,
+            var(--orange) 0px,
+            var(--orange) 7px,
+            transparent 7px,
+            transparent 15px
+        );
+}
 
 
 /* =========================================================
@@ -695,33 +812,24 @@ body {
 
     position: absolute;
 
-    left: 50%;
-
-    top: 4vh;
+    z-index: 200;
 
     width: 58px;
 
-    height: 82px;
+    height: 88px;
 
     transform:
-        translateX(-50%);
-
-    z-index: 200;
-
-    will-change: top;
+        translate(-50%, -50%);
 
     filter:
         drop-shadow(
-            0 8px 5px rgba(0,0,0,0.55)
+            0 7px 6px
+            rgba(0,0,0,.65)
         );
 }
 
 
-/*
-   Griff oben
-*/
-
-.slider-handle {
+.slider-top {
 
     position: absolute;
 
@@ -729,56 +837,57 @@ body {
 
     top: 0;
 
-    width: 34px;
+    width: 35px;
 
     height: 30px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    border-radius: 8px 8px 4px 4px;
+    border-radius:
+        8px 8px 4px 4px;
+
+    border:
+        2px solid
+        #3d3f3a;
 
     background:
+
         linear-gradient(
             90deg,
-            #666762,
-            #ece9dc 45%,
-            #777872
+            #5e5f5a,
+            #eeece0 45%,
+            #777873
         );
-
-    border: 2px solid #41433f;
 }
 
 
-/*
-   Loch im Schieber
-*/
-
-.slider-handle::after {
+.slider-top::after {
 
     content: "";
 
     position: absolute;
 
-    left: 50%;
     top: 7px;
 
-    width: 11px;
-    height: 11px;
+    left: 50%;
 
-    transform: translateX(-50%);
+    width: 10px;
+
+    height: 10px;
+
+    transform:
+        translateX(-50%);
 
     border-radius: 50%;
 
-    background: #171914;
+    background: #181914;
 
     box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.3);
+        inset 0 1px
+        rgba(255,255,255,.3);
 }
 
-
-/*
-   eigentlicher Schieber
-*/
 
 .slider-body {
 
@@ -788,30 +897,31 @@ body {
 
     top: 23px;
 
-    width: 45px;
+    width: 46px;
 
-    height: 58px;
+    height: 61px;
 
-    transform: translateX(-50%);
+    transform:
+        translateX(-50%);
 
-    border-radius: 6px 6px 12px 12px;
+    border-radius:
+        6px 6px 12px 12px;
+
+    border:
+        2px solid
+        #353632;
 
     background:
+
         linear-gradient(
             90deg,
             #555650,
-            #d9d7cb 42%,
-            #777872 72%,
+            #dddcd2 42%,
+            #777872 75%,
             #4a4b46
         );
-
-    border: 2px solid #343631;
 }
 
-
-/*
-   Mittlere Vertiefung
-*/
 
 .slider-body::before {
 
@@ -819,26 +929,57 @@ body {
 
     position: absolute;
 
-    left: 50%;
     top: 9px;
 
-    width: 12px;
-    height: 30px;
+    left: 50%;
 
-    transform: translateX(-50%);
+    width: 12px;
+
+    height: 32px;
+
+    transform:
+        translateX(-50%);
 
     border-radius: 8px;
 
     background:
+
         linear-gradient(
             90deg,
-            #555650,
-            #e5e3d7,
-            #666761
+            #5a5b56,
+            #e4e2d7,
+            #676863
+        );
+}
+
+
+/* =========================================================
+   HIGHLIGHT AN DER ÖFFNUNG
+========================================================= */
+
+.edge-highlight {
+
+    position: absolute;
+
+    z-index: 125;
+
+    width: 3px;
+
+    height: 100%;
+
+    background:
+
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(240,238,222,.8),
+            transparent
         );
 
-    box-shadow:
-        inset 0 0 4px rgba(0,0,0,0.7);
+    opacity: .5;
+
+    filter:
+        blur(.4px);
 }
 
 
@@ -850,45 +991,56 @@ body {
 
     position: absolute;
 
-    bottom: 35px;
-
     left: 50%;
 
-    transform: translateX(-50%);
+    bottom: 32px;
+
+    transform:
+        translateX(-50%);
 
     z-index: 300;
 
     text-align: center;
 
-    color: var(--thread);
+    color: var(--orange);
 
-    font-size: 0.8rem;
+    font-size: .78rem;
 
-    letter-spacing: 0.2em;
+    letter-spacing: .2em;
 
     text-transform: uppercase;
 
     transition:
-        opacity 0.4s ease;
+        opacity .3s ease;
 }
 
 
 .scroll-arrow {
 
-    width: 18px;
-    height: 18px;
+    width: 17px;
 
-    margin: 12px auto 0;
+    height: 17px;
 
-    border-right: 2px solid var(--thread);
-    border-bottom: 2px solid var(--thread);
+    margin: 13px auto 0;
 
-    transform: rotate(45deg);
+    border-right:
+        2px solid
+        var(--orange);
+
+    border-bottom:
+        2px solid
+        var(--orange);
+
+    transform:
+        rotate(45deg);
 }
 
 
 /* =========================================================
    NACHFOLGENDE SEITE
+
+   Sie erscheint erst NACH der kompletten
+   Reißverschluss-Bühne.
 ========================================================= */
 
 .after-page {
@@ -897,16 +1049,18 @@ body {
 
     min-height: 100vh;
 
-    padding: 120px 8vw;
+    padding:
+        120px 8vw;
 
     background:
+
         linear-gradient(
             135deg,
-            #343919,
-            #4b5128
+            var(--olive-3),
+            var(--olive-2)
         );
 
-    color: #d8cda0;
+    color: var(--cream);
 
     z-index: 2;
 }
@@ -914,11 +1068,12 @@ body {
 
 .after-page h2 {
 
-    color: var(--thread);
+    font-size:
+        clamp(4rem, 9vw, 8rem);
 
-    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: .8;
 
-    line-height: 0.85;
+    color: var(--orange);
 
     margin-bottom: 30px;
 }
@@ -926,7 +1081,7 @@ body {
 
 .after-page p {
 
-    max-width: 700px;
+    max-width: 720px;
 
     font-size: 1.2rem;
 
@@ -938,86 +1093,67 @@ body {
    MOBILE
 ========================================================= */
 
-@media (max-width: 700px) {
+@media(max-width:700px) {
 
     .zip-stage {
-        height: 230vh;
+
+        height: 300vh;
     }
 
 
-    .content-left {
-        left: 8vw;
+    .first-left-content {
 
-        top: 43vh;
+        left: 7vw;
 
-        width: 40vw;
+        top: 45vh;
+
+        width: 38vw;
     }
 
 
-    .content-right {
-        right: 8vw;
+    .first-right-content {
 
-        top: 15vh;
+        right: 7vw;
 
-        width: 40vw;
+        top: 17vh;
+
+        width: 37vw;
     }
 
 
-    .first-title {
-        font-size: 14vw;
+    .main-title {
+
+        font-size: 12vw;
     }
 
 
-    .content-right h2 {
+    .first-right-content h2 {
+
         font-size: 9vw;
     }
 
 
     .media-card {
+
         width: 38vw;
     }
 
 
-    .zip-half {
-        width: 18px;
-    }
+    .second-content {
 
-    .zip-tape {
-        left: 4px;
-        width: 7px;
-    }
-
-    .tooth {
-        width: 9px;
-        height: 5px;
+        width: 70vw;
     }
 
 
-    .seam-left {
-        right: 24px;
-    }
+    .second-grid {
 
-
-    .seam-right {
-        left: 24px;
-    }
-
-}
-
-
-/* =========================================================
-   REDUZIERTE BEWEGUNG
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
+        gap: 25px;
     }
 
 }
 
 </style>
+
 </head>
 
 
@@ -1025,20 +1161,117 @@ body {
 
 
 <!-- =======================================================
-     HAUPTBÜHNE
+     SVG DEFINITIONEN
+
+     Die Pfade werden per JavaScript verändert.
 ======================================================= -->
 
-<section class="zip-stage" id="zipStage">
+<svg
+    class="clip-svg"
+    viewBox="0 0 1000 1000"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+>
 
-    <!-- gemeinsamer Sticky-Viewport für Seite 1 + Seite 2 -->
-    <div class="zip-viewport">
+    <defs>
+
+        <!--
+            Linke Jeansseite
+        -->
+
+        <clipPath
+            id="leftClip"
+            clipPathUnits="userSpaceOnUse"
+        >
+
+            <path
+                id="leftPath"
+                d="
+                    M 0 0
+                    L 500 0
+                    L 500 1000
+                    L 0 1000
+                    Z
+                "
+            />
+
+        </clipPath>
 
 
-        <!-- ===============================================
-             ZWEITE SEITE
-        ================================================ -->
+        <!--
+            Rechte Jeansseite
+        -->
 
-        <div class="second-page" id="secondPage">
+        <clipPath
+            id="rightClip"
+            clipPathUnits="userSpaceOnUse"
+        >
+
+            <path
+                id="rightPath"
+                d="
+                    M 500 0
+                    L 1000 0
+                    L 1000 1000
+                    L 500 1000
+                    Z
+                "
+            />
+
+        </clipPath>
+
+
+        <!--
+            Olivfarbene Öffnung
+        -->
+
+        <clipPath
+            id="openingClip"
+            clipPathUnits="userSpaceOnUse"
+        >
+
+            <path
+                id="openingPath"
+                d="
+                    M 500 0
+                    L 500 1000
+                    L 500 1000
+                    Z
+                "
+            />
+
+        </clipPath>
+
+    </defs>
+
+</svg>
+
+
+
+<!-- =======================================================
+     REISSVERSCHLUSS-BÜHNE
+======================================================= -->
+
+<section
+    class="zip-stage"
+    id="zipStage"
+>
+
+
+    <div
+        class="zip-scene"
+        id="zipScene"
+    >
+
+
+        <!-- =================================================
+             ZWEITE / OLIVE SEITE
+        ================================================== -->
+
+        <div
+            class="second-page"
+            id="secondPage"
+        >
 
             <div class="second-content">
 
@@ -1052,8 +1285,8 @@ body {
 
                 <p class="second-intro">
                     Hinter „gespalten“ beginnt eine neue Seite.
-                    Der Reißverschluss öffnet den Weg zwischen
-                    dem Alten und dem Neuen.
+                    Der Reißverschluss öffnet den Weg
+                    zwischen dem Alten und dem Neuen.
                 </p>
 
 
@@ -1091,21 +1324,17 @@ body {
                 </div>
 
 
-                <div
-                    style="
-                        margin-top:80px;
-                        color:#d5c99b;
-                        line-height:1.8;
-                    "
-                >
-                    <strong style="color:#c47725;">
+                <div class="second-more">
+
+                    <strong>
                         mehr erfahren
                     </strong>
 
                     <br>
 
-                    Scroll weiter und öffne den
-                    Reißverschluss vollständig.
+                    Die zweite Seite wird durch
+                    den Reißverschluss sichtbar.
+
                 </div>
 
             </div>
@@ -1114,127 +1343,173 @@ body {
 
 
 
-        <!-- ===============================================
-             ERSTE SEITE – JEANS
-        ================================================ -->
+        <!-- =================================================
+             ÖFFNUNGSBEREICH
 
-        <div class="first-page" id="firstPage">
-
-
-            <!-- LINKE JEANS-HÄLFTE -->
-
-            <div
-                class="denim-panel denim-left"
-                id="denimLeft"
-            >
-
-                <!-- Reißverschluss-Hälfte: klebt an der
-                     rechten Innenkante des linken Panels
-                     und wandert mit dessen Transform mit -->
-                <div class="zip-half">
-                    <div class="zip-tape"></div>
-                    <div class="teeth-col" id="teethLeft"></div>
-                </div>
-
-                <div class="seam seam-left"></div>
-
-                <div class="content-left">
-
-                    <div class="brand">
-                        b3nn3t
-                    </div>
-
-                    <h1 class="first-title">
-                        gespalten
-                    </h1>
-
-                    <p class="first-subtitle">
-                        übergang zwischen alt und neu
-                    </p>
-
-
-                    <div class="media-card">
-
-                        <!--
-                            HIER DEIN BILD EINSETZEN:
-
-                            <img src="images/dein-bild.jpg" alt="...">
-
-                            Aktuell nur Platzhalter.
-                        -->
-
-                        <div class="media-placeholder">
-                            DEIN VIDEO / BILD
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- RECHTE JEANS-HÄLFTE -->
-
-            <div
-                class="denim-panel denim-right"
-                id="denimRight"
-            >
-
-                <!-- Reißverschluss-Hälfte: klebt an der
-                     linken Innenkante des rechten Panels -->
-                <div class="zip-half">
-                    <div class="zip-tape"></div>
-                    <div class="teeth-col" id="teethRight"></div>
-                </div>
-
-                <div class="seam seam-right"></div>
-
-                <div class="content-right">
-
-                    <div class="brand">
-                        b3nn3t
-                    </div>
-
-                    <h2>
-                        alt
-                    </h2>
-
-                    <p>
-                        Musik, Erinnerungen und
-                        Fragmente aus einer anderen Zeit.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- ===============================================
-             SCHIEBER
-        ================================================ -->
+             NUR HIER darf die zweite Seite
+             sichtbar werden.
+        ================================================== -->
 
         <div
-            class="slider"
-            id="slider"
+            class="opening-layer"
+            id="openingLayer"
+        >
+        </div>
+
+
+
+        <!-- =================================================
+             LINKER JEANSBEREICH
+        ================================================== -->
+
+        <div
+            class="denim denim-left"
+            id="denimLeft"
         >
 
-            <div class="slider-handle"></div>
+            <div
+                class="first-left-content"
+            >
 
-            <div class="slider-body"></div>
+                <div class="brand">
+                    b3nn3t
+                </div>
+
+                <h1 class="main-title">
+                    gespalten
+                </h1>
+
+                <p class="subtitle">
+                    übergang zwischen alt und neu
+                </p>
+
+
+                <div class="media-card">
+
+                    <!--
+                        HIER DEIN BILD EINSETZEN:
+
+                        <img
+                            src="dein-bild.jpg"
+                            alt="..."
+                        >
+                    -->
+
+                    <div class="media-placeholder">
+                        DEIN BILD / VIDEO
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 
 
 
-        <!-- ===============================================
-             SCROLL-HINWEIS
-        ================================================ -->
+        <!-- =================================================
+             RECHTER JEANSBEREICH
+        ================================================== -->
+
+        <div
+            class="denim denim-right"
+            id="denimRight"
+        >
+
+            <div
+                class="first-right-content"
+            >
+
+                <div class="brand">
+                    b3nn3t
+                </div>
+
+                <h2>
+                    alt
+                </h2>
+
+                <p>
+                    Musik, Erinnerungen und
+                    Fragmente aus einer anderen Zeit.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             REISSVERSCHLUSS
+        ================================================== -->
+
+        <div
+            class="zipper"
+            id="zipper"
+        >
+
+            <div
+                class="zip-teeth"
+                id="teeth"
+            ></div>
+
+
+            <div
+                class="zip-band"
+                id="zipBandLeft"
+            ></div>
+
+
+            <div
+                class="zip-band"
+                id="zipBandRight"
+            ></div>
+
+
+            <div
+                class="zip-stitch"
+                id="zipStitchLeft"
+            ></div>
+
+
+            <div
+                class="zip-stitch"
+                id="zipStitchRight"
+            ></div>
+
+
+            <div
+                class="edge-highlight"
+                id="highlightLeft"
+            ></div>
+
+
+            <div
+                class="edge-highlight"
+                id="highlightRight"
+            ></div>
+
+
+            <!-- SCHIEBER -->
+
+            <div
+                class="slider"
+                id="slider"
+            >
+
+                <div class="slider-top"></div>
+
+                <div class="slider-body"></div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SCROLL HINWEIS
+        ================================================== -->
 
         <div
             class="scroll-hint"
@@ -1243,19 +1518,23 @@ body {
 
             nach unten öffnen
 
-            <div class="scroll-arrow"></div>
+            <div
+                class="scroll-arrow"
+            ></div>
 
         </div>
 
+
     </div>
-    <!-- /.zip-viewport -->
 
 </section>
 
 
 
 <!-- =======================================================
-     SEITE NACH DEM REISSVERSCHLUSS
+     NACHFOLGENDE SEITE
+
+     ERST NACHDEM DIE ZIPPER-BÜHNE BEENDET IST.
 ======================================================= -->
 
 <section class="after-page">
@@ -1265,10 +1544,9 @@ body {
     </h2>
 
     <p>
-        Der Reißverschluss ist jetzt vollständig geöffnet.
-        Die zweite Seite kann ab hier ganz normal weiter
-        gescrollt und mit deinen eigentlichen Inhalten
-        gefüllt werden.
+        Der Reißverschluss ist vollständig geöffnet.
+        Ab hier kann der Inhalt der zweiten Seite
+        normal weitergeführt werden.
     </p>
 
 </section>
@@ -1278,219 +1556,921 @@ body {
 <script>
 
 /* =========================================================
-   REISSVERSCHLUSS – JAVASCRIPT
+   ELEMENTE
 ========================================================= */
-
-
-/*
-   Elemente holen
-*/
 
 const stage =
     document.getElementById("zipStage");
 
-const leftPanel =
-    document.getElementById("denimLeft");
+const scene =
+    document.getElementById("zipScene");
 
-const rightPanel =
-    document.getElementById("denimRight");
+const leftPath =
+    document.getElementById("leftPath");
+
+const rightPath =
+    document.getElementById("rightPath");
+
+const openingPath =
+    document.getElementById("openingPath");
 
 const slider =
     document.getElementById("slider");
 
+const teeth =
+    document.getElementById("teeth");
+
+const zipBandLeft =
+    document.getElementById("zipBandLeft");
+
+const zipBandRight =
+    document.getElementById("zipBandRight");
+
+const zipStitchLeft =
+    document.getElementById("zipStitchLeft");
+
+const zipStitchRight =
+    document.getElementById("zipStitchRight");
+
+const highlightLeft =
+    document.getElementById("highlightLeft");
+
+const highlightRight =
+    document.getElementById("highlightRight");
+
 const scrollHint =
     document.getElementById("scrollHint");
 
-const teethLeft =
-    document.getElementById("teethLeft");
 
-const teethRight =
-    document.getElementById("teethRight");
+/* =========================================================
+   GEOMETRIE
+========================================================= */
+
+/*
+   Die Öffnung wird mit zwei natürlichen Kurven
+   beschrieben.
+
+   Das sind keine geraden Linien.
+
+   Jeder Punkt ist abhängig vom Schieber.
+*/
+
+
+function zipperCurve(t, side, progress) {
+
+    /*
+       t:
+
+       0 = oben
+       1 = Schieber
+
+
+       side:
+
+       -1 = links
+       +1 = rechts
+    */
+
+
+    const maxX =
+        Math.min(
+            window.innerWidth * 0.43,
+            520
+        );
+
+
+    /*
+       Grundöffnung.
+
+       Durch unterschiedliche Sinuswerte
+       entsteht eine leichte natürliche
+       Unregelmäßigkeit.
+    */
+
+    const organic =
+        Math.sin(t * Math.PI * 2.25)
+        * 11
+        * progress;
+
+
+    const organic2 =
+        Math.sin(
+            t * Math.PI * 4.1 + .7
+        )
+        * 4
+        * progress;
+
+
+    /*
+       Je weiter unten der Schieber,
+       desto stärker öffnet sich die Linie.
+    */
+
+    const spread =
+        maxX *
+        Math.pow(t, 1.12) *
+        progress;
+
+
+    /*
+       Die Kurve wird leicht
+       nach innen / außen moduliert.
+    */
+
+    const x =
+        window.innerWidth / 2
+        +
+        side *
+        (
+            spread
+            +
+            organic
+            +
+            organic2
+        );
+
+
+    const y =
+        t *
+        window.innerHeight
+        *
+        progress;
+
+
+    return {
+        x,
+        y
+    };
+}
 
 
 /* =========================================================
-   REISSVERSCHLUSS-ZÄHNE ERZEUGEN
-
-   Die Zähne sitzen jetzt in den .teeth-col Containern,
-   die selbst Kinder der Denim-Panels sind. Sie brauchen
-   daher keine eigene Positions-Logik in JS mehr – sie
-   wandern automatisch mit dem Panel-Transform mit.
+   SVG KOORDINATEN
 ========================================================= */
 
-const toothCount = 60;
+function svgX(px) {
+
+    return (
+        px /
+        window.innerWidth
+    ) * 1000;
+
+}
 
 
-for (let i = 0; i < toothCount; i++) {
+function svgY(py) {
 
-    /*
-       Leichter Zufalls-Versatz pro Zahn,
-       damit die Reihe nicht zu maschinell-
-       gerade wirkt, sondern etwas genäht/
-       organisch aussieht.
-    */
-
-    const jitterL = (Math.random() * 3) - 1.5;
-    const jitterR = (Math.random() * 3) - 1.5;
-
-    const toothL =
-        document.createElement("div");
-
-    toothL.className = "tooth";
-
-    toothL.style.top =
-        (i * (100 / toothCount)) + "%";
-
-    toothL.style.transform =
-        `translateX(${jitterL}px) rotate(${jitterL}deg)`;
-
-    teethLeft.appendChild(toothL);
-
-
-    const toothR =
-        document.createElement("div");
-
-    toothR.className = "tooth";
-
-    toothR.style.top =
-        (i * (100 / toothCount)) + "%";
-
-    toothR.style.transform =
-        `translateX(${jitterR}px) rotate(${jitterR}deg)`;
-
-    teethRight.appendChild(toothR);
+    return (
+        py /
+        window.innerHeight
+    ) * 1000;
 
 }
 
 
 /* =========================================================
-   SCROLL-FUNKTION
+   PFAD ERZEUGEN
 ========================================================= */
 
-function updateZipper() {
+function createCurvePoints(
+    side,
+    progress
+) {
 
-    const rect =
-        stage.getBoundingClientRect();
-
-    const stageHeight =
-        stage.offsetHeight;
-
-    const viewportHeight =
-        window.innerHeight;
-
+    const points = [];
 
     /*
-       Scrollfortschritt innerhalb
-       der 260vh-Bühne.
+       Wichtig:
 
-       0 = komplett geschlossen
+       Wir verwenden viele Punkte.
 
-       1 = maximal geöffnet
+       Dadurch sieht die Kurve
+       nicht technisch oder eckig aus.
     */
 
-    let progress =
-        -rect.top /
-        (stageHeight - viewportHeight);
+    const steps = 36;
 
 
-    progress =
-        Math.max(
-            0,
-            Math.min(
-                1,
+    for (
+        let i = 0;
+        i <= steps;
+        i++
+    ) {
+
+        const t =
+            i / steps;
+
+
+        const point =
+            zipperCurve(
+                t,
+                side,
                 progress
-            )
-        );
+            );
 
 
-    /*
-       Easing.
-
-       Der Anfang öffnet etwas langsamer.
-       Danach geht es stärker auf.
-    */
-
-    const eased =
-        progress < 0.5
-
-        ? 2 * progress * progress
-
-        : 1 -
-          Math.pow(
-              -2 * progress + 2,
-              2
-          ) / 2;
-
-
-    /* =====================================================
-       JEANS-HÄLFTEN
-
-       Nur noch reine Rotation, kein translateX mehr.
-       Drehpunkt ist jetzt die untere Kante (siehe
-       transform-origin: right/left bottom oben in CSS).
-
-       Dadurch bleibt der untere Rand der Panels IMMER
-       exakt an Ort und Stelle (Stoff bleibt unten zu),
-       während sich oben ein V öffnet. Weil der
-       Reißverschluss (.zip-half) ein Kind-Element jedes
-       Panels ist, dreht er sich exakt mit derselben Kante
-       mit – ohne eigene Berechnung.
-
-       maxRotation steuert, wie weit sich das V oben
-       öffnet. Bei Bedarf hier anpassen (größer = weiter
-       offen, kleiner = dezenter).
-    ===================================================== */
-
-    const maxRotation = 42;
-
-    const rotation =
-        maxRotation * eased;
-
-
-    leftPanel.style.transform =
-        `rotate(${-rotation}deg)`;
-
-
-    rightPanel.style.transform =
-        `rotate(${rotation}deg)`;
-
-
-    /* =====================================================
-       SCHIEBER
-    ===================================================== */
-
-    /*
-       Der Schieber startet oben.
-
-       Er wandert bis ungefähr 88%
-       der Bildschirmhöhe nach unten.
-
-       Damit öffnet sich der Reißverschluss
-       über einen sehr langen Bereich.
-    */
-
-    const sliderTop =
-        4 +
-        eased * 86;
-
-
-    slider.style.top =
-        sliderTop + "vh";
-
-
-    if (eased > 0.96) {
-
-        slider.style.opacity = "0.85";
-
-    } else {
-
-        slider.style.opacity = "1";
+        points.push(point);
 
     }
 
 
-    /* =====================================================
-       SCROLL-HINWEIS
-    ===================================================== */
+    return points;
+}
+
+
+/* =========================================================
+   CLIP-PATHS AKTUALISIEREN
+========================================================= */
+
+function updatePaths(progress) {
+
+    const leftPoints =
+        createCurvePoints(
+            -1,
+            progress
+        );
+
+
+    const rightPoints =
+        createCurvePoints(
+            1,
+            progress
+        );
+
+
+    /*
+       Sobald progress = 0:
+
+       Die beiden Hälften sind
+       komplett geschlossen.
+    */
+
+
+    const centerX =
+        svgX(
+            window.innerWidth / 2
+        );
+
+
+    /*
+       Linker Jeansbereich:
+
+       oben außen
+       → entlang der linken Kurve
+       → unten Mitte
+       → unten links
+    */
+
+    let leftD =
+        `M 0 0 `;
+
+    leftD +=
+        `L ${centerX} 0 `;
+
+
+    /*
+       Kurve von oben nach unten
+    */
+
+    for (
+        let i = 0;
+        i < leftPoints.length;
+        i++
+    ) {
+
+        const p =
+            leftPoints[i];
+
+
+        leftD +=
+            `L ${svgX(p.x)} ${svgY(p.y)} `;
+
+    }
+
+
+    leftD +=
+        `L 0 1000 Z`;
+
+
+    /*
+       Rechte Seite
+    */
+
+    let rightD =
+        `M ${centerX} 0 `;
+
+    rightD +=
+        `L 1000 0 `;
+
+    rightD +=
+        `L 1000 1000 `;
+
+
+    /*
+       rechte Kurve von unten nach oben
+    */
+
+    for (
+        let i = rightPoints.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const p =
+            rightPoints[i];
+
+
+        rightD +=
+            `L ${svgX(p.x)} ${svgY(p.y)} `;
+
+    }
+
+
+    rightD +=
+        `L ${centerX} 0 Z`;
+
+
+    /*
+       Öffnungsfläche:
+
+       linke Kurve
+       →
+       rechte Kurve
+       →
+       zurück nach oben.
+    */
+
+    let openD =
+        `M ${centerX} 0 `;
+
+
+    for (
+        let i = 0;
+        i < rightPoints.length;
+        i++
+    ) {
+
+        const p =
+            rightPoints[i];
+
+
+        openD +=
+            `L ${svgX(p.x)} ${svgY(p.y)} `;
+
+    }
+
+
+    for (
+        let i = leftPoints.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const p =
+            leftPoints[i];
+
+
+        openD +=
+            `L ${svgX(p.x)} ${svgY(p.y)} `;
+
+    }
+
+
+    openD +=
+        `L ${centerX} 0 Z`;
+
+
+    leftPath.setAttribute(
+        "d",
+        leftD
+    );
+
+
+    rightPath.setAttribute(
+        "d",
+        rightD
+    );
+
+
+    openingPath.setAttribute(
+        "d",
+        openD
+    );
+
+
+    return {
+        leftPoints,
+        rightPoints
+    };
+}
+
+
+/* =========================================================
+   ZÄHNE ERZEUGEN
+========================================================= */
+
+function createTeeth() {
+
+    teeth.innerHTML = "";
+
+
+    /*
+       Viele kleine Metallzähne.
+
+       Sie werden später entlang
+       der Kurve positioniert.
+    */
+
+    const count = 88;
+
+
+    for (
+        let i = 0;
+        i < count;
+        i++
+    ) {
+
+        const toothLeft =
+            document.createElement("div");
+
+        toothLeft.className =
+            "tooth";
+
+
+        toothLeft.dataset.side =
+            "-1";
+
+
+        toothLeft.dataset.index =
+            i;
+
+
+        teeth.appendChild(
+            toothLeft
+        );
+
+
+        const toothRight =
+            document.createElement("div");
+
+        toothRight.className =
+            "tooth";
+
+
+        toothRight.dataset.side =
+            "1";
+
+
+        toothRight.dataset.index =
+            i;
+
+
+        teeth.appendChild(
+            toothRight
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ZÄHNE POSITIONIEREN
+========================================================= */
+
+function updateTeeth(
+    progress,
+    curves
+) {
+
+    const allTeeth =
+        teeth.querySelectorAll(
+            ".tooth"
+        );
+
+
+    const count =
+        88;
+
+
+    allTeeth.forEach(
+        tooth => {
+
+            const index =
+                Number(
+                    tooth.dataset.index
+                );
+
+
+            const side =
+                Number(
+                    tooth.dataset.side
+                );
+
+
+            /*
+               Die Zähne reichen nur bis zum Schieber.
+
+               Unterhalb des Schiebers bleibt der
+               Reißverschluss geschlossen.
+            */
+
+            const t =
+                index /
+                (count - 1);
+
+
+            const point =
+                zipperCurve(
+                    t,
+                    side,
+                    progress
+                );
+
+
+            tooth.style.left =
+                point.x + "px";
+
+
+            tooth.style.top =
+                point.y + "px";
+
+
+            /*
+               Kleine natürliche Rotation.
+
+               Die Zähne richten sich nach
+               der jeweiligen Kurve.
+            */
+
+            const before =
+                zipperCurve(
+                    Math.max(
+                        0,
+                        t - .01
+                    ),
+                    side,
+                    progress
+                );
+
+
+            const after =
+                zipperCurve(
+                    Math.min(
+                        1,
+                        t + .01
+                    ),
+                    side,
+                    progress
+                );
+
+
+            const angle =
+                Math.atan2(
+                    after.y - before.y,
+                    after.x - before.x
+                )
+                *
+                180
+                /
+                Math.PI;
+
+
+            tooth.style.transform =
+                `rotate(${angle + 90}deg)`;
+
+
+            /*
+               Im geschlossenen Zustand
+               liegen die beiden Reihen
+               sehr dicht zusammen.
+            */
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BÄNDER
+========================================================= */
+
+function updateBands(
+    progress
+) {
+
+    const leftPoints =
+        createCurvePoints(
+            -1,
+            progress
+        );
+
+
+    const rightPoints =
+        createCurvePoints(
+            1,
+            progress
+        );
+
+
+    /*
+       Wir verwenden die gesamte
+       Kurvenhöhe bis zum Schieber.
+    */
+
+    const bottom =
+        Math.max(
+            1,
+            progress
+        )
+        *
+        window.innerHeight;
+
+
+    /*
+       Die Bänder werden absichtlich
+       nicht perfekt gerade dargestellt.
+
+       Sie werden über die Kurvenpunkte
+       als einzelne kleine Segmente
+       angenähert.
+    */
+
+    /*
+       Für den eigentlichen Reißverschluss
+       sind die Metallzähne dominant.
+
+       Die Bänder liegen leicht darunter.
+    */
+
+    zipBandLeft.style.left =
+        (
+            window.innerWidth / 2
+            -
+            5
+        ) + "px";
+
+
+    zipBandRight.style.left =
+        (
+            window.innerWidth / 2
+            +
+            2
+        ) + "px";
+
+
+    zipBandLeft.style.top =
+        "0px";
+
+
+    zipBandRight.style.top =
+        "0px";
+
+
+    zipBandLeft.style.height =
+        bottom + "px";
+
+
+    zipBandRight.style.height =
+        bottom + "px";
+
+
+    /*
+       Naht ebenfalls ungefähr entlang
+       der Öffnung.
+    */
+
+    zipStitchLeft.style.left =
+        (
+            window.innerWidth / 2
+            -
+            25
+            -
+            progress * 12
+        ) + "px";
+
+
+    zipStitchRight.style.left =
+        (
+            window.innerWidth / 2
+            +
+            23
+            +
+            progress * 12
+        ) + "px";
+
+
+    zipStitchLeft.style.top =
+        "0px";
+
+
+    zipStitchRight.style.top =
+        "0px";
+
+
+    zipStitchLeft.style.height =
+        bottom + "px";
+
+
+    zipStitchRight.style.height =
+        bottom + "px";
+
+
+    /*
+       Kurven werden für die optische
+       Highlight-Position verwendet.
+    */
+
+    if (
+        leftPoints.length &&
+        rightPoints.length
+    ) {
+
+        highlightLeft.style.left =
+            leftPoints[
+                Math.floor(
+                    leftPoints.length * .45
+                )
+            ].x + "px";
+
+
+        highlightRight.style.left =
+            rightPoints[
+                Math.floor(
+                    rightPoints.length * .45
+                )
+            ].x + "px";
+
+    }
+
+}
+
+
+/* =========================================================
+   SCHIEBER
+========================================================= */
+
+function updateSlider(
+    progress
+) {
+
+    /*
+       Schieber beginnt sehr weit oben.
+
+       Er wandert bis 94% der
+       Fensterhöhe.
+
+       Dadurch bleibt der gesamte
+       Reißverschluss sehr lang.
+    */
+
+    const top =
+        window.innerHeight *
+        (
+            .045
+            +
+            progress * .91
+        );
+
+
+    const x =
+        window.innerWidth / 2;
+
+
+    slider.style.left =
+        x + "px";
+
+
+    slider.style.top =
+        top + "px";
+
+
+    /*
+       Kleine natürliche Neigung.
+
+       Nicht übertreiben –
+       der Schieber soll realistisch bleiben.
+    */
+
+    const rotation =
+        Math.sin(
+            progress * Math.PI
+        ) * 2;
+
+
+    slider.style.transform =
+        `translate(-50%, -50%)
+         rotate(${rotation}deg)`;
+
+}
+
+
+/* =========================================================
+   SCROLL-FORTSCHRITT
+========================================================= */
+
+function getProgress() {
+
+    const rect =
+        stage.getBoundingClientRect();
+
+
+    const maxScroll =
+        stage.offsetHeight
+        -
+        window.innerHeight;
+
+
+    let progress =
+        -rect.top /
+        maxScroll;
+
+
+    return Math.max(
+        0,
+        Math.min(
+            1,
+            progress
+        )
+    );
+
+}
+
+
+/* =========================================================
+   HAUPT-UPDATE
+========================================================= */
+
+function update() {
+
+    const progress =
+        getProgress();
+
+
+    /*
+       Easing:
+
+       Sanfter Anfang,
+       kräftigeres Öffnen,
+       sanftes Ende.
+    */
+
+    const eased =
+        progress < .5
+
+        ? 2 * progress * progress
+
+        :
+
+        1 -
+        Math.pow(
+            -2 * progress + 2,
+            2
+        ) / 2;
+
+
+    /*
+       Pfade aktualisieren
+    */
+
+    const curves =
+        updatePaths(
+            eased
+        );
+
+
+    /*
+       Reißverschlusszähne
+    */
+
+    updateTeeth(
+        eased,
+        curves
+    );
+
+
+    /*
+       Schieber
+    */
+
+    updateSlider(
+        eased
+    );
+
+
+    /*
+       Bänder
+    */
+
+    updateBands(
+        eased
+    );
+
+
+    /*
+       Hinweis langsam ausblenden
+    */
 
     scrollHint.style.opacity =
         Math.max(
@@ -1502,34 +2482,35 @@ function updateZipper() {
 
 
 /* =========================================================
-   SCROLL EVENT
+   INITIALISIEREN
+========================================================= */
+
+createTeeth();
+
+update();
+
+
+/* =========================================================
+   EVENTS
 ========================================================= */
 
 window.addEventListener(
     "scroll",
-    updateZipper,
-    { passive: true }
+    update,
+    {
+        passive: true
+    }
 );
 
-
-/* =========================================================
-   RESIZE
-========================================================= */
 
 window.addEventListener(
     "resize",
-    updateZipper
+    update
 );
-
-
-/* =========================================================
-   START
-========================================================= */
-
-updateZipper();
 
 </script>
 
-</body>
-</html>
 
+</body>
+
+</html>
