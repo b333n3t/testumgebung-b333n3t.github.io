@@ -3,22 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>b3nn3t – gespalten</title>
 
 <style>
 
-/* =========================================================
-   GRUNDWERTE
-========================================================= */
-
 :root {
-    --denim-dark: #071725;
-    --denim: #0b2437;
+    --denim-dark: #061523;
+    --denim: #0b2438;
     --denim-light: #123750;
 
     --olive: #3e4321;
-    --olive-dark: #2d3218;
 
     --thread: #c47725;
     --thread-light: #e09a3b;
@@ -26,22 +20,11 @@
     --metal: #a8a8a0;
     --metal-light: #e2e0d3;
     --metal-dark: #575954;
-
-    --black: #10100d;
 }
 
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-
-html {
-    scroll-behavior: auto;
-}
-
+html { scroll-behavior: auto; }
 
 body {
     background: var(--olive);
@@ -55,790 +38,301 @@ body {
    SCROLL-BÜHNE
 ========================================================= */
 
-/*
-   260vh bedeutet:
-   Die erste Seite bleibt sehr lange sichtbar.
-
-   Während dieser Zeit wird der Reißverschluss
-   Schritt für Schritt geöffnet.
-*/
-
 .zip-stage {
     position: relative;
     height: 260vh;
 }
 
-
-/*
-   NEU: gemeinsamer Sticky-Viewport.
-
-   Seite 1 UND Seite 2 liegen beide absolut
-   in diesem einen gepinnten Container.
-
-   Dadurch bleiben beide exakt gleich lang
-   fixiert – Seite 2 kann also nicht vorzeitig
-   mitscrollen, bevor der Reißverschluss fertig
-   offen ist. Erst wenn .zip-stage komplett
-   durchgescrollt ist, löst sich der Viewport
-   und der normale Seitenfluss (.after-page)
-   übernimmt.
-*/
-
 .zip-viewport {
     position: sticky;
     top: 0;
-
     width: 100%;
     height: 100vh;
-
     overflow: hidden;
 }
 
 
 /* =========================================================
-   ZWEITE SEITE – OLIV
+   SEITE 2 – liegt im Hintergrund, wird sichtbar sobald
+   die Klappen darüber wegklappen
 ========================================================= */
 
 .second-page {
     position: absolute;
     inset: 0;
-
     z-index: 1;
 
     background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135, 139, 72, 0.14),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
-        );
+        radial-gradient(ellipse at center, rgba(135,139,72,0.14), transparent 55%),
+        linear-gradient(135deg, #323718, #4a5027 45%, #343919);
 
     overflow: hidden;
 }
 
-
-/*
-   Leichte Stoffstruktur für die olivfarbene Seite.
-*/
-
-.second-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-
-    opacity: 0.17;
-
-    background-image:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 1px,
-            transparent 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,0.08) 0px,
-            rgba(0,0,0,0.08) 1px,
-            transparent 1px,
-            transparent 5px
-        );
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   INHALT DER ZWEITEN SEITE
-========================================================= */
-
 .second-content {
     position: relative;
-
     width: min(720px, 80vw);
-
     margin: 0 auto;
-
     padding-top: 12vh;
-
     text-align: center;
-
     z-index: 2;
 }
-
 
 .second-kicker {
     font-size: 1rem;
     letter-spacing: 0.28em;
     text-transform: uppercase;
-
     color: var(--thread-light);
-
     margin-bottom: 18px;
 }
-
 
 .second-content h1 {
     font-size: clamp(4rem, 10vw, 9rem);
     line-height: 0.85;
-
     text-transform: lowercase;
-
     color: var(--thread);
-
     letter-spacing: -0.07em;
-
     margin-bottom: 30px;
 }
 
-
 .second-intro {
     max-width: 600px;
-
-    margin: 0 auto 60px;
-
+    margin: 0 auto 40px;
     font-size: clamp(1rem, 2vw, 1.3rem);
-
     line-height: 1.7;
-
     color: #d4c99c;
 }
 
 
-.second-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 50px;
-
-    text-align: left;
-
-    margin-top: 50px;
-}
-
-
-.second-box h2 {
-    color: var(--thread);
-
-    font-size: 1.3rem;
-
-    text-transform: lowercase;
-
-    margin-bottom: 15px;
-}
-
-
-.second-box p {
-    color: #d0c89d;
-
-    line-height: 1.7;
-
-    font-size: 1rem;
-}
-
-
-@media (max-width: 700px) {
-
-    .second-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
 /* =========================================================
-   ERSTE SEITE – JEANS
+   SEITE 1 – DIE JEANS
+
+   Jede Hälfte besteht aus mehreren horizontalen Streifen
+   (.fly-seg), die einzeln geöffnet werden. Nur die Streifen
+   OBERHALB der aktuellen Reißverschluss-Position (pullY)
+   klappen weg – alles darunter bleibt flach & geschlossen.
+   So bleibt am unteren Rand immer echter, ruhiger Stoff
+   sichtbar, und die Öffnung wirkt organisch statt wie eine
+   einzelne starre Fläche.
 ========================================================= */
 
-.first-page {
-    /* war vorher position: sticky – jetzt Teil von .zip-viewport */
+.fly-side {
     position: absolute;
-    inset: 0;
-
-    z-index: 10;
-
-    overflow: hidden;
-
-    pointer-events: none;
-}
-
-
-/*
-   Linke und rechte Jeanshälfte.
-
-   Wichtig:
-   Die beiden Flächen sind NICHT transparent.
-
-   Sie liegen über der oliven zweiten Seite.
-*/
-
-.denim-panel {
-    position: absolute;
-
     top: 0;
-
     width: 50%;
     height: 100%;
-
-    background:
-        radial-gradient(
-            ellipse at 50% 30%,
-            rgba(50, 100, 135, 0.22),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            #061523,
-            #0b2438 50%,
-            #0a1d2d
-        );
-
-    overflow: visible;
-
-    will-change: transform;
+    z-index: 10;
+    pointer-events: none;
 }
 
+.fly-left  { left: 0; }
+.fly-right { right: 0; }
 
-/* Linke Seite */
-
-.denim-left {
+.fly-seg {
+    position: absolute;
     left: 0;
+    width: 100%;
 
-    /*
-       Drehpunkt unten statt in der Mitte:
-       Das Panel klappt wie eine Tür auf, die
-       am unteren Rand angeschlagen ist. Oben
-       entsteht so ein V, unten bleibt der Stoff
-       (und damit auch der Reißverschluss) fest
-       zusammen.
-    */
-    transform-origin: right bottom;
+    background:
+        radial-gradient(ellipse at 50% 30%, rgba(50,100,135,0.22), transparent 55%),
+        linear-gradient(115deg, var(--denim-dark), var(--denim) 50%, #0a1d2d);
+
+    box-shadow: 0 1px 0 rgba(0,0,0,0.35);
+
+    will-change: transform, opacity;
 }
 
-
-/* Rechte Seite */
-
-.denim-right {
-    right: 0;
-
-    transform-origin: left bottom;
-}
-
-
-/* =========================================================
-   JEANS-STOFFSTRUKTUR
-========================================================= */
-
-.denim-panel::before {
+.fly-seg::before {
     content: "";
-
     position: absolute;
-
     inset: 0;
-
-    opacity: 0.27;
-
+    opacity: 0.25;
     background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.035) 0px,
-            rgba(255,255,255,0.035) 1px,
-            transparent 1px,
-            transparent 3px
-        ),
-        repeating-linear-gradient(
-            25deg,
-            rgba(0,0,0,0.09) 0px,
-            rgba(0,0,0,0.09) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-
+        repeating-linear-gradient(115deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 3px),
+        repeating-linear-gradient(25deg, rgba(0,0,0,0.09) 0px, rgba(0,0,0,0.09) 1px, transparent 1px, transparent 4px);
     pointer-events: none;
 }
 
+.fly-left .fly-seg  { transform-origin: right center; }
+.fly-right .fly-seg { transform-origin: left center; }
 
-/*
-   Leichte unregelmäßige Denim-Flecken.
-*/
 
-.denim-panel::after {
+/* =========================================================
+   FIXER ABSCHLUSS OBEN (Knopf / Bartack)
+
+   Bewegt sich nie – markiert den permanent geschlossenen
+   Start des Reißverschlusses, so wie der Knopf am Bund
+   einer Hose.
+========================================================= */
+
+.fly-closure {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 34px;
+    height: 22px;
+    border-radius: 0 0 10px 10px;
+    background: linear-gradient(180deg, var(--thread-light), var(--thread));
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    z-index: 30;
+}
+
+.fly-closure::after {
     content: "";
-
     position: absolute;
-
-    inset: 0;
-
-    opacity: 0.18;
-
-    background:
-        radial-gradient(
-            circle at 20% 30%,
-            #47718d 0,
-            transparent 18%
-        ),
-        radial-gradient(
-            circle at 80% 70%,
-            #294b61 0,
-            transparent 20%
-        ),
-        radial-gradient(
-            circle at 45% 75%,
-            #061522 0,
-            transparent 25%
-        );
-
-    pointer-events: none;
+    left: 50%;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3a2410;
+    transform: translateX(-50%);
 }
 
 
 /* =========================================================
-   INHALT DER ERSTEN SEITE
+   REISSVERSCHLUSS – NUR IM NOCH GESCHLOSSENEN BEREICH
+
+   Läuft von der aktuellen Position (pullY) bis ganz unten.
+   Wird über JS in Höhe & Position gesetzt. Dadurch ist er
+   immer exakt dort, wo beide Seiten noch zusammen sind –
+   niemals mitten in der bereits offenen Fläche.
 ========================================================= */
 
-.first-content {
+.zip-track {
     position: absolute;
-
+    left: 50%;
     top: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    z-index: 3;
-}
-
-
-/*
-   Inhalt links
-*/
-
-.content-left {
-    position: absolute;
-
-    left: 7vw;
-
-    top: 35vh;
-
-    width: 35vw;
-
-    text-align: left;
-}
-
-
-/*
-   Inhalt rechts
-*/
-
-.content-right {
-    position: absolute;
-
-    right: 7vw;
-
-    top: 13vh;
-
-    width: 35vw;
-
-    text-align: right;
-}
-
-
-.brand {
-    font-size: 1rem;
-
-    font-weight: bold;
-
-    letter-spacing: 0.22em;
-
-    color: var(--thread-light);
-
-    margin-bottom: 18px;
-}
-
-
-.first-title {
-    font-size: clamp(4rem, 9vw, 9rem);
-
-    line-height: 0.8;
-
-    letter-spacing: -0.07em;
-
-    color: var(--thread);
-
-    text-transform: lowercase;
-
-    margin-bottom: 25px;
-}
-
-
-.first-subtitle {
-    color: #d2b98d;
-
-    font-size: clamp(1rem, 1.6vw, 1.3rem);
-
-    line-height: 1.6;
-}
-
-
-.content-right h2 {
-    font-size: clamp(3rem, 6vw, 6rem);
-
-    line-height: 0.85;
-
-    color: var(--thread);
-
-    text-transform: lowercase;
-
-    margin-bottom: 20px;
-}
-
-
-.content-right p {
-    color: #d0bb8d;
-
-    line-height: 1.6;
-}
-
-
-/* =========================================================
-   VIDEO / BILD
-========================================================= */
-
-.media-card {
-    margin-top: 35px;
-
-    width: min(370px, 35vw);
-
-    aspect-ratio: 16 / 10;
-
-    border: 2px solid rgba(230,220,190,0.65);
-
-    border-radius: 15px;
-
+    width: 22px;
+    transform: translateX(-50%);
+    z-index: 20;
     overflow: hidden;
-
-    background:
-        linear-gradient(
-            135deg,
-            #8b8a78,
-            #c1b99d
-        );
-
-    position: relative;
-}
-
-
-.media-card img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    display: block;
-}
-
-
-.media-placeholder {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    color: #333;
-
-    font-weight: bold;
-
-    padding: 20px;
-}
-
-
-/* =========================================================
-   JEANS-NAHT (dekoratives Stichmuster, etwas weiter innen
-   als der Reißverschluss)
-========================================================= */
-
-.seam {
-    position: absolute;
-
-    top: 0;
-
-    width: 3px;
-
-    height: 100%;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            var(--thread) 0px,
-            var(--thread) 8px,
-            transparent 8px,
-            transparent 16px
-        );
-
-    opacity: 0.9;
-
-    z-index: 5;
-
-    pointer-events: none;
-}
-
-
-.seam-left {
-    right: 34px;
-}
-
-
-.seam-right {
-    left: 34px;
-}
-
-
-/* =========================================================
-   REISSVERSCHLUSS – JETZT AN DER PANEL-KANTE
-
-   Diese Elemente sind Kinder von .denim-left / .denim-right.
-   Dadurch erben sie automatisch translateX()/rotate() des
-   jeweiligen Panels und laufen exakt entlang der Öffnung –
-   die rechte Hälfte klebt am rechten Rand der Öffnung, die
-   linke am linken, genau wie bei einer echten Hose.
-========================================================= */
-
-.zip-half {
-    position: absolute;
-    top: 0;
-    width: 26px;
-    height: 100%;
-
-    z-index: 6;
-    pointer-events: none;
-}
-
-.denim-left .zip-half {
-    right: -2px;
-}
-
-.denim-right .zip-half {
-    left: -2px;
 }
 
 .zip-tape {
     position: absolute;
-    top: 0;
-    left: 7px;
-    width: 10px;
-    height: 100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #3b3d3a,
-            #8f9089 45%,
-            #3b3d3a
-        );
-
+    inset: 0;
+    background: linear-gradient(90deg, #3b3d3a, #8f9089 45%, #3b3d3a);
     box-shadow: 0 0 4px rgba(0,0,0,0.6);
 }
 
-.teeth-col {
+.zip-teeth {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
 }
 
 .tooth {
-
     position: absolute;
-
-    left: 0;
-
-    width: 13px;
-
+    left: 50%;
+    width: 15px;
     height: 6px;
-
     border-radius: 2px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #eeeeea,
-            #888984
-        );
-
-    box-shadow:
-        0 1px 1px #222,
-        inset 0 1px rgba(255,255,255,0.65);
+    transform: translateX(-50%);
+    background: linear-gradient(to bottom, #eeeeea, #888984);
+    box-shadow: 0 1px 1px #222, inset 0 1px rgba(255,255,255,0.65);
 }
 
-/*
-   Zähne werden per JavaScript erzeugt.
-*/
+.zip-pull {
+    position: absolute;
+    left: 50%;
+    width: 30px;
+    height: 42px;
+    transform: translate(-50%, -8px);
+    z-index: 25;
+    filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5));
+}
+
+.zip-pull svg { width: 100%; height: 100%; }
 
 
 /* =========================================================
-   SCHIEBER
+   INHALT ERSTE SEITE (nicht segmentiert – bleibt lesbar,
+   verblasst als Ganzes beim Aufreißen)
 ========================================================= */
 
-.slider {
-
+.fly-content {
     position: absolute;
-
-    left: 50%;
-
-    top: 4vh;
-
-    width: 58px;
-
-    height: 82px;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 200;
-
-    will-change: top;
-
-    filter:
-        drop-shadow(
-            0 8px 5px rgba(0,0,0,0.55)
-        );
-}
-
-
-/*
-   Griff oben
-*/
-
-.slider-handle {
-
-    position: absolute;
-
-    left: 50%;
-
     top: 0;
-
-    width: 34px;
-
-    height: 30px;
-
-    transform: translateX(-50%);
-
-    border-radius: 8px 8px 4px 4px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #666762,
-            #ece9dc 45%,
-            #777872
-        );
-
-    border: 2px solid #41433f;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+    will-change: transform, opacity;
 }
 
-
-/*
-   Loch im Schieber
-*/
-
-.slider-handle::after {
-
-    content: "";
-
+.content-left {
     position: absolute;
-
-    left: 50%;
-    top: 7px;
-
-    width: 11px;
-    height: 11px;
-
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-
-    background: #171914;
-
-    box-shadow:
-        inset 0 1px 2px rgba(255,255,255,0.3);
+    left: 7vw;
+    top: 35vh;
+    width: 35vw;
+    text-align: left;
 }
 
-
-/*
-   eigentlicher Schieber
-*/
-
-.slider-body {
-
+.content-right {
     position: absolute;
-
-    left: 50%;
-
-    top: 23px;
-
-    width: 45px;
-
-    height: 58px;
-
-    transform: translateX(-50%);
-
-    border-radius: 6px 6px 12px 12px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #555650,
-            #d9d7cb 42%,
-            #777872 72%,
-            #4a4b46
-        );
-
-    border: 2px solid #343631;
+    right: 7vw;
+    top: 13vh;
+    width: 35vw;
+    text-align: right;
 }
 
+.brand {
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.22em;
+    color: var(--thread-light);
+    margin-bottom: 18px;
+}
 
-/*
-   Mittlere Vertiefung
-*/
+.first-title {
+    font-size: clamp(4rem, 9vw, 9rem);
+    line-height: 0.8;
+    letter-spacing: -0.07em;
+    color: var(--thread);
+    text-transform: lowercase;
+    margin-bottom: 25px;
+}
 
-.slider-body::before {
+.first-subtitle {
+    color: #d2b98d;
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    line-height: 1.6;
+}
 
-    content: "";
+.content-right h2 {
+    font-size: clamp(3rem, 6vw, 6rem);
+    line-height: 0.85;
+    color: var(--thread);
+    text-transform: lowercase;
+    margin-bottom: 20px;
+}
 
-    position: absolute;
+.content-right p {
+    color: #d0bb8d;
+    line-height: 1.6;
+}
 
-    left: 50%;
-    top: 9px;
+.media-card {
+    margin-top: 35px;
+    width: min(370px, 35vw);
+    aspect-ratio: 16 / 10;
+    border: 2px solid rgba(230,220,190,0.65);
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #8b8a78, #c1b99d);
+    position: relative;
+}
 
-    width: 12px;
-    height: 30px;
-
-    transform: translateX(-50%);
-
-    border-radius: 8px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #555650,
-            #e5e3d7,
-            #666761
-        );
-
-    box-shadow:
-        inset 0 0 4px rgba(0,0,0,0.7);
+.media-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    font-weight: bold;
+    padding: 20px;
 }
 
 
@@ -847,43 +341,66 @@ body {
 ========================================================= */
 
 .scroll-hint {
-
     position: absolute;
-
     bottom: 35px;
-
     left: 50%;
-
     transform: translateX(-50%);
-
-    z-index: 300;
-
+    z-index: 40;
     text-align: center;
-
     color: var(--thread);
-
     font-size: 0.8rem;
-
     letter-spacing: 0.2em;
-
     text-transform: uppercase;
+    transition: opacity 0.4s ease;
+}
 
-    transition:
-        opacity 0.4s ease;
+.scroll-arrow {
+    width: 18px;
+    height: 18px;
+    margin: 12px auto 0;
+    border-right: 2px solid var(--thread);
+    border-bottom: 2px solid var(--thread);
+    transform: rotate(45deg);
 }
 
 
-.scroll-arrow {
+/* =========================================================
+   PERMANENTER FUSS – bleibt fix am unteren Bildschirmrand,
+   sobald der Reißverschluss komplett durchgescrollt ist.
+   Seite 2 (.after-page) läuft normal dahinter weiter.
+========================================================= */
 
-    width: 18px;
-    height: 18px;
+.zip-footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 11vh;
+    min-height: 90px;
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+}
 
-    margin: 12px auto 0;
+.zip-footer.visible { opacity: 1; }
 
-    border-right: 2px solid var(--thread);
-    border-bottom: 2px solid var(--thread);
+.footer-wedge {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(115deg, var(--denim-dark), var(--denim) 50%, #0a1d2d);
+    clip-path: polygon(0 100%, 0 55%, 50% 20%, 100% 55%, 100% 100%);
+}
 
-    transform: rotate(45deg);
+.footer-teeth {
+    position: absolute;
+    left: 50%;
+    top: 14%;
+    bottom: 0;
+    width: 20px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #3b3d3a, #8f9089 45%, #3b3d3a);
+    box-shadow: 0 0 4px rgba(0,0,0,0.6);
 }
 
 
@@ -892,642 +409,286 @@ body {
 ========================================================= */
 
 .after-page {
-
     position: relative;
-
-    min-height: 100vh;
-
-    padding: 120px 8vw;
-
-    background:
-        linear-gradient(
-            135deg,
-            #343919,
-            #4b5128
-        );
-
+    min-height: 140vh;
+    padding: 120px 8vw 30vh;
+    background: linear-gradient(135deg, #343919, #4b5128);
     color: #d8cda0;
-
     z-index: 2;
 }
 
-
 .after-page h2 {
-
     color: var(--thread);
-
     font-size: clamp(3rem, 8vw, 7rem);
-
     line-height: 0.85;
-
     margin-bottom: 30px;
 }
 
-
 .after-page p {
-
     max-width: 700px;
-
     font-size: 1.2rem;
-
     line-height: 1.8;
+    margin-bottom: 24px;
 }
 
-
-/* =========================================================
-   MOBILE
-========================================================= */
 
 @media (max-width: 700px) {
-
-    .zip-stage {
-        height: 230vh;
-    }
-
-
-    .content-left {
-        left: 8vw;
-
-        top: 43vh;
-
-        width: 40vw;
-    }
-
-
-    .content-right {
-        right: 8vw;
-
-        top: 15vh;
-
-        width: 40vw;
-    }
-
-
-    .first-title {
-        font-size: 14vw;
-    }
-
-
-    .content-right h2 {
-        font-size: 9vw;
-    }
-
-
-    .media-card {
-        width: 38vw;
-    }
-
-
-    .zip-half {
-        width: 18px;
-    }
-
-    .zip-tape {
-        left: 4px;
-        width: 7px;
-    }
-
-    .tooth {
-        width: 9px;
-        height: 5px;
-    }
-
-
-    .seam-left {
-        right: 24px;
-    }
-
-
-    .seam-right {
-        left: 24px;
-    }
-
+    .zip-stage { height: 230vh; }
+    .content-left  { left: 8vw; top: 43vh; width: 40vw; }
+    .content-right { right: 8vw; top: 15vh; width: 40vw; }
+    .first-title { font-size: 14vw; }
+    .content-right h2 { font-size: 9vw; }
+    .media-card { width: 38vw; }
+    .zip-track { width: 16px; }
+    .tooth { width: 11px; height: 5px; }
 }
 
-
-/* =========================================================
-   REDUZIERTE BEWEGUNG
-========================================================= */
-
 @media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
-    }
-
+    html { scroll-behavior: auto; }
 }
 
 </style>
 </head>
-
-
 <body>
 
-
-<!-- =======================================================
-     HAUPTBÜHNE
-======================================================= -->
-
 <section class="zip-stage" id="zipStage">
-
-    <!-- gemeinsamer Sticky-Viewport für Seite 1 + Seite 2 -->
-    <div class="zip-viewport">
-
-
-        <!-- ===============================================
-             ZWEITE SEITE
-        ================================================ -->
-
-        <div class="second-page" id="secondPage">
-
-            <div class="second-content">
-
-                <div class="second-kicker">
-                    b3nn3t
-                </div>
-
-                <h1>
-                    weiter
-                </h1>
-
-                <p class="second-intro">
-                    Hinter „gespalten“ beginnt eine neue Seite.
-                    Der Reißverschluss öffnet den Weg zwischen
-                    dem Alten und dem Neuen.
-                </p>
-
-
-                <div class="second-grid">
-
-                    <div class="second-box">
-
-                        <h2>
-                            neue inhalte
-                        </h2>
-
-                        <p>
-                            Hier ist Platz für alles,
-                            was auf der zweiten Seite
-                            wichtig ist.
-                        </p>
-
-                    </div>
-
-
-                    <div class="second-box">
-
-                        <h2>
-                            projekte
-                        </h2>
-
-                        <p>
-                            Musik, Texte, Bilder,
-                            Videos oder was immer
-                            du zeigen willst.
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    style="
-                        margin-top:80px;
-                        color:#d5c99b;
-                        line-height:1.8;
-                    "
-                >
-                    <strong style="color:#c47725;">
-                        mehr erfahren
-                    </strong>
-
-                    <br>
-
-                    Scroll weiter und öffne den
-                    Reißverschluss vollständig.
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- ===============================================
-             ERSTE SEITE – JEANS
-        ================================================ -->
-
-        <div class="first-page" id="firstPage">
-
-
-            <!-- LINKE JEANS-HÄLFTE -->
-
-            <div
-                class="denim-panel denim-left"
-                id="denimLeft"
-            >
-
-                <!-- Reißverschluss-Hälfte: klebt an der
-                     rechten Innenkante des linken Panels
-                     und wandert mit dessen Transform mit -->
-                <div class="zip-half">
-                    <div class="zip-tape"></div>
-                    <div class="teeth-col" id="teethLeft"></div>
-                </div>
-
-                <div class="seam seam-left"></div>
-
-                <div class="content-left">
-
-                    <div class="brand">
-                        b3nn3t
-                    </div>
-
-                    <h1 class="first-title">
-                        gespalten
-                    </h1>
-
-                    <p class="first-subtitle">
-                        übergang zwischen alt und neu
-                    </p>
-
-
-                    <div class="media-card">
-
-                        <!--
-                            HIER DEIN BILD EINSETZEN:
-
-                            <img src="images/dein-bild.jpg" alt="...">
-
-                            Aktuell nur Platzhalter.
-                        -->
-
-                        <div class="media-placeholder">
-                            DEIN VIDEO / BILD
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- RECHTE JEANS-HÄLFTE -->
-
-            <div
-                class="denim-panel denim-right"
-                id="denimRight"
-            >
-
-                <!-- Reißverschluss-Hälfte: klebt an der
-                     linken Innenkante des rechten Panels -->
-                <div class="zip-half">
-                    <div class="zip-tape"></div>
-                    <div class="teeth-col" id="teethRight"></div>
-                </div>
-
-                <div class="seam seam-right"></div>
-
-                <div class="content-right">
-
-                    <div class="brand">
-                        b3nn3t
-                    </div>
-
-                    <h2>
-                        alt
-                    </h2>
-
-                    <p>
-                        Musik, Erinnerungen und
-                        Fragmente aus einer anderen Zeit.
-                    </p>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- ===============================================
-             SCHIEBER
-        ================================================ -->
-
-        <div
-            class="slider"
-            id="slider"
-        >
-
-            <div class="slider-handle"></div>
-
-            <div class="slider-body"></div>
-
-        </div>
-
-
-
-        <!-- ===============================================
-             SCROLL-HINWEIS
-        ================================================ -->
-
-        <div
-            class="scroll-hint"
-            id="scrollHint"
-        >
-
-            nach unten öffnen
-
-            <div class="scroll-arrow"></div>
-
-        </div>
-
+  <div class="zip-viewport">
+
+    <div class="second-page">
+      <div class="second-content">
+        <div class="second-kicker">b3nn3t</div>
+        <h1>weiter</h1>
+        <p class="second-intro">
+            Hinter „gespalten“ beginnt eine neue Seite. Der Reißverschluss
+            öffnet den Weg zwischen dem Alten und dem Neuen.
+        </p>
+      </div>
     </div>
-    <!-- /.zip-viewport -->
 
+    <!-- Stoff-Klappen: werden per JS mit Streifen gefüllt -->
+    <div class="fly-side fly-left"  id="flyLeft"></div>
+    <div class="fly-side fly-right" id="flyRight"></div>
+
+    <!-- Inhalt liegt über den Klappen, verblasst als Ganzes -->
+    <div class="fly-content" id="flyContentLeft">
+      <div class="content-left">
+        <div class="brand">b3nn3t</div>
+        <h1 class="first-title">gespalten</h1>
+        <p class="first-subtitle">übergang zwischen alt und neu</p>
+        <div class="media-card">
+          <div class="media-placeholder">DEIN VIDEO / BILD</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fly-content" id="flyContentRight">
+      <div class="content-right">
+        <div class="brand">b3nn3t</div>
+        <h2>alt</h2>
+        <p>Musik, Erinnerungen und Fragmente aus einer anderen Zeit.</p>
+      </div>
+    </div>
+
+    <!-- fixer oberer Abschluss -->
+    <div class="fly-closure"></div>
+
+    <!-- Reißverschluss, nur im geschlossenen Bereich sichtbar -->
+    <div class="zip-track" id="zipTrack">
+      <div class="zip-tape"></div>
+      <div class="zip-teeth" id="zipTeeth"></div>
+    </div>
+
+    <div class="zip-pull" id="zipPull">
+      <svg viewBox="0 0 30 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="0" width="10" height="11" rx="2" fill="#d8dadd"/>
+        <path d="M4 11h22v6c0 9-5 13-11 20-6-7-11-11-11-20v-6z" fill="#b8935a" stroke="#6b6f73" stroke-width="1"/>
+        <circle cx="15" cy="19" r="3.4" fill="#2b2d2f"/>
+      </svg>
+    </div>
+
+    <div class="scroll-hint" id="scrollHint">
+        nach unten öffnen
+        <div class="scroll-arrow"></div>
+    </div>
+
+  </div>
 </section>
 
-
-
-<!-- =======================================================
-     SEITE NACH DEM REISSVERSCHLUSS
-======================================================= -->
+<!-- Permanenter Fuß – erscheint sobald die Bühne durchgescrollt ist -->
+<div class="zip-footer" id="zipFooter">
+  <div class="footer-wedge"></div>
+  <div class="footer-teeth"></div>
+</div>
 
 <section class="after-page">
-
-    <h2>
-        offen.
-    </h2>
-
-    <p>
-        Der Reißverschluss ist jetzt vollständig geöffnet.
-        Die zweite Seite kann ab hier ganz normal weiter
-        gescrollt und mit deinen eigentlichen Inhalten
-        gefüllt werden.
-    </p>
-
+  <h2>offen.</h2>
+  <p>
+      Der Reißverschluss ist jetzt vollständig geöffnet. Seite 2 läuft ab hier
+      ganz normal weiter – der Stoff-Fuß mit dem Reißverschluss bleibt dabei
+      unten am Bildschirmrand sichtbar.
+  </p>
+  <p>
+      Hier folgt der eigentliche Seiteninhalt (Tracklist, About, weitere
+      Sektionen, …).
+  </p>
 </section>
 
-
-
 <script>
+(function () {
 
-/* =========================================================
-   REISSVERSCHLUSS – JAVASCRIPT
-========================================================= */
+    const stage        = document.getElementById("zipStage");
+    const flyLeft       = document.getElementById("flyLeft");
+    const flyRight       = document.getElementById("flyRight");
+    const contentLeft    = document.getElementById("flyContentLeft");
+    const contentRight   = document.getElementById("flyContentRight");
+    const zipTrack       = document.getElementById("zipTrack");
+    const zipTeeth       = document.getElementById("zipTeeth");
+    const zipPull        = document.getElementById("zipPull");
+    const scrollHint     = document.getElementById("scrollHint");
+    const zipFooter      = document.getElementById("zipFooter");
 
+    /* =====================================================
+       STOFF-STREIFEN ERZEUGEN
 
-/*
-   Elemente holen
-*/
+       Jede Seite bekommt SEGMENTS Streifen. Je weiter oben
+       ein Streifen sitzt, desto weiter kann er sich öffnen –
+       mit leicht unterschiedlichen Werten pro Streifen, damit
+       es nicht wie eine einzelne starre Fläche wirkt.
+    ===================================================== */
 
-const stage =
-    document.getElementById("zipStage");
+    const SEGMENTS = 7;
 
-const leftPanel =
-    document.getElementById("denimLeft");
+    // individuelle "Persönlichkeit" pro Streifen (oben -> unten)
+    const segProfile = [
+        { offset: 46, rot: -7  },
+        { offset: 58, rot: -11 },
+        { offset: 50, rot: -5  },
+        { offset: 62, rot: -9  },
+        { offset: 40, rot: -4  },
+        { offset: 30, rot: -3  },
+        { offset: 8,  rot: -1  } // unterster Streifen: bleibt fast fix (Stoffrest)
+    ];
 
-const rightPanel =
-    document.getElementById("denimRight");
+    function buildSegments(container, side) {
+        const segs = [];
+        for (let i = 0; i < SEGMENTS; i++) {
+            const seg = document.createElement("div");
+            seg.className = "fly-seg";
+            const top = (i * 100) / SEGMENTS;
+            const height = 100 / SEGMENTS;
+            seg.style.top = top + "%";
+            seg.style.height = (height + 0.6) + "%"; // leichte Überlappung gegen Lücken
+            container.appendChild(seg);
+            segs.push({ el: seg, top, bottom: top + height, profile: segProfile[i] || segProfile[segProfile.length - 1], side });
+        }
+        return segs;
+    }
 
-const slider =
-    document.getElementById("slider");
-
-const scrollHint =
-    document.getElementById("scrollHint");
-
-const teethLeft =
-    document.getElementById("teethLeft");
-
-const teethRight =
-    document.getElementById("teethRight");
-
-
-/* =========================================================
-   REISSVERSCHLUSS-ZÄHNE ERZEUGEN
-
-   Die Zähne sitzen jetzt in den .teeth-col Containern,
-   die selbst Kinder der Denim-Panels sind. Sie brauchen
-   daher keine eigene Positions-Logik in JS mehr – sie
-   wandern automatisch mit dem Panel-Transform mit.
-========================================================= */
-
-const toothCount = 60;
-
-
-for (let i = 0; i < toothCount; i++) {
-
-    /*
-       Leichter Zufalls-Versatz pro Zahn,
-       damit die Reihe nicht zu maschinell-
-       gerade wirkt, sondern etwas genäht/
-       organisch aussieht.
-    */
-
-    const jitterL = (Math.random() * 3) - 1.5;
-    const jitterR = (Math.random() * 3) - 1.5;
-
-    const toothL =
-        document.createElement("div");
-
-    toothL.className = "tooth";
-
-    toothL.style.top =
-        (i * (100 / toothCount)) + "%";
-
-    toothL.style.transform =
-        `translateX(${jitterL}px) rotate(${jitterL}deg)`;
-
-    teethLeft.appendChild(toothL);
-
-
-    const toothR =
-        document.createElement("div");
-
-    toothR.className = "tooth";
-
-    toothR.style.top =
-        (i * (100 / toothCount)) + "%";
-
-    toothR.style.transform =
-        `translateX(${jitterR}px) rotate(${jitterR}deg)`;
-
-    teethRight.appendChild(toothR);
-
-}
-
-
-/* =========================================================
-   SCROLL-FUNKTION
-========================================================= */
-
-function updateZipper() {
-
-    const rect =
-        stage.getBoundingClientRect();
-
-    const stageHeight =
-        stage.offsetHeight;
-
-    const viewportHeight =
-        window.innerHeight;
-
-
-    /*
-       Scrollfortschritt innerhalb
-       der 260vh-Bühne.
-
-       0 = komplett geschlossen
-
-       1 = maximal geöffnet
-    */
-
-    let progress =
-        -rect.top /
-        (stageHeight - viewportHeight);
-
-
-    progress =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                progress
-            )
-        );
-
-
-    /*
-       Easing.
-
-       Der Anfang öffnet etwas langsamer.
-       Danach geht es stärker auf.
-    */
-
-    const eased =
-        progress < 0.5
-
-        ? 2 * progress * progress
-
-        : 1 -
-          Math.pow(
-              -2 * progress + 2,
-              2
-          ) / 2;
+    const leftSegs  = buildSegments(flyLeft,  -1);
+    const rightSegs = buildSegments(flyRight,  1);
 
 
     /* =====================================================
-       JEANS-HÄLFTEN
-
-       Nur noch reine Rotation, kein translateX mehr.
-       Drehpunkt ist jetzt die untere Kante (siehe
-       transform-origin: right/left bottom oben in CSS).
-
-       Dadurch bleibt der untere Rand der Panels IMMER
-       exakt an Ort und Stelle (Stoff bleibt unten zu),
-       während sich oben ein V öffnet. Weil der
-       Reißverschluss (.zip-half) ein Kind-Element jedes
-       Panels ist, dreht er sich exakt mit derselben Kante
-       mit – ohne eigene Berechnung.
-
-       maxRotation steuert, wie weit sich das V oben
-       öffnet. Bei Bedarf hier anpassen (größer = weiter
-       offen, kleiner = dezenter).
+       REISSVERSCHLUSS-ZÄHNE (nur so viele wie in den
+       geschlossenen Bereich passen, Rest wird per Höhe
+       des Containers ohnehin abgeschnitten)
     ===================================================== */
 
-    const maxRotation = 42;
+    const TOOTH_SPACING = 16; // px
+    const maxTeeth = Math.ceil(window.innerHeight / TOOTH_SPACING) + 2;
 
-    const rotation =
-        maxRotation * eased;
-
-
-    leftPanel.style.transform =
-        `rotate(${-rotation}deg)`;
-
-
-    rightPanel.style.transform =
-        `rotate(${rotation}deg)`;
-
-
-    /* =====================================================
-       SCHIEBER
-    ===================================================== */
-
-    /*
-       Der Schieber startet oben.
-
-       Er wandert bis ungefähr 88%
-       der Bildschirmhöhe nach unten.
-
-       Damit öffnet sich der Reißverschluss
-       über einen sehr langen Bereich.
-    */
-
-    const sliderTop =
-        4 +
-        eased * 86;
-
-
-    slider.style.top =
-        sliderTop + "vh";
-
-
-    if (eased > 0.96) {
-
-        slider.style.opacity = "0.85";
-
-    } else {
-
-        slider.style.opacity = "1";
-
+    for (let i = 0; i < maxTeeth; i++) {
+        const t = document.createElement("div");
+        t.className = "tooth";
+        t.style.top = (i * TOOTH_SPACING) + "px";
+        zipTeeth.appendChild(t);
     }
 
 
     /* =====================================================
-       SCROLL-HINWEIS
+       SCROLL-FUNKTION
     ===================================================== */
 
-    scrollHint.style.opacity =
-        Math.max(
-            0,
-            1 - eased * 5
-        );
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
 
-}
+    function updateZipper() {
 
+        const rect = stage.getBoundingClientRect();
+        const stageHeight = stage.offsetHeight;
+        const vh = window.innerHeight;
 
-/* =========================================================
-   SCROLL EVENT
-========================================================= */
+        let progress = -rect.top / (stageHeight - vh);
+        progress = clamp(progress, 0, 1);
 
-window.addEventListener(
-    "scroll",
-    updateZipper,
-    { passive: true }
-);
+        const eased = progress < 0.5
+            ? 2 * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
 
+        /*
+           pullY = wie weit unten die Reißverschluss-Position
+           gerade steht, in % der Bildschirmhöhe.
 
-/* =========================================================
-   RESIZE
-========================================================= */
-
-window.addEventListener(
-    "resize",
-    updateZipper
-);
+           Läuft nie ganz bis 100% -> unten bleibt immer ein
+           kleiner geschlossener Stoffrest sichtbar.
+        */
+        const pullY = eased * 90;
 
 
-/* =========================================================
-   START
-========================================================= */
+        /* -------- Stoff-Streifen -------- */
 
-updateZipper();
+        function applySegs(segs, dir) {
+            segs.forEach(s => {
+                // wie weit ist DIESER Streifen bereits "überschritten"?
+                const open = clamp((pullY - s.top) / (s.bottom - s.top), 0, 1);
+                const offset = s.profile.offset * open;
+                const rot = s.profile.rot * open;
+                s.el.style.transform =
+                    `translateX(${dir * offset}vw) rotate(${dir * rot}deg)`;
+                s.el.style.opacity = 1 - open * 0.15;
+            });
+        }
 
+        applySegs(leftSegs, -1);
+        applySegs(rightSegs, 1);
+
+
+        /* -------- Reißverschluss: nur im geschlossenen Bereich -------- */
+
+        zipTrack.style.top = pullY + "vh";
+        zipTrack.style.height = (100 - pullY) + "vh";
+
+        zipPull.style.top = pullY + "vh";
+
+
+        /* -------- Inhalt verblasst als Ganzes -------- */
+
+        const fade = clamp(1 - eased * 1.6, 0, 1);
+        contentLeft.style.opacity  = fade;
+        contentRight.style.opacity = fade;
+        contentLeft.style.transform  = `translateX(${(1 - fade) * -6}vw)`;
+        contentRight.style.transform = `translateX(${(1 - fade) * 6}vw)`;
+
+
+        /* -------- Scroll-Hinweis -------- */
+
+        scrollHint.style.opacity = Math.max(0, 1 - eased * 5);
+
+
+        /* -------- Permanenter Fuß -------- */
+
+        if (progress >= 0.995) {
+            zipFooter.classList.add("visible");
+        } else {
+            zipFooter.classList.remove("visible");
+        }
+    }
+
+    window.addEventListener("scroll", updateZipper, { passive: true });
+    window.addEventListener("resize", updateZipper);
+
+    updateZipper();
+
+})();
 </script>
 
 </body>
