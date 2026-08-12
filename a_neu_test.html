@@ -162,7 +162,7 @@
 
       color: var(--text-main);
 
-      background: #121313;
+      background: #000;
 
       scroll-behavior: smooth;
     }
@@ -176,7 +176,7 @@
 
       inset: 0;
 
-      background: #121313;
+      background: #000;
 
       z-index: -10;
     }
@@ -209,155 +209,6 @@
       z-index: -8;
 
       pointer-events: none;
-    }
-
-
-    /* =========================================================
-       BLAUER HINTERGRUND / SPALTE
-
-       DAS IST DIE ENTSCHEIDENDE ÄNDERUNG.
-
-       Die gesamte Fläche des Viewports ist blau.
-
-       Die beiden Seiten liegen darüber.
-
-       Sobald sie auseinandergehen, wird genau der Bereich
-       zwischen ihren Rändern sichtbar.
-
-       Dadurch muss die Breite der blauen Spalte NICHT
-       separat berechnet werden.
-       ========================================================= */
-
-    .full-page-blue-gap {
-
-      position: fixed;
-
-      inset: 0;
-
-      width: 100%;
-      height: 100%;
-
-      background: var(--gap-blue);
-
-      z-index: -10;
-
-      pointer-events: none;
-    }
-
-
-    /* =========================================================
-       SCHWARZE SEITEN-PANELS
-
-       Liegen ÜBER der blauen Fläche.
-
-       Im Ruhezustand (--split: 0) decken die beiden
-       Hälften den kompletten Viewport lückenlos ab,
-       Blau ist unsichtbar.
-
-       Erst wenn sie auseinanderdriften, wird im
-       entstehenden Spalt die blaue Fläche sichtbar.
-       ========================================================= */
-
-    .bg-ice {
-
-      position: fixed;
-
-      inset: 0;
-
-      overflow: hidden;
-
-      z-index: -9;
-
-      pointer-events: none;
-    }
-
-
-    .bg-half {
-
-      position: absolute;
-
-      inset: -8%;
-
-      background: #000;
-
-      opacity: 1;
-
-      will-change:
-        transform;
-    }
-
-
-    .bg-half.left {
-
-      clip-path: polygon(
-        0 0,
-        50% 0,
-        48% 8%,
-        52% 16%,
-        49% 26%,
-        55% 39%,
-        52% 51%,
-        60% 64%,
-        56% 78%,
-        68% 100%,
-        0 100%
-      );
-
-      transform:
-        translate3d(
-          calc(
-            var(--gap) * -0.48
-            + var(--mouse-x) * -0.22
-          ),
-          calc(
-            var(--lift-left) * 0.45
-            + var(--mouse-y) * -0.12
-          ),
-          0
-        )
-        rotate(
-          calc(
-            var(--tilt-left) * 0.45
-          )
-        )
-        scale(1.12);
-    }
-
-
-    .bg-half.right {
-
-      clip-path: polygon(
-        50% 0,
-        100% 0,
-        100% 100%,
-        68% 100%,
-        56% 78%,
-        60% 64%,
-        52% 51%,
-        55% 39%,
-        49% 26%,
-        52% 16%,
-        48% 8%
-      );
-
-      transform:
-        translate3d(
-          calc(
-            var(--gap) * 0.48
-            + var(--mouse-x) * 0.22
-          ),
-          calc(
-            var(--lift-right) * 0.45
-            + var(--mouse-y) * 0.12
-          ),
-          0
-        )
-        rotate(
-          calc(
-            var(--tilt-right) * 0.45
-          )
-        )
-        scale(1.12);
     }
 
 
@@ -474,6 +325,44 @@
       opacity: 1;
 
       pointer-events: auto;
+    }
+
+
+    /* =========================================================
+       BLAUE RISSFÜLLUNG
+
+       Liegt im selben Koordinatenraum wie die Seiten-Klone
+       (content-shell), unbewegt und ungeclippt.
+
+       Sie wird nur genau dort sichtbar, wo die beiden
+       ice-layer-Hälften beim Auseinanderbrechen eine Lücke
+       freigeben - weil beide dasselbe --split/--gap-System
+       nutzen.
+       ========================================================= */
+
+    .crack-fill {
+
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 1;
+
+      background: var(--gap-blue);
+
+      opacity: 0;
+
+      pointer-events: none;
+
+      transition:
+        opacity 0.16s ease;
+    }
+
+
+    .is-cracked
+    .crack-fill {
+
+      opacity: 1;
     }
 
 
@@ -1140,40 +1029,6 @@
 <body>
 
 
-  <!-- =======================================================
-       BLAUE FLÄCHE
-
-       Diese Fläche ist absichtlich VOLLFLÄCHIG.
-
-       Sie sitzt hinter den beiden Seiten.
-
-       Die Seiten verdecken sie im geschlossenen Zustand.
-
-       Beim Auseinanderziehen wird genau die komplette
-       Spalte zwischen den beiden Seiten sichtbar.
-       ======================================================= -->
-
-  <div
-    class="full-page-blue-gap"
-    aria-hidden="true">
-  </div>
-
-
-  <!-- =======================================================
-       HINTERGRUNDBILD
-       ======================================================= -->
-
-  <div
-    class="bg-ice"
-    aria-hidden="true">
-
-    <div class="bg-half left"></div>
-
-    <div class="bg-half right"></div>
-
-  </div>
-
-
   <div
     class="bg-cold"
     aria-hidden="true">
@@ -1665,6 +1520,21 @@
 
         </main>
 
+      </div>
+
+
+      <!-- ===================================================
+           BLAUE RISSFÜLLUNG
+
+           Liegt exakt im selben Koordinatenraum wie die
+           beiden Seiten-Klone (content-shell), nicht im
+           Viewport. Dadurch scheint Blau immer exakt dort
+           durch, wo der Inhalt tatsächlich auseinanderbricht.
+           =================================================== -->
+
+      <div
+        class="crack-fill"
+        aria-hidden="true">
       </div>
 
 
