@@ -46,6 +46,7 @@
   <link rel="preload" as="image" href="/assets/gespalten/gespalten.jpg" fetchpriority="high">
 
   <style>
+
     :root {
       --text-main: #fdfdfd;
       --text-muted: rgba(255,255,255,0.68);
@@ -53,18 +54,22 @@
       --page-max-width: 960px;
       --release-green: #3ddc84;
 
-      /* BLAUER RISS */
-      --rift-blue: #2494ff;
-      --rift-blue-soft: rgba(36,148,255,0.32);
-      --rift-blue-glow: rgba(36,148,255,0.72);
+      /*
+        BLAUE SPALTE
+        Die Farbe der kompletten Fläche zwischen
+        den beiden auseinanderbrechenden Seiten.
+      */
+      --gap-blue: #2494ff;
 
       --split: 0;
       --mx: 0;
       --my: 0;
 
       --gap: calc(var(--split) * 72px);
+
       --lift-left: calc(var(--split) * -22px);
       --lift-right: calc(var(--split) * 18px);
+
       --tilt-left: calc(var(--split) * -0.45deg);
       --tilt-right: calc(var(--split) * 0.4deg);
 
@@ -72,30 +77,47 @@
       --mouse-y: calc(var(--my) * 5px);
     }
 
+
     html,
     body {
       margin: 0;
       padding: 0;
       min-height: 100%;
       overflow-x: hidden;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+
+      font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "SF Pro Text",
+        sans-serif;
+
       color: var(--text-main);
+
       background: #121313;
+
       scroll-behavior: smooth;
     }
 
+
     body::before {
       content: "";
+
       position: fixed;
       inset: 0;
+
       background: #121313;
+
       z-index: -10;
     }
 
+
     body::after {
       content: "";
+
       position: fixed;
       inset: 0;
+
       background:
         radial-gradient(
           circle at 50% 16%,
@@ -111,34 +133,62 @@
           rgba(10,10,10,0.22),
           rgba(10,10,10,0.95)
         );
+
       z-index: -8;
       pointer-events: none;
     }
 
+
+    /* =========================================================
+       HINTERGRUND
+       ========================================================= */
+
     .bg-ice {
       position: fixed;
       inset: 0;
+
       overflow: hidden;
+
       z-index: -9;
+
       pointer-events: none;
+
       background: #111;
     }
+
 
     .bg-half {
       position: absolute;
       inset: -8%;
-      background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
-      filter: blur(38px) brightness(0.44) saturate(0.9);
+
+      background:
+        url("/assets/gespalten/gespalten.jpg")
+        center / cover
+        no-repeat;
+
+      filter:
+        blur(38px)
+        brightness(0.44)
+        saturate(0.9);
+
       opacity: 0;
-      will-change: transform, opacity;
-      transition: opacity 0.25s ease;
+
+      will-change:
+        transform,
+        opacity;
+
+      transition:
+        opacity 0.25s ease;
     }
+
 
     .is-cracked .bg-half {
       opacity: 0.96;
     }
 
+
     .bg-half.left {
+
       clip-path: polygon(
         0 0,
         50% 0,
@@ -155,15 +205,27 @@
 
       transform:
         translate3d(
-          calc(var(--gap) * -0.48 + var(--mouse-x) * -0.22),
-          calc(var(--lift-left) * 0.45 + var(--mouse-y) * -0.12),
+          calc(
+            var(--gap) * -0.48
+            + var(--mouse-x) * -0.22
+          ),
+          calc(
+            var(--lift-left) * 0.45
+            + var(--mouse-y) * -0.12
+          ),
           0
         )
-        rotate(calc(var(--tilt-left) * 0.45))
+        rotate(
+          calc(
+            var(--tilt-left) * 0.45
+          )
+        )
         scale(1.12);
     }
 
+
     .bg-half.right {
+
       clip-path: polygon(
         50% 0,
         100% 0,
@@ -180,163 +242,102 @@
 
       transform:
         translate3d(
-          calc(var(--gap) * 0.48 + var(--mouse-x) * 0.22),
-          calc(var(--lift-right) * 0.45 + var(--mouse-y) * 0.12),
+          calc(
+            var(--gap) * 0.48
+            + var(--mouse-x) * 0.22
+          ),
+          calc(
+            var(--lift-right) * 0.45
+            + var(--mouse-y) * 0.12
+          ),
           0
         )
-        rotate(calc(var(--tilt-right) * 0.45))
+        rotate(
+          calc(
+            var(--tilt-right) * 0.45
+          )
+        )
         scale(1.12);
     }
 
+
     /* =========================================================
-       BLAUER RISS ÜBER DIE KOMPLETTE SEITE
+       DIE ENTSTEHENDE BLAUE SPALTE
+       =========================================================
+
+       WICHTIG:
+
+       Hier gibt es KEINEN RISS und KEINE blaue Linie.
+
+       Die komplette Fläche zwischen den beiden Hälften
+       wird blau.
+
+       --split = 0
+          => nur 4px Grundbreite
+
+       --split = 1
+          => 149px breite blaue Spalte
+
+       Dadurch wächst die blaue Fläche automatisch
+       zusammen mit der Split-Animation.
        ========================================================= */
 
-    .full-page-rift {
+    .full-page-blue-gap {
+
       position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      opacity: 0.95;
-    }
 
-    /*
-       Leuchtender blauer Kern des Risses.
-       Er geht von ganz oben bis ganz unten.
-    */
-    .full-page-rift::before {
-      content: "";
-      position: absolute;
-
-      top: -2vh;
-      bottom: -2vh;
+      top: -5vh;
+      bottom: -5vh;
 
       left: 50%;
 
-      transform: translateX(-50%);
+      width:
+        calc(
+          4px
+          + (var(--split) * 145px)
+        );
 
-      width: clamp(5px, 0.55vw, 10px);
+      transform:
+        translateX(-50%);
 
-      background: var(--rift-blue);
-
-      clip-path: polygon(
-        42% 0%,
-        58% 0%,
-
-        54% 7%,
-        66% 14%,
-        43% 21%,
-        59% 29%,
-        38% 37%,
-        63% 45%,
-        46% 53%,
-        68% 61%,
-        40% 69%,
-        58% 77%,
-        36% 85%,
-        62% 92%,
-        47% 100%,
-        53% 100%,
-
-        70% 92%,
-        44% 85%,
-        64% 77%,
-        42% 69%,
-        60% 61%,
-        37% 53%,
-        55% 45%,
-        35% 37%,
-        57% 29%,
-        40% 21%,
-        63% 14%,
-        46% 7%
-      );
+      background: var(--gap-blue);
 
       box-shadow:
-        0 0 7px var(--rift-blue),
-        0 0 18px var(--rift-blue-glow),
-        0 0 42px var(--rift-blue-soft);
+        0 0 25px rgba(36,148,255,0.65),
+        0 0 60px rgba(36,148,255,0.38);
 
-      filter:
-        drop-shadow(0 0 6px var(--rift-blue-glow));
+      z-index: 0;
+
+      pointer-events: none;
+
+      transition:
+        width 0.08s linear;
     }
+
 
     /*
-       Breiter, transparenter blauer Glow
-       für mehr Tiefe der Spalte.
+       Der normale Seiteninhalt liegt über
+       der blauen Spalte.
     */
-    .full-page-rift::after {
-      content: "";
 
-      position: absolute;
-
-      top: -2vh;
-      bottom: -2vh;
-
-      left: 50%;
-
-      transform: translateX(-50%);
-
-      width: clamp(28px, 3vw, 52px);
-
-      background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(36,148,255,0.08) 30%,
-        rgba(36,148,255,0.24) 50%,
-        rgba(36,148,255,0.08) 70%,
-        transparent 100%
-      );
-
-      clip-path: polygon(
-        43% 0%,
-        57% 0%,
-        63% 7%,
-        44% 14%,
-        61% 21%,
-        41% 29%,
-        64% 37%,
-        43% 45%,
-        61% 53%,
-        39% 61%,
-        63% 69%,
-        43% 77%,
-        62% 85%,
-        40% 92%,
-        48% 100%,
-        52% 100%,
-        60% 92%,
-        38% 85%,
-        57% 77%,
-        37% 69%,
-        61% 61%,
-        39% 53%,
-        57% 45%,
-        36% 37%,
-        59% 29%,
-        39% 21%,
-        56% 14%,
-        37% 7%
-      );
-
-      filter: blur(2px);
-    }
-
-    /* Der normale Seiteninhalt liegt über dem Riss */
     .page-wrap {
       z-index: 1;
     }
 
+
     .bg-cold {
+
       position: fixed;
       inset: 0;
+
       z-index: -7;
+
       pointer-events: none;
 
       background:
         radial-gradient(
-          circle at calc(50% + var(--mouse-x))
+          circle at
+          calc(50% + var(--mouse-x))
           calc(44% + var(--mouse-y)),
           rgba(255,255,255,0.10),
           transparent 18%
@@ -353,11 +354,19 @@
       opacity: 0.9;
     }
 
+
+    /* =========================================================
+       SEITENLAYOUT
+       ========================================================= */
+
     .page-wrap {
+
       min-height: 100vh;
+
       width: 100%;
 
       display: flex;
+
       justify-content: center;
       align-items: flex-start;
 
@@ -367,53 +376,96 @@
         clamp(3.5rem, 5vw, 4.5rem);
 
       box-sizing: border-box;
+
       position: relative;
+
       z-index: 1;
     }
 
+
     .content-shell {
+
       width: 100%;
-      max-width: var(--page-max-width);
+
+      max-width:
+        var(--page-max-width);
+
       position: relative;
     }
 
+
     .main-source {
+
       opacity: 1;
-      transition: opacity 0.16s ease;
+
+      transition:
+        opacity 0.16s ease;
     }
 
-    .is-cracked .main-source .split-me {
+
+    .is-cracked
+    .main-source
+    .split-me {
+
       opacity: 0;
+
       pointer-events: none;
     }
 
-    .is-cracked .main-source .no-split {
+
+    .is-cracked
+    .main-source
+    .no-split {
+
       opacity: 1;
+
       pointer-events: auto;
     }
+
 
     .ice-layer {
+
       position: absolute;
+
       inset: 0;
+
       z-index: 2;
+
       opacity: 0;
+
       pointer-events: none;
-      will-change: transform, opacity;
+
+      will-change:
+        transform,
+        opacity;
+
       transform-style: preserve-3d;
-      transition: opacity 0.16s ease;
+
+      transition:
+        opacity 0.16s ease;
     }
 
-    .is-cracked .ice-layer {
+
+    .is-cracked
+    .ice-layer {
+
       opacity: 1;
+
       pointer-events: auto;
     }
 
-    .ice-layer .no-split {
+
+    .ice-layer
+    .no-split {
+
       visibility: hidden;
+
       pointer-events: none;
     }
 
+
     .ice-layer.left {
+
       clip-path: polygon(
         -8% -4%,
         50% -4%,
@@ -430,19 +482,31 @@
 
       transform:
         translate3d(
-          calc(var(--gap) * -1 + var(--mouse-x) * -0.32),
-          calc(var(--lift-left) + var(--mouse-y) * -0.16),
+          calc(
+            var(--gap) * -1
+            + var(--mouse-x) * -0.32
+          ),
+          calc(
+            var(--lift-left)
+            + var(--mouse-y) * -0.16
+          ),
           0
         )
         rotate(var(--tilt-left));
 
-      transform-origin: 34% 42%;
+      transform-origin:
+        34% 42%;
 
       filter:
-        drop-shadow(8px 12px 20px rgba(0,0,0,0.22));
+        drop-shadow(
+          8px 12px 20px
+          rgba(0,0,0,0.22)
+        );
     }
 
+
     .ice-layer.right {
+
       clip-path: polygon(
         50% -4%,
         108% -4%,
@@ -459,256 +523,485 @@
 
       transform:
         translate3d(
-          calc(var(--gap) * 1 + var(--mouse-x) * 0.32),
-          calc(var(--lift-right) + var(--mouse-y) * 0.16),
+          calc(
+            var(--gap) * 1
+            + var(--mouse-x) * 0.32
+          ),
+          calc(
+            var(--lift-right)
+            + var(--mouse-y) * 0.16
+          ),
           0
         )
         rotate(var(--tilt-right));
 
-      transform-origin: 66% 44%;
+      transform-origin:
+        66% 44%;
 
       filter:
-        drop-shadow(-8px 12px 20px rgba(0,0,0,0.24));
+        drop-shadow(
+          -8px 12px 20px
+          rgba(0,0,0,0.24)
+        );
     }
 
+
+    /* =========================================================
+       HAUPTINHALT
+       ========================================================= */
+
     main.main {
+
       display: flex;
+
       flex-direction: column;
-      gap: clamp(1.55rem, 2.2vw, 2.25rem);
+
+      gap:
+        clamp(
+          1.55rem,
+          2.2vw,
+          2.25rem
+        );
+
       position: relative;
     }
 
+
     .brand-row {
+
       display: flex;
+
       align-items: center;
+
       justify-content: center;
-      margin-bottom: clamp(1.2rem, 2vw, 1.8rem);
+
+      margin-bottom:
+        clamp(
+          1.2rem,
+          2vw,
+          1.8rem
+        );
     }
 
+
     .brand-link {
+
       color: #ffffff;
+
       font-weight: 800;
+
       letter-spacing: 0.05em;
+
       text-decoration: none;
+
       cursor: pointer;
     }
 
+
     .hero {
+
       text-align: center;
     }
 
+
     .eyebrow {
-      margin: 0 0 0.45rem;
+
+      margin:
+        0 0 0.45rem;
+
       font-size: 0.82rem;
+
       letter-spacing: 0.18em;
+
       text-transform: uppercase;
+
       color: var(--text-muted);
     }
 
+
     .hero h1 {
+
       margin: 0;
-      font-size: clamp(3.2rem, 10vw, 7.5rem);
+
+      font-size:
+        clamp(
+          3.2rem,
+          10vw,
+          7.5rem
+        );
+
       line-height: 0.9;
+
       letter-spacing: -0.06em;
+
       font-weight: 900;
     }
 
+
     .hero-sub {
-      margin: 1rem auto 0;
+
+      margin:
+        1rem auto 0;
+
       max-width: 650px;
+
       color: var(--text-muted);
-      font-size: clamp(0.95rem, 1.7vw, 1.15rem);
+
+      font-size:
+        clamp(
+          0.95rem,
+          1.7vw,
+          1.15rem
+        );
+
       line-height: 1.55;
     }
 
+
     .block {
+
       width: 100%;
+
       box-sizing: border-box;
     }
 
+
     .album-art {
+
       width: 100%;
+
       max-width: 720px;
+
       margin: 0 auto;
+
       position: relative;
     }
+
 
     .album-art img,
     .album-art video {
+
       display: block;
+
       width: 100%;
+
       height: auto;
+
       border-radius: 4px;
     }
 
+
     .video-wrap {
+
       position: relative;
+
       width: 100%;
+
       max-width: 720px;
+
       margin: 0 auto;
     }
 
+
     .video-wrap video {
+
       width: 100%;
+
       display: block;
     }
 
+
     .mobile-video-split {
+
       display: none;
     }
+
 
     .mobile-play-button {
+
       display: none;
     }
 
+
+    /* =========================================================
+       COUNTDOWN
+       ========================================================= */
+
     .countdown-plain {
+
       text-align: center;
-      padding: 1.2rem 0;
+
+      padding:
+        1.2rem 0;
     }
 
+
     .countdown-label {
-      margin: 0 0 0.3rem;
+
+      margin:
+        0 0 0.3rem;
+
       color: var(--text-muted);
+
       text-transform: uppercase;
+
       letter-spacing: 0.15em;
+
       font-size: 0.72rem;
     }
 
+
     .countdown-time {
+
       margin: 0;
-      font-size: clamp(2rem, 7vw, 4.5rem);
+
+      font-size:
+        clamp(
+          2rem,
+          7vw,
+          4.5rem
+        );
+
       line-height: 1;
+
       font-weight: 800;
+
       letter-spacing: -0.04em;
     }
 
+
     .countdown-note {
-      margin: 0.6rem 0 0;
+
+      margin:
+        0.6rem 0 0;
+
       color: var(--text-soft);
+
       font-size: 0.85rem;
     }
 
+
+    /* =========================================================
+       SONGS
+       ========================================================= */
+
     .song-list-section {
+
       padding-top: 1rem;
     }
 
+
     .song-list-head {
+
       text-align: center;
+
       margin-bottom: 1rem;
+
       color: var(--text-muted);
+
       letter-spacing: 0.05em;
     }
 
+
     .song-lines {
+
       width: 100%;
     }
 
+
     .song-line {
+
       display: grid;
-      grid-template-columns: 1fr 1fr 80px 1fr;
+
+      grid-template-columns:
+        1fr 1fr 80px 1fr;
+
       gap: 1rem;
+
       align-items: center;
 
-      padding: 0.85rem 0;
+      padding:
+        0.85rem 0;
+
       margin: 0;
 
-      border-bottom: 1px solid rgba(255,255,255,0.12);
+      border-bottom:
+        1px solid
+        rgba(255,255,255,0.12);
     }
+
 
     .song-line span {
-      color: rgba(255,255,255,0.8);
+
+      color:
+        rgba(255,255,255,0.8);
     }
+
 
     .song-line span:nth-child(3) {
+
       text-align: center;
-      color: var(--text-soft);
+
+      color:
+        var(--text-soft);
     }
 
+
+    /* =========================================================
+       ABOUT
+       ========================================================= */
+
     .about-section {
+
       max-width: 720px;
+
       margin: 0 auto;
     }
 
+
     .about-section h2 {
+
       margin-top: 0;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
+
+      font-size:
+        clamp(
+          1.5rem,
+          4vw,
+          2.2rem
+        );
     }
 
+
     .about-section p {
+
       color: var(--text-muted);
+
       line-height: 1.7;
     }
 
+
     .quote-block {
+
       margin-top: 2rem;
+
       padding: 2rem;
-      border-left: 2px solid rgba(255,255,255,0.2);
+
+      border-left:
+        2px solid
+        rgba(255,255,255,0.2);
+
       color: var(--text-soft);
     }
 
+
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
     .footer-combined {
+
       margin-top: 2rem;
+
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr;
+
       gap: 2rem;
     }
 
+
     .social-icons {
+
       display: flex;
+
       flex-wrap: wrap;
+
       gap: 1rem;
+
       align-items: center;
     }
 
+
     .social-link {
+
       display: inline-flex;
+
       text-decoration: none;
     }
 
+
     .social-icon-img {
+
       width: 42px;
+
       height: 42px;
+
       display: block;
     }
 
+
     .more-link {
+
       display: inline-block;
+
       margin-top: 0.8rem;
     }
 
+
     .listen-wrap {
+
       display: flex;
+
       justify-content: center;
+
       margin-top: 1rem;
     }
 
+
     .listen-btn {
+
       display: inline-flex;
+
       align-items: center;
+
       justify-content: center;
 
-      padding: 0.85rem 1.4rem;
+      padding:
+        0.85rem 1.4rem;
 
-      border: 1px solid rgba(255,255,255,0.3);
+      border:
+        1px solid
+        rgba(255,255,255,0.3);
+
       border-radius: 999px;
 
       color: #fff;
+
       text-decoration: none;
 
       font-weight: 700;
+
       letter-spacing: 0.04em;
 
-      background: rgba(255,255,255,0.05);
+      background:
+        rgba(255,255,255,0.05);
 
       transition:
         background 0.2s ease,
         transform 0.2s ease;
     }
 
+
     .listen-btn:hover {
-      background: rgba(255,255,255,0.12);
-      transform: translateY(-2px);
+
+      background:
+        rgba(255,255,255,0.12);
+
+      transform:
+        translateY(-2px);
     }
+
 
     /* =========================================================
        MOBILE
@@ -717,62 +1010,114 @@
     @media (max-width: 768px) {
 
       .page-wrap {
+
         padding-left: 1rem;
+
         padding-right: 1rem;
       }
 
-      .full-page-rift {
-        opacity: 0.9;
+
+      /*
+         Auch auf dem Smartphone wächst die blaue
+         Spalte mit dem Split.
+      */
+
+      .full-page-blue-gap {
+
+        width:
+          calc(
+            3px
+            + (var(--split) * 80px)
+          );
       }
 
-      .full-page-rift::before {
-        width: 5px;
-      }
-
-      .full-page-rift::after {
-        width: 30px;
-      }
 
       .hero h1 {
-        font-size: clamp(3rem, 17vw, 5.5rem);
+
+        font-size:
+          clamp(
+            3rem,
+            17vw,
+            5.5rem
+          );
       }
+
 
       .song-line {
+
         grid-template-columns: 1fr;
+
         gap: 0.25rem;
+
         text-align: center;
       }
+
 
       .song-line span:nth-child(3) {
+
         text-align: center;
       }
 
+
       .footer-combined {
+
         grid-template-columns: 1fr;
       }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <!-- Hintergrund -->
-  <div class="bg-ice" aria-hidden="true">
-    <div class="bg-half left"></div>
-    <div class="bg-half right"></div>
-  </div>
-
-  <div class="bg-cold" aria-hidden="true"></div>
 
   <!-- =====================================================
-       BLAUER RISS
-       Läuft über die komplette Browserseite
+       HINTERGRUND
        ===================================================== -->
-  <div class="full-page-rift" aria-hidden="true"></div>
 
+  <div
+    class="bg-ice"
+    aria-hidden="true">
+
+    <div class="bg-half left"></div>
+
+    <div class="bg-half right"></div>
+
+  </div>
+
+
+  <div
+    class="bg-cold"
+    aria-hidden="true">
+  </div>
+
+
+  <!-- =====================================================
+       BLAUE SPALTE
+
+       WICHTIG:
+       Kein Riss mehr.
+       Diese Fläche stellt den kompletten Zwischenraum dar.
+       ===================================================== -->
+
+  <div
+    class="full-page-blue-gap"
+    aria-hidden="true">
+  </div>
+
+
+  <!-- =====================================================
+       SEITE
+       ===================================================== -->
 
   <div class="page-wrap">
-    <div class="content-shell" id="content-shell">
+
+    <div
+      class="content-shell"
+      id="content-shell">
+
 
       <!-- =================================================
            HAUPTINHALT
@@ -782,31 +1127,57 @@
 
         <main class="main">
 
+
+          <!-- =================================================
+               BRAND
+               ================================================= -->
+
           <div class="brand-row">
+
             <a
               class="brand-link"
               href="https://www.b3nn3t.com/index.html">
+
               b3nn3t
+
             </a>
+
           </div>
 
+
+          <!-- =================================================
+               HERO
+               ================================================= -->
 
           <section class="hero split-me">
 
             <p class="eyebrow">
+
               neues album
+
             </p>
 
+
             <h1>
+
               gespalten
+
             </h1>
 
+
             <p class="hero-sub">
-              10 kurze Songs. 12 Minuten zwischen alt und neu.
+
+              10 kurze Songs.
+              12 Minuten zwischen alt und neu.
+
             </p>
 
           </section>
 
+
+          <!-- =================================================
+               VIDEO
+               ================================================= -->
 
           <section class="block split-me">
 
@@ -824,121 +1195,226 @@
                   src="/assets/gespalten/gespalten.mp4"
                   type="video/mp4">
 
-                Dein Browser unterstützt dieses Video nicht.
+                Dein Browser unterstützt
+                dieses Video nicht.
+
               </video>
 
             </div>
 
-            <div class="mobile-video-split" aria-hidden="true">
+
+            <div
+              class="mobile-video-split"
+              aria-hidden="true">
+
               <video
                 id="mobile-video-left"
                 playsinline
                 muted>
               </video>
 
+
               <video
                 id="mobile-video-right"
                 playsinline
                 muted>
               </video>
+
             </div>
 
           </section>
 
+
+          <!-- =================================================
+               COUNTDOWN
+               ================================================= -->
 
           <section
             aria-label="Album Countdown"
             class="block countdown-plain split-me">
 
             <p class="countdown-label">
+
               album unlocks in
+
             </p>
+
 
             <p class="countdown-time album-countdown">
+
               --d --:--:--
+
             </p>
 
+
             <p class="countdown-note release-note">
-              release: 13. august 2026 · 24:00 uhr
+
+              release:
+              13. august 2026 · 24:00 uhr
+
             </p>
 
           </section>
 
+
+          <!-- =================================================
+               SONGS
+               ================================================= -->
 
           <section
             aria-label="Songs auf gespalten"
             class="block song-list-section split-me">
 
+
             <div class="song-list-head">
-              <strong>10 fragments</strong>
+
+              <strong>
+                10 fragments
+              </strong>
+
               <br>
               <br>
+
             </div>
+
 
             <div class="song-lines">
 
-              <p class="song-line">
-                <span>desigual</span>
-                <span>aergerlich</span>
-                <span>3</span>
-                <span>(fenster scherben)</span>
-              </p>
 
               <p class="song-line">
-                <span>5r</span>
-                <span>6</span>
-                <span>7</span>
-                <span></span>
+
+                <span>
+                  desigual
+                </span>
+
+                <span>
+                  aergerlich
+                </span>
+
+                <span>
+                  3
+                </span>
+
+                <span>
+                  (fenster scherben)
+                </span>
+
               </p>
 
+
               <p class="song-line">
-                <span>8?</span>
-                <span>wegwerfkamera</span>
-                <span>2011</span>
-                <span></span>
+
+                <span>
+                  5r
+                </span>
+
+                <span>
+                  6
+                </span>
+
+                <span>
+                  7
+                </span>
+
+                <span>
+                </span>
+
               </p>
+
+
+              <p class="song-line">
+
+                <span>
+                  8?
+                </span>
+
+                <span>
+                  wegwerfkamera
+                </span>
+
+                <span>
+                  2011
+                </span>
+
+                <span>
+                </span>
+
+              </p>
+
 
             </div>
 
           </section>
 
+
+          <!-- =================================================
+               ÜBER DAS ALBUM
+               ================================================= -->
 
           <section
             aria-label="über das Album"
             class="block about-section split-me">
 
+
             <h2>
+
               über das Album
+
             </h2>
 
-            <p>
-              „gespalten“ ist ein kurzes album aus 10 fragmenten.
-              12 minuten im übergang zwischen alt mit deutschsprachigen skizzen.
-            </p>
 
             <p>
-              die songs sind eher gedanken und gefühle als klassische tracks
-              kurz, direkt, unfertig im besten sinn.
+
+              „gespalten“ ist ein kurzes album
+              aus 10 fragmenten.
+              12 minuten im übergang zwischen
+              alt mit deutschsprachigen skizzen.
+
             </p>
+
+
+            <p>
+
+              die songs sind eher gedanken
+              und gefühle als klassische tracks
+              kurz, direkt, unfertig im besten sinn.
+
+            </p>
+
 
             <div class="quote-block">
+
               <br>
+
             </div>
+
 
           </section>
 
 
+          <!-- =================================================
+               FOOTER
+               ================================================= -->
+
           <div class="no-split footer-combined">
+
 
             <section
               aria-label="Streaming"
               class="block">
 
+
               <h2>
+
                 kuck hier
+
               </h2>
 
+
               <div class="social-icons">
+
+
+                <!-- SPOTIFY -->
 
                 <a
                   href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
@@ -947,19 +1423,26 @@
                   target="_blank"
                   rel="noopener">
 
+
                   <picture>
+
                     <source
                       srcset="assets/release/spotify_128.webp"
                       type="image/webp">
+
 
                     <img
                       class="social-icon-img"
                       src="assets/release/spotify_128.png"
                       alt="Spotify">
+
                   </picture>
+
 
                 </a>
 
+
+                <!-- APPLE MUSIC -->
 
                 <a
                   href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
@@ -968,19 +1451,26 @@
                   target="_blank"
                   rel="noopener">
 
+
                   <picture>
+
                     <source
                       srcset="assets/release/apple_music_128.webp"
                       type="image/webp">
+
 
                     <img
                       class="social-icon-img"
                       src="assets/release/apple_music_128.png"
                       alt="Apple Music">
+
                   </picture>
+
 
                 </a>
 
+
+                <!-- INSTAGRAM -->
 
                 <a
                   href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
@@ -989,19 +1479,26 @@
                   target="_blank"
                   rel="noopener">
 
+
                   <picture>
+
                     <source
                       srcset="assets/release/instagram_128.webp"
                       type="image/webp">
+
 
                     <img
                       class="social-icon-img"
                       src="assets/release/instagram_128.png"
                       alt="Instagram">
+
                   </picture>
+
 
                 </a>
 
+
+                <!-- YOUTUBE -->
 
                 <a
                   href="https://www.youtube.com/@b333nn3t"
@@ -1010,19 +1507,26 @@
                   target="_blank"
                   rel="noopener">
 
+
                   <picture>
+
                     <source
                       srcset="assets/release/youtube_128.webp"
                       type="image/webp">
+
 
                     <img
                       class="social-icon-img"
                       src="assets/release/youtube_128.png"
                       alt="YouTube">
+
                   </picture>
+
 
                 </a>
 
+
+                <!-- SOUNDCLOUD -->
 
                 <a
                   href="https://soundcloud.com/bennet-6942069420"
@@ -1031,20 +1535,27 @@
                   target="_blank"
                   rel="noopener">
 
+
                   <picture>
+
                     <source
                       srcset="assets/release/soundcloud_128.webp"
                       type="image/webp">
+
 
                     <img
                       class="social-icon-img"
                       src="assets/release/soundcloud_128.png"
                       alt="SoundCloud">
+
                   </picture>
+
 
                 </a>
 
+
               </div>
+
 
             </section>
 
@@ -1053,22 +1564,35 @@
               aria-label="Mehr von b3nn3t"
               class="block">
 
+
               <p>
+
                 mehr auf meiner webseite :p
+
               </p>
+
 
               <a
                 class="brand-link more-link"
                 href="https://www.b3nn3t.com/index.html">
+
                 b3nn3t.com
+
               </a>
 
+
             </section>
+
 
           </div>
 
 
+          <!-- =================================================
+               CTA
+               ================================================= -->
+
           <div class="listen-wrap">
+
 
             <a
               class="listen-btn main-cta"
@@ -1080,7 +1604,9 @@
 
             </a>
 
+
           </div>
+
 
         </main>
 
@@ -1091,8 +1617,12 @@
            LINKER CLONE
            ================================================= -->
 
-      <div class="ice-layer left" aria-hidden="true">
+      <div
+        class="ice-layer left"
+        aria-hidden="true">
+
         <div class="ice-layer-inner"></div>
+
       </div>
 
 
@@ -1100,11 +1630,17 @@
            RECHTER CLONE
            ================================================= -->
 
-      <div class="ice-layer right" aria-hidden="true">
+      <div
+        class="ice-layer right"
+        aria-hidden="true">
+
         <div class="ice-layer-inner"></div>
+
       </div>
 
+
     </div>
+
   </div>
 
 
@@ -1113,13 +1649,21 @@
        ===================================================== -->
 
   <script>
+
     (function () {
 
-      const root = document.documentElement;
+
+      const root =
+        document.documentElement;
+
 
       const isMobile =
-        window.matchMedia("(pointer: coarse)").matches ||
-        window.matchMedia("(max-width: 768px)").matches;
+        window.matchMedia(
+          "(pointer: coarse)"
+        ).matches ||
+        window.matchMedia(
+          "(max-width: 768px)"
+        ).matches;
 
 
       /* ===================================================
@@ -1128,103 +1672,189 @@
 
       if (isMobile) {
 
-        root.classList.add("mobile-precrack");
 
-        root.style.setProperty("--mx", "0");
-        root.style.setProperty("--my", "0");
+        root.classList.add(
+          "mobile-precrack"
+        );
+
+
+        root.style.setProperty(
+          "--mx",
+          "0"
+        );
+
+
+        root.style.setProperty(
+          "--my",
+          "0"
+        );
 
 
         const shell =
-          document.getElementById("content-shell");
+          document.getElementById(
+            "content-shell"
+          );
+
 
         const source =
-          document.querySelector(".main-source");
+          document.querySelector(
+            ".main-source"
+          );
+
 
         const targets =
-          document.querySelectorAll(".ice-layer-inner");
+          document.querySelectorAll(
+            ".ice-layer-inner"
+          );
 
 
-        if (shell && source && targets.length) {
-
-          targets.forEach(function (target) {
-
-            const clone =
-              source.cloneNode(true);
-
-            clone.classList.remove("main-source");
-            clone.classList.add("main-clone");
+        if (
+          shell &&
+          source &&
+          targets.length
+        ) {
 
 
-            clone.querySelectorAll("video")
-              .forEach(function (video) {
-                video.remove();
-              });
+          targets.forEach(
+            function (target) {
 
 
-            clone.querySelectorAll(".mobile-video-split")
-              .forEach(function (layer) {
-                layer.remove();
-              });
+              const clone =
+                source.cloneNode(true);
 
 
-            clone.querySelectorAll(".mobile-play-button")
-              .forEach(function (button) {
-                button.remove();
-              });
+              clone.classList.remove(
+                "main-source"
+              );
 
 
-            clone.querySelectorAll(".cover-inner")
-              .forEach(function (inner) {
-                inner.innerHTML = "";
-              });
+              clone.classList.add(
+                "main-clone"
+              );
 
 
-            clone.querySelectorAll("a")
-              .forEach(function (link) {
-                link.setAttribute("tabindex", "-1");
-              });
+              clone.querySelectorAll(
+                "video"
+              ).forEach(
+                function (video) {
+
+                  video.remove();
+
+                }
+              );
 
 
-            target.appendChild(clone);
+              clone.querySelectorAll(
+                ".mobile-video-split"
+              ).forEach(
+                function (layer) {
 
-          });
+                  layer.remove();
+
+                }
+              );
+
+
+              clone.querySelectorAll(
+                ".mobile-play-button"
+              ).forEach(
+                function (button) {
+
+                  button.remove();
+
+                }
+              );
+
+
+              clone.querySelectorAll(
+                ".cover-inner"
+              ).forEach(
+                function (inner) {
+
+                  inner.innerHTML = "";
+
+                }
+              );
+
+
+              clone.querySelectorAll(
+                "a"
+              ).forEach(
+                function (link) {
+
+                  link.setAttribute(
+                    "tabindex",
+                    "-1"
+                  );
+
+                }
+              );
+
+
+              target.appendChild(
+                clone
+              );
+
+
+            }
+          );
+
 
         }
 
 
-        let mobileTicking = false;
+        let mobileTicking =
+          false;
 
 
         function updateMobileSplit() {
 
+
           const raw =
             Math.min(
-              Math.max(window.scrollY / 720, 0),
+              Math.max(
+                window.scrollY / 720,
+                0
+              ),
               1
             );
 
+
           const split =
-            Math.pow(raw, 0.92);
+            Math.pow(
+              raw,
+              0.92
+            );
+
 
           root.style.setProperty(
             "--split",
             split.toFixed(4)
           );
 
-          mobileTicking = false;
+
+          mobileTicking =
+            false;
 
         }
 
 
         function requestMobileUpdate() {
 
-          if (!mobileTicking) {
 
-            mobileTicking = true;
+          if (
+            !mobileTicking
+          ) {
+
+
+            mobileTicking =
+              true;
+
 
             requestAnimationFrame(
               updateMobileSplit
             );
+
 
           }
 
@@ -1233,20 +1863,24 @@
 
         function bindMobileVideoSplit() {
 
+
           const base =
             document.getElementById(
               "mobile-video-base"
             );
+
 
           const left =
             document.getElementById(
               "mobile-video-left"
             );
 
+
           const right =
             document.getElementById(
               "mobile-video-right"
             );
+
 
           const playButton =
             document.querySelector(
@@ -1254,32 +1888,54 @@
             );
 
 
-          if (!base || !left || !right) {
+          if (
+            !base ||
+            !left ||
+            !right
+          ) {
+
             return;
+
           }
 
 
           const mirrors =
-            [left, right];
+            [
+              left,
+              right
+            ];
 
 
-          let syncing = false;
+          let syncing =
+            false;
 
 
-          function showPlayButton(show) {
+          function showPlayButton(
+            show
+          ) {
 
-            if (!playButton) {
+
+            if (
+              !playButton
+            ) {
+
               return;
+
             }
 
+
             if (show) {
+
               playButton.classList.remove(
                 "is-hidden"
               );
+
             } else {
+
               playButton.classList.add(
                 "is-hidden"
               );
+
             }
 
           }
@@ -1287,145 +1943,227 @@
 
           function resetToPoster() {
 
-            [base, left, right]
-              .forEach(function (video) {
+
+            [
+              base,
+              left,
+              right
+            ].forEach(
+              function (video) {
+
 
                 try {
+
                   video.pause();
-                  video.currentTime = 0;
+
+                  video.currentTime =
+                    0;
+
                 } catch (e) {}
 
-              });
+              }
+            );
 
 
-            setTimeout(function () {
+            setTimeout(
+              function () {
 
-              [base, left, right]
-                .forEach(function (video) {
 
-                  try {
-                    video.load();
-                  } catch (e) {}
+                [
+                  base,
+                  left,
+                  right
+                ].forEach(
+                  function (video) {
 
-                });
 
-              showPlayButton(true);
+                    try {
 
-            }, 80);
+                      video.load();
+
+                    } catch (e) {}
+
+                  }
+                );
+
+
+                showPlayButton(
+                  true
+                );
+
+
+              },
+              80
+            );
 
           }
 
 
-          function syncMirrors(eventName) {
+          function syncMirrors(
+            eventName
+          ) {
 
-            if (syncing) {
+
+            if (
+              syncing
+            ) {
+
               return;
+
             }
 
-            syncing = true;
+
+            syncing =
+              true;
 
 
-            mirrors.forEach(function (video) {
+            mirrors.forEach(
+              function (video) {
 
-              if (
-                Math.abs(
-                  video.currentTime -
-                  base.currentTime
-                ) > 0.12
-              ) {
 
-                try {
-                  video.currentTime =
-                    base.currentTime;
-                } catch (e) {}
+                if (
+                  Math.abs(
+                    video.currentTime -
+                    base.currentTime
+                  ) > 0.12
+                ) {
+
+
+                  try {
+
+                    video.currentTime =
+                      base.currentTime;
+
+                  } catch (e) {}
+
+                }
+
+
+                video.playbackRate =
+                  base.playbackRate;
+
+
+                if (
+                  eventName === "play" &&
+                  video.paused
+                ) {
+
+
+                  video.play()
+                    .catch(
+                      function () {}
+                    );
+
+                }
+
+
+                if (
+                  (
+                    eventName === "pause" ||
+                    eventName === "ended"
+                  ) &&
+                  !video.paused
+                ) {
+
+
+                  video.pause();
+
+                }
+
 
               }
+            );
 
 
-              video.playbackRate =
-                base.playbackRate;
-
-
-              if (
-                eventName === "play" &&
-                video.paused
-              ) {
-
-                video.play()
-                  .catch(function () {});
-
-              }
-
-
-              if (
-                (eventName === "pause" ||
-                 eventName === "ended") &&
-                !video.paused
-              ) {
-
-                video.pause();
-
-              }
-
-            });
-
-
-            syncing = false;
+            syncing =
+              false;
 
           }
 
 
           function keepClose() {
 
-            mirrors.forEach(function (video) {
 
-              if (
-                !base.paused &&
-                Math.abs(
-                  video.currentTime -
-                  base.currentTime
-                ) > 0.18
-              ) {
+            mirrors.forEach(
+              function (video) {
 
-                try {
-                  video.currentTime =
-                    base.currentTime;
-                } catch (e) {}
+
+                if (
+                  !base.paused &&
+                  Math.abs(
+                    video.currentTime -
+                    base.currentTime
+                  ) > 0.18
+                ) {
+
+
+                  try {
+
+                    video.currentTime =
+                      base.currentTime;
+
+                  } catch (e) {}
+
+                }
+
 
               }
-
-            });
+            );
 
           }
 
 
           function startVideo() {
 
-            if (base.ended) {
+
+            if (
+              base.ended
+            ) {
+
 
               try {
-                base.currentTime = 0;
+
+                base.currentTime =
+                  0;
+
               } catch (e) {}
 
             }
 
 
-            syncMirrors("seeked");
+            syncMirrors(
+              "seeked"
+            );
 
 
             base.play()
-              .then(function () {
+              .then(
+                function () {
 
-                showPlayButton(false);
 
-                syncMirrors("play");
+                  showPlayButton(
+                    false
+                  );
 
-              })
-              .catch(function () {
 
-                showPlayButton(true);
+                  syncMirrors(
+                    "play"
+                  );
 
-              });
+
+                }
+              )
+              .catch(
+                function () {
+
+
+                  showPlayButton(
+                    true
+                  );
+
+
+                }
+              );
 
           }
 
@@ -1434,8 +2172,16 @@
             "play",
             function () {
 
-              showPlayButton(false);
-              syncMirrors("play");
+
+              showPlayButton(
+                false
+              );
+
+
+              syncMirrors(
+                "play"
+              );
+
 
             }
           );
@@ -1445,11 +2191,23 @@
             "pause",
             function () {
 
-              if (!base.ended) {
-                showPlayButton(true);
+
+              if (
+                !base.ended
+              ) {
+
+
+                showPlayButton(
+                  true
+                );
+
               }
 
-              syncMirrors("pause");
+
+              syncMirrors(
+                "pause"
+              );
+
 
             }
           );
@@ -1458,6 +2216,7 @@
           base.addEventListener(
             "ended",
             function () {
+
 
               resetToPoster();
 
@@ -1469,7 +2228,10 @@
             "seeked",
             function () {
 
-              syncMirrors("seeked");
+
+              syncMirrors(
+                "seeked"
+              );
 
             }
           );
@@ -1479,7 +2241,10 @@
             "ratechange",
             function () {
 
-              syncMirrors("ratechange");
+
+              syncMirrors(
+                "ratechange"
+              );
 
             }
           );
@@ -1489,11 +2254,16 @@
             "loadedmetadata",
             function () {
 
-              syncMirrors("loadedmetadata");
+
+              syncMirrors(
+                "loadedmetadata"
+              );
+
 
               showPlayButton(
                 base.paused
               );
+
 
             }
           );
@@ -1505,33 +2275,55 @@
           );
 
 
-          mirrors.forEach(function (video) {
-
-            video.muted = true;
-            video.controls = false;
-            video.playsInline = true;
-
-          });
+          mirrors.forEach(
+            function (video) {
 
 
-          if (playButton) {
+              video.muted =
+                true;
+
+
+              video.controls =
+                false;
+
+
+              video.playsInline =
+                true;
+
+
+            }
+          );
+
+
+          if (
+            playButton
+          ) {
+
 
             playButton.addEventListener(
               "click",
               function (event) {
 
+
                 event.preventDefault();
+
                 event.stopPropagation();
 
+
                 startVideo();
+
 
               }
             );
 
+
           }
 
 
-          showPlayButton(true);
+          showPlayButton(
+            true
+          );
+
 
         }
 
@@ -1539,8 +2331,11 @@
         window.addEventListener(
           "scroll",
           requestMobileUpdate,
-          { passive: true }
+          {
+            passive: true
+          }
         );
+
 
         window.addEventListener(
           "resize",
@@ -1549,7 +2344,10 @@
 
 
         bindMobileVideoSplit();
+
+
         updateMobileSplit();
+
 
         return;
 
@@ -1560,15 +2358,18 @@
          DESKTOP
          =================================================== */
 
+
       const shell =
         document.getElementById(
           "content-shell"
         );
 
+
       const source =
         document.querySelector(
           ".main-source"
         );
+
 
       const targets =
         document.querySelectorAll(
@@ -1576,21 +2377,49 @@
         );
 
 
-      let clonesCreated = false;
-      let activated = false;
-      let readyForMouseActivation = false;
-      let ticking = false;
+      let clonesCreated =
+        false;
 
-      let mouseTargetX = 0;
-      let mouseTargetY = 0;
 
-      let mouseX = 0;
-      let mouseY = 0;
+      let activated =
+        false;
 
-      let mouseSplit = 0;
-      let scrollSplit = 0;
 
-      let mouseRaf = null;
+      let readyForMouseActivation =
+        false;
+
+
+      let ticking =
+        false;
+
+
+      let mouseTargetX =
+        0;
+
+
+      let mouseTargetY =
+        0;
+
+
+      let mouseX =
+        0;
+
+
+      let mouseY =
+        0;
+
+
+      let mouseSplit =
+        0;
+
+
+      let scrollSplit =
+        0;
+
+
+      let mouseRaf =
+        null;
+
 
       const boundVideos =
         new WeakSet();
@@ -1599,22 +2428,34 @@
       const POSTER_URL =
         "/assets/gespalten/gespalten.jpg";
 
+
       const VIDEO_URL =
         "/assets/gespalten/gespalten.mp4";
 
 
       setTimeout(
         function () {
-          readyForMouseActivation = true;
+
+          readyForMouseActivation =
+            true;
+
         },
         650
       );
 
 
-      function clamp(value, min, max) {
+      function clamp(
+        value,
+        min,
+        max
+      ) {
+
 
         return Math.min(
-          Math.max(value, min),
+          Math.max(
+            value,
+            min
+          ),
           max
         );
 
@@ -1622,6 +2463,7 @@
 
 
       function getVideos() {
+
 
         return Array.from(
           document.querySelectorAll(
@@ -1634,98 +2476,127 @@
 
       function createClones() {
 
+
         if (
           clonesCreated ||
           !shell ||
           !source ||
           !targets.length
         ) {
+
           return;
+
         }
 
 
-        targets.forEach(function (target) {
-
-          const clone =
-            source.cloneNode(true);
+        targets.forEach(
+          function (target) {
 
 
-          clone.classList.remove(
-            "main-source"
-          );
-
-          clone.classList.add(
-            "main-clone"
-          );
+            const clone =
+              source.cloneNode(
+                true
+              );
 
 
-          clone.querySelectorAll(
-            ".mobile-video-split"
-          ).forEach(function (layer) {
-
-            layer.remove();
-
-          });
-
-
-          clone.querySelectorAll(
-            ".mobile-play-button"
-          ).forEach(function (button) {
-
-            button.remove();
-
-          });
-
-
-          clone.querySelectorAll(
-            "video"
-          ).forEach(function (video) {
-
-            video.setAttribute(
-              "poster",
-              POSTER_URL
-            );
-
-            video.setAttribute(
-              "preload",
-              "metadata"
+            clone.classList.remove(
+              "main-source"
             );
 
 
-            const sourceEl =
-              video.querySelector(
-                "source"
-              );
+            clone.classList.add(
+              "main-clone"
+            );
 
 
-            if (sourceEl) {
+            clone.querySelectorAll(
+              ".mobile-video-split"
+            ).forEach(
+              function (layer) {
 
-              sourceEl.setAttribute(
-                "src",
-                VIDEO_URL
-              );
+                layer.remove();
 
-              sourceEl.setAttribute(
-                "type",
-                "video/mp4"
-              );
-
-            }
+              }
+            );
 
 
-            try {
-              video.load();
-            } catch (e) {}
+            clone.querySelectorAll(
+              ".mobile-play-button"
+            ).forEach(
+              function (button) {
 
-          });
+                button.remove();
+
+              }
+            );
 
 
-          target.appendChild(clone);
+            clone.querySelectorAll(
+              "video"
+            ).forEach(
+              function (video) {
 
-        });
+
+                video.setAttribute(
+                  "poster",
+                  POSTER_URL
+                );
 
 
-        clonesCreated = true;
+                video.setAttribute(
+                  "preload",
+                  "metadata"
+                );
+
+
+                const sourceEl =
+                  video.querySelector(
+                    "source"
+                  );
+
+
+                if (
+                  sourceEl
+                ) {
+
+
+                  sourceEl.setAttribute(
+                    "src",
+                    VIDEO_URL
+                  );
+
+
+                  sourceEl.setAttribute(
+                    "type",
+                    "video/mp4"
+                  );
+
+                }
+
+
+                try {
+
+                  video.load();
+
+                } catch (e) {}
+
+
+              }
+            );
+
+
+            target.appendChild(
+              clone
+            );
+
+
+          }
+        );
+
+
+        clonesCreated =
+          true;
+
 
         bindVideos();
 
@@ -1734,14 +2605,22 @@
 
       function activate() {
 
-        if (activated) {
+
+        if (
+          activated
+        ) {
+
           return;
+
         }
 
 
         createClones();
 
-        activated = true;
+
+        activated =
+          true;
+
 
         document.body.classList.add(
           "is-cracked"
@@ -1750,12 +2629,14 @@
 
         syncAllVideos();
 
+
         applySplit();
 
       }
 
 
       function applySplit() {
+
 
         const split =
           activated
@@ -1776,30 +2657,38 @@
 
       function updateScrollSplit() {
 
+
         const maxScroll =
           Math.max(
             1,
-            document.documentElement.scrollHeight -
+            document.documentElement
+              .scrollHeight -
             window.innerHeight
           );
 
 
         const raw =
           clamp(
-            window.scrollY / maxScroll,
+            window.scrollY /
+            maxScroll,
             0,
             1
           );
 
 
-        if (window.scrollY > 8) {
+        if (
+          window.scrollY > 8
+        ) {
+
           activate();
+
         }
 
 
         scrollSplit =
           activated
-            ? 1 - Math.pow(
+            ? 1 -
+              Math.pow(
                 1 - raw,
                 1.85
               )
@@ -1808,20 +2697,28 @@
 
         applySplit();
 
-        ticking = false;
+
+        ticking =
+          false;
 
       }
 
 
       function requestScrollUpdate() {
 
-        if (!ticking) {
+
+        if (
+          !ticking
+        ) {
+
 
           requestAnimationFrame(
             updateScrollSplit
           );
 
-          ticking = true;
+
+          ticking =
+            true;
 
         }
 
@@ -1830,21 +2727,30 @@
 
       function animateMouse() {
 
+
         const dx =
-          mouseTargetX - mouseX;
+          mouseTargetX -
+          mouseX;
+
 
         const dy =
-          mouseTargetY - mouseY;
+          mouseTargetY -
+          mouseY;
 
 
-        mouseX += dx * 0.16;
-        mouseY += dy * 0.16;
+        mouseX +=
+          dx * 0.16;
+
+
+        mouseY +=
+          dy * 0.16;
 
 
         root.style.setProperty(
           "--mx",
           mouseX.toFixed(4)
         );
+
 
         root.style.setProperty(
           "--my",
@@ -1860,33 +2766,47 @@
           Math.abs(dy) < 0.001;
 
 
-        if (!settled) {
+        if (
+          !settled
+        ) {
+
 
           mouseRaf =
             requestAnimationFrame(
               animateMouse
             );
 
+
         } else {
 
-          mouseRaf = null;
+
+          mouseRaf =
+            null;
 
         }
 
       }
 
 
-      function updateMouse(e) {
+      function updateMouse(
+        e
+      ) {
+
 
         const movedEnough =
-          Math.abs(e.movementX || 0) +
-          Math.abs(e.movementY || 0) > 1;
+          Math.abs(
+            e.movementX || 0
+          ) +
+          Math.abs(
+            e.movementY || 0
+          ) > 1;
 
 
         if (
           readyForMouseActivation &&
           movedEnough
         ) {
+
 
           activate();
 
@@ -1910,10 +2830,19 @@
 
 
         mouseTargetX =
-          clamp(x, -1, 1);
+          clamp(
+            x,
+            -1,
+            1
+          );
+
 
         mouseTargetY =
-          clamp(y, -1, 1);
+          clamp(
+            y,
+            -1,
+            1
+          );
 
 
         const distance =
@@ -1936,7 +2865,10 @@
             : 0;
 
 
-        if (!mouseRaf) {
+        if (
+          !mouseRaf
+        ) {
+
 
           mouseRaf =
             requestAnimationFrame(
@@ -1948,7 +2880,13 @@
       }
 
 
-      let videoSyncing = false;
+      /* ===================================================
+         VIDEO SYNCHRONISIERUNG
+         =================================================== */
+
+
+      let videoSyncing =
+        false;
 
 
       function syncFrom(
@@ -1956,19 +2894,30 @@
         eventName
       ) {
 
-        if (videoSyncing) {
+
+        if (
+          videoSyncing
+        ) {
+
           return;
+
         }
 
 
-        videoSyncing = true;
+        videoSyncing =
+          true;
 
 
         getVideos().forEach(
           function (video) {
 
-            if (video === sourceVideo) {
+
+            if (
+              video === sourceVideo
+            ) {
+
               return;
+
             }
 
 
@@ -1978,6 +2927,7 @@
                 sourceVideo.currentTime
               ) > 0.12
             ) {
+
 
               try {
 
@@ -1992,8 +2942,10 @@
             video.volume =
               sourceVideo.volume;
 
+
             video.muted =
               sourceVideo.muted;
+
 
             video.playbackRate =
               sourceVideo.playbackRate;
@@ -2004,8 +2956,11 @@
               video.paused
             ) {
 
+
               video.play()
-                .catch(function () {});
+                .catch(
+                  function () {}
+                );
 
             }
 
@@ -2015,28 +2970,35 @@
               !video.paused
             ) {
 
+
               video.pause();
 
             }
+
 
           }
         );
 
 
-        videoSyncing = false;
+        videoSyncing =
+          false;
 
       }
 
 
       function resetDesktopVideosToPoster() {
 
+
         getVideos().forEach(
           function (video) {
+
 
             try {
 
               video.pause();
-              video.currentTime = 0;
+
+              video.currentTime =
+                0;
 
             } catch (e) {}
 
@@ -2047,15 +3009,20 @@
         setTimeout(
           function () {
 
+
             getVideos().forEach(
               function (video) {
 
+
                 try {
+
                   video.load();
+
                 } catch (e) {}
 
               }
             );
+
 
           },
           80
@@ -2066,17 +3033,25 @@
 
       function bindVideos() {
 
+
         getVideos().forEach(
           function (video) {
 
+
             if (
-              boundVideos.has(video)
+              boundVideos.has(
+                video
+              )
             ) {
+
               return;
+
             }
 
 
-            boundVideos.add(video);
+            boundVideos.add(
+              video
+            );
 
 
             [
@@ -2088,14 +3063,17 @@
             ].forEach(
               function (eventName) {
 
+
                 video.addEventListener(
                   eventName,
                   function () {
+
 
                     syncFrom(
                       video,
                       eventName
                     );
+
 
                   }
                 );
@@ -2108,10 +3086,12 @@
               "timeupdate",
               function () {
 
+
                 syncFrom(
                   video,
                   "timeupdate"
                 );
+
 
               }
             );
@@ -2121,10 +3101,12 @@
               "ended",
               function () {
 
+
                 resetDesktopVideosToPoster();
 
               }
             );
+
 
           }
         );
@@ -2134,12 +3116,17 @@
 
       function syncAllVideos() {
 
+
         const videos =
           getVideos();
 
 
-        if (!videos.length) {
+        if (
+          !videos.length
+        ) {
+
           return;
+
         }
 
 
@@ -2147,19 +3134,27 @@
           videos.find(
             function (video) {
 
+
               return !video.closest(
                 ".ice-layer"
               );
 
+
             }
-          ) || videos[0];
+          ) ||
+          videos[0];
 
 
         videos.forEach(
           function (video) {
 
-            if (video === sourceVideo) {
+
+            if (
+              video === sourceVideo
+            ) {
+
               return;
+
             }
 
 
@@ -2174,19 +3169,27 @@
             video.volume =
               sourceVideo.volume;
 
+
             video.muted =
               sourceVideo.muted;
+
 
             video.playbackRate =
               sourceVideo.playbackRate;
 
 
-            if (!sourceVideo.paused) {
+            if (
+              !sourceVideo.paused
+            ) {
+
 
               video.play()
-                .catch(function () {});
+                .catch(
+                  function () {}
+                );
 
             }
+
 
           }
         );
@@ -2194,10 +3197,17 @@
       }
 
 
+      /* ===================================================
+         EVENT LISTENER
+         =================================================== */
+
+
       window.addEventListener(
         "scroll",
         requestScrollUpdate,
-        { passive: true }
+        {
+          passive: true
+        }
       );
 
 
@@ -2210,8 +3220,15 @@
       window.addEventListener(
         "mousemove",
         updateMouse,
-        { passive: true }
+        {
+          passive: true
+        }
       );
+
+
+      /* ===================================================
+         STARTWERTE
+         =================================================== */
 
 
       root.style.setProperty(
@@ -2219,10 +3236,12 @@
         "0"
       );
 
+
       root.style.setProperty(
         "--mx",
         "0"
       );
+
 
       root.style.setProperty(
         "--my",
@@ -2232,9 +3251,12 @@
 
       bindVideos();
 
+
       updateScrollSplit();
 
+
     })();
+
   </script>
 
 
@@ -2243,7 +3265,9 @@
        ===================================================== -->
 
   <script>
+
     (function () {
+
 
       const RELEASE_DATE =
         new Date(
@@ -2255,21 +3279,31 @@
         "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
 
-      function pad(value) {
+      function pad(
+        value
+      ) {
 
-        return String(value)
-          .padStart(2, "0");
+
+        return String(
+          value
+        ).padStart(
+          2,
+          "0"
+        );
 
       }
 
 
       function renderCountdown() {
 
+
         const now =
           Date.now();
 
+
         const diff =
-          RELEASE_DATE - now;
+          RELEASE_DATE -
+          now;
 
 
         document
@@ -2277,12 +3311,19 @@
             ".album-countdown"
           )
           .forEach(
-            function (countdownEl) {
+            function (
+              countdownEl
+            ) {
 
-              if (diff <= 0) {
+
+              if (
+                diff <= 0
+              ) {
+
 
                 countdownEl.textContent =
                   "out now";
+
 
                 return;
 
@@ -2321,7 +3362,8 @@
 
 
               const seconds =
-                totalSeconds % 60;
+                totalSeconds %
+                60;
 
 
               countdownEl.textContent =
@@ -2333,6 +3375,7 @@
                 ":" +
                 pad(seconds);
 
+
             }
           );
 
@@ -2342,12 +3385,16 @@
             ".release-note"
           )
           .forEach(
-            function (noteEl) {
+            function (
+              noteEl
+            ) {
+
 
               noteEl.textContent =
                 diff <= 0
                   ? "„gespalten“ ist jetzt draussen."
                   : "release: 13. august 2026 · 24:00 uhr";
+
 
             }
           );
@@ -2358,31 +3405,41 @@
             ".main-cta"
           )
           .forEach(
-            function (ctaEl) {
+            function (
+              ctaEl
+            ) {
+
 
               ctaEl.href =
                 ALBUM_LINK;
+
 
               ctaEl.textContent =
                 diff <= 0
                   ? "gespalten hören"
                   : "album vormerken";
 
+
             }
           );
+
 
       }
 
 
       renderCountdown();
 
+
       setInterval(
         renderCountdown,
         1000
       );
 
+
     })();
+
   </script>
+
 
 </body>
 </html>
