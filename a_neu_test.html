@@ -1,623 +1,2388 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>b3nn3t – gespalten</title>
-
-<style>
-
-:root {
-    --denim-dark: #061523;
-    --denim: #0b2438;
-    --olive: #3e4321;
-    --thread: #c47725;
-    --thread-light: #e09a3b;
-    --metal: #a8a8a0;
-    --metal-light: #e2e0d3;
-    --metal-dark: #575954;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: auto; }
-
-body {
-    background: var(--denim);
-    color: var(--thread);
-    font-family: Arial, Helvetica, sans-serif;
-    overflow-x: hidden;
-}
-
-
-/* =========================================================
-   TOPBAR
-========================================================= */
-
-.topbar {
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 22px 6vw;
-    z-index: 60;
-    color: var(--thread);
-    font-weight: bold;
-    letter-spacing: 0.15em;
-}
-
-
-/* =========================================================
-   HERO – REISSVERSCHLUSS-SZENE
-
-   Kein Sticky/Pin mehr: die Szene ist einfach ein hoher
-   Block am Seitenanfang. pullY wird aus der Scrollposition
-   DIESES Blocks berechnet (0 = oben am Bildschirm, 1 =
-   Block ist so weit hochgescrollt wie seine eigene Höhe
-   minus einer Bildschirmhöhe).
-========================================================= */
-
-.hero {
-    position: relative;
-    height: 145vh;
-    overflow: hidden;
-}
-
-
-/* ---- Seite 2 (liegt im Hintergrund der Hero-Szene) ---- */
-
-.hero-page2 {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background:
-        radial-gradient(ellipse at center, rgba(135,139,72,0.14), transparent 55%),
-        linear-gradient(135deg, #323718, #4a5027 45%, #343919);
-}
-
-.page2-content {
-    position: relative;
-    width: min(640px, 78vw);
-    margin: 0 auto;
-    padding-top: 11vh;
-    text-align: center;
-}
-
-.page2-kicker {
-    font-size: 0.85rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--thread-light);
-    margin-bottom: 14px;
-}
-
-.page2-content h1 {
-    font-size: clamp(2.6rem, 7vw, 5rem);
-    line-height: 0.9;
-    text-transform: lowercase;
-    color: var(--thread);
-    letter-spacing: -0.05em;
-    margin-bottom: 18px;
-}
-
-.page2-intro {
-    max-width: 460px;
-    margin: 0 auto 30px;
-    font-size: clamp(0.85rem, 1.4vw, 1rem);
-    line-height: 1.6;
-    color: #d4c99c;
-}
-
-.page2-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    text-align: left;
-    font-size: 0.85rem;
-    margin-top: 20px;
-}
-
-.page2-grid h2 {
-    color: var(--thread);
-    font-size: 0.95rem;
-    text-transform: lowercase;
-    margin-bottom: 6px;
-}
-
-.page2-grid p { color: #d0c89d; line-height: 1.5; }
-
-.page2-more {
-    margin-top: 34px;
-    color: #d5c99b;
-    font-size: 0.85rem;
-}
-
-.page2-more strong { color: var(--thread); display: block; margin-bottom: 4px; }
-
-
-/* ---- Fly-Seiten (Jeans-Stoff) ---- */
-
-.fly-side {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    z-index: 10;
-}
-
-.fly-left  { left: 0; }
-.fly-right { right: 0; }
-
-.flap-closed,
-.flap-open {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse at 50% 30%, rgba(50,100,135,0.22), transparent 55%),
-        linear-gradient(115deg, var(--denim-dark), var(--denim) 50%, #0a1d2d);
-}
-
-.flap-closed::before,
-.flap-open::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    opacity: 0.25;
-    background-image:
-        repeating-linear-gradient(115deg, rgba(255,255,255,0.035) 0px, rgba(255,255,255,0.035) 1px, transparent 1px, transparent 3px),
-        repeating-linear-gradient(25deg, rgba(0,0,0,0.09) 0px, rgba(0,0,0,0.09) 1px, transparent 1px, transparent 4px);
-}
-
-/*
-   .flap-closed: IMMER nur der Bereich von pullY bis unten
-   sichtbar (per JS gesetzt). Kein Transform – rein hartes
-   Clipping. Dadurch ist unterhalb des Reißverschlusses
-   garantiert 100% blickdicht, ganz ohne Rundungs-/
-   Transform-Lücken.
-*/
-.flap-closed {
-    z-index: 2;
-    will-change: clip-path;
-}
-
-/*
-   .flap-open: nur der Bereich von 0 bis pullY sichtbar,
-   UND dreht sich exakt um den Punkt, an dem der geschlossene
-   Bereich beginnt (transform-origin wird per JS auf genau
-   pullY gesetzt) – dadurch gibt es NIE eine Lücke zwischen
-   offenem und geschlossenem Teil, beide teilen sich denselben
-   Drehpunkt.
-*/
-.flap-open {
-    z-index: 3;
-    will-change: clip-path, transform;
-}
-
-
-/* ---- fixer Abschluss oben (Knopf) ---- */
-
-.fly-closure {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 30px;
-    height: 20px;
-    border-radius: 0 0 9px 9px;
-    background: linear-gradient(180deg, var(--thread-light), var(--thread));
-    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    z-index: 30;
-}
-
-.fly-closure::after {
-    content: "";
-    position: absolute;
-    left: 50%; top: 5px;
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    background: #3a2410;
-    transform: translateX(-50%);
-}
-
-
-/* ---- Reißverschluss: nur im geschlossenen Bereich ---- */
-
-.zip-track {
-    position: absolute;
-    left: 50%;
-    width: 20px;
-    transform: translateX(-50%);
-    z-index: 20;
-    overflow: hidden;
-}
-
-.zip-tape {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, #3b3d3a, #8f9089 45%, #3b3d3a);
-    box-shadow: 0 0 4px rgba(0,0,0,0.6);
-}
-
-.zip-teeth { position: absolute; inset: 0; }
-
-.tooth {
-    position: absolute;
-    left: 50%;
-    width: 14px;
-    height: 6px;
-    border-radius: 2px;
-    transform: translateX(-50%);
-    background: linear-gradient(to bottom, #eeeeea, #888984);
-    box-shadow: 0 1px 1px #222, inset 0 1px rgba(255,255,255,0.65);
-}
-
-.zip-pull {
-    position: absolute;
-    left: 50%;
-    width: 28px;
-    height: 40px;
-    transform: translate(-50%, -6px);
-    z-index: 25;
-    filter: drop-shadow(0 4px 5px rgba(0,0,0,0.5));
-}
-
-.zip-pull svg { width: 100%; height: 100%; }
-
-
-/* ---- Scroll-Hinweis ---- */
-
-.scroll-hint {
-    position: absolute;
-    bottom: 4vh;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 40;
-    text-align: center;
-    color: var(--thread);
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    transition: opacity 0.4s ease;
-}
-
-.scroll-arrow {
-    width: 16px; height: 16px;
-    margin: 10px auto 0;
-    border-right: 2px solid var(--thread);
-    border-bottom: 2px solid var(--thread);
-    transform: rotate(45deg);
-}
-
-
-/* =========================================================
-   ECHTER SEITENINHALT – läuft normal unter der Hero-Szene
-   weiter, kein Sticky, kein Trick. Ganz normale Seite.
-========================================================= */
-
-.page1 {
-    position: relative;
-    background: var(--denim);
-    padding: 8vh 8vw 10vh;
-}
-
-.page1-brand {
-    font-size: 0.9rem;
-    font-weight: bold;
-    letter-spacing: 0.22em;
-    color: var(--thread-light);
-    margin-bottom: 16px;
-}
-
-.page1-title {
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
-    color: var(--thread);
-    text-transform: lowercase;
-    margin-bottom: 6px;
-    border-bottom: 2px dashed rgba(196,119,37,0.5);
-    display: inline-block;
-    padding-bottom: 6px;
-}
-
-.page1-subtitle {
-    color: #d2b98d;
-    font-size: 1rem;
-    margin: 14px 0 30px;
-}
-
-.media-card {
-    width: min(420px, 100%);
-    aspect-ratio: 16 / 10;
-    border: 2px solid rgba(230,220,190,0.5);
-    border-radius: 12px;
-    overflow: hidden;
-    background: linear-gradient(135deg, #8b8a78, #c1b99d);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    font-weight: bold;
-    margin-bottom: 26px;
-}
-
-.cta {
-    display: inline-block;
-    border: 1px dashed var(--thread);
-    color: var(--thread);
-    text-decoration: none;
-    font-size: 0.9rem;
-    padding: 12px 22px;
-    border-radius: 6px;
-    margin-bottom: 30px;
-}
-
-.countdown-label { font-size: 0.8rem; color: #b79a6c; margin-bottom: 4px; }
-.countdown-value { font-size: clamp(1.6rem, 4vw, 2.4rem); color: var(--thread); margin-bottom: 4px; }
-.countdown-note { font-size: 0.8rem; color: #b79a6c; margin-bottom: 26px; }
-
-.section-title {
-    color: var(--thread);
-    font-size: 1rem;
-    text-transform: lowercase;
-    margin-bottom: 10px;
-    padding-top: 18px;
-    border-top: 1px dashed rgba(196,119,37,0.35);
-}
-
-.tracklist { color: #cbb98f; font-size: 0.9rem; line-height: 1.8; margin-bottom: 10px; }
-
-.about-text { color: #cbb98f; font-size: 0.9rem; line-height: 1.7; max-width: 560px; margin-bottom: 10px; }
-
-.socials { display: flex; gap: 16px; margin-top: 24px; font-size: 0.85rem; }
-.socials a { color: var(--thread-light); text-decoration: none; }
-
-.footer-note { margin-top: 40px; font-size: 0.75rem; color: #8a7452; text-align: center; }
-
-
-@media (max-width: 700px) {
-    .hero { height: 125vh; }
-    .zip-track { width: 15px; }
-    .tooth { width: 10px; height: 5px; }
-    .page2-grid { grid-template-columns: 1fr; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-}
-
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>b3nn3t „gespalten“</title>
+  <meta name="description" content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten zwischen alt und neu." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="favicon-48.png" sizes="48x48">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+  <link rel="canonical" href="https://www.b3nn3t.com/release-gespalten.html" />
+
+  <meta property="og:type" content="music.album">
+  <meta property="og:site_name" content="b3nn3t">
+  <meta property="og:title" content="„gespalten“ – neues Album von b3nn3t">
+  <meta property="og:description" content="10 Songs. 12 Minuten zwischen alt und neu..">
+  <meta property="og:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
+  <meta property="og:url" content="https://www.b3nn3t.com/release-gespalten.html">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="„gespalten“ – neues Album von b3nn3t">
+  <meta name="twitter:description" content="10 Songs. 12 Minuten zwischen alt und neu.">
+  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicAlbum",
+    "name": "gespalten",
+    "byArtist": {
+      "@type": "MusicGroup",
+      "name": "b3nn3t"
+    },
+    "numTracks": 10,
+    "datePublished": "2026-08-13T13:00:00+02:00",
+    "image": "https://www.b3nn3t.com/assets/gespalten/gespalten.jpg",
+    "url": "https://www.b3nn3t.com/release-gespalten.html"
+  }
+  </script>
+
+  <link rel="preload" as="image" href="/assets/gespalten/gespalten.jpg" fetchpriority="high">
+
+  <style>
+    :root {
+      --text-main: #fdfdfd;
+      --text-muted: rgba(255,255,255,0.68);
+      --text-soft: rgba(255,255,255,0.46);
+      --page-max-width: 960px;
+      --release-green: #3ddc84;
+
+      /* BLAUER RISS */
+      --rift-blue: #2494ff;
+      --rift-blue-soft: rgba(36,148,255,0.32);
+      --rift-blue-glow: rgba(36,148,255,0.72);
+
+      --split: 0;
+      --mx: 0;
+      --my: 0;
+
+      --gap: calc(var(--split) * 72px);
+      --lift-left: calc(var(--split) * -22px);
+      --lift-right: calc(var(--split) * 18px);
+      --tilt-left: calc(var(--split) * -0.45deg);
+      --tilt-right: calc(var(--split) * 0.4deg);
+
+      --mouse-x: calc(var(--mx) * 6px);
+      --mouse-y: calc(var(--my) * 5px);
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      overflow-x: hidden;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+      color: var(--text-main);
+      background: #121313;
+      scroll-behavior: smooth;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: #121313;
+      z-index: -10;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(
+          circle at 50% 16%,
+          rgba(255,255,255,0.12),
+          transparent 28%
+        ),
+        radial-gradient(
+          circle at 52% 62%,
+          rgba(255,255,255,0.055),
+          transparent 36%
+        ),
+        linear-gradient(
+          rgba(10,10,10,0.22),
+          rgba(10,10,10,0.95)
+        );
+      z-index: -8;
+      pointer-events: none;
+    }
+
+    .bg-ice {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: -9;
+      pointer-events: none;
+      background: #111;
+    }
+
+    .bg-half {
+      position: absolute;
+      inset: -8%;
+      background: url("/assets/gespalten/gespalten.jpg") center / cover no-repeat;
+      filter: blur(38px) brightness(0.44) saturate(0.9);
+      opacity: 0;
+      will-change: transform, opacity;
+      transition: opacity 0.25s ease;
+    }
+
+    .is-cracked .bg-half {
+      opacity: 0.96;
+    }
+
+    .bg-half.left {
+      clip-path: polygon(
+        0 0,
+        50% 0,
+        48% 8%,
+        52% 16%,
+        49% 26%,
+        55% 39%,
+        52% 51%,
+        60% 64%,
+        56% 78%,
+        68% 100%,
+        0 100%
+      );
+
+      transform:
+        translate3d(
+          calc(var(--gap) * -0.48 + var(--mouse-x) * -0.22),
+          calc(var(--lift-left) * 0.45 + var(--mouse-y) * -0.12),
+          0
+        )
+        rotate(calc(var(--tilt-left) * 0.45))
+        scale(1.12);
+    }
+
+    .bg-half.right {
+      clip-path: polygon(
+        50% 0,
+        100% 0,
+        100% 100%,
+        68% 100%,
+        56% 78%,
+        60% 64%,
+        52% 51%,
+        55% 39%,
+        49% 26%,
+        52% 16%,
+        48% 8%
+      );
+
+      transform:
+        translate3d(
+          calc(var(--gap) * 0.48 + var(--mouse-x) * 0.22),
+          calc(var(--lift-right) * 0.45 + var(--mouse-y) * 0.12),
+          0
+        )
+        rotate(calc(var(--tilt-right) * 0.45))
+        scale(1.12);
+    }
+
+    /* =========================================================
+       BLAUER RISS ÜBER DIE KOMPLETTE SEITE
+       ========================================================= */
+
+    .full-page-rift {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+      opacity: 0.95;
+    }
+
+    /*
+       Leuchtender blauer Kern des Risses.
+       Er geht von ganz oben bis ganz unten.
+    */
+    .full-page-rift::before {
+      content: "";
+      position: absolute;
+
+      top: -2vh;
+      bottom: -2vh;
+
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      width: clamp(5px, 0.55vw, 10px);
+
+      background: var(--rift-blue);
+
+      clip-path: polygon(
+        42% 0%,
+        58% 0%,
+
+        54% 7%,
+        66% 14%,
+        43% 21%,
+        59% 29%,
+        38% 37%,
+        63% 45%,
+        46% 53%,
+        68% 61%,
+        40% 69%,
+        58% 77%,
+        36% 85%,
+        62% 92%,
+        47% 100%,
+        53% 100%,
+
+        70% 92%,
+        44% 85%,
+        64% 77%,
+        42% 69%,
+        60% 61%,
+        37% 53%,
+        55% 45%,
+        35% 37%,
+        57% 29%,
+        40% 21%,
+        63% 14%,
+        46% 7%
+      );
+
+      box-shadow:
+        0 0 7px var(--rift-blue),
+        0 0 18px var(--rift-blue-glow),
+        0 0 42px var(--rift-blue-soft);
+
+      filter:
+        drop-shadow(0 0 6px var(--rift-blue-glow));
+    }
+
+    /*
+       Breiter, transparenter blauer Glow
+       für mehr Tiefe der Spalte.
+    */
+    .full-page-rift::after {
+      content: "";
+
+      position: absolute;
+
+      top: -2vh;
+      bottom: -2vh;
+
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      width: clamp(28px, 3vw, 52px);
+
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(36,148,255,0.08) 30%,
+        rgba(36,148,255,0.24) 50%,
+        rgba(36,148,255,0.08) 70%,
+        transparent 100%
+      );
+
+      clip-path: polygon(
+        43% 0%,
+        57% 0%,
+        63% 7%,
+        44% 14%,
+        61% 21%,
+        41% 29%,
+        64% 37%,
+        43% 45%,
+        61% 53%,
+        39% 61%,
+        63% 69%,
+        43% 77%,
+        62% 85%,
+        40% 92%,
+        48% 100%,
+        52% 100%,
+        60% 92%,
+        38% 85%,
+        57% 77%,
+        37% 69%,
+        61% 61%,
+        39% 53%,
+        57% 45%,
+        36% 37%,
+        59% 29%,
+        39% 21%,
+        56% 14%,
+        37% 7%
+      );
+
+      filter: blur(2px);
+    }
+
+    /* Der normale Seiteninhalt liegt über dem Riss */
+    .page-wrap {
+      z-index: 1;
+    }
+
+    .bg-cold {
+      position: fixed;
+      inset: 0;
+      z-index: -7;
+      pointer-events: none;
+
+      background:
+        radial-gradient(
+          circle at calc(50% + var(--mouse-x))
+          calc(44% + var(--mouse-y)),
+          rgba(255,255,255,0.10),
+          transparent 18%
+        ),
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,0.50),
+          transparent 46%,
+          rgba(255,255,255,0.025) 50%,
+          transparent 54%,
+          rgba(0,0,0,0.58)
+        );
+
+      opacity: 0.9;
+    }
+
+    .page-wrap {
+      min-height: 100vh;
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+
+      padding:
+        clamp(2.8rem, 4vw, 4rem)
+        1.5rem
+        clamp(3.5rem, 5vw, 4.5rem);
+
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .content-shell {
+      width: 100%;
+      max-width: var(--page-max-width);
+      position: relative;
+    }
+
+    .main-source {
+      opacity: 1;
+      transition: opacity 0.16s ease;
+    }
+
+    .is-cracked .main-source .split-me {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .is-cracked .main-source .no-split {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ice-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      opacity: 0;
+      pointer-events: none;
+      will-change: transform, opacity;
+      transform-style: preserve-3d;
+      transition: opacity 0.16s ease;
+    }
+
+    .is-cracked .ice-layer {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .ice-layer .no-split {
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .ice-layer.left {
+      clip-path: polygon(
+        -8% -4%,
+        50% -4%,
+        48% 8%,
+        52% 16%,
+        49% 26%,
+        55% 39%,
+        52% 51%,
+        60% 64%,
+        56% 78%,
+        68% 104%,
+        -8% 104%
+      );
+
+      transform:
+        translate3d(
+          calc(var(--gap) * -1 + var(--mouse-x) * -0.32),
+          calc(var(--lift-left) + var(--mouse-y) * -0.16),
+          0
+        )
+        rotate(var(--tilt-left));
+
+      transform-origin: 34% 42%;
+
+      filter:
+        drop-shadow(8px 12px 20px rgba(0,0,0,0.22));
+    }
+
+    .ice-layer.right {
+      clip-path: polygon(
+        50% -4%,
+        108% -4%,
+        108% 104%,
+        68% 104%,
+        56% 78%,
+        60% 64%,
+        52% 51%,
+        55% 39%,
+        49% 26%,
+        52% 16%,
+        48% 8%
+      );
+
+      transform:
+        translate3d(
+          calc(var(--gap) * 1 + var(--mouse-x) * 0.32),
+          calc(var(--lift-right) + var(--mouse-y) * 0.16),
+          0
+        )
+        rotate(var(--tilt-right));
+
+      transform-origin: 66% 44%;
+
+      filter:
+        drop-shadow(-8px 12px 20px rgba(0,0,0,0.24));
+    }
+
+    main.main {
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.55rem, 2.2vw, 2.25rem);
+      position: relative;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: clamp(1.2rem, 2vw, 1.8rem);
+    }
+
+    .brand-link {
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .hero {
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 0.45rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(3.2rem, 10vw, 7.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+    }
+
+    .hero-sub {
+      margin: 1rem auto 0;
+      max-width: 650px;
+      color: var(--text-muted);
+      font-size: clamp(0.95rem, 1.7vw, 1.15rem);
+      line-height: 1.55;
+    }
+
+    .block {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .album-art {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .album-art img,
+    .album-art video {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .video-wrap video {
+      width: 100%;
+      display: block;
+    }
+
+    .mobile-video-split {
+      display: none;
+    }
+
+    .mobile-play-button {
+      display: none;
+    }
+
+    .countdown-plain {
+      text-align: center;
+      padding: 1.2rem 0;
+    }
+
+    .countdown-label {
+      margin: 0 0 0.3rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      font-size: 0.72rem;
+    }
+
+    .countdown-time {
+      margin: 0;
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .countdown-note {
+      margin: 0.6rem 0 0;
+      color: var(--text-soft);
+      font-size: 0.85rem;
+    }
+
+    .song-list-section {
+      padding-top: 1rem;
+    }
+
+    .song-list-head {
+      text-align: center;
+      margin-bottom: 1rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .song-lines {
+      width: 100%;
+    }
+
+    .song-line {
+      display: grid;
+      grid-template-columns: 1fr 1fr 80px 1fr;
+      gap: 1rem;
+      align-items: center;
+
+      padding: 0.85rem 0;
+      margin: 0;
+
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .song-line span {
+      color: rgba(255,255,255,0.8);
+    }
+
+    .song-line span:nth-child(3) {
+      text-align: center;
+      color: var(--text-soft);
+    }
+
+    .about-section {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .about-section h2 {
+      margin-top: 0;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+    }
+
+    .about-section p {
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .quote-block {
+      margin-top: 2rem;
+      padding: 2rem;
+      border-left: 2px solid rgba(255,255,255,0.2);
+      color: var(--text-soft);
+    }
+
+    .footer-combined {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .social-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .social-link {
+      display: inline-flex;
+      text-decoration: none;
+    }
+
+    .social-icon-img {
+      width: 42px;
+      height: 42px;
+      display: block;
+    }
+
+    .more-link {
+      display: inline-block;
+      margin-top: 0.8rem;
+    }
+
+    .listen-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .listen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0.85rem 1.4rem;
+
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+
+      color: #fff;
+      text-decoration: none;
+
+      font-weight: 700;
+      letter-spacing: 0.04em;
+
+      background: rgba(255,255,255,0.05);
+
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .listen-btn:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 768px) {
+
+      .page-wrap {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .full-page-rift {
+        opacity: 0.9;
+      }
+
+      .full-page-rift::before {
+        width: 5px;
+      }
+
+      .full-page-rift::after {
+        width: 30px;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 17vw, 5.5rem);
+      }
+
+      .song-line {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+        text-align: center;
+      }
+
+      .song-line span:nth-child(3) {
+        text-align: center;
+      }
+
+      .footer-combined {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="topbar">
-    <div>b3nn3t</div>
-    <div>≡</div>
-</header>
+  <!-- Hintergrund -->
+  <div class="bg-ice" aria-hidden="true">
+    <div class="bg-half left"></div>
+    <div class="bg-half right"></div>
+  </div>
 
-<section class="hero" id="hero">
+  <div class="bg-cold" aria-hidden="true"></div>
 
-    <div class="hero-page2">
-        <div class="page2-content">
-            <div class="page2-kicker">b3nn3t</div>
-            <h1>weiter</h1>
-            <p class="page2-intro">
-                hinter „gespalten" beginnt eine neue seite. der reißverschluss
-                öffnet den weg.
+  <!-- =====================================================
+       BLAUER RISS
+       Läuft über die komplette Browserseite
+       ===================================================== -->
+  <div class="full-page-rift" aria-hidden="true"></div>
+
+
+  <div class="page-wrap">
+    <div class="content-shell" id="content-shell">
+
+      <!-- =================================================
+           HAUPTINHALT
+           ================================================= -->
+
+      <div class="main-source">
+
+        <main class="main">
+
+          <div class="brand-row">
+            <a
+              class="brand-link"
+              href="https://www.b3nn3t.com/index.html">
+              b3nn3t
+            </a>
+          </div>
+
+
+          <section class="hero split-me">
+
+            <p class="eyebrow">
+              neues album
             </p>
-            <div class="page2-grid">
-                <div><h2>neue inhalte</h2><p>hier ist platz für alles, was auf deiner zweiten seite wichtig ist.</p></div>
-                <div><h2>projekte</h2><p>musik, texte, bilder, videos oder was immer du zeigen willst.</p></div>
+
+            <h1>
+              gespalten
+            </h1>
+
+            <p class="hero-sub">
+              10 kurze Songs. 12 Minuten zwischen alt und neu.
+            </p>
+
+          </section>
+
+
+          <section class="block split-me">
+
+            <div class="video-wrap">
+
+              <video
+                class="album-video"
+                id="mobile-video-base"
+                controls
+                playsinline
+                preload="metadata"
+                poster="/assets/gespalten/gespalten.jpg">
+
+                <source
+                  src="/assets/gespalten/gespalten.mp4"
+                  type="video/mp4">
+
+                Dein Browser unterstützt dieses Video nicht.
+              </video>
+
             </div>
-            <div class="page2-more">
-                <strong>mehr erfahren</strong>
-                scroll weiter oder schließe den reißverschluss und kehre zurück.
+
+            <div class="mobile-video-split" aria-hidden="true">
+              <video
+                id="mobile-video-left"
+                playsinline
+                muted>
+              </video>
+
+              <video
+                id="mobile-video-right"
+                playsinline
+                muted>
+              </video>
             </div>
-        </div>
+
+          </section>
+
+
+          <section
+            aria-label="Album Countdown"
+            class="block countdown-plain split-me">
+
+            <p class="countdown-label">
+              album unlocks in
+            </p>
+
+            <p class="countdown-time album-countdown">
+              --d --:--:--
+            </p>
+
+            <p class="countdown-note release-note">
+              release: 13. august 2026 · 24:00 uhr
+            </p>
+
+          </section>
+
+
+          <section
+            aria-label="Songs auf gespalten"
+            class="block song-list-section split-me">
+
+            <div class="song-list-head">
+              <strong>10 fragments</strong>
+              <br>
+              <br>
+            </div>
+
+            <div class="song-lines">
+
+              <p class="song-line">
+                <span>desigual</span>
+                <span>aergerlich</span>
+                <span>3</span>
+                <span>(fenster scherben)</span>
+              </p>
+
+              <p class="song-line">
+                <span>5r</span>
+                <span>6</span>
+                <span>7</span>
+                <span></span>
+              </p>
+
+              <p class="song-line">
+                <span>8?</span>
+                <span>wegwerfkamera</span>
+                <span>2011</span>
+                <span></span>
+              </p>
+
+            </div>
+
+          </section>
+
+
+          <section
+            aria-label="über das Album"
+            class="block about-section split-me">
+
+            <h2>
+              über das Album
+            </h2>
+
+            <p>
+              „gespalten“ ist ein kurzes album aus 10 fragmenten.
+              12 minuten im übergang zwischen alt mit deutschsprachigen skizzen.
+            </p>
+
+            <p>
+              die songs sind eher gedanken und gefühle als klassische tracks
+              kurz, direkt, unfertig im besten sinn.
+            </p>
+
+            <div class="quote-block">
+              <br>
+            </div>
+
+          </section>
+
+
+          <div class="no-split footer-combined">
+
+            <section
+              aria-label="Streaming"
+              class="block">
+
+              <h2>
+                kuck hier
+              </h2>
+
+              <div class="social-icons">
+
+                <a
+                  href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                  class="social-link"
+                  aria-label="Spotify – b3nn3t"
+                  target="_blank"
+                  rel="noopener">
+
+                  <picture>
+                    <source
+                      srcset="assets/release/spotify_128.webp"
+                      type="image/webp">
+
+                    <img
+                      class="social-icon-img"
+                      src="assets/release/spotify_128.png"
+                      alt="Spotify">
+                  </picture>
+
+                </a>
+
+
+                <a
+                  href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                  class="social-link"
+                  aria-label="Apple Music – b3nn3t"
+                  target="_blank"
+                  rel="noopener">
+
+                  <picture>
+                    <source
+                      srcset="assets/release/apple_music_128.webp"
+                      type="image/webp">
+
+                    <img
+                      class="social-icon-img"
+                      src="assets/release/apple_music_128.png"
+                      alt="Apple Music">
+                  </picture>
+
+                </a>
+
+
+                <a
+                  href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                  class="social-link"
+                  aria-label="Instagram – b3nn3t"
+                  target="_blank"
+                  rel="noopener">
+
+                  <picture>
+                    <source
+                      srcset="assets/release/instagram_128.webp"
+                      type="image/webp">
+
+                    <img
+                      class="social-icon-img"
+                      src="assets/release/instagram_128.png"
+                      alt="Instagram">
+                  </picture>
+
+                </a>
+
+
+                <a
+                  href="https://www.youtube.com/@b333nn3t"
+                  class="social-link"
+                  aria-label="YouTube – b3nn3t"
+                  target="_blank"
+                  rel="noopener">
+
+                  <picture>
+                    <source
+                      srcset="assets/release/youtube_128.webp"
+                      type="image/webp">
+
+                    <img
+                      class="social-icon-img"
+                      src="assets/release/youtube_128.png"
+                      alt="YouTube">
+                  </picture>
+
+                </a>
+
+
+                <a
+                  href="https://soundcloud.com/bennet-6942069420"
+                  class="social-link"
+                  aria-label="SoundCloud – b3nn3t"
+                  target="_blank"
+                  rel="noopener">
+
+                  <picture>
+                    <source
+                      srcset="assets/release/soundcloud_128.webp"
+                      type="image/webp">
+
+                    <img
+                      class="social-icon-img"
+                      src="assets/release/soundcloud_128.png"
+                      alt="SoundCloud">
+                  </picture>
+
+                </a>
+
+              </div>
+
+            </section>
+
+
+            <section
+              aria-label="Mehr von b3nn3t"
+              class="block">
+
+              <p>
+                mehr auf meiner webseite :p
+              </p>
+
+              <a
+                class="brand-link more-link"
+                href="https://www.b3nn3t.com/index.html">
+                b3nn3t.com
+              </a>
+
+            </section>
+
+          </div>
+
+
+          <div class="listen-wrap">
+
+            <a
+              class="listen-btn main-cta"
+              href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
+              target="_blank"
+              rel="noopener">
+
+              album vormerken
+
+            </a>
+
+          </div>
+
+        </main>
+
+      </div>
+
+
+      <!-- =================================================
+           LINKER CLONE
+           ================================================= -->
+
+      <div class="ice-layer left" aria-hidden="true">
+        <div class="ice-layer-inner"></div>
+      </div>
+
+
+      <!-- =================================================
+           RECHTER CLONE
+           ================================================= -->
+
+      <div class="ice-layer right" aria-hidden="true">
+        <div class="ice-layer-inner"></div>
+      </div>
+
     </div>
-
-    <div class="fly-side fly-left">
-        <div class="flap-closed" id="closedLeft"></div>
-        <div class="flap-open"   id="openLeft"></div>
-    </div>
-
-    <div class="fly-side fly-right">
-        <div class="flap-closed" id="closedRight"></div>
-        <div class="flap-open"   id="openRight"></div>
-    </div>
-
-    <div class="fly-closure"></div>
-
-    <div class="zip-track" id="zipTrack">
-        <div class="zip-tape"></div>
-        <div class="zip-teeth" id="zipTeeth"></div>
-    </div>
-
-    <div class="zip-pull" id="zipPull">
-        <svg viewBox="0 0 28 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="9" y="0" width="10" height="10" rx="2" fill="#d8dadd"/>
-            <path d="M4 10h20v6c0 8-4.5 12-10 18-5.5-6-10-10-10-18v-6z" fill="#b8935a" stroke="#6b6f73" stroke-width="1"/>
-            <circle cx="14" cy="18" r="3.2" fill="#2b2d2f"/>
-        </svg>
-    </div>
-
-    <div class="scroll-hint" id="scrollHint">
-        nach unten öffnen
-        <div class="scroll-arrow"></div>
-    </div>
-
-</section>
+  </div>
 
 
-<!-- ============================================================
-     ECHTER SEITENINHALT – ganz normale Seite, kein Trick mehr
-============================================================= -->
+  <!-- =====================================================
+       SPLIT / SCROLL / MOUSE JAVASCRIPT
+       ===================================================== -->
 
-<main class="page1">
+  <script>
+    (function () {
 
-    <div class="page1-brand">b3nn3t</div>
-    <h1 class="page1-title">gespalten</h1>
-    <p class="page1-subtitle">übergang zwischen alt und neu</p>
+      const root = document.documentElement;
 
-    <div class="media-card">DEIN VIDEO / BILD</div>
-
-    <a class="cta" href="#">album vormerken ↗</a>
-
-    <div class="countdown-label">album unlocks in</div>
-    <div class="countdown-value" id="countdownValue">–</div>
-    <div class="countdown-note">release: 14. august 2026 · 00:00 uhr</div>
-
-    <div class="section-title">10 fragments</div>
-    <div class="tracklist">
-        desigual · ärgerlich · 3 · (fenster scherben)<br>
-        5r · 6 · 7<br>
-        8? · wegwerfkamera · 2011
-    </div>
-
-    <div class="section-title">über das album</div>
-    <p class="about-text">
-        „gespalten" ist ein kurzes album aus 10 fragmenten. 12 minuten im
-        übergang zwischen alt und neu, mit deutschsprachigen skizzen.
-    </p>
-    <p class="about-text">
-        die songs sind eher gedanken und gefühle als klassische tracks –
-        kurz, direkt, unfertig im besten sinn.
-    </p>
-
-    <div class="socials">
-        <a href="#">instagram</a>
-        <a href="#">youtube</a>
-        <a href="#">spotify</a>
-        <a href="#">soundcloud</a>
-    </div>
-
-    <div class="footer-note">© 2026 b3nn3t</div>
-
-</main>
+      const isMobile =
+        window.matchMedia("(pointer: coarse)").matches ||
+        window.matchMedia("(max-width: 768px)").matches;
 
 
-<script>
-(function () {
+      /* ===================================================
+         MOBILE
+         =================================================== */
 
-    const hero        = document.getElementById("hero");
-    const closedLeft   = document.getElementById("closedLeft");
-    const closedRight  = document.getElementById("closedRight");
-    const openLeft      = document.getElementById("openLeft");
-    const openRight      = document.getElementById("openRight");
-    const zipTrack       = document.getElementById("zipTrack");
-    const zipTeeth       = document.getElementById("zipTeeth");
-    const zipPull        = document.getElementById("zipPull");
-    const scrollHint     = document.getElementById("scrollHint");
-    const countdownValue = document.getElementById("countdownValue");
+      if (isMobile) {
 
-    /* =====================================================
-       ZÄHNE ERZEUGEN (genug für die volle Hero-Höhe)
-    ===================================================== */
+        root.classList.add("mobile-precrack");
 
-    const TOOTH_SPACING = 16;
-    const maxTeeth = Math.ceil(window.innerHeight / TOOTH_SPACING) + 2;
-
-    for (let i = 0; i < maxTeeth; i++) {
-        const t = document.createElement("div");
-        t.className = "tooth";
-        t.style.top = (i * TOOTH_SPACING) + "px";
-        zipTeeth.appendChild(t);
-    }
+        root.style.setProperty("--mx", "0");
+        root.style.setProperty("--my", "0");
 
 
-    /* =====================================================
+        const shell =
+          document.getElementById("content-shell");
+
+        const source =
+          document.querySelector(".main-source");
+
+        const targets =
+          document.querySelectorAll(".ice-layer-inner");
+
+
+        if (shell && source && targets.length) {
+
+          targets.forEach(function (target) {
+
+            const clone =
+              source.cloneNode(true);
+
+            clone.classList.remove("main-source");
+            clone.classList.add("main-clone");
+
+
+            clone.querySelectorAll("video")
+              .forEach(function (video) {
+                video.remove();
+              });
+
+
+            clone.querySelectorAll(".mobile-video-split")
+              .forEach(function (layer) {
+                layer.remove();
+              });
+
+
+            clone.querySelectorAll(".mobile-play-button")
+              .forEach(function (button) {
+                button.remove();
+              });
+
+
+            clone.querySelectorAll(".cover-inner")
+              .forEach(function (inner) {
+                inner.innerHTML = "";
+              });
+
+
+            clone.querySelectorAll("a")
+              .forEach(function (link) {
+                link.setAttribute("tabindex", "-1");
+              });
+
+
+            target.appendChild(clone);
+
+          });
+
+        }
+
+
+        let mobileTicking = false;
+
+
+        function updateMobileSplit() {
+
+          const raw =
+            Math.min(
+              Math.max(window.scrollY / 720, 0),
+              1
+            );
+
+          const split =
+            Math.pow(raw, 0.92);
+
+          root.style.setProperty(
+            "--split",
+            split.toFixed(4)
+          );
+
+          mobileTicking = false;
+
+        }
+
+
+        function requestMobileUpdate() {
+
+          if (!mobileTicking) {
+
+            mobileTicking = true;
+
+            requestAnimationFrame(
+              updateMobileSplit
+            );
+
+          }
+
+        }
+
+
+        function bindMobileVideoSplit() {
+
+          const base =
+            document.getElementById(
+              "mobile-video-base"
+            );
+
+          const left =
+            document.getElementById(
+              "mobile-video-left"
+            );
+
+          const right =
+            document.getElementById(
+              "mobile-video-right"
+            );
+
+          const playButton =
+            document.querySelector(
+              ".mobile-play-button"
+            );
+
+
+          if (!base || !left || !right) {
+            return;
+          }
+
+
+          const mirrors =
+            [left, right];
+
+
+          let syncing = false;
+
+
+          function showPlayButton(show) {
+
+            if (!playButton) {
+              return;
+            }
+
+            if (show) {
+              playButton.classList.remove(
+                "is-hidden"
+              );
+            } else {
+              playButton.classList.add(
+                "is-hidden"
+              );
+            }
+
+          }
+
+
+          function resetToPoster() {
+
+            [base, left, right]
+              .forEach(function (video) {
+
+                try {
+                  video.pause();
+                  video.currentTime = 0;
+                } catch (e) {}
+
+              });
+
+
+            setTimeout(function () {
+
+              [base, left, right]
+                .forEach(function (video) {
+
+                  try {
+                    video.load();
+                  } catch (e) {}
+
+                });
+
+              showPlayButton(true);
+
+            }, 80);
+
+          }
+
+
+          function syncMirrors(eventName) {
+
+            if (syncing) {
+              return;
+            }
+
+            syncing = true;
+
+
+            mirrors.forEach(function (video) {
+
+              if (
+                Math.abs(
+                  video.currentTime -
+                  base.currentTime
+                ) > 0.12
+              ) {
+
+                try {
+                  video.currentTime =
+                    base.currentTime;
+                } catch (e) {}
+
+              }
+
+
+              video.playbackRate =
+                base.playbackRate;
+
+
+              if (
+                eventName === "play" &&
+                video.paused
+              ) {
+
+                video.play()
+                  .catch(function () {});
+
+              }
+
+
+              if (
+                (eventName === "pause" ||
+                 eventName === "ended") &&
+                !video.paused
+              ) {
+
+                video.pause();
+
+              }
+
+            });
+
+
+            syncing = false;
+
+          }
+
+
+          function keepClose() {
+
+            mirrors.forEach(function (video) {
+
+              if (
+                !base.paused &&
+                Math.abs(
+                  video.currentTime -
+                  base.currentTime
+                ) > 0.18
+              ) {
+
+                try {
+                  video.currentTime =
+                    base.currentTime;
+                } catch (e) {}
+
+              }
+
+            });
+
+          }
+
+
+          function startVideo() {
+
+            if (base.ended) {
+
+              try {
+                base.currentTime = 0;
+              } catch (e) {}
+
+            }
+
+
+            syncMirrors("seeked");
+
+
+            base.play()
+              .then(function () {
+
+                showPlayButton(false);
+
+                syncMirrors("play");
+
+              })
+              .catch(function () {
+
+                showPlayButton(true);
+
+              });
+
+          }
+
+
+          base.addEventListener(
+            "play",
+            function () {
+
+              showPlayButton(false);
+              syncMirrors("play");
+
+            }
+          );
+
+
+          base.addEventListener(
+            "pause",
+            function () {
+
+              if (!base.ended) {
+                showPlayButton(true);
+              }
+
+              syncMirrors("pause");
+
+            }
+          );
+
+
+          base.addEventListener(
+            "ended",
+            function () {
+
+              resetToPoster();
+
+            }
+          );
+
+
+          base.addEventListener(
+            "seeked",
+            function () {
+
+              syncMirrors("seeked");
+
+            }
+          );
+
+
+          base.addEventListener(
+            "ratechange",
+            function () {
+
+              syncMirrors("ratechange");
+
+            }
+          );
+
+
+          base.addEventListener(
+            "loadedmetadata",
+            function () {
+
+              syncMirrors("loadedmetadata");
+
+              showPlayButton(
+                base.paused
+              );
+
+            }
+          );
+
+
+          base.addEventListener(
+            "timeupdate",
+            keepClose
+          );
+
+
+          mirrors.forEach(function (video) {
+
+            video.muted = true;
+            video.controls = false;
+            video.playsInline = true;
+
+          });
+
+
+          if (playButton) {
+
+            playButton.addEventListener(
+              "click",
+              function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                startVideo();
+
+              }
+            );
+
+          }
+
+
+          showPlayButton(true);
+
+        }
+
+
+        window.addEventListener(
+          "scroll",
+          requestMobileUpdate,
+          { passive: true }
+        );
+
+        window.addEventListener(
+          "resize",
+          requestMobileUpdate
+        );
+
+
+        bindMobileVideoSplit();
+        updateMobileSplit();
+
+        return;
+
+      }
+
+
+      /* ===================================================
+         DESKTOP
+         =================================================== */
+
+      const shell =
+        document.getElementById(
+          "content-shell"
+        );
+
+      const source =
+        document.querySelector(
+          ".main-source"
+        );
+
+      const targets =
+        document.querySelectorAll(
+          ".ice-layer-inner"
+        );
+
+
+      let clonesCreated = false;
+      let activated = false;
+      let readyForMouseActivation = false;
+      let ticking = false;
+
+      let mouseTargetX = 0;
+      let mouseTargetY = 0;
+
+      let mouseX = 0;
+      let mouseY = 0;
+
+      let mouseSplit = 0;
+      let scrollSplit = 0;
+
+      let mouseRaf = null;
+
+      const boundVideos =
+        new WeakSet();
+
+
+      const POSTER_URL =
+        "/assets/gespalten/gespalten.jpg";
+
+      const VIDEO_URL =
+        "/assets/gespalten/gespalten.mp4";
+
+
+      setTimeout(
+        function () {
+          readyForMouseActivation = true;
+        },
+        650
+      );
+
+
+      function clamp(value, min, max) {
+
+        return Math.min(
+          Math.max(value, min),
+          max
+        );
+
+      }
+
+
+      function getVideos() {
+
+        return Array.from(
+          document.querySelectorAll(
+            ".album-video"
+          )
+        );
+
+      }
+
+
+      function createClones() {
+
+        if (
+          clonesCreated ||
+          !shell ||
+          !source ||
+          !targets.length
+        ) {
+          return;
+        }
+
+
+        targets.forEach(function (target) {
+
+          const clone =
+            source.cloneNode(true);
+
+
+          clone.classList.remove(
+            "main-source"
+          );
+
+          clone.classList.add(
+            "main-clone"
+          );
+
+
+          clone.querySelectorAll(
+            ".mobile-video-split"
+          ).forEach(function (layer) {
+
+            layer.remove();
+
+          });
+
+
+          clone.querySelectorAll(
+            ".mobile-play-button"
+          ).forEach(function (button) {
+
+            button.remove();
+
+          });
+
+
+          clone.querySelectorAll(
+            "video"
+          ).forEach(function (video) {
+
+            video.setAttribute(
+              "poster",
+              POSTER_URL
+            );
+
+            video.setAttribute(
+              "preload",
+              "metadata"
+            );
+
+
+            const sourceEl =
+              video.querySelector(
+                "source"
+              );
+
+
+            if (sourceEl) {
+
+              sourceEl.setAttribute(
+                "src",
+                VIDEO_URL
+              );
+
+              sourceEl.setAttribute(
+                "type",
+                "video/mp4"
+              );
+
+            }
+
+
+            try {
+              video.load();
+            } catch (e) {}
+
+          });
+
+
+          target.appendChild(clone);
+
+        });
+
+
+        clonesCreated = true;
+
+        bindVideos();
+
+      }
+
+
+      function activate() {
+
+        if (activated) {
+          return;
+        }
+
+
+        createClones();
+
+        activated = true;
+
+        document.body.classList.add(
+          "is-cracked"
+        );
+
+
+        syncAllVideos();
+
+        applySplit();
+
+      }
+
+
+      function applySplit() {
+
+        const split =
+          activated
+            ? Math.max(
+                scrollSplit,
+                mouseSplit
+              )
+            : 0;
+
+
+        root.style.setProperty(
+          "--split",
+          split.toFixed(4)
+        );
+
+      }
+
+
+      function updateScrollSplit() {
+
+        const maxScroll =
+          Math.max(
+            1,
+            document.documentElement.scrollHeight -
+            window.innerHeight
+          );
+
+
+        const raw =
+          clamp(
+            window.scrollY / maxScroll,
+            0,
+            1
+          );
+
+
+        if (window.scrollY > 8) {
+          activate();
+        }
+
+
+        scrollSplit =
+          activated
+            ? 1 - Math.pow(
+                1 - raw,
+                1.85
+              )
+            : 0;
+
+
+        applySplit();
+
+        ticking = false;
+
+      }
+
+
+      function requestScrollUpdate() {
+
+        if (!ticking) {
+
+          requestAnimationFrame(
+            updateScrollSplit
+          );
+
+          ticking = true;
+
+        }
+
+      }
+
+
+      function animateMouse() {
+
+        const dx =
+          mouseTargetX - mouseX;
+
+        const dy =
+          mouseTargetY - mouseY;
+
+
+        mouseX += dx * 0.16;
+        mouseY += dy * 0.16;
+
+
+        root.style.setProperty(
+          "--mx",
+          mouseX.toFixed(4)
+        );
+
+        root.style.setProperty(
+          "--my",
+          mouseY.toFixed(4)
+        );
+
+
+        applySplit();
+
+
+        const settled =
+          Math.abs(dx) < 0.001 &&
+          Math.abs(dy) < 0.001;
+
+
+        if (!settled) {
+
+          mouseRaf =
+            requestAnimationFrame(
+              animateMouse
+            );
+
+        } else {
+
+          mouseRaf = null;
+
+        }
+
+      }
+
+
+      function updateMouse(e) {
+
+        const movedEnough =
+          Math.abs(e.movementX || 0) +
+          Math.abs(e.movementY || 0) > 1;
+
+
+        if (
+          readyForMouseActivation &&
+          movedEnough
+        ) {
+
+          activate();
+
+        }
+
+
+        const x =
+          (
+            e.clientX /
+            window.innerWidth -
+            0.5
+          ) * 2;
+
+
+        const y =
+          (
+            e.clientY /
+            window.innerHeight -
+            0.5
+          ) * 2;
+
+
+        mouseTargetX =
+          clamp(x, -1, 1);
+
+        mouseTargetY =
+          clamp(y, -1, 1);
+
+
+        const distance =
+          Math.sqrt(
+            mouseTargetX *
+            mouseTargetX +
+            mouseTargetY *
+            mouseTargetY
+          );
+
+
+        mouseSplit =
+          activated
+            ? clamp(
+                0.08 +
+                distance * 0.12,
+                0.08,
+                0.22
+              )
+            : 0;
+
+
+        if (!mouseRaf) {
+
+          mouseRaf =
+            requestAnimationFrame(
+              animateMouse
+            );
+
+        }
+
+      }
+
+
+      let videoSyncing = false;
+
+
+      function syncFrom(
+        sourceVideo,
+        eventName
+      ) {
+
+        if (videoSyncing) {
+          return;
+        }
+
+
+        videoSyncing = true;
+
+
+        getVideos().forEach(
+          function (video) {
+
+            if (video === sourceVideo) {
+              return;
+            }
+
+
+            if (
+              Math.abs(
+                video.currentTime -
+                sourceVideo.currentTime
+              ) > 0.12
+            ) {
+
+              try {
+
+                video.currentTime =
+                  sourceVideo.currentTime;
+
+              } catch (e) {}
+
+            }
+
+
+            video.volume =
+              sourceVideo.volume;
+
+            video.muted =
+              sourceVideo.muted;
+
+            video.playbackRate =
+              sourceVideo.playbackRate;
+
+
+            if (
+              eventName === "play" &&
+              video.paused
+            ) {
+
+              video.play()
+                .catch(function () {});
+
+            }
+
+
+            if (
+              eventName === "pause" &&
+              !video.paused
+            ) {
+
+              video.pause();
+
+            }
+
+          }
+        );
+
+
+        videoSyncing = false;
+
+      }
+
+
+      function resetDesktopVideosToPoster() {
+
+        getVideos().forEach(
+          function (video) {
+
+            try {
+
+              video.pause();
+              video.currentTime = 0;
+
+            } catch (e) {}
+
+          }
+        );
+
+
+        setTimeout(
+          function () {
+
+            getVideos().forEach(
+              function (video) {
+
+                try {
+                  video.load();
+                } catch (e) {}
+
+              }
+            );
+
+          },
+          80
+        );
+
+      }
+
+
+      function bindVideos() {
+
+        getVideos().forEach(
+          function (video) {
+
+            if (
+              boundVideos.has(video)
+            ) {
+              return;
+            }
+
+
+            boundVideos.add(video);
+
+
+            [
+              "play",
+              "pause",
+              "seeked",
+              "volumechange",
+              "ratechange"
+            ].forEach(
+              function (eventName) {
+
+                video.addEventListener(
+                  eventName,
+                  function () {
+
+                    syncFrom(
+                      video,
+                      eventName
+                    );
+
+                  }
+                );
+
+              }
+            );
+
+
+            video.addEventListener(
+              "timeupdate",
+              function () {
+
+                syncFrom(
+                  video,
+                  "timeupdate"
+                );
+
+              }
+            );
+
+
+            video.addEventListener(
+              "ended",
+              function () {
+
+                resetDesktopVideosToPoster();
+
+              }
+            );
+
+          }
+        );
+
+      }
+
+
+      function syncAllVideos() {
+
+        const videos =
+          getVideos();
+
+
+        if (!videos.length) {
+          return;
+        }
+
+
+        const sourceVideo =
+          videos.find(
+            function (video) {
+
+              return !video.closest(
+                ".ice-layer"
+              );
+
+            }
+          ) || videos[0];
+
+
+        videos.forEach(
+          function (video) {
+
+            if (video === sourceVideo) {
+              return;
+            }
+
+
+            try {
+
+              video.currentTime =
+                sourceVideo.currentTime;
+
+            } catch (e) {}
+
+
+            video.volume =
+              sourceVideo.volume;
+
+            video.muted =
+              sourceVideo.muted;
+
+            video.playbackRate =
+              sourceVideo.playbackRate;
+
+
+            if (!sourceVideo.paused) {
+
+              video.play()
+                .catch(function () {});
+
+            }
+
+          }
+        );
+
+      }
+
+
+      window.addEventListener(
+        "scroll",
+        requestScrollUpdate,
+        { passive: true }
+      );
+
+
+      window.addEventListener(
+        "resize",
+        requestScrollUpdate
+      );
+
+
+      window.addEventListener(
+        "mousemove",
+        updateMouse,
+        { passive: true }
+      );
+
+
+      root.style.setProperty(
+        "--split",
+        "0"
+      );
+
+      root.style.setProperty(
+        "--mx",
+        "0"
+      );
+
+      root.style.setProperty(
+        "--my",
+        "0"
+      );
+
+
+      bindVideos();
+
+      updateScrollSplit();
+
+    })();
+  </script>
+
+
+  <!-- =====================================================
        COUNTDOWN
-    ===================================================== */
+       ===================================================== -->
 
-    const releaseDate = new Date("2026-08-14T00:00:00+02:00");
+  <script>
+    (function () {
 
-    function updateCountdown() {
-        const diff = releaseDate.getTime() - Date.now();
-        if (diff <= 0) { countdownValue.textContent = "jetzt draußen"; return; }
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff / 3600000) % 24);
-        const m = Math.floor((diff / 60000) % 60);
-        const s = Math.floor((diff / 1000) % 60);
-        countdownValue.textContent =
-            d + "d " + String(h).padStart(2,"0") + ":" + String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
-    }
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+      const RELEASE_DATE =
+        new Date(
+          "2026-08-14T00:00:00+02:00"
+        ).getTime();
 
 
-    /* =====================================================
-       SCROLL-FUNKTION
+      const ALBUM_LINK =
+        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
-       pullY = wie weit unten (in px, gemessen von oben im
-       Hero) der Reißverschluss gerade steht.
 
-       - .flap-closed zeigt IMMER nur den Bereich von pullY
-         bis unten (clip-path inset, kein Transform) -> dort
-         kann niemals etwas durchscheinen.
-       - .flap-open zeigt nur 0..pullY UND dreht sich exakt
-         um den Punkt (pullY, Mitte) -> teilt sich denselben
-         Drehpunkt wie der Rand von .flap-closed, also keine
-         Lücke zwischen beiden.
-       - .zip-track (Zähne) beginnt ebenfalls exakt bei pullY
-         und reicht bis unten -> Zipper klebt immer an der
-         Kante des geschlossenen Bereichs.
-    ===================================================== */
+      function pad(value) {
 
-    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+        return String(value)
+          .padStart(2, "0");
 
-    function updateHero() {
+      }
 
-        const rect = hero.getBoundingClientRect();
-        const heroHeight = hero.offsetHeight;
-        const vh = window.innerHeight;
 
-        let progress = -rect.top / (heroHeight - vh);
-        progress = clamp(progress, 0, 1);
+      function renderCountdown() {
 
-        const eased = progress < 0.5
-            ? 2 * progress * progress
-            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        const now =
+          Date.now();
 
-        // Reißverschluss geht nie ganz bis unten -> Stoffrest bleibt sichtbar
-        const pullYpx = eased * heroHeight * 0.62;
+        const diff =
+          RELEASE_DATE - now;
 
-        const maxRotation = 40;
-        const rotation = maxRotation * eased;
 
-        /* -------- geschlossener Bereich (hart geclippt) -------- */
+        document
+          .querySelectorAll(
+            ".album-countdown"
+          )
+          .forEach(
+            function (countdownEl) {
 
-        closedLeft.style.clipPath  = `inset(${pullYpx}px 0 0 0)`;
-        closedRight.style.clipPath = `inset(${pullYpx}px 0 0 0)`;
+              if (diff <= 0) {
 
-        /* -------- offener Bereich (rotiert um exakt denselben Punkt) -------- */
+                countdownEl.textContent =
+                  "out now";
 
-        const originPercent = clamp((pullYpx / heroHeight) * 100, 0, 100);
+                return;
 
-        openLeft.style.clipPath = `inset(0 0 calc(100% - ${pullYpx}px) 0)`;
-        openLeft.style.transformOrigin = `100% ${originPercent}%`;
-        openLeft.style.transform = `rotate(${-rotation}deg)`;
+              }
 
-        openRight.style.clipPath = `inset(0 0 calc(100% - ${pullYpx}px) 0)`;
-        openRight.style.transformOrigin = `0% ${originPercent}%`;
-        openRight.style.transform = `rotate(${rotation}deg)`;
 
-        /* -------- Reißverschluss: nur im geschlossenen Bereich -------- */
+              const totalSeconds =
+                Math.floor(
+                  diff / 1000
+                );
 
-        zipTrack.style.top = pullYpx + "px";
-        zipTrack.style.height = (heroHeight - pullYpx) + "px";
-        zipPull.style.top = pullYpx + "px";
 
-        /* -------- Scroll-Hinweis -------- */
+              const days =
+                Math.floor(
+                  totalSeconds /
+                  (3600 * 24)
+                );
 
-        scrollHint.style.opacity = Math.max(0, 1 - eased * 5);
-    }
 
-    window.addEventListener("scroll", updateHero, { passive: true });
-    window.addEventListener("resize", updateHero);
-    updateHero();
+              const hours =
+                Math.floor(
+                  (
+                    totalSeconds %
+                    (3600 * 24)
+                  ) / 3600
+                );
 
-})();
-</script>
+
+              const minutes =
+                Math.floor(
+                  (
+                    totalSeconds %
+                    3600
+                  ) / 60
+                );
+
+
+              const seconds =
+                totalSeconds % 60;
+
+
+              countdownEl.textContent =
+                pad(days) +
+                "d " +
+                pad(hours) +
+                ":" +
+                pad(minutes) +
+                ":" +
+                pad(seconds);
+
+            }
+          );
+
+
+        document
+          .querySelectorAll(
+            ".release-note"
+          )
+          .forEach(
+            function (noteEl) {
+
+              noteEl.textContent =
+                diff <= 0
+                  ? "„gespalten“ ist jetzt draussen."
+                  : "release: 13. august 2026 · 24:00 uhr";
+
+            }
+          );
+
+
+        document
+          .querySelectorAll(
+            ".main-cta"
+          )
+          .forEach(
+            function (ctaEl) {
+
+              ctaEl.href =
+                ALBUM_LINK;
+
+              ctaEl.textContent =
+                diff <= 0
+                  ? "gespalten hören"
+                  : "album vormerken";
+
+            }
+          );
+
+      }
+
+
+      renderCountdown();
+
+      setInterval(
+        renderCountdown,
+        1000
+      );
+
+    })();
+  </script>
 
 </body>
 </html>
