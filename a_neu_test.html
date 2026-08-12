@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>b3nn3t „gespalten“</title>
-  <meta name="description" content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten zwischen alt und neu." />
+
+  <meta
+    name="description"
+    content="„gespalten“ – das neue Album von b3nn3t. 10 kurze Songs, 12 Minuten zwischen alt und neu."
+  />
+
   <meta name="robots" content="index,follow,max-image-preview:large" />
 
   <link rel="icon" href="favicon.ico" sizes="any">
@@ -13,19 +18,43 @@
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
-  <link rel="canonical" href="https://www.b3nn3t.com/release-gespalten.html" />
+  <link
+    rel="canonical"
+    href="https://www.b3nn3t.com/release-gespalten.html"
+  />
 
   <meta property="og:type" content="music.album">
   <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="„gespalten“ – neues Album von b3nn3t">
-  <meta property="og:description" content="10 Songs. 12 Minuten zwischen alt und neu..">
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
-  <meta property="og:url" content="https://www.b3nn3t.com/release-gespalten.html">
+  <meta
+    property="og:title"
+    content="„gespalten“ – neues Album von b3nn3t"
+  >
+  <meta
+    property="og:description"
+    content="10 Songs. 12 Minuten zwischen alt und neu."
+  >
+  <meta
+    property="og:image"
+    content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg"
+  >
+  <meta
+    property="og:url"
+    content="https://www.b3nn3t.com/release-gespalten.html"
+  >
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="„gespalten“ – neues Album von b3nn3t">
-  <meta name="twitter:description" content="10 Songs. 12 Minuten zwischen alt und neu.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg">
+  <meta
+    name="twitter:title"
+    content="„gespalten“ – neues Album von b3nn3t"
+  >
+  <meta
+    name="twitter:description"
+    content="10 Songs. 12 Minuten zwischen alt und neu."
+  >
+  <meta
+    name="twitter:image"
+    content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg"
+  >
 
   <script type="application/ld+json">
   {
@@ -43,46 +72,85 @@
   }
   </script>
 
-  <link rel="preload" as="image" href="/assets/gespalten/gespalten.jpg" fetchpriority="high">
+  <link
+    rel="preload"
+    as="image"
+    href="/assets/gespalten/gespalten.jpg"
+    fetchpriority="high"
+  >
 
   <style>
 
+    /* =========================================================
+       GRUNDWERTE
+       ========================================================= */
+
     :root {
+
       --text-main: #fdfdfd;
       --text-muted: rgba(255,255,255,0.68);
       --text-soft: rgba(255,255,255,0.46);
+
       --page-max-width: 960px;
+
       --release-green: #3ddc84;
 
       /*
-        BLAUE SPALTE
-        Die Farbe der kompletten Fläche zwischen
-        den beiden auseinanderbrechenden Seiten.
+        DIE BLAUE SPALTE
+
+        Diese Farbe liegt komplett hinter den beiden
+        auseinanderbrechenden Seiten.
+
+        Es gibt KEINEN separaten blauen Riss mehr.
       */
       --gap-blue: #2494ff;
 
+      /*
+        0 = geschlossen
+        1 = maximal auseinander
+      */
       --split: 0;
+
       --mx: 0;
       --my: 0;
 
+      /*
+        Abstand der beiden Seiten.
+      */
       --gap: calc(var(--split) * 72px);
 
-      --lift-left: calc(var(--split) * -22px);
-      --lift-right: calc(var(--split) * 18px);
+      --lift-left:
+        calc(var(--split) * -22px);
 
-      --tilt-left: calc(var(--split) * -0.45deg);
-      --tilt-right: calc(var(--split) * 0.4deg);
+      --lift-right:
+        calc(var(--split) * 18px);
 
-      --mouse-x: calc(var(--mx) * 6px);
-      --mouse-y: calc(var(--my) * 5px);
+      --tilt-left:
+        calc(var(--split) * -0.45deg);
+
+      --tilt-right:
+        calc(var(--split) * 0.4deg);
+
+      --mouse-x:
+        calc(var(--mx) * 6px);
+
+      --mouse-y:
+        calc(var(--my) * 5px);
     }
 
 
+    /* =========================================================
+       HTML / BODY
+       ========================================================= */
+
     html,
     body {
+
       margin: 0;
       padding: 0;
+
       min-height: 100%;
+
       overflow-x: hidden;
 
       font-family:
@@ -101,9 +169,11 @@
 
 
     body::before {
+
       content: "";
 
       position: fixed;
+
       inset: 0;
 
       background: #121313;
@@ -113,9 +183,11 @@
 
 
     body::after {
+
       content: "";
 
       position: fixed;
+
       inset: 0;
 
       background:
@@ -135,16 +207,54 @@
         );
 
       z-index: -8;
+
       pointer-events: none;
     }
 
 
     /* =========================================================
-       HINTERGRUND
+       BLAUER HINTERGRUND / SPALTE
+
+       DAS IST DIE ENTSCHEIDENDE ÄNDERUNG.
+
+       Die gesamte Fläche des Viewports ist blau.
+
+       Die beiden Seiten liegen darüber.
+
+       Sobald sie auseinandergehen, wird genau der Bereich
+       zwischen ihren Rändern sichtbar.
+
+       Dadurch muss die Breite der blauen Spalte NICHT
+       separat berechnet werden.
+       ========================================================= */
+
+    .full-page-blue-gap {
+
+      position: fixed;
+
+      inset: 0;
+
+      width: 100%;
+      height: 100%;
+
+      background: var(--gap-blue);
+
+      z-index: 0;
+
+      pointer-events: none;
+    }
+
+
+    /* =========================================================
+       HINTERGRUNDBILD
+
+       Liegt hinter der blauen Spalte.
        ========================================================= */
 
     .bg-ice {
+
       position: fixed;
+
       inset: 0;
 
       overflow: hidden;
@@ -158,7 +268,9 @@
 
 
     .bg-half {
+
       position: absolute;
+
       inset: -8%;
 
       background:
@@ -183,6 +295,7 @@
 
 
     .is-cracked .bg-half {
+
       opacity: 0.96;
     }
 
@@ -262,72 +375,13 @@
 
 
     /* =========================================================
-       DIE ENTSTEHENDE BLAUE SPALTE
-       =========================================================
-
-       WICHTIG:
-
-       Hier gibt es KEINEN RISS und KEINE blaue Linie.
-
-       Die komplette Fläche zwischen den beiden Hälften
-       wird blau.
-
-       --split = 0
-          => nur 4px Grundbreite
-
-       --split = 1
-          => 149px breite blaue Spalte
-
-       Dadurch wächst die blaue Fläche automatisch
-       zusammen mit der Split-Animation.
+       KÜHLER OVERLAY
        ========================================================= */
-
-    .full-page-blue-gap {
-
-      position: fixed;
-
-      top: -5vh;
-      bottom: -5vh;
-
-      left: 50%;
-
-      width:
-        calc(
-          4px
-          + (var(--split) * 145px)
-        );
-
-      transform:
-        translateX(-50%);
-
-      background: var(--gap-blue);
-
-      box-shadow:
-        0 0 25px rgba(36,148,255,0.65),
-        0 0 60px rgba(36,148,255,0.38);
-
-      z-index: 0;
-
-      pointer-events: none;
-
-      transition:
-        width 0.08s linear;
-    }
-
-
-    /*
-       Der normale Seiteninhalt liegt über
-       der blauen Spalte.
-    */
-
-    .page-wrap {
-      z-index: 1;
-    }
-
 
     .bg-cold {
 
       position: fixed;
+
       inset: 0;
 
       z-index: -7;
@@ -357,6 +411,15 @@
 
     /* =========================================================
        SEITENLAYOUT
+
+       WICHTIG:
+
+       page-wrap liegt ÜBER der blauen Fläche.
+
+       Die tatsächlichen Hälften liegen wiederum darüber.
+
+       Dadurch scheint Blau ausschließlich dort durch,
+       wo durch das Auseinanderbrechen Raum entsteht.
        ========================================================= */
 
     .page-wrap {
@@ -368,6 +431,7 @@
       display: flex;
 
       justify-content: center;
+
       align-items: flex-start;
 
       padding:
@@ -387,12 +451,15 @@
 
       width: 100%;
 
-      max-width:
-        var(--page-max-width);
+      max-width: var(--page-max-width);
 
       position: relative;
     }
 
+
+    /* =========================================================
+       ORIGINAL-INHALT
+       ========================================================= */
 
     .main-source {
 
@@ -422,6 +489,10 @@
       pointer-events: auto;
     }
 
+
+    /* =========================================================
+       LINKER / RECHTER SEITEN-CLONE
+       ========================================================= */
 
     .ice-layer {
 
@@ -464,6 +535,10 @@
     }
 
 
+    /* =========================================================
+       LINKE HÄLFTE
+       ========================================================= */
+
     .ice-layer.left {
 
       clip-path: polygon(
@@ -504,6 +579,10 @@
         );
     }
 
+
+    /* =========================================================
+       RECHTE HÄLFTE
+       ========================================================= */
 
     .ice-layer.right {
 
@@ -598,6 +677,10 @@
     }
 
 
+    /* =========================================================
+       HERO
+       ========================================================= */
+
     .hero {
 
       text-align: center;
@@ -658,6 +741,10 @@
     }
 
 
+    /* =========================================================
+       BLOCKS
+       ========================================================= */
+
     .block {
 
       width: 100%;
@@ -665,6 +752,10 @@
       box-sizing: border-box;
     }
 
+
+    /* =========================================================
+       ALBUM ART
+       ========================================================= */
 
     .album-art {
 
@@ -690,6 +781,10 @@
       border-radius: 4px;
     }
 
+
+    /* =========================================================
+       VIDEO
+       ========================================================= */
 
     .video-wrap {
 
@@ -1017,21 +1112,6 @@
       }
 
 
-      /*
-         Auch auf dem Smartphone wächst die blaue
-         Spalte mit dem Split.
-      */
-
-      .full-page-blue-gap {
-
-        width:
-          calc(
-            3px
-            + (var(--split) * 80px)
-          );
-      }
-
-
       .hero h1 {
 
         font-size:
@@ -1073,9 +1153,28 @@
 <body>
 
 
-  <!-- =====================================================
-       HINTERGRUND
-       ===================================================== -->
+  <!-- =======================================================
+       BLAUE FLÄCHE
+
+       Diese Fläche ist absichtlich VOLLFLÄCHIG.
+
+       Sie sitzt hinter den beiden Seiten.
+
+       Die Seiten verdecken sie im geschlossenen Zustand.
+
+       Beim Auseinanderziehen wird genau die komplette
+       Spalte zwischen den beiden Seiten sichtbar.
+       ======================================================= -->
+
+  <div
+    class="full-page-blue-gap"
+    aria-hidden="true">
+  </div>
+
+
+  <!-- =======================================================
+       HINTERGRUNDBILD
+       ======================================================= -->
 
   <div
     class="bg-ice"
@@ -1094,23 +1193,9 @@
   </div>
 
 
-  <!-- =====================================================
-       BLAUE SPALTE
-
-       WICHTIG:
-       Kein Riss mehr.
-       Diese Fläche stellt den kompletten Zwischenraum dar.
-       ===================================================== -->
-
-  <div
-    class="full-page-blue-gap"
-    aria-hidden="true">
-  </div>
-
-
-  <!-- =====================================================
+  <!-- =======================================================
        SEITE
-       ===================================================== -->
+       ======================================================= -->
 
   <div class="page-wrap">
 
@@ -1119,9 +1204,9 @@
       id="content-shell">
 
 
-      <!-- =================================================
-           HAUPTINHALT
-           ================================================= -->
+      <!-- ===================================================
+           ORIGINALER INHALT
+           =================================================== -->
 
       <div class="main-source">
 
@@ -1423,13 +1508,11 @@
                   target="_blank"
                   rel="noopener">
 
-
                   <picture>
 
                     <source
                       srcset="assets/release/spotify_128.webp"
                       type="image/webp">
-
 
                     <img
                       class="social-icon-img"
@@ -1437,7 +1520,6 @@
                       alt="Spotify">
 
                   </picture>
-
 
                 </a>
 
@@ -1451,13 +1533,11 @@
                   target="_blank"
                   rel="noopener">
 
-
                   <picture>
 
                     <source
                       srcset="assets/release/apple_music_128.webp"
                       type="image/webp">
-
 
                     <img
                       class="social-icon-img"
@@ -1465,7 +1545,6 @@
                       alt="Apple Music">
 
                   </picture>
-
 
                 </a>
 
@@ -1479,13 +1558,11 @@
                   target="_blank"
                   rel="noopener">
 
-
                   <picture>
 
                     <source
                       srcset="assets/release/instagram_128.webp"
                       type="image/webp">
-
 
                     <img
                       class="social-icon-img"
@@ -1493,7 +1570,6 @@
                       alt="Instagram">
 
                   </picture>
-
 
                 </a>
 
@@ -1507,13 +1583,11 @@
                   target="_blank"
                   rel="noopener">
 
-
                   <picture>
 
                     <source
                       srcset="assets/release/youtube_128.webp"
                       type="image/webp">
-
 
                     <img
                       class="social-icon-img"
@@ -1521,7 +1595,6 @@
                       alt="YouTube">
 
                   </picture>
-
 
                 </a>
 
@@ -1535,13 +1608,11 @@
                   target="_blank"
                   rel="noopener">
 
-
                   <picture>
 
                     <source
                       srcset="assets/release/soundcloud_128.webp"
                       type="image/webp">
-
 
                     <img
                       class="social-icon-img"
@@ -1549,7 +1620,6 @@
                       alt="SoundCloud">
 
                   </picture>
-
 
                 </a>
 
@@ -1593,7 +1663,6 @@
 
           <div class="listen-wrap">
 
-
             <a
               class="listen-btn main-cta"
               href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
@@ -1604,7 +1673,6 @@
 
             </a>
 
-
           </div>
 
 
@@ -1613,9 +1681,9 @@
       </div>
 
 
-      <!-- =================================================
-           LINKER CLONE
-           ================================================= -->
+      <!-- ===================================================
+           LINKE SEITE
+           =================================================== -->
 
       <div
         class="ice-layer left"
@@ -1626,9 +1694,9 @@
       </div>
 
 
-      <!-- =================================================
-           RECHTER CLONE
-           ================================================= -->
+      <!-- ===================================================
+           RECHTE SEITE
+           =================================================== -->
 
       <div
         class="ice-layer right"
@@ -1644,9 +1712,9 @@
   </div>
 
 
-  <!-- =====================================================
-       SPLIT / SCROLL / MOUSE JAVASCRIPT
-       ===================================================== -->
+  <!-- =======================================================
+       SPLIT / SCROLL / MOUSE
+       ======================================================= -->
 
   <script>
 
@@ -1666,9 +1734,9 @@
         ).matches;
 
 
-      /* ===================================================
+      /* =====================================================
          MOBILE
-         =================================================== */
+         ===================================================== */
 
       if (isMobile) {
 
@@ -1795,10 +1863,8 @@
                 clone
               );
 
-
             }
           );
-
 
         }
 
@@ -1855,475 +1921,7 @@
               updateMobileSplit
             );
 
-
           }
-
-        }
-
-
-        function bindMobileVideoSplit() {
-
-
-          const base =
-            document.getElementById(
-              "mobile-video-base"
-            );
-
-
-          const left =
-            document.getElementById(
-              "mobile-video-left"
-            );
-
-
-          const right =
-            document.getElementById(
-              "mobile-video-right"
-            );
-
-
-          const playButton =
-            document.querySelector(
-              ".mobile-play-button"
-            );
-
-
-          if (
-            !base ||
-            !left ||
-            !right
-          ) {
-
-            return;
-
-          }
-
-
-          const mirrors =
-            [
-              left,
-              right
-            ];
-
-
-          let syncing =
-            false;
-
-
-          function showPlayButton(
-            show
-          ) {
-
-
-            if (
-              !playButton
-            ) {
-
-              return;
-
-            }
-
-
-            if (show) {
-
-              playButton.classList.remove(
-                "is-hidden"
-              );
-
-            } else {
-
-              playButton.classList.add(
-                "is-hidden"
-              );
-
-            }
-
-          }
-
-
-          function resetToPoster() {
-
-
-            [
-              base,
-              left,
-              right
-            ].forEach(
-              function (video) {
-
-
-                try {
-
-                  video.pause();
-
-                  video.currentTime =
-                    0;
-
-                } catch (e) {}
-
-              }
-            );
-
-
-            setTimeout(
-              function () {
-
-
-                [
-                  base,
-                  left,
-                  right
-                ].forEach(
-                  function (video) {
-
-
-                    try {
-
-                      video.load();
-
-                    } catch (e) {}
-
-                  }
-                );
-
-
-                showPlayButton(
-                  true
-                );
-
-
-              },
-              80
-            );
-
-          }
-
-
-          function syncMirrors(
-            eventName
-          ) {
-
-
-            if (
-              syncing
-            ) {
-
-              return;
-
-            }
-
-
-            syncing =
-              true;
-
-
-            mirrors.forEach(
-              function (video) {
-
-
-                if (
-                  Math.abs(
-                    video.currentTime -
-                    base.currentTime
-                  ) > 0.12
-                ) {
-
-
-                  try {
-
-                    video.currentTime =
-                      base.currentTime;
-
-                  } catch (e) {}
-
-                }
-
-
-                video.playbackRate =
-                  base.playbackRate;
-
-
-                if (
-                  eventName === "play" &&
-                  video.paused
-                ) {
-
-
-                  video.play()
-                    .catch(
-                      function () {}
-                    );
-
-                }
-
-
-                if (
-                  (
-                    eventName === "pause" ||
-                    eventName === "ended"
-                  ) &&
-                  !video.paused
-                ) {
-
-
-                  video.pause();
-
-                }
-
-
-              }
-            );
-
-
-            syncing =
-              false;
-
-          }
-
-
-          function keepClose() {
-
-
-            mirrors.forEach(
-              function (video) {
-
-
-                if (
-                  !base.paused &&
-                  Math.abs(
-                    video.currentTime -
-                    base.currentTime
-                  ) > 0.18
-                ) {
-
-
-                  try {
-
-                    video.currentTime =
-                      base.currentTime;
-
-                  } catch (e) {}
-
-                }
-
-
-              }
-            );
-
-          }
-
-
-          function startVideo() {
-
-
-            if (
-              base.ended
-            ) {
-
-
-              try {
-
-                base.currentTime =
-                  0;
-
-              } catch (e) {}
-
-            }
-
-
-            syncMirrors(
-              "seeked"
-            );
-
-
-            base.play()
-              .then(
-                function () {
-
-
-                  showPlayButton(
-                    false
-                  );
-
-
-                  syncMirrors(
-                    "play"
-                  );
-
-
-                }
-              )
-              .catch(
-                function () {
-
-
-                  showPlayButton(
-                    true
-                  );
-
-
-                }
-              );
-
-          }
-
-
-          base.addEventListener(
-            "play",
-            function () {
-
-
-              showPlayButton(
-                false
-              );
-
-
-              syncMirrors(
-                "play"
-              );
-
-
-            }
-          );
-
-
-          base.addEventListener(
-            "pause",
-            function () {
-
-
-              if (
-                !base.ended
-              ) {
-
-
-                showPlayButton(
-                  true
-                );
-
-              }
-
-
-              syncMirrors(
-                "pause"
-              );
-
-
-            }
-          );
-
-
-          base.addEventListener(
-            "ended",
-            function () {
-
-
-              resetToPoster();
-
-            }
-          );
-
-
-          base.addEventListener(
-            "seeked",
-            function () {
-
-
-              syncMirrors(
-                "seeked"
-              );
-
-            }
-          );
-
-
-          base.addEventListener(
-            "ratechange",
-            function () {
-
-
-              syncMirrors(
-                "ratechange"
-              );
-
-            }
-          );
-
-
-          base.addEventListener(
-            "loadedmetadata",
-            function () {
-
-
-              syncMirrors(
-                "loadedmetadata"
-              );
-
-
-              showPlayButton(
-                base.paused
-              );
-
-
-            }
-          );
-
-
-          base.addEventListener(
-            "timeupdate",
-            keepClose
-          );
-
-
-          mirrors.forEach(
-            function (video) {
-
-
-              video.muted =
-                true;
-
-
-              video.controls =
-                false;
-
-
-              video.playsInline =
-                true;
-
-
-            }
-          );
-
-
-          if (
-            playButton
-          ) {
-
-
-            playButton.addEventListener(
-              "click",
-              function (event) {
-
-
-                event.preventDefault();
-
-                event.stopPropagation();
-
-
-                startVideo();
-
-
-              }
-            );
-
-
-          }
-
-
-          showPlayButton(
-            true
-          );
-
 
         }
 
@@ -2343,9 +1941,6 @@
         );
 
 
-        bindMobileVideoSplit();
-
-
         updateMobileSplit();
 
 
@@ -2354,10 +1949,9 @@
       }
 
 
-      /* ===================================================
+      /* =====================================================
          DESKTOP
-         =================================================== */
-
+         ===================================================== */
 
       const shell =
         document.getElementById(
@@ -2450,7 +2044,6 @@
         max
       ) {
 
-
         return Math.min(
           Math.max(
             value,
@@ -2464,7 +2057,6 @@
 
       function getVideos() {
 
-
         return Array.from(
           document.querySelectorAll(
             ".album-video"
@@ -2473,6 +2065,10 @@
 
       }
 
+
+      /* =====================================================
+         CLONES ERSTELLEN
+         ===================================================== */
 
       function createClones() {
 
@@ -2494,9 +2090,7 @@
 
 
             const clone =
-              source.cloneNode(
-                true
-              );
+              source.cloneNode(true);
 
 
             clone.classList.remove(
@@ -2580,7 +2174,6 @@
 
                 } catch (e) {}
 
-
               }
             );
 
@@ -2588,7 +2181,6 @@
             target.appendChild(
               clone
             );
-
 
           }
         );
@@ -2602,6 +2194,10 @@
 
       }
 
+
+      /* =====================================================
+         AKTIVIEREN
+         ===================================================== */
 
       function activate() {
 
@@ -2635,6 +2231,10 @@
       }
 
 
+      /* =====================================================
+         SPLIT ANWENDEN
+         ===================================================== */
+
       function applySplit() {
 
 
@@ -2654,6 +2254,10 @@
 
       }
 
+
+      /* =====================================================
+         SCROLL
+         ===================================================== */
 
       function updateScrollSplit() {
 
@@ -2725,6 +2329,10 @@
       }
 
 
+      /* =====================================================
+         MOUSE
+         ===================================================== */
+
       function animateMouse() {
 
 
@@ -2788,9 +2396,7 @@
       }
 
 
-      function updateMouse(
-        e
-      ) {
+      function updateMouse(e) {
 
 
         const movedEnough =
@@ -2806,7 +2412,6 @@
           readyForMouseActivation &&
           movedEnough
         ) {
-
 
           activate();
 
@@ -2880,10 +2485,9 @@
       }
 
 
-      /* ===================================================
-         VIDEO SYNCHRONISIERUNG
-         =================================================== */
-
+      /* =====================================================
+         VIDEO-SYNCHRONISIERUNG
+         ===================================================== */
 
       let videoSyncing =
         false;
@@ -2974,7 +2578,6 @@
               video.pause();
 
             }
-
 
           }
         );
@@ -3074,7 +2677,6 @@
                       eventName
                     );
 
-
                   }
                 );
 
@@ -3092,7 +2694,6 @@
                   "timeupdate"
                 );
 
-
               }
             );
 
@@ -3106,7 +2707,6 @@
 
               }
             );
-
 
           }
         );
@@ -3138,7 +2738,6 @@
               return !video.closest(
                 ".ice-layer"
               );
-
 
             }
           ) ||
@@ -3190,17 +2789,15 @@
 
             }
 
-
           }
         );
 
       }
 
 
-      /* ===================================================
-         EVENT LISTENER
-         =================================================== */
-
+      /* =====================================================
+         EVENTS
+         ===================================================== */
 
       window.addEventListener(
         "scroll",
@@ -3226,10 +2823,9 @@
       );
 
 
-      /* ===================================================
+      /* =====================================================
          STARTWERTE
-         =================================================== */
-
+         ===================================================== */
 
       root.style.setProperty(
         "--split",
@@ -3260,9 +2856,9 @@
   </script>
 
 
-  <!-- =====================================================
+  <!-- =======================================================
        COUNTDOWN
-       ===================================================== -->
+       ======================================================= -->
 
   <script>
 
@@ -3279,10 +2875,7 @@
         "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
 
-      function pad(
-        value
-      ) {
-
+      function pad(value) {
 
         return String(
           value
@@ -3375,7 +2968,6 @@
                 ":" +
                 pad(seconds);
 
-
             }
           );
 
@@ -3394,7 +2986,6 @@
                 diff <= 0
                   ? "„gespalten“ ist jetzt draussen."
                   : "release: 13. august 2026 · 24:00 uhr";
-
 
             }
           );
@@ -3419,10 +3010,8 @@
                   ? "gespalten hören"
                   : "album vormerken";
 
-
             }
           );
-
 
       }
 
