@@ -81,6 +81,8 @@ body {
     background-attachment: fixed;
 }
 
+/* Zielseite hinter der Spalte */
+
 .zip-transition[data-to="one"] .reveal-page {
     background:
         radial-gradient(
@@ -371,9 +373,13 @@ body {
     overflow: hidden;
 }
 
+/* Wichtig:
+   Der Inhalt der Zielseite liegt über den Spalten-Panels.
+   Dadurch ist er während der Öffnung bereits vollständig sichtbar.
+*/
 .reveal-page > * {
     position: relative;
-    z-index: 2;
+    z-index: 30;
 }
 
 .zip-cover {
@@ -441,7 +447,7 @@ body {
 .cover-content {
     position: absolute;
     inset: 0;
-    z-index: 20;
+    z-index: 15;
     pointer-events: none;
 }
 
