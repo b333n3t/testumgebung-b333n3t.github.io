@@ -331,7 +331,7 @@ body {
 
 .zip-transition {
     position: relative;
-    height: 190vh;
+    height: 220vh;
 
     --open: 0%;
     --skew: 0vw;
@@ -552,7 +552,7 @@ body {
     }
 
     .zip-transition {
-        height: 175vh;
+        height: 200vh;
     }
 
     .page-two-content {
@@ -1423,17 +1423,37 @@ function updateTransitions() {
                     )
                 );
 
+            /*
+               Die Spalte öffnet sich bis 78% des Übergangs.
+               Danach bleibt sie vollständig geöffnet, während
+               man noch innerhalb der Spalten-Section bleibt.
+            */
+
+            const openCompleteAt = 0.78;
+
+            let visualProgress =
+                progress / openCompleteAt;
+
+            visualProgress =
+                Math.max(
+                    0,
+                    Math.min(
+                        1,
+                        visualProgress
+                    )
+                );
+
             const eased =
-                progress < 0.5
+                visualProgress < 0.5
 
                     ? 2 *
-                      progress *
-                      progress
+                      visualProgress *
+                      visualProgress
 
                     : 1 -
                       Math.pow(
                           -2 *
-                          progress +
+                          visualProgress +
                           2,
                           2
                       ) /
