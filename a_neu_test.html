@@ -366,6 +366,8 @@ body {
     isolation: isolate;
 }
 
+/* Nur Hintergrund-Ebene der Zielseite */
+
 .reveal-page {
     position: absolute;
     inset: 0;
@@ -373,13 +375,25 @@ body {
     overflow: hidden;
 }
 
-/* Wichtig:
-   Der Inhalt der Zielseite liegt über den Spalten-Panels.
-   Dadurch ist er während der Öffnung bereits vollständig sichtbar.
-*/
+/* Inhalt in reveal-page ausblenden,
+   weil derselbe Inhalt darüber als Overlay liegt. */
 .reveal-page > * {
-    position: relative;
+    display: none;
+}
+
+/* Zielseiten-Inhalt über den Spaltenflächen */
+
+.reveal-content-overlay {
+    position: absolute;
+    inset: 0;
     z-index: 30;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.reveal-content-overlay > * {
+    position: relative;
+    z-index: 31;
 }
 
 .zip-cover {
@@ -650,6 +664,22 @@ body {
 
                 <div class="zip-hint">nach unten öffnen</div>
             </div>
+
+            <div class="reveal-content-overlay">
+                <div class="page-two-content">
+                    <div class="page-two-kicker">b3nn3t</div>
+                    <h1 class="page-two-title">fragments</h1>
+                    <p class="page-two-intro">
+                        die andere seite von
+                        „gespalten“.
+                        Hier beginnt die zweite Seite.
+                        Dieser Bereich kann mit deinem
+                        tatsächlichen zusätzlichen Inhalt
+                        ersetzt werden.
+                    </p>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -753,6 +783,33 @@ body {
 
                 <div class="zip-hint">nach unten öffnen</div>
             </div>
+
+            <div class="reveal-content-overlay">
+                <div class="page-one-content">
+                    <div class="page-one-left">
+                        <div class="kicker">b3nn3t</div>
+                        <h1 class="main-title">gespalten</h1>
+                        <p class="subtitle">
+                            10 kurze Songs. 12 Minuten
+                            zwischen alt und neu.
+                        </p>
+                        <div class="media-card">DEIN VIDEO / BILD</div>
+                    </div>
+
+                    <div class="page-one-right">
+                        <div class="kicker">neues album</div>
+                        <h2>die andere seite</h2>
+                        <p>
+                            Ein Übergang zwischen
+                            zwei Seiten.
+                            Alt und neu.
+                            Dazwischen liegt
+                            die Spalte.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -834,12 +891,6 @@ function goToPreviousSection(transition) {
     });
 }
 
-/*
-   Robuste Erkennung:
-   Sobald die Spalte beim Runterscrollen oben am Viewport ankommt,
-   wird sie eingefangen.
-   Beim Hochscrollen entsprechend, wenn ihr unterer Rand unten ankommt.
-*/
 function getReadyTransition(deltaY) {
     const transitions = document.querySelectorAll(".zip-transition");
     const viewportHeight = window.innerHeight;
@@ -1087,6 +1138,10 @@ function createTransition(from, to) {
                 </div>
 
                 <div class="zip-hint">nach unten öffnen</div>
+            </div>
+
+            <div class="reveal-content-overlay">
+                ${revealHTML}
             </div>
         </div>
     `;
