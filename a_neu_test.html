@@ -102,9 +102,7 @@
     content="https://www.b3nn3t.com/assets/gespalten/gespalten.jpg"
   >
 
-
   <script type="application/ld+json">
-
   {
     "@context": "https://schema.org",
     "@type": "MusicAlbum",
@@ -118,9 +116,7 @@
     "image": "https://www.b3nn3t.com/assets/gespalten/gespalten.jpg",
     "url": "https://www.b3nn3t.com/release-gespalten.html"
   }
-
   </script>
-
 
   <link
     rel="preload"
@@ -132,15 +128,13 @@
 
   <style>
 
-
     /* =========================================================
        GRUNDWERTE
        ========================================================= */
 
     :root {
 
-      --text-main:
-        #fdfdfd;
+      --text-main: #fdfdfd;
 
       --text-muted:
         rgba(255,255,255,0.68);
@@ -148,490 +142,189 @@
       --text-soft:
         rgba(255,255,255,0.46);
 
-      --page-max-width:
-        960px;
+      --page-max-width: 960px;
 
-      --gap-blue:
+      --blue:
         #2494ff;
 
       /*
+        Übergangsfortschritt.
+
         0 = geschlossen
         1 = vollständig geöffnet
       */
+      --split: 0;
 
-      --split:
-        0;
-
-      --mx:
-        0;
-
-      --my:
-        0;
-
-      --gap:
-        calc(var(--split) * 72px);
-
-      --lift-left:
-        calc(var(--split) * -22px);
-
-      --lift-right:
-        calc(var(--split) * 18px);
-
-      --tilt-left:
-        calc(var(--split) * -0.45deg);
-
-      --tilt-right:
-        calc(var(--split) * 0.4deg);
-
-      --mouse-x:
-        calc(var(--mx) * 6px);
-
-      --mouse-y:
-        calc(var(--my) * 5px);
     }
 
 
     /* =========================================================
-       HTML / BODY
+       RESET
        ========================================================= */
 
-    html,
+    * {
+      box-sizing: border-box;
+    }
+
+
+    html {
+
+      margin: 0;
+      padding: 0;
+
+      background: #000;
+
+      scroll-behavior: smooth;
+
+    }
+
+
     body {
 
-      margin:
-        0;
+      margin: 0;
+      padding: 0;
 
-      padding:
-        0;
+      overflow-x: hidden;
 
-      min-height:
-        100%;
+      color: var(--text-main);
 
-      overflow-x:
-        hidden;
+      background: #000;
 
       font-family:
-
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
         "SF Pro Text",
         sans-serif;
 
-      color:
-        var(--text-main);
-
-      background:
-        #000;
-
-      scroll-behavior:
-        auto;
     }
 
 
+    /* =========================================================
+       HINTERGRUND
+       ========================================================= */
+
     body::before {
 
-      content:
-        "";
+      content: "";
 
-      position:
-        fixed;
+      position: fixed;
 
-      inset:
-        0;
+      inset: 0;
 
-      background:
-        #000;
+      background: #000;
 
-      z-index:
-        -10;
+      z-index: -20;
+
     }
 
 
     body::after {
 
-      content:
-        "";
+      content: "";
 
-      position:
-        fixed;
+      position: fixed;
 
-      inset:
-        0;
+      inset: 0;
+
+      pointer-events: none;
 
       background:
 
         radial-gradient(
-          circle at 50% 16%,
-          rgba(255,255,255,0.12),
+          circle at 50% 15%,
+          rgba(255,255,255,0.11),
           transparent 28%
         ),
 
         radial-gradient(
-          circle at 52% 62%,
-          rgba(255,255,255,0.055),
-          transparent 36%
+          circle at 50% 60%,
+          rgba(255,255,255,0.045),
+          transparent 40%
         ),
 
         linear-gradient(
-          rgba(10,10,10,0.22),
-          rgba(10,10,10,0.95)
+          rgba(5,5,5,0.15),
+          rgba(5,5,5,0.95)
         );
 
-      z-index:
-        -8;
+      z-index: -15;
 
-      pointer-events:
-        none;
     }
 
 
-    /* =========================================================
-       KÜHLER OVERLAY
-       ========================================================= */
+    .background-cold {
 
-    .bg-cold {
+      position: fixed;
 
-      position:
-        fixed;
+      inset: 0;
 
-      inset:
-        0;
+      z-index: -10;
 
-      z-index:
-        -7;
-
-      pointer-events:
-        none;
+      pointer-events: none;
 
       background:
 
         radial-gradient(
-          circle at
-          calc(50% + var(--mouse-x))
-          calc(44% + var(--mouse-y)),
-
-          rgba(255,255,255,0.10),
-
-          transparent 18%
+          circle at 50% 42%,
+          rgba(36,148,255,0.10),
+          transparent 30%
         ),
 
         linear-gradient(
           90deg,
-          rgba(0,0,0,0.50),
-          transparent 46%,
-          rgba(255,255,255,0.025) 50%,
-          transparent 54%,
+          rgba(0,0,0,0.55),
+          transparent 48%,
+          rgba(36,148,255,0.025) 50%,
+          transparent 52%,
           rgba(0,0,0,0.58)
         );
 
-      opacity:
-        0.9;
     }
 
 
     /* =========================================================
-       LOOP
-
-       Hier befinden sich mehrere Wiederholungen:
-
-       Seite 1
-       Seite 2
-       Seite 1
-       Seite 2
-       Seite 1
-       Seite 2
-
-       JavaScript hält den Nutzer anschließend
-       in der mittleren Wiederholung.
+       HAUPT-CONTAINER
        ========================================================= */
 
     #loop {
 
-      position:
-        relative;
+      position: relative;
 
-      width:
-        100%;
+      width: 100%;
+
     }
 
 
     /* =========================================================
-       SEITEN
+       NORMALE SEITE
        ========================================================= */
 
     .page {
 
-      position:
-        relative;
+      position: relative;
 
-      width:
-        100%;
+      width: 100%;
 
-      box-sizing:
-        border-box;
+      padding:
+        clamp(2.8rem, 4vw, 4rem)
+        1.5rem
+        clamp(4rem, 6vw, 6rem);
+
+      background: transparent;
+
     }
 
 
     .page-inner {
 
-      width:
-        100%;
+      width: 100%;
 
       max-width:
         var(--page-max-width);
 
-      margin:
-        0 auto;
+      margin: 0 auto;
 
-      padding:
-
-        clamp(
-          2.8rem,
-          4vw,
-          4rem
-        )
-
-        1.5rem
-
-        clamp(
-          3.5rem,
-          5vw,
-          4.5rem
-        );
-
-      box-sizing:
-        border-box;
-    }
-
-
-    /* =========================================================
-       SPLIT-HINTERGRUND
-       ========================================================= */
-
-    .crack-fill {
-
-      position:
-        fixed;
-
-      inset:
-        0;
-
-      z-index:
-        5;
-
-      background:
-        var(--gap-blue);
-
-      opacity:
-        var(--split);
-
-      pointer-events:
-        none;
-    }
-
-
-    /* =========================================================
-       SPLIT-KLONE
-
-       Diese beiden Ebenen zeigen ausschließlich die gerade
-       auseinanderbrechende Seite.
-
-       Darunter befindet sich bereits die nächste Seite.
-       ========================================================= */
-
-    .split-layer {
-
-      position:
-        fixed;
-
-      inset:
-        0;
-
-      z-index:
-        10;
-
-      pointer-events:
-        none;
-
-      opacity:
-        0;
-
-      overflow:
-        hidden;
-
-      will-change:
-        transform,
-        opacity;
-    }
-
-
-    .split-layer.active {
-
-      opacity:
-        1;
-    }
-
-
-    .split-layer-content {
-
-      position:
-        absolute;
-
-      left:
-        50%;
-
-      width:
-        var(--page-max-width);
-
-      transform:
-        translateX(-50%);
-
-      pointer-events:
-        none;
-    }
-
-
-    /* =========================================================
-       LINKE HÄLFTE
-       ========================================================= */
-
-    .split-layer.left {
-
-      clip-path:
-
-        polygon(
-
-          -8% -4%,
-          50% -4%,
-
-          48% 8%,
-          52% 16%,
-          49% 26%,
-          55% 39%,
-          52% 51%,
-          60% 64%,
-          56% 78%,
-          68% 104%,
-
-          -8% 104%
-        );
-
-      transform:
-
-        translate3d(
-
-          calc(
-            var(--gap) * -1
-            + var(--mouse-x) * -0.32
-          ),
-
-          calc(
-            var(--lift-left)
-            + var(--mouse-y) * -0.16
-          ),
-
-          0
-        )
-
-        rotate(
-          var(--tilt-left)
-        );
-
-      transform-origin:
-        34% 42%;
-
-      filter:
-
-        drop-shadow(
-          8px 12px 20px
-          rgba(0,0,0,0.22)
-        );
-    }
-
-
-    /* =========================================================
-       RECHTE HÄLFTE
-       ========================================================= */
-
-    .split-layer.right {
-
-      clip-path:
-
-        polygon(
-
-          50% -4%,
-          108% -4%,
-          108% 104%,
-
-          68% 104%,
-          56% 78%,
-          60% 64%,
-          52% 51%,
-          55% 39%,
-          49% 26%,
-          52% 16%,
-          48% 8%
-        );
-
-      transform:
-
-        translate3d(
-
-          calc(
-            var(--gap) * 1
-            + var(--mouse-x) * 0.32
-          ),
-
-          calc(
-            var(--lift-right)
-            + var(--mouse-y) * 0.16
-          ),
-
-          0
-        )
-
-        rotate(
-          var(--tilt-right)
-        );
-
-      transform-origin:
-        66% 44%;
-
-      filter:
-
-        drop-shadow(
-          -8px 12px 20px
-          rgba(0,0,0,0.24)
-        );
-    }
-
-
-    /* =========================================================
-       HAUPTINHALT
-       ========================================================= */
-
-    main {
-
-      position:
-        relative;
-
-      z-index:
-        2;
-
-      display:
-        flex;
-
-      flex-direction:
-        column;
-
-      gap:
-
-        clamp(
-          1.55rem,
-          2.2vw,
-          2.25rem
-        );
     }
 
 
@@ -641,38 +334,32 @@
 
     .brand-row {
 
-      display:
-        flex;
+      display: flex;
 
-      align-items:
-        center;
+      justify-content: center;
 
-      justify-content:
-        center;
+      align-items: center;
 
       margin-bottom:
-
         clamp(
-          1.2rem,
-          2vw,
-          1.8rem
+          2rem,
+          4vw,
+          3.5rem
         );
+
     }
 
 
     .brand-link {
 
-      color:
-        #fff;
+      color: #fff;
 
-      font-weight:
-        800;
+      text-decoration: none;
 
-      letter-spacing:
-        0.05em;
+      font-weight: 800;
 
-      text-decoration:
-        none;
+      letter-spacing: 0.05em;
+
     }
 
 
@@ -682,8 +369,15 @@
 
     .hero {
 
-      text-align:
-        center;
+      text-align: center;
+
+      margin-bottom:
+        clamp(
+          2.5rem,
+          5vw,
+          4rem
+        );
+
     }
 
 
@@ -703,16 +397,15 @@
 
       color:
         var(--text-muted);
+
     }
 
 
     .hero h1 {
 
-      margin:
-        0;
+      margin: 0;
 
       font-size:
-
         clamp(
           3.2rem,
           10vw,
@@ -727,22 +420,21 @@
 
       font-weight:
         900;
+
     }
 
 
     .hero-sub {
 
+      max-width: 650px;
+
       margin:
         1rem auto 0;
-
-      max-width:
-        650px;
 
       color:
         var(--text-muted);
 
       font-size:
-
         clamp(
           0.95rem,
           1.7vw,
@@ -751,6 +443,7 @@
 
       line-height:
         1.55;
+
     }
 
 
@@ -760,30 +453,26 @@
 
     .video-wrap {
 
-      position:
-        relative;
+      width: 100%;
 
-      width:
-        100%;
-
-      max-width:
-        720px;
+      max-width: 720px;
 
       margin:
         0 auto;
+
     }
 
 
     .video-wrap video {
 
-      width:
-        100%;
+      display: block;
 
-      display:
-        block;
+      width: 100%;
 
-      border-radius:
-        4px;
+      height: auto;
+
+      border-radius: 4px;
+
     }
 
 
@@ -791,20 +480,20 @@
        COUNTDOWN
        ========================================================= */
 
-    .countdown-plain {
+    .countdown {
 
-      text-align:
-        center;
+      text-align: center;
 
       padding:
-        1.2rem 0;
+        3rem 0;
+
     }
 
 
     .countdown-label {
 
       margin:
-        0 0 0.3rem;
+        0 0 0.4rem;
 
       color:
         var(--text-muted);
@@ -817,30 +506,28 @@
 
       font-size:
         0.72rem;
+
     }
 
 
     .countdown-time {
 
-      margin:
-        0;
+      margin: 0;
 
       font-size:
-
         clamp(
           2rem,
           7vw,
           4.5rem
         );
 
-      line-height:
-        1;
+      line-height: 1;
 
-      font-weight:
-        800;
+      font-weight: 800;
 
       letter-spacing:
         -0.04em;
+
     }
 
 
@@ -854,6 +541,7 @@
 
       font-size:
         0.85rem;
+
     }
 
 
@@ -863,8 +551,9 @@
 
     .song-list-section {
 
-      padding-top:
-        1rem;
+      padding:
+        2rem 0;
+
     }
 
 
@@ -874,39 +563,37 @@
         center;
 
       margin-bottom:
-        1rem;
+        1.5rem;
 
       color:
         var(--text-muted);
 
       letter-spacing:
         0.05em;
+
     }
 
 
     .song-line {
 
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr 80px 1fr;
 
-      gap:
-        1rem;
+      gap: 1rem;
 
-      align-items:
-        center;
+      align-items: center;
+
+      margin: 0;
 
       padding:
         0.85rem 0;
 
-      margin:
-        0;
-
       border-bottom:
         1px solid
         rgba(255,255,255,0.12);
+
     }
 
 
@@ -914,6 +601,7 @@
 
       color:
         rgba(255,255,255,0.8);
+
     }
 
 
@@ -924,6 +612,7 @@
 
       color:
         var(--text-soft);
+
     }
 
 
@@ -937,22 +626,22 @@
         720px;
 
       margin:
-        0 auto;
+        4rem auto;
+
     }
 
 
     .about-section h2 {
 
-      margin-top:
-        0;
+      margin-top: 0;
 
       font-size:
-
         clamp(
           1.5rem,
           4vw,
           2.2rem
         );
+
     }
 
 
@@ -963,6 +652,7 @@
 
       line-height:
         1.7;
+
     }
 
 
@@ -970,6 +660,9 @@
 
       margin-top:
         2rem;
+
+      min-height:
+        100px;
 
       padding:
         2rem;
@@ -980,6 +673,7 @@
 
       color:
         var(--text-soft);
+
     }
 
 
@@ -989,92 +683,81 @@
 
     .footer-combined {
 
-      margin-top:
-        2rem;
-
-      display:
-        grid;
+      display: grid;
 
       grid-template-columns:
         1fr 1fr;
 
-      gap:
-        2rem;
+      gap: 2rem;
+
+      margin-top:
+        3rem;
+
     }
 
 
     .social-icons {
 
-      display:
-        flex;
+      display: flex;
 
-      flex-wrap:
-        wrap;
+      flex-wrap: wrap;
 
-      gap:
-        1rem;
+      gap: 1rem;
 
-      align-items:
-        center;
+      align-items: center;
+
     }
 
 
     .social-link {
 
-      display:
-        inline-flex;
+      display: inline-flex;
 
-      text-decoration:
-        none;
+      text-decoration: none;
+
     }
 
 
     .social-icon-img {
 
-      width:
-        42px;
+      width: 42px;
 
-      height:
-        42px;
+      height: 42px;
 
-      display:
-        block;
+      display: block;
+
     }
 
 
     .more-link {
 
-      display:
-        inline-block;
+      display: inline-block;
 
       margin-top:
         0.8rem;
+
     }
 
 
     .listen-wrap {
 
-      display:
-        flex;
+      display: flex;
 
-      justify-content:
-        center;
+      justify-content: center;
 
       margin-top:
-        1rem;
+        3rem;
+
     }
 
 
     .listen-btn {
 
-      display:
-        inline-flex;
+      display: inline-flex;
 
-      align-items:
-        center;
+      align-items: center;
 
-      justify-content:
-        center;
+      justify-content: center;
 
       padding:
         0.85rem 1.4rem;
@@ -1086,14 +769,11 @@
       border-radius:
         999px;
 
-      color:
-        #fff;
+      color: #fff;
 
-      text-decoration:
-        none;
+      text-decoration: none;
 
-      font-weight:
-        700;
+      font-weight: 700;
 
       letter-spacing:
         0.04em;
@@ -1102,9 +782,9 @@
         rgba(255,255,255,0.05);
 
       transition:
-
         background 0.2s ease,
         transform 0.2s ease;
+
     }
 
 
@@ -1115,12 +795,28 @@
 
       transform:
         translateY(-2px);
+
     }
 
 
     /* =========================================================
        SEITE 2
        ========================================================= */
+
+    .page-two {
+
+      min-height: 100vh;
+
+    }
+
+
+    .page-two .hero {
+
+      margin-bottom:
+        3rem;
+
+    }
+
 
     .page-two-content {
 
@@ -1129,42 +825,17 @@
 
       margin:
         0 auto;
+
     }
 
 
-    .page-two-eyebrow {
-
-      text-align:
-        center;
-
-      color:
-        var(--text-muted);
-
-      text-transform:
-        uppercase;
-
-      letter-spacing:
-        0.18em;
+    .page-two-content h2 {
 
       font-size:
-        0.75rem;
-    }
-
-
-    .page-two h2 {
-
-      text-align:
-        center;
-
-      margin:
-        0.4rem 0 2rem;
-
-      font-size:
-
         clamp(
-          2.5rem,
-          8vw,
-          6rem
+          2rem,
+          6vw,
+          4rem
         );
 
       line-height:
@@ -1172,23 +843,25 @@
 
       letter-spacing:
         -0.05em;
+
+      margin:
+        0 0 1rem;
+
     }
 
 
-    .page-two-text {
+    .page-two-content p {
 
       color:
         var(--text-muted);
 
       line-height:
-        1.8;
+        1.75;
 
-      font-size:
-        1rem;
     }
 
 
-    .page-two-card {
+    .fragment-box {
 
       margin:
         3rem 0;
@@ -1198,85 +871,310 @@
 
       border:
         1px solid
-        rgba(255,255,255,0.14);
+        rgba(255,255,255,0.15);
+
+      border-radius:
+        6px;
 
       background:
         rgba(255,255,255,0.025);
 
-      border-radius:
-        6px;
     }
 
 
-    .page-two-card h3 {
+    .fragment-box strong {
 
-      margin-top:
-        0;
+      display: block;
+
+      margin-bottom:
+        0.7rem;
 
       font-size:
         1.4rem;
+
     }
 
 
-    .page-two-number {
+    /* =========================================================
+       DER ENTSCHEIDENDE ÜBERGANG
+       =========================================================
 
-      font-size:
+       Der nächste Seiteninhalt liegt HINTER dem Split.
 
-        clamp(
-          5rem,
-          20vw,
-          12rem
+       Die aktuelle Seite wird als zwei Hälften darübergelegt.
+
+       Am Anfang:
+
+             [ SEITE 1 ]
+
+       Am Ende:
+
+       [ Hälfte ]       [ Hälfte ]
+                SEITE 2
+
+       Dadurch wird Seite 2 wirklich DURCH den Spalt sichtbar.
+       ========================================================= */
+
+    .split-transition {
+
+      position: relative;
+
+      height: 100vh;
+
+      overflow: hidden;
+
+      background:
+        var(--blue);
+
+      isolation: isolate;
+
+    }
+
+
+    /*
+      Die neue Seite liegt komplett unter dem Split.
+    */
+
+    .transition-next {
+
+      position: absolute;
+
+      inset: 0;
+
+      z-index: 1;
+
+      overflow: hidden;
+
+      background:
+        #000;
+
+    }
+
+
+    .transition-next-inner {
+
+      position: absolute;
+
+      top: 0;
+
+      left: 50%;
+
+      width:
+        min(
+          var(--page-max-width),
+          calc(100vw - 3rem)
         );
 
-      line-height:
-        0.8;
+      min-height: 100%;
 
-      font-weight:
-        900;
-
-      letter-spacing:
-        -0.08em;
-
-      margin:
-        4rem 0;
-
-      text-align:
-        center;
-
-      opacity:
-        0.9;
-    }
-
-
-    .page-two-end {
-
-      text-align:
-        center;
+      transform:
+        translateX(-50%);
 
       padding:
-        5rem 0 2rem;
+        3rem 0;
 
-      color:
-        var(--text-soft);
     }
 
 
-    .loop-hint {
+    /*
+      Blaue Fläche bleibt hinter den beiden Hälften.
+    */
 
-      display:
-        inline-block;
+    .transition-blue {
 
-      margin-top:
-        1rem;
+      position: absolute;
 
-      font-size:
-        0.75rem;
+      inset: 0;
 
-      text-transform:
-        uppercase;
+      z-index: 2;
 
-      letter-spacing:
-        0.15em;
+      background:
+        var(--blue);
+
+      pointer-events: none;
+
+    }
+
+
+    /*
+      Die beiden alten Seitenhälften.
+    */
+
+    .split-half {
+
+      position: absolute;
+
+      top: 0;
+
+      width: 100%;
+
+      height: 100%;
+
+      z-index: 3;
+
+      overflow: hidden;
+
+      background:
+        #000;
+
+      will-change:
+        transform;
+
+    }
+
+
+    .split-half-content {
+
+      position: absolute;
+
+      top: 0;
+
+      left: 50%;
+
+      width:
+        min(
+          var(--page-max-width),
+          calc(100vw - 3rem)
+        );
+
+      min-height: 100%;
+
+      transform:
+        translateX(-50%);
+
+      padding:
+        3rem 0;
+
+    }
+
+
+    /*
+      Linke Hälfte.
+
+      Bei split=0 liegt sie genau auf der Mitte.
+
+      Bei split=1 wandert sie nach links.
+    */
+
+    .split-half.left {
+
+      clip-path:
+        polygon(
+          0 0,
+          50% 0,
+          48% 8%,
+          52% 17%,
+          49% 28%,
+          55% 40%,
+          51% 52%,
+          59% 65%,
+          55% 79%,
+          68% 100%,
+          0 100%
+        );
+
+      transform:
+        translateX(
+          calc(
+            var(--split) * -55vw
+          )
+        );
+
+    }
+
+
+    /*
+      Rechte Hälfte.
+    */
+
+    .split-half.right {
+
+      clip-path:
+        polygon(
+          50% 0,
+          100% 0,
+          100% 100%,
+          68% 100%,
+          55% 79%,
+          59% 65%,
+          51% 52%,
+          55% 40%,
+          49% 28%,
+          52% 17%,
+          48% 8%
+        );
+
+      transform:
+        translateX(
+          calc(
+            var(--split) * 55vw
+          )
+        );
+
+    }
+
+
+    /*
+      Ein kleiner Schatten macht den Spalt räumlicher.
+    */
+
+    .split-half.left::after {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      width:
+        35px;
+
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          rgba(0,0,0,0.30)
+        );
+
+      opacity:
+        var(--split);
+
+      pointer-events:
+        none;
+
+    }
+
+
+    .split-half.right::after {
+
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      width:
+        35px;
+
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0,0,0,0.30),
+          transparent
+        );
+
+      opacity:
+        var(--split);
+
+      pointer-events:
+        none;
+
     }
 
 
@@ -1286,25 +1184,26 @@
 
     @media (max-width: 768px) {
 
-      .page-inner {
+      .page {
 
         padding-left:
           1rem;
 
         padding-right:
           1rem;
+
       }
 
 
       .hero h1 {
 
         font-size:
-
           clamp(
             3rem,
             17vw,
             5.5rem
           );
+
       }
 
 
@@ -1318,6 +1217,7 @@
 
         text-align:
           center;
+
       }
 
 
@@ -1325,6 +1225,7 @@
 
         text-align:
           center;
+
       }
 
 
@@ -1332,17 +1233,59 @@
 
         grid-template-columns:
           1fr;
+
       }
 
 
-      .split-layer-content {
+      .split-half-content,
+      .transition-next-inner {
 
         width:
-          100%;
+          calc(100vw - 2rem);
+
+      }
+
+
+      .split-half.left {
+
+        transform:
+          translateX(
+            calc(
+              var(--split) * -100vw
+            )
+          );
+
+      }
+
+
+      .split-half.right {
+
+        transform:
+          translateX(
+            calc(
+              var(--split) * 100vw
+            )
+          );
+
       }
 
     }
 
+
+    /* =========================================================
+       REDUCED MOTION
+       ========================================================= */
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+
+        scroll-behavior:
+          auto;
+
+      }
+
+    }
 
   </style>
 
@@ -1353,464 +1296,384 @@
 
 
   <div
-    class="bg-cold"
+    class="background-cold"
     aria-hidden="true">
   </div>
 
 
   <!-- =======================================================
-       LOOP
-
-       WICHTIG:
-
-       Es gibt absichtlich mehrere Kopien.
-
-       1
-       2
-       1
-       2
-       1
-       2
-
-       JavaScript hält den Nutzer immer in der mittleren
-       Wiederholung.
+       ENDLOS-SCHLEIFE
        ======================================================= -->
 
   <div id="loop">
 
 
     <!-- =====================================================
-         SEITE 1 — KOPIE 1
+         SEITE 1 – ERSTER DURCHLAUF
          ===================================================== -->
 
     <section
       class="page page-one"
-      data-page-type="one"
+      data-page="1"
     >
 
       <div class="page-inner">
 
-        <main>
+
+        <div class="brand-row">
+
+          <a
+            class="brand-link"
+            href="https://www.b3nn3t.com/index.html"
+          >
+            b3nn3t
+          </a>
+
+        </div>
 
 
-          <div class="brand-row">
+        <section class="hero">
 
-            <a
-              class="brand-link"
-              href="https://www.b3nn3t.com/index.html"
+          <p class="eyebrow">
+            neues album
+          </p>
+
+          <h1>
+            gespalten
+          </h1>
+
+          <p class="hero-sub">
+            10 kurze Songs.
+            12 Minuten zwischen alt und neu.
+          </p>
+
+        </section>
+
+
+        <div class="video-wrap">
+
+          <video
+            class="album-video"
+            controls
+            playsinline
+            preload="metadata"
+            poster="/assets/gespalten/gespalten.jpg"
+          >
+
+            <source
+              src="/assets/gespalten/gespalten.mp4"
+              type="video/mp4"
             >
 
-              b3nn3t
+            Dein Browser unterstützt
+            dieses Video nicht.
 
-            </a>
+          </video>
+
+        </div>
+
+
+        <section class="countdown">
+
+          <p class="countdown-label">
+            album status
+          </p>
+
+          <p class="countdown-time">
+            --d --:--:--
+          </p>
+
+          <p class="countdown-note">
+            release:
+            13. august 2026 · 24:00 uhr
+          </p>
+
+        </section>
+
+
+        <section class="song-list-section">
+
+          <div class="song-list-head">
+
+            <strong>
+              10 fragments
+            </strong>
 
           </div>
 
 
-          <section class="hero">
+          <div class="song-lines">
 
-            <p class="eyebrow">
+            <p class="song-line">
 
-              neues album
+              <span>
+                desigual
+              </span>
 
-            </p>
+              <span>
+                aergerlich
+              </span>
 
+              <span>
+                3
+              </span>
 
-            <h1>
-
-              gespalten
-
-            </h1>
-
-
-            <p class="hero-sub">
-
-              10 kurze Songs.
-              12 Minuten zwischen alt und neu.
-
-            </p>
-
-          </section>
-
-
-          <section class="block">
-
-            <div class="video-wrap">
-
-              <video
-                class="album-video"
-                controls
-                playsinline
-                preload="metadata"
-                poster="/assets/gespalten/gespalten.jpg"
-              >
-
-                <source
-                  src="/assets/gespalten/gespalten.mp4"
-                  type="video/mp4"
-                >
-
-                Dein Browser unterstützt
-                dieses Video nicht.
-
-              </video>
-
-            </div>
-
-          </section>
-
-
-          <section
-            class="block countdown-plain"
-            aria-label="Album Countdown"
-          >
-
-            <p class="countdown-label">
-
-              album status
+              <span>
+                (fenster scherben)
+              </span>
 
             </p>
 
 
-            <p class="countdown-time">
+            <p class="song-line">
 
-              out now
+              <span>
+                5r
+              </span>
+
+              <span>
+                6
+              </span>
+
+              <span>
+                7
+              </span>
+
+              <span>
+              </span>
 
             </p>
 
 
-            <p class="countdown-note">
+            <p class="song-line">
 
-              „gespalten“ ist jetzt draussen.
+              <span>
+                8?
+              </span>
+
+              <span>
+                wegwerfkamera
+              </span>
+
+              <span>
+                2011
+              </span>
+
+              <span>
+              </span>
 
             </p>
 
-          </section>
+          </div>
+
+        </section>
 
 
-          <section
-            class="block song-list-section"
-            aria-label="Songs auf gespalten"
-          >
+        <section class="about-section">
 
-            <div class="song-list-head">
+          <h2>
+            über das album
+          </h2>
 
-              <strong>
-                10 fragments
-              </strong>
+          <p>
+            „gespalten“ ist ein kurzes album
+            aus 10 fragmenten.
+            12 minuten im übergang zwischen
+            alt mit deutschsprachigen skizzen.
+          </p>
 
-              <br>
-              <br>
+          <p>
+            die songs sind eher gedanken
+            und gefühle als klassische tracks –
+            kurz, direkt, unfertig im besten sinn.
+          </p>
 
-            </div>
+          <div class="quote-block">
+          </div>
 
-
-            <div class="song-lines">
-
-
-              <p class="song-line">
-
-                <span>
-                  desigual
-                </span>
-
-                <span>
-                  aergerlich
-                </span>
-
-                <span>
-                  3
-                </span>
-
-                <span>
-                  (fenster scherben)
-                </span>
-
-              </p>
+        </section>
 
 
-              <p class="song-line">
-
-                <span>
-                  5r
-                </span>
-
-                <span>
-                  6
-                </span>
-
-                <span>
-                  7
-                </span>
-
-                <span>
-                </span>
-
-              </p>
+        <div class="footer-combined">
 
 
-              <p class="song-line">
-
-                <span>
-                  8?
-                </span>
-
-                <span>
-                  wegwerfkamera
-                </span>
-
-                <span>
-                  2011
-                </span>
-
-                <span>
-                </span>
-
-              </p>
-
-
-            </div>
-
-          </section>
-
-
-          <section
-            class="block about-section"
-            aria-label="über das Album"
-          >
+          <section>
 
             <h2>
-
-              über das album
-
+              kuck hier
             </h2>
 
 
-            <p>
-
-              „gespalten“ ist ein kurzes album
-              aus 10 fragmenten.
-              12 minuten im übergang zwischen
-              alt mit deutschsprachigen skizzen.
-
-            </p>
-
-
-            <p>
-
-              die songs sind eher gedanken
-              und gefühle als klassische tracks –
-              kurz, direkt, unfertig im besten sinn.
-
-            </p>
-
-
-            <div class="quote-block">
-
-              <br>
-
-            </div>
-
-          </section>
-
-
-          <div class="footer-combined">
-
-
-            <section
-              aria-label="Streaming"
-              class="block"
-            >
-
-              <h2>
-
-                kuck hier
-
-              </h2>
-
-
-              <div class="social-icons">
-
-
-                <a
-                  href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                  class="social-link"
-                  aria-label="Spotify – b3nn3t"
-                  target="_blank"
-                  rel="noopener"
-                >
-
-                  <picture>
-
-                    <source
-                      srcset="assets/release/spotify_128.webp"
-                      type="image/webp"
-                    >
-
-                    <img
-                      class="social-icon-img"
-                      src="assets/release/spotify_128.png"
-                      alt="Spotify"
-                    >
-
-                  </picture>
-
-                </a>
-
-
-                <a
-                  href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
-                  class="social-link"
-                  aria-label="Apple Music – b3nn3t"
-                  target="_blank"
-                  rel="noopener"
-                >
-
-                  <picture>
-
-                    <source
-                      srcset="assets/release/apple_music_128.webp"
-                      type="image/webp"
-                    >
-
-                    <img
-                      class="social-icon-img"
-                      src="assets/release/apple_music_128.png"
-                      alt="Apple Music"
-                    >
-
-                  </picture>
-
-                </a>
-
-
-                <a
-                  href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
-                  class="social-link"
-                  aria-label="Instagram – b3nn3t"
-                  target="_blank"
-                  rel="noopener"
-                >
-
-                  <picture>
-
-                    <source
-                      srcset="assets/release/instagram_128.webp"
-                      type="image/webp"
-                    >
-
-                    <img
-                      class="social-icon-img"
-                      src="assets/release/instagram_128.png"
-                      alt="Instagram"
-                    >
-
-                  </picture>
-
-                </a>
-
-
-                <a
-                  href="https://www.youtube.com/@b333nn3t"
-                  class="social-link"
-                  aria-label="YouTube – b3nn3t"
-                  target="_blank"
-                  rel="noopener"
-                >
-
-                  <picture>
-
-                    <source
-                      srcset="assets/release/youtube_128.webp"
-                      type="image/webp"
-                    >
-
-                    <img
-                      class="social-icon-img"
-                      src="assets/release/youtube_128.png"
-                      alt="YouTube"
-                    >
-
-                  </picture>
-
-                </a>
-
-
-                <a
-                  href="https://soundcloud.com/bennet-6942069420"
-                  class="social-link"
-                  aria-label="SoundCloud – b3nn3t"
-                  target="_blank"
-                  rel="noopener"
-                >
-
-                  <picture>
-
-                    <source
-                      srcset="assets/release/soundcloud_128.webp"
-                      type="image/webp"
-                    >
-
-                    <img
-                      class="social-icon-img"
-                      src="assets/release/soundcloud_128.png"
-                      alt="SoundCloud"
-                    >
-
-                  </picture>
-
-                </a>
-
-
-              </div>
-
-            </section>
-
-
-            <section
-              aria-label="Mehr von b3nn3t"
-              class="block"
-            >
-
-              <p>
-
-                mehr auf meiner webseite :p
-
-              </p>
+            <div class="social-icons">
 
 
               <a
-                class="brand-link more-link"
-                href="https://www.b3nn3t.com/index.html"
+                href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                class="social-link"
+                aria-label="Spotify – b3nn3t"
+                target="_blank"
+                rel="noopener"
               >
 
-                b3nn3t.com
+                <picture>
+
+                  <source
+                    srcset="assets/release/spotify_128.webp"
+                    type="image/webp"
+                  >
+
+                  <img
+                    class="social-icon-img"
+                    src="assets/release/spotify_128.png"
+                    alt="Spotify"
+                  >
+
+                </picture>
 
               </a>
 
-            </section>
+
+              <a
+                href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                class="social-link"
+                aria-label="Apple Music – b3nn3t"
+                target="_blank"
+                rel="noopener"
+              >
+
+                <picture>
+
+                  <source
+                    srcset="assets/release/apple_music_128.webp"
+                    type="image/webp"
+                  >
+
+                  <img
+                    class="social-icon-img"
+                    src="assets/release/apple_music_128.png"
+                    alt="Apple Music"
+                  >
+
+                </picture>
+
+              </a>
 
 
-          </div>
+              <a
+                href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                class="social-link"
+                aria-label="Instagram – b3nn3t"
+                target="_blank"
+                rel="noopener"
+              >
+
+                <picture>
+
+                  <source
+                    srcset="assets/release/instagram_128.webp"
+                    type="image/webp"
+                  >
+
+                  <img
+                    class="social-icon-img"
+                    src="assets/release/instagram_128.png"
+                    alt="Instagram"
+                  >
+
+                </picture>
+
+              </a>
 
 
-          <div class="listen-wrap">
+              <a
+                href="https://www.youtube.com/@b333nn3t"
+                class="social-link"
+                aria-label="YouTube – b3nn3t"
+                target="_blank"
+                rel="noopener"
+              >
+
+                <picture>
+
+                  <source
+                    srcset="assets/release/youtube_128.webp"
+                    type="image/webp"
+                  >
+
+                  <img
+                    class="social-icon-img"
+                    src="assets/release/youtube_128.png"
+                    alt="YouTube"
+                  >
+
+                </picture>
+
+              </a>
+
+
+              <a
+                href="https://soundcloud.com/bennet-6942069420"
+                class="social-link"
+                aria-label="SoundCloud – b3nn3t"
+                target="_blank"
+                rel="noopener"
+              >
+
+                <picture>
+
+                  <source
+                    srcset="assets/release/soundcloud_128.webp"
+                    type="image/webp"
+                  >
+
+                  <img
+                    class="social-icon-img"
+                    src="assets/release/soundcloud_128.png"
+                    alt="SoundCloud"
+                  >
+
+                </picture>
+
+              </a>
+
+
+            </div>
+
+          </section>
+
+
+          <section>
+
+            <p>
+              mehr auf meiner webseite :p
+            </p>
 
             <a
-              class="listen-btn"
-              href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-              target="_blank"
-              rel="noopener"
+              class="brand-link more-link"
+              href="https://www.b3nn3t.com/index.html"
             >
-
-              gespalten hören
-
+              b3nn3t.com
             </a>
 
-          </div>
+          </section>
 
 
-        </main>
+        </div>
+
+
+        <div class="listen-wrap">
+
+          <a
+            class="listen-btn"
+            href="https://open.spotify.com/prerelease/3Cp5ojkDj0hJzJIAlHjOHq?si=Lhh7wCxzTKWOQ7nN2Snz-A&utm_source=copy-link"
+            target="_blank"
+            rel="noopener"
+          >
+            album vormerken
+          </a>
+
+        </div>
+
 
       </div>
 
@@ -1818,144 +1681,335 @@
 
 
     <!-- =====================================================
-         SEITE 2 — KOPIE 1
+         ÜBERGANG 1 → 2
+
+         SEITE 2 liegt DARUNTER.
+
+         SEITE 1 wird auseinandergezogen.
+         ===================================================== -->
+
+    <section
+      class="split-transition"
+      data-from="1"
+      data-to="2"
+    >
+
+
+      <div class="transition-next">
+
+        <div class="transition-next-inner">
+
+          <div class="hero">
+
+            <p class="eyebrow">
+              album status
+            </p>
+
+            <h1>
+              die andere seite
+            </h1>
+
+            <p class="hero-sub">
+              Hier beginnt die zweite Seite.
+            </p>
+
+          </div>
+
+
+          <div class="page-two-content">
+
+            <h2>
+              10 fragments
+            </h2>
+
+            <p>
+              Dieser Bereich ist die zweite Seite
+              des Albums.
+            </p>
+
+            <p>
+              Hier kann später dein tatsächlicher
+              zusätzlicher Inhalt stehen.
+            </p>
+
+
+            <div class="fragment-box">
+
+              <strong>
+                fragment 01
+              </strong>
+
+              <p>
+                Texte, Bilder, Notizen,
+                Entstehungsgeschichte,
+                Lyrics oder weitere Videos.
+              </p>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div
+        class="transition-blue"
+        aria-hidden="true">
+      </div>
+
+
+      <!-- LINKER TEIL VON SEITE 1 -->
+
+      <div class="split-half left">
+
+        <div class="split-half-content">
+
+
+          <div class="brand-row">
+
+            <a
+              class="brand-link"
+              href="https://www.b3nn3t.com/index.html"
+            >
+              b3nn3t
+            </a>
+
+          </div>
+
+
+          <div class="hero">
+
+            <p class="eyebrow">
+              neues album
+            </p>
+
+            <h1>
+              gespalten
+            </h1>
+
+            <p class="hero-sub">
+              10 kurze Songs.
+              12 Minuten zwischen alt und neu.
+            </p>
+
+          </div>
+
+
+          <div class="page-two-content">
+
+            <h2>
+              über das album
+            </h2>
+
+            <p>
+              „gespalten“ ist ein kurzes album
+              aus 10 fragmenten.
+            </p>
+
+            <p>
+              12 minuten zwischen alt und neu.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- RECHTER TEIL VON SEITE 1 -->
+
+      <div class="split-half right">
+
+        <div class="split-half-content">
+
+
+          <div class="brand-row">
+
+            <a
+              class="brand-link"
+              href="https://www.b3nn3t.com/index.html"
+            >
+              b3nn3t
+            </a>
+
+          </div>
+
+
+          <div class="hero">
+
+            <p class="eyebrow">
+              neues album
+            </p>
+
+            <h1>
+              gespalten
+            </h1>
+
+            <p class="hero-sub">
+              10 kurze Songs.
+              12 Minuten zwischen alt und neu.
+            </p>
+
+          </div>
+
+
+          <div class="page-two-content">
+
+            <h2>
+              über das album
+            </h2>
+
+            <p>
+              „gespalten“ ist ein kurzes album
+              aus 10 fragmenten.
+            </p>
+
+            <p>
+              12 minuten zwischen alt und neu.
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+    </section>
+
+
+    <!-- =====================================================
+         SEITE 2
          ===================================================== -->
 
     <section
       class="page page-two"
-      data-page-type="two"
+      data-page="2"
     >
 
       <div class="page-inner">
 
+
+        <div class="brand-row">
+
+          <a
+            class="brand-link"
+            href="https://www.b3nn3t.com/index.html"
+          >
+            b3nn3t
+          </a>
+
+        </div>
+
+
+        <section class="hero">
+
+          <p class="eyebrow">
+            die andere seite
+          </p>
+
+          <h1>
+            fragments
+          </h1>
+
+          <p class="hero-sub">
+            die zweite seite von „gespalten“.
+          </p>
+
+        </section>
+
+
         <div class="page-two-content">
 
 
-          <p class="page-two-eyebrow">
-
-            hinter dem riss
-
-          </p>
-
-
           <h2>
-
             die andere seite
-
           </h2>
 
 
-          <p class="page-two-text">
-
+          <p>
             Hier beginnt die zweite Seite.
+          </p>
 
-            <br><br>
 
+          <p>
             Dieser Bereich kann später mit
             deinem tatsächlichen zusätzlichen
             Inhalt ersetzt werden.
-
           </p>
 
 
-          <div class="page-two-card">
+          <div class="fragment-box">
 
-            <h3>
-
+            <strong>
               fragment 01
+            </strong>
 
-            </h3>
-
-
-            <p class="page-two-text">
-
+            <p>
               Texte, Bilder, Notizen,
               Entstehungsgeschichte,
               Lyrics oder weitere Videos.
-
             </p>
 
           </div>
 
 
-          <div class="page-two-number">
+          <div class="fragment-box">
 
-            02
-
-          </div>
-
-
-          <div class="page-two-card">
-
-            <h3>
-
+            <strong>
               fragment 02
+            </strong>
 
-            </h3>
-
-
-            <p class="page-two-text">
-
-              Seite 2 darf beliebig lang werden.
-
-              <br><br>
-
-              Der Spalt erscheint erst,
-              wenn der tatsächliche Inhalt
-              dieser Seite fast vollständig
-              durchgescrollt wurde.
-
+            <p>
+              Hier kann weiterer Inhalt
+              des Albums erscheinen.
             </p>
 
           </div>
 
 
-          <div class="page-two-number">
+          <div class="fragment-box">
 
-            03
-
-          </div>
-
-
-          <div class="page-two-card">
-
-            <h3>
-
+            <strong>
               fragment 03
+            </strong>
 
-            </h3>
-
-
-            <p class="page-two-text">
-
-              Noch mehr Inhalt.
-
-              <br><br>
-
-              Danach beginnt die Rückkehr
-              zur ersten Seite.
-
+            <p>
+              Die zweite Seite darf beliebig
+              lang werden.
             </p>
 
           </div>
 
 
-          <div class="page-two-end">
+          <div class="about-section">
 
-            ende der zweiten seite
+            <h2>
+              noch mehr
+            </h2>
 
-            <br>
+            <p>
+              Dieser Bereich ist absichtlich
+              länger gehalten, damit du siehst,
+              dass die zweite Seite ganz normal
+              weitergescrollt werden kann.
+            </p>
 
-            <span class="loop-hint">
-
-              gleich wieder von vorne
-
-            </span>
+            <p>
+              Sobald ihr Ende erreicht ist,
+              beginnt automatisch der nächste
+              Spalt.
+            </p>
 
           </div>
 
 
         </div>
+
 
       </div>
 
@@ -1963,17 +2017,25 @@
 
 
     <!-- =====================================================
-         SEITE 1 — KOPIE 2
+         ÜBERGANG 2 → 1
+
+         JETZT WIRD SEITE 2 GESPALTEN.
+
+         DARUNTER LIEGT WIEDER SEITE 1.
+
+         DAS IST DER BEGINN DER ENDLOSSCHLEIFE.
          ===================================================== -->
 
     <section
-      class="page page-one"
-      data-page-type="one"
+      class="split-transition"
+      data-from="2"
+      data-to="1"
     >
 
-      <div class="page-inner">
 
-        <main>
+      <div class="transition-next">
+
+        <div class="transition-next-inner">
 
 
           <div class="brand-row">
@@ -1982,355 +2044,114 @@
               class="brand-link"
               href="https://www.b3nn3t.com/index.html"
             >
-
               b3nn3t
-
             </a>
 
           </div>
 
 
-          <section class="hero">
+          <div class="hero">
 
             <p class="eyebrow">
-
               neues album
-
             </p>
-
 
             <h1>
-
               gespalten
-
             </h1>
 
-
             <p class="hero-sub">
-
               10 kurze Songs.
               12 Minuten zwischen alt und neu.
-
             </p>
-
-          </section>
-
-
-          <section class="block">
-
-            <div class="video-wrap">
-
-              <video
-                class="album-video"
-                controls
-                playsinline
-                preload="metadata"
-                poster="/assets/gespalten/gespalten.jpg"
-              >
-
-                <source
-                  src="/assets/gespalten/gespalten.mp4"
-                  type="video/mp4"
-                >
-
-                Dein Browser unterstützt
-                dieses Video nicht.
-
-              </video>
-
-            </div>
-
-          </section>
-
-
-          <section
-            class="block countdown-plain"
-          >
-
-            <p class="countdown-label">
-
-              album status
-
-            </p>
-
-
-            <p class="countdown-time">
-
-              out now
-
-            </p>
-
-
-            <p class="countdown-note">
-
-              „gespalten“ ist jetzt draussen.
-
-            </p>
-
-          </section>
-
-
-          <section
-            class="block song-list-section"
-          >
-
-            <div class="song-list-head">
-
-              <strong>
-                10 fragments
-              </strong>
-
-            </div>
-
-
-            <div class="song-lines">
-
-
-              <p class="song-line">
-
-                <span>
-                  desigual
-                </span>
-
-                <span>
-                  aergerlich
-                </span>
-
-                <span>
-                  3
-                </span>
-
-                <span>
-                  (fenster scherben)
-                </span>
-
-              </p>
-
-
-              <p class="song-line">
-
-                <span>
-                  5r
-                </span>
-
-                <span>
-                  6
-                </span>
-
-                <span>
-                  7
-                </span>
-
-                <span>
-                </span>
-
-              </p>
-
-
-              <p class="song-line">
-
-                <span>
-                  8?
-                </span>
-
-                <span>
-                  wegwerfkamera
-                </span>
-
-                <span>
-                  2011
-                </span>
-
-                <span>
-                </span>
-
-              </p>
-
-
-            </div>
-
-          </section>
-
-
-          <section
-            class="block about-section"
-          >
-
-            <h2>
-
-              über das album
-
-            </h2>
-
-
-            <p>
-
-              „gespalten“ ist ein kurzes album
-              aus 10 fragmenten.
-              12 minuten im übergang zwischen
-              alt mit deutschsprachigen skizzen.
-
-            </p>
-
-
-            <p>
-
-              die songs sind eher gedanken
-              und gefühle als klassische tracks –
-              kurz, direkt, unfertig im besten sinn.
-
-            </p>
-
-          </section>
-
-
-          <div class="listen-wrap">
-
-            <a
-              class="listen-btn"
-              href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-              target="_blank"
-              rel="noopener"
-            >
-
-              gespalten hören
-
-            </a>
 
           </div>
 
 
-        </main>
+          <div class="page-two-content">
+
+            <h2>
+              zurück zum anfang
+            </h2>
+
+            <p>
+              Die Schleife beginnt von vorne.
+            </p>
+
+          </div>
+
+
+        </div>
 
       </div>
 
-    </section>
+
+      <div
+        class="transition-blue"
+        aria-hidden="true">
+      </div>
 
 
-    <!-- =====================================================
-         SEITE 2 — KOPIE 2
-         ===================================================== -->
+      <!-- LINKER TEIL VON SEITE 2 -->
 
-    <section
-      class="page page-two"
-      data-page-type="two"
-    >
+      <div class="split-half left">
 
-      <div class="page-inner">
-
-        <div class="page-two-content">
+        <div class="split-half-content">
 
 
-          <p class="page-two-eyebrow">
+          <div class="brand-row">
 
-            hinter dem riss
+            <a
+              class="brand-link"
+              href="https://www.b3nn3t.com/index.html"
+            >
+              b3nn3t
+            </a>
 
-          </p>
-
-
-          <h2>
-
-            die andere seite
-
-          </h2>
+          </div>
 
 
-          <p class="page-two-text">
+          <div class="hero">
 
-            Die zweite Seite beginnt erneut.
+            <p class="eyebrow">
+              die andere seite
+            </p>
 
-            <br><br>
+            <h1>
+              fragments
+            </h1>
 
-            Inhaltlich ist sie identisch mit
-            Seite 2 und kann später natürlich
-            mit deinem eigentlichen Inhalt
-            gefüllt werden.
+            <p class="hero-sub">
+              die zweite seite von „gespalten“.
+            </p>
 
-          </p>
+          </div>
 
 
-          <div class="page-two-card">
+          <div class="page-two-content">
 
-            <h3>
-
+            <h2>
               fragment 01
+            </h2>
 
-            </h3>
-
-
-            <p class="page-two-text">
-
-              weiterer Inhalt der zweiten Seite.
-
+            <p>
+              Texte, Bilder und weitere
+              Inhalte des Albums.
             </p>
 
           </div>
-
-
-          <div class="page-two-number">
-
-            02
-
-          </div>
-
-
-          <div class="page-two-card">
-
-            <h3>
-
-              fragment 02
-
-            </h3>
-
-
-            <p class="page-two-text">
-
-              Noch ein Bereich.
-
-              <br><br>
-
-              Und danach wieder zurück
-              zur ersten Seite.
-
-            </p>
-
-          </div>
-
-
-          <div class="page-two-end">
-
-            ende der zweiten seite
-
-            <br>
-
-            <span class="loop-hint">
-
-              gleich wieder von vorne
-
-            </span>
-
-          </div>
-
 
         </div>
 
       </div>
 
-    </section>
 
+      <!-- RECHTER TEIL VON SEITE 2 -->
 
-    <!-- =====================================================
-         SEITE 1 — KOPIE 3
-         ===================================================== -->
+      <div class="split-half right">
 
-    <section
-      class="page page-one"
-      data-page-type="one"
-    >
+        <div class="split-half-content">
 
-      <div class="page-inner">
-
-        <main>
 
           <div class="brand-row">
 
@@ -2338,111 +2159,46 @@
               class="brand-link"
               href="https://www.b3nn3t.com/index.html"
             >
-
               b3nn3t
-
             </a>
 
           </div>
 
 
-          <section class="hero">
+          <div class="hero">
 
             <p class="eyebrow">
-
-              neues album
-
+              die andere seite
             </p>
-
 
             <h1>
-
-              gespalten
-
+              fragments
             </h1>
 
-
             <p class="hero-sub">
-
-              10 kurze Songs.
-              12 Minuten zwischen alt und neu.
-
+              die zweite seite von „gespalten“.
             </p>
 
-          </section>
+          </div>
 
 
-          <section class="block">
-
-            <div class="video-wrap">
-
-              <video
-                class="album-video"
-                controls
-                playsinline
-                preload="metadata"
-                poster="/assets/gespalten/gespalten.jpg"
-              >
-
-                <source
-                  src="/assets/gespalten/gespalten.mp4"
-                  type="video/mp4"
-                >
-
-              </video>
-
-            </div>
-
-          </section>
-
-
-          <section class="block countdown-plain">
-
-            <p class="countdown-label">
-
-              album status
-
-            </p>
-
-
-            <p class="countdown-time">
-
-              out now
-
-            </p>
-
-
-            <p class="countdown-note">
-
-              „gespalten“ ist jetzt draussen.
-
-            </p>
-
-          </section>
-
-
-          <section class="block about-section">
+          <div class="page-two-content">
 
             <h2>
-
-              über das album
-
+              fragment 01
             </h2>
 
-
             <p>
-
-              „gespalten“ ist ein kurzes album
-              aus 10 fragmenten.
-
+              Texte, Bilder und weitere
+              Inhalte des Albums.
             </p>
 
-          </section>
+          </div>
 
-
-        </main>
+        </div>
 
       </div>
+
 
     </section>
 
@@ -2451,958 +2207,855 @@
 
 
   <!-- =======================================================
-       SPLIT-EBENEN
-       ======================================================= -->
-
-  <div
-    class="crack-fill"
-    aria-hidden="true"
-  ></div>
-
-
-  <div
-    class="split-layer left"
-    id="split-left"
-    aria-hidden="true"
-  >
-
-    <div
-      class="split-layer-content"
-      id="split-left-content"
-    ></div>
-
-  </div>
-
-
-  <div
-    class="split-layer right"
-    id="split-right"
-    aria-hidden="true"
-  >
-
-    <div
-      class="split-layer-content"
-      id="split-right-content"
-    ></div>
-
-  </div>
-
-
-  <!-- =======================================================
-       LOOP ENGINE
+       JAVASCRIPT
        ======================================================= -->
 
   <script>
 
-  (function () {
+    (function () {
 
-    "use strict";
-
-
-    const root =
-      document.documentElement;
+      "use strict";
 
 
-    const loop =
-      document.getElementById("loop");
+      /*
+       ========================================================
+       GRUNDIDEE
+
+       Der Browser bekommt zunächst:
+
+       Seite 1
+       Übergang 1 → 2
+       Seite 2
+       Übergang 2 → 1
+
+       Danach wird diese Struktur dynamisch immer wieder
+       angehängt.
+
+       Es gibt also niemals eine "letzte Seite".
+
+       ========================================================
+      */
 
 
-    const pages =
-      Array.from(
-        loop.querySelectorAll(".page")
-      );
+      const loop =
+        document.getElementById("loop");
 
 
-    const splitLeft =
-      document.getElementById("split-left");
+      let pageCounter = 2;
 
 
-    const splitRight =
-      document.getElementById("split-right");
+      /*
+       --------------------------------------------------------
+       Hilfsfunktion
+       --------------------------------------------------------
+      */
 
-
-    const splitLeftContent =
-      document.getElementById("split-left-content");
-
-
-    const splitRightContent =
-      document.getElementById("split-right-content");
-
-
-    if (
-      !pages.length
-    ) {
-
-      return;
-
-    }
-
-
-    /* =======================================================
-       EINSTELLUNGEN
-       ======================================================= */
-
-    const TRANSITION_DISTANCE =
-      620;
-
-
-    const RECENTER_MARGIN =
-      0.35;
-
-
-    let currentPageIndex =
-      0;
-
-
-    let currentPageElement =
-      pages[0];
-
-
-    let currentPageType =
-      currentPageElement.dataset.pageType;
-
-
-    let splitValue =
-      0;
-
-
-    let splitTarget =
-      0;
-
-
-    let mouseX =
-      0;
-
-
-    let mouseY =
-      0;
-
-
-    let mouseTargetX =
-      0;
-
-
-    let mouseTargetY =
-      0;
-
-
-    let raf =
-      null;
-
-
-    let recentering =
-      false;
-
-
-    /* =======================================================
-       HILFSFUNKTIONEN
-       ======================================================= */
-
-    function clamp(
-      value,
-      min,
-      max
-    ) {
-
-      return Math.min(
-        Math.max(
-          value,
-          min
-        ),
+      function clamp(
+        value,
+        min,
         max
-      );
-
-    }
-
-
-    function smoothstep(
-      value
-    ) {
-
-      return (
-        value *
-        value *
-        (
-          3 -
-          2 * value
-        )
-      );
-
-    }
-
-
-    /* =======================================================
-       SEITENPOSITIONEN
-
-       Wir ermitteln die tatsächliche Position jeder
-       Seite. Dadurch funktioniert es auch dann,
-       wenn Seite 2 wesentlich länger wird.
-       ======================================================= */
-
-    function getPageInfo() {
-
-      return pages.map(
-        function (page) {
-
-          const rect =
-            page.getBoundingClientRect();
-
-
-          const top =
-            window.scrollY +
-            rect.top;
-
-
-          const bottom =
-            top +
-            page.offsetHeight;
-
-
-          return {
-
-            element:
-              page,
-
-            type:
-              page.dataset.pageType,
-
-            top:
-              top,
-
-            bottom:
-              bottom,
-
-            height:
-              page.offsetHeight
-
-          };
-
-        }
-      );
-
-    }
-
-
-    /* =======================================================
-       AKTUELLE SEITE
-
-       Wichtig:
-
-       Die Seite, deren Ende gerade erreicht wird,
-       ist die Seite, die auseinanderbrechen muss.
-       ======================================================= */
-
-    function findCurrentPage(
-      infos
-    ) {
-
-      const y =
-        window.scrollY;
-
-
-      for (
-        let i = 0;
-        i < infos.length;
-        i++
       ) {
 
-        if (
-          y >= infos[i].top &&
-          y < infos[i].bottom
-        ) {
-
-          return i;
-
-        }
-
-      }
-
-
-      return infos.length - 1;
-
-    }
-
-
-    /* =======================================================
-       SPLIT-PROGRESS
-
-       Der Spalt öffnet sich NUR am Ende der aktuellen Seite.
-
-       Beispiel:
-
-       Seite 1:
-       ────────────────────────┐
-                              │
-                              │ SPALT
-                              ▼
-       Seite 2
-
-       Dadurch wird nicht mitten auf Seite 1
-       plötzlich ein Split eingeblendet.
-       ======================================================= */
-
-    function calculateSplit(
-      info
-    ) {
-
-      const y =
-        window.scrollY;
-
-
-      const distanceToBottom =
-        info.bottom -
-        y;
-
-
-      if (
-        distanceToBottom >=
-        TRANSITION_DISTANCE
-      ) {
-
-        return 0;
-
-      }
-
-
-      const progress =
-        clamp(
-          1 -
-          (
-            distanceToBottom /
-            TRANSITION_DISTANCE
+        return Math.min(
+          Math.max(
+            value,
+            min
           ),
-          0,
-          1
-        );
-
-
-      return smoothstep(
-        progress
-      );
-
-    }
-
-
-    /* =======================================================
-       SPLIT-KLON ERZEUGEN
-
-       Ganz wichtig:
-
-       Der Klon wird auf die exakte Position der aktuellen
-       Seite gesetzt.
-
-       Dadurch bleibt beim Öffnen des Spaltes die aktuelle
-       Seite sichtbar.
-
-       DARUNTER befindet sich bereits die nächste Seite.
-       ======================================================= */
-
-    function createSplitClone(
-      page
-    ) {
-
-
-      splitLeftContent.innerHTML =
-        "";
-
-
-      splitRightContent.innerHTML =
-        "";
-
-
-      const leftClone =
-        page.cloneNode(true);
-
-
-      const rightClone =
-        page.cloneNode(true);
-
-
-      leftClone.removeAttribute(
-        "id"
-      );
-
-
-      rightClone.removeAttribute(
-        "id"
-      );
-
-
-      /*
-        Keine Videos in den Klonen.
-
-        Das echte Video darunter bzw. auf der aktuellen
-        Seite bleibt erhalten.
-      */
-
-      leftClone
-        .querySelectorAll("video")
-        .forEach(
-          function (video) {
-
-            video.remove();
-
-          }
-        );
-
-
-      rightClone
-        .querySelectorAll("video")
-        .forEach(
-          function (video) {
-
-            video.remove();
-
-          }
-        );
-
-
-      /*
-        Links deaktivieren.
-      */
-
-      leftClone
-        .querySelectorAll("a")
-        .forEach(
-          function (link) {
-
-            link.setAttribute(
-              "tabindex",
-              "-1"
-            );
-
-          }
-        );
-
-
-      rightClone
-        .querySelectorAll("a")
-        .forEach(
-          function (link) {
-
-            link.setAttribute(
-              "tabindex",
-              "-1"
-            );
-
-          }
-        );
-
-
-      splitLeftContent.appendChild(
-        leftClone
-      );
-
-
-      splitRightContent.appendChild(
-        rightClone
-      );
-
-
-      /*
-        Exakte Dokumentposition der Seite.
-      */
-
-      const rect =
-        page.getBoundingClientRect();
-
-
-      const documentTop =
-        window.scrollY +
-        rect.top;
-
-
-      splitLeftContent.style.top =
-        documentTop + "px";
-
-
-      splitRightContent.style.top =
-        documentTop + "px";
-
-
-      splitLeftContent.style.height =
-        page.offsetHeight + "px";
-
-
-      splitRightContent.style.height =
-        page.offsetHeight + "px";
-
-    }
-
-
-    /* =======================================================
-       AKTUELLE SEITE SETZEN
-       ======================================================= */
-
-    function setCurrentPage(
-      index,
-      infos
-    ) {
-
-
-      if (
-        index < 0 ||
-        index >= infos.length
-      ) {
-
-        return;
-
-      }
-
-
-      const page =
-        infos[index].element;
-
-
-      const type =
-        infos[index].type;
-
-
-      /*
-        Nur neu erstellen, wenn sich die Seite wirklich
-        geändert hat.
-      */
-
-      if (
-        page !== currentPageElement
-      ) {
-
-        currentPageIndex =
-          index;
-
-        currentPageElement =
-          page;
-
-        currentPageType =
-          type;
-
-
-        createSplitClone(
-          page
+          max
         );
 
       }
 
-    }
-
-
-    /* =======================================================
-       LOOP-REZENTRIERUNG
-
-       Wir haben:
-
-       Seite 1
-       Seite 2
-       Seite 1
-       Seite 2
-       Seite 1
-
-       Wenn wir am Ende angekommen sind, springen wir
-       NICHT auf den Anfang.
-
-       Stattdessen:
-
-       Seite 2 Nummer 2
-              ↓
-       Seite 1 Nummer 3
-
-       wird auf die identische Stelle in
-
-       Seite 2 Nummer 1
-              ↓
-       Seite 1 Nummer 2
-
-       verschoben.
-
-       Für den Nutzer bleibt dadurch alles gleich.
-       ======================================================= */
-
-    function recenterIfNecessary(
-      infos
-    ) {
-
-
-      if (
-        recentering
-      ) {
-
-        return;
-
-      }
-
-
-      const y =
-        window.scrollY;
-
 
       /*
-        Wir verwenden die mittlere Wiederholung.
-
-        Sobald der Nutzer sich der letzten Kopie nähert,
-        verschieben wir ihn um die Höhe von zwei Seiten
-        zurück.
+       --------------------------------------------------------
+       Übergänge dynamisch erzeugen
+       --------------------------------------------------------
       */
 
-      if (
-        currentPageIndex >=
-        infos.length - 2
+      function createTransition(
+        fromPage,
+        toPage
       ) {
 
 
-        const previousPageOne =
-          infos[0];
+        const section =
+          document.createElement("section");
 
 
-        const previousPageTwo =
-          infos[1];
+        section.className =
+          "split-transition";
 
 
-        const cycleHeight =
-          previousPageOne.height +
-          previousPageTwo.height;
+        section.dataset.from =
+          fromPage;
+
+
+        section.dataset.to =
+          toPage;
+
+
+        /*
+         Inhalt der Seite, die darunter liegt.
+        */
+
+        let nextContent = "";
 
 
         if (
-          y >
-          (
-            infos[2].top -
-            window.innerHeight *
-            RECENTER_MARGIN
-          )
+          toPage === 1
         ) {
 
+          nextContent = `
 
-          recentering =
-            true;
+            <div class="brand-row">
+
+              <a
+                class="brand-link"
+                href="https://www.b3nn3t.com/index.html"
+              >
+                b3nn3t
+              </a>
+
+            </div>
+
+            <div class="hero">
+
+              <p class="eyebrow">
+                neues album
+              </p>
+
+              <h1>
+                gespalten
+              </h1>
+
+              <p class="hero-sub">
+                10 kurze Songs.
+                12 Minuten zwischen alt und neu.
+              </p>
+
+            </div>
+
+          `;
+
+        } else {
+
+          nextContent = `
+
+            <div class="brand-row">
+
+              <a
+                class="brand-link"
+                href="https://www.b3nn3t.com/index.html"
+              >
+                b3nn3t
+              </a>
+
+            </div>
+
+            <div class="hero">
+
+              <p class="eyebrow">
+                die andere seite
+              </p>
+
+              <h1>
+                fragments
+              </h1>
+
+              <p class="hero-sub">
+                die zweite seite von „gespalten“.
+              </p>
+
+            </div>
+
+          `;
+
+        }
 
 
-          const newY =
-            y -
-            cycleHeight;
+        /*
+         Inhalt der Seite, die gerade auseinanderbricht.
+        */
 
+        let currentContent = "";
+
+
+        if (
+          fromPage === 1
+        ) {
+
+          currentContent = `
+
+            <div class="brand-row">
+
+              <a
+                class="brand-link"
+                href="https://www.b3nn3t.com/index.html"
+              >
+                b3nn3t
+              </a>
+
+            </div>
+
+            <div class="hero">
+
+              <p class="eyebrow">
+                neues album
+              </p>
+
+              <h1>
+                gespalten
+              </h1>
+
+              <p class="hero-sub">
+                10 kurze Songs.
+                12 Minuten zwischen alt und neu.
+              </p>
+
+            </div>
+
+          `;
+
+        } else {
+
+          currentContent = `
+
+            <div class="brand-row">
+
+              <a
+                class="brand-link"
+                href="https://www.b3nn3t.com/index.html"
+              >
+                b3nn3t
+              </a>
+
+            </div>
+
+            <div class="hero">
+
+              <p class="eyebrow">
+                die andere seite
+              </p>
+
+              <h1>
+                fragments
+              </h1>
+
+              <p class="hero-sub">
+                die zweite seite von „gespalten“.
+              </p>
+
+            </div>
+
+          `;
+
+        }
+
+
+        section.innerHTML = `
+
+          <div class="transition-next">
+
+            <div class="transition-next-inner">
+
+              ${nextContent}
+
+            </div>
+
+          </div>
+
+
+          <div
+            class="transition-blue"
+            aria-hidden="true">
+          </div>
+
+
+          <div class="split-half left">
+
+            <div class="split-half-content">
+
+              ${currentContent}
+
+            </div>
+
+          </div>
+
+
+          <div class="split-half right">
+
+            <div class="split-half-content">
+
+              ${currentContent}
+
+            </div>
+
+          </div>
+
+        `;
+
+
+        return section;
+
+      }
+
+
+      /*
+       --------------------------------------------------------
+       Seite 2 / weitere Seite erzeugen
+       --------------------------------------------------------
+      */
+
+      function createPage(
+        pageNumber
+      ) {
+
+
+        const page =
+          document.createElement("section");
+
+
+        page.className =
+          "page page-two";
+
+
+        page.dataset.page =
+          pageNumber;
+
+
+        page.innerHTML = `
+
+          <div class="page-inner">
+
+
+            <div class="brand-row">
+
+              <a
+                class="brand-link"
+                href="https://www.b3nn3t.com/index.html"
+              >
+                b3nn3t
+              </a>
+
+            </div>
+
+
+            <section class="hero">
+
+              <p class="eyebrow">
+                die andere seite
+              </p>
+
+              <h1>
+                fragments
+              </h1>
+
+              <p class="hero-sub">
+                die zweite seite von „gespalten“.
+              </p>
+
+            </section>
+
+
+            <div class="page-two-content">
+
+
+              <h2>
+                die andere seite
+              </h2>
+
+
+              <p>
+                Hier beginnt die zweite Seite.
+              </p>
+
+
+              <p>
+                Dieser Bereich kann mit deinem
+                tatsächlichen zusätzlichen Inhalt
+                ersetzt werden.
+              </p>
+
+
+              <div class="fragment-box">
+
+                <strong>
+                  fragment 01
+                </strong>
+
+                <p>
+                  Texte, Bilder, Notizen,
+                  Entstehungsgeschichte,
+                  Lyrics oder weitere Videos.
+                </p>
+
+              </div>
+
+
+              <div class="fragment-box">
+
+                <strong>
+                  fragment 02
+                </strong>
+
+                <p>
+                  Weiterer Inhalt des Albums.
+                </p>
+
+              </div>
+
+
+              <div class="fragment-box">
+
+                <strong>
+                  fragment 03
+                </strong>
+
+                <p>
+                  Noch mehr Material.
+                </p>
+
+              </div>
+
+
+              <div class="about-section">
+
+                <h2>
+                  noch mehr
+                </h2>
+
+                <p>
+                  Die zweite Seite kann beliebig
+                  lang sein.
+                </p>
+
+                <p>
+                  Wenn ihr Ende erreicht ist,
+                  beginnt der nächste Spalt.
+                </p>
+
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        `;
+
+
+        return page;
+
+      }
+
+
+      /*
+       ========================================================
+       ENDLOSSCHLEIFE AUFBAUEN
+       ========================================================
+
+       Wir hängen immer neue Seiten und Übergänge an.
+
+       1 → 2
+       2 → 1
+       1 → 2
+       2 → 1
+       usw.
+       ========================================================
+      */
+
+
+      function appendNextCycle() {
+
+
+        const lastPage =
+          pageCounter % 2 === 0
+            ? 2
+            : 1;
+
+
+        const nextPage =
+          lastPage === 1
+            ? 2
+            : 1;
+
+
+        /*
+         Übergang
+        */
+
+        loop.appendChild(
+          createTransition(
+            lastPage,
+            nextPage
+          )
+        );
+
+
+        /*
+         Neue Seite
+        */
+
+        if (
+          nextPage === 2
+        ) {
+
+          loop.appendChild(
+            createPage(
+              pageCounter + 1
+            )
+          );
+
+        } else {
 
           /*
-            Kein smooth scroll!
+           Seite 1 wird erneut als echte Seite
+           eingefügt.
 
-            Ein smooth scroll würde den Übergang
-            sichtbar machen.
+           Wir verwenden hier absichtlich eine
+           verkürzte, aber funktionierende
+           Version des Inhalts.
           */
 
-          window.scrollTo(
-            0,
-            newY
+          const page =
+            createPage(
+              pageCounter + 1
+            );
+
+
+          page.classList.remove(
+            "page-two"
           );
 
 
-          /*
-            Positionen neu messen.
-          */
-
-          requestAnimationFrame(
-            function () {
-
-              recentering =
-                false;
-
-            }
+          page.classList.add(
+            "page-one"
           );
+
+
+          page.innerHTML = `
+
+            <div class="page-inner">
+
+
+              <div class="brand-row">
+
+                <a
+                  class="brand-link"
+                  href="https://www.b3nn3t.com/index.html"
+                >
+                  b3nn3t
+                </a>
+
+              </div>
+
+
+              <section class="hero">
+
+                <p class="eyebrow">
+                  neues album
+                </p>
+
+                <h1>
+                  gespalten
+                </h1>
+
+                <p class="hero-sub">
+                  10 kurze Songs.
+                  12 Minuten zwischen alt und neu.
+                </p>
+
+              </section>
+
+
+              <div class="video-wrap">
+
+                <video
+                  class="album-video"
+                  controls
+                  playsinline
+                  preload="metadata"
+                  poster="/assets/gespalten/gespalten.jpg"
+                >
+
+                  <source
+                    src="/assets/gespalten/gespalten.mp4"
+                    type="video/mp4"
+                  >
+
+                </video>
+
+              </div>
+
+
+              <section class="countdown">
+
+                <p class="countdown-label">
+                  album status
+                </p>
+
+                <p class="countdown-time">
+                  out now
+                </p>
+
+                <p class="countdown-note">
+                  „gespalten“ ist jetzt draussen.
+                </p>
+
+              </section>
+
+
+              <section class="about-section">
+
+                <h2>
+                  über das album
+                </h2>
+
+                <p>
+                  „gespalten“ ist ein kurzes album
+                  aus 10 fragmenten.
+                </p>
+
+                <p>
+                  12 minuten zwischen alt und neu.
+                </p>
+
+              </section>
+
+
+              <div class="listen-wrap">
+
+                <a
+                  class="listen-btn"
+                  href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  gespalten hören
+                </a>
+
+              </div>
+
+
+            </div>
+
+          `;
+
+
+          loop.appendChild(
+            page
+          );
+
+        }
+
+
+        pageCounter++;
+
+      }
+
+
+      /*
+       ========================================================
+       SCROLL-PROGRESS DES AKTUELL SICHTBAREN ÜBERGANGS
+       ========================================================
+      */
+
+      function updateTransitions() {
+
+
+        const transitions =
+          document.querySelectorAll(
+            ".split-transition"
+          );
+
+
+        transitions.forEach(
+          function (transition) {
+
+
+            const rect =
+              transition.getBoundingClientRect();
+
+
+            const height =
+              transition.offsetHeight;
+
+
+            /*
+             0 = Übergang beginnt
+
+             1 = Übergang beendet
+            */
+
+            let progress =
+              -rect.top /
+              Math.max(
+                1,
+                height - window.innerHeight
+              );
+
+
+            progress =
+              clamp(
+                progress,
+                0,
+                1
+              );
+
+
+            /*
+             Weiche Bewegung.
+
+             Die ersten 50 % öffnen etwas langsamer,
+             danach öffnet sich der Spalt stärker.
+            */
+
+            progress =
+              Math.pow(
+                progress,
+                0.88
+              );
+
+
+            transition.style
+              .setProperty(
+                "--split",
+                progress.toFixed(4)
+              );
+
+          }
+        );
+
+      }
+
+
+      /*
+       ========================================================
+       UNENDLICH NACHLADEN
+       ========================================================
+
+       Sobald der Benutzer ungefähr am Ende angekommen ist,
+       werden weitere Seiten erzeugt.
+
+       Der Browser bekommt dadurch niemals ein echtes Ende.
+       ========================================================
+      */
+
+      function ensureInfiniteScroll() {
+
+
+        const scrollBottom =
+          window.scrollY +
+          window.innerHeight;
+
+
+        const documentHeight =
+          document.documentElement
+            .scrollHeight;
+
+
+        if (
+          documentHeight -
+          scrollBottom
+          <
+          window.innerHeight * 2.5
+        ) {
+
+          appendNextCycle();
+
+          appendNextCycle();
 
         }
 
       }
 
-    }
-
-
-    /* =======================================================
-       RENDER
-       ======================================================= */
-
-    function render() {
-
-
-      const infos =
-        getPageInfo();
-
-
-      if (
-        !infos.length
-      ) {
-
-        return;
-
-      }
-
-
-      const index =
-        findCurrentPage(
-          infos
-        );
-
-
-      setCurrentPage(
-        index,
-        infos
-      );
-
 
       /*
-        Der Split gehört zur Seite, deren Ende
-        wir gerade erreichen.
+       ========================================================
+       SCROLL EVENT
+       ========================================================
       */
 
-      const activeInfo =
-        infos[index];
+      let ticking =
+        false;
 
 
-      splitTarget =
-        calculateSplit(
-          activeInfo
-        );
+      function onScroll() {
 
 
-      /*
-        Weiche Animation.
-      */
+        if (
+          ticking
+        ) {
 
-      splitValue +=
-        (
-          splitTarget -
-          splitValue
-        ) * 0.16;
+          return;
+
+        }
 
 
-      if (
-        Math.abs(
-          splitTarget -
-          splitValue
-        ) < 0.001
-      ) {
-
-        splitValue =
-          splitTarget;
-
-      }
+        ticking =
+          true;
 
 
-      root.style.setProperty(
-        "--split",
-        splitValue.toFixed(4)
-      );
-
-
-      /*
-        Split nur anzeigen, wenn er wirklich geöffnet ist.
-      */
-
-      if (
-        splitValue >
-        0.003
-      ) {
-
-        splitLeft.classList.add(
-          "active"
-        );
-
-        splitRight.classList.add(
-          "active"
-        );
-
-      } else {
-
-        splitLeft.classList.remove(
-          "active"
-        );
-
-        splitRight.classList.remove(
-          "active"
-        );
-
-      }
-
-
-      /*
-        Mausbewegung
-      */
-
-      mouseX +=
-        (
-          mouseTargetX -
-          mouseX
-        ) * 0.12;
-
-
-      mouseY +=
-        (
-          mouseTargetY -
-          mouseY
-        ) * 0.12;
-
-
-      root.style.setProperty(
-        "--mx",
-        mouseX.toFixed(4)
-      );
-
-
-      root.style.setProperty(
-        "--my",
-        mouseY.toFixed(4)
-      );
-
-
-      recenterIfNecessary(
-        infos
-      );
-
-
-      raf =
         requestAnimationFrame(
-          render
+          function () {
+
+
+            updateTransitions();
+
+            ensureInfiniteScroll();
+
+            ticking =
+              false;
+
+          }
         );
 
-    }
-
-
-    /* =======================================================
-       MOUSE
-       ======================================================= */
-
-    if (
-      window.matchMedia(
-        "(pointer: fine)"
-      ).matches
-    ) {
+      }
 
 
       window.addEventListener(
-        "mousemove",
-        function (event) {
-
-
-          mouseTargetX =
-            (
-              event.clientX /
-              window.innerWidth -
-              0.5
-            ) * 2;
-
-
-          mouseTargetY =
-            (
-              event.clientY /
-              window.innerHeight -
-              0.5
-            ) * 2;
-
-
-          mouseTargetX =
-            clamp(
-              mouseTargetX,
-              -1,
-              1
-            );
-
-
-          mouseTargetY =
-            clamp(
-              mouseTargetY,
-              -1,
-              1
-            );
-
-        },
+        "scroll",
+        onScroll,
         {
-          passive:
-            true
+          passive: true
         }
       );
 
-    }
+
+      window.addEventListener(
+        "resize",
+        updateTransitions
+      );
 
 
-    /* =======================================================
-       RESIZE
+      /*
+       ========================================================
+       INITIALISIERUNG
+       ========================================================
+      */
 
-       Nach einer Größenänderung können sich die Höhen
-       ändern. Deshalb Klon neu erzeugen.
-       ======================================================= */
+      /*
+       Schon beim Start mehrere Zyklen vorbereiten.
 
-    window.addEventListener(
-      "resize",
-      function () {
+       Dadurch ist beim normalen Scrollen
+       sofort genug Inhalt vorhanden.
+      */
 
+      appendNextCycle();
 
-        const infos =
-          getPageInfo();
+      appendNextCycle();
 
+      appendNextCycle();
 
-        const index =
-          findCurrentPage(
-            infos
-          );
-
-
-        if (
-          infos[index]
-        ) {
-
-          currentPageElement =
-            null;
+      appendNextCycle();
 
 
-          setCurrentPage(
-            index,
-            infos
-          );
-
-        }
-
-      }
-    );
+      updateTransitions();
 
 
-    /* =======================================================
-       START
-       ======================================================= */
-
-    window.addEventListener(
-      "load",
-      function () {
-
-
-        const infos =
-          getPageInfo();
-
-
-        if (
-          infos.length
-        ) {
-
-          currentPageIndex =
-            0;
-
-          currentPageElement =
-            infos[0].element;
-
-          currentPageType =
-            infos[0].type;
-
-
-          createSplitClone(
-            infos[0].element
-          );
-
-        }
-
-
-        render();
-
-      }
-    );
-
-
-  })();
+    })();
 
   </script>
 
@@ -3413,165 +3066,142 @@
 
   <script>
 
-  (function () {
+    (function () {
 
 
-    const RELEASE_DATE =
-      new Date(
-        "2026-08-14T00:00:00+02:00"
-      ).getTime();
+      const RELEASE_DATE =
+        new Date(
+          "2026-08-14T00:00:00+02:00"
+        ).getTime();
 
 
-    const ALBUM_LINK =
-      "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
+      function pad(
+        value
+      ) {
+
+        return String(
+          value
+        ).padStart(
+          2,
+          "0"
+        );
+
+      }
 
 
-    function renderCountdown() {
+      function updateCountdown() {
 
 
-      const diff =
-        RELEASE_DATE -
-        Date.now();
+        const difference =
+          RELEASE_DATE -
+          Date.now();
 
 
-      document
-        .querySelectorAll(
-          ".countdown-time"
-        )
-        .forEach(
-          function (element) {
-
-
-            if (
-              diff <= 0
+        document
+          .querySelectorAll(
+            ".countdown-time"
+          )
+          .forEach(
+            function (
+              element
             ) {
+
+
+              if (
+                difference <= 0
+              ) {
+
+                element.textContent =
+                  "out now";
+
+                return;
+
+              }
+
+
+              const seconds =
+                Math.floor(
+                  difference /
+                  1000
+                );
+
+
+              const days =
+                Math.floor(
+                  seconds /
+                  86400
+                );
+
+
+              const hours =
+                Math.floor(
+                  (
+                    seconds %
+                    86400
+                  ) /
+                  3600
+                );
+
+
+              const minutes =
+                Math.floor(
+                  (
+                    seconds %
+                    3600
+                  ) /
+                  60
+                );
+
+
+              const secs =
+                seconds %
+                60;
+
 
               element.textContent =
-                "out now";
-
-              return;
+                pad(days) +
+                "d " +
+                pad(hours) +
+                ":" +
+                pad(minutes) +
+                ":" +
+                pad(secs);
 
             }
+          );
 
 
-            const totalSeconds =
-              Math.floor(
-                diff / 1000
-              );
-
-
-            const days =
-              Math.floor(
-                totalSeconds /
-                86400
-              );
-
-
-            const hours =
-              Math.floor(
-                (
-                  totalSeconds %
-                  86400
-                ) / 3600
-              );
-
-
-            const minutes =
-              Math.floor(
-                (
-                  totalSeconds %
-                  3600
-                ) / 60
-              );
-
-
-            const seconds =
-              totalSeconds %
-              60;
-
-
-            function pad(
-              value
+        document
+          .querySelectorAll(
+            ".countdown-note"
+          )
+          .forEach(
+            function (
+              element
             ) {
 
-              return String(
-                value
-              ).padStart(
-                2,
-                "0"
-              );
+
+              element.textContent =
+                difference <= 0
+                  ? "„gespalten“ ist jetzt draussen."
+                  : "release: 13. august 2026 · 24:00 uhr";
 
             }
+          );
+
+      }
 
 
-            element.textContent =
-
-              pad(days) +
-              "d " +
-
-              pad(hours) +
-              ":" +
-
-              pad(minutes) +
-              ":" +
-
-              pad(seconds);
-
-          }
-        );
+      updateCountdown();
 
 
-      document
-        .querySelectorAll(
-          ".countdown-note"
-        )
-        .forEach(
-          function (element) {
-
-            element.textContent =
-              diff <= 0
-
-                ? "„gespalten“ ist jetzt draussen."
-
-                : "release: 13. august 2026 · 24:00 uhr";
-
-          }
-        );
+      setInterval(
+        updateCountdown,
+        1000
+      );
 
 
-      document
-        .querySelectorAll(
-          ".listen-btn"
-        )
-        .forEach(
-          function (element) {
-
-            element.href =
-              ALBUM_LINK;
-
-            element.textContent =
-              diff <= 0
-
-                ? "gespalten hören"
-
-                : "album vormerken";
-
-          }
-        );
-
-    }
-
-
-    renderCountdown();
-
-
-    setInterval(
-      renderCountdown,
-      1000
-    );
-
-
-  })();
+    })();
 
   </script>
 
