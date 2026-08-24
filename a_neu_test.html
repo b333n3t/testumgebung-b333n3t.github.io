@@ -4,26 +4,42 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>gespalten – Endlosschleife</title>
+<title>b3nn3t – gespalten</title>
 
 <style>
 
 /* =========================================================
-   GRUNDLAGEN
-   ========================================================= */
+   GRUNDWERTE
+========================================================= */
+
+:root {
+    --blue-dark: #061523;
+    --blue: #0b2438;
+    --blue-light: #123750;
+
+    --olive-dark: #242815;
+    --olive: #3e4321;
+    --olive-light: #4a5027;
+
+    --thread: #c47725;
+    --thread-light: #e09a3b;
+
+    --white: #f1f0e7;
+
+    --metal-dark: #555650;
+    --metal: #a8a8a0;
+    --metal-light: #e2e0d3;
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
 
 * {
     box-sizing: border-box;
-}
-
-html,
-body {
     margin: 0;
     padding: 0;
-    width: 100%;
-    background: #050505;
-    color: #f4f4f4;
-    font-family: Arial, Helvetica, sans-serif;
 }
 
 html {
@@ -32,439 +48,1114 @@ html {
 
 body {
     overflow-x: hidden;
+    background: var(--blue-dark);
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 
 /* =========================================================
-   ALLGEMEINER INHALT
-   ========================================================= */
+   NORMALE SEITEN
+========================================================= */
 
-.page {
+.loop-page {
     position: relative;
-    width: 100%;
-    min-height: 100vh;
+    min-height: 135vh;
     overflow: hidden;
 }
 
 
 /* =========================================================
    SEITE 1
-   ========================================================= */
+========================================================= */
 
 .page-one {
     background:
         radial-gradient(
-            circle at 50% 40%,
-            #202020 0%,
-            #0d0d0d 45%,
-            #020202 100%
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #091c2c
         );
 }
 
-.page-one-inner {
-    width: min(1100px, 90vw);
-    min-height: 100vh;
-    margin: 0 auto;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+/* Stoffstruktur */
 
-    text-align: center;
+.page-one::before {
+    content: "";
+    position: absolute;
+    inset: 0;
 
-    padding: 80px 0;
+    opacity: 0.20;
+
+    background-image:
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.035) 0px,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        repeating-linear-gradient(
+            25deg,
+            rgba(0,0,0,0.09) 0px,
+            rgba(0,0,0,0.09) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    pointer-events: none;
 }
 
-.small-label {
-    font-size: 13px;
-    letter-spacing: 0.22em;
+
+/* =========================================================
+   SEITE 1 – INHALT
+========================================================= */
+
+.page-one-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(1100px, 86vw);
+
+    min-height: 135vh;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    align-items: center;
+
+    gap: 8vw;
+}
+
+
+.page-one-left {
+    text-align: left;
+}
+
+
+.page-one-right {
+    text-align: right;
+}
+
+
+.kicker {
+    color: var(--thread-light);
+
+    font-size: 0.9rem;
+
+    font-weight: bold;
+
+    letter-spacing: 0.25em;
+
     text-transform: uppercase;
-    opacity: 0.75;
+
     margin-bottom: 20px;
 }
 
-.logo {
-    font-size: clamp(70px, 12vw, 170px);
-    line-height: 0.85;
-    font-weight: 900;
-    letter-spacing: -0.08em;
-    margin: 0;
+
+.main-title {
+    color: var(--white);
+
+    font-size: clamp(
+        4rem,
+        9vw,
+        9rem
+    );
+
+    line-height: 0.8;
+
+    letter-spacing: -0.07em;
+
+    margin-bottom: 25px;
 }
+
 
 .subtitle {
-    font-size: clamp(15px, 2vw, 22px);
-    margin-top: 25px;
-    opacity: 0.85;
+    color: #d2b98d;
+
+    font-size: clamp(
+        1rem,
+        1.6vw,
+        1.3rem
+    );
+
+    line-height: 1.6;
 }
 
-.page-one-content {
-    margin-top: 100px;
-    width: min(800px, 90vw);
+
+.page-one-right h2 {
+
+    color: var(--white);
+
+    font-size: clamp(
+        3rem,
+        6vw,
+        6rem
+    );
+
+    line-height: 0.85;
+
+    letter-spacing: -0.06em;
+
+    margin-bottom: 25px;
 }
 
-.page-one-content h2 {
-    font-size: clamp(40px, 7vw, 90px);
-    line-height: 0.9;
-    margin: 0 0 30px;
-    letter-spacing: -0.05em;
-}
 
-.page-one-content p {
-    font-size: 18px;
+.page-one-right p {
+
+    color: #d0bb8d;
+
     line-height: 1.7;
-    opacity: 0.8;
+
+    max-width: 430px;
+
+    margin-left: auto;
+}
+
+
+/* =========================================================
+   BILD / VIDEO PLATZHALTER
+========================================================= */
+
+.media-card {
+
+    width: min(
+        370px,
+        34vw
+    );
+
+    aspect-ratio: 16 / 10;
+
+    margin-top: 35px;
+
+    border:
+        2px solid
+        rgba(230,220,190,0.55);
+
+    border-radius: 15px;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #77776b,
+            #b9b39c
+        );
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: #292923;
+
+    font-weight: bold;
 }
 
 
 /* =========================================================
    SEITE 2
-   ========================================================= */
+========================================================= */
 
 .page-two {
+
     background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
         linear-gradient(
-            180deg,
-            #121212 0%,
-            #080808 50%,
-            #020202 100%
+            135deg,
+            #323718,
+            #4a5027 45%,
+            #343919
         );
 }
 
-.page-two-inner {
-    width: min(900px, 90vw);
-    margin: 0 auto;
 
-    padding-top: 15vh;
-    padding-bottom: 20vh;
-}
+/* Stoffstruktur */
 
-.page-two-kicker {
-    font-size: 13px;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    opacity: 0.7;
-    margin-bottom: 20px;
-}
+.page-two::before {
 
-.page-two h2 {
-    font-size: clamp(60px, 10vw, 140px);
-    line-height: 0.85;
-    letter-spacing: -0.07em;
-    margin: 0 0 30px;
-}
+    content: "";
 
-.page-two-intro {
-    font-size: 22px;
-    line-height: 1.5;
-    opacity: 0.85;
-    max-width: 700px;
-}
+    position: absolute;
 
-.fragments {
-    margin-top: 100px;
-}
+    inset: 0;
 
-.fragment {
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 35px;
-    margin-bottom: 30px;
-    border-radius: 8px;
-}
+    opacity: 0.17;
 
-.fragment h3 {
-    font-size: 28px;
-    margin: 0 0 15px;
-}
+    background-image:
 
-.fragment p {
-    font-size: 17px;
-    line-height: 1.7;
-    opacity: 0.75;
-}
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
 
-.more-space {
-    height: 45vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.08) 0px,
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 5px
+        );
 
-    font-size: clamp(40px, 7vw, 90px);
-    font-weight: 900;
-    letter-spacing: -0.05em;
+    pointer-events: none;
 }
 
 
 /* =========================================================
-   DIE ÜBERGANGSZONE
-   ========================================================= */
+   SEITE 2 – INHALT
+========================================================= */
 
-/*
-   WICHTIG:
+.page-two-content {
 
-   Diese Zone ist genau eine Bildschirmhöhe hoch.
-
-   Seite 2 liegt HINTER den beiden Hälften von Seite 1.
-
-   Beim Scrollen wird nur --split-progress verändert.
-
-   0   = komplett geschlossen
-   0.5 = halb geöffnet
-   1   = komplett geöffnet
-*/
-
-.split-transition {
     position: relative;
-    width: 100%;
-    height: 100vh;
+
+    z-index: 2;
+
+    width: min(
+        850px,
+        82vw
+    );
+
+    min-height: 135vh;
+
+    margin: 0 auto;
+
+    padding-top: 12vh;
+
+    padding-bottom: 15vh;
 }
 
 
+.page-two-kicker {
+
+    color: var(--thread-light);
+
+    font-size: 0.9rem;
+
+    font-weight: bold;
+
+    letter-spacing: 0.25em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 18px;
+}
+
+
+.page-two-title {
+
+    color: var(--white);
+
+    font-size: clamp(
+        4rem,
+        10vw,
+        9rem
+    );
+
+    line-height: 0.82;
+
+    letter-spacing: -0.07em;
+
+    margin-bottom: 30px;
+}
+
+
+.page-two-intro {
+
+    color: #d4c99c;
+
+    max-width: 650px;
+
+    font-size: clamp(
+        1rem,
+        2vw,
+        1.3rem
+    );
+
+    line-height: 1.7;
+
+    margin-bottom: 70px;
+}
+
+
+.fragment-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap: 35px;
+}
+
+
+.fragment {
+
+    border:
+        1px solid
+        rgba(220,220,190,0.35);
+
+    border-radius: 8px;
+
+    padding: 30px;
+
+    background:
+        rgba(0,0,0,0.12);
+}
+
+
+.fragment h2 {
+
+    color: var(--thread);
+
+    font-size: 1.4rem;
+
+    margin-bottom: 15px;
+}
+
+
+.fragment p {
+
+    color: #d0c89d;
+
+    line-height: 1.7;
+}
+
+
+.more-content {
+
+    margin-top: 80px;
+
+    color: #d5c99b;
+
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   ÜBERGANG / REISSVERSCHLUSS
+========================================================= */
+
 /*
-   Der eigentliche Bildschirm.
+   DAS IST DER WICHTIGE TEIL.
+
+   Der Übergang ist länger als der Bildschirm.
+   Während des Scrollens bleibt die Bühne sticky.
+
+   Die nächste Seite liegt UNTEN.
+   Die beiden Hälften liegen DARÜBER.
+
+   Der Spalt wird mit clip-path immer größer.
 */
 
-.split-stage {
+.zip-transition {
+
+    position: relative;
+
+    height: 190vh;
+
+    --open: 0%;
+}
+
+
+/* =========================================================
+   STICKY VIEWPORT
+========================================================= */
+
+.zip-sticky {
+
     position: sticky;
+
     top: 0;
 
     width: 100%;
+
     height: 100vh;
 
     overflow: hidden;
+
+    background: #000;
+
+    isolation: isolate;
 }
 
 
 /* =========================================================
-   DAS ZIEL – SEITE, DIE HINTER DEM SPALT LIEGT
-   ========================================================= */
+   SEITE HINTER DEM REISSVERSCHLUSS
+========================================================= */
 
-.split-back {
+.reveal-page {
+
     position: absolute;
+
     inset: 0;
 
-    width: 100%;
-    height: 100%;
+    z-index: 1;
 
     overflow: hidden;
-
-    z-index: 1;
 }
 
 
 /*
-   Damit die Vorschau von Seite 2 wirklich genauso
-   aussieht wie der Anfang der echten Seite 2.
+   Die eigentliche Seite hinter dem Reißverschluss.
 */
 
-.split-back .page-two-inner {
-    min-height: 100vh;
+.reveal-inner {
 
-    padding-top: 15vh;
-    padding-bottom: 0;
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 8vw;
+}
+
+
+.reveal-inner h2 {
+
+    color: var(--white);
+
+    font-size: clamp(
+        3rem,
+        9vw,
+        9rem
+    );
+
+    line-height: 0.82;
+
+    letter-spacing: -0.07em;
+
+    margin-bottom: 25px;
+}
+
+
+.reveal-inner p {
+
+    color: #d3cba5;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+
+    line-height: 1.7;
 }
 
 
 /* =========================================================
-   DIE VORDERE SEITE
-   ========================================================= */
+   DIE BEIDEN GESCHLOSSENEN HÄLFTEN
+========================================================= */
 
-.split-front {
+.zip-cover {
+
     position: absolute;
+
     inset: 0;
 
-    width: 100%;
-    height: 100%;
-
-    z-index: 5;
+    z-index: 10;
 
     pointer-events: none;
 }
 
 
 /*
-   Beide Hälften enthalten den kompletten Inhalt.
+   LINKES PANEL
 
-   Durch clip-path wird aber nur jeweils eine Hälfte
-   sichtbar.
+   Bei --open = 0:
+   50% des Bildschirms sind sichtbar.
 
-   Dadurch gibt es KEINEN künstlichen schwarzen/weißen
-   Spalt.
-
-   Der Spalt entsteht ausschließlich dadurch,
-   dass die beiden echten Seitenhälften auseinanderfahren.
+   Bei --open = 50%:
+   linke Hälfte ist komplett verschwunden.
 */
 
-.split-panel {
+.zip-left {
+
     position: absolute;
+
     inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
 
     background:
         radial-gradient(
-            circle at 50% 40%,
-            #202020 0%,
-            #0d0d0d 45%,
-            #020202 100%
+            ellipse at 50% 30%,
+            rgba(50,100,135,0.22),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #091c2c
         );
 
-    will-change: transform;
-
-    transition: none;
-}
-
-
-/* Linke Hälfte */
-
-.split-panel.left {
-    clip-path: inset(0 50% 0 0);
-
-    transform:
-        translateX(
-            calc(
-                var(--split-progress) * -50vw
-            )
-        );
-}
-
-
-/* Rechte Hälfte */
-
-.split-panel.right {
-    clip-path: inset(0 0 0 50%);
-
-    transform:
-        translateX(
-            calc(
-                var(--split-progress) * 50vw
-            )
+    clip-path:
+        polygon(
+            0 0,
+            calc(50% - var(--open)) 0,
+            calc(50% - var(--open) - var(--skew)) 100%,
+            0 100%
         );
 }
 
 
 /*
-   Der Inhalt der Panels muss exakt an derselben Stelle
-   stehen wie die Originalseite.
+   RECHTES PANEL
 */
 
-.split-panel .page-one-inner {
-    width: min(1100px, 90vw);
-    min-height: 100vh;
+.zip-right {
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        radial-gradient(
+            ellipse at 50% 30%,
+            rgba(50,100,135,0.22),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #091c2c
+        );
+
+    clip-path:
+        polygon(
+            calc(50% + var(--open)) 0,
+            100% 0,
+            100% 100%,
+            calc(50% + var(--open) + var(--skew)) 100%
+        );
 }
 
 
 /* =========================================================
-   UMGEKEHRTER ÜBERGANG
-   =========================================================
+   STOFFSTRUKTUR AUF DEN PANELS
+========================================================= */
 
-   Hier ist die Seite 2 vorne.
+.zip-left::after,
+.zip-right::after {
 
-   Dahinter liegt Seite 1.
+    content: "";
 
-   Dadurch funktioniert der Rückweg genauso.
-*/
+    position: absolute;
 
-.split-transition.reverse .split-panel {
+    inset: 0;
+
+    opacity: 0.25;
+
+    background-image:
+
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.035) 0px,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+
+        repeating-linear-gradient(
+            25deg,
+            rgba(0,0,0,0.09) 0px,
+            rgba(0,0,0,0.09) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+
+/* =========================================================
+   INHALT AUF DEN GESCHLOSSENEN PANELS
+========================================================= */
+
+.cover-content {
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 20;
+
+    pointer-events: none;
+}
+
+
+/* Linker Inhalt */
+
+.cover-left-content {
+
+    position: absolute;
+
+    left: 7vw;
+
+    top: 35vh;
+
+    width: 38vw;
+
+    text-align: left;
+}
+
+
+/* Rechter Inhalt */
+
+.cover-right-content {
+
+    position: absolute;
+
+    right: 7vw;
+
+    top: 16vh;
+
+    width: 38vw;
+
+    text-align: right;
+}
+
+
+.cover-title {
+
+    color: var(--white);
+
+    font-size: clamp(
+        4rem,
+        9vw,
+        9rem
+    );
+
+    line-height: 0.8;
+
+    letter-spacing: -0.07em;
+}
+
+
+.cover-right-content h2 {
+
+    color: var(--white);
+
+    font-size: clamp(
+        3rem,
+        6vw,
+        6rem
+    );
+
+    line-height: 0.82;
+}
+
+
+.cover-right-content p {
+
+    color: #d0bb8d;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ZIPPER-KANTEN
+========================================================= */
+
+.zip-edge {
+
+    position: absolute;
+
+    top: 0;
+
+    width: 4px;
+
+    height: 100%;
+
+    z-index: 50;
+
     background:
         linear-gradient(
-            180deg,
-            #121212 0%,
-            #080808 50%,
-            #020202 100%
+            90deg,
+            #343631,
+            #e0ded2,
+            #555650
+        );
+
+    opacity: 1;
+
+    pointer-events: none;
+}
+
+
+.zip-edge-left {
+
+    left:
+        calc(
+            50% - var(--open)
         );
 }
 
 
-/*
-   Linke Seite 2-Hälfte
-*/
+.zip-edge-right {
 
-.split-transition.reverse .split-panel.left {
-    clip-path: inset(0 50% 0 0);
-
-    transform:
-        translateX(
-            calc(
-                var(--split-progress) * -50vw
-            )
-        );
-}
-
-
-/*
-   Rechte Seite 2-Hälfte
-*/
-
-.split-transition.reverse .split-panel.right {
-    clip-path: inset(0 0 0 50%);
-
-    transform:
-        translateX(
-            calc(
-                var(--split-progress) * 50vw
-            )
+    left:
+        calc(
+            50% + var(--open)
         );
 }
 
 
 /* =========================================================
-   KLEINER HINWEIS OBEN
-   ========================================================= */
+   REISSVERSCHLUSS-ZÄHNE
+========================================================= */
 
-.top-button {
-    position: fixed;
+.zip-edge::before {
 
-    top: 25px;
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+
+    left: -6px;
+
+    width: 14px;
+
+    height: 100%;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #eeeeea 0px,
+            #eeeeea 5px,
+            transparent 5px,
+            transparent 13px
+        );
+
+    opacity: 0.9;
+}
+
+
+/* =========================================================
+   SCHIEBER
+========================================================= */
+
+.zip-slider {
+
+    position: absolute;
+
     left: 50%;
 
-    transform: translateX(-50%);
+    top: var(--slider-y);
+
+    width: 58px;
+
+    height: 82px;
+
+    transform:
+        translateX(-50%);
 
     z-index: 100;
 
-    border: 1px solid rgba(255,255,255,0.35);
-    border-radius: 50px;
+    filter:
+        drop-shadow(
+            0 8px 5px
+            rgba(0,0,0,0.55)
+        );
 
-    padding: 12px 22px;
+    pointer-events: none;
+}
 
-    font-size: 13px;
-    letter-spacing: 0.05em;
 
-    background: rgba(0,0,0,0.25);
-    backdrop-filter: blur(10px);
+.slider-handle {
 
-    opacity: 0.85;
+    position: absolute;
+
+    left: 50%;
+
+    top: 0;
+
+    width: 34px;
+
+    height: 30px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        8px 8px 4px 4px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #666762,
+            #ece9dc 45%,
+            #777872
+        );
+
+    border:
+        2px solid
+        #41433f;
+}
+
+
+.slider-handle::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 7px;
+
+    width: 11px;
+
+    height: 11px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 50%;
+
+    background: #171914;
+}
+
+
+.slider-body {
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 23px;
+
+    width: 45px;
+
+    height: 58px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius:
+        6px 6px 12px 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #555650,
+            #d9d7cb 42%,
+            #777872 72%,
+            #4a4b46
+        );
+
+    border:
+        2px solid
+        #343631;
+}
+
+
+.slider-body::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 50%;
+
+    top: 9px;
+
+    width: 12px;
+
+    height: 30px;
+
+    transform:
+        translateX(-50%);
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #555650,
+            #e5e3d7,
+            #666761
+        );
+
+    box-shadow:
+        inset
+        0 0 4px
+        rgba(0,0,0,0.7);
+}
+
+
+/* =========================================================
+   SCROLL-HINWEIS
+========================================================= */
+
+.zip-hint {
+
+    position: absolute;
+
+    left: 50%;
+
+    bottom: 30px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 200;
+
+    color: var(--thread);
+
+    font-size: 0.75rem;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+
+    opacity: var(--hint-opacity);
+}
+
+
+.zip-hint::after {
+
+    content: "";
+
+    display: block;
+
+    width: 15px;
+
+    height: 15px;
+
+    margin: 10px auto 0;
+
+    border-right:
+        2px solid
+        var(--thread);
+
+    border-bottom:
+        2px solid
+        var(--thread);
+
+    transform:
+        rotate(45deg);
 }
 
 
 /* =========================================================
    MOBILE
-   ========================================================= */
+========================================================= */
 
 @media (max-width: 700px) {
 
-    .page-one-inner {
-        padding-top: 100px;
-        padding-bottom: 100px;
-    }
-
     .page-one-content {
-        margin-top: 70px;
+
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+
+        padding-top: 15vh;
+
+        padding-bottom: 15vh;
     }
 
-    .page-two-inner {
-        padding-top: 120px;
+
+    .page-one-left,
+    .page-one-right {
+
+        text-align: left;
     }
 
-    .fragment {
-        padding: 25px;
+
+    .page-one-right p {
+
+        margin-left: 0;
     }
 
-    .top-button {
-        top: 15px;
+
+    .media-card {
+
+        width: 80vw;
+    }
+
+
+    .fragment-grid {
+
+        grid-template-columns: 1fr;
+    }
+
+
+    .cover-left-content {
+
+        left: 8vw;
+
+        top: 38vh;
+
+        width: 45vw;
+    }
+
+
+    .cover-right-content {
+
+        right: 8vw;
+
+        top: 15vh;
+
+        width: 45vw;
+    }
+
+
+    .cover-title {
+
+        font-size: 14vw;
+    }
+
+
+    .zip-transition {
+
+        height: 175vh;
+    }
+
+
+    .page-two-content {
+
+        width: 84vw;
+    }
+}
+
+
+/* =========================================================
+   REDUZIERTE BEWEGUNG
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
     }
 }
 
@@ -476,221 +1167,750 @@ body {
 
 
 <!-- =======================================================
-     FESTER BUTTON
-     ======================================================= -->
+     HIER BEGINNT DIE ENDLOSSCHLEIFE
+======================================================= -->
 
-<div class="top-button">
-    gespalten hören
-</div>
+<main id="loop">
 
 
-<!-- =======================================================
-     HIER WERDEN DIE ENDLOSCOPY-ZYKLEN ERZEUGT
-     ======================================================= -->
+    <!-- ===================================================
+         ERSTER DURCHLAUF
+    ==================================================== -->
 
-<div id="loop-container"></div>
 
+    <!-- ===================================================
+         SEITE 1
+    ==================================================== -->
+
+    <section class="loop-page page-one">
+
+        <div class="page-one-content">
+
+            <div class="page-one-left">
+
+                <div class="kicker">
+                    b3nn3t
+                </div>
+
+                <h1 class="main-title">
+                    gespalten
+                </h1>
+
+                <p class="subtitle">
+                    10 kurze Songs. 12 Minuten
+                    zwischen alt und neu.
+                </p>
+
+                <div class="media-card">
+                    DEIN VIDEO / BILD
+                </div>
+
+            </div>
+
+
+            <div class="page-one-right">
+
+                <div class="kicker">
+                    neues album
+                </div>
+
+                <h2>
+                    die andere seite
+                </h2>
+
+                <p>
+                    Ein Übergang zwischen
+                    zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt
+                    der Reißverschluss.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         ÜBERGANG SEITE 1 → SEITE 2
+    ==================================================== -->
+
+    <section
+        class="zip-transition"
+        data-from="one"
+        data-to="two"
+    >
+
+        <div class="zip-sticky">
+
+
+            <!-- SEITE 2 LIEGT GANZ UNTEN -->
+
+            <div class="reveal-page page-two">
+
+                <div class="reveal-inner">
+
+                    <div>
+
+                        <div class="kicker">
+                            die andere seite
+                        </div>
+
+                        <h2>
+                            fragments
+                        </h2>
+
+                        <p>
+                            die zweite seite von
+                            „gespalten“.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 GESCHLOSSENER REISSVERSCHLUSS
+            ================================================== -->
+
+            <div class="zip-cover">
+
+
+                <div class="zip-left">
+
+                    <div class="cover-content">
+
+                        <div class="cover-left-content">
+
+                            <div class="kicker">
+                                b3nn3t
+                            </div>
+
+                            <div class="cover-title">
+                                gespalten
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="zip-right">
+
+                    <div class="cover-content">
+
+                        <div class="cover-right-content">
+
+                            <div class="kicker">
+                                neues album
+                            </div>
+
+                            <h2>
+                                alt
+                            </h2>
+
+                            <p>
+                                Musik,
+                                Erinnerungen
+                                und Fragmente
+                                aus einer
+                                anderen Zeit.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- REISSVERSCHLUSS-KANTEN -->
+
+                <div class="zip-edge zip-edge-left"></div>
+
+                <div class="zip-edge zip-edge-right"></div>
+
+
+                <!-- SCHIEBER -->
+
+                <div class="zip-slider">
+
+                    <div class="slider-handle"></div>
+
+                    <div class="slider-body"></div>
+
+                </div>
+
+
+                <!-- HINWEIS -->
+
+                <div class="zip-hint">
+                    nach unten öffnen
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         SEITE 2
+    ==================================================== -->
+
+    <section class="loop-page page-two">
+
+        <div class="page-two-content">
+
+            <div class="page-two-kicker">
+                b3nn3t
+            </div>
+
+            <h1 class="page-two-title">
+                fragments
+            </h1>
+
+            <p class="page-two-intro">
+                die andere seite von
+                „gespalten“.
+                Hier beginnt die zweite Seite.
+                Dieser Bereich kann mit deinem
+                tatsächlichen zusätzlichen Inhalt
+                ersetzt werden.
+            </p>
+
+
+            <div class="fragment-grid">
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 01
+                    </h2>
+
+                    <p>
+                        Texte, Bilder,
+                        Notizen,
+                        Entstehungsgeschichte,
+                        Lyrics oder weitere Videos.
+                    </p>
+
+                </div>
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 02
+                    </h2>
+
+                    <p>
+                        Weitere Informationen
+                        zum Album und zu
+                        den einzelnen Songs.
+                    </p>
+
+                </div>
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 03
+                    </h2>
+
+                    <p>
+                        Platz für zusätzliche
+                        Inhalte, Bilder,
+                        Medien oder Texte.
+                    </p>
+
+                </div>
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 04
+                    </h2>
+
+                    <p>
+                        Die zweite Seite
+                        kann hier beliebig
+                        erweitert werden.
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="more-content">
+
+                <strong>
+                    noch mehr
+                </strong>
+
+                <br><br>
+
+                Die zweite Seite kann beliebig
+                lang sein.
+
+                <br><br>
+
+                Wenn ihr Ende erreicht ist,
+                beginnt der nächste Spalt.
+
+                <br><br>
+
+                Und danach erscheint wieder
+                die erste Seite.
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         ÜBERGANG SEITE 2 → SEITE 1
+    ==================================================== -->
+
+    <section
+        class="zip-transition"
+        data-from="two"
+        data-to="one"
+    >
+
+        <div class="zip-sticky">
+
+
+            <!-- SEITE 1 LIEGT UNTEN -->
+
+            <div class="reveal-page page-one">
+
+                <div class="reveal-inner">
+
+                    <div>
+
+                        <div class="kicker">
+                            neues album
+                        </div>
+
+                        <h2>
+                            gespalten
+                        </h2>
+
+                        <p>
+                            übergang zwischen
+                            alt und neu.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REISSVERSCHLUSS -->
+
+            <div class="zip-cover">
+
+
+                <div class="zip-left">
+
+                    <div class="cover-content">
+
+                        <div class="cover-left-content">
+
+                            <div class="kicker">
+                                die andere seite
+                            </div>
+
+                            <div class="cover-title">
+                                fragments
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="zip-right">
+
+                    <div class="cover-content">
+
+                        <div class="cover-right-content">
+
+                            <div class="kicker">
+                                weiter
+                            </div>
+
+                            <h2>
+                                die andere seite
+                            </h2>
+
+                            <p>
+                                noch mehr
+                                Fragmente,
+                                Texte und
+                                Geschichten.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="zip-edge zip-edge-left"></div>
+
+                <div class="zip-edge zip-edge-right"></div>
+
+
+                <div class="zip-slider">
+
+                    <div class="slider-handle"></div>
+
+                    <div class="slider-body"></div>
+
+                </div>
+
+
+                <div class="zip-hint">
+                    nach unten öffnen
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</main>
 
 
 <script>
 
 /* =========================================================
-   SEITEN-INHALT
-   ========================================================= */
+   ENDLOSSCHLEIFE
+========================================================= */
 
 
 /*
-   ---------------------------------------------------------
-   SEITE 1
-   ---------------------------------------------------------
+   Der aktuelle HTML-Inhalt des ersten Durchlaufs
+   wird als Vorlage verwendet.
+
+   Danach erzeugen wir automatisch weitere
+   Durchläufe.
 */
 
-function pageOneHTML() {
 
-    return `
-        <section class="page page-one">
+const loop = document.getElementById("loop");
 
-            <div class="page-one-inner">
 
-                <div class="small-label">
+/* =========================================================
+   HILFSFUNKTION:
+   ELEMENTE FÜR EINEN NEUEN DURCHLAUF ERZEUGEN
+========================================================= */
+
+function createPageOne() {
+
+    const section =
+        document.createElement("section");
+
+    section.className =
+        "loop-page page-one";
+
+    section.innerHTML = `
+
+        <div class="page-one-content">
+
+            <div class="page-one-left">
+
+                <div class="kicker">
                     b3nn3t
                 </div>
 
-                <h1 class="logo">
+                <h1 class="main-title">
                     gespalten
                 </h1>
 
-                <div class="subtitle">
-                    10 kurze Songs. 12 Minuten zwischen alt und neu.
+                <p class="subtitle">
+                    10 kurze Songs. 12 Minuten
+                    zwischen alt und neu.
+                </p>
+
+                <div class="media-card">
+                    DEIN VIDEO / BILD
                 </div>
 
-                <div class="page-one-content">
+            </div>
+
+            <div class="page-one-right">
+
+                <div class="kicker">
+                    neues album
+                </div>
+
+                <h2>
+                    die andere seite
+                </h2>
+
+                <p>
+                    Ein Übergang zwischen
+                    zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt
+                    der Reißverschluss.
+                </p>
+
+            </div>
+
+        </div>
+    `;
+
+    return section;
+}
+
+
+/* =========================================================
+   SEITE 2
+========================================================= */
+
+function createPageTwo() {
+
+    const section =
+        document.createElement("section");
+
+    section.className =
+        "loop-page page-two";
+
+    section.innerHTML = `
+
+        <div class="page-two-content">
+
+            <div class="page-two-kicker">
+                b3nn3t
+            </div>
+
+            <h1 class="page-two-title">
+                fragments
+            </h1>
+
+            <p class="page-two-intro">
+                die andere seite von
+                „gespalten“.
+                Hier beginnt die zweite Seite.
+                Dieser Bereich kann mit deinem
+                tatsächlichen zusätzlichen Inhalt
+                ersetzt werden.
+            </p>
+
+            <div class="fragment-grid">
+
+                <div class="fragment">
 
                     <h2>
-                        out now
+                        fragment 01
                     </h2>
 
                     <p>
-                        Ein Album zwischen alten Ideen,
-                        neuen Fragmenten und allem,
-                        was dazwischen passiert.
+                        Texte, Bilder,
+                        Notizen,
+                        Entstehungsgeschichte,
+                        Lyrics oder weitere Videos.
+                    </p>
+
+                </div>
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 02
+                    </h2>
+
+                    <p>
+                        Weitere Informationen
+                        zum Album und zu
+                        den einzelnen Songs.
+                    </p>
+
+                </div>
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 03
+                    </h2>
+
+                    <p>
+                        Platz für zusätzliche
+                        Inhalte, Bilder,
+                        Medien oder Texte.
+                    </p>
+
+                </div>
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 04
+                    </h2>
+
+                    <p>
+                        Die zweite Seite
+                        kann hier beliebig
+                        erweitert werden.
                     </p>
 
                 </div>
 
             </div>
 
-        </section>
-    `;
-}
+            <div class="more-content">
 
+                <strong>
+                    noch mehr
+                </strong>
 
-/*
-   ---------------------------------------------------------
-   SEITE 2
-   ---------------------------------------------------------
-*/
+                <br><br>
 
-function pageTwoHTML() {
+                Die zweite Seite kann beliebig
+                lang sein.
 
-    return `
-        <section class="page page-two">
+                <br><br>
 
-            <div class="page-two-inner">
+                Wenn ihr Ende erreicht ist,
+                beginnt der nächste Spalt.
 
-                <div class="page-two-kicker">
-                    die andere seite
-                </div>
+                <br><br>
 
-                <h2>
-                    fragments
-                </h2>
-
-                <div class="page-two-intro">
-                    die zweite seite von „gespalten“.
-                </div>
-
-
-                <div class="fragments">
-
-                    <div class="fragment">
-                        <h3>
-                            fragment 01
-                        </h3>
-
-                        <p>
-                            Texte, Bilder, Notizen,
-                            Entstehungsgeschichte,
-                            Lyrics oder weitere Videos.
-                        </p>
-                    </div>
-
-
-                    <div class="fragment">
-                        <h3>
-                            fragment 02
-                        </h3>
-
-                        <p>
-                            Hier kann dein tatsächlicher
-                            zusätzlicher Inhalt stehen.
-                        </p>
-                    </div>
-
-
-                    <div class="fragment">
-                        <h3>
-                            fragment 03
-                        </h3>
-
-                        <p>
-                            Dieser Bereich kann beliebig
-                            erweitert werden.
-                        </p>
-                    </div>
-
-
-                    <div class="fragment">
-                        <h3>
-                            fragment 04
-                        </h3>
-
-                        <p>
-                            Weitere Informationen,
-                            Bilder oder Medien.
-                        </p>
-                    </div>
-
-
-                    <div class="more-space">
-                        noch mehr
-                    </div>
-
-
-                    <div class="fragment">
-                        <h3>
-                            fragment 05
-                        </h3>
-
-                        <p>
-                            Das Ende der zweiten Seite.
-                            Danach beginnt wieder der Spalt.
-                        </p>
-                    </div>
-
-                </div>
+                Und danach erscheint wieder
+                die erste Seite.
 
             </div>
 
-        </section>
+        </div>
     `;
+
+    return section;
 }
 
 
 /* =========================================================
-   ÜBERGANG 1
+   ÜBERGANG ERZEUGEN
+========================================================= */
 
-   SEITE 1
-        ↓
-   SPALT
-        ↓
-   SEITE 2
-   ========================================================= */
+function createTransition(from, to) {
 
-function transitionOneHTML() {
+    const section =
+        document.createElement("section");
 
-    return `
-        <section class="split-transition">
+    section.className =
+        "zip-transition";
 
-            <div class="split-stage">
-
-                <!-- SEITE 2 LIEGT HINTER DEM SPALT -->
-
-                <div class="split-back">
-
-                    ${pageTwoHTML()}
-
-                </div>
+    section.dataset.from = from;
+    section.dataset.to = to;
 
 
-                <!-- SEITE 1 IST VORNE -->
+    let revealHTML = "";
 
-                <div class="split-front">
-
-                    <!-- LINKE HÄLFTE -->
-
-                    <div class="split-panel left">
-
-                        ${pageOneHTML()}
-
-                    </div>
+    let leftTitle = "";
+    let rightTitle = "";
+    let rightText = "";
 
 
-                    <!-- RECHTE HÄLFTE -->
+    if (to === "two") {
 
-                    <div class="split-panel right">
+        revealHTML = `
 
-                        ${pageOneHTML()}
+            <div class="kicker">
+                die andere seite
+            </div>
+
+            <h2>
+                fragments
+            </h2>
+
+            <p>
+                die zweite seite von
+                „gespalten“.
+            </p>
+
+        `;
+
+        leftTitle = "gespalten";
+
+        rightTitle = "alt";
+
+        rightText =
+            "Musik, Erinnerungen und Fragmente aus einer anderen Zeit.";
+
+    } else {
+
+        revealHTML = `
+
+            <div class="kicker">
+                neues album
+            </div>
+
+            <h2>
+                gespalten
+            </h2>
+
+            <p>
+                übergang zwischen
+                alt und neu.
+            </p>
+
+        `;
+
+        leftTitle = "fragments";
+
+        rightTitle = "die andere seite";
+
+        rightText =
+            "noch mehr Fragmente, Texte und Geschichten.";
+    }
+
+
+    section.innerHTML = `
+
+        <div class="zip-sticky">
+
+
+            <!-- DIE NÄCHSTE SEITE -->
+
+            <div class="reveal-page ${
+                to === "one"
+                    ? "page-one"
+                    : "page-two"
+            }">
+
+                <div class="reveal-inner">
+
+                    <div>
+
+                        ${revealHTML}
 
                     </div>
 
@@ -698,120 +1918,158 @@ function transitionOneHTML() {
 
             </div>
 
-        </section>
-    `;
-}
+
+            <!-- GESCHLOSSENE HÄLFTEN -->
+
+            <div class="zip-cover">
 
 
-/* =========================================================
-   ÜBERGANG 2
+                <div class="zip-left">
 
-   SEITE 2
-        ↓
-   SPALT
-        ↓
-   SEITE 1
+                    <div class="cover-content">
 
-   ========================================================= */
+                        <div class="cover-left-content">
 
-function transitionTwoHTML() {
+                            <div class="kicker">
+                                b3nn3t
+                            </div>
 
-    return `
-        <section class="split-transition reverse">
+                            <div class="cover-title">
+                                ${leftTitle}
+                            </div>
 
-            <div class="split-stage">
-
-                <!-- SEITE 1 LIEGT HINTER DEM SPALT -->
-
-                <div class="split-back">
-
-                    ${pageOneHTML()}
-
-                </div>
-
-
-                <!-- SEITE 2 IST VORNE -->
-
-                <div class="split-front">
-
-                    <!-- LINKE HÄLFTE -->
-
-                    <div class="split-panel left">
-
-                        ${pageTwoHTML()}
-
-                    </div>
-
-
-                    <!-- RECHTE HÄLFTE -->
-
-                    <div class="split-panel right">
-
-                        ${pageTwoHTML()}
+                        </div>
 
                     </div>
 
                 </div>
+
+
+                <div class="zip-right">
+
+                    <div class="cover-content">
+
+                        <div class="cover-right-content">
+
+                            <div class="kicker">
+                                ${to === "two"
+                                    ? "neues album"
+                                    : "weiter"
+                                }
+                            </div>
+
+                            <h2>
+                                ${rightTitle}
+                            </h2>
+
+                            <p>
+                                ${rightText}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ZIPPER -->
+
+                <div
+                    class="zip-edge zip-edge-left"
+                ></div>
+
+                <div
+                    class="zip-edge zip-edge-right"
+                ></div>
+
+
+                <!-- SCHIEBER -->
+
+                <div class="zip-slider">
+
+                    <div class="slider-handle"></div>
+
+                    <div class="slider-body"></div>
+
+                </div>
+
+
+                <!-- HINWEIS -->
+
+                <div class="zip-hint">
+
+                    nach unten öffnen
+
+                </div>
+
 
             </div>
 
-        </section>
+        </div>
     `;
+
+
+    return section;
 }
 
 
 /* =========================================================
-   EINEN KOMPLETTEN ZYKLUS BAUEN
-   ========================================================= */
+   EINEN KOMPLETTEN DURCHLAUF ERZEUGEN
+========================================================= */
 
 function createCycle() {
 
-    const cycle = document.createElement("div");
+    const fragment =
+        document.createDocumentFragment();
 
-    cycle.className = "cycle";
 
-    cycle.innerHTML = `
+    fragment.appendChild(
+        createPageOne()
+    );
 
-        ${pageOneHTML()}
 
-        ${transitionOneHTML()}
+    fragment.appendChild(
+        createTransition(
+            "one",
+            "two"
+        )
+    );
 
-        ${pageTwoHTML()}
 
-        ${transitionTwoHTML()}
+    fragment.appendChild(
+        createPageTwo()
+    );
 
-    `;
 
-    return cycle;
+    fragment.appendChild(
+        createTransition(
+            "two",
+            "one"
+        )
+    );
+
+
+    return fragment;
 }
 
 
 /* =========================================================
-   MEHRERE IDENTISCHE ZYKLEN ERZEUGEN
-   =========================================================
-
-   Wir brauchen mehrere Kopien.
-
-   Der Browser kann dadurch ganz normal nach unten
-   scrollen.
-
-   Wenn der Benutzer an eine äußere Kopie kommt,
-   setzen wir ihn unsichtbar in die mittlere Kopie.
-
-   Weil alle Kopien identisch sind,
-   sieht man KEINEN Sprung.
-   ========================================================= */
-
-const loopContainer =
-    document.getElementById("loop-container");
+   ZUSÄTZLICHE DURCHLÄUFE
+========================================================= */
 
 
-const NUMBER_OF_CYCLES = 5;
+/*
+   Wir starten bereits mit einem vollständigen
+   Durchlauf im HTML.
 
+   Hier werden zunächst mehrere weitere
+   Durchläufe erzeugt.
+*/
 
-for (let i = 0; i < NUMBER_OF_CYCLES; i++) {
+for (let i = 0; i < 3; i++) {
 
-    loopContainer.appendChild(
+    loop.appendChild(
         createCycle()
     );
 
@@ -819,152 +2077,57 @@ for (let i = 0; i < NUMBER_OF_CYCLES; i++) {
 
 
 /* =========================================================
-   SCROLL-POSITION INITIALISIEREN
-   ========================================================= */
+   REISSVERSCHLÜSSE AKTUALISIEREN
+========================================================= */
 
-
-/*
-   Wir starten in der mittleren Kopie.
-
-   Dadurch kann man sowohl nach unten als auch nach oben
-   scrollen, ohne sofort am Anfang oder Ende anzukommen.
-*/
-
-let cycleHeight = 0;
-
-let recentering = false;
-
-
-function calculateCycleHeight() {
-
-    const cycles =
-        document.querySelectorAll(".cycle");
-
-    if (!cycles.length) {
-        return;
-    }
-
-    cycleHeight =
-        cycles[0].getBoundingClientRect().height;
-
-}
-
-
-function startInMiddle() {
-
-    calculateCycleHeight();
-
-    if (cycleHeight <= 0) {
-        return;
-    }
-
-    /*
-       5 Kopien:
-
-       0
-       1
-       2  ← hier starten wir
-       3
-       4
-    */
-
-    window.scrollTo(
-        0,
-        cycleHeight * 2
-    );
-}
-
-
-window.addEventListener(
-    "load",
-    startInMiddle
-);
-
-
-/* =========================================================
-   RESPONSIVE / RESIZE
-   ========================================================= */
-
-window.addEventListener(
-    "resize",
-    () => {
-
-        calculateCycleHeight();
-
-    }
-);
-
-
-/* =========================================================
-   DIE WICHTIGSTE FUNKTION:
-   SPALT-BERECHNUNG
-   ========================================================= */
-
-
-/*
-   Für jede Übergangszone wird anhand ihrer Position
-   im Dokument berechnet, wie weit sie geöffnet sein soll.
-
-   progress:
-
-       0.00
-       ↓
-       komplett geschlossen
-
-       0.25
-       ↓
-       kleiner Spalt
-
-       0.50
-       ↓
-       halb geöffnet
-
-       0.75
-       ↓
-       großer Spalt
-
-       1.00
-       ↓
-       komplett geöffnet
-*/
-
-function updateSplits() {
+function updateTransitions() {
 
     const transitions =
         document.querySelectorAll(
-            ".split-transition"
+            ".zip-transition"
         );
 
 
-    const viewportHeight =
+    const viewport =
         window.innerHeight;
 
 
     transitions.forEach(
         transition => {
 
+
             const rect =
                 transition.getBoundingClientRect();
 
 
             /*
-               Der Übergang beginnt,
-               wenn seine Oberkante den oberen
-               Bildschirmrand erreicht.
+               Scrollbereich der Transition.
 
-               Deshalb:
+               Bei einer 190vh hohen Transition
+               bleiben 90vh als echter
+               Scrollbereich übrig.
+            */
 
-               progress = -rect.top / rect.height
+            const scrollRange =
+                transition.offsetHeight -
+                viewport;
+
+
+            if (scrollRange <= 0) {
+                return;
+            }
+
+
+            /*
+               0 = Übergang beginnt
+
+               1 = Übergang vollständig geöffnet
             */
 
             let progress =
                 -rect.top /
-                rect.height;
+                scrollRange;
 
-
-            /*
-               Auf 0 bis 1 begrenzen.
-            */
 
             progress =
                 Math.max(
@@ -976,93 +2139,222 @@ function updateSplits() {
                 );
 
 
-            transition.style
-                .setProperty(
-                    "--split-progress",
-                    progress
+            /*
+               Easing
+
+               Dadurch öffnet der Reißverschluss
+               nicht vollkommen linear.
+            */
+
+            const eased =
+                progress < 0.5
+
+                    ? 2 *
+                      progress *
+                      progress
+
+                    : 1 -
+                      Math.pow(
+                          -2 *
+                          progress +
+                          2,
+                          2
+                      ) /
+                      2;
+
+
+            /*
+               =================================================
+               SPALT
+               =================================================
+
+               0%
+               = komplett geschlossen
+
+               50%
+               = beide Hälften sind komplett weg
+
+               Die nächste Seite wird also
+               NICHT einfach eingeblendet.
+
+               Sie ist die ganze Zeit darunter,
+               aber nur der geöffnete Bereich
+               wird sichtbar.
+            */
+
+            const open =
+                eased * 50;
+
+
+            /*
+               Kleine Abweichung unten.
+
+               Dadurch entsteht die leichte
+               schräge / organische Form des
+               Reißverschlusses.
+            */
+
+            const skew =
+                eased * 4;
+
+
+            transition.style.setProperty(
+                "--open",
+                open + "%"
+            );
+
+
+            transition.style.setProperty(
+                "--skew",
+                skew + "vw"
+            );
+
+
+            /*
+               SCHIEBER
+
+               Er läuft beim Öffnen
+               von oben nach unten.
+            */
+
+            const sliderY =
+                4 +
+                eased * 84;
+
+
+            transition.style.setProperty(
+                "--slider-y",
+                sliderY + "vh"
+            );
+
+
+            /*
+               HINWEIS AUSBLENDEN
+            */
+
+            const hintOpacity =
+                Math.max(
+                    0,
+                    1 -
+                    eased * 5
                 );
 
+
+            transition.style.setProperty(
+                "--hint-opacity",
+                hintOpacity
+            );
+
+
+            /*
+               Wenn vollständig offen,
+               werden die Zipper-Kanten
+               ausgeblendet.
+            */
+
+            const edges =
+                transition.querySelectorAll(
+                    ".zip-edge"
+                );
+
+
+            edges.forEach(
+                edge => {
+
+                    edge.style.opacity =
+                        Math.max(
+                            0,
+                            1 -
+                            eased * 1.15
+                        );
+
+                }
+            );
+
+
+            /*
+               Auch der Schieber
+               verschwindet am Ende.
+            */
+
+            const slider =
+                transition.querySelector(
+                    ".zip-slider"
+                );
+
+
+            slider.style.opacity =
+                Math.max(
+                    0,
+                    1 -
+                    eased * 1.15
+                );
         }
     );
-
 }
 
 
 /* =========================================================
    SCROLL-LOOP
-   ========================================================= */
+========================================================= */
 
-function checkInfiniteLoop() {
 
-    if (
-        cycleHeight <= 0 ||
-        recentering
-    ) {
+/*
+   Sobald wir uns dem Ende nähern,
+   wird automatisch ein weiterer
+   kompletter Durchlauf angehängt.
+
+   Dadurch gibt es kein echtes Ende.
+*/
+
+let addingCycle = false;
+
+
+function ensureInfiniteScroll() {
+
+    if (addingCycle) {
         return;
     }
 
 
-    const y =
-        window.scrollY;
+    const scrollPosition =
+        window.scrollY +
+        window.innerHeight;
+
+
+    const documentHeight =
+        document.documentElement
+            .scrollHeight;
 
 
     /*
-       Wenn wir in die 4. Kopie kommen,
-       gehen wir eine komplette Zyklus-Höhe zurück.
-
-       Beispiel:
-
-       Kopie 3
-       ↓
-       Kopie 2
-
-       Die relative Position bleibt identisch.
+       3000 Pixel vor dem Ende
+       wird der nächste Durchlauf
+       vorbereitet.
     */
 
     if (
-        y >= cycleHeight * 3
+        documentHeight -
+        scrollPosition <
+        3000
     ) {
 
-        recentering = true;
+        addingCycle = true;
 
-        window.scrollTo(
-            0,
-            y - cycleHeight
+
+        loop.appendChild(
+            createCycle()
         );
 
-        recentering = false;
 
-        return;
+        addingCycle = false;
     }
-
-
-    /*
-       Wenn wir nach oben in die 2. Kopie
-       bzw. Richtung 1. Kopie kommen,
-       verschieben wir um einen Zyklus nach unten.
-    */
-
-    if (
-        y < cycleHeight
-    ) {
-
-        recentering = true;
-
-        window.scrollTo(
-            0,
-            y + cycleHeight
-        );
-
-        recentering = false;
-
-    }
-
 }
 
 
 /* =========================================================
-   EIN EINZIGER SCROLL-LOOP
-   ========================================================= */
+   EIN SCROLL-EVENT FÜR ALLES
+========================================================= */
 
 let ticking = false;
 
@@ -1071,25 +2363,22 @@ window.addEventListener(
     "scroll",
     () => {
 
-        if (ticking) {
-            return;
+        if (!ticking) {
+
+            window.requestAnimationFrame(
+                () => {
+
+                    updateTransitions();
+
+                    ensureInfiniteScroll();
+
+                    ticking = false;
+
+                }
+            );
+
+            ticking = true;
         }
-
-
-        ticking = true;
-
-
-        requestAnimationFrame(
-            () => {
-
-                updateSplits();
-
-                checkInfiniteLoop();
-
-                ticking = false;
-
-            }
-        );
 
     },
     {
@@ -1099,12 +2388,26 @@ window.addEventListener(
 
 
 /* =========================================================
-   ERSTE BERECHNUNG
-   ========================================================= */
+   RESIZE
+========================================================= */
 
-calculateCycleHeight();
+window.addEventListener(
+    "resize",
+    () => {
 
-updateSplits();
+        updateTransitions();
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+updateTransitions();
+
+ensureInfiniteScroll();
 
 
 </script>
