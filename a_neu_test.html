@@ -81,8 +81,6 @@ body {
     background-attachment: fixed;
 }
 
-/* Zielseite hinter der Spalte */
-
 .zip-transition[data-to="one"] .reveal-page {
     background:
         radial-gradient(
@@ -831,31 +829,32 @@ function goToPreviousSection(transition) {
 }
 
 /*
-   Entscheidend:
-   Die Spalte wird erst aktiviert, wenn sie vollständig im Viewport steht.
-   Vorher darf normal bis zur Spalte gescrollt werden.
+   Robuste Erkennung:
+   Sobald die Spalte beim Runterscrollen oben am Viewport ankommt,
+   wird sie eingefangen.
+   Beim Hochscrollen entsprechend, wenn ihr unterer Rand unten ankommt.
 */
 function getReadyTransition(deltaY) {
     const transitions = document.querySelectorAll(".zip-transition");
-    const tolerance = 8;
+    const viewportHeight = window.innerHeight;
+    const activationZone = 24;
 
     for (const transition of transitions) {
         const rect = transition.getBoundingClientRect();
 
-        const fullyVisible =
-            rect.top <= tolerance &&
-            rect.top >= -tolerance &&
-            rect.bottom >= window.innerHeight - tolerance;
-
-        if (fullyVisible) {
+        if (
+            deltaY > 0 &&
+            rect.top <= activationZone &&
+            rect.bottom > viewportHeight * 0.45
+        ) {
             return transition;
         }
 
-        if (deltaY > 0 && rect.top < tolerance && rect.bottom > window.innerHeight - tolerance) {
-            return transition;
-        }
-
-        if (deltaY < 0 && rect.top < tolerance && rect.bottom > window.innerHeight - tolerance) {
+        if (
+            deltaY < 0 &&
+            rect.bottom >= viewportHeight - activationZone &&
+            rect.top < viewportHeight * 0.55
+        ) {
             return transition;
         }
     }
@@ -879,9 +878,10 @@ function handleGateScroll(deltaY, event) {
     if (activeTransition !== transition) {
         activeTransition = transition;
 
-        gateProgress = parseFloat(transition.dataset.progress || "0");
-
-        if (deltaY < 0 && gateProgress === 0) {
+        if (deltaY > 0) {
+            gateProgress = 0;
+            setTransitionProgress(transition, 0);
+        } else {
             gateProgress = 1;
             setTransitionProgress(transition, 1);
         }
