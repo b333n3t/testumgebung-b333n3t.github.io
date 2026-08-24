@@ -7,10 +7,6 @@
 <title>b3nn3t – gespalten</title>
 
 <style>
-/* =========================================================
-   GRUNDWERTE
-========================================================= */
-
 :root {
     --blue-dark: #061523;
     --blue: #0b2438;
@@ -25,10 +21,6 @@
 
     --white: #f1f0e7;
 }
-
-/* =========================================================
-   RESET
-========================================================= */
 
 * {
     box-sizing: border-box;
@@ -162,7 +154,7 @@ body {
 }
 
 /* =========================================================
-   SEITE 1 – INHALT
+   SEITE 1
 ========================================================= */
 
 .page-one-content {
@@ -254,7 +246,7 @@ body {
 }
 
 /* =========================================================
-   SEITE 2 – INHALT
+   SEITE 2
 ========================================================= */
 
 .page-two-content {
@@ -370,14 +362,16 @@ body {
 }
 
 /* =========================================================
-   DIE BEIDEN GESCHLOSSENEN HÄLFTEN
+   GESCHLOSSENE SPALTEN-PANELS
+   Wichtig: 130dvh, damit keine horizontale Unterkante sichtbar wird
 ========================================================= */
 
 .zip-cover {
     position: absolute;
     inset: 0;
     width: 100%;
-    height: 100%;
+    height: 130dvh;
+    min-height: 130vh;
     z-index: 10;
     pointer-events: none;
     overflow: hidden;
@@ -385,9 +379,11 @@ body {
 
 .zip-left {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 130dvh;
+    min-height: 130vh;
 
     clip-path:
         polygon(
@@ -410,9 +406,11 @@ body {
 
 .zip-right {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 100%;
+    height: 130dvh;
+    min-height: 130vh;
 
     clip-path:
         polygon(
@@ -563,21 +561,23 @@ body {
         height: 220vh;
     }
 
+    .zip-cover,
+    .zip-left,
+    .zip-right {
+        height: 135dvh;
+        min-height: 135vh;
+    }
+
     .page-two-content {
         width: 84vw;
     }
 }
-
-/* =========================================================
-   REDUZIERTE BEWEGUNG
-========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
     }
 }
-
 </style>
 </head>
 
@@ -585,45 +585,21 @@ body {
 
 <main id="loop">
 
-    <!-- ===================================================
-         SEITE 1
-    ==================================================== -->
-
     <section class="loop-page page-one">
-
         <div class="page-one-content">
-
             <div class="page-one-left">
-
-                <div class="kicker">
-                    b3nn3t
-                </div>
-
-                <h1 class="main-title">
-                    gespalten
-                </h1>
-
+                <div class="kicker">b3nn3t</div>
+                <h1 class="main-title">gespalten</h1>
                 <p class="subtitle">
                     10 kurze Songs. 12 Minuten
                     zwischen alt und neu.
                 </p>
-
-                <div class="media-card">
-                    DEIN VIDEO / BILD
-                </div>
-
+                <div class="media-card">DEIN VIDEO / BILD</div>
             </div>
 
             <div class="page-one-right">
-
-                <div class="kicker">
-                    neues album
-                </div>
-
-                <h2>
-                    die andere seite
-                </h2>
-
+                <div class="kicker">neues album</div>
+                <h2>die andere seite</h2>
                 <p>
                     Ein Übergang zwischen
                     zwei Seiten.
@@ -631,38 +607,17 @@ body {
                     Dazwischen liegt
                     die Spalte.
                 </p>
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- ===================================================
-         ÜBERGANG SEITE 1 → SEITE 2
-         Cover blau, Reveal grün
-    ==================================================== -->
-
-    <section
-        class="zip-transition"
-        data-from="one"
-        data-to="two"
-    >
-
+    <section class="zip-transition" data-from="one" data-to="two">
         <div class="zip-sticky">
 
             <div class="reveal-page page-two">
-
                 <div class="page-two-content">
-
-                    <div class="page-two-kicker">
-                        b3nn3t
-                    </div>
-
-                    <h1 class="page-two-title">
-                        fragments
-                    </h1>
-
+                    <div class="page-two-kicker">b3nn3t</div>
+                    <h1 class="page-two-title">fragments</h1>
                     <p class="page-two-intro">
                         die andere seite von
                         „gespalten“.
@@ -671,47 +626,24 @@ body {
                         tatsächlichen zusätzlichen Inhalt
                         ersetzt werden.
                     </p>
-
                 </div>
-
             </div>
 
             <div class="zip-cover">
-
                 <div class="zip-left">
-
                     <div class="cover-content">
-
                         <div class="cover-left-content">
-
-                            <div class="kicker">
-                                b3nn3t
-                            </div>
-
-                            <div class="cover-title">
-                                gespalten
-                            </div>
-
+                            <div class="kicker">b3nn3t</div>
+                            <div class="cover-title">gespalten</div>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="zip-right">
-
                     <div class="cover-content">
-
                         <div class="cover-right-content">
-
-                            <div class="kicker">
-                                neues album
-                            </div>
-
-                            <h2>
-                                alt - geschlossene Spalte
-                            </h2>
-
+                            <div class="kicker">neues album</div>
+                            <h2>alt - geschlossene Spalte</h2>
                             <p>
                                 Musik,
                                 Erinnerungen
@@ -719,39 +651,19 @@ body {
                                 aus einer
                                 anderen Zeit.
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
 
-                <div class="zip-hint">
-                    nach unten öffnen
-                </div>
-
+                <div class="zip-hint">nach unten öffnen</div>
             </div>
-
         </div>
-
     </section>
 
-    <!-- ===================================================
-         SEITE 2
-    ==================================================== -->
-
     <section class="loop-page page-two">
-
         <div class="page-two-content">
-
-            <div class="page-two-kicker">
-                b3nn3t
-            </div>
-
-            <h1 class="page-two-title">
-                fragments
-            </h1>
-
+            <div class="page-two-kicker">b3nn3t</div>
+            <h1 class="page-two-title">fragments</h1>
             <p class="page-two-intro">
                 die andere seite von
                 „gespalten“.
@@ -762,141 +674,77 @@ body {
             </p>
 
             <div class="fragment-grid">
-
                 <div class="fragment">
-
-                    <h2>
-                        fragment 01
-                    </h2>
-
+                    <h2>fragment 01</h2>
                     <p>
                         Texte, Bilder,
                         Notizen,
                         Entstehungsgeschichte,
                         Lyrics oder weitere Videos.
                     </p>
-
                 </div>
 
                 <div class="fragment">
-
-                    <h2>
-                        fragment 02
-                    </h2>
-
+                    <h2>fragment 02</h2>
                     <p>
                         Weitere Informationen
                         zum Album und zu
                         den einzelnen Songs.
                     </p>
-
                 </div>
 
                 <div class="fragment">
-
-                    <h2>
-                        fragment 03
-                    </h2>
-
+                    <h2>fragment 03</h2>
                     <p>
                         Platz für zusätzliche
                         Inhalte, Bilder,
                         Medien oder Texte.
                     </p>
-
                 </div>
 
                 <div class="fragment">
-
-                    <h2>
-                        fragment 04
-                    </h2>
-
+                    <h2>fragment 04</h2>
                     <p>
                         Die zweite Seite
                         kann hier beliebig
                         erweitert werden.
                     </p>
-
                 </div>
-
             </div>
 
             <div class="more-content">
-
-                <strong>
-                    noch mehr
-                </strong>
-
+                <strong>noch mehr</strong>
                 <br><br>
-
                 Die zweite Seite kann beliebig
                 lang sein.
-
                 <br><br>
-
                 Wenn ihr Ende erreicht ist,
                 beginnt die nächste Spalte.
-
                 <br><br>
-
                 Und danach erscheint wieder
                 die erste Seite.
-
             </div>
-
         </div>
-
     </section>
 
-    <!-- ===================================================
-         ÜBERGANG SEITE 2 → SEITE 1
-         Cover grün, Reveal blau
-    ==================================================== -->
-
-    <section
-        class="zip-transition"
-        data-from="two"
-        data-to="one"
-    >
-
+    <section class="zip-transition" data-from="two" data-to="one">
         <div class="zip-sticky">
 
             <div class="reveal-page page-one">
-
                 <div class="page-one-content">
-
                     <div class="page-one-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1 class="main-title">
-                            gespalten
-                        </h1>
-
+                        <div class="kicker">b3nn3t</div>
+                        <h1 class="main-title">gespalten</h1>
                         <p class="subtitle">
                             10 kurze Songs. 12 Minuten
                             zwischen alt und neu.
                         </p>
-
-                        <div class="media-card">
-                            DEIN VIDEO / BILD
-                        </div>
-
+                        <div class="media-card">DEIN VIDEO / BILD</div>
                     </div>
 
                     <div class="page-one-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere seite
-                        </h2>
-
+                        <div class="kicker">neues album</div>
+                        <h2>die andere seite</h2>
                         <p>
                             Ein Übergang zwischen
                             zwei Seiten.
@@ -904,126 +752,62 @@ body {
                             Dazwischen liegt
                             die Spalte.
                         </p>
-
                     </div>
-
                 </div>
-
             </div>
 
             <div class="zip-cover">
-
                 <div class="zip-left cover-green">
-
                     <div class="cover-content">
-
                         <div class="cover-left-content">
-
-                            <div class="kicker">
-                                die andere seite
-                            </div>
-
-                            <div class="cover-title">
-                                fragments
-                            </div>
-
+                            <div class="kicker">die andere seite</div>
+                            <div class="cover-title">fragments</div>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="zip-right cover-green">
-
                     <div class="cover-content">
-
                         <div class="cover-right-content">
-
-                            <div class="kicker">
-                                weiter
-                            </div>
-
-                            <h2>
-                                die andere seite
-                            </h2>
-
+                            <div class="kicker">weiter</div>
+                            <h2>die andere seite</h2>
                             <p>
                                 noch mehr
                                 Fragmente,
                                 Texte und
                                 Geschichten.
                             </p>
-
                         </div>
-
                     </div>
-
                 </div>
 
-                <div class="zip-hint">
-                    nach unten öffnen
-                </div>
-
+                <div class="zip-hint">nach unten öffnen</div>
             </div>
-
         </div>
-
     </section>
 
 </main>
 
 <script>
-/* =========================================================
-   ENDLOSSCHLEIFE
-========================================================= */
-
 const loop = document.getElementById("loop");
 
-/* =========================================================
-   SEITE 1 ERZEUGEN
-========================================================= */
-
 function createPageOne() {
-
     const section = document.createElement("section");
-
     section.className = "loop-page page-one";
-
     section.innerHTML = `
-
         <div class="page-one-content">
-
             <div class="page-one-left">
-
-                <div class="kicker">
-                    b3nn3t
-                </div>
-
-                <h1 class="main-title">
-                    gespalten
-                </h1>
-
+                <div class="kicker">b3nn3t</div>
+                <h1 class="main-title">gespalten</h1>
                 <p class="subtitle">
                     10 kurze Songs. 12 Minuten
                     zwischen alt und neu.
                 </p>
-
-                <div class="media-card">
-                    DEIN VIDEO / BILD
-                </div>
-
+                <div class="media-card">DEIN VIDEO / BILD</div>
             </div>
-
             <div class="page-one-right">
-
-                <div class="kicker">
-                    neues album
-                </div>
-
-                <h2>
-                    die andere seite
-                </h2>
-
+                <div class="kicker">neues album</div>
+                <h2>die andere seite</h2>
                 <p>
                     Ein Übergang zwischen
                     zwei Seiten.
@@ -1031,37 +815,19 @@ function createPageOne() {
                     Dazwischen liegt
                     die Spalte.
                 </p>
-
             </div>
-
         </div>
     `;
-
     return section;
 }
 
-/* =========================================================
-   SEITE 2 ERZEUGEN
-========================================================= */
-
 function createPageTwo() {
-
     const section = document.createElement("section");
-
     section.className = "loop-page page-two";
-
     section.innerHTML = `
-
         <div class="page-two-content">
-
-            <div class="page-two-kicker">
-                b3nn3t
-            </div>
-
-            <h1 class="page-two-title">
-                fragments
-            </h1>
-
+            <div class="page-two-kicker">b3nn3t</div>
+            <h1 class="page-two-title">fragments</h1>
             <p class="page-two-intro">
                 die andere seite von
                 „gespalten“.
@@ -1070,113 +836,46 @@ function createPageTwo() {
                 tatsächlichen zusätzlichen Inhalt
                 ersetzt werden.
             </p>
-
             <div class="fragment-grid">
-
                 <div class="fragment">
-
-                    <h2>
-                        fragment 01
-                    </h2>
-
-                    <p>
-                        Texte, Bilder,
-                        Notizen,
-                        Entstehungsgeschichte,
-                        Lyrics oder weitere Videos.
-                    </p>
-
+                    <h2>fragment 01</h2>
+                    <p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p>
                 </div>
-
                 <div class="fragment">
-
-                    <h2>
-                        fragment 02
-                    </h2>
-
-                    <p>
-                        Weitere Informationen
-                        zum Album und zu
-                        den einzelnen Songs.
-                    </p>
-
+                    <h2>fragment 02</h2>
+                    <p>Weitere Informationen zum Album und zu den einzelnen Songs.</p>
                 </div>
-
                 <div class="fragment">
-
-                    <h2>
-                        fragment 03
-                    </h2>
-
-                    <p>
-                        Platz für zusätzliche
-                        Inhalte, Bilder,
-                        Medien oder Texte.
-                    </p>
-
+                    <h2>fragment 03</h2>
+                    <p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p>
                 </div>
-
                 <div class="fragment">
-
-                    <h2>
-                        fragment 04
-                    </h2>
-
-                    <p>
-                        Die zweite Seite
-                        kann hier beliebig
-                        erweitert werden.
-                    </p>
-
+                    <h2>fragment 04</h2>
+                    <p>Die zweite Seite kann hier beliebig erweitert werden.</p>
                 </div>
-
             </div>
-
             <div class="more-content">
-
-                <strong>
-                    noch mehr
-                </strong>
-
+                <strong>noch mehr</strong>
                 <br><br>
-
-                Die zweite Seite kann beliebig
-                lang sein.
-
+                Die zweite Seite kann beliebig lang sein.
                 <br><br>
-
-                Wenn ihr Ende erreicht ist,
-                beginnt die nächste Spalte.
-
+                Wenn ihr Ende erreicht ist, beginnt die nächste Spalte.
                 <br><br>
-
-                Und danach erscheint wieder
-                die erste Seite.
-
+                Und danach erscheint wieder die erste Seite.
             </div>
-
         </div>
     `;
-
     return section;
 }
 
-/* =========================================================
-   ÜBERGANG ERZEUGEN
-========================================================= */
-
 function createTransition(from, to) {
-
     const section = document.createElement("section");
 
     section.className = "zip-transition";
     section.dataset.from = from;
     section.dataset.to = to;
 
-    const coverClass =
-        from === "two"
-            ? " cover-green"
-            : "";
+    const coverClass = from === "two" ? " cover-green" : "";
 
     let revealHTML = "";
     let leftTitle = "";
@@ -1184,19 +883,10 @@ function createTransition(from, to) {
     let rightText = "";
 
     if (to === "two") {
-
         revealHTML = `
-
             <div class="page-two-content">
-
-                <div class="page-two-kicker">
-                    b3nn3t
-                </div>
-
-                <h1 class="page-two-title">
-                    fragments
-                </h1>
-
+                <div class="page-two-kicker">b3nn3t</div>
+                <h1 class="page-two-title">fragments</h1>
                 <p class="page-two-intro">
                     die andere seite von
                     „gespalten“.
@@ -1205,52 +895,26 @@ function createTransition(from, to) {
                     tatsächlichen zusätzlichen Inhalt
                     ersetzt werden.
                 </p>
-
             </div>
         `;
-
         leftTitle = "gespalten";
         rightTitle = "alt";
-        rightText =
-            "Musik, Erinnerungen und Fragmente aus einer anderen Zeit.";
-
+        rightText = "Musik, Erinnerungen und Fragmente aus einer anderen Zeit.";
     } else {
-
         revealHTML = `
-
             <div class="page-one-content">
-
                 <div class="page-one-left">
-
-                    <div class="kicker">
-                        b3nn3t
-                    </div>
-
-                    <h1 class="main-title">
-                        gespalten
-                    </h1>
-
+                    <div class="kicker">b3nn3t</div>
+                    <h1 class="main-title">gespalten</h1>
                     <p class="subtitle">
                         10 kurze Songs. 12 Minuten
                         zwischen alt und neu.
                     </p>
-
-                    <div class="media-card">
-                        DEIN VIDEO / BILD
-                    </div>
-
+                    <div class="media-card">DEIN VIDEO / BILD</div>
                 </div>
-
                 <div class="page-one-right">
-
-                    <div class="kicker">
-                        neues album
-                    </div>
-
-                    <h2>
-                        die andere seite
-                    </h2>
-
+                    <div class="kicker">neues album</div>
+                    <h2>die andere seite</h2>
                     <p>
                         Ein Übergang zwischen
                         zwei Seiten.
@@ -1258,336 +922,142 @@ function createTransition(from, to) {
                         Dazwischen liegt
                         die Spalte.
                     </p>
-
                 </div>
-
             </div>
         `;
-
         leftTitle = "fragments";
         rightTitle = "die andere seite";
-        rightText =
-            "noch mehr Fragmente, Texte und Geschichten.";
+        rightText = "noch mehr Fragmente, Texte und Geschichten.";
     }
 
     section.innerHTML = `
-
         <div class="zip-sticky">
-
-            <div class="reveal-page ${
-                to === "one"
-                    ? "page-one"
-                    : "page-two"
-            }">
-
+            <div class="reveal-page ${to === "one" ? "page-one" : "page-two"}">
                 ${revealHTML}
-
             </div>
 
             <div class="zip-cover">
-
                 <div class="zip-left${coverClass}">
-
                     <div class="cover-content">
-
                         <div class="cover-left-content">
-
-                            <div class="kicker">
-                                ${from === "one" ? "b3nn3t" : "die andere seite"}
-                            </div>
-
-                            <div class="cover-title">
-                                ${leftTitle}
-                            </div>
-
+                            <div class="kicker">${from === "one" ? "b3nn3t" : "die andere seite"}</div>
+                            <div class="cover-title">${leftTitle}</div>
                         </div>
-
                     </div>
-
                 </div>
 
                 <div class="zip-right${coverClass}">
-
                     <div class="cover-content">
-
                         <div class="cover-right-content">
-
-                            <div class="kicker">
-                                ${from === "one"
-                                    ? "neues album"
-                                    : "weiter"
-                                }
-                            </div>
-
-                            <h2>
-                                ${rightTitle}
-                            </h2>
-
-                            <p>
-                                ${rightText}
-                            </p>
-
+                            <div class="kicker">${from === "one" ? "neues album" : "weiter"}</div>
+                            <h2>${rightTitle}</h2>
+                            <p>${rightText}</p>
                         </div>
-
                     </div>
-
                 </div>
 
-                <div class="zip-hint">
-                    nach unten öffnen
-                </div>
-
+                <div class="zip-hint">nach unten öffnen</div>
             </div>
-
         </div>
     `;
 
     return section;
 }
 
-/* =========================================================
-   EINEN KOMPLETTEN DURCHLAUF ERZEUGEN
-========================================================= */
-
 function createCycle() {
-
     const fragment = document.createDocumentFragment();
 
-    fragment.appendChild(
-        createPageOne()
-    );
-
-    fragment.appendChild(
-        createTransition(
-            "one",
-            "two"
-        )
-    );
-
-    fragment.appendChild(
-        createPageTwo()
-    );
-
-    fragment.appendChild(
-        createTransition(
-            "two",
-            "one"
-        )
-    );
+    fragment.appendChild(createPageOne());
+    fragment.appendChild(createTransition("one", "two"));
+    fragment.appendChild(createPageTwo());
+    fragment.appendChild(createTransition("two", "one"));
 
     return fragment;
 }
 
-/* =========================================================
-   ZUSÄTZLICHE DURCHLÄUFE
-========================================================= */
-
 for (let i = 0; i < 3; i++) {
-
-    loop.appendChild(
-        createCycle()
-    );
-
+    loop.appendChild(createCycle());
 }
-
-/* =========================================================
-   SPALTEN AKTUALISIEREN
-========================================================= */
 
 function updateTransitions() {
+    const transitions = document.querySelectorAll(".zip-transition");
+    const viewport = window.innerHeight;
 
-    const transitions =
-        document.querySelectorAll(
-            ".zip-transition"
-        );
+    transitions.forEach(transition => {
+        const rect = transition.getBoundingClientRect();
+        const scrollRange = transition.offsetHeight - viewport;
 
-    const viewport =
-        window.innerHeight;
-
-    transitions.forEach(
-        transition => {
-
-            const rect =
-                transition.getBoundingClientRect();
-
-            const scrollRange =
-                transition.offsetHeight -
-                viewport;
-
-            if (scrollRange <= 0) {
-                return;
-            }
-
-            let progress =
-                -rect.top /
-                scrollRange;
-
-            progress =
-                Math.max(
-                    0,
-                    Math.min(
-                        1,
-                        progress
-                    )
-                );
-
-            /*
-               Die Spalte öffnet sich bis 72% des Übergangs.
-               Danach bleibt sie vollständig offen, während
-               man noch innerhalb der Spalten-Section bleibt.
-            */
-
-            const openCompleteAt = 0.72;
-
-            let visualProgress =
-                progress / openCompleteAt;
-
-            visualProgress =
-                Math.max(
-                    0,
-                    Math.min(
-                        1,
-                        visualProgress
-                    )
-                );
-
-            const eased =
-                visualProgress < 0.5
-
-                    ? 2 *
-                      visualProgress *
-                      visualProgress
-
-                    : 1 -
-                      Math.pow(
-                          -2 *
-                          visualProgress +
-                          2,
-                          2
-                      ) /
-                      2;
-
-            const open =
-                eased * 50;
-
-            const skew =
-                eased * 4;
-
-            transition.style.setProperty(
-                "--open",
-                open + "%"
-            );
-
-            transition.style.setProperty(
-                "--skew",
-                skew + "vw"
-            );
-
-            const hintOpacity =
-                Math.max(
-                    0,
-                    1 -
-                    eased * 5
-                );
-
-            transition.style.setProperty(
-                "--hint-opacity",
-                hintOpacity
-            );
+        if (scrollRange <= 0) {
+            return;
         }
-    );
-}
 
-/* =========================================================
-   SCROLL-LOOP
-========================================================= */
+        let progress = -rect.top / scrollRange;
+
+        progress = Math.max(0, Math.min(1, progress));
+
+        const openCompleteAt = 0.72;
+
+        let visualProgress = progress / openCompleteAt;
+
+        visualProgress = Math.max(0, Math.min(1, visualProgress));
+
+        const eased =
+            visualProgress < 0.5
+                ? 2 * visualProgress * visualProgress
+                : 1 - Math.pow(-2 * visualProgress + 2, 2) / 2;
+
+        const open = eased * 50;
+        const skew = eased * 4;
+
+        transition.style.setProperty("--open", open + "%");
+        transition.style.setProperty("--skew", skew + "vw");
+
+        const hintOpacity = Math.max(0, 1 - eased * 5);
+        transition.style.setProperty("--hint-opacity", hintOpacity);
+    });
+}
 
 let addingCycle = false;
 
 function ensureInfiniteScroll() {
-
     if (addingCycle) {
         return;
     }
 
-    const scrollPosition =
-        window.scrollY +
-        window.innerHeight;
+    const scrollPosition = window.scrollY + window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
 
-    const documentHeight =
-        document.documentElement
-            .scrollHeight;
-
-    if (
-        documentHeight -
-        scrollPosition <
-        3000
-    ) {
-
+    if (documentHeight - scrollPosition < 3000) {
         addingCycle = true;
-
-        loop.appendChild(
-            createCycle()
-        );
-
+        loop.appendChild(createCycle());
         addingCycle = false;
     }
 }
-
-/* =========================================================
-   EIN SCROLL-EVENT FÜR ALLES
-========================================================= */
 
 let ticking = false;
 
 window.addEventListener(
     "scroll",
     () => {
-
         if (!ticking) {
-
-            window.requestAnimationFrame(
-                () => {
-
-                    updateTransitions();
-
-                    ensureInfiniteScroll();
-
-                    ticking = false;
-
-                }
-            );
+            window.requestAnimationFrame(() => {
+                updateTransitions();
+                ensureInfiniteScroll();
+                ticking = false;
+            });
 
             ticking = true;
         }
-
     },
-    {
-        passive: true
-    }
+    { passive: true }
 );
 
-/* =========================================================
-   RESIZE
-========================================================= */
-
-window.addEventListener(
-    "resize",
-    () => {
-
-        updateTransitions();
-
-    }
-);
-
-/* =========================================================
-   START
-========================================================= */
+window.addEventListener("resize", () => {
+    updateTransitions();
+});
 
 updateTransitions();
-
 ensureInfiniteScroll();
-
 </script>
 
 </body>
