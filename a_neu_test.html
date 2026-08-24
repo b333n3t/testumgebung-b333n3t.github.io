@@ -7,7 +7,6 @@
 <title>b3nn3t – gespalten</title>
 
 <style>
-
 /* =========================================================
    GRUNDWERTE
 ========================================================= */
@@ -15,22 +14,17 @@
 :root {
     --blue-dark: #061523;
     --blue: #0b2438;
-    --blue-light: #123750;
+    --blue-end: #091c2c;
 
-    --olive-dark: #242815;
-    --olive: #3e4321;
-    --olive-light: #4a5027;
+    --olive-dark: #323718;
+    --olive: #4a5027;
+    --olive-end: #343919;
 
     --thread: #c47725;
     --thread-light: #e09a3b;
 
     --white: #f1f0e7;
-
-    --metal-dark: #555650;
-    --metal: #a8a8a0;
-    --metal-light: #e2e0d3;
 }
-
 
 /* =========================================================
    RESET
@@ -53,28 +47,15 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
 /* =========================================================
-   GLOBALER HINTERGRUND
-   Für normale Seiten ohne sichtbaren Seitenbruch
+   HINTERGRUND-SYSTEM
 ========================================================= */
 
-.global-bg {
-    position: fixed;
-    inset: 0;
-    z-index: -10;
-    pointer-events: none;
-    transition: background 0.2s linear;
-}
-
-.global-bg::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-}
-
-.global-bg.bg-one {
+.page-one,
+.zip-transition[data-to="one"],
+.zip-transition[data-to="one"] .reveal-page,
+.zip-left,
+.zip-right {
     background:
         radial-gradient(
             ellipse at center,
@@ -83,14 +64,45 @@ body {
         ),
         linear-gradient(
             115deg,
-            #061523,
-            #0b2438 50%,
-            #091c2c
+            var(--blue-dark),
+            var(--blue) 50%,
+            var(--blue-end)
         );
+    background-attachment: fixed;
 }
 
-.global-bg.bg-one::before {
+.page-two,
+.zip-transition[data-to="two"],
+.zip-transition[data-to="two"] .reveal-page,
+.zip-left.cover-green,
+.zip-right.cover-green {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            var(--olive-dark),
+            var(--olive) 45%,
+            var(--olive-end)
+        );
+    background-attachment: fixed;
+}
+
+/* Stoffstruktur Blau */
+
+.page-one::before,
+.zip-transition[data-to="one"]::before,
+.zip-transition[data-to="one"] .reveal-page::before,
+.zip-left::after,
+.zip-right::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     opacity: 0.20;
+    pointer-events: none;
     background-image:
         repeating-linear-gradient(
             115deg,
@@ -106,25 +118,21 @@ body {
             transparent 1px,
             transparent 4px
         );
+    background-attachment: fixed;
 }
 
-.global-bg.bg-two {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
-        );
-}
+/* Stoffstruktur Grün */
 
-.global-bg.bg-two::before {
+.page-two::before,
+.zip-transition[data-to="two"]::before,
+.zip-transition[data-to="two"] .reveal-page::before,
+.zip-left.cover-green::after,
+.zip-right.cover-green::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     opacity: 0.17;
+    pointer-events: none;
     background-image:
         repeating-linear-gradient(
             0deg,
@@ -140,8 +148,8 @@ body {
             transparent 1px,
             transparent 5px
         );
+    background-attachment: fixed;
 }
-
 
 /* =========================================================
    NORMALE SEITEN
@@ -151,19 +159,8 @@ body {
     position: relative;
     min-height: 135vh;
     overflow: hidden;
-    background: transparent;
+    margin-top: -1px;
 }
-
-.page-one,
-.page-two {
-    background: transparent;
-}
-
-.page-one::before,
-.page-two::before {
-    display: none;
-}
-
 
 /* =========================================================
    SEITE 1 – INHALT
@@ -229,7 +226,6 @@ body {
     margin-left: auto;
 }
 
-
 /* =========================================================
    BILD / VIDEO PLATZHALTER
 ========================================================= */
@@ -257,7 +253,6 @@ body {
     color: #292923;
     font-weight: bold;
 }
-
 
 /* =========================================================
    SEITE 2 – INHALT
@@ -330,7 +325,6 @@ body {
     line-height: 1.8;
 }
 
-
 /* =========================================================
    ÜBERGANG / SPALTE
 ========================================================= */
@@ -343,7 +337,7 @@ body {
     --skew: 0vw;
     --hint-opacity: 1;
 
-    background: transparent;
+    overflow: hidden;
     margin-top: -1px;
 }
 
@@ -356,15 +350,10 @@ body {
 
     overflow: hidden;
     isolation: isolate;
-    background: transparent;
 }
-
 
 /* =========================================================
    SEITE HINTER DER SPALTE
-   Wichtig:
-   data-to="two" = dahinter grün
-   data-to="one" = dahinter blau
 ========================================================= */
 
 .reveal-page {
@@ -374,95 +363,10 @@ body {
     overflow: hidden;
 }
 
-/* Hinter blauer Spalte erscheint grün */
-.zip-transition[data-to="two"] .reveal-page {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
-        );
-}
-
-/* Hinter grüner Spalte erscheint blau */
-.zip-transition[data-to="one"] .reveal-page {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(50, 100, 135, 0.20),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            #061523,
-            #0b2438 50%,
-            #091c2c
-        );
-}
-
-/* Stoffstruktur für grünes Reveal */
-.zip-transition[data-to="two"] .reveal-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.17;
-    pointer-events: none;
-
-    background-image:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 1px,
-            transparent 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,0.08) 0px,
-            rgba(0,0,0,0.08) 1px,
-            transparent 1px,
-            transparent 5px
-        );
-}
-
-/* Stoffstruktur für blaues Reveal */
-.zip-transition[data-to="one"] .reveal-page::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    opacity: 0.20;
-    pointer-events: none;
-
-    background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.035) 0px,
-            rgba(255,255,255,0.035) 1px,
-            transparent 1px,
-            transparent 3px
-        ),
-        repeating-linear-gradient(
-            25deg,
-            rgba(0,0,0,0.09) 0px,
-            rgba(0,0,0,0.09) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-}
-
 .reveal-page > * {
     position: relative;
     z-index: 2;
 }
-
 
 /* =========================================================
    DIE BEIDEN GESCHLOSSENEN HÄLFTEN
@@ -475,30 +379,9 @@ body {
     pointer-events: none;
 }
 
-
-/* =========================================================
-   BLAUE PANELS
-   Vordergrund bei Seite 1 → Seite 2
-========================================================= */
-
 .zip-left {
     position: absolute;
     inset: 0;
-
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(50, 100, 135, 0.20),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            #061523,
-            #0b2438 50%,
-            #091c2c
-        );
-
-    background-attachment: fixed;
 
     clip-path:
         polygon(
@@ -523,21 +406,6 @@ body {
     position: absolute;
     inset: 0;
 
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(50, 100, 135, 0.20),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            #061523,
-            #0b2438 50%,
-            #091c2c
-        );
-
-    background-attachment: fixed;
-
     clip-path:
         polygon(
             calc(50% + var(--open)) 0,
@@ -556,85 +424,6 @@ body {
         drop-shadow(0 0 10px rgba(255, 214, 150, 0.5))
         drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
 }
-
-
-/* =========================================================
-   GRÜNE PANELS
-   Vordergrund bei Seite 2 → Seite 1
-========================================================= */
-
-.zip-left.cover-green,
-.zip-right.cover-green {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
-        );
-
-    background-attachment: fixed;
-}
-
-
-/* =========================================================
-   STOFFSTRUKTUR AUF DEN PANELS
-========================================================= */
-
-/* Blaue Panels */
-.zip-left::after,
-.zip-right::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    opacity: 0.20;
-
-    background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.035) 0px,
-            rgba(255,255,255,0.035) 1px,
-            transparent 1px,
-            transparent 3px
-        ),
-        repeating-linear-gradient(
-            25deg,
-            rgba(0,0,0,0.09) 0px,
-            rgba(0,0,0,0.09) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-
-    pointer-events: none;
-}
-
-/* Grüne Panels */
-.zip-left.cover-green::after,
-.zip-right.cover-green::after {
-    opacity: 0.17;
-
-    background-image:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 1px,
-            transparent 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,0.08) 0px,
-            rgba(0,0,0,0.08) 1px,
-            transparent 1px,
-            transparent 5px
-        );
-}
-
 
 /* =========================================================
    INHALT AUF DEN GESCHLOSSENEN PANELS
@@ -681,7 +470,6 @@ body {
     line-height: 1.6;
 }
 
-
 /* =========================================================
    SCROLL-HINWEIS
 ========================================================= */
@@ -716,7 +504,6 @@ body {
 
     transform: rotate(45deg);
 }
-
 
 /* =========================================================
    MOBILE
@@ -773,7 +560,6 @@ body {
     }
 }
 
-
 /* =========================================================
    REDUZIERTE BEWEGUNG
 ========================================================= */
@@ -787,10 +573,7 @@ body {
 </style>
 </head>
 
-
 <body>
-
-<div id="global-bg" class="global-bg bg-one"></div>
 
 <main id="loop">
 
@@ -823,7 +606,6 @@ body {
 
             </div>
 
-
             <div class="page-one-right">
 
                 <div class="kicker">
@@ -848,9 +630,9 @@ body {
 
     </section>
 
-
     <!-- ===================================================
          ÜBERGANG SEITE 1 → SEITE 2
+         Cover blau, Reveal grün
     ==================================================== -->
 
     <section
@@ -886,7 +668,6 @@ body {
 
             </div>
 
-
             <div class="zip-cover">
 
                 <div class="zip-left">
@@ -908,7 +689,6 @@ body {
                     </div>
 
                 </div>
-
 
                 <div class="zip-right">
 
@@ -938,7 +718,6 @@ body {
 
                 </div>
 
-
                 <div class="zip-hint">
                     nach unten öffnen
                 </div>
@@ -948,7 +727,6 @@ body {
         </div>
 
     </section>
-
 
     <!-- ===================================================
          SEITE 2
@@ -975,7 +753,6 @@ body {
                 ersetzt werden.
             </p>
 
-
             <div class="fragment-grid">
 
                 <div class="fragment">
@@ -993,7 +770,6 @@ body {
 
                 </div>
 
-
                 <div class="fragment">
 
                     <h2>
@@ -1008,7 +784,6 @@ body {
 
                 </div>
 
-
                 <div class="fragment">
 
                     <h2>
@@ -1022,7 +797,6 @@ body {
                     </p>
 
                 </div>
-
 
                 <div class="fragment">
 
@@ -1039,7 +813,6 @@ body {
                 </div>
 
             </div>
-
 
             <div class="more-content">
 
@@ -1068,9 +841,9 @@ body {
 
     </section>
 
-
     <!-- ===================================================
          ÜBERGANG SEITE 2 → SEITE 1
+         Cover grün, Reveal blau
     ==================================================== -->
 
     <section
@@ -1130,7 +903,6 @@ body {
 
             </div>
 
-
             <div class="zip-cover">
 
                 <div class="zip-left cover-green">
@@ -1152,7 +924,6 @@ body {
                     </div>
 
                 </div>
-
 
                 <div class="zip-right cover-green">
 
@@ -1181,7 +952,6 @@ body {
 
                 </div>
 
-
                 <div class="zip-hint">
                     nach unten öffnen
                 </div>
@@ -1194,19 +964,14 @@ body {
 
 </main>
 
-
 <script>
-
 /* =========================================================
    ENDLOSSCHLEIFE
 ========================================================= */
 
 const loop = document.getElementById("loop");
-const globalBg = document.getElementById("global-bg");
-
 
 /* =========================================================
-   HILFSFUNKTION:
    SEITE 1 ERZEUGEN
 ========================================================= */
 
@@ -1266,7 +1031,6 @@ function createPageOne() {
 
     return section;
 }
-
 
 /* =========================================================
    SEITE 2 ERZEUGEN
@@ -1389,9 +1153,8 @@ function createPageTwo() {
     return section;
 }
 
-
 /* =========================================================
-   ÜBERGANG / SPALTE ERZEUGEN
+   ÜBERGANG ERZEUGEN
 ========================================================= */
 
 function createTransition(from, to) {
@@ -1399,22 +1162,18 @@ function createTransition(from, to) {
     const section = document.createElement("section");
 
     section.className = "zip-transition";
-
     section.dataset.from = from;
     section.dataset.to = to;
 
-
     const coverClass =
-        to === "one"
+        from === "two"
             ? " cover-green"
             : "";
-
 
     let revealHTML = "";
     let leftTitle = "";
     let rightTitle = "";
     let rightText = "";
-
 
     if (to === "two") {
 
@@ -1503,7 +1262,6 @@ function createTransition(from, to) {
             "noch mehr Fragmente, Texte und Geschichten.";
     }
 
-
     section.innerHTML = `
 
         <div class="zip-sticky">
@@ -1518,7 +1276,6 @@ function createTransition(from, to) {
 
             </div>
 
-
             <div class="zip-cover">
 
                 <div class="zip-left${coverClass}">
@@ -1528,7 +1285,7 @@ function createTransition(from, to) {
                         <div class="cover-left-content">
 
                             <div class="kicker">
-                                ${to === "two" ? "b3nn3t" : "die andere seite"}
+                                ${from === "one" ? "b3nn3t" : "die andere seite"}
                             </div>
 
                             <div class="cover-title">
@@ -1541,7 +1298,6 @@ function createTransition(from, to) {
 
                 </div>
 
-
                 <div class="zip-right${coverClass}">
 
                     <div class="cover-content">
@@ -1549,7 +1305,7 @@ function createTransition(from, to) {
                         <div class="cover-right-content">
 
                             <div class="kicker">
-                                ${to === "two"
+                                ${from === "one"
                                     ? "neues album"
                                     : "weiter"
                                 }
@@ -1569,7 +1325,6 @@ function createTransition(from, to) {
 
                 </div>
 
-
                 <div class="zip-hint">
                     nach unten öffnen
                 </div>
@@ -1579,10 +1334,8 @@ function createTransition(from, to) {
         </div>
     `;
 
-
     return section;
 }
-
 
 /* =========================================================
    EINEN KOMPLETTEN DURCHLAUF ERZEUGEN
@@ -1617,7 +1370,6 @@ function createCycle() {
     return fragment;
 }
 
-
 /* =========================================================
    ZUSÄTZLICHE DURCHLÄUFE
 ========================================================= */
@@ -1629,60 +1381,6 @@ for (let i = 0; i < 3; i++) {
     );
 
 }
-
-
-/* =========================================================
-   GLOBALEN HINTERGRUND AKTUALISIEREN
-========================================================= */
-
-function updateGlobalBackground() {
-
-    const viewportMiddle =
-        window.innerHeight / 2;
-
-    const sections =
-        document.querySelectorAll(
-            ".loop-page, .zip-transition"
-        );
-
-    let activeSide = "one";
-
-    sections.forEach(section => {
-
-        const rect =
-            section.getBoundingClientRect();
-
-        if (
-            rect.top <= viewportMiddle &&
-            rect.bottom >= viewportMiddle
-        ) {
-
-            if (section.classList.contains("page-one")) {
-                activeSide = "one";
-            }
-
-            if (section.classList.contains("page-two")) {
-                activeSide = "two";
-            }
-
-            if (section.classList.contains("zip-transition")) {
-                activeSide =
-                    section.dataset.from === "two"
-                        ? "two"
-                        : "one";
-            }
-        }
-    });
-
-    if (activeSide === "two") {
-        globalBg.classList.remove("bg-one");
-        globalBg.classList.add("bg-two");
-    } else {
-        globalBg.classList.remove("bg-two");
-        globalBg.classList.add("bg-one");
-    }
-}
-
 
 /* =========================================================
    SPALTEN AKTUALISIEREN
@@ -1697,7 +1395,6 @@ function updateTransitions() {
 
     const viewport =
         window.innerHeight;
-
 
     transitions.forEach(
         transition => {
@@ -1742,20 +1439,11 @@ function updateTransitions() {
                       ) /
                       2;
 
-
-            const openStart = 0;
-
             const open =
-                openStart +
-                eased * (50 - openStart);
-
-
-            const skewStart = 0;
+                eased * 50;
 
             const skew =
-                skewStart +
                 eased * 4;
-
 
             transition.style.setProperty(
                 "--open",
@@ -1767,14 +1455,12 @@ function updateTransitions() {
                 skew + "vw"
             );
 
-
             const hintOpacity =
                 Math.max(
                     0,
                     1 -
                     eased * 5
                 );
-
 
             transition.style.setProperty(
                 "--hint-opacity",
@@ -1784,13 +1470,11 @@ function updateTransitions() {
     );
 }
 
-
 /* =========================================================
    SCROLL-LOOP
 ========================================================= */
 
 let addingCycle = false;
-
 
 function ensureInfiniteScroll() {
 
@@ -1805,7 +1489,6 @@ function ensureInfiniteScroll() {
     const documentHeight =
         document.documentElement
             .scrollHeight;
-
 
     if (
         documentHeight -
@@ -1823,13 +1506,11 @@ function ensureInfiniteScroll() {
     }
 }
 
-
 /* =========================================================
    EIN SCROLL-EVENT FÜR ALLES
 ========================================================= */
 
 let ticking = false;
-
 
 window.addEventListener(
     "scroll",
@@ -1839,8 +1520,6 @@ window.addEventListener(
 
             window.requestAnimationFrame(
                 () => {
-
-                    updateGlobalBackground();
 
                     updateTransitions();
 
@@ -1860,7 +1539,6 @@ window.addEventListener(
     }
 );
 
-
 /* =========================================================
    RESIZE
 ========================================================= */
@@ -1869,19 +1547,14 @@ window.addEventListener(
     "resize",
     () => {
 
-        updateGlobalBackground();
-
         updateTransitions();
 
     }
 );
 
-
 /* =========================================================
    START
 ========================================================= */
-
-updateGlobalBackground();
 
 updateTransitions();
 
