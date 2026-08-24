@@ -40,12 +40,11 @@ body {
 }
 
 /* =========================================================
-   HINTERGRUND-SYSTEM
+   HINTERGRÜNDE
 ========================================================= */
 
 .page-one,
-.zip-transition[data-to="one"],
-.zip-transition[data-to="one"] .reveal-page,
+.zip-transition[data-from="one"],
 .zip-left,
 .zip-right {
     background:
@@ -64,10 +63,43 @@ body {
 }
 
 .page-two,
-.zip-transition[data-to="two"],
-.zip-transition[data-to="two"] .reveal-page,
+.zip-transition[data-from="two"],
 .zip-left.cover-green,
 .zip-right.cover-green {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            var(--olive-dark),
+            var(--olive) 45%,
+            var(--olive-end)
+        );
+    background-attachment: fixed;
+}
+
+/* Zielseite hinter der Spalte */
+
+.zip-transition[data-to="one"] .reveal-page {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            var(--blue-dark),
+            var(--blue) 50%,
+            var(--blue-end)
+        );
+    background-attachment: fixed;
+}
+
+.zip-transition[data-to="two"] .reveal-page {
     background:
         radial-gradient(
             ellipse at center,
@@ -86,7 +118,7 @@ body {
 /* Stoffstruktur Blau */
 
 .page-one::before,
-.zip-transition[data-to="one"]::before,
+.zip-transition[data-from="one"]::before,
 .zip-transition[data-to="one"] .reveal-page::before,
 .zip-left::after,
 .zip-right::after {
@@ -116,7 +148,7 @@ body {
 /* Stoffstruktur Grün */
 
 .page-two::before,
-.zip-transition[data-to="two"]::before,
+.zip-transition[data-from="two"]::before,
 .zip-transition[data-to="two"] .reveal-page::before,
 .zip-left.cover-green::after,
 .zip-right.cover-green::after {
@@ -144,7 +176,7 @@ body {
 }
 
 /* =========================================================
-   NORMALE SEITEN
+   SEITEN
 ========================================================= */
 
 .loop-page {
@@ -152,10 +184,6 @@ body {
     min-height: 135vh;
     overflow: hidden;
 }
-
-/* =========================================================
-   SEITE 1
-========================================================= */
 
 .page-one-content {
     position: relative;
@@ -216,10 +244,6 @@ body {
     max-width: 430px;
     margin-left: auto;
 }
-
-/* =========================================================
-   BILD / VIDEO PLATZHALTER
-========================================================= */
 
 .media-card {
     width: min(370px, 34vw);
@@ -317,9 +341,7 @@ body {
 }
 
 /* =========================================================
-   ÜBERGANG / SPALTE
-   Wichtig: 100dvh, kein langes Scrollen innerhalb der Spalte.
-   Die Öffnung wird komplett per JavaScript gesteuert.
+   SPALTE
 ========================================================= */
 
 .zip-transition {
@@ -344,15 +366,9 @@ body {
     isolation: isolate;
 }
 
-/* =========================================================
-   SEITE HINTER DER SPALTE
-========================================================= */
-
 .reveal-page {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     z-index: 1;
     overflow: hidden;
 }
@@ -362,15 +378,9 @@ body {
     z-index: 2;
 }
 
-/* =========================================================
-   GESCHLOSSENE SPALTEN-PANELS
-========================================================= */
-
 .zip-cover {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
     z-index: 10;
     pointer-events: none;
     overflow: hidden;
@@ -427,7 +437,7 @@ body {
 }
 
 /* =========================================================
-   INHALT AUF DEN GESCHLOSSENEN PANELS
+   PANEL-INHALT
 ========================================================= */
 
 .cover-content {
@@ -470,10 +480,6 @@ body {
     color: #d0bb8d;
     line-height: 1.6;
 }
-
-/* =========================================================
-   SCROLL-HINWEIS
-========================================================= */
 
 .zip-hint {
     position: absolute;
@@ -659,53 +665,30 @@ body {
             <div class="fragment-grid">
                 <div class="fragment">
                     <h2>fragment 01</h2>
-                    <p>
-                        Texte, Bilder,
-                        Notizen,
-                        Entstehungsgeschichte,
-                        Lyrics oder weitere Videos.
-                    </p>
+                    <p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p>
                 </div>
-
                 <div class="fragment">
                     <h2>fragment 02</h2>
-                    <p>
-                        Weitere Informationen
-                        zum Album und zu
-                        den einzelnen Songs.
-                    </p>
+                    <p>Weitere Informationen zum Album und zu den einzelnen Songs.</p>
                 </div>
-
                 <div class="fragment">
                     <h2>fragment 03</h2>
-                    <p>
-                        Platz für zusätzliche
-                        Inhalte, Bilder,
-                        Medien oder Texte.
-                    </p>
+                    <p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p>
                 </div>
-
                 <div class="fragment">
                     <h2>fragment 04</h2>
-                    <p>
-                        Die zweite Seite
-                        kann hier beliebig
-                        erweitert werden.
-                    </p>
+                    <p>Die zweite Seite kann hier beliebig erweitert werden.</p>
                 </div>
             </div>
 
             <div class="more-content">
                 <strong>noch mehr</strong>
                 <br><br>
-                Die zweite Seite kann beliebig
-                lang sein.
+                Die zweite Seite kann beliebig lang sein.
                 <br><br>
-                Wenn ihr Ende erreicht ist,
-                beginnt die nächste Spalte.
+                Wenn ihr Ende erreicht ist, beginnt die nächste Spalte.
                 <br><br>
-                Und danach erscheint wieder
-                die erste Seite.
+                Und danach erscheint wieder die erste Seite.
             </div>
         </div>
     </section>
@@ -800,36 +783,13 @@ function setTransitionProgress(transition, progress) {
     transition.style.setProperty("--hint-opacity", hintOpacity);
 }
 
-function resetTransition(transition) {
-    transition.dataset.progress = "0";
-    setTransitionProgress(transition, 0);
+function transitionTop(transition) {
+    return window.scrollY + transition.getBoundingClientRect().top;
 }
 
-function openTransition(transition) {
-    transition.dataset.progress = "1";
-    setTransitionProgress(transition, 1);
-}
-
-function getTransitionInViewport() {
-    const transitions = document.querySelectorAll(".zip-transition");
-    const viewportMiddle = window.innerHeight / 2;
-
-    for (const transition of transitions) {
-        const rect = transition.getBoundingClientRect();
-
-        if (rect.top <= viewportMiddle && rect.bottom >= viewportMiddle) {
-            return transition;
-        }
-    }
-
-    return null;
-}
-
-function lockToTransition(transition) {
-    const top = window.scrollY + transition.getBoundingClientRect().top;
-
+function scrollToTransition(transition) {
     window.scrollTo({
-        top,
+        top: transitionTop(transition),
         behavior: "auto"
     });
 }
@@ -837,9 +797,7 @@ function lockToTransition(transition) {
 function goToNextSection(transition) {
     const next = transition.nextElementSibling;
 
-    if (!next) {
-        return;
-    }
+    if (!next) return;
 
     isJumping = true;
 
@@ -849,6 +807,7 @@ function goToNextSection(transition) {
     });
 
     window.requestAnimationFrame(() => {
+        activeTransition = null;
         isJumping = false;
     });
 }
@@ -856,9 +815,7 @@ function goToNextSection(transition) {
 function goToPreviousSection(transition) {
     const previous = transition.previousElementSibling;
 
-    if (!previous) {
-        return;
-    }
+    if (!previous) return;
 
     isJumping = true;
 
@@ -868,32 +825,69 @@ function goToPreviousSection(transition) {
     });
 
     window.requestAnimationFrame(() => {
+        activeTransition = null;
         isJumping = false;
     });
 }
 
-function handleGateScroll(deltaY, event) {
-    if (isJumping) {
-        return;
+/*
+   Entscheidend:
+   Die Spalte wird erst aktiviert, wenn sie vollständig im Viewport steht.
+   Vorher darf normal bis zur Spalte gescrollt werden.
+*/
+function getReadyTransition(deltaY) {
+    const transitions = document.querySelectorAll(".zip-transition");
+    const tolerance = 8;
+
+    for (const transition of transitions) {
+        const rect = transition.getBoundingClientRect();
+
+        const fullyVisible =
+            rect.top <= tolerance &&
+            rect.top >= -tolerance &&
+            rect.bottom >= window.innerHeight - tolerance;
+
+        if (fullyVisible) {
+            return transition;
+        }
+
+        if (deltaY > 0 && rect.top < tolerance && rect.bottom > window.innerHeight - tolerance) {
+            return transition;
+        }
+
+        if (deltaY < 0 && rect.top < tolerance && rect.bottom > window.innerHeight - tolerance) {
+            return transition;
+        }
     }
 
-    const transition = getTransitionInViewport();
+    return null;
+}
+
+function handleGateScroll(deltaY, event) {
+    if (isJumping) return;
+
+    const transition = getReadyTransition(deltaY);
 
     if (!transition) {
-        activeTransition = null;
         return;
     }
 
     event.preventDefault();
 
-    lockToTransition(transition);
+    scrollToTransition(transition);
 
     if (activeTransition !== transition) {
         activeTransition = transition;
+
         gateProgress = parseFloat(transition.dataset.progress || "0");
+
+        if (deltaY < 0 && gateProgress === 0) {
+            gateProgress = 1;
+            setTransitionProgress(transition, 1);
+        }
     }
 
-    const speed = 0.0017;
+    const speed = 0.0016;
 
     gateProgress += deltaY * speed;
     gateProgress = Math.max(0, Math.min(1, gateProgress));
@@ -901,13 +895,13 @@ function handleGateScroll(deltaY, event) {
     setTransitionProgress(transition, gateProgress);
 
     if (gateProgress >= 1 && deltaY > 0) {
-        openTransition(transition);
+        setTransitionProgress(transition, 1);
         goToNextSection(transition);
         return;
     }
 
     if (gateProgress <= 0 && deltaY < 0) {
-        resetTransition(transition);
+        setTransitionProgress(transition, 0);
         goToPreviousSection(transition);
         return;
     }
@@ -916,12 +910,6 @@ function handleGateScroll(deltaY, event) {
 window.addEventListener(
     "wheel",
     event => {
-        const transition = getTransitionInViewport();
-
-        if (!transition) {
-            return;
-        }
-
         handleGateScroll(event.deltaY, event);
     },
     { passive: false }
@@ -940,11 +928,7 @@ window.addEventListener(
 window.addEventListener(
     "touchmove",
     event => {
-        const transition = getTransitionInViewport();
-
-        if (!transition || touchStartY === null) {
-            return;
-        }
+        if (touchStartY === null) return;
 
         const currentY = event.touches[0].clientY;
         const deltaY = touchStartY - currentY;
@@ -965,23 +949,14 @@ function createPageOne() {
             <div class="page-one-left">
                 <div class="kicker">b3nn3t</div>
                 <h1 class="main-title">gespalten</h1>
-                <p class="subtitle">
-                    10 kurze Songs. 12 Minuten
-                    zwischen alt und neu.
-                </p>
+                <p class="subtitle">10 kurze Songs. 12 Minuten zwischen alt und neu.</p>
                 <div class="media-card">DEIN VIDEO / BILD</div>
             </div>
 
             <div class="page-one-right">
                 <div class="kicker">neues album</div>
                 <h2>die andere seite</h2>
-                <p>
-                    Ein Übergang zwischen
-                    zwei Seiten.
-                    Alt und neu.
-                    Dazwischen liegt
-                    die Spalte.
-                </p>
+                <p>Ein Übergang zwischen zwei Seiten. Alt und neu. Dazwischen liegt die Spalte.</p>
             </div>
         </div>
     `;
@@ -998,34 +973,16 @@ function createPageTwo() {
             <div class="page-two-kicker">b3nn3t</div>
             <h1 class="page-two-title">fragments</h1>
             <p class="page-two-intro">
-                die andere seite von
-                „gespalten“.
+                die andere seite von „gespalten“.
                 Hier beginnt die zweite Seite.
-                Dieser Bereich kann mit deinem
-                tatsächlichen zusätzlichen Inhalt
-                ersetzt werden.
+                Dieser Bereich kann mit deinem tatsächlichen zusätzlichen Inhalt ersetzt werden.
             </p>
 
             <div class="fragment-grid">
-                <div class="fragment">
-                    <h2>fragment 01</h2>
-                    <p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p>
-                </div>
-
-                <div class="fragment">
-                    <h2>fragment 02</h2>
-                    <p>Weitere Informationen zum Album und zu den einzelnen Songs.</p>
-                </div>
-
-                <div class="fragment">
-                    <h2>fragment 03</h2>
-                    <p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p>
-                </div>
-
-                <div class="fragment">
-                    <h2>fragment 04</h2>
-                    <p>Die zweite Seite kann hier beliebig erweitert werden.</p>
-                </div>
+                <div class="fragment"><h2>fragment 01</h2><p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p></div>
+                <div class="fragment"><h2>fragment 02</h2><p>Weitere Informationen zum Album und zu den einzelnen Songs.</p></div>
+                <div class="fragment"><h2>fragment 03</h2><p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p></div>
+                <div class="fragment"><h2>fragment 04</h2><p>Die zweite Seite kann hier beliebig erweitert werden.</p></div>
             </div>
 
             <div class="more-content">
@@ -1064,12 +1021,9 @@ function createTransition(from, to) {
                 <div class="page-two-kicker">b3nn3t</div>
                 <h1 class="page-two-title">fragments</h1>
                 <p class="page-two-intro">
-                    die andere seite von
-                    „gespalten“.
+                    die andere seite von „gespalten“.
                     Hier beginnt die zweite Seite.
-                    Dieser Bereich kann mit deinem
-                    tatsächlichen zusätzlichen Inhalt
-                    ersetzt werden.
+                    Dieser Bereich kann mit deinem tatsächlichen zusätzlichen Inhalt ersetzt werden.
                 </p>
             </div>
         `;
@@ -1083,23 +1037,14 @@ function createTransition(from, to) {
                 <div class="page-one-left">
                     <div class="kicker">b3nn3t</div>
                     <h1 class="main-title">gespalten</h1>
-                    <p class="subtitle">
-                        10 kurze Songs. 12 Minuten
-                        zwischen alt und neu.
-                    </p>
+                    <p class="subtitle">10 kurze Songs. 12 Minuten zwischen alt und neu.</p>
                     <div class="media-card">DEIN VIDEO / BILD</div>
                 </div>
 
                 <div class="page-one-right">
                     <div class="kicker">neues album</div>
                     <h2>die andere seite</h2>
-                    <p>
-                        Ein Übergang zwischen
-                        zwei Seiten.
-                        Alt und neu.
-                        Dazwischen liegt
-                        die Spalte.
-                    </p>
+                    <p>Ein Übergang zwischen zwei Seiten. Alt und neu. Dazwischen liegt die Spalte.</p>
                 </div>
             </div>
         `;
@@ -1175,7 +1120,9 @@ window.addEventListener(
     { passive: true }
 );
 
-document.querySelectorAll(".zip-transition").forEach(resetTransition);
+document.querySelectorAll(".zip-transition").forEach(transition => {
+    setTransitionProgress(transition, 0);
+});
 </script>
 
 </body>
