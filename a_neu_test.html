@@ -318,11 +318,14 @@ body {
 
 /* =========================================================
    ÜBERGANG / SPALTE
+   Wichtig: 100dvh, kein langes Scrollen innerhalb der Spalte.
+   Die Öffnung wird komplett per JavaScript gesteuert.
 ========================================================= */
 
 .zip-transition {
     position: relative;
-    height: 240vh;
+    height: 100dvh;
+    min-height: 100vh;
 
     --open: 0%;
     --skew: 0vw;
@@ -332,9 +335,7 @@ body {
 }
 
 .zip-sticky {
-    position: sticky;
-    top: 0;
-
+    position: relative;
     width: 100vw;
     height: 100dvh;
     min-height: 100vh;
@@ -363,15 +364,13 @@ body {
 
 /* =========================================================
    GESCHLOSSENE SPALTEN-PANELS
-   Wichtig: 130dvh, damit keine horizontale Unterkante sichtbar wird
 ========================================================= */
 
 .zip-cover {
     position: absolute;
     inset: 0;
     width: 100%;
-    height: 130dvh;
-    min-height: 130vh;
+    height: 100%;
     z-index: 10;
     pointer-events: none;
     overflow: hidden;
@@ -379,11 +378,9 @@ body {
 
 .zip-left {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
-    height: 130dvh;
-    min-height: 130vh;
+    height: 100%;
 
     clip-path:
         polygon(
@@ -406,11 +403,9 @@ body {
 
 .zip-right {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
-    height: 130dvh;
-    min-height: 130vh;
+    height: 100%;
 
     clip-path:
         polygon(
@@ -516,7 +511,6 @@ body {
 ========================================================= */
 
 @media (max-width: 700px) {
-
     .page-one-content {
         grid-template-columns: 1fr;
         gap: 50px;
@@ -555,17 +549,6 @@ body {
 
     .cover-title {
         font-size: 14vw;
-    }
-
-    .zip-transition {
-        height: 220vh;
-    }
-
-    .zip-cover,
-    .zip-left,
-    .zip-right {
-        height: 135dvh;
-        min-height: 135vh;
     }
 
     .page-two-content {
@@ -611,7 +594,7 @@ body {
         </div>
     </section>
 
-    <section class="zip-transition" data-from="one" data-to="two">
+    <section class="zip-transition" data-from="one" data-to="two" data-progress="0">
         <div class="zip-sticky">
 
             <div class="reveal-page page-two">
@@ -727,7 +710,7 @@ body {
         </div>
     </section>
 
-    <section class="zip-transition" data-from="two" data-to="one">
+    <section class="zip-transition" data-from="two" data-to="one" data-progress="0">
         <div class="zip-sticky">
 
             <div class="reveal-page page-one">
@@ -791,9 +774,192 @@ body {
 <script>
 const loop = document.getElementById("loop");
 
+let activeTransition = null;
+let gateProgress = 0;
+let touchStartY = null;
+let isJumping = false;
+
+function easeInOutQuad(progress) {
+    return progress < 0.5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+}
+
+function setTransitionProgress(transition, progress) {
+    progress = Math.max(0, Math.min(1, progress));
+
+    const eased = easeInOutQuad(progress);
+
+    const open = eased * 50;
+    const skew = eased * 4;
+    const hintOpacity = Math.max(0, 1 - eased * 5);
+
+    transition.dataset.progress = String(progress);
+    transition.style.setProperty("--open", open + "%");
+    transition.style.setProperty("--skew", skew + "vw");
+    transition.style.setProperty("--hint-opacity", hintOpacity);
+}
+
+function resetTransition(transition) {
+    transition.dataset.progress = "0";
+    setTransitionProgress(transition, 0);
+}
+
+function openTransition(transition) {
+    transition.dataset.progress = "1";
+    setTransitionProgress(transition, 1);
+}
+
+function getTransitionInViewport() {
+    const transitions = document.querySelectorAll(".zip-transition");
+    const viewportMiddle = window.innerHeight / 2;
+
+    for (const transition of transitions) {
+        const rect = transition.getBoundingClientRect();
+
+        if (rect.top <= viewportMiddle && rect.bottom >= viewportMiddle) {
+            return transition;
+        }
+    }
+
+    return null;
+}
+
+function lockToTransition(transition) {
+    const top = window.scrollY + transition.getBoundingClientRect().top;
+
+    window.scrollTo({
+        top,
+        behavior: "auto"
+    });
+}
+
+function goToNextSection(transition) {
+    const next = transition.nextElementSibling;
+
+    if (!next) {
+        return;
+    }
+
+    isJumping = true;
+
+    window.scrollTo({
+        top: window.scrollY + next.getBoundingClientRect().top,
+        behavior: "auto"
+    });
+
+    window.requestAnimationFrame(() => {
+        isJumping = false;
+    });
+}
+
+function goToPreviousSection(transition) {
+    const previous = transition.previousElementSibling;
+
+    if (!previous) {
+        return;
+    }
+
+    isJumping = true;
+
+    window.scrollTo({
+        top: window.scrollY + previous.getBoundingClientRect().top,
+        behavior: "auto"
+    });
+
+    window.requestAnimationFrame(() => {
+        isJumping = false;
+    });
+}
+
+function handleGateScroll(deltaY, event) {
+    if (isJumping) {
+        return;
+    }
+
+    const transition = getTransitionInViewport();
+
+    if (!transition) {
+        activeTransition = null;
+        return;
+    }
+
+    event.preventDefault();
+
+    lockToTransition(transition);
+
+    if (activeTransition !== transition) {
+        activeTransition = transition;
+        gateProgress = parseFloat(transition.dataset.progress || "0");
+    }
+
+    const speed = 0.0017;
+
+    gateProgress += deltaY * speed;
+    gateProgress = Math.max(0, Math.min(1, gateProgress));
+
+    setTransitionProgress(transition, gateProgress);
+
+    if (gateProgress >= 1 && deltaY > 0) {
+        openTransition(transition);
+        goToNextSection(transition);
+        return;
+    }
+
+    if (gateProgress <= 0 && deltaY < 0) {
+        resetTransition(transition);
+        goToPreviousSection(transition);
+        return;
+    }
+}
+
+window.addEventListener(
+    "wheel",
+    event => {
+        const transition = getTransitionInViewport();
+
+        if (!transition) {
+            return;
+        }
+
+        handleGateScroll(event.deltaY, event);
+    },
+    { passive: false }
+);
+
+window.addEventListener(
+    "touchstart",
+    event => {
+        if (event.touches.length > 0) {
+            touchStartY = event.touches[0].clientY;
+        }
+    },
+    { passive: true }
+);
+
+window.addEventListener(
+    "touchmove",
+    event => {
+        const transition = getTransitionInViewport();
+
+        if (!transition || touchStartY === null) {
+            return;
+        }
+
+        const currentY = event.touches[0].clientY;
+        const deltaY = touchStartY - currentY;
+
+        touchStartY = currentY;
+
+        handleGateScroll(deltaY, event);
+    },
+    { passive: false }
+);
+
 function createPageOne() {
     const section = document.createElement("section");
     section.className = "loop-page page-one";
+
     section.innerHTML = `
         <div class="page-one-content">
             <div class="page-one-left">
@@ -805,6 +971,7 @@ function createPageOne() {
                 </p>
                 <div class="media-card">DEIN VIDEO / BILD</div>
             </div>
+
             <div class="page-one-right">
                 <div class="kicker">neues album</div>
                 <h2>die andere seite</h2>
@@ -818,12 +985,14 @@ function createPageOne() {
             </div>
         </div>
     `;
+
     return section;
 }
 
 function createPageTwo() {
     const section = document.createElement("section");
     section.className = "loop-page page-two";
+
     section.innerHTML = `
         <div class="page-two-content">
             <div class="page-two-kicker">b3nn3t</div>
@@ -836,24 +1005,29 @@ function createPageTwo() {
                 tatsächlichen zusätzlichen Inhalt
                 ersetzt werden.
             </p>
+
             <div class="fragment-grid">
                 <div class="fragment">
                     <h2>fragment 01</h2>
                     <p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p>
                 </div>
+
                 <div class="fragment">
                     <h2>fragment 02</h2>
                     <p>Weitere Informationen zum Album und zu den einzelnen Songs.</p>
                 </div>
+
                 <div class="fragment">
                     <h2>fragment 03</h2>
                     <p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p>
                 </div>
+
                 <div class="fragment">
                     <h2>fragment 04</h2>
                     <p>Die zweite Seite kann hier beliebig erweitert werden.</p>
                 </div>
             </div>
+
             <div class="more-content">
                 <strong>noch mehr</strong>
                 <br><br>
@@ -865,6 +1039,7 @@ function createPageTwo() {
             </div>
         </div>
     `;
+
     return section;
 }
 
@@ -874,6 +1049,7 @@ function createTransition(from, to) {
     section.className = "zip-transition";
     section.dataset.from = from;
     section.dataset.to = to;
+    section.dataset.progress = "0";
 
     const coverClass = from === "two" ? " cover-green" : "";
 
@@ -897,6 +1073,7 @@ function createTransition(from, to) {
                 </p>
             </div>
         `;
+
         leftTitle = "gespalten";
         rightTitle = "alt";
         rightText = "Musik, Erinnerungen und Fragmente aus einer anderen Zeit.";
@@ -912,6 +1089,7 @@ function createTransition(from, to) {
                     </p>
                     <div class="media-card">DEIN VIDEO / BILD</div>
                 </div>
+
                 <div class="page-one-right">
                     <div class="kicker">neues album</div>
                     <h2>die andere seite</h2>
@@ -925,6 +1103,7 @@ function createTransition(from, to) {
                 </div>
             </div>
         `;
+
         leftTitle = "fragments";
         rightTitle = "die andere seite";
         rightText = "noch mehr Fragmente, Texte und Geschichten.";
@@ -979,85 +1158,24 @@ for (let i = 0; i < 3; i++) {
     loop.appendChild(createCycle());
 }
 
-function updateTransitions() {
-    const transitions = document.querySelectorAll(".zip-transition");
-    const viewport = window.innerHeight;
-
-    transitions.forEach(transition => {
-        const rect = transition.getBoundingClientRect();
-        const scrollRange = transition.offsetHeight - viewport;
-
-        if (scrollRange <= 0) {
-            return;
-        }
-
-        let progress = -rect.top / scrollRange;
-
-        progress = Math.max(0, Math.min(1, progress));
-
-        const openCompleteAt = 0.72;
-
-        let visualProgress = progress / openCompleteAt;
-
-        visualProgress = Math.max(0, Math.min(1, visualProgress));
-
-        const eased =
-            visualProgress < 0.5
-                ? 2 * visualProgress * visualProgress
-                : 1 - Math.pow(-2 * visualProgress + 2, 2) / 2;
-
-        const open = eased * 50;
-        const skew = eased * 4;
-
-        transition.style.setProperty("--open", open + "%");
-        transition.style.setProperty("--skew", skew + "vw");
-
-        const hintOpacity = Math.max(0, 1 - eased * 5);
-        transition.style.setProperty("--hint-opacity", hintOpacity);
-    });
-}
-
-let addingCycle = false;
-
 function ensureInfiniteScroll() {
-    if (addingCycle) {
-        return;
-    }
-
     const scrollPosition = window.scrollY + window.innerHeight;
     const documentHeight = document.documentElement.scrollHeight;
 
     if (documentHeight - scrollPosition < 3000) {
-        addingCycle = true;
         loop.appendChild(createCycle());
-        addingCycle = false;
     }
 }
-
-let ticking = false;
 
 window.addEventListener(
     "scroll",
     () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                updateTransitions();
-                ensureInfiniteScroll();
-                ticking = false;
-            });
-
-            ticking = true;
-        }
+        ensureInfiniteScroll();
     },
     { passive: true }
 );
 
-window.addEventListener("resize", () => {
-    updateTransitions();
-});
-
-updateTransitions();
-ensureInfiniteScroll();
+document.querySelectorAll(".zip-transition").forEach(resetTransition);
 </script>
 
 </body>
