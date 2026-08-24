@@ -454,20 +454,13 @@ body {
 
 
 /* =========================================================
-   ÜBERGANG / REISSVERSCHLUSS
+   ÜBERGANG / SPALTE
+
+   Statt eines Reißverschlusses öffnet sich hier ein
+   unregelmäßiger Riss (Spalte) zwischen zwei Hälften.
+   Die Kante ist gezackt statt glatt diagonal, und
+   leuchtet warm entlang der Bruchkante.
 ========================================================= */
-
-/*
-   DAS IST DER WICHTIGE TEIL.
-
-   Der Übergang ist länger als der Bildschirm.
-   Während des Scrollens bleibt die Bühne sticky.
-
-   Die nächste Seite liegt UNTEN.
-   Die beiden Hälften liegen DARÜBER.
-
-   Der Spalt wird mit clip-path immer größer.
-*/
 
 .zip-transition {
 
@@ -502,7 +495,7 @@ body {
 
 
 /* =========================================================
-   SEITE HINTER DEM REISSVERSCHLUSS
+   SEITE HINTER DER SPALTE
 ========================================================= */
 
 .reveal-page {
@@ -516,10 +509,6 @@ body {
     overflow: hidden;
 }
 
-
-/*
-   Die eigentliche Seite hinter dem Reißverschluss.
-*/
 
 .reveal-inner {
 
@@ -588,11 +577,9 @@ body {
 /*
    LINKES PANEL
 
-   Bei --open = 0:
-   50% des Bildschirms sind sichtbar.
-
-   Bei --open = 50%:
-   linke Hälfte ist komplett verschwunden.
+   Die Kante ist kein gerader Schnitt mehr, sondern ein
+   gezackter Riss (mehrere Stützpunkte statt zwei),
+   und leuchtet über drop-shadow entlang der Bruchkante.
 */
 
 .zip-left {
@@ -618,9 +605,19 @@ body {
         polygon(
             0 0,
             calc(50% - var(--open)) 0,
+            calc(50% - var(--open) - 5px) 14%,
+            calc(50% - var(--open) - var(--skew) + 4px) 27%,
+            calc(50% - var(--open) - 9px) 41%,
+            calc(50% - var(--open) - var(--skew) - 3px) 55%,
+            calc(50% - var(--open) - 7px) 68%,
+            calc(50% - var(--open) - var(--skew) + 5px) 82%,
             calc(50% - var(--open) - var(--skew)) 100%,
             0 100%
         );
+
+    filter:
+        drop-shadow(0 0 10px rgba(255, 214, 150, 0.5))
+        drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
 }
 
 
@@ -652,8 +649,18 @@ body {
             calc(50% + var(--open)) 0,
             100% 0,
             100% 100%,
-            calc(50% + var(--open) + var(--skew)) 100%
+            calc(50% + var(--open) + var(--skew)) 100%,
+            calc(50% + var(--open) + var(--skew) - 5px) 82%,
+            calc(50% + var(--open) + 7px) 68%,
+            calc(50% + var(--open) + var(--skew) + 3px) 55%,
+            calc(50% + var(--open) + 9px) 41%,
+            calc(50% + var(--open) + var(--skew) - 4px) 27%,
+            calc(50% + var(--open) + 5px) 14%
         );
+
+    filter:
+        drop-shadow(0 0 10px rgba(255, 214, 150, 0.5))
+        drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
 }
 
 
@@ -775,238 +782,6 @@ body {
     color: #d0bb8d;
 
     line-height: 1.6;
-}
-
-
-/* =========================================================
-   ZIPPER-KANTEN
-========================================================= */
-
-.zip-edge {
-
-    position: absolute;
-
-    top: 0;
-
-    width: 4px;
-
-    height: 100%;
-
-    z-index: 50;
-
-    background:
-        linear-gradient(
-            90deg,
-            #343631,
-            #e0ded2,
-            #555650
-        );
-
-    opacity: 1;
-
-    pointer-events: none;
-}
-
-
-.zip-edge-left {
-
-    left:
-        calc(
-            50% - var(--open)
-        );
-}
-
-
-.zip-edge-right {
-
-    left:
-        calc(
-            50% + var(--open)
-        );
-}
-
-
-/* =========================================================
-   REISSVERSCHLUSS-ZÄHNE
-========================================================= */
-
-.zip-edge::before {
-
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-
-    left: -6px;
-
-    width: 14px;
-
-    height: 100%;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            #eeeeea 0px,
-            #eeeeea 5px,
-            transparent 5px,
-            transparent 13px
-        );
-
-    opacity: 0.9;
-}
-
-
-/* =========================================================
-   SCHIEBER
-========================================================= */
-
-.zip-slider {
-
-    position: absolute;
-
-    left: 50%;
-
-    top: var(--slider-y);
-
-    width: 58px;
-
-    height: 82px;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 100;
-
-    filter:
-        drop-shadow(
-            0 8px 5px
-            rgba(0,0,0,0.55)
-        );
-
-    pointer-events: none;
-}
-
-
-.slider-handle {
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 0;
-
-    width: 34px;
-
-    height: 30px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius:
-        8px 8px 4px 4px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #666762,
-            #ece9dc 45%,
-            #777872
-        );
-
-    border:
-        2px solid
-        #41433f;
-}
-
-
-.slider-handle::after {
-
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 7px;
-
-    width: 11px;
-
-    height: 11px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius: 50%;
-
-    background: #171914;
-}
-
-
-.slider-body {
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 23px;
-
-    width: 45px;
-
-    height: 58px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius:
-        6px 6px 12px 12px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #555650,
-            #d9d7cb 42%,
-            #777872 72%,
-            #4a4b46
-        );
-
-    border:
-        2px solid
-        #343631;
-}
-
-
-.slider-body::before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-
-    top: 9px;
-
-    width: 12px;
-
-    height: 30px;
-
-    transform:
-        translateX(-50%);
-
-    border-radius: 8px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #555650,
-            #e5e3d7,
-            #666761
-        );
-
-    box-shadow:
-        inset
-        0 0 4px
-        rgba(0,0,0,0.7);
 }
 
 
@@ -1223,7 +998,7 @@ body {
                     zwei Seiten.
                     Alt und neu.
                     Dazwischen liegt
-                    der Reißverschluss.
+                    die Spalte.
                 </p>
 
             </div>
@@ -1235,6 +1010,9 @@ body {
 
     <!-- ===================================================
          ÜBERGANG SEITE 1 → SEITE 2
+
+         Diese Spalte startet geschlossen und
+         reißt beim Scrollen auf.
     ==================================================== -->
 
     <section
@@ -1275,7 +1053,7 @@ body {
 
 
             <!-- =================================================
-                 GESCHLOSSENER REISSVERSCHLUSS
+                 GESCHLOSSENE SPALTE
             ================================================== -->
 
             <div class="zip-cover">
@@ -1327,24 +1105,6 @@ body {
                         </div>
 
                     </div>
-
-                </div>
-
-
-                <!-- REISSVERSCHLUSS-KANTEN -->
-
-                <div class="zip-edge zip-edge-left"></div>
-
-                <div class="zip-edge zip-edge-right"></div>
-
-
-                <!-- SCHIEBER -->
-
-                <div class="zip-slider">
-
-                    <div class="slider-handle"></div>
-
-                    <div class="slider-body"></div>
 
                 </div>
 
@@ -1470,7 +1230,7 @@ body {
                 <br><br>
 
                 Wenn ihr Ende erreicht ist,
-                beginnt der nächste Spalt.
+                beginnt die nächste Spalte.
 
                 <br><br>
 
@@ -1486,10 +1246,15 @@ body {
 
     <!-- ===================================================
          ÜBERGANG SEITE 2 → SEITE 1
+
+         Zweite Spalte: sie ist bereits zu Beginn
+         angerissen (nicht komplett geschlossen)
+         und reißt beim Scrollen ganz auf.
+         Klasse "crack-preopen" steuert das in JS.
     ==================================================== -->
 
     <section
-        class="zip-transition"
+        class="zip-transition crack-preopen"
         data-from="two"
         data-to="one"
     >
@@ -1525,7 +1290,7 @@ body {
             </div>
 
 
-            <!-- REISSVERSCHLUSS -->
+            <!-- SPALTE -->
 
             <div class="zip-cover">
 
@@ -1579,20 +1344,6 @@ body {
                 </div>
 
 
-                <div class="zip-edge zip-edge-left"></div>
-
-                <div class="zip-edge zip-edge-right"></div>
-
-
-                <div class="zip-slider">
-
-                    <div class="slider-handle"></div>
-
-                    <div class="slider-body"></div>
-
-                </div>
-
-
                 <div class="zip-hint">
                     nach unten öffnen
                 </div>
@@ -1613,15 +1364,6 @@ body {
 /* =========================================================
    ENDLOSSCHLEIFE
 ========================================================= */
-
-
-/*
-   Der aktuelle HTML-Inhalt des ersten Durchlaufs
-   wird als Vorlage verwendet.
-
-   Danach erzeugen wir automatisch weitere
-   Durchläufe.
-*/
 
 
 const loop = document.getElementById("loop");
@@ -1680,7 +1422,7 @@ function createPageOne() {
                     zwei Seiten.
                     Alt und neu.
                     Dazwischen liegt
-                    der Reißverschluss.
+                    die Spalte.
                 </p>
 
             </div>
@@ -1800,7 +1542,7 @@ function createPageTwo() {
                 <br><br>
 
                 Wenn ihr Ende erreicht ist,
-                beginnt der nächste Spalt.
+                beginnt die nächste Spalte.
 
                 <br><br>
 
@@ -1817,7 +1559,12 @@ function createPageTwo() {
 
 
 /* =========================================================
-   ÜBERGANG ERZEUGEN
+   ÜBERGANG (SPALTE) ERZEUGEN
+
+   Wenn "to" === "one", handelt es sich um die zweite
+   Spalte im Zyklus (Ende von Seite 2). Diese bekommt
+   die Klasse "crack-preopen" und ist in updateTransitions()
+   bereits zu Beginn angerissen statt geschlossen.
 ========================================================= */
 
 function createTransition(from, to) {
@@ -1825,8 +1572,12 @@ function createTransition(from, to) {
     const section =
         document.createElement("section");
 
+    const preopen =
+        to === "one";
+
     section.className =
-        "zip-transition";
+        "zip-transition" +
+        (preopen ? " crack-preopen" : "");
 
     section.dataset.from = from;
     section.dataset.to = to;
@@ -1919,7 +1670,7 @@ function createTransition(from, to) {
             </div>
 
 
-            <!-- GESCHLOSSENE HÄLFTEN -->
+            <!-- SPALTE -->
 
             <div class="zip-cover">
 
@@ -1969,28 +1720,6 @@ function createTransition(from, to) {
                         </div>
 
                     </div>
-
-                </div>
-
-
-                <!-- ZIPPER -->
-
-                <div
-                    class="zip-edge zip-edge-left"
-                ></div>
-
-                <div
-                    class="zip-edge zip-edge-right"
-                ></div>
-
-
-                <!-- SCHIEBER -->
-
-                <div class="zip-slider">
-
-                    <div class="slider-handle"></div>
-
-                    <div class="slider-body"></div>
 
                 </div>
 
@@ -2058,15 +1787,6 @@ function createCycle() {
    ZUSÄTZLICHE DURCHLÄUFE
 ========================================================= */
 
-
-/*
-   Wir starten bereits mit einem vollständigen
-   Durchlauf im HTML.
-
-   Hier werden zunächst mehrere weitere
-   Durchläufe erzeugt.
-*/
-
 for (let i = 0; i < 3; i++) {
 
     loop.appendChild(
@@ -2077,7 +1797,7 @@ for (let i = 0; i < 3; i++) {
 
 
 /* =========================================================
-   REISSVERSCHLÜSSE AKTUALISIEREN
+   SPALTEN AKTUALISIEREN
 ========================================================= */
 
 function updateTransitions() {
@@ -2100,14 +1820,6 @@ function updateTransitions() {
                 transition.getBoundingClientRect();
 
 
-            /*
-               Scrollbereich der Transition.
-
-               Bei einer 190vh hohen Transition
-               bleiben 90vh als echter
-               Scrollbereich übrig.
-            */
-
             const scrollRange =
                 transition.offsetHeight -
                 viewport;
@@ -2121,7 +1833,7 @@ function updateTransitions() {
             /*
                0 = Übergang beginnt
 
-               1 = Übergang vollständig geöffnet
+               1 = Spalte vollständig geöffnet
             */
 
             let progress =
@@ -2138,13 +1850,6 @@ function updateTransitions() {
                     )
                 );
 
-
-            /*
-               Easing
-
-               Dadurch öffnet der Reißverschluss
-               nicht vollkommen linear.
-            */
 
             const eased =
                 progress < 0.5
@@ -2165,36 +1870,43 @@ function updateTransitions() {
 
             /*
                =================================================
-               SPALT
+               SPALT-BREITE
                =================================================
 
-               0%
-               = komplett geschlossen
+               Normale Spalte: startet bei 0
+               (komplett geschlossen) und öffnet
+               sich bis 50% (beide Hälften weg).
 
-               50%
-               = beide Hälften sind komplett weg
-
-               Die nächste Seite wird also
-               NICHT einfach eingeblendet.
-
-               Sie ist die ganze Zeit darunter,
-               aber nur der geöffnete Bereich
-               wird sichtbar.
+               "crack-preopen": ist schon zu Beginn
+               (progress = 0) ein Stück angerissen
+               und öffnet sich von dort aus weiter.
             */
 
+            const preopen =
+                transition.classList.contains(
+                    "crack-preopen"
+                );
+
+            const openStart =
+                preopen ? 16 : 0;
+
             const open =
-                eased * 50;
+                openStart +
+                eased * (50 - openStart);
 
 
             /*
-               Kleine Abweichung unten.
+               Zackige Abweichung der Bruchkante.
 
-               Dadurch entsteht die leichte
-               schräge / organische Form des
-               Reißverschlusses.
+               Bei "crack-preopen" ist der Riss von
+               Anfang an leicht schräg/gezackt.
             */
 
+            const skewStart =
+                preopen ? 2 : 0;
+
             const skew =
+                skewStart +
                 eased * 4;
 
 
@@ -2211,24 +1923,6 @@ function updateTransitions() {
 
 
             /*
-               SCHIEBER
-
-               Er läuft beim Öffnen
-               von oben nach unten.
-            */
-
-            const sliderY =
-                4 +
-                eased * 84;
-
-
-            transition.style.setProperty(
-                "--slider-y",
-                sliderY + "vh"
-            );
-
-
-            /*
                HINWEIS AUSBLENDEN
             */
 
@@ -2236,7 +1930,8 @@ function updateTransitions() {
                 Math.max(
                     0,
                     1 -
-                    eased * 5
+                    eased * 5 -
+                    (preopen ? 0.4 : 0)
                 );
 
 
@@ -2244,51 +1939,6 @@ function updateTransitions() {
                 "--hint-opacity",
                 hintOpacity
             );
-
-
-            /*
-               Wenn vollständig offen,
-               werden die Zipper-Kanten
-               ausgeblendet.
-            */
-
-            const edges =
-                transition.querySelectorAll(
-                    ".zip-edge"
-                );
-
-
-            edges.forEach(
-                edge => {
-
-                    edge.style.opacity =
-                        Math.max(
-                            0,
-                            1 -
-                            eased * 1.15
-                        );
-
-                }
-            );
-
-
-            /*
-               Auch der Schieber
-               verschwindet am Ende.
-            */
-
-            const slider =
-                transition.querySelector(
-                    ".zip-slider"
-                );
-
-
-            slider.style.opacity =
-                Math.max(
-                    0,
-                    1 -
-                    eased * 1.15
-                );
         }
     );
 }
@@ -2297,15 +1947,6 @@ function updateTransitions() {
 /* =========================================================
    SCROLL-LOOP
 ========================================================= */
-
-
-/*
-   Sobald wir uns dem Ende nähern,
-   wird automatisch ein weiterer
-   kompletter Durchlauf angehängt.
-
-   Dadurch gibt es kein echtes Ende.
-*/
 
 let addingCycle = false;
 
@@ -2326,12 +1967,6 @@ function ensureInfiniteScroll() {
         document.documentElement
             .scrollHeight;
 
-
-    /*
-       3000 Pixel vor dem Ende
-       wird der nächste Durchlauf
-       vorbereitet.
-    */
 
     if (
         documentHeight -
@@ -2414,3 +2049,4 @@ ensureInfiniteScroll();
 
 </body>
 </html>
+
