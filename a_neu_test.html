@@ -381,7 +381,8 @@ body {
     display: none;
 }
 
-/* Zielseiten-Inhalt über den Spaltenflächen */
+/* Zielseiten-Inhalt über den Spaltenflächen,
+   aber nur während der Öffnung sichtbar. */
 
 .reveal-content-overlay {
     position: absolute;
@@ -389,11 +390,25 @@ body {
     z-index: 30;
     overflow: hidden;
     pointer-events: none;
+
+    opacity: 0;
+    transition: opacity 0.18s linear;
 }
 
 .reveal-content-overlay > * {
     position: relative;
     z-index: 31;
+}
+
+.zip-transition.is-opening .reveal-content-overlay {
+    opacity: 1;
+}
+
+/* Während der Öffnung Panel-Texte ausblenden,
+   damit keine Textdopplung entsteht. */
+
+.zip-transition.is-opening .cover-content {
+    opacity: 0;
 }
 
 .zip-cover {
@@ -463,6 +478,7 @@ body {
     inset: 0;
     z-index: 15;
     pointer-events: none;
+    transition: opacity 0.18s linear;
 }
 
 .cover-left-content {
@@ -583,6 +599,11 @@ body {
 @media (prefers-reduced-motion: reduce) {
     html {
         scroll-behavior: auto;
+    }
+
+    .reveal-content-overlay,
+    .cover-content {
+        transition: none;
     }
 }
 </style>
@@ -842,6 +863,12 @@ function setTransitionProgress(transition, progress) {
     transition.style.setProperty("--open", open + "%");
     transition.style.setProperty("--skew", skew + "vw");
     transition.style.setProperty("--hint-opacity", hintOpacity);
+
+    if (progress > 0 && progress < 1) {
+        transition.classList.add("is-opening");
+    } else {
+        transition.classList.remove("is-opening");
+    }
 }
 
 function transitionTop(transition) {
