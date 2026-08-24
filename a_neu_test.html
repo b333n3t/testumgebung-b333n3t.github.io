@@ -56,7 +56,7 @@ body {
 
 /* =========================================================
    GLOBALER HINTERGRUND
-   Verhindert sichtbare Brüche zwischen Seite und Spalte
+   Für normale Seiten ohne sichtbaren Seitenbruch
 ========================================================= */
 
 .global-bg {
@@ -362,6 +362,9 @@ body {
 
 /* =========================================================
    SEITE HINTER DER SPALTE
+   Wichtig:
+   data-to="two" = dahinter grün
+   data-to="one" = dahinter blau
 ========================================================= */
 
 .reveal-page {
@@ -369,7 +372,95 @@ body {
     inset: 0;
     z-index: 1;
     overflow: hidden;
-    background: transparent;
+}
+
+/* Hinter blauer Spalte erscheint grün */
+.zip-transition[data-to="two"] .reveal-page {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            #323718,
+            #4a5027 45%,
+            #343919
+        );
+}
+
+/* Hinter grüner Spalte erscheint blau */
+.zip-transition[data-to="one"] .reveal-page {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #091c2c
+        );
+}
+
+/* Stoffstruktur für grünes Reveal */
+.zip-transition[data-to="two"] .reveal-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.17;
+    pointer-events: none;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.08) 0px,
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+}
+
+/* Stoffstruktur für blaues Reveal */
+.zip-transition[data-to="one"] .reveal-page::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.20;
+    pointer-events: none;
+
+    background-image:
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.035) 0px,
+            rgba(255,255,255,0.035) 1px,
+            transparent 1px,
+            transparent 3px
+        ),
+        repeating-linear-gradient(
+            25deg,
+            rgba(0,0,0,0.09) 0px,
+            rgba(0,0,0,0.09) 1px,
+            transparent 1px,
+            transparent 4px
+        );
+}
+
+.reveal-page > * {
+    position: relative;
+    z-index: 2;
 }
 
 
@@ -387,6 +478,7 @@ body {
 
 /* =========================================================
    BLAUE PANELS
+   Vordergrund bei Seite 1 → Seite 2
 ========================================================= */
 
 .zip-left {
@@ -468,6 +560,7 @@ body {
 
 /* =========================================================
    GRÜNE PANELS
+   Vordergrund bei Seite 2 → Seite 1
 ========================================================= */
 
 .zip-left.cover-green,
@@ -493,6 +586,7 @@ body {
    STOFFSTRUKTUR AUF DEN PANELS
 ========================================================= */
 
+/* Blaue Panels */
 .zip-left::after,
 .zip-right::after {
     content: "";
@@ -519,6 +613,7 @@ body {
     pointer-events: none;
 }
 
+/* Grüne Panels */
 .zip-left.cover-green::after,
 .zip-right.cover-green::after {
     opacity: 0.17;
