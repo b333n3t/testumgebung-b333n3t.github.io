@@ -55,21 +55,26 @@ body {
 
 
 /* =========================================================
-   NORMALE SEITEN
+   GLOBALER HINTERGRUND
+   Verhindert sichtbare Brüche zwischen Seite und Spalte
 ========================================================= */
 
-.loop-page {
-    position: relative;
-    min-height: 135vh;
-    overflow: hidden;
+.global-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    pointer-events: none;
+    transition: background 0.2s linear;
 }
 
+.global-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
 
-/* =========================================================
-   SEITE 1
-========================================================= */
-
-.page-one {
+.global-bg.bg-one {
     background:
         radial-gradient(
             ellipse at center,
@@ -84,15 +89,8 @@ body {
         );
 }
 
-
-/* Stoffstruktur Seite 1 */
-
-.page-one::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+.global-bg.bg-one::before {
     opacity: 0.20;
-
     background-image:
         repeating-linear-gradient(
             115deg,
@@ -108,8 +106,62 @@ body {
             transparent 1px,
             transparent 4px
         );
+}
 
-    pointer-events: none;
+.global-bg.bg-two {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            #323718,
+            #4a5027 45%,
+            #343919
+        );
+}
+
+.global-bg.bg-two::before {
+    opacity: 0.17;
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.08) 0px,
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+}
+
+
+/* =========================================================
+   NORMALE SEITEN
+========================================================= */
+
+.loop-page {
+    position: relative;
+    min-height: 135vh;
+    overflow: hidden;
+    background: transparent;
+}
+
+.page-one,
+.page-two {
+    background: transparent;
+}
+
+.page-one::before,
+.page-two::before {
+    display: none;
 }
 
 
@@ -208,54 +260,6 @@ body {
 
 
 /* =========================================================
-   SEITE 2
-========================================================= */
-
-.page-two {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
-        );
-}
-
-
-/* Stoffstruktur Seite 2 */
-
-.page-two::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    opacity: 0.17;
-
-    background-image:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 1px,
-            transparent 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,0.08) 0px,
-            rgba(0,0,0,0.08) 1px,
-            transparent 1px,
-            transparent 5px
-        );
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
    SEITE 2 – INHALT
 ========================================================= */
 
@@ -339,55 +343,9 @@ body {
     --skew: 0vw;
     --hint-opacity: 1;
 
-    /*
-       Verhindert feine Browser-Subpixel-Linien zwischen
-       normaler Seite und Spalten-Übergang.
-    */
+    background: transparent;
     margin-top: -1px;
 }
-
-
-/* Übergang ab Seite 1: gleicher Hintergrund wie Seite 1 */
-
-.zip-transition[data-from="one"],
-.zip-transition[data-from="one"] .zip-sticky {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(50, 100, 135, 0.20),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            #061523,
-            #0b2438 50%,
-            #091c2c
-        );
-}
-
-
-/* Übergang ab Seite 2: gleicher Hintergrund wie Seite 2 */
-
-.zip-transition[data-from="two"],
-.zip-transition[data-from="two"] .zip-sticky {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            #323718,
-            #4a5027 45%,
-            #343919
-        );
-}
-
-
-/* =========================================================
-   STICKY VIEWPORT
-========================================================= */
 
 .zip-sticky {
     position: sticky;
@@ -398,6 +356,7 @@ body {
 
     overflow: hidden;
     isolation: isolate;
+    background: transparent;
 }
 
 
@@ -410,6 +369,7 @@ body {
     inset: 0;
     z-index: 1;
     overflow: hidden;
+    background: transparent;
 }
 
 
@@ -425,7 +385,9 @@ body {
 }
 
 
-/* Linkes Panel */
+/* =========================================================
+   BLAUE PANELS
+========================================================= */
 
 .zip-left {
     position: absolute;
@@ -443,6 +405,8 @@ body {
             #0b2438 50%,
             #091c2c
         );
+
+    background-attachment: fixed;
 
     clip-path:
         polygon(
@@ -463,9 +427,6 @@ body {
         drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
 }
 
-
-/* Rechtes Panel */
-
 .zip-right {
     position: absolute;
     inset: 0;
@@ -482,6 +443,8 @@ body {
             #0b2438 50%,
             #091c2c
         );
+
+    background-attachment: fixed;
 
     clip-path:
         polygon(
@@ -503,7 +466,9 @@ body {
 }
 
 
-/* Grüne Variante: exakt gleicher Hintergrund wie Seite 2 */
+/* =========================================================
+   GRÜNE PANELS
+========================================================= */
 
 .zip-left.cover-green,
 .zip-right.cover-green {
@@ -519,14 +484,14 @@ body {
             #4a5027 45%,
             #343919
         );
+
+    background-attachment: fixed;
 }
 
 
 /* =========================================================
    STOFFSTRUKTUR AUF DEN PANELS
 ========================================================= */
-
-/* Standard: gleiche Stoffstruktur wie Seite 1 */
 
 .zip-left::after,
 .zip-right::after {
@@ -553,9 +518,6 @@ body {
 
     pointer-events: none;
 }
-
-
-/* Grüne Panels: gleiche Stoffstruktur wie Seite 2 */
 
 .zip-left.cover-green::after,
 .zip-right.cover-green::after {
@@ -732,6 +694,8 @@ body {
 
 
 <body>
+
+<div id="global-bg" class="global-bg bg-one"></div>
 
 <main id="loop">
 
@@ -1143,6 +1107,7 @@ body {
 ========================================================= */
 
 const loop = document.getElementById("loop");
+const globalBg = document.getElementById("global-bg");
 
 
 /* =========================================================
@@ -1572,6 +1537,59 @@ for (let i = 0; i < 3; i++) {
 
 
 /* =========================================================
+   GLOBALEN HINTERGRUND AKTUALISIEREN
+========================================================= */
+
+function updateGlobalBackground() {
+
+    const viewportMiddle =
+        window.innerHeight / 2;
+
+    const sections =
+        document.querySelectorAll(
+            ".loop-page, .zip-transition"
+        );
+
+    let activeSide = "one";
+
+    sections.forEach(section => {
+
+        const rect =
+            section.getBoundingClientRect();
+
+        if (
+            rect.top <= viewportMiddle &&
+            rect.bottom >= viewportMiddle
+        ) {
+
+            if (section.classList.contains("page-one")) {
+                activeSide = "one";
+            }
+
+            if (section.classList.contains("page-two")) {
+                activeSide = "two";
+            }
+
+            if (section.classList.contains("zip-transition")) {
+                activeSide =
+                    section.dataset.from === "two"
+                        ? "two"
+                        : "one";
+            }
+        }
+    });
+
+    if (activeSide === "two") {
+        globalBg.classList.remove("bg-one");
+        globalBg.classList.add("bg-two");
+    } else {
+        globalBg.classList.remove("bg-two");
+        globalBg.classList.add("bg-one");
+    }
+}
+
+
+/* =========================================================
    SPALTEN AKTUALISIEREN
 ========================================================= */
 
@@ -1629,12 +1647,6 @@ function updateTransitions() {
                       ) /
                       2;
 
-
-            /*
-               Beide Spalten starten jetzt gleich eng:
-               openStart = 0
-               skewStart = 0
-            */
 
             const openStart = 0;
 
@@ -1733,6 +1745,8 @@ window.addEventListener(
             window.requestAnimationFrame(
                 () => {
 
+                    updateGlobalBackground();
+
                     updateTransitions();
 
                     ensureInfiniteScroll();
@@ -1760,6 +1774,8 @@ window.addEventListener(
     "resize",
     () => {
 
+        updateGlobalBackground();
+
         updateTransitions();
 
     }
@@ -1769,6 +1785,8 @@ window.addEventListener(
 /* =========================================================
    START
 ========================================================= */
+
+updateGlobalBackground();
 
 updateTransitions();
 
