@@ -116,6 +116,12 @@ body {
 
 /* =========================================================
    SEITE 1 – INHALT
+
+   Diese Klasse wird zweifach verwendet:
+   1) als eigenständige Loop-Section
+   2) als Vorschau-Inhalt hinter der zweiten Spalte
+      (reveal-page), damit der Übergang stilistisch
+      nahtlos in die echte Seite 1 übergeht.
 ========================================================= */
 
 .page-one-content {
@@ -321,6 +327,12 @@ body {
 
 /* =========================================================
    SEITE 2 – INHALT
+
+   Wird ebenfalls doppelt verwendet: als eigenständige
+   Loop-Section und als Vorschau-Inhalt hinter der ersten
+   Spalte, damit der Übergang stilistisch nahtlos in die
+   echte Seite 2 übergeht (kein sichtbarer Bruch mehr
+   zwischen Vorschau und echtem Seiteninhalt).
 ========================================================= */
 
 .page-two-content {
@@ -455,11 +467,6 @@ body {
 
 /* =========================================================
    ÜBERGANG / SPALTE
-
-   Statt eines Reißverschlusses öffnet sich hier ein
-   unregelmäßiger Riss (Spalte) zwischen zwei Hälften.
-   Die Kante ist gezackt statt glatt diagonal, und
-   leuchtet warm entlang der Bruchkante.
 ========================================================= */
 
 .zip-transition {
@@ -496,6 +503,13 @@ body {
 
 /* =========================================================
    SEITE HINTER DER SPALTE
+
+   Enthält jetzt den ECHTEN Seiteninhalt (page-one-content /
+   page-two-content), nicht mehr einen eigenständigen,
+   zentrierten Teaser-Text. Dadurch sieht die Seite, die
+   durch die Spalte sichtbar wird, optisch exakt so aus wie
+   die Seite, in die man anschliessend hineinscrollt – kein
+   sichtbarer Bruch mehr an der Nahtstelle.
 ========================================================= */
 
 .reveal-page {
@@ -507,54 +521,6 @@ body {
     z-index: 1;
 
     overflow: hidden;
-}
-
-
-.reveal-inner {
-
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    text-align: center;
-
-    padding: 8vw;
-}
-
-
-.reveal-inner h2 {
-
-    color: var(--white);
-
-    font-size: clamp(
-        3rem,
-        9vw,
-        9rem
-    );
-
-    line-height: 0.82;
-
-    letter-spacing: -0.07em;
-
-    margin-bottom: 25px;
-}
-
-
-.reveal-inner p {
-
-    color: #d3cba5;
-
-    max-width: 600px;
-
-    margin: 0 auto;
-
-    line-height: 1.7;
 }
 
 
@@ -577,9 +543,13 @@ body {
 /*
    LINKES PANEL
 
-   Die Kante ist kein gerader Schnitt mehr, sondern ein
-   gezackter Riss (mehrere Stützpunkte statt zwei),
-   und leuchtet über drop-shadow entlang der Bruchkante.
+   Gezackte Rissform statt geradem Schnitt, plus warmes
+   Leuchten entlang der Bruchkante (drop-shadow folgt der
+   jagged clip-path-Form).
+
+   Standardfarbe: blau (Seite 1 / "gespalten"-Cover).
+   Für den Übergang Seite 2 → Seite 1 wird stattdessen
+   die Klasse "cover-green" gesetzt (siehe unten).
 */
 
 .zip-left {
@@ -661,6 +631,34 @@ body {
     filter:
         drop-shadow(0 0 10px rgba(255, 214, 150, 0.5))
         drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
+}
+
+
+/*
+   GRÜNE VARIANTE (Seite 2 → Seite 1)
+
+   Gleiche Form, gleiches Leuchten, nur die Grundfarbe
+   wechselt auf das olive/grüne Farbschema von Seite 2 –
+   weil beim zweiten Übergang die grüne Seite im
+   Vordergrund liegt und die blaue Seite 1 dahinter
+   aufgerissen wird.
+*/
+
+.zip-left.cover-green,
+.zip-right.cover-green {
+
+    background:
+        radial-gradient(
+            ellipse at 50% 30%,
+            rgba(135,139,72,0.22),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #242815,
+            #3e4321 50%,
+            #2b2f17
+        );
 }
 
 
@@ -1011,8 +1009,10 @@ body {
     <!-- ===================================================
          ÜBERGANG SEITE 1 → SEITE 2
 
-         Diese Spalte startet geschlossen und
-         reißt beim Scrollen auf.
+         Diese Spalte startet geschlossen (blaues Cover)
+         und reißt beim Scrollen auf. Dahinter liegt der
+         ECHTE Seite-2-Inhalt (page-two-content), damit
+         der Übergang nahtlos in die echte Seite 2 mündet.
     ==================================================== -->
 
     <section
@@ -1024,28 +1024,28 @@ body {
         <div class="zip-sticky">
 
 
-            <!-- SEITE 2 LIEGT GANZ UNTEN -->
+            <!-- ECHTER SEITE-2-INHALT LIEGT GANZ UNTEN -->
 
             <div class="reveal-page page-two">
 
-                <div class="reveal-inner">
+                <div class="page-two-content">
 
-                    <div>
-
-                        <div class="kicker">
-                            die andere seite
-                        </div>
-
-                        <h2>
-                            fragments
-                        </h2>
-
-                        <p>
-                            die zweite seite von
-                            „gespalten“.
-                        </p>
-
+                    <div class="page-two-kicker">
+                        b3nn3t
                     </div>
+
+                    <h1 class="page-two-title">
+                        fragments
+                    </h1>
+
+                    <p class="page-two-intro">
+                        die andere seite von
+                        „gespalten“.
+                        Hier beginnt die zweite Seite.
+                        Dieser Bereich kann mit deinem
+                        tatsächlichen zusätzlichen Inhalt
+                        ersetzt werden.
+                    </p>
 
                 </div>
 
@@ -1053,7 +1053,7 @@ body {
 
 
             <!-- =================================================
-                 GESCHLOSSENE SPALTE
+                 GESCHLOSSENE SPALTE (BLAU)
             ================================================== -->
 
             <div class="zip-cover">
@@ -1247,10 +1247,12 @@ body {
     <!-- ===================================================
          ÜBERGANG SEITE 2 → SEITE 1
 
-         Zweite Spalte: sie ist bereits zu Beginn
-         angerissen (nicht komplett geschlossen)
-         und reißt beim Scrollen ganz auf.
-         Klasse "crack-preopen" steuert das in JS.
+         Zweite Spalte: bereits zu Beginn angerissen
+         (crack-preopen) statt komplett geschlossen, und
+         reißt beim Scrollen ganz auf. Cover-Farbe ist
+         GRÜN (Seite-2-Farbschema, "cover-green"), weil
+         die grüne Seite hier im Vordergrund liegt.
+         Dahinter liegt der ECHTE Seite-1-Inhalt.
     ==================================================== -->
 
     <section
@@ -1262,25 +1264,49 @@ body {
         <div class="zip-sticky">
 
 
-            <!-- SEITE 1 LIEGT UNTEN -->
+            <!-- ECHTER SEITE-1-INHALT LIEGT UNTEN -->
 
             <div class="reveal-page page-one">
 
-                <div class="reveal-inner">
+                <div class="page-one-content">
 
-                    <div>
+                    <div class="page-one-left">
+
+                        <div class="kicker">
+                            b3nn3t
+                        </div>
+
+                        <h1 class="main-title">
+                            gespalten
+                        </h1>
+
+                        <p class="subtitle">
+                            10 kurze Songs. 12 Minuten
+                            zwischen alt und neu.
+                        </p>
+
+                        <div class="media-card">
+                            DEIN VIDEO / BILD
+                        </div>
+
+                    </div>
+
+                    <div class="page-one-right">
 
                         <div class="kicker">
                             neues album
                         </div>
 
                         <h2>
-                            gespalten
+                            die andere seite
                         </h2>
 
                         <p>
-                            übergang zwischen
-                            alt und neu.
+                            Ein Übergang zwischen
+                            zwei Seiten.
+                            Alt und neu.
+                            Dazwischen liegt
+                            die Spalte.
                         </p>
 
                     </div>
@@ -1290,12 +1316,12 @@ body {
             </div>
 
 
-            <!-- SPALTE -->
+            <!-- SPALTE (GRÜN) -->
 
             <div class="zip-cover">
 
 
-                <div class="zip-left">
+                <div class="zip-left cover-green">
 
                     <div class="cover-content">
 
@@ -1316,7 +1342,7 @@ body {
                 </div>
 
 
-                <div class="zip-right">
+                <div class="zip-right cover-green">
 
                     <div class="cover-content">
 
@@ -1562,9 +1588,15 @@ function createPageTwo() {
    ÜBERGANG (SPALTE) ERZEUGEN
 
    Wenn "to" === "one", handelt es sich um die zweite
-   Spalte im Zyklus (Ende von Seite 2). Diese bekommt
-   die Klasse "crack-preopen" und ist in updateTransitions()
-   bereits zu Beginn angerissen statt geschlossen.
+   Spalte im Zyklus (Ende von Seite 2):
+   - Klasse "crack-preopen" (bereits zu Beginn angerissen)
+   - Klasse "cover-green" auf den Panels (grünes Cover)
+   - Vorschau dahinter zeigt den echten page-one-content
+
+   Wenn "to" === "two":
+   - normale, geschlossen startende Spalte
+   - blaues Cover (Standardfarbe)
+   - Vorschau dahinter zeigt den echten page-two-content
 ========================================================= */
 
 function createTransition(from, to) {
@@ -1583,6 +1615,10 @@ function createTransition(from, to) {
     section.dataset.to = to;
 
 
+    const coverClass =
+        preopen ? " cover-green" : "";
+
+
     let revealHTML = "";
 
     let leftTitle = "";
@@ -1594,19 +1630,26 @@ function createTransition(from, to) {
 
         revealHTML = `
 
-            <div class="kicker">
-                die andere seite
+            <div class="page-two-content">
+
+                <div class="page-two-kicker">
+                    b3nn3t
+                </div>
+
+                <h1 class="page-two-title">
+                    fragments
+                </h1>
+
+                <p class="page-two-intro">
+                    die andere seite von
+                    „gespalten“.
+                    Hier beginnt die zweite Seite.
+                    Dieser Bereich kann mit deinem
+                    tatsächlichen zusätzlichen Inhalt
+                    ersetzt werden.
+                </p>
+
             </div>
-
-            <h2>
-                fragments
-            </h2>
-
-            <p>
-                die zweite seite von
-                „gespalten“.
-            </p>
-
         `;
 
         leftTitle = "gespalten";
@@ -1620,19 +1663,50 @@ function createTransition(from, to) {
 
         revealHTML = `
 
-            <div class="kicker">
-                neues album
+            <div class="page-one-content">
+
+                <div class="page-one-left">
+
+                    <div class="kicker">
+                        b3nn3t
+                    </div>
+
+                    <h1 class="main-title">
+                        gespalten
+                    </h1>
+
+                    <p class="subtitle">
+                        10 kurze Songs. 12 Minuten
+                        zwischen alt und neu.
+                    </p>
+
+                    <div class="media-card">
+                        DEIN VIDEO / BILD
+                    </div>
+
+                </div>
+
+                <div class="page-one-right">
+
+                    <div class="kicker">
+                        neues album
+                    </div>
+
+                    <h2>
+                        die andere seite
+                    </h2>
+
+                    <p>
+                        Ein Übergang zwischen
+                        zwei Seiten.
+                        Alt und neu.
+                        Dazwischen liegt
+                        die Spalte.
+                    </p>
+
+                </div>
+
             </div>
-
-            <h2>
-                gespalten
-            </h2>
-
-            <p>
-                übergang zwischen
-                alt und neu.
-            </p>
-
         `;
 
         leftTitle = "fragments";
@@ -1649,7 +1723,7 @@ function createTransition(from, to) {
         <div class="zip-sticky">
 
 
-            <!-- DIE NÄCHSTE SEITE -->
+            <!-- ECHTER SEITENINHALT DAHINTER -->
 
             <div class="reveal-page ${
                 to === "one"
@@ -1657,15 +1731,7 @@ function createTransition(from, to) {
                     : "page-two"
             }">
 
-                <div class="reveal-inner">
-
-                    <div>
-
-                        ${revealHTML}
-
-                    </div>
-
-                </div>
+                ${revealHTML}
 
             </div>
 
@@ -1675,14 +1741,14 @@ function createTransition(from, to) {
             <div class="zip-cover">
 
 
-                <div class="zip-left">
+                <div class="zip-left${coverClass}">
 
                     <div class="cover-content">
 
                         <div class="cover-left-content">
 
                             <div class="kicker">
-                                b3nn3t
+                                ${to === "two" ? "b3nn3t" : "die andere seite"}
                             </div>
 
                             <div class="cover-title">
@@ -1696,7 +1762,7 @@ function createTransition(from, to) {
                 </div>
 
 
-                <div class="zip-right">
+                <div class="zip-right${coverClass}">
 
                     <div class="cover-content">
 
@@ -1830,12 +1896,6 @@ function updateTransitions() {
             }
 
 
-            /*
-               0 = Übergang beginnt
-
-               1 = Spalte vollständig geöffnet
-            */
-
             let progress =
                 -rect.top /
                 scrollRange;
@@ -1868,20 +1928,6 @@ function updateTransitions() {
                       2;
 
 
-            /*
-               =================================================
-               SPALT-BREITE
-               =================================================
-
-               Normale Spalte: startet bei 0
-               (komplett geschlossen) und öffnet
-               sich bis 50% (beide Hälften weg).
-
-               "crack-preopen": ist schon zu Beginn
-               (progress = 0) ein Stück angerissen
-               und öffnet sich von dort aus weiter.
-            */
-
             const preopen =
                 transition.classList.contains(
                     "crack-preopen"
@@ -1894,13 +1940,6 @@ function updateTransitions() {
                 openStart +
                 eased * (50 - openStart);
 
-
-            /*
-               Zackige Abweichung der Bruchkante.
-
-               Bei "crack-preopen" ist der Riss von
-               Anfang an leicht schräg/gezackt.
-            */
 
             const skewStart =
                 preopen ? 2 : 0;
@@ -1921,10 +1960,6 @@ function updateTransitions() {
                 skew + "vw"
             );
 
-
-            /*
-               HINWEIS AUSBLENDEN
-            */
 
             const hintOpacity =
                 Math.max(
