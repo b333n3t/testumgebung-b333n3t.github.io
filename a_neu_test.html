@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
 
   <meta charset="UTF-8">
@@ -102,10 +103,6 @@
   >
 
 
-  <!-- =====================================================
-       STRUCTURED DATA
-       ===================================================== -->
-
   <script type="application/ld+json">
 
   {
@@ -142,7 +139,8 @@
 
     :root {
 
-      --text-main: #fdfdfd;
+      --text-main:
+        #fdfdfd;
 
       --text-muted:
         rgba(255,255,255,0.68);
@@ -150,23 +148,25 @@
       --text-soft:
         rgba(255,255,255,0.46);
 
-      --page-max-width: 960px;
-
-      --release-green:
-        #3ddc84;
+      --page-max-width:
+        960px;
 
       --gap-blue:
         #2494ff;
 
       /*
         0 = geschlossen
-        1 = komplett geöffnet
+        1 = vollständig geöffnet
       */
 
-      --split: 0;
+      --split:
+        0;
 
-      --mx: 0;
-      --my: 0;
+      --mx:
+        0;
+
+      --my:
+        0;
 
       --gap:
         calc(var(--split) * 72px);
@@ -198,14 +198,20 @@
     html,
     body {
 
-      margin: 0;
-      padding: 0;
+      margin:
+        0;
 
-      min-height: 100%;
+      padding:
+        0;
 
-      overflow-x: hidden;
+      min-height:
+        100%;
+
+      overflow-x:
+        hidden;
 
       font-family:
+
         system-ui,
         -apple-system,
         BlinkMacSystemFont,
@@ -223,19 +229,16 @@
     }
 
 
-    body {
-
-      position: relative;
-    }
-
-
     body::before {
 
-      content: "";
+      content:
+        "";
 
-      position: fixed;
+      position:
+        fixed;
 
-      inset: 0;
+      inset:
+        0;
 
       background:
         #000;
@@ -247,11 +250,14 @@
 
     body::after {
 
-      content: "";
+      content:
+        "";
 
-      position: fixed;
+      position:
+        fixed;
 
-      inset: 0;
+      inset:
+        0;
 
       background:
 
@@ -281,18 +287,22 @@
 
 
     /* =========================================================
-       KÜHLER HINTERGRUND
+       KÜHLER OVERLAY
        ========================================================= */
 
     .bg-cold {
 
-      position: fixed;
+      position:
+        fixed;
 
-      inset: 0;
+      inset:
+        0;
 
-      z-index: -7;
+      z-index:
+        -7;
 
-      pointer-events: none;
+      pointer-events:
+        none;
 
       background:
 
@@ -321,10 +331,22 @@
 
 
     /* =========================================================
-       LOOP-CONTAINER
+       LOOP
+
+       Hier befinden sich mehrere Wiederholungen:
+
+       Seite 1
+       Seite 2
+       Seite 1
+       Seite 2
+       Seite 1
+       Seite 2
+
+       JavaScript hält den Nutzer anschließend
+       in der mittleren Wiederholung.
        ========================================================= */
 
-    .loop {
+    #loop {
 
       position:
         relative;
@@ -335,19 +357,19 @@
 
 
     /* =========================================================
-       EINE SEITE
+       SEITEN
        ========================================================= */
 
     .page {
+
+      position:
+        relative;
 
       width:
         100%;
 
       box-sizing:
         border-box;
-
-      position:
-        relative;
     }
 
 
@@ -384,7 +406,7 @@
 
 
     /* =========================================================
-       BLAUER SPALT
+       SPLIT-HINTERGRUND
        ========================================================= */
 
     .crack-fill {
@@ -396,7 +418,7 @@
         0;
 
       z-index:
-        0;
+        5;
 
       background:
         var(--gap-blue);
@@ -410,7 +432,12 @@
 
 
     /* =========================================================
-       SPLIT-HÄLFTEN
+       SPLIT-KLONE
+
+       Diese beiden Ebenen zeigen ausschließlich die gerade
+       auseinanderbrechende Seite.
+
+       Darunter befindet sich bereits die nächste Seite.
        ========================================================= */
 
     .split-layer {
@@ -422,7 +449,7 @@
         0;
 
       z-index:
-        20;
+        10;
 
       pointer-events:
         none;
@@ -436,9 +463,6 @@
       will-change:
         transform,
         opacity;
-
-      transform-style:
-        preserve-3d;
     }
 
 
@@ -453,9 +477,6 @@
 
       position:
         absolute;
-
-      top:
-        0;
 
       left:
         50%;
@@ -478,6 +499,7 @@
     .split-layer.left {
 
       clip-path:
+
         polygon(
 
           -8% -4%,
@@ -535,6 +557,7 @@
     .split-layer.right {
 
       clip-path:
+
         polygon(
 
           50% -4%,
@@ -590,6 +613,12 @@
 
     main {
 
+      position:
+        relative;
+
+      z-index:
+        2;
+
       display:
         flex;
 
@@ -603,14 +632,12 @@
           2.2vw,
           2.25rem
         );
-
-      position:
-        relative;
-
-      z-index:
-        2;
     }
 
+
+    /* =========================================================
+       BRAND
+       ========================================================= */
 
     .brand-row {
 
@@ -724,20 +751,6 @@
 
       line-height:
         1.55;
-    }
-
-
-    /* =========================================================
-       BLOCKS
-       ========================================================= */
-
-    .block {
-
-      width:
-        100%;
-
-      box-sizing:
-        border-box;
     }
 
 
@@ -1109,16 +1122,6 @@
        SEITE 2
        ========================================================= */
 
-    .page-two {
-
-      position:
-        relative;
-
-      min-height:
-        100vh;
-    }
-
-
     .page-two-content {
 
       max-width:
@@ -1278,7 +1281,7 @@
 
 
     /* =========================================================
-       DESKTOP / MOBILE
+       MOBILE
        ========================================================= */
 
     @media (max-width: 768px) {
@@ -1341,26 +1344,6 @@
     }
 
 
-    /* =========================================================
-       REDUZIERTE BEWEGUNG
-       ========================================================= */
-
-    @media (prefers-reduced-motion: reduce) {
-
-      html {
-
-        scroll-behavior:
-          auto;
-      }
-
-      .split-layer {
-
-        transition:
-          none;
-      }
-
-    }
-
   </style>
 
 </head>
@@ -1369,10 +1352,6 @@
 <body>
 
 
-  <!-- =======================================================
-       HINTERGRUND
-       ======================================================= -->
-
   <div
     class="bg-cold"
     aria-hidden="true">
@@ -1380,56 +1359,46 @@
 
 
   <!-- =======================================================
-       BLAUER SPALT
+       LOOP
+
+       WICHTIG:
+
+       Es gibt absichtlich mehrere Kopien.
+
+       1
+       2
+       1
+       2
+       1
+       2
+
+       JavaScript hält den Nutzer immer in der mittleren
+       Wiederholung.
        ======================================================= -->
 
-  <div
-    class="crack-fill"
-    aria-hidden="true">
-  </div>
-
-
-  <!-- =======================================================
-       ENDLOSSCHLEIFE
-
-       Seite 1
-       ↓
-       Seite 2
-       ↓
-       Seite 1
-       ↓
-       Seite 2
-       ...
-       ======================================================= -->
-
-  <div
-    class="loop"
-    id="loop">
+  <div id="loop">
 
 
     <!-- =====================================================
-         SEITE 1
+         SEITE 1 — KOPIE 1
          ===================================================== -->
 
     <section
       class="page page-one"
-      id="page-one"
-      data-page="one">
-
+      data-page-type="one"
+    >
 
       <div class="page-inner">
 
-
         <main>
 
-
-          <!-- BRAND -->
 
           <div class="brand-row">
 
             <a
               class="brand-link"
-              href="https://www.b3nn3t.com/index.html">
+              href="https://www.b3nn3t.com/index.html"
+            >
 
               b3nn3t
 
@@ -1437,8 +1406,6 @@
 
           </div>
 
-
-          <!-- HERO -->
 
           <section class="hero">
 
@@ -1466,15 +1433,12 @@
           </section>
 
 
-          <!-- VIDEO -->
-
           <section class="block">
 
             <div class="video-wrap">
 
               <video
                 class="album-video"
-                id="album-video"
                 controls
                 playsinline
                 preload="metadata"
@@ -1496,11 +1460,10 @@
           </section>
 
 
-          <!-- COUNTDOWN -->
-
           <section
             class="block countdown-plain"
-            aria-label="Album Countdown">
+            aria-label="Album Countdown"
+          >
 
             <p class="countdown-label">
 
@@ -1509,30 +1472,26 @@
             </p>
 
 
-            <p
-              class="countdown-time album-countdown">
+            <p class="countdown-time">
 
-              --d --:--:--
+              out now
 
             </p>
 
 
-            <p class="countdown-note release-note">
+            <p class="countdown-note">
 
-              release:
-              13. august 2026 · 24:00 uhr
+              „gespalten“ ist jetzt draussen.
 
             </p>
 
           </section>
 
 
-          <!-- SONGS -->
-
           <section
             class="block song-list-section"
-            aria-label="Songs auf gespalten">
-
+            aria-label="Songs auf gespalten"
+          >
 
             <div class="song-list-head">
 
@@ -1615,12 +1574,10 @@
           </section>
 
 
-          <!-- ÜBER DAS ALBUM -->
-
           <section
             class="block about-section"
-            aria-label="über das Album">
-
+            aria-label="über das Album"
+          >
 
             <h2>
 
@@ -1654,19 +1611,16 @@
 
             </div>
 
-
           </section>
 
-
-          <!-- FOOTER -->
 
           <div class="footer-combined">
 
 
             <section
               aria-label="Streaming"
-              class="block">
-
+              class="block"
+            >
 
               <h2>
 
@@ -1677,8 +1631,6 @@
 
               <div class="social-icons">
 
-
-                <!-- SPOTIFY -->
 
                 <a
                   href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
@@ -1706,8 +1658,6 @@
                 </a>
 
 
-                <!-- APPLE MUSIC -->
-
                 <a
                   href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
                   class="social-link"
@@ -1733,8 +1683,6 @@
 
                 </a>
 
-
-                <!-- INSTAGRAM -->
 
                 <a
                   href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
@@ -1762,8 +1710,6 @@
                 </a>
 
 
-                <!-- YOUTUBE -->
-
                 <a
                   href="https://www.youtube.com/@b333nn3t"
                   class="social-link"
@@ -1789,8 +1735,6 @@
 
                 </a>
 
-
-                <!-- SOUNDCLOUD -->
 
                 <a
                   href="https://soundcloud.com/bennet-6942069420"
@@ -1825,8 +1769,8 @@
 
             <section
               aria-label="Mehr von b3nn3t"
-              class="block">
-
+              class="block"
+            >
 
               <p>
 
@@ -1837,12 +1781,12 @@
 
               <a
                 class="brand-link more-link"
-                href="https://www.b3nn3t.com/index.html">
+                href="https://www.b3nn3t.com/index.html"
+              >
 
                 b3nn3t.com
 
               </a>
-
 
             </section>
 
@@ -1850,12 +1794,10 @@
           </div>
 
 
-          <!-- CTA -->
-
           <div class="listen-wrap">
 
             <a
-              class="listen-btn main-cta"
+              class="listen-btn"
               href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
               target="_blank"
               rel="noopener"
@@ -1876,17 +1818,15 @@
 
 
     <!-- =====================================================
-         SEITE 2
+         SEITE 2 — KOPIE 1
          ===================================================== -->
 
     <section
       class="page page-two"
-      id="page-two"
-      data-page="two">
-
+      data-page-type="two"
+    >
 
       <div class="page-inner">
-
 
         <div class="page-two-content">
 
@@ -1911,10 +1851,9 @@
 
             <br><br>
 
-            Sie ist absichtlich unabhängig von
-            der ersten Seite aufgebaut. Du kannst
-            diesen Bereich beliebig lang machen
-            und mit weiterem Inhalt füllen.
+            Dieser Bereich kann später mit
+            deinem tatsächlichen zusätzlichen
+            Inhalt ersetzt werden.
 
           </p>
 
@@ -1930,10 +1869,9 @@
 
             <p class="page-two-text">
 
-              Vielleicht stehen hier Texte,
-              Fotos, alte Aufnahmen, Notizen,
-              Entstehungsgeschichten oder
-              weitere Videos.
+              Texte, Bilder, Notizen,
+              Entstehungsgeschichte,
+              Lyrics oder weitere Videos.
 
             </p>
 
@@ -1958,15 +1896,14 @@
 
             <p class="page-two-text">
 
-              Die zweite Seite kann deutlich
-              mehr Inhalt enthalten als die
-              Startseite.
+              Seite 2 darf beliebig lang werden.
 
               <br><br>
 
-              Wichtig ist nur: Sobald dieser
-              Bereich endet, öffnet sich erneut
-              der Spalt.
+              Der Spalt erscheint erst,
+              wenn der tatsächliche Inhalt
+              dieser Seite fast vollständig
+              durchgescrollt wurde.
 
             </p>
 
@@ -1991,16 +1928,12 @@
 
             <p class="page-two-text">
 
-              Noch ein Abschnitt.
+              Noch mehr Inhalt.
 
               <br><br>
 
-              Und noch einer.
-
-              <br><br>
-
-              Die Seite ist nicht auf eine
-              bestimmte Höhe beschränkt.
+              Danach beginnt die Rückkehr
+              zur ersten Seite.
 
             </p>
 
@@ -2029,26 +1962,514 @@
     </section>
 
 
+    <!-- =====================================================
+         SEITE 1 — KOPIE 2
+         ===================================================== -->
+
+    <section
+      class="page page-one"
+      data-page-type="one"
+    >
+
+      <div class="page-inner">
+
+        <main>
+
+
+          <div class="brand-row">
+
+            <a
+              class="brand-link"
+              href="https://www.b3nn3t.com/index.html"
+            >
+
+              b3nn3t
+
+            </a>
+
+          </div>
+
+
+          <section class="hero">
+
+            <p class="eyebrow">
+
+              neues album
+
+            </p>
+
+
+            <h1>
+
+              gespalten
+
+            </h1>
+
+
+            <p class="hero-sub">
+
+              10 kurze Songs.
+              12 Minuten zwischen alt und neu.
+
+            </p>
+
+          </section>
+
+
+          <section class="block">
+
+            <div class="video-wrap">
+
+              <video
+                class="album-video"
+                controls
+                playsinline
+                preload="metadata"
+                poster="/assets/gespalten/gespalten.jpg"
+              >
+
+                <source
+                  src="/assets/gespalten/gespalten.mp4"
+                  type="video/mp4"
+                >
+
+                Dein Browser unterstützt
+                dieses Video nicht.
+
+              </video>
+
+            </div>
+
+          </section>
+
+
+          <section
+            class="block countdown-plain"
+          >
+
+            <p class="countdown-label">
+
+              album status
+
+            </p>
+
+
+            <p class="countdown-time">
+
+              out now
+
+            </p>
+
+
+            <p class="countdown-note">
+
+              „gespalten“ ist jetzt draussen.
+
+            </p>
+
+          </section>
+
+
+          <section
+            class="block song-list-section"
+          >
+
+            <div class="song-list-head">
+
+              <strong>
+                10 fragments
+              </strong>
+
+            </div>
+
+
+            <div class="song-lines">
+
+
+              <p class="song-line">
+
+                <span>
+                  desigual
+                </span>
+
+                <span>
+                  aergerlich
+                </span>
+
+                <span>
+                  3
+                </span>
+
+                <span>
+                  (fenster scherben)
+                </span>
+
+              </p>
+
+
+              <p class="song-line">
+
+                <span>
+                  5r
+                </span>
+
+                <span>
+                  6
+                </span>
+
+                <span>
+                  7
+                </span>
+
+                <span>
+                </span>
+
+              </p>
+
+
+              <p class="song-line">
+
+                <span>
+                  8?
+                </span>
+
+                <span>
+                  wegwerfkamera
+                </span>
+
+                <span>
+                  2011
+                </span>
+
+                <span>
+                </span>
+
+              </p>
+
+
+            </div>
+
+          </section>
+
+
+          <section
+            class="block about-section"
+          >
+
+            <h2>
+
+              über das album
+
+            </h2>
+
+
+            <p>
+
+              „gespalten“ ist ein kurzes album
+              aus 10 fragmenten.
+              12 minuten im übergang zwischen
+              alt mit deutschsprachigen skizzen.
+
+            </p>
+
+
+            <p>
+
+              die songs sind eher gedanken
+              und gefühle als klassische tracks –
+              kurz, direkt, unfertig im besten sinn.
+
+            </p>
+
+          </section>
+
+
+          <div class="listen-wrap">
+
+            <a
+              class="listen-btn"
+              href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+              target="_blank"
+              rel="noopener"
+            >
+
+              gespalten hören
+
+            </a>
+
+          </div>
+
+
+        </main>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SEITE 2 — KOPIE 2
+         ===================================================== -->
+
+    <section
+      class="page page-two"
+      data-page-type="two"
+    >
+
+      <div class="page-inner">
+
+        <div class="page-two-content">
+
+
+          <p class="page-two-eyebrow">
+
+            hinter dem riss
+
+          </p>
+
+
+          <h2>
+
+            die andere seite
+
+          </h2>
+
+
+          <p class="page-two-text">
+
+            Die zweite Seite beginnt erneut.
+
+            <br><br>
+
+            Inhaltlich ist sie identisch mit
+            Seite 2 und kann später natürlich
+            mit deinem eigentlichen Inhalt
+            gefüllt werden.
+
+          </p>
+
+
+          <div class="page-two-card">
+
+            <h3>
+
+              fragment 01
+
+            </h3>
+
+
+            <p class="page-two-text">
+
+              weiterer Inhalt der zweiten Seite.
+
+            </p>
+
+          </div>
+
+
+          <div class="page-two-number">
+
+            02
+
+          </div>
+
+
+          <div class="page-two-card">
+
+            <h3>
+
+              fragment 02
+
+            </h3>
+
+
+            <p class="page-two-text">
+
+              Noch ein Bereich.
+
+              <br><br>
+
+              Und danach wieder zurück
+              zur ersten Seite.
+
+            </p>
+
+          </div>
+
+
+          <div class="page-two-end">
+
+            ende der zweiten seite
+
+            <br>
+
+            <span class="loop-hint">
+
+              gleich wieder von vorne
+
+            </span>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SEITE 1 — KOPIE 3
+         ===================================================== -->
+
+    <section
+      class="page page-one"
+      data-page-type="one"
+    >
+
+      <div class="page-inner">
+
+        <main>
+
+          <div class="brand-row">
+
+            <a
+              class="brand-link"
+              href="https://www.b3nn3t.com/index.html"
+            >
+
+              b3nn3t
+
+            </a>
+
+          </div>
+
+
+          <section class="hero">
+
+            <p class="eyebrow">
+
+              neues album
+
+            </p>
+
+
+            <h1>
+
+              gespalten
+
+            </h1>
+
+
+            <p class="hero-sub">
+
+              10 kurze Songs.
+              12 Minuten zwischen alt und neu.
+
+            </p>
+
+          </section>
+
+
+          <section class="block">
+
+            <div class="video-wrap">
+
+              <video
+                class="album-video"
+                controls
+                playsinline
+                preload="metadata"
+                poster="/assets/gespalten/gespalten.jpg"
+              >
+
+                <source
+                  src="/assets/gespalten/gespalten.mp4"
+                  type="video/mp4"
+                >
+
+              </video>
+
+            </div>
+
+          </section>
+
+
+          <section class="block countdown-plain">
+
+            <p class="countdown-label">
+
+              album status
+
+            </p>
+
+
+            <p class="countdown-time">
+
+              out now
+
+            </p>
+
+
+            <p class="countdown-note">
+
+              „gespalten“ ist jetzt draussen.
+
+            </p>
+
+          </section>
+
+
+          <section class="block about-section">
+
+            <h2>
+
+              über das album
+
+            </h2>
+
+
+            <p>
+
+              „gespalten“ ist ein kurzes album
+              aus 10 fragmenten.
+
+            </p>
+
+          </section>
+
+
+        </main>
+
+      </div>
+
+    </section>
+
+
   </div>
 
 
   <!-- =======================================================
        SPLIT-EBENEN
-
-       Diese werden per JavaScript mit der jeweils aktuellen
-       Seite befüllt.
        ======================================================= -->
+
+  <div
+    class="crack-fill"
+    aria-hidden="true"
+  ></div>
 
 
   <div
     class="split-layer left"
     id="split-left"
-    aria-hidden="true">
+    aria-hidden="true"
+  >
 
     <div
       class="split-layer-content"
-      id="split-left-content">
-    </div>
+      id="split-left-content"
+    ></div>
 
   </div>
 
@@ -2056,82 +2477,472 @@
   <div
     class="split-layer right"
     id="split-right"
-    aria-hidden="true">
+    aria-hidden="true"
+  >
 
     <div
       class="split-layer-content"
-      id="split-right-content">
-    </div>
+      id="split-right-content"
+    ></div>
 
   </div>
 
 
   <!-- =======================================================
-       LOOP JAVASCRIPT
+       LOOP ENGINE
        ======================================================= -->
 
   <script>
 
-    (function () {
+  (function () {
+
+    "use strict";
 
 
-      "use strict";
+    const root =
+      document.documentElement;
 
 
-      /* =====================================================
-         ELEMENTE
-         ===================================================== */
-
-      const root =
-        document.documentElement;
+    const loop =
+      document.getElementById("loop");
 
 
-      const loop =
-        document.getElementById(
-          "loop"
-        );
+    const pages =
+      Array.from(
+        loop.querySelectorAll(".page")
+      );
 
 
-      const pageOne =
-        document.getElementById(
-          "page-one"
-        );
+    const splitLeft =
+      document.getElementById("split-left");
 
 
-      const pageTwo =
-        document.getElementById(
-          "page-two"
-        );
+    const splitRight =
+      document.getElementById("split-right");
 
 
-      const splitLeft =
-        document.getElementById(
-          "split-left"
-        );
+    const splitLeftContent =
+      document.getElementById("split-left-content");
 
 
-      const splitRight =
-        document.getElementById(
-          "split-right"
-        );
+    const splitRightContent =
+      document.getElementById("split-right-content");
 
 
-      const splitLeftContent =
-        document.getElementById(
-          "split-left-content"
-        );
+    if (
+      !pages.length
+    ) {
+
+      return;
+
+    }
 
 
-      const splitRightContent =
-        document.getElementById(
-          "split-right-content"
-        );
+    /* =======================================================
+       EINSTELLUNGEN
+       ======================================================= */
+
+    const TRANSITION_DISTANCE =
+      620;
+
+
+    const RECENTER_MARGIN =
+      0.35;
+
+
+    let currentPageIndex =
+      0;
+
+
+    let currentPageElement =
+      pages[0];
+
+
+    let currentPageType =
+      currentPageElement.dataset.pageType;
+
+
+    let splitValue =
+      0;
+
+
+    let splitTarget =
+      0;
+
+
+    let mouseX =
+      0;
+
+
+    let mouseY =
+      0;
+
+
+    let mouseTargetX =
+      0;
+
+
+    let mouseTargetY =
+      0;
+
+
+    let raf =
+      null;
+
+
+    let recentering =
+      false;
+
+
+    /* =======================================================
+       HILFSFUNKTIONEN
+       ======================================================= */
+
+    function clamp(
+      value,
+      min,
+      max
+    ) {
+
+      return Math.min(
+        Math.max(
+          value,
+          min
+        ),
+        max
+      );
+
+    }
+
+
+    function smoothstep(
+      value
+    ) {
+
+      return (
+        value *
+        value *
+        (
+          3 -
+          2 * value
+        )
+      );
+
+    }
+
+
+    /* =======================================================
+       SEITENPOSITIONEN
+
+       Wir ermitteln die tatsächliche Position jeder
+       Seite. Dadurch funktioniert es auch dann,
+       wenn Seite 2 wesentlich länger wird.
+       ======================================================= */
+
+    function getPageInfo() {
+
+      return pages.map(
+        function (page) {
+
+          const rect =
+            page.getBoundingClientRect();
+
+
+          const top =
+            window.scrollY +
+            rect.top;
+
+
+          const bottom =
+            top +
+            page.offsetHeight;
+
+
+          return {
+
+            element:
+              page,
+
+            type:
+              page.dataset.pageType,
+
+            top:
+              top,
+
+            bottom:
+              bottom,
+
+            height:
+              page.offsetHeight
+
+          };
+
+        }
+      );
+
+    }
+
+
+    /* =======================================================
+       AKTUELLE SEITE
+
+       Wichtig:
+
+       Die Seite, deren Ende gerade erreicht wird,
+       ist die Seite, die auseinanderbrechen muss.
+       ======================================================= */
+
+    function findCurrentPage(
+      infos
+    ) {
+
+      const y =
+        window.scrollY;
+
+
+      for (
+        let i = 0;
+        i < infos.length;
+        i++
+      ) {
+
+        if (
+          y >= infos[i].top &&
+          y < infos[i].bottom
+        ) {
+
+          return i;
+
+        }
+
+      }
+
+
+      return infos.length - 1;
+
+    }
+
+
+    /* =======================================================
+       SPLIT-PROGRESS
+
+       Der Spalt öffnet sich NUR am Ende der aktuellen Seite.
+
+       Beispiel:
+
+       Seite 1:
+       ────────────────────────┐
+                              │
+                              │ SPALT
+                              ▼
+       Seite 2
+
+       Dadurch wird nicht mitten auf Seite 1
+       plötzlich ein Split eingeblendet.
+       ======================================================= */
+
+    function calculateSplit(
+      info
+    ) {
+
+      const y =
+        window.scrollY;
+
+
+      const distanceToBottom =
+        info.bottom -
+        y;
 
 
       if (
-        !loop ||
-        !pageOne ||
-        !pageTwo
+        distanceToBottom >=
+        TRANSITION_DISTANCE
+      ) {
+
+        return 0;
+
+      }
+
+
+      const progress =
+        clamp(
+          1 -
+          (
+            distanceToBottom /
+            TRANSITION_DISTANCE
+          ),
+          0,
+          1
+        );
+
+
+      return smoothstep(
+        progress
+      );
+
+    }
+
+
+    /* =======================================================
+       SPLIT-KLON ERZEUGEN
+
+       Ganz wichtig:
+
+       Der Klon wird auf die exakte Position der aktuellen
+       Seite gesetzt.
+
+       Dadurch bleibt beim Öffnen des Spaltes die aktuelle
+       Seite sichtbar.
+
+       DARUNTER befindet sich bereits die nächste Seite.
+       ======================================================= */
+
+    function createSplitClone(
+      page
+    ) {
+
+
+      splitLeftContent.innerHTML =
+        "";
+
+
+      splitRightContent.innerHTML =
+        "";
+
+
+      const leftClone =
+        page.cloneNode(true);
+
+
+      const rightClone =
+        page.cloneNode(true);
+
+
+      leftClone.removeAttribute(
+        "id"
+      );
+
+
+      rightClone.removeAttribute(
+        "id"
+      );
+
+
+      /*
+        Keine Videos in den Klonen.
+
+        Das echte Video darunter bzw. auf der aktuellen
+        Seite bleibt erhalten.
+      */
+
+      leftClone
+        .querySelectorAll("video")
+        .forEach(
+          function (video) {
+
+            video.remove();
+
+          }
+        );
+
+
+      rightClone
+        .querySelectorAll("video")
+        .forEach(
+          function (video) {
+
+            video.remove();
+
+          }
+        );
+
+
+      /*
+        Links deaktivieren.
+      */
+
+      leftClone
+        .querySelectorAll("a")
+        .forEach(
+          function (link) {
+
+            link.setAttribute(
+              "tabindex",
+              "-1"
+            );
+
+          }
+        );
+
+
+      rightClone
+        .querySelectorAll("a")
+        .forEach(
+          function (link) {
+
+            link.setAttribute(
+              "tabindex",
+              "-1"
+            );
+
+          }
+        );
+
+
+      splitLeftContent.appendChild(
+        leftClone
+      );
+
+
+      splitRightContent.appendChild(
+        rightClone
+      );
+
+
+      /*
+        Exakte Dokumentposition der Seite.
+      */
+
+      const rect =
+        page.getBoundingClientRect();
+
+
+      const documentTop =
+        window.scrollY +
+        rect.top;
+
+
+      splitLeftContent.style.top =
+        documentTop + "px";
+
+
+      splitRightContent.style.top =
+        documentTop + "px";
+
+
+      splitLeftContent.style.height =
+        page.offsetHeight + "px";
+
+
+      splitRightContent.style.height =
+        page.offsetHeight + "px";
+
+    }
+
+
+    /* =======================================================
+       AKTUELLE SEITE SETZEN
+       ======================================================= */
+
+    function setCurrentPage(
+      index,
+      infos
+    ) {
+
+
+      if (
+        index < 0 ||
+        index >= infos.length
       ) {
 
         return;
@@ -2139,866 +2950,143 @@
       }
 
 
-      /* =====================================================
-         EINSTELLUNGEN
-         ===================================================== */
-
-      const LOOP_BUFFER =
-        0.65;
+      const page =
+        infos[index].element;
 
 
-      const TRANSITION_DISTANCE =
-        720;
+      const type =
+        infos[index].type;
 
 
-      const DESKTOP =
-        window.matchMedia(
-          "(pointer: fine)"
-        ).matches &&
-        window.matchMedia(
-          "(min-width: 769px)"
-        ).matches;
+      /*
+        Nur neu erstellen, wenn sich die Seite wirklich
+        geändert hat.
+      */
 
-
-      let pageOneHeight =
-        0;
-
-
-      let pageTwoHeight =
-        0;
-
-
-      let totalLoopHeight =
-        0;
-
-
-      let currentPage =
-        0;
-
-
-      let previousPage =
-        0;
-
-
-      let ticking =
-        false;
-
-
-      let correcting =
-        false;
-
-
-      let mouseX =
-        0;
-
-
-      let mouseY =
-        0;
-
-
-      let targetMouseX =
-        0;
-
-
-      let targetMouseY =
-        0;
-
-
-      let mouseFrame =
-        null;
-
-
-      let split =
-        0;
-
-
-      let splitTarget =
-        0;
-
-
-      /* =====================================================
-         HILFSFUNKTIONEN
-         ===================================================== */
-
-      function clamp(
-        value,
-        min,
-        max
+      if (
+        page !== currentPageElement
       ) {
 
-        return Math.min(
-          Math.max(
-            value,
-            min
-          ),
-          max
+        currentPageIndex =
+          index;
+
+        currentPageElement =
+          page;
+
+        currentPageType =
+          type;
+
+
+        createSplitClone(
+          page
         );
 
       }
 
+    }
 
-      function lerp(
-        a,
-        b,
-        amount
-      ) {
 
-        return (
-          a +
-          (b - a) *
-          amount
-        );
+    /* =======================================================
+       LOOP-REZENTRIERUNG
 
-      }
+       Wir haben:
 
+       Seite 1
+       Seite 2
+       Seite 1
+       Seite 2
+       Seite 1
 
-      /* =====================================================
-         HÖHEN BERECHNEN
-         ===================================================== */
+       Wenn wir am Ende angekommen sind, springen wir
+       NICHT auf den Anfang.
 
-      function measurePages() {
+       Stattdessen:
 
+       Seite 2 Nummer 2
+              ↓
+       Seite 1 Nummer 3
 
-        pageOneHeight =
-          pageOne.offsetHeight;
+       wird auf die identische Stelle in
 
+       Seite 2 Nummer 1
+              ↓
+       Seite 1 Nummer 2
 
-        pageTwoHeight =
-          pageTwo.offsetHeight;
+       verschoben.
 
+       Für den Nutzer bleibt dadurch alles gleich.
+       ======================================================= */
 
-        totalLoopHeight =
-          pageOneHeight +
-          pageTwoHeight;
-
-
-        if (
-          totalLoopHeight <
-          window.innerHeight * 2
-        ) {
-
-          pageTwo.style.minHeight =
-            (
-              window.innerHeight * 1.5
-            ) + "px";
-
-          pageTwoHeight =
-            pageTwo.offsetHeight;
-
-          totalLoopHeight =
-            pageOneHeight +
-            pageTwoHeight;
-
-        }
-
-      }
-
-
-      /* =====================================================
-         SEITE ERKENNEN
-         ===================================================== */
-
-      function getCurrentPage() {
-
-
-        const y =
-          window.scrollY;
-
-
-        const pageOneEnd =
-          pageOneHeight;
-
-
-        if (
-          y <
-          pageOneEnd
-        ) {
-
-          return 0;
-
-        }
-
-
-        return 1;
-
-      }
-
-
-      /* =====================================================
-         LOKALE POSITION INNERHALB DER SEITE
-         ===================================================== */
-
-      function getLocalProgress() {
-
-
-        const y =
-          window.scrollY;
-
-
-        if (
-          currentPage === 0
-        ) {
-
-          return clamp(
-            y /
-            Math.max(
-              pageOneHeight,
-              1
-            ),
-            0,
-            1
-          );
-
-        }
-
-
-        const localY =
-          y -
-          pageOneHeight;
-
-
-        return clamp(
-          localY /
-          Math.max(
-            pageTwoHeight,
-            1
-          ),
-          0,
-          1
-        );
-
-      }
-
-
-      /* =====================================================
-         TRANSITION PROGRESS
-
-         Am Anfang und Ende jeder Seite entsteht ein Spalt.
-
-         Seite 1:
-         0 → normal
-         1 → Spalt am Ende
-
-         Seite 2:
-         0 → Spalt am Anfang
-         1 → Spalt am Ende
-         ===================================================== */
-
-      function getSplitProgress() {
-
-
-        const y =
-          window.scrollY;
-
-
-        const transitionSize =
-          Math.min(
-            TRANSITION_DISTANCE,
-            window.innerHeight * 0.9
-          );
-
-
-        let value =
-          0;
-
-
-        if (
-          currentPage === 0
-        ) {
-
-          const distanceToEnd =
-            pageOneHeight -
-            y;
-
-          if (
-            distanceToEnd <
-            transitionSize
-          ) {
-
-            const p =
-              clamp(
-                1 -
-                (
-                  distanceToEnd /
-                  transitionSize
-                ),
-                0,
-                1
-              );
-
-            value =
-              p;
-
-          }
-
-        } else {
-
-
-          const localY =
-            y -
-            pageOneHeight;
-
-
-          if (
-            localY <
-            transitionSize
-          ) {
-
-            const p =
-              clamp(
-                1 -
-                (
-                  localY /
-                  transitionSize
-                ),
-                0,
-                1
-              );
-
-            value =
-              p;
-
-          }
-
-
-          const distanceToEnd =
-            pageTwoHeight -
-            localY;
-
-
-          if (
-            distanceToEnd <
-            transitionSize
-          ) {
-
-            const p =
-              clamp(
-                1 -
-                (
-                  distanceToEnd /
-                  transitionSize
-                ),
-                0,
-                1
-              );
-
-            value =
-              Math.max(
-                value,
-                p
-              );
-
-          }
-
-        }
-
-
-        return value;
-
-      }
-
-
-      /* =====================================================
-         SPLIT-EBENE MIT AKTUELLER SEITE FÜLLEN
-         ===================================================== */
-
-      function clonePageIntoSplit(
-        page
-      ) {
-
-
-        if (
-          !splitLeftContent ||
-          !splitRightContent
-        ) {
-
-          return;
-
-        }
-
-
-        splitLeftContent.innerHTML =
-          "";
-
-
-        splitRightContent.innerHTML =
-          "";
-
-
-        const cloneA =
-          page.cloneNode(true);
-
-
-        const cloneB =
-          page.cloneNode(true);
-
-
-        cloneA.removeAttribute(
-          "id"
-        );
-
-
-        cloneB.removeAttribute(
-          "id"
-        );
-
-
-        cloneA
-          .querySelectorAll(
-            "[id]"
-          )
-          .forEach(
-            function (element) {
-
-              element.removeAttribute(
-                "id"
-              );
-
-            }
-          );
-
-
-        cloneB
-          .querySelectorAll(
-            "[id]"
-          )
-          .forEach(
-            function (element) {
-
-              element.removeAttribute(
-                "id"
-              );
-
-            }
-          );
-
-
-        /*
-          Videos in den Split-Klonen werden entfernt.
-          Dadurch verhindern wir doppelte Video-Wiedergabe.
-        */
-
-        cloneA
-          .querySelectorAll(
-            "video"
-          )
-          .forEach(
-            function (video) {
-
-              video.remove();
-
-            }
-          );
-
-
-        cloneB
-          .querySelectorAll(
-            "video"
-          )
-          .forEach(
-            function (video) {
-
-              video.remove();
-
-            }
-          );
-
-
-        /*
-          Links in den visuellen Klonen deaktivieren.
-        */
-
-        cloneA
-          .querySelectorAll(
-            "a"
-          )
-          .forEach(
-            function (link) {
-
-              link.setAttribute(
-                "tabindex",
-                "-1"
-              );
-
-            }
-          );
-
-
-        cloneB
-          .querySelectorAll(
-            "a"
-          )
-          .forEach(
-            function (link) {
-
-              link.setAttribute(
-                "tabindex",
-                "-1"
-              );
-
-            }
-          );
-
-
-        splitLeftContent.appendChild(
-          cloneA
-        );
-
-
-        splitRightContent.appendChild(
-          cloneB
-        );
-
-
-        /*
-          Der Klon muss vertikal exakt an der
-          gleichen Stelle liegen wie die Seite.
-        */
-
-        const rect =
-          page.getBoundingClientRect();
-
-
-        const pageTop =
-          page.offsetTop;
-
-
-        splitLeftContent.style.top =
-          pageTop + "px";
-
-
-        splitRightContent.style.top =
-          pageTop + "px";
-
-
-        splitLeftContent.style.height =
-          page.offsetHeight + "px";
-
-
-        splitRightContent.style.height =
-          page.offsetHeight + "px";
-
-      }
-
-
-      /* =====================================================
-         AKTUELLE SEITE AKTUALISIEREN
-         ===================================================== */
-
-      function updateCurrentPage(
-        force
-      ) {
-
-
-        const newPage =
-          getCurrentPage();
-
-
-        if (
-          force ||
-          newPage !== currentPage
-        ) {
-
-          previousPage =
-            currentPage;
-
-          currentPage =
-            newPage;
-
-
-          if (
-            currentPage === 0
-          ) {
-
-            clonePageIntoSplit(
-              pageOne
-            );
-
-          } else {
-
-            clonePageIntoSplit(
-              pageTwo
-            );
-
-          }
-
-        }
-
-      }
-
-
-      /* =====================================================
-         SPLIT RENDERN
-         ===================================================== */
-
-      function renderSplit() {
-
-
-        const raw =
-          getSplitProgress();
-
-
-        /*
-          Etwas weicher als eine lineare Bewegung.
-        */
-
-        const eased =
-          raw * raw *
-          (
-            3 -
-            2 * raw
-          );
-
-
-        splitTarget =
-          eased;
-
-
-        split =
-          lerp(
-            split,
-            splitTarget,
-            0.16
-          );
-
-
-        root.style.setProperty(
-          "--split",
-          split.toFixed(4)
-        );
-
-
-        if (
-          split > 0.005
-        ) {
-
-          splitLeft.classList.add(
-            "active"
-          );
-
-          splitRight.classList.add(
-            "active"
-          );
-
-        } else {
-
-          splitLeft.classList.remove(
-            "active"
-          );
-
-          splitRight.classList.remove(
-            "active"
-          );
-
-        }
-
-
-        requestAnimationFrame(
-          renderSplit
-        );
-
-      }
-
-
-      /* =====================================================
-         MOUSE
-         ===================================================== */
-
-      function animateMouse() {
-
-
-        mouseX =
-          lerp(
-            mouseX,
-            targetMouseX,
-            0.12
-          );
-
-
-        mouseY =
-          lerp(
-            mouseY,
-            targetMouseY,
-            0.12
-          );
-
-
-        root.style.setProperty(
-          "--mx",
-          mouseX.toFixed(4)
-        );
-
-
-        root.style.setProperty(
-          "--my",
-          mouseY.toFixed(4)
-        );
-
-
-        mouseFrame =
-          requestAnimationFrame(
-            animateMouse
-          );
-
-      }
-
-
-      function handleMouse(
-        event
-      ) {
-
-
-        const x =
-          (
-            event.clientX /
-            window.innerWidth -
-            0.5
-          ) * 2;
-
-
-        const y =
-          (
-            event.clientY /
-            window.innerHeight -
-            0.5
-          ) * 2;
-
-
-        targetMouseX =
-          clamp(
-            x,
-            -1,
-            1
-          );
-
-
-        targetMouseY =
-          clamp(
-            y,
-            -1,
-            1
-          );
-
-      }
-
-
-      /* =====================================================
-         VIDEO
-         ===================================================== */
-
-      const video =
-        document.getElementById(
-          "album-video"
-        );
-
-
-      let videoLock =
-        false;
+    function recenterIfNecessary(
+      infos
+    ) {
 
 
       if (
-        video
+        recentering
       ) {
 
-
-        video.addEventListener(
-          "ended",
-          function () {
-
-            video.currentTime =
-              0;
-
-          }
-        );
-
-
-        video.addEventListener(
-          "timeupdate",
-          function () {
-
-            if (
-              videoLock
-            ) {
-
-              return;
-
-            }
-
-          }
-        );
+        return;
 
       }
 
 
-      /* =====================================================
-         SCROLL-LOOP
-
-         Wenn Seite 2 endet, wird die Scrollposition
-         unauffällig wieder an den Anfang verschoben.
-
-         Der Nutzer sieht keinen Sprung, weil der Übergang
-         gerade durch den geöffneten Spalt verdeckt wird.
-         ===================================================== */
-
-      function handleInfiniteLoop() {
+      const y =
+        window.scrollY;
 
 
-        if (
-          correcting
-        ) {
+      /*
+        Wir verwenden die mittlere Wiederholung.
 
-          return;
+        Sobald der Nutzer sich der letzten Kopie nähert,
+        verschieben wir ihn um die Höhe von zwei Seiten
+        zurück.
+      */
 
-        }
-
-
-        const y =
-          window.scrollY;
-
-
-        const loopEnd =
-          totalLoopHeight -
-          window.innerHeight * 0.15;
+      if (
+        currentPageIndex >=
+        infos.length - 2
+      ) {
 
 
-        /*
-          Wir befinden uns am Ende von Seite 2.
-        */
+        const previousPageOne =
+          infos[0];
+
+
+        const previousPageTwo =
+          infos[1];
+
+
+        const cycleHeight =
+          previousPageOne.height +
+          previousPageTwo.height;
+
 
         if (
-          y >= loopEnd
+          y >
+          (
+            infos[2].top -
+            window.innerHeight *
+            RECENTER_MARGIN
+          )
         ) {
 
-          correcting =
+
+          recentering =
             true;
 
 
-          const offsetIntoPage =
-            Math.max(
-              0,
-              y -
-              (
-                pageOneHeight +
-                pageTwoHeight -
-                window.innerHeight
-              )
-            );
+          const newY =
+            y -
+            cycleHeight;
 
 
           /*
-            Kein harter Sprung auf exakt 0.
+            Kein smooth scroll!
 
-            Wir landen wieder etwas innerhalb
-            von Seite 1, wodurch der nächste
-            Spalt erneut aufgebaut werden kann.
+            Ein smooth scroll würde den Übergang
+            sichtbar machen.
           */
-
-          const newY =
-            Math.min(
-              window.innerHeight * 0.12,
-              pageOneHeight * 0.12
-            );
-
 
           window.scrollTo(
             0,
@@ -3006,205 +3094,315 @@
           );
 
 
-          currentPage =
-            0;
+          /*
+            Positionen neu messen.
+          */
 
-
-          clonePageIntoSplit(
-            pageOne
-          );
-
-
-          setTimeout(
+          requestAnimationFrame(
             function () {
 
-              correcting =
+              recentering =
                 false;
 
-            },
-            80
-          );
-
-
-          return;
-
-        }
-
-
-        /*
-          Falls jemand ganz nach oben scrollt,
-          springen wir nicht weiter.
-        */
-
-        if (
-          y <= 0 &&
-          currentPage === 0
-        ) {
-
-          return;
-
-        }
-
-      }
-
-
-      /* =====================================================
-         SCROLL UPDATE
-         ===================================================== */
-
-      function update() {
-
-
-        measurePages();
-
-        updateCurrentPage(
-          false
-        );
-
-        handleInfiniteLoop();
-
-        ticking =
-          false;
-
-      }
-
-
-      function requestUpdate() {
-
-
-        if (
-          ticking
-        ) {
-
-          return;
-
-        }
-
-
-        ticking =
-          true;
-
-
-        requestAnimationFrame(
-          update
-        );
-
-      }
-
-
-      /* =====================================================
-         INITIALISIERUNG
-         ===================================================== */
-
-      function init() {
-
-
-        measurePages();
-
-
-        currentPage =
-          getCurrentPage();
-
-
-        clonePageIntoSplit(
-          pageOne
-        );
-
-
-        root.style.setProperty(
-          "--split",
-          "0"
-        );
-
-
-        root.style.setProperty(
-          "--mx",
-          "0"
-        );
-
-
-        root.style.setProperty(
-          "--my",
-          "0"
-        );
-
-
-        renderSplit();
-
-
-        if (
-          DESKTOP
-        ) {
-
-          window.addEventListener(
-            "mousemove",
-            handleMouse,
-            {
-              passive: true
             }
           );
 
-
-          animateMouse();
-
         }
 
+      }
 
-        window.addEventListener(
-          "scroll",
-          requestUpdate,
-          {
-            passive: true
-          }
-        );
+    }
 
 
-        window.addEventListener(
-          "resize",
-          function () {
+    /* =======================================================
+       RENDER
+       ======================================================= */
 
-            measurePages();
-
-            clonePageIntoSplit(
-              currentPage === 0
-                ? pageOne
-                : pageTwo
-            );
-
-          }
-        );
+    function render() {
 
 
-        /*
-          Bilder können die Seitenhöhe nach
-          dem ersten Laden noch verändern.
-        */
-
-        window.addEventListener(
-          "load",
-          function () {
-
-            measurePages();
-
-            clonePageIntoSplit(
-              currentPage === 0
-                ? pageOne
-                : pageTwo
-            );
-
-          }
-        );
+      const infos =
+        getPageInfo();
 
 
-        update();
+      if (
+        !infos.length
+      ) {
+
+        return;
 
       }
 
 
-      init();
+      const index =
+        findCurrentPage(
+          infos
+        );
 
 
-    })();
+      setCurrentPage(
+        index,
+        infos
+      );
+
+
+      /*
+        Der Split gehört zur Seite, deren Ende
+        wir gerade erreichen.
+      */
+
+      const activeInfo =
+        infos[index];
+
+
+      splitTarget =
+        calculateSplit(
+          activeInfo
+        );
+
+
+      /*
+        Weiche Animation.
+      */
+
+      splitValue +=
+        (
+          splitTarget -
+          splitValue
+        ) * 0.16;
+
+
+      if (
+        Math.abs(
+          splitTarget -
+          splitValue
+        ) < 0.001
+      ) {
+
+        splitValue =
+          splitTarget;
+
+      }
+
+
+      root.style.setProperty(
+        "--split",
+        splitValue.toFixed(4)
+      );
+
+
+      /*
+        Split nur anzeigen, wenn er wirklich geöffnet ist.
+      */
+
+      if (
+        splitValue >
+        0.003
+      ) {
+
+        splitLeft.classList.add(
+          "active"
+        );
+
+        splitRight.classList.add(
+          "active"
+        );
+
+      } else {
+
+        splitLeft.classList.remove(
+          "active"
+        );
+
+        splitRight.classList.remove(
+          "active"
+        );
+
+      }
+
+
+      /*
+        Mausbewegung
+      */
+
+      mouseX +=
+        (
+          mouseTargetX -
+          mouseX
+        ) * 0.12;
+
+
+      mouseY +=
+        (
+          mouseTargetY -
+          mouseY
+        ) * 0.12;
+
+
+      root.style.setProperty(
+        "--mx",
+        mouseX.toFixed(4)
+      );
+
+
+      root.style.setProperty(
+        "--my",
+        mouseY.toFixed(4)
+      );
+
+
+      recenterIfNecessary(
+        infos
+      );
+
+
+      raf =
+        requestAnimationFrame(
+          render
+        );
+
+    }
+
+
+    /* =======================================================
+       MOUSE
+       ======================================================= */
+
+    if (
+      window.matchMedia(
+        "(pointer: fine)"
+      ).matches
+    ) {
+
+
+      window.addEventListener(
+        "mousemove",
+        function (event) {
+
+
+          mouseTargetX =
+            (
+              event.clientX /
+              window.innerWidth -
+              0.5
+            ) * 2;
+
+
+          mouseTargetY =
+            (
+              event.clientY /
+              window.innerHeight -
+              0.5
+            ) * 2;
+
+
+          mouseTargetX =
+            clamp(
+              mouseTargetX,
+              -1,
+              1
+            );
+
+
+          mouseTargetY =
+            clamp(
+              mouseTargetY,
+              -1,
+              1
+            );
+
+        },
+        {
+          passive:
+            true
+        }
+      );
+
+    }
+
+
+    /* =======================================================
+       RESIZE
+
+       Nach einer Größenänderung können sich die Höhen
+       ändern. Deshalb Klon neu erzeugen.
+       ======================================================= */
+
+    window.addEventListener(
+      "resize",
+      function () {
+
+
+        const infos =
+          getPageInfo();
+
+
+        const index =
+          findCurrentPage(
+            infos
+          );
+
+
+        if (
+          infos[index]
+        ) {
+
+          currentPageElement =
+            null;
+
+
+          setCurrentPage(
+            index,
+            infos
+          );
+
+        }
+
+      }
+    );
+
+
+    /* =======================================================
+       START
+       ======================================================= */
+
+    window.addEventListener(
+      "load",
+      function () {
+
+
+        const infos =
+          getPageInfo();
+
+
+        if (
+          infos.length
+        ) {
+
+          currentPageIndex =
+            0;
+
+          currentPageElement =
+            infos[0].element;
+
+          currentPageType =
+            infos[0].type;
+
+
+          createSplitClone(
+            infos[0].element
+          );
+
+        }
+
+
+        render();
+
+      }
+    );
+
+
+  })();
 
   </script>
 
@@ -3215,181 +3413,169 @@
 
   <script>
 
-    (function () {
+  (function () {
 
 
-      const RELEASE_DATE =
-        new Date(
-          "2026-08-14T00:00:00+02:00"
-        ).getTime();
+    const RELEASE_DATE =
+      new Date(
+        "2026-08-14T00:00:00+02:00"
+      ).getTime();
 
 
-      const ALBUM_LINK =
-        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
+    const ALBUM_LINK =
+      "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A";
 
 
-      function pad(
-        value
-      ) {
+    function renderCountdown() {
 
-        return String(
-          value
-        ).padStart(
-          2,
-          "0"
+
+      const diff =
+        RELEASE_DATE -
+        Date.now();
+
+
+      document
+        .querySelectorAll(
+          ".countdown-time"
+        )
+        .forEach(
+          function (element) {
+
+
+            if (
+              diff <= 0
+            ) {
+
+              element.textContent =
+                "out now";
+
+              return;
+
+            }
+
+
+            const totalSeconds =
+              Math.floor(
+                diff / 1000
+              );
+
+
+            const days =
+              Math.floor(
+                totalSeconds /
+                86400
+              );
+
+
+            const hours =
+              Math.floor(
+                (
+                  totalSeconds %
+                  86400
+                ) / 3600
+              );
+
+
+            const minutes =
+              Math.floor(
+                (
+                  totalSeconds %
+                  3600
+                ) / 60
+              );
+
+
+            const seconds =
+              totalSeconds %
+              60;
+
+
+            function pad(
+              value
+            ) {
+
+              return String(
+                value
+              ).padStart(
+                2,
+                "0"
+              );
+
+            }
+
+
+            element.textContent =
+
+              pad(days) +
+              "d " +
+
+              pad(hours) +
+              ":" +
+
+              pad(minutes) +
+              ":" +
+
+              pad(seconds);
+
+          }
         );
 
-      }
+
+      document
+        .querySelectorAll(
+          ".countdown-note"
+        )
+        .forEach(
+          function (element) {
+
+            element.textContent =
+              diff <= 0
+
+                ? "„gespalten“ ist jetzt draussen."
+
+                : "release: 13. august 2026 · 24:00 uhr";
+
+          }
+        );
 
 
-      function renderCountdown() {
+      document
+        .querySelectorAll(
+          ".listen-btn"
+        )
+        .forEach(
+          function (element) {
+
+            element.href =
+              ALBUM_LINK;
+
+            element.textContent =
+              diff <= 0
+
+                ? "gespalten hören"
+
+                : "album vormerken";
+
+          }
+        );
+
+    }
 
 
-        const now =
-          Date.now();
+    renderCountdown();
 
 
-        const diff =
-          RELEASE_DATE -
-          now;
+    setInterval(
+      renderCountdown,
+      1000
+    );
 
 
-        document
-          .querySelectorAll(
-            ".album-countdown"
-          )
-          .forEach(
-            function (
-              element
-            ) {
-
-
-              if (
-                diff <= 0
-              ) {
-
-                element.textContent =
-                  "out now";
-
-                return;
-
-              }
-
-
-              const totalSeconds =
-                Math.floor(
-                  diff / 1000
-                );
-
-
-              const days =
-                Math.floor(
-                  totalSeconds /
-                  86400
-                );
-
-
-              const hours =
-                Math.floor(
-                  (
-                    totalSeconds %
-                    86400
-                  ) / 3600
-                );
-
-
-              const minutes =
-                Math.floor(
-                  (
-                    totalSeconds %
-                    3600
-                  ) / 60
-                );
-
-
-              const seconds =
-                totalSeconds %
-                60;
-
-
-              element.textContent =
-
-                pad(days) +
-                "d " +
-
-                pad(hours) +
-                ":" +
-
-                pad(minutes) +
-                ":" +
-
-                pad(seconds);
-
-            }
-          );
-
-
-        document
-          .querySelectorAll(
-            ".release-note"
-          )
-          .forEach(
-            function (
-              element
-            ) {
-
-
-              element.textContent =
-                diff <= 0
-
-                  ? "„gespalten“ ist jetzt draussen."
-
-                  : "release: 13. august 2026 · 24:00 uhr";
-
-            }
-          );
-
-
-        document
-          .querySelectorAll(
-            ".main-cta"
-          )
-          .forEach(
-            function (
-              element
-            ) {
-
-
-              element.href =
-                ALBUM_LINK;
-
-
-              element.textContent =
-                diff <= 0
-
-                  ? "gespalten hören"
-
-                  : "album vormerken";
-
-            }
-          );
-
-      }
-
-
-      renderCountdown();
-
-
-      setInterval(
-        renderCountdown,
-        1000
-      );
-
-
-    })();
+  })();
 
   </script>
 
 
 </body>
+
 </html>
