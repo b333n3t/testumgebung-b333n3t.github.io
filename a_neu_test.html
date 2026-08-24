@@ -85,13 +85,12 @@ body {
 }
 
 
-/* Stoffstruktur */
+/* Stoffstruktur Seite 1 */
 
 .page-one::before {
     content: "";
     position: absolute;
     inset: 0;
-
     opacity: 0.20;
 
     background-image:
@@ -116,12 +115,6 @@ body {
 
 /* =========================================================
    SEITE 1 – INHALT
-
-   Diese Klasse wird zweifach verwendet:
-   1) als eigenständige Loop-Section
-   2) als Vorschau-Inhalt hinter der zweiten Spalte
-      (reveal-page), damit der Übergang stilistisch
-      nahtlos in die echte Seite 1 übergeht.
 ========================================================= */
 
 .page-one-content {
@@ -129,101 +122,58 @@ body {
     z-index: 2;
 
     width: min(1100px, 86vw);
-
     min-height: 135vh;
-
     margin: 0 auto;
 
     display: grid;
     grid-template-columns: 1fr 1fr;
-
     align-items: center;
-
     gap: 8vw;
 }
-
 
 .page-one-left {
     text-align: left;
 }
 
-
 .page-one-right {
     text-align: right;
 }
 
-
 .kicker {
     color: var(--thread-light);
-
     font-size: 0.9rem;
-
     font-weight: bold;
-
     letter-spacing: 0.25em;
-
     text-transform: uppercase;
-
     margin-bottom: 20px;
 }
 
-
 .main-title {
     color: var(--white);
-
-    font-size: clamp(
-        4rem,
-        9vw,
-        9rem
-    );
-
+    font-size: clamp(4rem, 9vw, 9rem);
     line-height: 0.8;
-
     letter-spacing: -0.07em;
-
     margin-bottom: 25px;
 }
-
 
 .subtitle {
     color: #d2b98d;
-
-    font-size: clamp(
-        1rem,
-        1.6vw,
-        1.3rem
-    );
-
+    font-size: clamp(1rem, 1.6vw, 1.3rem);
     line-height: 1.6;
 }
 
-
 .page-one-right h2 {
-
     color: var(--white);
-
-    font-size: clamp(
-        3rem,
-        6vw,
-        6rem
-    );
-
+    font-size: clamp(3rem, 6vw, 6rem);
     line-height: 0.85;
-
     letter-spacing: -0.06em;
-
     margin-bottom: 25px;
 }
 
-
 .page-one-right p {
-
     color: #d0bb8d;
-
     line-height: 1.7;
-
     max-width: 430px;
-
     margin-left: auto;
 }
 
@@ -233,22 +183,12 @@ body {
 ========================================================= */
 
 .media-card {
-
-    width: min(
-        370px,
-        34vw
-    );
-
+    width: min(370px, 34vw);
     aspect-ratio: 16 / 10;
-
     margin-top: 35px;
 
-    border:
-        2px solid
-        rgba(230,220,190,0.55);
-
+    border: 2px solid rgba(230,220,190,0.55);
     border-radius: 15px;
-
     overflow: hidden;
 
     background:
@@ -259,13 +199,10 @@ body {
         );
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     color: #292923;
-
     font-weight: bold;
 }
 
@@ -275,7 +212,6 @@ body {
 ========================================================= */
 
 .page-two {
-
     background:
         radial-gradient(
             ellipse at center,
@@ -291,20 +227,15 @@ body {
 }
 
 
-/* Stoffstruktur */
+/* Stoffstruktur Seite 2 */
 
 .page-two::before {
-
     content: "";
-
     position: absolute;
-
     inset: 0;
-
     opacity: 0.17;
 
     background-image:
-
         repeating-linear-gradient(
             0deg,
             rgba(255,255,255,0.06) 0px,
@@ -312,7 +243,6 @@ body {
             transparent 1px,
             transparent 4px
         ),
-
         repeating-linear-gradient(
             90deg,
             rgba(0,0,0,0.08) 0px,
@@ -327,140 +257,72 @@ body {
 
 /* =========================================================
    SEITE 2 – INHALT
-
-   Wird ebenfalls doppelt verwendet: als eigenständige
-   Loop-Section und als Vorschau-Inhalt hinter der ersten
-   Spalte, damit der Übergang stilistisch nahtlos in die
-   echte Seite 2 übergeht (kein sichtbarer Bruch mehr
-   zwischen Vorschau und echtem Seiteninhalt).
 ========================================================= */
 
 .page-two-content {
-
     position: relative;
-
     z-index: 2;
 
-    width: min(
-        850px,
-        82vw
-    );
-
+    width: min(850px, 82vw);
     min-height: 135vh;
-
     margin: 0 auto;
 
     padding-top: 12vh;
-
     padding-bottom: 15vh;
 }
 
-
 .page-two-kicker {
-
     color: var(--thread-light);
-
     font-size: 0.9rem;
-
     font-weight: bold;
-
     letter-spacing: 0.25em;
-
     text-transform: uppercase;
-
     margin-bottom: 18px;
 }
 
-
 .page-two-title {
-
     color: var(--white);
-
-    font-size: clamp(
-        4rem,
-        10vw,
-        9rem
-    );
-
+    font-size: clamp(4rem, 10vw, 9rem);
     line-height: 0.82;
-
     letter-spacing: -0.07em;
-
     margin-bottom: 30px;
 }
 
-
 .page-two-intro {
-
     color: #d4c99c;
-
     max-width: 650px;
-
-    font-size: clamp(
-        1rem,
-        2vw,
-        1.3rem
-    );
-
+    font-size: clamp(1rem, 2vw, 1.3rem);
     line-height: 1.7;
-
     margin-bottom: 70px;
 }
 
-
 .fragment-grid {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(
-            2,
-            1fr
-        );
-
+    grid-template-columns: repeat(2, 1fr);
     gap: 35px;
 }
 
-
 .fragment {
-
-    border:
-        1px solid
-        rgba(220,220,190,0.35);
-
+    border: 1px solid rgba(220,220,190,0.35);
     border-radius: 8px;
-
     padding: 30px;
-
-    background:
-        rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.12);
 }
 
-
 .fragment h2 {
-
     color: var(--thread);
-
     font-size: 1.4rem;
-
     margin-bottom: 15px;
 }
 
-
 .fragment p {
-
     color: #d0c89d;
-
     line-height: 1.7;
 }
 
-
 .more-content {
-
     margin-top: 80px;
-
     color: #d5c99b;
-
     line-height: 1.8;
 }
 
@@ -470,12 +332,56 @@ body {
 ========================================================= */
 
 .zip-transition {
-
     position: relative;
-
     height: 190vh;
 
     --open: 0%;
+    --skew: 0vw;
+    --hint-opacity: 1;
+
+    /*
+       Verhindert feine Browser-Subpixel-Linien zwischen
+       normaler Seite und Spalten-Übergang.
+    */
+    margin-top: -1px;
+}
+
+
+/* Übergang ab Seite 1: gleicher Hintergrund wie Seite 1 */
+
+.zip-transition[data-from="one"],
+.zip-transition[data-from="one"] .zip-sticky {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            #061523,
+            #0b2438 50%,
+            #091c2c
+        );
+}
+
+
+/* Übergang ab Seite 2: gleicher Hintergrund wie Seite 2 */
+
+.zip-transition[data-from="two"],
+.zip-transition[data-from="two"] .zip-sticky {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            #323718,
+            #4a5027 45%,
+            #343919
+        );
 }
 
 
@@ -484,42 +390,25 @@ body {
 ========================================================= */
 
 .zip-sticky {
-
     position: sticky;
-
     top: 0;
 
     width: 100%;
-
     height: 100vh;
 
     overflow: hidden;
-
-    background: #000;
-
     isolation: isolate;
 }
 
 
 /* =========================================================
    SEITE HINTER DER SPALTE
-
-   Enthält jetzt den ECHTEN Seiteninhalt (page-one-content /
-   page-two-content), nicht mehr einen eigenständigen,
-   zentrierten Teaser-Text. Dadurch sieht die Seite, die
-   durch die Spalte sichtbar wird, optisch exakt so aus wie
-   die Seite, in die man anschliessend hineinscrollt – kein
-   sichtbarer Bruch mehr an der Nahtstelle.
 ========================================================= */
 
 .reveal-page {
-
     position: absolute;
-
     inset: 0;
-
     z-index: 1;
-
     overflow: hidden;
 }
 
@@ -529,39 +418,23 @@ body {
 ========================================================= */
 
 .zip-cover {
-
     position: absolute;
-
     inset: 0;
-
     z-index: 10;
-
     pointer-events: none;
 }
 
 
-/*
-   LINKES PANEL
-
-   Gezackte Rissform statt geradem Schnitt, plus warmes
-   Leuchten entlang der Bruchkante (drop-shadow folgt der
-   jagged clip-path-Form).
-
-   Standardfarbe: blau (Seite 1 / "gespalten"-Cover).
-   Für den Übergang Seite 2 → Seite 1 wird stattdessen
-   die Klasse "cover-green" gesetzt (siehe unten).
-*/
+/* Linkes Panel */
 
 .zip-left {
-
     position: absolute;
-
     inset: 0;
 
     background:
         radial-gradient(
-            ellipse at 50% 30%,
-            rgba(50,100,135,0.22),
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
             transparent 55%
         ),
         linear-gradient(
@@ -591,20 +464,16 @@ body {
 }
 
 
-/*
-   RECHTES PANEL
-*/
+/* Rechtes Panel */
 
 .zip-right {
-
     position: absolute;
-
     inset: 0;
 
     background:
         radial-gradient(
-            ellipse at 50% 30%,
-            rgba(50,100,135,0.22),
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
             transparent 55%
         ),
         linear-gradient(
@@ -634,30 +503,21 @@ body {
 }
 
 
-/*
-   GRÜNE VARIANTE (Seite 2 → Seite 1)
-
-   Gleiche Form, gleiches Leuchten, nur die Grundfarbe
-   wechselt auf das olive/grüne Farbschema von Seite 2 –
-   weil beim zweiten Übergang die grüne Seite im
-   Vordergrund liegt und die blaue Seite 1 dahinter
-   aufgerissen wird.
-*/
+/* Grüne Variante: exakt gleicher Hintergrund wie Seite 2 */
 
 .zip-left.cover-green,
 .zip-right.cover-green {
-
     background:
         radial-gradient(
-            ellipse at 50% 30%,
-            rgba(135,139,72,0.22),
+            ellipse at center,
+            rgba(135,139,72,0.16),
             transparent 55%
         ),
         linear-gradient(
-            115deg,
-            #242815,
-            #3e4321 50%,
-            #2b2f17
+            135deg,
+            #323718,
+            #4a5027 45%,
+            #343919
         );
 }
 
@@ -666,19 +526,16 @@ body {
    STOFFSTRUKTUR AUF DEN PANELS
 ========================================================= */
 
+/* Standard: gleiche Stoffstruktur wie Seite 1 */
+
 .zip-left::after,
 .zip-right::after {
-
     content: "";
-
     position: absolute;
-
     inset: 0;
-
-    opacity: 0.25;
+    opacity: 0.20;
 
     background-image:
-
         repeating-linear-gradient(
             115deg,
             rgba(255,255,255,0.035) 0px,
@@ -686,13 +543,38 @@ body {
             transparent 1px,
             transparent 3px
         ),
-
         repeating-linear-gradient(
             25deg,
             rgba(0,0,0,0.09) 0px,
             rgba(0,0,0,0.09) 1px,
             transparent 1px,
             transparent 4px
+        );
+
+    pointer-events: none;
+}
+
+
+/* Grüne Panels: gleiche Stoffstruktur wie Seite 2 */
+
+.zip-left.cover-green::after,
+.zip-right.cover-green::after {
+    opacity: 0.17;
+
+    background-image:
+        repeating-linear-gradient(
+            0deg,
+            rgba(255,255,255,0.06) 0px,
+            rgba(255,255,255,0.06) 1px,
+            transparent 1px,
+            transparent 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            rgba(0,0,0,0.08) 0px,
+            rgba(0,0,0,0.08) 1px,
+            transparent 1px,
+            transparent 5px
         );
 }
 
@@ -702,83 +584,43 @@ body {
 ========================================================= */
 
 .cover-content {
-
     position: absolute;
-
     inset: 0;
-
     z-index: 20;
-
     pointer-events: none;
 }
 
-
-/* Linker Inhalt */
-
 .cover-left-content {
-
     position: absolute;
-
     left: 7vw;
-
     top: 35vh;
-
     width: 38vw;
-
     text-align: left;
 }
 
-
-/* Rechter Inhalt */
-
 .cover-right-content {
-
     position: absolute;
-
     right: 7vw;
-
     top: 16vh;
-
     width: 38vw;
-
     text-align: right;
 }
 
-
 .cover-title {
-
     color: var(--white);
-
-    font-size: clamp(
-        4rem,
-        9vw,
-        9rem
-    );
-
+    font-size: clamp(4rem, 9vw, 9rem);
     line-height: 0.8;
-
     letter-spacing: -0.07em;
 }
 
-
 .cover-right-content h2 {
-
     color: var(--white);
-
-    font-size: clamp(
-        3rem,
-        6vw,
-        6rem
-    );
-
+    font-size: clamp(3rem, 6vw, 6rem);
     line-height: 0.82;
 }
 
-
 .cover-right-content p {
-
     color: #d0bb8d;
-
     line-height: 1.6;
 }
 
@@ -788,54 +630,34 @@ body {
 ========================================================= */
 
 .zip-hint {
-
     position: absolute;
-
     left: 50%;
-
     bottom: 30px;
-
-    transform:
-        translateX(-50%);
+    transform: translateX(-50%);
 
     z-index: 200;
 
     color: var(--thread);
-
     font-size: 0.75rem;
-
     letter-spacing: 0.18em;
-
     text-transform: uppercase;
-
     white-space: nowrap;
 
     opacity: var(--hint-opacity);
 }
 
-
 .zip-hint::after {
-
     content: "";
-
     display: block;
 
     width: 15px;
-
     height: 15px;
-
     margin: 10px auto 0;
 
-    border-right:
-        2px solid
-        var(--thread);
+    border-right: 2px solid var(--thread);
+    border-bottom: 2px solid var(--thread);
 
-    border-bottom:
-        2px solid
-        var(--thread);
-
-    transform:
-        rotate(45deg);
+    transform: rotate(45deg);
 }
 
 
@@ -846,76 +668,50 @@ body {
 @media (max-width: 700px) {
 
     .page-one-content {
-
         grid-template-columns: 1fr;
-
         gap: 50px;
-
         padding-top: 15vh;
-
         padding-bottom: 15vh;
     }
 
-
     .page-one-left,
     .page-one-right {
-
         text-align: left;
     }
 
-
     .page-one-right p {
-
         margin-left: 0;
     }
 
-
     .media-card {
-
         width: 80vw;
     }
 
-
     .fragment-grid {
-
         grid-template-columns: 1fr;
     }
 
-
     .cover-left-content {
-
         left: 8vw;
-
         top: 38vh;
-
         width: 45vw;
     }
-
 
     .cover-right-content {
-
         right: 8vw;
-
         top: 15vh;
-
         width: 45vw;
     }
 
-
     .cover-title {
-
         font-size: 14vw;
     }
 
-
     .zip-transition {
-
         height: 175vh;
     }
 
-
     .page-two-content {
-
         width: 84vw;
     }
 }
@@ -926,7 +722,6 @@ body {
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
     html {
         scroll-behavior: auto;
     }
@@ -938,18 +733,7 @@ body {
 
 <body>
 
-
-<!-- =======================================================
-     HIER BEGINNT DIE ENDLOSSCHLEIFE
-======================================================= -->
-
 <main id="loop">
-
-
-    <!-- ===================================================
-         ERSTER DURCHLAUF
-    ==================================================== -->
-
 
     <!-- ===================================================
          SEITE 1
@@ -1008,11 +792,6 @@ body {
 
     <!-- ===================================================
          ÜBERGANG SEITE 1 → SEITE 2
-
-         Diese Spalte startet geschlossen (blaues Cover)
-         und reißt beim Scrollen auf. Dahinter liegt der
-         ECHTE Seite-2-Inhalt (page-two-content), damit
-         der Übergang nahtlos in die echte Seite 2 mündet.
     ==================================================== -->
 
     <section
@@ -1022,9 +801,6 @@ body {
     >
 
         <div class="zip-sticky">
-
-
-            <!-- ECHTER SEITE-2-INHALT LIEGT GANZ UNTEN -->
 
             <div class="reveal-page page-two">
 
@@ -1052,12 +828,7 @@ body {
             </div>
 
 
-            <!-- =================================================
-                 GESCHLOSSENE SPALTE (BLAU)
-            ================================================== -->
-
             <div class="zip-cover">
-
 
                 <div class="zip-left">
 
@@ -1109,12 +880,9 @@ body {
                 </div>
 
 
-                <!-- HINWEIS -->
-
                 <div class="zip-hint">
                     nach unten öffnen
                 </div>
-
 
             </div>
 
@@ -1150,7 +918,6 @@ body {
 
 
             <div class="fragment-grid">
-
 
                 <div class="fragment">
 
@@ -1212,7 +979,6 @@ body {
 
                 </div>
 
-
             </div>
 
 
@@ -1246,25 +1012,15 @@ body {
 
     <!-- ===================================================
          ÜBERGANG SEITE 2 → SEITE 1
-
-         Zweite Spalte: bereits zu Beginn angerissen
-         (crack-preopen) statt komplett geschlossen, und
-         reißt beim Scrollen ganz auf. Cover-Farbe ist
-         GRÜN (Seite-2-Farbschema, "cover-green"), weil
-         die grüne Seite hier im Vordergrund liegt.
-         Dahinter liegt der ECHTE Seite-1-Inhalt.
     ==================================================== -->
 
     <section
-        class="zip-transition crack-preopen"
+        class="zip-transition"
         data-from="two"
         data-to="one"
     >
 
         <div class="zip-sticky">
-
-
-            <!-- ECHTER SEITE-1-INHALT LIEGT UNTEN -->
 
             <div class="reveal-page page-one">
 
@@ -1316,10 +1072,7 @@ body {
             </div>
 
 
-            <!-- SPALTE (GRÜN) -->
-
             <div class="zip-cover">
-
 
                 <div class="zip-left cover-green">
 
@@ -1374,13 +1127,11 @@ body {
                     nach unten öffnen
                 </div>
 
-
             </div>
 
         </div>
 
     </section>
-
 
 </main>
 
@@ -1391,22 +1142,19 @@ body {
    ENDLOSSCHLEIFE
 ========================================================= */
 
-
 const loop = document.getElementById("loop");
 
 
 /* =========================================================
    HILFSFUNKTION:
-   ELEMENTE FÜR EINEN NEUEN DURCHLAUF ERZEUGEN
+   SEITE 1 ERZEUGEN
 ========================================================= */
 
 function createPageOne() {
 
-    const section =
-        document.createElement("section");
+    const section = document.createElement("section");
 
-    section.className =
-        "loop-page page-one";
+    section.className = "loop-page page-one";
 
     section.innerHTML = `
 
@@ -1461,16 +1209,14 @@ function createPageOne() {
 
 
 /* =========================================================
-   SEITE 2
+   SEITE 2 ERZEUGEN
 ========================================================= */
 
 function createPageTwo() {
 
-    const section =
-        document.createElement("section");
+    const section = document.createElement("section");
 
-    section.className =
-        "loop-page page-two";
+    section.className = "loop-page page-two";
 
     section.innerHTML = `
 
@@ -1585,42 +1331,26 @@ function createPageTwo() {
 
 
 /* =========================================================
-   ÜBERGANG (SPALTE) ERZEUGEN
-
-   Wenn "to" === "one", handelt es sich um die zweite
-   Spalte im Zyklus (Ende von Seite 2):
-   - Klasse "crack-preopen" (bereits zu Beginn angerissen)
-   - Klasse "cover-green" auf den Panels (grünes Cover)
-   - Vorschau dahinter zeigt den echten page-one-content
-
-   Wenn "to" === "two":
-   - normale, geschlossen startende Spalte
-   - blaues Cover (Standardfarbe)
-   - Vorschau dahinter zeigt den echten page-two-content
+   ÜBERGANG / SPALTE ERZEUGEN
 ========================================================= */
 
 function createTransition(from, to) {
 
-    const section =
-        document.createElement("section");
+    const section = document.createElement("section");
 
-    const preopen =
-        to === "one";
-
-    section.className =
-        "zip-transition" +
-        (preopen ? " crack-preopen" : "");
+    section.className = "zip-transition";
 
     section.dataset.from = from;
     section.dataset.to = to;
 
 
     const coverClass =
-        preopen ? " cover-green" : "";
+        to === "one"
+            ? " cover-green"
+            : "";
 
 
     let revealHTML = "";
-
     let leftTitle = "";
     let rightTitle = "";
     let rightText = "";
@@ -1653,9 +1383,7 @@ function createTransition(from, to) {
         `;
 
         leftTitle = "gespalten";
-
         rightTitle = "alt";
-
         rightText =
             "Musik, Erinnerungen und Fragmente aus einer anderen Zeit.";
 
@@ -1710,9 +1438,7 @@ function createTransition(from, to) {
         `;
 
         leftTitle = "fragments";
-
         rightTitle = "die andere seite";
-
         rightText =
             "noch mehr Fragmente, Texte und Geschichten.";
     }
@@ -1721,9 +1447,6 @@ function createTransition(from, to) {
     section.innerHTML = `
 
         <div class="zip-sticky">
-
-
-            <!-- ECHTER SEITENINHALT DAHINTER -->
 
             <div class="reveal-page ${
                 to === "one"
@@ -1736,10 +1459,7 @@ function createTransition(from, to) {
             </div>
 
 
-            <!-- SPALTE -->
-
             <div class="zip-cover">
-
 
                 <div class="zip-left${coverClass}">
 
@@ -1790,14 +1510,9 @@ function createTransition(from, to) {
                 </div>
 
 
-                <!-- HINWEIS -->
-
                 <div class="zip-hint">
-
                     nach unten öffnen
-
                 </div>
-
 
             </div>
 
@@ -1815,14 +1530,11 @@ function createTransition(from, to) {
 
 function createCycle() {
 
-    const fragment =
-        document.createDocumentFragment();
-
+    const fragment = document.createDocumentFragment();
 
     fragment.appendChild(
         createPageOne()
     );
-
 
     fragment.appendChild(
         createTransition(
@@ -1831,11 +1543,9 @@ function createCycle() {
         )
     );
 
-
     fragment.appendChild(
         createPageTwo()
     );
-
 
     fragment.appendChild(
         createTransition(
@@ -1843,7 +1553,6 @@ function createCycle() {
             "one"
         )
     );
-
 
     return fragment;
 }
@@ -1873,7 +1582,6 @@ function updateTransitions() {
             ".zip-transition"
         );
 
-
     const viewport =
         window.innerHeight;
 
@@ -1881,25 +1589,20 @@ function updateTransitions() {
     transitions.forEach(
         transition => {
 
-
             const rect =
                 transition.getBoundingClientRect();
-
 
             const scrollRange =
                 transition.offsetHeight -
                 viewport;
 
-
             if (scrollRange <= 0) {
                 return;
             }
 
-
             let progress =
                 -rect.top /
                 scrollRange;
-
 
             progress =
                 Math.max(
@@ -1909,7 +1612,6 @@ function updateTransitions() {
                         progress
                     )
                 );
-
 
             const eased =
                 progress < 0.5
@@ -1928,21 +1630,20 @@ function updateTransitions() {
                       2;
 
 
-            const preopen =
-                transition.classList.contains(
-                    "crack-preopen"
-                );
+            /*
+               Beide Spalten starten jetzt gleich eng:
+               openStart = 0
+               skewStart = 0
+            */
 
-            const openStart =
-                preopen ? 2 : 0;
+            const openStart = 0;
 
             const open =
                 openStart +
                 eased * (50 - openStart);
 
 
-            const skewStart =
-                preopen ? 0.5 : 0;
+            const skewStart = 0;
 
             const skew =
                 skewStart +
@@ -1954,7 +1655,6 @@ function updateTransitions() {
                 open + "%"
             );
 
-
             transition.style.setProperty(
                 "--skew",
                 skew + "vw"
@@ -1965,8 +1665,7 @@ function updateTransitions() {
                 Math.max(
                     0,
                     1 -
-                    eased * 5 -
-                    (preopen ? 0.4 : 0)
+                    eased * 5
                 );
 
 
@@ -1992,11 +1691,9 @@ function ensureInfiniteScroll() {
         return;
     }
 
-
     const scrollPosition =
         window.scrollY +
         window.innerHeight;
-
 
     const documentHeight =
         document.documentElement
@@ -2011,11 +1708,9 @@ function ensureInfiniteScroll() {
 
         addingCycle = true;
 
-
         loop.appendChild(
             createCycle()
         );
-
 
         addingCycle = false;
     }
@@ -2079,9 +1774,7 @@ updateTransitions();
 
 ensureInfiniteScroll();
 
-
 </script>
 
 </body>
 </html>
-
