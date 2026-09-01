@@ -5,7 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>b3nn3t – gespalten</title>
+
 <style>
+
+/* =========================================================
+   GRUNDWERTE
+========================================================= */
+
 :root {
     --blue-dark: #061523;
     --blue: #0b2438;
@@ -19,6 +25,9 @@
     --thread-light: #e09a3b;
 
     --white: #f1f0e7;
+
+    --column-dark: #17130f;
+    --column-light: #2b2118;
 }
 
 * {
@@ -39,13 +48,40 @@ body {
 }
 
 /* =========================================================
-   HINTERGRÜNDE
+   DEBUG
+   true / false unten im JavaScript
 ========================================================= */
 
-.page-one,
-.zip-transition[data-from="one"],
-.zip-left,
-.zip-right {
+.debug-panel {
+    position: fixed;
+    right: 15px;
+    bottom: 15px;
+    z-index: 9999;
+
+    min-width: 230px;
+    padding: 12px 15px;
+
+    background: rgba(0, 0, 0, 0.82);
+    border: 1px solid rgba(224, 154, 59, 0.5);
+    border-radius: 6px;
+
+    color: #fff;
+    font-family: monospace;
+    font-size: 11px;
+    line-height: 1.5;
+
+    pointer-events: none;
+}
+
+.debug-panel strong {
+    color: var(--thread-light);
+}
+
+/* =========================================================
+   HINTERGRUND SEITE 1
+========================================================= */
+
+.page-one {
     background:
         radial-gradient(
             ellipse at center,
@@ -58,13 +94,15 @@ body {
             var(--blue) 50%,
             var(--blue-end)
         );
+
     background-attachment: fixed;
 }
 
-.page-two,
-.zip-transition[data-from="two"],
-.zip-left.cover-green,
-.zip-right.cover-green {
+/* =========================================================
+   HINTERGRUND SEITE 2
+========================================================= */
+
+.page-two {
     background:
         radial-gradient(
             ellipse at center,
@@ -77,51 +115,22 @@ body {
             var(--olive) 45%,
             var(--olive-end)
         );
+
     background-attachment: fixed;
 }
 
-.zip-transition[data-to="one"] .reveal-page {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(50, 100, 135, 0.20),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            var(--blue-dark),
-            var(--blue) 50%,
-            var(--blue-end)
-        );
-    background-attachment: fixed;
-}
+/* =========================================================
+   STOFFSTRUKTUR BLAU
+========================================================= */
 
-.zip-transition[data-to="two"] .reveal-page {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            var(--olive-dark),
-            var(--olive) 45%,
-            var(--olive-end)
-        );
-    background-attachment: fixed;
-}
-/* Stoffstruktur Blau */
-.page-one::before,
-.zip-transition[data-from="one"]::before,
-.zip-transition[data-to="one"] .reveal-page::before,
-.zip-left::after,
-.zip-right::after {
+.page-one::before {
     content: "";
     position: absolute;
     inset: 0;
+
     opacity: 0.20;
     pointer-events: none;
+
     background-image:
         repeating-linear-gradient(
             115deg,
@@ -137,19 +146,22 @@ body {
             transparent 1px,
             transparent 4px
         );
+
     background-attachment: fixed;
 }
-/* Stoffstruktur Grün */
-.page-two::before,
-.zip-transition[data-from="two"]::before,
-.zip-transition[data-to="two"] .reveal-page::before,
-.zip-left.cover-green::after,
-.zip-right.cover-green::after {
+
+/* =========================================================
+   STOFFSTRUKTUR GRÜN
+========================================================= */
+
+.page-two::before {
     content: "";
     position: absolute;
     inset: 0;
+
     opacity: 0.17;
     pointer-events: none;
+
     background-image:
         repeating-linear-gradient(
             0deg,
@@ -165,30 +177,40 @@ body {
             transparent 1px,
             transparent 5px
         );
+
     background-attachment: fixed;
 }
 
 /* =========================================================
-   SEITEN
+   NORMALE SEITEN
 ========================================================= */
 
-.loop-page {
+.normal-page {
     position: relative;
-    min-height: 135vh;
+
+    min-height: 100vh;
+
     overflow: hidden;
 }
+
+/* =========================================================
+   SEITE 1
+========================================================= */
 
 .page-one-content {
     position: relative;
     z-index: 2;
 
     width: min(1100px, 86vw);
-    min-height: 135vh;
+    min-height: 100vh;
+
     margin: 0 auto;
 
     display: grid;
     grid-template-columns: 1fr 1fr;
+
     align-items: center;
+
     gap: 8vw;
 }
 
@@ -200,51 +222,75 @@ body {
     text-align: right;
 }
 
+/* =========================================================
+   TEXT
+========================================================= */
+
 .kicker {
     color: var(--thread-light);
+
     font-size: 0.9rem;
     font-weight: bold;
+
     letter-spacing: 0.25em;
     text-transform: uppercase;
+
     margin-bottom: 20px;
 }
 
 .main-title {
     color: var(--white);
+
     font-size: clamp(4rem, 9vw, 9rem);
     line-height: 0.8;
+
     letter-spacing: -0.07em;
+
     margin-bottom: 25px;
 }
 
 .subtitle {
     color: #d2b98d;
+
     font-size: clamp(1rem, 1.6vw, 1.3rem);
     line-height: 1.6;
 }
 
 .page-one-right h2 {
     color: var(--white);
+
     font-size: clamp(3rem, 6vw, 6rem);
     line-height: 0.85;
+
     letter-spacing: -0.06em;
+
     margin-bottom: 25px;
 }
 
 .page-one-right p {
     color: #d0bb8d;
+
     line-height: 1.7;
+
     max-width: 430px;
+
     margin-left: auto;
 }
 
+/* =========================================================
+   MEDIA
+========================================================= */
+
 .media-card {
     width: min(370px, 34vw);
+
     aspect-ratio: 16 / 10;
+
     margin-top: 35px;
 
     border: 2px solid rgba(230,220,190,0.55);
     border-radius: 15px;
+
     overflow: hidden;
 
     background:
@@ -255,10 +301,12 @@ body {
         );
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     color: #292923;
+
     font-weight: bold;
 }
 
@@ -271,7 +319,9 @@ body {
     z-index: 2;
 
     width: min(850px, 82vw);
-    min-height: 135vh;
+
+    min-height: 100vh;
+
     margin: 0 auto;
 
     padding-top: 12vh;
@@ -280,138 +330,250 @@ body {
 
 .page-two-kicker {
     color: var(--thread-light);
+
     font-size: 0.9rem;
     font-weight: bold;
+
     letter-spacing: 0.25em;
     text-transform: uppercase;
+
     margin-bottom: 18px;
 }
 
 .page-two-title {
     color: var(--white);
+
     font-size: clamp(4rem, 10vw, 9rem);
     line-height: 0.82;
+
     letter-spacing: -0.07em;
+
     margin-bottom: 30px;
 }
 
 .page-two-intro {
     color: #d4c99c;
+
     max-width: 650px;
+
     font-size: clamp(1rem, 2vw, 1.3rem);
+
     line-height: 1.7;
+
     margin-bottom: 70px;
 }
 
 .fragment-grid {
     display: grid;
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 35px;
 }
 
 .fragment {
     border: 1px solid rgba(220,220,190,0.35);
     border-radius: 8px;
+
     padding: 30px;
+
     background: rgba(0,0,0,0.12);
 }
 
 .fragment h2 {
     color: var(--thread);
+
     font-size: 1.4rem;
+
     margin-bottom: 15px;
 }
 
 .fragment p {
     color: #d0c89d;
+
     line-height: 1.7;
 }
 
 .more-content {
     margin-top: 80px;
+
     color: #d5c99b;
+
     line-height: 1.8;
 }
 
 /* =========================================================
-   SPALTE
+   =========================================================
+   SPALTE / ZIPPER
+   =========================================================
+
+   WICHTIG:
+
+   Jede Übergangsspalte besitzt jetzt:
+
+   1. einen Zustand
+   2. einen FROM-Inhalt
+   3. einen eigenen COLUMN-Inhalt
+   4. einen TO-Inhalt
+
+   Der COLUMN-Inhalt ist NICHT Seite 1 oder Seite 2.
+
 ========================================================= */
 
 .zip-transition {
     position: relative;
+
+    /*
+       Die Höhe bestimmt, wie lange der Übergang
+       beim normalen Scrollen aktiv bleibt.
+    */
+    height: 180vh;
 
     --open: 0%;
     --skew: 0vw;
     --hint-opacity: 1;
 }
 
+/* =========================================================
+   STICKY BEREICH
+========================================================= */
+
 .zip-sticky {
     position: sticky;
+
     top: 0;
+
     width: 100vw;
     height: 100dvh;
+
     min-height: 100vh;
 
     overflow: hidden;
+
     isolation: isolate;
 }
 
+/* =========================================================
+   HINTERLIEGENDER INHALT
+
+   Hier befindet sich NUR der Zielzustand.
+
+   Er ist am Anfang unter dem Cover verborgen.
+========================================================= */
+
 .reveal-page {
     position: absolute;
+
     inset: 0;
+
     z-index: 1;
+
     overflow: hidden;
 }
 
-.reveal-page > * {
-    z-index: 2;
-}
+/* =========================================================
+   ZIP COVER
+========================================================= */
 
 .zip-cover {
     position: absolute;
+
     inset: 0;
+
     z-index: 10;
+
     pointer-events: none;
+
     overflow: hidden;
 }
 
+/* =========================================================
+   LINKE ZIPPER-HÄLFTE
+========================================================= */
+
 .zip-left {
     position: absolute;
+
     inset: 0;
+
     width: 100%;
     height: 100%;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            var(--blue-dark),
+            var(--blue) 50%,
+            var(--blue-end)
+        );
 
     clip-path:
         polygon(
             0 0,
+
             calc(50% - var(--open)) 0,
+
             calc(50% - var(--open) - 5px) 14%,
             calc(50% - var(--open) - var(--skew) + 4px) 27%,
             calc(50% - var(--open) - 9px) 41%,
             calc(50% - var(--open) - var(--skew) - 3px) 55%,
             calc(50% - var(--open) - 7px) 68%,
             calc(50% - var(--open) - var(--skew) + 5px) 82%,
+
             calc(50% - var(--open) - var(--skew)) 100%,
+
             0 100%
         );
 
     filter:
-        drop-shadow(0 0 10px rgba(255, 214, 150, 0.5))
-        drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
+        drop-shadow(
+            0 0 10px rgba(255, 214, 150, 0.5)
+        )
+        drop-shadow(
+            0 0 26px rgba(255, 178, 90, 0.28)
+        );
 }
+
+/* =========================================================
+   RECHTE ZIPPER-HÄLFTE
+========================================================= */
 
 .zip-right {
     position: absolute;
+
     inset: 0;
+
     width: 100%;
     height: 100%;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(50, 100, 135, 0.20),
+            transparent 55%
+        ),
+        linear-gradient(
+            115deg,
+            var(--blue-dark),
+            var(--blue) 50%,
+            var(--blue-end)
+        );
 
     clip-path:
         polygon(
             calc(50% + var(--open)) 0,
+
             100% 0,
+
             100% 100%,
+
             calc(50% + var(--open) + var(--skew)) 100%,
+
             calc(50% + var(--open) + var(--skew) - 5px) 82%,
             calc(50% + var(--open) + 7px) 68%,
             calc(50% + var(--open) + var(--skew) + 3px) 55%,
@@ -421,150 +583,226 @@ body {
         );
 
     filter:
-        drop-shadow(0 0 10px rgba(255, 214, 150, 0.5))
-        drop-shadow(0 0 26px rgba(255, 178, 90, 0.28));
+        drop-shadow(
+            0 0 10px rgba(255, 214, 150, 0.5)
+        )
+        drop-shadow(
+            0 0 26px rgba(255, 178, 90, 0.28)
+        );
 }
 
 /* =========================================================
-   PANEL-INHALT
+   GRÜNER ZIPPER
+
+   Wird beim Übergang Seite 2 → Seite 1 verwendet.
+========================================================= */
+
+.zip-transition.reverse .zip-left,
+.zip-transition.reverse .zip-right {
+    background:
+        radial-gradient(
+            ellipse at center,
+            rgba(135,139,72,0.16),
+            transparent 55%
+        ),
+        linear-gradient(
+            135deg,
+            var(--olive-dark),
+            var(--olive) 45%,
+            var(--olive-end)
+        );
+}
+
+/* =========================================================
+   ZIPPER INHALT
 ========================================================= */
 
 .cover-content {
     position: absolute;
+
     inset: 0;
+
     z-index: 20;
+
     pointer-events: none;
 }
 
+/* =========================================================
+   LINKER INHALT
+========================================================= */
+
 .cover-left-content {
     position: absolute;
+
     left: 7vw;
     top: 35vh;
+
     width: 38vw;
+
     text-align: left;
 }
 
+/* =========================================================
+   RECHTER INHALT
+========================================================= */
+
 .cover-right-content {
     position: absolute;
+
     right: 7vw;
     top: 16vh;
+
     width: 38vw;
+
     text-align: right;
 }
 
+/* =========================================================
+   ZIPPER TITEL
+========================================================= */
+
 .cover-title {
     color: var(--white);
+
     font-size: clamp(4rem, 9vw, 9rem);
+
     line-height: 0.8;
+
     letter-spacing: -0.07em;
 }
 
 .cover-right-content h2 {
     color: var(--white);
+
     font-size: clamp(3rem, 6vw, 6rem);
+
     line-height: 0.82;
 }
 
 .cover-right-content p {
     color: #d0bb8d;
+
     line-height: 1.6;
 }
 
 /* =========================================================
-   VOLLSTAENDIGER INHALT (Cover UND Reveal nutzen dies,
-   damit nie eine flache, ungespaltene Seite erscheint)
+   SPALTEN-INHALT
 ========================================================= */
 
-.cover-left-content.is-complete,
-.cover-right-content.is-complete {
-    top: 8vh;
-    width: 40vw;
-    max-height: 84vh;
-    overflow: hidden;
+.column-content {
+    position: absolute;
 
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+    z-index: 30;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(calc(0.85 + var(--column-visible) * 0.15));
+
+    width: min(420px, 70vw);
+
+    text-align: center;
+
+    opacity: var(--column-visible);
+
+    pointer-events: none;
 }
 
-.cover-left-content.is-complete .kicker,
-.cover-right-content.is-complete .kicker {
-    margin-bottom: 4px;
+/*
+   Die Spalte bekommt absichtlich einen eigenen Look.
+   Dadurch ist sofort erkennbar:
+
+   "Ich bin gerade in der Spalte."
+
+   und nicht:
+
+   "Ich sehe schon wieder Seite 1 oder Seite 2."
+*/
+
+.column-inner {
+    padding: 35px 25px;
+
+    border-left: 1px solid rgba(224,154,59,0.45);
+    border-right: 1px solid rgba(224,154,59,0.45);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(23,19,15,0.92),
+            rgba(43,33,24,0.80)
+        );
+
+    box-shadow:
+        0 0 45px rgba(0,0,0,0.35);
 }
 
-.cover-left-content.is-complete .main-title,
-.cover-left-content.is-complete .page-two-title {
-    font-size: clamp(2rem, 4.5vw, 3.6rem);
-    line-height: 0.85;
-    margin-bottom: 6px;
-}
+.column-label {
+    color: var(--thread-light);
 
-.cover-left-content.is-complete .subtitle,
-.cover-left-content.is-complete .page-two-intro {
-    font-size: 0.85rem;
-    line-height: 1.45;
-    margin-bottom: 0;
-}
-
-.cover-left-content.is-complete .media-card {
-    width: 100%;
-    max-width: 200px;
-    margin-top: 6px;
-    margin-left: 0;
     font-size: 0.7rem;
+    font-weight: bold;
+
+    letter-spacing: 0.28em;
+
+    text-transform: uppercase;
+
+    margin-bottom: 18px;
 }
 
-.cover-left-content.is-complete h2,
-.cover-right-content.is-complete h2 {
-    font-size: clamp(1.3rem, 3vw, 2rem);
-    line-height: 0.95;
-    margin-bottom: 6px;
+.column-title {
+    color: var(--white);
+
+    font-size: clamp(2rem, 5vw, 4rem);
+
+    line-height: 0.9;
+
+    letter-spacing: -0.05em;
+
+    margin-bottom: 20px;
 }
 
-.cover-right-content.is-complete p {
-    font-size: 0.85rem;
-    line-height: 1.45;
+.column-text {
+    color: #d4c99c;
+
+    font-size: 0.95rem;
+
+    line-height: 1.7;
 }
 
-.cover-left-content.is-complete .fragment-grid,
-.cover-right-content.is-complete .fragment-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+.column-line {
+    width: 60px;
+
+    height: 1px;
+
+    margin: 22px auto;
+
+    background: var(--thread);
 }
 
-.cover-left-content.is-complete .fragment,
-.cover-right-content.is-complete .fragment {
-    padding: 10px 14px;
-    font-size: 0.8rem;
-    text-align: left;
-}
-
-.cover-left-content.is-complete .fragment h2,
-.cover-right-content.is-complete .fragment h2 {
-    font-size: 0.9rem;
-    margin-bottom: 4px;
-}
-
-.cover-left-content.is-complete .more-content,
-.cover-right-content.is-complete .more-content {
-    margin-top: 6px;
-    font-size: 0.8rem;
-    line-height: 1.4;
-}
+/* =========================================================
+   HINWEIS
+========================================================= */
 
 .zip-hint {
     position: absolute;
+
     left: 50%;
     bottom: 30px;
+
     transform: translateX(-50%);
 
     z-index: 200;
 
     color: var(--thread);
+
     font-size: 0.75rem;
+
     letter-spacing: 0.18em;
+
     text-transform: uppercase;
+
     white-space: nowrap;
 
     opacity: var(--hint-opacity);
@@ -572,10 +810,12 @@ body {
 
 .zip-hint::after {
     content: "";
+
     display: block;
 
     width: 15px;
     height: 15px;
+
     margin: 10px auto 0;
 
     border-right: 2px solid var(--thread);
@@ -589,9 +829,12 @@ body {
 ========================================================= */
 
 @media (max-width: 700px) {
+
     .page-one-content {
         grid-template-columns: 1fr;
+
         gap: 50px;
+
         padding-top: 15vh;
         padding-bottom: 15vh;
     }
@@ -616,12 +859,14 @@ body {
     .cover-left-content {
         left: 8vw;
         top: 38vh;
+
         width: 45vw;
     }
 
     .cover-right-content {
         right: 8vw;
         top: 15vh;
+
         width: 45vw;
     }
 
@@ -633,514 +878,2071 @@ body {
         width: 84vw;
     }
 
-    .cover-left-content.is-complete,
-    .cover-right-content.is-complete {
-        top: 6vh;
-        width: 42vw;
-        max-height: 88vh;
-        gap: 6px;
+    .column-content {
+        width: 58vw;
     }
 
-    .cover-left-content.is-complete .main-title,
-    .cover-left-content.is-complete .page-two-title {
-        font-size: clamp(1.5rem, 7vw, 2.4rem);
+    .column-inner {
+        padding: 20px 15px;
     }
 
-    .cover-left-content.is-complete .subtitle,
-    .cover-left-content.is-complete .page-two-intro,
-    .cover-right-content.is-complete p {
+    .column-title {
+        font-size: 8vw;
+    }
+
+    .column-text {
         font-size: 0.7rem;
-        line-height: 1.3;
     }
 
-    .cover-left-content.is-complete .fragment,
-    .cover-right-content.is-complete .fragment {
-        padding: 6px 8px;
-        font-size: 0.65rem;
-    }
-
-    .cover-left-content.is-complete .fragment h2,
-    .cover-right-content.is-complete h2 {
-        font-size: 0.75rem;
-    }
-
-    .cover-left-content.is-complete .media-card {
-        max-width: 120px;
-        font-size: 0.55rem;
-    }
-
-    .cover-left-content.is-complete .more-content {
-        font-size: 0.65rem;
+    .debug-panel {
+        display: none;
     }
 }
 
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
+
     html {
         scroll-behavior: auto;
     }
 }
+
 </style>
 </head>
 
+
 <body>
+
+<!-- ========================================================
+     DEBUG-ANZEIGE
+     Wird per JavaScript ein-/ausgeschaltet.
+========================================================= -->
+
+<div id="debugPanel" class="debug-panel">
+    <strong>ZUSTAND</strong><br>
+    <span id="debugState">START</span><br><br>
+
+    <strong>TRANSITION</strong><br>
+    <span id="debugTransition">–</span><br><br>
+
+    <strong>PROGRESS</strong><br>
+    <span id="debugProgress">0%</span>
+</div>
+
 
 <main id="loop">
 
-    <section class="zip-transition" data-from="one" data-to="two" data-progress="0">
-        <div class="zip-sticky">
 
-            <div class="reveal-page page-two">
-                <div class="cover-left-content is-complete">
-                    <div class="kicker">b3nn3t</div>
-                    <h1 class="page-two-title">fragments</h1>
-                    <p class="page-two-intro">
-                        die andere seite von „gespalten“.
-                        Hier beginnt die zweite Seite.
-                        Dieser Bereich kann mit deinem tatsächlichen zusätzlichen Inhalt ersetzt werden.
+<!-- ========================================================
+     ========================================================
+     ZUSTAND 1
+     STARTSEITE
+     ========================================================
+
+     HIER IST AUSSCHLIESSLICH SEITE 1.
+
+========================================================= -->
+
+<section class="normal-page page-one">
+
+    <div class="page-one-content">
+
+        <div class="page-one-left">
+
+            <div class="kicker">
+                b3nn3t
+            </div>
+
+            <h1 class="main-title">
+                gespalten
+            </h1>
+
+            <p class="subtitle">
+                10 kurze Songs.
+                12 Minuten zwischen alt und neu.
+            </p>
+
+            <div class="media-card">
+                DEIN VIDEO / BILD
+            </div>
+
+        </div>
+
+
+        <div class="page-one-right">
+
+            <div class="kicker">
+                neues album
+            </div>
+
+            <h2>
+                die andere seite
+            </h2>
+
+            <p>
+                Ein Übergang zwischen zwei Seiten.
+                Alt und neu.
+                Dazwischen liegt die Spalte.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     ========================================================
+     ZUSTAND 2
+     SEITE 1 → SPALTE → SEITE 2
+     ========================================================
+
+     FROM = Seite 1
+
+     COLUMN = eigener Inhalt
+
+     TO = Seite 2
+
+========================================================= -->
+
+<section
+    class="zip-transition forward"
+    data-from="one"
+    data-to="two"
+    data-progress="0"
+>
+
+    <div class="zip-sticky">
+
+
+        <!-- =================================================
+             ZIELSEITE
+
+             NUR SEITE 2
+        ================================================== -->
+
+        <div class="reveal-page page-two">
+
+            <div class="page-two-content">
+
+                <div class="page-two-kicker">
+                    b3nn3t
+                </div>
+
+                <h1 class="page-two-title">
+                    fragments
+                </h1>
+
+                <p class="page-two-intro">
+                    Die andere Seite von „gespalten“.
+                    Hier beginnt die zweite Seite.
+                    Dieser Bereich kann mit deinem tatsächlichen
+                    zusätzlichen Inhalt ersetzt werden.
+                </p>
+
+
+                <div class="fragment-grid">
+
+                    <div class="fragment">
+
+                        <h2>
+                            fragment 01
+                        </h2>
+
+                        <p>
+                            Texte, Bilder, Notizen,
+                            Entstehungsgeschichte,
+                            Lyrics oder weitere Videos.
+                        </p>
+
+                    </div>
+
+
+                    <div class="fragment">
+
+                        <h2>
+                            fragment 02
+                        </h2>
+
+                        <p>
+                            Weitere Informationen zum Album
+                            und zu den einzelnen Songs.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="more-content">
+
+                    <strong>
+                        noch mehr
+                    </strong>
+
+                    <br><br>
+
+                    Die zweite Seite kann beliebig lang sein.
+
+                    <br><br>
+
+                    Wenn ihr Ende erreicht ist,
+                    beginnt die nächste Spalte.
+
+                    <br><br>
+
+                    Und danach erscheint wieder
+                    die erste Seite.
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             EIGENER SPALTEN-INHALT
+
+             WICHTIG:
+
+             Dieser Inhalt ist NICHT Seite 1.
+             Dieser Inhalt ist NICHT Seite 2.
+
+             Er erscheint nur während des Übergangs.
+        ================================================== -->
+
+        <div
+            class="column-content"
+            style="--column-visible: 0;"
+        >
+
+            <div class="column-inner">
+
+                <div class="column-label">
+                    zwischen den seiten
+                </div>
+
+                <div class="column-title">
+                    die spalte
+                </div>
+
+                <div class="column-line"></div>
+
+                <div class="column-text">
+                    Hier kann ein eigener Inhalt stehen:
+                    ein Bild, ein Video, Lyrics,
+                    eine Jahreszahl, ein Songtitel
+                    oder eine kurze Information.
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             COVER
+
+             Dieses Cover zeigt nur SEITE 1.
+
+             Es wird beim Öffnen weggeschoben.
+        ================================================== -->
+
+        <div class="zip-cover">
+
+            <div class="zip-left">
+
+                <div class="cover-content">
+
+                    <div class="cover-left-content">
+
+                        <div class="kicker">
+                            b3nn3t
+                        </div>
+
+                        <h1 class="cover-title">
+                            gespalten
+                        </h1>
+
+                        <p class="subtitle">
+                            10 kurze Songs.
+                            12 Minuten zwischen alt und neu.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="zip-right">
+
+                <div class="cover-content">
+
+                    <div class="cover-right-content">
+
+                        <div class="kicker">
+                            neues album
+                        </div>
+
+                        <h2>
+                            die andere seite
+                        </h2>
+
+                        <p>
+                            Ein Übergang zwischen zwei Seiten.
+                            Alt und neu.
+                            Dazwischen liegt die Spalte.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="zip-hint">
+                nach unten öffnen
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     ========================================================
+     ZUSTAND 3
+     SEITE 2
+     ========================================================
+
+     SEITE 2 IST HIER EINMAL ALS NORMALE SEITE VORHANDEN.
+
+     KEINE ZWEITE KOPIE.
+
+========================================================= -->
+
+<section class="normal-page page-two">
+
+    <div class="page-two-content">
+
+        <div class="page-two-kicker">
+            b3nn3t
+        </div>
+
+        <h1 class="page-two-title">
+            fragments
+        </h1>
+
+        <p class="page-two-intro">
+            Die andere Seite von „gespalten“.
+            Hier beginnt die zweite Seite.
+            Dieser Bereich kann mit deinem tatsächlichen
+            zusätzlichen Inhalt ersetzt werden.
+        </p>
+
+
+        <div class="fragment-grid">
+
+            <div class="fragment">
+
+                <h2>
+                    fragment 01
+                </h2>
+
+                <p>
+                    Texte, Bilder, Notizen,
+                    Entstehungsgeschichte,
+                    Lyrics oder weitere Videos.
+                </p>
+
+            </div>
+
+
+            <div class="fragment">
+
+                <h2>
+                    fragment 02
+                </h2>
+
+                <p>
+                    Weitere Informationen zum Album
+                    und zu den einzelnen Songs.
+                </p>
+
+            </div>
+
+
+            <div class="fragment">
+
+                <h2>
+                    fragment 03
+                </h2>
+
+                <p>
+                    Platz für zusätzliche Inhalte,
+                    Bilder, Medien oder Texte.
+                </p>
+
+            </div>
+
+
+            <div class="fragment">
+
+                <h2>
+                    fragment 04
+                </h2>
+
+                <p>
+                    Die zweite Seite kann hier
+                    beliebig erweitert werden.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="more-content">
+
+            <strong>
+                noch mehr
+            </strong>
+
+            <br><br>
+
+            Die zweite Seite kann beliebig lang sein.
+
+            <br><br>
+
+            Wenn ihr Ende erreicht ist,
+            beginnt die nächste Spalte.
+
+            <br><br>
+
+            Und danach erscheint wieder
+            die erste Seite.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     ========================================================
+     ZUSTAND 4
+     SEITE 2 → SPALTE → SEITE 1
+     ========================================================
+
+     REVERSE TRANSITION
+
+     FROM = Seite 2
+
+     COLUMN = eigener Inhalt
+
+     TO = Seite 1
+
+========================================================= -->
+
+<section
+    class="zip-transition reverse"
+    data-from="two"
+    data-to="one"
+    data-progress="0"
+>
+
+    <div class="zip-sticky">
+
+
+        <!-- =================================================
+             ZIELSEITE
+
+             NUR SEITE 1
+        ================================================== -->
+
+        <div class="reveal-page page-one">
+
+            <div class="page-one-content">
+
+                <div class="page-one-left">
+
+                    <div class="kicker">
+                        b3nn3t
+                    </div>
+
+                    <h1 class="main-title">
+                        gespalten
+                    </h1>
+
+                    <p class="subtitle">
+                        10 kurze Songs.
+                        12 Minuten zwischen alt und neu.
                     </p>
-                    <div class="fragment-grid">
-                        <div class="fragment">
-                            <h2>fragment 01</h2>
-                            <p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p>
-                        </div>
-                        <div class="fragment">
-                            <h2>fragment 02</h2>
-                            <p>Weitere Informationen zum Album und zu den einzelnen Songs.</p>
-                        </div>
+
+                    <div class="media-card">
+                        DEIN VIDEO / BILD
                     </div>
+
                 </div>
 
-                <div class="cover-right-content is-complete">
-                    <div class="fragment-grid">
-                        <div class="fragment">
-                            <h2>fragment 03</h2>
-                            <p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p>
-                        </div>
-                        <div class="fragment">
-                            <h2>fragment 04</h2>
-                            <p>Die zweite Seite kann hier beliebig erweitert werden.</p>
-                        </div>
+
+                <div class="page-one-right">
+
+                    <div class="kicker">
+                        neues album
                     </div>
-                    <div class="more-content">
-                        <strong>noch mehr</strong>
-                        <br><br>
-                        Die zweite Seite kann beliebig lang sein.
-                        <br><br>
-                        Wenn ihr Ende erreicht ist, beginnt die nächste Spalte.
-                        <br><br>
-                        Und danach erscheint wieder die erste Seite.
-                    </div>
+
+                    <h2>
+                        die andere seite
+                    </h2>
+
+                    <p>
+                        Ein Übergang zwischen zwei Seiten.
+                        Alt und neu.
+                        Dazwischen liegt die Spalte.
+                    </p>
+
                 </div>
+
             </div>
 
-            <div class="zip-cover">
-                <div class="zip-left">
-                    <div class="cover-content">
-                        <div class="cover-left-content is-complete">
-                            <div class="kicker">b3nn3t</div>
-                            <h1 class="main-title">gespalten</h1>
-                            <p class="subtitle">10 kurze Songs. 12 Minuten zwischen alt und neu.</p>
-                            <div class="media-card">DEIN VIDEO / BILD</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="zip-right">
-                    <div class="cover-content">
-                        <div class="cover-right-content is-complete">
-                            <div class="kicker">neues album</div>
-                            <h2>die andere seite</h2>
-                            <p>Ein Übergang zwischen zwei Seiten. Alt und neu. Dazwischen liegt die Spalte.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="zip-hint">nach unten öffnen</div>
-            </div>
         </div>
-    </section>
 
-    <section class="zip-transition" data-from="two" data-to="one" data-progress="0">
-        <div class="zip-sticky">
 
-            <div class="reveal-page page-one">
-                <div class="cover-left-content is-complete">
-                    <div class="kicker">b3nn3t</div>
-                    <h1 class="main-title">gespalten</h1>
-                    <p class="subtitle">10 kurze Songs. 12 Minuten zwischen alt und neu.</p>
-                    <div class="media-card">DEIN VIDEO / BILD</div>
+
+        <!-- =================================================
+             EIGENER SPALTEN-INHALT
+
+             Wieder ein eigener Zustand.
+        ================================================== -->
+
+        <div
+            class="column-content"
+            style="--column-visible: 0;"
+        >
+
+            <div class="column-inner">
+
+                <div class="column-label">
+                    zurück durch die spalte
                 </div>
 
-                <div class="cover-right-content is-complete">
-                    <div class="kicker">neues album</div>
-                    <h2>die andere seite</h2>
-                    <p>Ein Übergang zwischen zwei Seiten. Alt und neu. Dazwischen liegt die Spalte.</p>
+                <div class="column-title">
+                    zurück
                 </div>
+
+                <div class="column-line"></div>
+
+                <div class="column-text">
+                    Auch beim Zurückscrollen gibt es
+                    einen eigenen Inhalt.
+                    Dadurch erscheint nicht plötzlich
+                    wieder die vorherige Seite doppelt.
+                </div>
+
             </div>
 
-            <div class="zip-cover">
-                <div class="zip-left cover-green">
-                    <div class="cover-content">
-                        <div class="cover-left-content is-complete">
-                            <div class="kicker">b3nn3t</div>
-                            <h1 class="page-two-title">fragments</h1>
-                            <p class="page-two-intro">
-                                die andere seite von „gespalten“.
-                                Hier beginnt die zweite Seite.
-                                Dieser Bereich kann mit deinem tatsächlichen zusätzlichen Inhalt ersetzt werden.
-                            </p>
-                            <div class="fragment-grid">
-                                <div class="fragment">
-                                    <h2>fragment 01</h2>
-                                    <p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p>
-                                </div>
-                                <div class="fragment">
-                                    <h2>fragment 02</h2>
-                                    <p>Weitere Informationen zum Album und zu den einzelnen Songs.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="zip-right cover-green">
-                    <div class="cover-content">
-                        <div class="cover-right-content is-complete">
-                            <div class="fragment-grid">
-                                <div class="fragment">
-                                    <h2>fragment 03</h2>
-                                    <p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p>
-                                </div>
-                                <div class="fragment">
-                                    <h2>fragment 04</h2>
-                                    <p>Die zweite Seite kann hier beliebig erweitert werden.</p>
-                                </div>
-                            </div>
-                            <div class="more-content">
-                                <strong>noch mehr</strong>
-                                <br><br>
-                                Die zweite Seite kann beliebig lang sein.
-                                <br><br>
-                                Wenn ihr Ende erreicht ist, beginnt die nächste Spalte.
-                                <br><br>
-                                Und danach erscheint wieder die erste Seite.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="zip-hint">nach unten öffnen</div>
-            </div>
         </div>
-    </section>
+
+
+
+        <!-- =================================================
+             COVER
+
+             Dieses Cover zeigt SEITE 2.
+
+             Beim Zurückscrollen wird es geöffnet.
+        ================================================== -->
+
+        <div class="zip-cover">
+
+            <div class="zip-left">
+
+                <div class="cover-content">
+
+                    <div class="cover-left-content">
+
+                        <div class="kicker">
+                            b3nn3t
+                        </div>
+
+                        <h1 class="cover-title">
+                            fragments
+                        </h1>
+
+                        <p class="subtitle">
+                            die andere Seite von „gespalten“.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="zip-right">
+
+                <div class="cover-content">
+
+                    <div class="cover-right-content">
+
+                        <div class="kicker">
+                            zurück
+                        </div>
+
+                        <h2>
+                            gespalten
+                        </h2>
+
+                        <p>
+                            Die Spalte führt zurück
+                            zur ersten Seite.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="zip-hint">
+                nach oben öffnen
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ========================================================
+     ========================================================
+     ZUSTAND 5
+     SEITE 1
+     ========================================================
+
+     Diese Seite wird beim Zurückscrollen erreicht.
+
+========================================================= -->
+
+<section class="normal-page page-one">
+
+    <div class="page-one-content">
+
+        <div class="page-one-left">
+
+            <div class="kicker">
+                b3nn3t
+            </div>
+
+            <h1 class="main-title">
+                gespalten
+            </h1>
+
+            <p class="subtitle">
+                10 kurze Songs.
+                12 Minuten zwischen alt und neu.
+            </p>
+
+            <div class="media-card">
+                DEIN VIDEO / BILD
+            </div>
+
+        </div>
+
+
+        <div class="page-one-right">
+
+            <div class="kicker">
+                neues album
+            </div>
+
+            <h2>
+                die andere seite
+            </h2>
+
+            <p>
+                Ein Übergang zwischen zwei Seiten.
+                Alt und neu.
+                Dazwischen liegt die Spalte.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
 
 </main>
 
+
+
 <script>
-const loop = document.getElementById("loop");
 
-let activeTransition = null;
-let gateProgress = 0;
-let touchStartY = null;
+/* =========================================================
+   =========================================================
+   EINSTELLUNGEN
+   =========================================================
+========================================================= */
 
-function easeInOutQuad(progress) {
-    return progress < 0.5
-        ? 2 * progress * progress
-        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-}
-
-function setTransitionProgress(transition, progress) {
-    progress = Math.max(0, Math.min(1, progress));
-
-    const eased = easeInOutQuad(progress);
-
-    const open = eased * 50;
-    const skew = eased * 4;
-    const hintOpacity = Math.max(0, 1 - eased * 5);
-
-    transition.dataset.progress = String(progress);
-    transition.style.setProperty("--open", open + "%");
-    transition.style.setProperty("--skew", skew + "vw");
-    transition.style.setProperty("--hint-opacity", hintOpacity);
-}
 
 /*
-   Jede Spalte ist genau 100dvh hoch (.zip-sticky) und zeigt
-   IMMER vollstaendigen, gespaltenen Inhalt - im geschlossenen
-   Zustand (Cover) den der "von"-Seite, im geoeffneten Zustand
-   (Reveal) den der "zu"-Seite. Es gibt keine flache, ungespaltene
-   Zwischenseite mehr; alles findet innerhalb des Zippers statt.
+   DEBUG:
 
-   Robuste Erkennung:
-   Sobald der sticky Bereich einer Spalte beim Runterscrollen
-   oben am Viewport ankommt (gepinnt wird), wird er eingefangen.
-   Beim Hochscrollen entsprechend, wenn sein unterer Rand unten
-   ankommt.
+   true  = Anzeige unten rechts sichtbar
+   false = Anzeige ausgeschaltet
 */
+
+const DEBUG = true;
+
+
+/*
+   Geschwindigkeit des Zippers.
+
+   Größer = schneller
+   Kleiner = langsamer
+*/
+
+const ZIP_SPEED = 0.0018;
+
+
+/*
+   Wie stark der Zipper beim Öffnen auseinandergeht.
+*/
+
+const MAX_OPEN = 50;
+
+
+/*
+   Kleine seitliche Verschiebung der Zipperkante.
+*/
+
+const MAX_SKEW = 4;
+
+
+
+/* =========================================================
+   ELEMENTE
+========================================================= */
+
+const loop = document.getElementById("loop");
+
+const debugPanel = document.getElementById("debugPanel");
+const debugState = document.getElementById("debugState");
+const debugTransition = document.getElementById("debugTransition");
+const debugProgress = document.getElementById("debugProgress");
+
+
+
+/* =========================================================
+   ZUSTÄNDE
+=========================================================
+
+   HIER KANNST DU SPÄTER SEHR EINFACH SEHEN,
+   WAS WANN ANGEZEIGT WIRD.
+
+========================================================= */
+
+const STATES = {
+
+    START: "START – SEITE 1",
+
+    OPEN_ONE_TO_TWO:
+        "ÜBERGANG – SEITE 1 → SPALTE → SEITE 2",
+
+    PAGE_TWO:
+        "SEITE 2",
+
+    OPEN_TWO_TO_ONE:
+        "ÜBERGANG – SEITE 2 → SPALTE → SEITE 1",
+
+    PAGE_ONE:
+        "SEITE 1"
+
+};
+
+
+
+/* =========================================================
+   VARIABLEN
+========================================================= */
+
+let activeTransition = null;
+
+let gateProgress = 0;
+
+let touchStartY = null;
+
+
+/*
+   Verhindert mehrfaches Auslösen
+   derselben Transition.
+*/
+
+let transitionLock = false;
+
+
+
+/* =========================================================
+   DEBUG
+========================================================= */
+
+function updateDebug(
+    state,
+    transitionName = "–",
+    progress = 0
+) {
+
+    if (!DEBUG) {
+        debugPanel.style.display = "none";
+        return;
+    }
+
+    debugState.textContent = state;
+
+    debugTransition.textContent =
+        transitionName;
+
+    debugProgress.textContent =
+        Math.round(progress * 100) + "%";
+}
+
+
+
+/* =========================================================
+   EASING
+========================================================= */
+
+function easeInOutQuad(progress) {
+
+    return progress < 0.5
+
+        ? 2 * progress * progress
+
+        : 1 -
+          Math.pow(
+              -2 * progress + 2,
+              2
+          ) / 2;
+}
+
+
+
+/* =========================================================
+   TRANSITION AKTUALISIEREN
+========================================================= */
+
+function setTransitionProgress(
+    transition,
+    progress
+) {
+
+    progress =
+        Math.max(
+            0,
+            Math.min(1, progress)
+        );
+
+
+    const eased =
+        easeInOutQuad(progress);
+
+
+    /*
+       Öffnung des Zippers.
+    */
+
+    const open =
+        eased * MAX_OPEN;
+
+
+    /*
+       Kleine Bewegung der Zipperkante.
+    */
+
+    const skew =
+        eased * MAX_SKEW;
+
+
+    /*
+       Hinweis unten ausblenden.
+    */
+
+    const hintOpacity =
+        Math.max(
+            0,
+            1 - eased * 5
+        );
+
+
+    /*
+       Spalteninhalt:
+
+       - am Anfang unsichtbar
+       - in der Mitte sichtbar
+       - am Ende wieder unsichtbar
+    */
+
+    let columnVisible = 0;
+
+
+    if (progress > 0.20 &&
+        progress < 0.80) {
+
+        columnVisible =
+            Math.sin(
+                ((progress - 0.20) / 0.60)
+                * Math.PI
+            );
+    }
+
+
+    /*
+       CSS-Werte setzen.
+    */
+
+    transition.dataset.progress =
+        String(progress);
+
+
+    transition.style.setProperty(
+        "--open",
+        open + "%"
+    );
+
+
+    transition.style.setProperty(
+        "--skew",
+        skew + "vw"
+    );
+
+
+    transition.style.setProperty(
+        "--hint-opacity",
+        hintOpacity
+    );
+
+
+    /*
+       EIGENER SPALTEN-INHALT
+    */
+
+    const column =
+        transition.querySelector(
+            ".column-content"
+        );
+
+
+    if (column) {
+
+        column.style.setProperty(
+            "--column-visible",
+            columnVisible
+        );
+    }
+
+
+    /*
+       Debug
+    */
+
+    let state;
+
+    if (progress <= 0.20) {
+
+        state =
+            transition.dataset.from === "one"
+
+                ? STATES.OPEN_ONE_TO_TWO
+
+                : STATES.OPEN_TWO_TO_ONE;
+
+    } else if (progress < 0.80) {
+
+        state =
+            transition.dataset.from === "one"
+
+                ? "SPALTE – 1 → 2"
+
+                : "SPALTE – 2 → 1";
+
+    } else {
+
+        state =
+            transition.dataset.to === "two"
+
+                ? STATES.PAGE_TWO
+
+                : STATES.PAGE_ONE;
+    }
+
+
+    updateDebug(
+        state,
+        transition.dataset.from +
+        " → " +
+        transition.dataset.to,
+        progress
+    );
+}
+
+
+
+/* =========================================================
+   PASSENDEN ÜBERGANG FINDEN
+========================================================= */
+
 function getReadyTransition(deltaY) {
-    const transitions = document.querySelectorAll(".zip-transition");
-    const viewportHeight = window.innerHeight;
-    const activationZone = 24;
+
+    const transitions =
+        document.querySelectorAll(
+            ".zip-transition"
+        );
+
+
+    const viewportHeight =
+        window.innerHeight;
+
+
+    const activationZone = 40;
+
 
     for (const transition of transitions) {
-        const sticky = transition.querySelector(".zip-sticky");
-        const rect = sticky.getBoundingClientRect();
+
+        const sticky =
+            transition.querySelector(
+                ".zip-sticky"
+            );
+
+
+        const rect =
+            sticky.getBoundingClientRect();
+
+
+
+        /* ================================================
+           RUNTERSCROLLEN
+
+           Transition beginnt,
+           wenn Sticky-Bereich oben ankommt.
+        ================================================= */
 
         if (
             deltaY > 0 &&
+
             rect.top <= activationZone &&
-            rect.bottom > viewportHeight * 0.45
+
+            rect.bottom >
+            viewportHeight * 0.45
         ) {
+
             return transition;
         }
 
+
+
+        /* ================================================
+           HOCHSCROLLEN
+
+           Transition beginnt,
+           wenn Sticky-Bereich unten erreicht.
+        ================================================= */
+
         if (
             deltaY < 0 &&
-            rect.bottom >= viewportHeight - activationZone &&
-            rect.top < viewportHeight * 0.55
+
+            rect.bottom >=
+            viewportHeight - activationZone &&
+
+            rect.top <
+            viewportHeight * 0.55
         ) {
+
             return transition;
         }
+
     }
+
 
     return null;
 }
 
-function handleGateScroll(deltaY, event) {
-    const transition = getReadyTransition(deltaY);
+
+
+/* =========================================================
+   TRANSITION AKTIVIEREN
+========================================================= */
+
+function activateTransition(
+    transition
+) {
+
+    if (
+        activeTransition !==
+        transition
+    ) {
+
+        activeTransition =
+            transition;
+
+
+        gateProgress =
+            parseFloat(
+                transition.dataset.progress
+            ) || 0;
+
+
+        transitionLock = true;
+    }
+}
+
+
+
+/* =========================================================
+   TRANSITION BEENDEN
+========================================================= */
+
+function finishTransition(
+    transition,
+    direction
+) {
 
     if (!transition) {
-        activeTransition = null;
         return;
     }
 
-    if (activeTransition !== transition) {
-        activeTransition = transition;
-        gateProgress = parseFloat(transition.dataset.progress) || 0;
+
+    /*
+       Zustand sauber setzen.
+    */
+
+    if (direction > 0) {
+
+        gateProgress = 1;
+
+        setTransitionProgress(
+            transition,
+            1
+        );
+
+    } else {
+
+        gateProgress = 0;
+
+        setTransitionProgress(
+            transition,
+            0
+        );
     }
 
-    if (gateProgress >= 1 && deltaY > 0) {
-        activeTransition = null;
-        return;
-    }
 
-    if (gateProgress <= 0 && deltaY < 0) {
-        activeTransition = null;
-        return;
-    }
+    /*
+       Active Transition freigeben.
+    */
 
-    event.preventDefault();
+    activeTransition = null;
 
-    const speed = 0.0016;
-
-    gateProgress += deltaY * speed;
-    gateProgress = Math.max(0, Math.min(1, gateProgress));
-
-    setTransitionProgress(transition, gateProgress);
+    transitionLock = false;
 }
+
+
+
+/* =========================================================
+   WICHTIGSTE SCROLL-FUNKTION
+========================================================= */
+
+function handleGateScroll(
+    deltaY,
+    event
+) {
+
+    const transition =
+        getReadyTransition(deltaY);
+
+
+    /*
+       Kein Zipper in diesem Bereich.
+
+       Normaler Browser-Scroll.
+    */
+
+    if (!transition) {
+
+        activeTransition = null;
+
+        transitionLock = false;
+
+        return;
+    }
+
+
+    /*
+       Transition aktivieren.
+    */
+
+    activateTransition(
+        transition
+    );
+
+
+    /*
+       ==============================================
+       RUNTER
+       ==============================================
+    */
+
+    if (deltaY > 0) {
+
+        /*
+           Wenn vollständig geöffnet:
+
+           NICHT mehr blockieren.
+
+           Dadurch geht es direkt auf
+           die nächste Seite.
+        */
+
+        if (gateProgress >= 1) {
+
+            finishTransition(
+                transition,
+                1
+            );
+
+            return;
+        }
+
+
+        /*
+           Jetzt wird der Scrollimpuls
+           vom Zipper verarbeitet.
+        */
+
+        event.preventDefault();
+
+
+        gateProgress +=
+            deltaY * ZIP_SPEED;
+
+
+        gateProgress =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    gateProgress
+                )
+            );
+
+
+        setTransitionProgress(
+            transition,
+            gateProgress
+        );
+
+
+        return;
+    }
+
+
+
+    /*
+       ==============================================
+       HOCH
+       ==============================================
+    */
+
+    if (deltaY < 0) {
+
+        /*
+           Wenn vollständig geschlossen:
+
+           normalen Browser-Scroll zulassen.
+
+           Dadurch geht es direkt zurück
+           zur vorherigen Seite.
+        */
+
+        if (gateProgress <= 0) {
+
+            finishTransition(
+                transition,
+                -1
+            );
+
+            return;
+        }
+
+
+        /*
+           Jetzt wird der Scrollimpuls
+           vom Zipper verarbeitet.
+        */
+
+        event.preventDefault();
+
+
+        gateProgress +=
+            deltaY * ZIP_SPEED;
+
+
+        gateProgress =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    gateProgress
+                )
+            );
+
+
+        setTransitionProgress(
+            transition,
+            gateProgress
+        );
+
+    }
+
+}
+
+
+
+/* =========================================================
+   MOUSE / TRACKPAD
+========================================================= */
 
 window.addEventListener(
     "wheel",
     event => {
-        handleGateScroll(event.deltaY, event);
+
+        handleGateScroll(
+            event.deltaY,
+            event
+        );
+
     },
-    { passive: false }
+    {
+        passive: false
+    }
 );
+
+
+
+/* =========================================================
+   TOUCH START
+========================================================= */
 
 window.addEventListener(
     "touchstart",
     event => {
-        if (event.touches.length > 0) {
-            touchStartY = event.touches[0].clientY;
+
+        if (
+            event.touches.length > 0
+        ) {
+
+            touchStartY =
+                event.touches[0].clientY;
         }
+
     },
-    { passive: true }
+    {
+        passive: true
+    }
 );
+
+
+
+/* =========================================================
+   TOUCH MOVE
+========================================================= */
 
 window.addEventListener(
     "touchmove",
     event => {
-        if (touchStartY === null) return;
 
-        const currentY = event.touches[0].clientY;
-        const deltaY = touchStartY - currentY;
+        if (
+            touchStartY === null
+        ) {
 
-        touchStartY = currentY;
+            return;
+        }
 
-        handleGateScroll(deltaY, event);
+
+        const currentY =
+            event.touches[0].clientY;
+
+
+        const deltaY =
+            touchStartY -
+            currentY;
+
+
+        touchStartY =
+            currentY;
+
+
+        handleGateScroll(
+            deltaY,
+            event
+        );
+
     },
-    { passive: false }
+    {
+        passive: false
+    }
 );
 
-function createTransition(from, to) {
-    const section = document.createElement("section");
 
-    section.className = "zip-transition";
-    section.dataset.from = from;
-    section.dataset.to = to;
-    section.dataset.progress = "0";
 
-    const coverClass = from === "two" ? " cover-green" : "";
+/* =========================================================
+   TOUCH END
+========================================================= */
 
-    let revealLeftHTML = "";
-    let revealRightHTML = "";
-    let coverLeftHTML = "";
-    let coverRightHTML = "";
+window.addEventListener(
+    "touchend",
+    () => {
 
-    if (to === "two") {
-        revealLeftHTML = `
-            <div class="kicker">b3nn3t</div>
-            <h1 class="page-two-title">fragments</h1>
-            <p class="page-two-intro">
-                die andere seite von „gespalten“.
-                Hier beginnt die zweite Seite.
-                Dieser Bereich kann mit deinem tatsächlichen zusätzlichen Inhalt ersetzt werden.
-            </p>
-            <div class="fragment-grid">
-                <div class="fragment"><h2>fragment 01</h2><p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p></div>
-                <div class="fragment"><h2>fragment 02</h2><p>Weitere Informationen zum Album und zu den einzelnen Songs.</p></div>
-            </div>
-        `;
+        touchStartY = null;
 
-        revealRightHTML = `
-            <div class="fragment-grid">
-                <div class="fragment"><h2>fragment 03</h2><p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p></div>
-                <div class="fragment"><h2>fragment 04</h2><p>Die zweite Seite kann hier beliebig erweitert werden.</p></div>
-            </div>
-            <div class="more-content">
-                <strong>noch mehr</strong>
-                <br><br>
-                Die zweite Seite kann beliebig lang sein.
-                <br><br>
-                Wenn ihr Ende erreicht ist, beginnt die nächste Spalte.
-                <br><br>
-                Und danach erscheint wieder die erste Seite.
-            </div>
-        `;
-
-        coverLeftHTML = `
-            <div class="kicker">b3nn3t</div>
-            <h1 class="main-title">gespalten</h1>
-            <p class="subtitle">10 kurze Songs. 12 Minuten zwischen alt und neu.</p>
-            <div class="media-card">DEIN VIDEO / BILD</div>
-        `;
-
-        coverRightHTML = `
-            <div class="kicker">neues album</div>
-            <h2>die andere seite</h2>
-            <p>Ein Übergang zwischen zwei Seiten. Alt und neu. Dazwischen liegt die Spalte.</p>
-        `;
-    } else {
-        revealLeftHTML = `
-            <div class="kicker">b3nn3t</div>
-            <h1 class="main-title">gespalten</h1>
-            <p class="subtitle">10 kurze Songs. 12 Minuten zwischen alt und neu.</p>
-            <div class="media-card">DEIN VIDEO / BILD</div>
-        `;
-
-        revealRightHTML = `
-            <div class="kicker">neues album</div>
-            <h2>die andere seite</h2>
-            <p>Ein Übergang zwischen zwei Seiten. Alt und neu. Dazwischen liegt die Spalte.</p>
-        `;
-
-        coverLeftHTML = `
-            <div class="kicker">b3nn3t</div>
-            <h1 class="page-two-title">fragments</h1>
-            <p class="page-two-intro">
-                die andere seite von „gespalten“.
-                Hier beginnt die zweite Seite.
-                Dieser Bereich kann mit deinem tatsächlichen zusätzlichen Inhalt ersetzt werden.
-            </p>
-            <div class="fragment-grid">
-                <div class="fragment"><h2>fragment 01</h2><p>Texte, Bilder, Notizen, Entstehungsgeschichte, Lyrics oder weitere Videos.</p></div>
-                <div class="fragment"><h2>fragment 02</h2><p>Weitere Informationen zum Album und zu den einzelnen Songs.</p></div>
-            </div>
-        `;
-
-        coverRightHTML = `
-            <div class="fragment-grid">
-                <div class="fragment"><h2>fragment 03</h2><p>Platz für zusätzliche Inhalte, Bilder, Medien oder Texte.</p></div>
-                <div class="fragment"><h2>fragment 04</h2><p>Die zweite Seite kann hier beliebig erweitert werden.</p></div>
-            </div>
-            <div class="more-content">
-                <strong>noch mehr</strong>
-                <br><br>
-                Die zweite Seite kann beliebig lang sein.
-                <br><br>
-                Wenn ihr Ende erreicht ist, beginnt die nächste Spalte.
-                <br><br>
-                Und danach erscheint wieder die erste Seite.
-            </div>
-        `;
+    },
+    {
+        passive: true
     }
+);
 
-    section.innerHTML = `
+
+
+/* =========================================================
+   INITIALISIERUNG
+========================================================= */
+
+document
+    .querySelectorAll(
+        ".zip-transition"
+    )
+    .forEach(
+        transition => {
+
+            setTransitionProgress(
+                transition,
+                0
+            );
+
+        }
+    );
+
+
+
+/* =========================================================
+   STARTZUSTAND
+========================================================= */
+
+updateDebug(
+    STATES.START,
+    "–",
+    0
+);
+
+
+
+/* =========================================================
+   ENDLOSSCHLEIFE
+=========================================================
+
+   Wir kopieren nicht einfach komplette Seiten
+   innerhalb einer Transition.
+
+   Stattdessen wird nach unten ein neuer Zyklus
+   eingefügt.
+
+========================================================= */
+
+function createCycle() {
+
+    const fragment =
+        document.createDocumentFragment();
+
+
+    /*
+       NEUER ÜBERGANG:
+
+       Seite 1 → Spalte → Seite 2
+    */
+
+    const transitionForward =
+        document.createElement(
+            "section"
+        );
+
+
+    transitionForward.className =
+        "zip-transition forward";
+
+
+    transitionForward.dataset.from =
+        "one";
+
+
+    transitionForward.dataset.to =
+        "two";
+
+
+    transitionForward.dataset.progress =
+        "0";
+
+
+    transitionForward.innerHTML = `
+
         <div class="zip-sticky">
-            <div class="reveal-page ${to === "one" ? "page-one" : "page-two"}">
-                <div class="cover-left-content is-complete">
-                    ${revealLeftHTML}
+
+            <div class="reveal-page page-two">
+
+                <div class="page-two-content">
+
+                    <div class="page-two-kicker">
+                        b3nn3t
+                    </div>
+
+                    <h1 class="page-two-title">
+                        fragments
+                    </h1>
+
+                    <p class="page-two-intro">
+                        Die andere Seite von „gespalten“.
+                        Hier beginnt die zweite Seite.
+                    </p>
+
+                    <div class="fragment-grid">
+
+                        <div class="fragment">
+                            <h2>fragment 01</h2>
+                            <p>
+                                Texte, Bilder,
+                                Notizen und Videos.
+                            </p>
+                        </div>
+
+                        <div class="fragment">
+                            <h2>fragment 02</h2>
+                            <p>
+                                Weitere Informationen
+                                zum Album.
+                            </p>
+                        </div>
+
+                    </div>
+
                 </div>
-                <div class="cover-right-content is-complete">
-                    ${revealRightHTML}
-                </div>
+
             </div>
+
+
+            <div
+                class="column-content"
+                style="--column-visible:0;"
+            >
+
+                <div class="column-inner">
+
+                    <div class="column-label">
+                        zwischen den seiten
+                    </div>
+
+                    <div class="column-title">
+                        die spalte
+                    </div>
+
+                    <div class="column-line"></div>
+
+                    <div class="column-text">
+                        Hier kann dein eigener
+                        Inhalt stehen.
+                    </div>
+
+                </div>
+
+            </div>
+
 
             <div class="zip-cover">
-                <div class="zip-left${coverClass}">
+
+                <div class="zip-left">
+
                     <div class="cover-content">
-                        <div class="cover-left-content is-complete">
-                            ${coverLeftHTML}
+
+                        <div class="cover-left-content">
+
+                            <div class="kicker">
+                                b3nn3t
+                            </div>
+
+                            <h1 class="cover-title">
+                                gespalten
+                            </h1>
+
                         </div>
+
                     </div>
+
                 </div>
 
-                <div class="zip-right${coverClass}">
+
+                <div class="zip-right">
+
                     <div class="cover-content">
-                        <div class="cover-right-content is-complete">
-                            ${coverRightHTML}
+
+                        <div class="cover-right-content">
+
+                            <div class="kicker">
+                                neues album
+                            </div>
+
+                            <h2>
+                                die andere seite
+                            </h2>
+
                         </div>
+
                     </div>
+
                 </div>
-                <div class="zip-hint">nach unten öffnen</div>
+
+
+                <div class="zip-hint">
+                    nach unten öffnen
+                </div>
+
             </div>
+
         </div>
     `;
 
-    return section;
-}
 
-function createCycle() {
-    const fragment = document.createDocumentFragment();
 
-    fragment.appendChild(createTransition("one", "two"));
-    fragment.appendChild(createTransition("two", "one"));
+    /* ================================================
+       SEITE 2
+    ================================================= */
+
+    const pageTwo =
+        document.createElement(
+            "section"
+        );
+
+
+    pageTwo.className =
+        "normal-page page-two";
+
+
+    pageTwo.innerHTML = `
+
+        <div class="page-two-content">
+
+            <div class="page-two-kicker">
+                b3nn3t
+            </div>
+
+            <h1 class="page-two-title">
+                fragments
+            </h1>
+
+            <p class="page-two-intro">
+                Die andere Seite von „gespalten“.
+                Hier beginnt die zweite Seite.
+            </p>
+
+            <div class="fragment-grid">
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 01
+                    </h2>
+
+                    <p>
+                        Texte, Bilder,
+                        Notizen und Videos.
+                    </p>
+
+                </div>
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 02
+                    </h2>
+
+                    <p>
+                        Weitere Informationen
+                        zum Album.
+                    </p>
+
+                </div>
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 03
+                    </h2>
+
+                    <p>
+                        Platz für zusätzliche
+                        Inhalte.
+                    </p>
+
+                </div>
+
+
+                <div class="fragment">
+
+                    <h2>
+                        fragment 04
+                    </h2>
+
+                    <p>
+                        Die Seite kann
+                        erweitert werden.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+
+
+    /* ================================================
+       SEITE 2 → SPALTE → SEITE 1
+    ================================================= */
+
+    const transitionReverse =
+        document.createElement(
+            "section"
+        );
+
+
+    transitionReverse.className =
+        "zip-transition reverse";
+
+
+    transitionReverse.dataset.from =
+        "two";
+
+
+    transitionReverse.dataset.to =
+        "one";
+
+
+    transitionReverse.dataset.progress =
+        "0";
+
+
+    transitionReverse.innerHTML = `
+
+        <div class="zip-sticky">
+
+            <div class="reveal-page page-one">
+
+                <div class="page-one-content">
+
+                    <div class="page-one-left">
+
+                        <div class="kicker">
+                            b3nn3t
+                        </div>
+
+                        <h1 class="main-title">
+                            gespalten
+                        </h1>
+
+                        <p class="subtitle">
+                            10 kurze Songs.
+                            12 Minuten zwischen alt und neu.
+                        </p>
+
+                        <div class="media-card">
+                            DEIN VIDEO / BILD
+                        </div>
+
+                    </div>
+
+
+                    <div class="page-one-right">
+
+                        <div class="kicker">
+                            neues album
+                        </div>
+
+                        <h2>
+                            die andere seite
+                        </h2>
+
+                        <p>
+                            Ein Übergang zwischen zwei Seiten.
+                            Alt und neu.
+                            Dazwischen liegt die Spalte.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="column-content"
+                style="--column-visible:0;"
+            >
+
+                <div class="column-inner">
+
+                    <div class="column-label">
+                        zurück durch die spalte
+                    </div>
+
+                    <div class="column-title">
+                        zurück
+                    </div>
+
+                    <div class="column-line"></div>
+
+                    <div class="column-text">
+                        Ein eigener Inhalt
+                        für den Rückweg.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="zip-cover">
+
+                <div class="zip-left">
+
+                    <div class="cover-content">
+
+                        <div class="cover-left-content">
+
+                            <div class="kicker">
+                                b3nn3t
+                            </div>
+
+                            <h1 class="cover-title">
+                                fragments
+                            </h1>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="zip-right">
+
+                    <div class="cover-content">
+
+                        <div class="cover-right-content">
+
+                            <div class="kicker">
+                                zurück
+                            </div>
+
+                            <h2>
+                                gespalten
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="zip-hint">
+                    nach oben öffnen
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+
+
+    /* ================================================
+       SEITE 1
+    ================================================= */
+
+    const pageOne =
+        document.createElement(
+            "section"
+        );
+
+
+    pageOne.className =
+        "normal-page page-one";
+
+
+    pageOne.innerHTML = `
+
+        <div class="page-one-content">
+
+            <div class="page-one-left">
+
+                <div class="kicker">
+                    b3nn3t
+                </div>
+
+                <h1 class="main-title">
+                    gespalten
+                </h1>
+
+                <p class="subtitle">
+                    10 kurze Songs.
+                    12 Minuten zwischen alt und neu.
+                </p>
+
+                <div class="media-card">
+                    DEIN VIDEO / BILD
+                </div>
+
+            </div>
+
+
+            <div class="page-one-right">
+
+                <div class="kicker">
+                    neues album
+                </div>
+
+                <h2>
+                    die andere seite
+                </h2>
+
+                <p>
+                    Ein Übergang zwischen zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt die Spalte.
+                </p>
+
+            </div>
+
+        </div>
+    `;
+
+
+
+    fragment.appendChild(
+        transitionForward
+    );
+
+
+    fragment.appendChild(
+        pageTwo
+    );
+
+
+    fragment.appendChild(
+        transitionReverse
+    );
+
+
+    fragment.appendChild(
+        pageOne
+    );
+
 
     return fragment;
 }
 
-for (let i = 0; i < 3; i++) {
-    loop.appendChild(createCycle());
-}
+
+
+/* =========================================================
+   EINEN WEITEREN ZYKLUS ANHÄNGEN
+========================================================= */
 
 function ensureInfiniteScroll() {
-    const scrollPosition = window.scrollY + window.innerHeight;
-    const documentHeight = document.documentElement.scrollHeight;
 
-    if (documentHeight - scrollPosition < 3000) {
-        loop.appendChild(createCycle());
+    const scrollPosition =
+        window.scrollY +
+        window.innerHeight;
+
+
+    const documentHeight =
+        document.documentElement
+            .scrollHeight;
+
+
+    /*
+       Wenn wir uns dem Ende nähern,
+       kommt ein neuer Zyklus dazu.
+    */
+
+    if (
+        documentHeight -
+        scrollPosition <
+        2500
+    ) {
+
+        loop.appendChild(
+            createCycle()
+        );
+
     }
+
 }
+
+
+
+/* =========================================================
+   SCROLL-WATCHER
+========================================================= */
 
 window.addEventListener(
     "scroll",
     () => {
+
         ensureInfiniteScroll();
+
     },
-    { passive: true }
+    {
+        passive: true
+    }
 );
 
-document.querySelectorAll(".zip-transition").forEach(transition => {
-    setTransitionProgress(transition, 0);
-});
+
+/* =========================================================
+   ENDE
+========================================================= */
+
 </script>
+
 </body>
 </html>
