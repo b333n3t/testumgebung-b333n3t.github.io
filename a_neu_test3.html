@@ -1,169 +1,157 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>b3nn3t – gespalten</title>
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>B3NN3T – gespalten</title>
+
 
 <style>
 
 /* =========================================================
-   GRUNDVARIABLEN
-========================================================= */
-
-:root {
-    --blue-dark: #061523;
-    --blue: #0b2438;
-    --blue-end: #091c2c;
-
-    --green-dark: #323718;
-    --green: #4a5027;
-    --green-end: #343919;
-
-    --thread: #c47725;
-    --thread-light: #e09a3b;
-
-    --white: #f1f0e7;
-
-    /*
-       Öffnungsgrad der AKTUELLEN Spalte.
-       0 = geschlossen
-       1 = vollständig geöffnet
-    */
-    --progress: 0;
-
-    /*
-       Öffnungsgrad der nächsten Seite.
-       Wird erst aktiv, wenn die erste Seite
-       vollständig geöffnet ist.
-    */
-    --next-progress: 0;
-}
-
-
-/* =========================================================
-   RESET
+   GRUNDLAGEN
 ========================================================= */
 
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
-html {
-    scroll-behavior: auto;
+html,
+body {
+    margin: 0;
+    padding: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
 }
 
 body {
-    overflow-x: hidden;
-    background: var(--blue-dark);
-    color: var(--white);
+    background: #071521;
+
+    color: #f2eee5;
+
     font-family:
         Arial,
         Helvetica,
         sans-serif;
+
+    user-select: none;
+
+    touch-action: none;
 }
 
 
 /* =========================================================
-   HAUPTBEREICH
+   HAUPTBÜHNE
 ========================================================= */
 
-#app {
-    position: relative;
-    width: 100%;
-}
+#stage {
 
+    position: fixed;
 
-/*
-   Genau ZWEI logische Zustände:
+    inset: 0;
 
-   Zustand 1:
-   SEITE 1 → SPALTE → SEITE 2
-
-   Zustand 2:
-   SEITE 2 → SPALTE → SEITE 1
-*/
-
-.state {
-    position: relative;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
-}
-
-.state-inner {
-    position: sticky;
-    top: 0;
-
-    width: 100%;
-    height: 100dvh;
-    min-height: 100vh;
 
     overflow: hidden;
+
+    background: #071521;
 }
 
 
 /* =========================================================
-   SEITEN-HINTERGRÜNDE
+   DIE BEIDEN SEITEN
+=========================================================
+
+   Beide Seiten liegen exakt übereinander.
+
+   Die aktuelle Seite liegt OBEN.
+
+   Die nächste Seite liegt UNTEN.
+
+   Beim Öffnen der aktuellen Seite wird
+   die darunterliegende Seite sichtbar.
 ========================================================= */
 
 .page {
+
     position: absolute;
+
     inset: 0;
+
+    width: 100%;
+    height: 100%;
 
     overflow: hidden;
 }
 
 
-/* Seite 1 – Blau */
+/* =========================================================
+   SEITE 1 – BLAU
+========================================================= */
 
-.page-one {
+.page-blue {
+
     background:
         radial-gradient(
             ellipse at 50% 50%,
-            rgba(50, 100, 135, 0.22),
-            transparent 55%
+            rgba(28, 102, 145, 0.30),
+            transparent 58%
         ),
         linear-gradient(
             115deg,
-            var(--blue-dark),
-            var(--blue) 50%,
-            var(--blue-end)
+            #07131d 0%,
+            #0b2438 48%,
+            #081b2b 100%
         );
 }
 
 
-/* Seite 2 – Grün */
+/* =========================================================
+   SEITE 2 – GRÜN
+========================================================= */
 
-.page-two {
+.page-green {
+
     background:
         radial-gradient(
             ellipse at 50% 50%,
-            rgba(135, 139, 72, 0.18),
-            transparent 55%
+            rgba(143, 148, 73, 0.20),
+            transparent 58%
         ),
         linear-gradient(
-            135deg,
-            var(--green-dark),
-            var(--green) 45%,
-            var(--green-end)
+            125deg,
+            #303616 0%,
+            #4a5026 48%,
+            #353a19 100%
         );
 }
 
 
-/* Stoffstruktur */
+/* =========================================================
+   LEICHTE TEXTUR
+========================================================= */
 
 .page::before {
+
     content: "";
 
     position: absolute;
+
     inset: 0;
 
     pointer-events: none;
 
-    opacity: 0.20;
+    opacity: 0.18;
 
     background-image:
         repeating-linear-gradient(
@@ -171,56 +159,66 @@ body {
             rgba(255,255,255,0.035) 0px,
             rgba(255,255,255,0.035) 1px,
             transparent 1px,
-            transparent 3px
+            transparent 4px
         ),
         repeating-linear-gradient(
             25deg,
-            rgba(0,0,0,0.09) 0px,
-            rgba(0,0,0,0.09) 1px,
+            rgba(0,0,0,0.06) 0px,
+            rgba(0,0,0,0.06) 1px,
             transparent 1px,
-            transparent 4px
+            transparent 5px
         );
 }
 
 
 /* =========================================================
-   SEITENINHALT
+   INHALT
 ========================================================= */
 
-.page-content {
+.content {
+
     position: absolute;
 
     inset: 0;
 
-    z-index: 5;
+    width: 100%;
+    height: 100%;
+
+    padding: 8vh 7vw;
 
     pointer-events: none;
 }
 
 
-/* Linke Hälfte */
+/* =========================================================
+   LINKER INHALT
+========================================================= */
 
-.content-left {
+.left {
+
     position: absolute;
 
     left: 7vw;
     top: 8vh;
 
-    width: 40vw;
+    width: 42vw;
 
     text-align: left;
 }
 
 
-/* Rechte Hälfte */
+/* =========================================================
+   RECHTER INHALT
+========================================================= */
 
-.content-right {
+.right {
+
     position: absolute;
 
     right: 7vw;
     top: 8vh;
 
-    width: 40vw;
+    width: 42vw;
 
     text-align: right;
 }
@@ -231,227 +229,205 @@ body {
 ========================================================= */
 
 .kicker {
-    color: var(--thread-light);
+
+    color: #d28a32;
 
     font-size: 0.85rem;
-    font-weight: bold;
+
+    font-weight: 700;
 
     letter-spacing: 0.25em;
+
     text-transform: uppercase;
 
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 
 h1 {
-    color: var(--white);
 
-    font-size: clamp(4rem, 9vw, 9rem);
+    margin: 0 0 25px 0;
 
-    line-height: 0.80;
+    color: #f1eee7;
 
-    letter-spacing: -0.07em;
+    font-size:
+        clamp(4.5rem, 9vw, 9rem);
 
-    margin-bottom: 22px;
+    line-height: 0.78;
+
+    letter-spacing: -0.075em;
+
+    font-weight: 700;
 }
 
 
 h2 {
-    color: var(--white);
 
-    font-size: clamp(3rem, 6vw, 6rem);
+    margin: 0 0 25px 0;
 
-    line-height: 0.82;
+    color: #f1eee7;
 
-    letter-spacing: -0.06em;
+    font-size:
+        clamp(3rem, 6vw, 6.5rem);
 
-    margin-bottom: 20px;
+    line-height: 0.80;
+
+    letter-spacing: -0.065em;
+
+    font-weight: 700;
 }
 
 
-.subtitle,
-.intro {
-    color: #d2b98d;
+.subtitle {
 
-    font-size: clamp(1rem, 1.6vw, 1.3rem);
+    color: #d5bd91;
 
-    line-height: 1.55;
+    font-size:
+        clamp(1rem, 1.5vw, 1.35rem);
+
+    line-height: 1.5;
+
+    max-width: 650px;
 }
 
 
 /* =========================================================
-   VIDEO / BILD
+   VIDEO
 ========================================================= */
 
-.media-card {
-    width: min(370px, 34vw);
+.video-box {
+
+    position: relative;
+
+    width: min(420px, 34vw);
 
     aspect-ratio: 16 / 10;
 
-    margin-top: 32px;
-
-    border:
-        2px solid
-        rgba(230,220,190,0.55);
-
-    border-radius: 15px;
+    margin-top: 38px;
 
     overflow: hidden;
 
-    background:
-        linear-gradient(
-            135deg,
-            #77776b,
-            #b9b39c
-        );
+    border-radius: 15px;
 
-    display: flex;
+    border:
+        2px solid
+        rgba(225,220,195,0.65);
 
-    align-items: center;
-    justify-content: center;
+    background: #aaa590;
 
-    color: #292923;
-
-    font-weight: bold;
+    color: #2e2e28;
 }
 
 
-/*
-   Das echte Video.
-   Wenn du es verwenden möchtest, einfach
-   das Video im HTML unten aktiv lassen.
-*/
-
-.media-card video {
-    width: 100%;
-    height: 100%;
+.video-box video {
 
     display: block;
+
+    width: 100%;
+    height: 100%;
 
     object-fit: cover;
 }
 
 
 /* =========================================================
-   SEITE 2
+   SEITE 2 – ZUSATZINHALT
 ========================================================= */
 
-.page-two .content-left,
-.page-two .content-right {
-    top: 8vh;
-}
+.fragments {
 
+    margin-top: 35px;
 
-.page-two .content-left {
-    width: 42vw;
-}
-
-
-.page-two .content-right {
-    width: 42vw;
-}
-
-
-.page-two h1 {
-    font-size: clamp(3rem, 7vw, 7rem);
-}
-
-
-.page-two .intro {
-    max-width: 650px;
-}
-
-
-.fragment-grid {
     display: flex;
 
     flex-direction: column;
 
-    gap: 12px;
+    gap: 14px;
 
-    margin-top: 25px;
+    max-width: 550px;
 }
 
 
 .fragment {
-    padding: 14px 18px;
+
+    padding: 15px 18px;
 
     border:
         1px solid
-        rgba(220,220,190,0.30);
+        rgba(225,220,190,0.28);
 
     border-radius: 8px;
 
     background:
         rgba(0,0,0,0.12);
-
-    text-align: left;
 }
 
 
-.fragment h3 {
-    color: var(--thread);
-
-    font-size: 0.95rem;
+.fragment-title {
 
     margin-bottom: 5px;
 
-    text-transform: uppercase;
+    color: #d28a32;
 
-    letter-spacing: 0.08em;
+    font-size: 0.8rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
 }
 
 
-.fragment p {
-    color: #d0c89d;
+.fragment-text {
 
-    font-size: 0.85rem;
+    color: #d3cb9f;
 
-    line-height: 1.5;
+    font-size: 0.88rem;
+
+    line-height: 1.45;
 }
 
 
 /* =========================================================
-   DIE ZENTRALE SPALTE
+   =========================================================
+   DIE SPALTE
+   =========================================================
 =========================================================
 
-   DAS IST DER ENTSCHEIDENDE TEIL.
+   GANZ WICHTIG:
 
-   Die Spalte ist NICHT erst später sichtbar.
+   Die Spalte ist IMMER vorhanden.
 
-   Sie liegt von Anfang an in der Mitte.
+   Sie verschwindet niemals.
 
-   Zustand 1:
-       Seite 1 | SPALTE | Seite 2
-
-   Zustand 2:
-       Seite 2 | SPALTE | Seite 1
+   Sie sitzt exakt in der Mitte.
 
 ========================================================= */
 
 .column {
+
     position: absolute;
+
+    z-index: 1000;
 
     top: 0;
     bottom: 0;
 
     left: 50%;
 
-    width: 8px;
+    width: 7px;
 
     transform:
         translateX(-50%);
-
-    z-index: 100;
 
     pointer-events: none;
 }
 
 
-/* Leuchtender Kern */
+/* heller Kern */
 
-.column::before {
-    content: "";
+.column-core {
 
     position: absolute;
 
@@ -468,24 +444,23 @@ h2 {
     background:
         linear-gradient(
             to bottom,
-            rgba(36,148,255,0.15),
-            rgba(36,148,255,1) 30%,
-            rgba(80,180,255,1) 50%,
-            rgba(36,148,255,1) 70%,
-            rgba(36,148,255,0.15)
+            rgba(43,145,220,0.10),
+            rgba(49,155,230,0.90) 25%,
+            rgba(75,180,250,1) 50%,
+            rgba(49,155,230,0.90) 75%,
+            rgba(43,145,220,0.10)
         );
 
     box-shadow:
-        0 0 10px rgba(36,148,255,0.75),
-        0 0 30px rgba(36,148,255,0.40),
-        0 0 70px rgba(36,148,255,0.25);
+        0 0 8px rgba(55,170,245,0.9),
+        0 0 25px rgba(55,170,245,0.55),
+        0 0 55px rgba(55,170,245,0.30);
 }
 
 
-/* feiner äußerer Schein */
+/* äußerer Schein */
 
-.column::after {
-    content: "";
+.column-glow {
 
     position: absolute;
 
@@ -494,7 +469,7 @@ h2 {
 
     left: 50%;
 
-    width: 32px;
+    width: 35px;
 
     transform:
         translateX(-50%);
@@ -503,7 +478,7 @@ h2 {
         linear-gradient(
             to right,
             transparent,
-            rgba(36,148,255,0.15),
+            rgba(50,160,235,0.18),
             transparent
         );
 
@@ -512,293 +487,169 @@ h2 {
 
 
 /* =========================================================
-   SEITEN-HÄLFTEN
+   DIE AKTUELLE SEITE WIRD GEÖFFNET
 =========================================================
 
-   Jede Seite besteht aus zwei Hälften.
+   Zwei Hälften.
 
-   Diese Hälften bewegen sich beim Öffnen
-   von der zentralen Spalte weg.
+   Ausgang:
+
+        [ Seite ]
+
+   Die Spalte liegt optisch darüber.
+
+   Beim Öffnen:
+
+        [ Seite  |  Spalte  |  Seite ]
+
+   Die beiden Hälften bewegen sich nach außen.
 
 ========================================================= */
 
-.split-page {
-    position: absolute;
+.current-page {
 
-    inset: 0;
+    z-index: 100;
 
-    z-index: 20;
+    /*
+       Öffnungsgrad.
 
-    overflow: hidden;
+       0 = geschlossen
+       1 = vollständig geöffnet
+    */
+
+    --open: 0;
 }
 
 
-/* linke Hälfte */
+/* =========================================================
+   LINKE HÄLFTE DER AKTUELLEN SEITE
+========================================================= */
 
-.half-left {
+.current-left {
+
     position: absolute;
 
-    top: 0;
     left: 0;
-
-    width: 50%;
-    height: 100%;
-
-    overflow: hidden;
-
-    clip-path:
-        polygon(
-            0 0,
-            calc(100% - var(--gap-left)) 0,
-            calc(100% - var(--gap-left)) 100%,
-            0 100%
-        );
-}
-
-
-/* rechte Hälfte */
-
-.half-right {
-    position: absolute;
-
     top: 0;
-    right: 0;
 
     width: 50%;
     height: 100%;
 
     overflow: hidden;
 
-    clip-path:
-        polygon(
-            var(--gap-right) 0,
-            100% 0,
-            100% 100%,
-            var(--gap-right) 100%
-        );
-}
+    /*
+       Die rechte Kante bewegt sich
+       beim Öffnen nach links.
 
+       Dadurch entsteht die Spalte.
+    */
 
-/*
-   Die eigentliche Öffnung.
-
-   0%:
-   beide Hälften liegen direkt an der Spalte.
-
-   100%:
-   beide Hälften sind maximal nach außen geöffnet.
-*/
-
-.state {
-    --gap-left: 0%;
-    --gap-right: 0%;
-}
-
-
-/* =========================================================
-   ZUSTAND 1
-   SEITE 1 → SPALTE → SEITE 2
-========================================================= */
-
-#state-one {
-    --current-color: var(--blue);
-}
-
-
-/*
-   Seite 1 liegt vorne.
-
-   Sie wird beim Öffnen auseinandergezogen.
-*/
-
-#state-one .page-one-split {
-    z-index: 40;
-}
-
-
-/*
-   Seite 2 liegt darunter.
-
-   Sie wird erst sichtbar,
-   nachdem Seite 1 vollständig geöffnet ist.
-*/
-
-#state-one .page-two-split {
-    z-index: 30;
-}
-
-
-/* =========================================================
-   ZUSTAND 2
-   SEITE 2 → SPALTE → SEITE 1
-========================================================= */
-
-#state-two {
-    --current-color: var(--green);
-}
-
-
-#state-two .page-two-split {
-    z-index: 40;
-}
-
-
-#state-two .page-one-split {
-    z-index: 30;
-}
-
-
-/* =========================================================
-   CONTENT-INHALT IN DEN HÄLFTEN
-=========================================================
-
-   Der Inhalt muss in beiden Hälften doppelt vorhanden
-   sein, damit er nicht abgeschnitten wird.
-
-========================================================= */
-
-.split-content-left {
-    position: absolute;
-
-    left: 7vw;
-    top: 8vh;
-
-    width: 38vw;
-}
-
-
-.split-content-right {
-    position: absolute;
-
-    right: 7vw;
-    top: 8vh;
-
-    width: 38vw;
-
-    text-align: right;
-}
-
-
-/* =========================================================
-   ÖFFNUNGS-ANIMATION
-=========================================================
-
-   JavaScript setzt:
-
-       --gap-left
-       --gap-right
-
-   Diese Werte werden direkt aus dem Fortschritt
-   berechnet.
-
-========================================================= */
-
-.opening-left {
     clip-path:
         polygon(
             0 0,
-            calc(100% - var(--gap-left)) 0,
-            calc(100% - var(--gap-left)) 100%,
+            calc(
+                100% -
+                (var(--open) * 50%)
+            ) 0,
+            calc(
+                100% -
+                (var(--open) * 50%)
+            ) 100%,
             0 100%
         );
 }
 
 
-.opening-right {
+/* =========================================================
+   RECHTE HÄLFTE
+========================================================= */
+
+.current-right {
+
+    position: absolute;
+
+    right: 0;
+    top: 0;
+
+    width: 50%;
+    height: 100%;
+
+    overflow: hidden;
+
+    /*
+       Die linke Kante bewegt sich
+       beim Öffnen nach rechts.
+    */
+
     clip-path:
         polygon(
-            var(--gap-right) 0,
+            calc(
+                var(--open) * 50%
+            ) 0,
             100% 0,
             100% 100%,
-            var(--gap-right) 100%
+            calc(
+                var(--open) * 50%
+            ) 100%
         );
 }
 
 
 /* =========================================================
-   HINWEIS
+   INHALT INNERHALB DER SPLIT-HÄLFTEN
 ========================================================= */
 
-.scroll-hint {
-    position: absolute;
+.current-left .content,
+.current-right .content {
 
-    left: 50%;
-    bottom: 28px;
-
-    transform:
-        translateX(-50%);
-
-    z-index: 300;
-
-    color: var(--thread);
-
-    font-size: 0.72rem;
-
-    letter-spacing: 0.18em;
-
-    text-transform: uppercase;
-
-    white-space: nowrap;
-
-    opacity: 0.9;
-
-    pointer-events: none;
-}
-
-
-.scroll-hint::after {
-    content: "";
-
-    display: block;
-
-    width: 14px;
-    height: 14px;
-
-    margin: 10px auto 0;
-
-    border-right:
-        2px solid
-        var(--thread);
-
-    border-bottom:
-        2px solid
-        var(--thread);
-
-    transform:
-        rotate(45deg);
+    width: 100%;
 }
 
 
 /* =========================================================
-   STATUS-ANZEIGE
+   TRANSITIONS
+=========================================================
+
+   Wir verwenden bewusst KEINE CSS-Transition.
+
+   Die Bewegung wird direkt durch Scroll gesteuert.
+
+   Dadurch ist die Spalte wirklich an den Scroll-Fortschritt
+   gekoppelt.
 ========================================================= */
 
-.status {
+
+/* =========================================================
+   STATUSANZEIGE
+========================================================= */
+
+.debug {
+
     position: fixed;
 
-    right: 25px;
-    bottom: 25px;
+    right: 22px;
+    bottom: 22px;
 
-    z-index: 500;
+    z-index: 2000;
 
     width: 190px;
 
     padding: 14px;
 
+    border-radius: 5px;
+
     background:
-        rgba(0,0,0,0.55);
+        rgba(0,0,0,0.52);
 
     border:
         1px solid
         rgba(255,255,255,0.12);
 
-    border-radius: 5px;
-
     backdrop-filter: blur(10px);
 
     font-size: 10px;
 
-    line-height: 1.5;
+    line-height: 1.45;
 
     text-transform: uppercase;
 
@@ -806,15 +657,69 @@ h2 {
 }
 
 
-.status-label {
-    color: var(--thread);
+.debug-label {
+
+    color: #d28a32;
 }
 
 
-.status-value {
+.debug-value {
+
     color: white;
 
-    margin-bottom: 7px;
+    margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   SCROLL-HINWEIS
+========================================================= */
+
+.hint {
+
+    position: fixed;
+
+    left: 50%;
+    bottom: 28px;
+
+    transform:
+        translateX(-50%);
+
+    z-index: 1500;
+
+    color: #d28a32;
+
+    font-size: 0.7rem;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+
+.hint-arrow {
+
+    width: 12px;
+    height: 12px;
+
+    margin:
+        10px auto 0;
+
+    border-right:
+        2px solid
+        #d28a32;
+
+    border-bottom:
+        2px solid
+        #d28a32;
+
+    transform:
+        rotate(45deg);
 }
 
 
@@ -824,70 +729,95 @@ h2 {
 
 @media (max-width: 700px) {
 
-    .content-left,
-    .content-right,
-    .split-content-left,
-    .split-content-right {
-        width: 40vw;
+    .content {
+
+        padding:
+            7vh 5vw;
+    }
+
+
+    .left {
+
+        left: 5vw;
+        top: 7vh;
+
+        width: 42vw;
+    }
+
+
+    .right {
+
+        right: 5vw;
+        top: 7vh;
+
+        width: 42vw;
     }
 
 
     h1 {
-        font-size: clamp(2.4rem, 12vw, 4.5rem);
+
+        font-size:
+            clamp(2.5rem, 11vw, 4.5rem);
     }
 
 
     h2 {
-        font-size: clamp(2rem, 9vw, 3.5rem);
+
+        font-size:
+            clamp(2.2rem, 9vw, 4rem);
     }
 
 
-    .subtitle,
-    .intro {
+    .subtitle {
+
         font-size: 0.75rem;
-
-        line-height: 1.35;
     }
 
 
-    .media-card {
+    .video-box {
+
         width: 100%;
 
         max-width: 180px;
 
-        margin-top: 18px;
+        margin-top: 20px;
     }
 
 
-    .column {
-        width: 6px;
-    }
+    .debug {
 
+        right: 8px;
+        bottom: 8px;
 
-    .status {
-        right: 10px;
-        bottom: 10px;
-
-        width: 150px;
+        width: 145px;
 
         font-size: 8px;
+    }
+
+
+    .hint {
+
+        bottom: 15px;
+
+        font-size: 0.55rem;
     }
 }
 
 
 /* =========================================================
-   REDUCED MOTION
+   BEI REDUCED MOTION
 ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-    * {
-        scroll-behavior: auto !important;
+    .hint {
+        transition: none;
     }
 
 }
 
 </style>
+
 </head>
 
 
@@ -895,282 +825,71 @@ h2 {
 
 
 <!-- =======================================================
-     APP
+     HAUPTBÜHNE
 ======================================================= -->
 
-<div id="app">
+<main id="stage">
 
 
     <!-- ===================================================
-         ZUSTAND 1
+         NÄCHSTE SEITE
 
-         SEITE 1 → SPALTE → SEITE 2
+         Sie liegt IMMER hinter der aktuellen Seite.
+
+         Wenn die aktuelle Seite aufgeht,
+         wird diese Seite sichtbar.
     ==================================================== -->
 
-    <section
-        class="state"
-        id="state-one"
-        data-state="one"
+    <div
+        id="nextPage"
+        class="page page-green"
     >
 
-        <div class="state-inner">
+        <div class="content">
 
+            <div class="left">
 
-            <!-- =========================================
-                 SEITE 2 – HINTERGRUND
-            ========================================== -->
-
-            <div
-                class="page page-two"
-                aria-hidden="true"
-            >
-
-                <div class="page-content">
-
-                    <div class="content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            fragments
-                        </h1>
-
-                        <p class="intro">
-                            die andere seite von „gespalten“.
-                            Hier beginnt die zweite Seite.
-                        </p>
-
-                    </div>
-
-
-                    <div class="content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="intro">
-                            Ein Übergang zwischen zwei Seiten.
-                            Alt und neu.
-                            Dazwischen liegt die Spalte.
-                        </p>
-
-                    </div>
-
+                <div class="kicker">
+                    b3nn3t
                 </div>
 
-            </div>
+                <h1>
+                    fragments
+                </h1>
+
+                <p class="subtitle">
+                    die andere Seite von „gespalten“.
+                    Hier beginnt die zweite Seite.
+                </p>
 
 
-            <!-- =========================================
-                 SEITE 1 – HINTERGRUND
-            ========================================== -->
+                <div class="fragments">
 
-            <div
-                class="page page-one"
-                aria-hidden="true"
-            >
+                    <div class="fragment">
 
-                <div class="page-content">
-
-                    <div class="content-left">
-
-                        <div class="kicker">
-                            b3nn3t
+                        <div class="fragment-title">
+                            fragment 01
                         </div>
 
-                        <h1>
-                            gespalten
-                        </h1>
-
-                        <p class="subtitle">
-                            10 kurze Songs.
-                            12 Minuten zwischen alt und neu.
-                        </p>
-
-                    </div>
-
-
-                    <div class="content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="subtitle">
-                            Ein Übergang zwischen zwei Seiten.
-                            Alt und neu.
-                            Dazwischen liegt die Spalte.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =========================================
-                 SEITE 2 – SPLIT
-            ========================================== -->
-
-            <div
-                class="split-page page-two-split"
-                aria-hidden="true"
-            >
-
-                <div
-                    class="half-left"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(135,139,72,0.18),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            135deg,
-                            #323718,
-                            #4a5027 45%,
-                            #343919
-                        );
-                    "
-                >
-
-                    <div class="split-content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            fragments
-                        </h1>
-
-                        <p class="intro">
-                            die andere Seite von
-                            „gespalten“.
-                            Hier beginnt die zweite Seite.
-                        </p>
-
-
-                        <div class="fragment-grid">
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 01
-                                </h3>
-
-                                <p>
-                                    Texte, Bilder, Notizen,
-                                    Entstehungsgeschichte,
-                                    Lyrics oder weitere Videos.
-                                </p>
-
-                            </div>
-
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 02
-                                </h3>
-
-                                <p>
-                                    Weitere Informationen
-                                    zum Album und zu den
-                                    einzelnen Songs.
-                                </p>
-
-                            </div>
-
+                        <div class="fragment-text">
+                            Texte, Bilder, Notizen,
+                            Entstehungsgeschichte,
+                            Lyrics oder weitere Videos.
                         </div>
 
                     </div>
 
-                </div>
 
+                    <div class="fragment">
 
-                <div
-                    class="half-right"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(135,139,72,0.18),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            135deg,
-                            #323718,
-                            #4a5027 45%,
-                            #343919
-                        );
-                    "
-                >
-
-                    <div class="split-content-right">
-
-                        <div class="kicker">
-                            neues album
+                        <div class="fragment-title">
+                            fragment 02
                         </div>
 
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="intro">
-                            Musik, Texte, Bilder,
-                            Videos oder weitere
-                            Fragmente.
-                        </p>
-
-
-                        <div class="fragment-grid">
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 03
-                                </h3>
-
-                                <p>
-                                    Platz für zusätzliche
-                                    Inhalte, Bilder,
-                                    Medien oder Texte.
-                                </p>
-
-                            </div>
-
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 04
-                                </h3>
-
-                                <p>
-                                    Die zweite Seite kann
-                                    hier beliebig erweitert
-                                    werden.
-                                </p>
-
-                            </div>
-
+                        <div class="fragment-text">
+                            Weitere Informationen
+                            zum Album und zu den
+                            einzelnen Songs.
                         </div>
 
                     </div>
@@ -1180,606 +899,221 @@ h2 {
             </div>
 
 
-            <!-- =========================================
-                 SEITE 1 – SPLIT
-            ========================================== -->
+            <div class="right">
 
-            <div
-                class="split-page page-one-split"
-            >
-
-                <div
-                    class="half-left"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(50,100,135,0.22),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            115deg,
-                            #061523,
-                            #0b2438 50%,
-                            #091c2c
-                        );
-                    "
-                >
-
-                    <div class="split-content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            gespalten
-                        </h1>
-
-                        <p class="subtitle">
-                            10 kurze Songs.
-                            12 Minuten zwischen alt und neu.
-                        </p>
-
-
-                        <div class="media-card">
-
-                            <video
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="/assets/gespalten/gespalten.jpg"
-                            >
-
-                                <source
-                                    src="/assets/gespalten/gespalten.mp4"
-                                    type="video/mp4"
-                                >
-
-                                Dein Browser unterstützt
-                                dieses Videoformat nicht.
-
-                            </video>
-
-                        </div>
-
-                    </div>
-
+                <div class="kicker">
+                    neues album
                 </div>
 
+                <h2>
+                    die andere<br>
+                    seite
+                </h2>
 
-                <div
-                    class="half-right"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(50,100,135,0.22),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            115deg,
-                            #061523,
-                            #0b2438 50%,
-                            #091c2c
-                        );
-                    "
-                >
-
-                    <div class="split-content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="subtitle">
-                            Ein Übergang zwischen zwei Seiten.
-                            Alt und neu.
-                            Dazwischen liegt die Spalte.
-                        </p>
-
-                    </div>
-
-                </div>
+                <p class="subtitle">
+                    Ein Übergang zwischen zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt die Spalte.
+                </p>
 
             </div>
-
-
-            <!-- =========================================
-                 ZENTRALE SPALTE
-
-                 IMMER SICHTBAR
-            ========================================== -->
-
-            <div
-                class="column"
-                aria-hidden="true"
-            ></div>
-
-
-            <!-- =========================================
-                 SCROLL-HINWEIS
-            ========================================== -->
-
-            <div
-                class="scroll-hint"
-                id="scrollHint"
-            >
-                nach unten öffnen
-            </div>
-
 
         </div>
 
-    </section>
+    </div>
 
 
 
     <!-- ===================================================
-         ZUSTAND 2
+         AKTUELLE SEITE
 
-         SEITE 2 → SPALTE → SEITE 1
+         Diese Seite liegt über der nächsten.
+
+         Sie wird beim Scrollen geöffnet.
     ==================================================== -->
 
-    <section
-        class="state"
-        id="state-two"
-        data-state="two"
+    <div
+        id="currentPage"
+        class="page current-page page-blue"
     >
 
-        <div class="state-inner">
 
+        <!-- ===============================================
+             LINKE HÄLFTE
+        ================================================ -->
 
-            <!-- =========================================
-                 SEITE 1 HINTERGRUND
-            ========================================== -->
+        <div
+            id="currentLeft"
+            class="current-left page-blue"
+        >
 
-            <div
-                class="page page-one"
-                aria-hidden="true"
-            >
+            <div class="content">
 
-                <div class="page-content">
+                <div class="left">
 
-                    <div class="content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            gespalten
-                        </h1>
-
-                        <p class="subtitle">
-                            10 kurze Songs.
-                            12 Minuten zwischen alt und neu.
-                        </p>
-
+                    <div class="kicker">
+                        b3nn3t
                     </div>
 
+                    <h1>
+                        gespalten
+                    </h1>
 
-                    <div class="content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="subtitle">
-                            Ein Übergang zwischen zwei Seiten.
-                            Alt und neu.
-                            Dazwischen liegt die Spalte.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
+                    <p class="subtitle">
+                        10 kurze Songs.
+                        12 Minuten zwischen alt und neu.
+                    </p>
 
 
-            <!-- =========================================
-                 SEITE 2 HINTERGRUND
-            ========================================== -->
+                    <div class="video-box">
 
-            <div
-                class="page page-two"
-                aria-hidden="true"
-            >
+                        <video
+                            controls
+                            playsinline
+                            preload="metadata"
+                            poster="/assets/gespalten/gespalten.jpg"
+                        >
 
-                <div class="page-content">
-
-                    <div class="content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            fragments
-                        </h1>
-
-                        <p class="intro">
-                            die andere Seite von „gespalten“.
-                            Hier beginnt die zweite Seite.
-                        </p>
-
-                    </div>
-
-
-                    <div class="content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="intro">
-                            Ein Übergang zwischen zwei Seiten.
-                            Alt und neu.
-                            Dazwischen liegt die Spalte.
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =========================================
-                 SEITE 1 – SPLIT
-            ========================================== -->
-
-            <div
-                class="split-page page-one-split"
-            >
-
-                <div
-                    class="half-left"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(50,100,135,0.22),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            115deg,
-                            #061523,
-                            #0b2438 50%,
-                            #091c2c
-                        );
-                    "
-                >
-
-                    <div class="split-content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            gespalten
-                        </h1>
-
-                        <p class="subtitle">
-                            10 kurze Songs.
-                            12 Minuten zwischen alt und neu.
-                        </p>
-
-
-                        <div class="media-card">
-
-                            <video
-                                controls
-                                preload="metadata"
-                                playsinline
-                                poster="/assets/gespalten/gespalten.jpg"
+                            <source
+                                src="/assets/gespalten/gespalten.mp4"
+                                type="video/mp4"
                             >
 
-                                <source
-                                    src="/assets/gespalten/gespalten.mp4"
-                                    type="video/mp4"
-                                >
+                            Dein Browser unterstützt
+                            dieses Videoformat nicht.
 
-                                Dein Browser unterstützt
-                                dieses Videoformat nicht.
-
-                            </video>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="half-right"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(50,100,135,0.22),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            115deg,
-                            #061523,
-                            #0b2438 50%,
-                            #091c2c
-                        );
-                    "
-                >
-
-                    <div class="split-content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="subtitle">
-                            Ein Übergang zwischen zwei Seiten.
-                            Alt und neu.
-                            Dazwischen liegt die Spalte.
-                        </p>
+                        </video>
 
                     </div>
 
                 </div>
 
             </div>
-
-
-            <!-- =========================================
-                 SEITE 2 – SPLIT
-            ========================================== -->
-
-            <div
-                class="split-page page-two-split"
-            >
-
-                <div
-                    class="half-left"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(135,139,72,0.18),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            135deg,
-                            #323718,
-                            #4a5027 45%,
-                            #343919
-                        );
-                    "
-                >
-
-                    <div class="split-content-left">
-
-                        <div class="kicker">
-                            b3nn3t
-                        </div>
-
-                        <h1>
-                            fragments
-                        </h1>
-
-                        <p class="intro">
-                            die andere Seite von
-                            „gespalten“.
-                            Hier beginnt die zweite Seite.
-                        </p>
-
-
-                        <div class="fragment-grid">
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 01
-                                </h3>
-
-                                <p>
-                                    Texte, Bilder, Notizen,
-                                    Entstehungsgeschichte,
-                                    Lyrics oder weitere Videos.
-                                </p>
-
-                            </div>
-
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 02
-                                </h3>
-
-                                <p>
-                                    Weitere Informationen
-                                    zum Album und zu den
-                                    einzelnen Songs.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="half-right"
-                    style="
-                        background:
-                        radial-gradient(
-                            ellipse at 50% 50%,
-                            rgba(135,139,72,0.18),
-                            transparent 55%
-                        ),
-                        linear-gradient(
-                            135deg,
-                            #323718,
-                            #4a5027 45%,
-                            #343919
-                        );
-                    "
-                >
-
-                    <div class="split-content-right">
-
-                        <div class="kicker">
-                            neues album
-                        </div>
-
-                        <h2>
-                            die andere<br>
-                            seite
-                        </h2>
-
-                        <p class="intro">
-                            Musik, Texte, Bilder,
-                            Videos oder weitere
-                            Fragmente.
-                        </p>
-
-
-                        <div class="fragment-grid">
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 03
-                                </h3>
-
-                                <p>
-                                    Platz für zusätzliche
-                                    Inhalte, Bilder,
-                                    Medien oder Texte.
-                                </p>
-
-                            </div>
-
-
-                            <div class="fragment">
-
-                                <h3>
-                                    fragment 04
-                                </h3>
-
-                                <p>
-                                    Die zweite Seite kann
-                                    hier beliebig erweitert
-                                    werden.
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- =========================================
-                 ZENTRALE SPALTE
-            ========================================== -->
-
-            <div
-                class="column"
-                aria-hidden="true"
-            ></div>
-
-
-            <!-- =========================================
-                 SCROLL-HINWEIS
-            ========================================== -->
-
-            <div
-                class="scroll-hint"
-            >
-                nach oben öffnen
-            </div>
-
 
         </div>
 
-    </section>
 
 
-</div>
+        <!-- ===============================================
+             RECHTE HÄLFTE
+        ================================================ -->
+
+        <div
+            id="currentRight"
+            class="current-right page-blue"
+        >
+
+            <div class="content">
+
+                <div class="right">
+
+                    <div class="kicker">
+                        neues album
+                    </div>
+
+                    <h2>
+                        die andere<br>
+                        seite
+                    </h2>
+
+                    <p class="subtitle">
+                        Ein Übergang zwischen zwei Seiten.
+                        Alt und neu.
+                        Dazwischen liegt die Spalte.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
-
-<!-- =======================================================
-     STATUS
-======================================================= -->
-
-<div class="status">
-
-    <div class="status-label">
-        ZUSTAND
     </div>
+
+
+
+    <!-- ===================================================
+         SPALTE
+
+         IMMER SICHTBAR
+    ==================================================== -->
 
     <div
-        class="status-value"
-        id="statusState"
+        class="column"
+        aria-hidden="true"
     >
-        SEITE 1
+
+        <div class="column-glow"></div>
+
+        <div class="column-core"></div>
+
     </div>
 
 
-    <div class="status-label">
-        SPALTE
-    </div>
+    <!-- ===================================================
+         HINWEIS
+    ==================================================== -->
 
     <div
-        class="status-value"
-        id="statusProgress"
+        id="hint"
+        class="hint"
     >
-        0%
+
+        nach unten öffnen
+
+        <div class="hint-arrow"></div>
+
     </div>
 
 
-    <div class="status-label">
-        AKTION
+    <!-- ===================================================
+         DEBUG-ANZEIGE
+
+         Kann später einfach gelöscht werden.
+    ==================================================== -->
+
+    <div class="debug">
+
+        <div class="debug-label">
+            ZUSTAND
+        </div>
+
+        <div
+            id="debugState"
+            class="debug-value"
+        >
+            SEITE 1
+        </div>
+
+
+        <div class="debug-label">
+            SPALTE
+        </div>
+
+        <div
+            id="debugProgress"
+            class="debug-value"
+        >
+            0%
+        </div>
+
+
+        <div class="debug-label">
+            RICHTUNG
+        </div>
+
+        <div
+            id="debugDirection"
+            class="debug-value"
+        >
+            BEREIT
+        </div>
+
     </div>
 
-    <div
-        class="status-value"
-        id="statusAction"
-    >
-        BEREIT
-    </div>
 
-</div>
+</main>
 
 
 
@@ -1787,7 +1121,13 @@ h2 {
 
 /* =========================================================
    B3NN3T – GESPALTEN
-   ZWEI-ZUSTANDS-SYSTEM
+
+   ZWEI ZUSTÄNDE
+
+   SEITE 1 → SPALTE → SEITE 2
+   SEITE 2 → SPALTE → SEITE 1
+
+   ENDLOSER KREISLAUF
 ========================================================= */
 
 
@@ -1795,240 +1135,505 @@ h2 {
    ELEMENTE
 ========================================================= */
 
-const stateOne =
-    document.getElementById("state-one");
+const stage =
+    document.getElementById("stage");
 
-const stateTwo =
-    document.getElementById("state-two");
+const currentPage =
+    document.getElementById("currentPage");
 
-const statusState =
-    document.getElementById("statusState");
+const currentLeft =
+    document.getElementById("currentLeft");
 
-const statusProgress =
-    document.getElementById("statusProgress");
+const currentRight =
+    document.getElementById("currentRight");
 
-const statusAction =
-    document.getElementById("statusAction");
+const nextPage =
+    document.getElementById("nextPage");
 
+const debugState =
+    document.getElementById("debugState");
 
-/* =========================================================
-   KONFIGURATION
-========================================================= */
+const debugProgress =
+    document.getElementById("debugProgress");
 
-/*
-   Wie viel Scroll benötigt wird,
-   um eine Spalte vollständig zu öffnen.
+const debugDirection =
+    document.getElementById("debugDirection");
 
-   Kleiner Wert = schneller
-   Größerer Wert = langsamer
-*/
-
-const SCROLL_DISTANCE = 900;
-
-
-/*
-   Maximale Öffnung der Spalte.
-
-   46% bedeutet:
-   Die beiden Seitenhälften können sich
-   jeweils weit von der Mitte wegbewegen.
-*/
-
-const MAX_GAP = 46;
+const hint =
+    document.getElementById("hint");
 
 
 /* =========================================================
-   AKTUELLER ZUSTAND
+   EINSTELLUNGEN
 ========================================================= */
 
 /*
-   0 = Zustand 1
+   Wie weit gescrollt werden muss,
+   bis die Seite vollständig geöffnet ist.
 
-   1 = Zustand 2
+   Größer = langsamer
+   Kleiner = schneller
+*/
+
+const SCROLL_DISTANCE = 850;
+
+
+/*
+   Wir speichern die aktuelle Seite:
+
+       0 = Seite 1
+       1 = Seite 2
 */
 
 let currentState = 0;
 
 
 /*
-   Fortschritt der aktuellen Spalte.
+   Öffnungsfortschritt:
 
-   0 = geschlossen
-   1 = 100% geöffnet
+       0 = Seite komplett geschlossen
+       1 = Seite komplett geöffnet
 */
 
 let progress = 0;
 
 
 /*
-   Wird true, wenn gerade eine Scrollbewegung
-   verarbeitet wird.
+   Letzte Scrollrichtung.
 */
 
-let locked = false;
+let lastDirection = 1;
+
+
+/*
+   Verhindert, dass extrem schnelle
+   Trackpad-Ereignisse mehrere Zustandswechsel
+   gleichzeitig verursachen.
+*/
+
+let changingState = false;
 
 
 /*
    Touch
 */
 
-let touchStartY = null;
+let lastTouchY = null;
+
+
+/* =========================================================
+   HILFSFUNKTION:
+   BEGRENZEN
+========================================================= */
+
+function clamp(value, min, max) {
+
+    return Math.max(
+        min,
+        Math.min(max, value)
+    );
+
+}
 
 
 /* =========================================================
    EASING
 ========================================================= */
 
-function easeInOut(t) {
+function easeInOut(value) {
 
-    t =
-        Math.max(
+    value =
+        clamp(
+            value,
             0,
-            Math.min(1, t)
+            1
         );
 
-    return t < 0.5
-
-        ? 2 * t * t
-
+    return (
+        value < 0.5
+    )
+        ? 2 * value * value
         : 1 -
           Math.pow(
-              -2 * t + 2,
+              -2 * value + 2,
               2
           ) / 2;
 }
 
 
 /* =========================================================
-   PROGRESS ANWENDEN
+   HINTERGRUND-FARBE DER AKTUELLEN SEITE
 ========================================================= */
 
-function applyProgress(value) {
+function setCurrentState(state) {
 
-    progress =
-        Math.max(
-            0,
-            Math.min(1, value)
-        );
+    currentState = state;
+
+
+    if (currentState === 0) {
+
+        /*
+           Seite 1 ist aktuell.
+           Seite 2 liegt darunter.
+        */
+
+        currentPage.className =
+            "page current-page page-blue";
+
+
+        currentLeft.className =
+            "current-left page-blue";
+
+
+        currentRight.className =
+            "current-right page-blue";
+
+
+        nextPage.className =
+            "page page-green";
+
+
+        debugState.textContent =
+            "SEITE 1";
+
+    } else {
+
+        /*
+           Seite 2 ist aktuell.
+           Seite 1 liegt darunter.
+        */
+
+        currentPage.className =
+            "page current-page page-green";
+
+
+        currentLeft.className =
+            "current-left page-green";
+
+
+        currentRight.className =
+            "current-right page-green";
+
+
+        nextPage.className =
+            "page page-blue";
+
+
+        /*
+           Seite 2 bekommt ihren Inhalt.
+
+           Das HTML der nächsten Seite wird
+           deshalb entsprechend ausgetauscht.
+        */
+
+        nextPage.innerHTML = pageOneHTML();
+
+
+        debugState.textContent =
+            "SEITE 2";
+    }
 
 
     /*
-       Weiche Bewegung.
+       Wenn wir Seite 1 aktivieren,
+       muss Seite 2 als nächste Seite
+       vorbereitet werden.
     */
+
+    if (currentState === 0) {
+
+        nextPage.innerHTML =
+            pageTwoHTML();
+
+    }
+
+
+    /*
+       Fortschritt zurücksetzen.
+    */
+
+    progress = 0;
+
+    render();
+
+}
+
+
+/* =========================================================
+   HTML FÜR SEITE 1
+========================================================= */
+
+function pageOneHTML() {
+
+    return `
+
+        <div class="content">
+
+            <div class="left">
+
+                <div class="kicker">
+                    b3nn3t
+                </div>
+
+                <h1>
+                    gespalten
+                </h1>
+
+                <p class="subtitle">
+                    10 kurze Songs.
+                    12 Minuten zwischen alt und neu.
+                </p>
+
+
+                <div class="video-box">
+
+                    <video
+                        controls
+                        playsinline
+                        preload="metadata"
+                        poster="/assets/gespalten/gespalten.jpg"
+                    >
+
+                        <source
+                            src="/assets/gespalten/gespalten.mp4"
+                            type="video/mp4"
+                        >
+
+                        Dein Browser unterstützt
+                        dieses Videoformat nicht.
+
+                    </video>
+
+                </div>
+
+            </div>
+
+
+            <div class="right">
+
+                <div class="kicker">
+                    neues album
+                </div>
+
+                <h2>
+                    die andere<br>
+                    seite
+                </h2>
+
+                <p class="subtitle">
+                    Ein Übergang zwischen zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt die Spalte.
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   HTML FÜR SEITE 2
+========================================================= */
+
+function pageTwoHTML() {
+
+    return `
+
+        <div class="content">
+
+            <div class="left">
+
+                <div class="kicker">
+                    b3nn3t
+                </div>
+
+                <h1>
+                    fragments
+                </h1>
+
+                <p class="subtitle">
+                    die andere Seite von „gespalten“.
+                    Hier beginnt die zweite Seite.
+                </p>
+
+
+                <div class="fragments">
+
+                    <div class="fragment">
+
+                        <div class="fragment-title">
+                            fragment 01
+                        </div>
+
+                        <div class="fragment-text">
+                            Texte, Bilder, Notizen,
+                            Entstehungsgeschichte,
+                            Lyrics oder weitere Videos.
+                        </div>
+
+                    </div>
+
+
+                    <div class="fragment">
+
+                        <div class="fragment-title">
+                            fragment 02
+                        </div>
+
+                        <div class="fragment-text">
+                            Weitere Informationen
+                            zum Album und zu den
+                            einzelnen Songs.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="right">
+
+                <div class="kicker">
+                    neues album
+                </div>
+
+                <h2>
+                    die andere<br>
+                    seite
+                </h2>
+
+                <p class="subtitle">
+                    Ein Übergang zwischen zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt die Spalte.
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+
+
+/* =========================================================
+   RENDER
+
+   Hier wird die eigentliche Spaltenöffnung
+   berechnet.
+========================================================= */
+
+function render() {
 
     const eased =
         easeInOut(progress);
 
 
     /*
-       Öffnungsweite.
+       CSS bekommt den Öffnungsgrad.
 
-       Die zentrale Spalte selbst bleibt immer
-       an derselben Position.
+       0:
+           Seite geschlossen
 
-       Nur die Seiten öffnen sich.
+       1:
+           Seite komplett geöffnet
     */
 
-    const gap =
-        eased * MAX_GAP;
+    currentPage.style.setProperty(
+        "--open",
+        eased
+    );
 
 
     /*
-       Beide Zustände bekommen dieselbe
-       Spaltenlogik.
-
-       Damit bleibt die Spalte immer vorhanden.
+       Status
     */
 
-    document
-        .querySelectorAll(".state")
-        .forEach(state => {
-
-            state.style.setProperty(
-                "--gap-left",
-                gap + "%"
-            );
-
-            state.style.setProperty(
-                "--gap-right",
-                gap + "%"
-            );
-
-        });
-
-
-    /*
-       Statusanzeige.
-    */
-
-    statusProgress.textContent =
+    debugProgress.textContent =
         Math.round(progress * 100) + "%";
 
 
+    debugDirection.textContent =
+        lastDirection > 0
+            ? "NACH UNTEN"
+            : "NACH OBEN";
+
+
     /*
-       Zustand anzeigen.
+       Hinweis ausblenden,
+       sobald die Bewegung beginnt.
+    */
+
+    if (progress > 0.02) {
+
+        hint.style.opacity = "0";
+
+    } else {
+
+        hint.style.opacity = "1";
+
+    }
+
+}
+
+
+/* =========================================================
+   NÄCHSTE SEITE VORBEREITEN
+========================================================= */
+
+function prepareNextPage(direction) {
+
+    /*
+       Bei einem Wechsel nach unten:
+
+       Seite 1 → Seite 2
+       Seite 2 → Seite 1
+
+       Bei einem Wechsel nach oben:
+
+       Seite 2 → Seite 1
+       Seite 1 → Seite 2
+
+       Deshalb brauchen wir nur zwei Seiten.
     */
 
     if (currentState === 0) {
 
-        statusState.textContent =
-            "SEITE 1";
+        /*
+           Aktuell Seite 1.
+
+           Dahinter muss Seite 2 liegen.
+        */
+
+        nextPage.className =
+            "page page-green";
+
+        nextPage.innerHTML =
+            pageTwoHTML();
 
     } else {
 
-        statusState.textContent =
-            "SEITE 2";
+        /*
+           Aktuell Seite 2.
+
+           Dahinter muss Seite 1 liegen.
+        */
+
+        nextPage.className =
+            "page page-blue";
+
+        nextPage.innerHTML =
+            pageOneHTML();
 
     }
 
-
-    /*
-       Aktion anzeigen.
-    */
-
-    if (progress <= 0) {
-
-        statusAction.textContent =
-            currentState === 0
-                ? "BEREIT ZU ÖFFNEN"
-                : "BEREIT ZU ÖFFNEN";
-
-    } else if (progress < 1) {
-
-        statusAction.textContent =
-            "SPALTE ÖFFNET";
-
-    } else {
-
-        statusAction.textContent =
-            "100% GEÖFFNET";
-
-    }
-
-
-    /*
-       Scroll-Hinweis anpassen.
-    */
-
-    document
-        .querySelectorAll(".scroll-hint")
-        .forEach((hint, index) => {
-
-            if (index === currentState) {
-
-                hint.style.opacity =
-                    progress >= 1
-                        ? "0"
-                        : "0.9";
-
-            } else {
-
-                hint.style.opacity =
-                    "0";
-
-            }
-
-        });
 }
 
 
@@ -2036,289 +1641,318 @@ function applyProgress(value) {
    ZUSTAND WECHSELN
 ========================================================= */
 
-function switchState(direction) {
+function finishTransition(direction) {
 
-    /*
-       Nach unten:
-       Zustand 1 → Zustand 2
-
-       Nach oben:
-       Zustand 2 → Zustand 1
-    */
-
-    if (direction > 0) {
-
-        if (currentState === 0) {
-
-            currentState = 1;
-
-            /*
-               Neuer Zustand beginnt
-               wieder geschlossen.
-            */
-
-            progress = 0;
-
-            applyProgress(progress);
-
-        }
-
-    } else {
-
-        if (currentState === 1) {
-
-            currentState = 0;
-
-            progress = 0;
-
-            applyProgress(progress);
-
-        }
-
+    if (changingState) {
+        return;
     }
 
 
+    changingState = true;
+
+
     /*
-       Nach dem Wechsel die richtige
-       Seite optisch nach vorne bringen.
+       Die gerade geöffnete Seite ist jetzt
+       vollständig geöffnet.
+
+       Die darunterliegende Seite ist vollständig
+       sichtbar.
+
+       Jetzt machen wir sie zur neuen aktuellen Seite.
+
+       Dadurch entsteht KEIN zusätzlicher dritter Zustand.
     */
 
-    updateLayers();
+    const oldCurrentHTML =
+        currentPage.innerHTML;
+
+
+    const oldCurrentClass =
+        currentPage.className;
+
+
+    const newCurrentHTML =
+        nextPage.innerHTML;
+
+
+    const newCurrentClass =
+        nextPage.className;
+
+
+    /*
+       Die neue Seite wird aktuell.
+    */
+
+    currentPage.innerHTML =
+        newCurrentHTML;
+
+    currentPage.className =
+        newCurrentClass +
+        " current-page";
+
+
+    /*
+       Die alte Seite wird zur nächsten Seite.
+    */
+
+    nextPage.innerHTML =
+        oldCurrentHTML;
+
+    nextPage.className =
+        oldCurrentClass
+            .replace(
+                "current-page",
+                ""
+            )
+            .trim();
+
+
+    /*
+       Zustand umschalten.
+    */
+
+    currentState =
+        currentState === 0
+            ? 1
+            : 0;
+
+
+    /*
+       Neue Seite startet wieder
+       komplett geschlossen.
+
+       Visuell ist sie aber bereits vollständig
+       sichtbar, weil sie jetzt die aktuelle
+       Seite ist.
+    */
+
+    progress = 0;
+
+
+    /*
+       CSS-Klassen der Hälften neu herstellen.
+    */
+
+    currentLeft =
+        document.getElementById(
+            "currentLeft"
+        );
+
+    currentRight =
+        document.getElementById(
+            "currentRight"
+        );
+
+
+    /*
+       Das neue currentPage-Element besitzt
+       jetzt nicht automatisch die beiden Hälften.
+
+       Deshalb wird der Seiteninhalt als
+       Split-Struktur neu aufgebaut.
+    */
+
+    rebuildCurrentPage();
+
+
+    /*
+       Nächste Seite vorbereiten.
+    */
+
+    prepareNextPage(direction);
+
+
+    /*
+       Status aktualisieren.
+    */
+
+    debugState.textContent =
+        currentState === 0
+            ? "SEITE 1"
+            : "SEITE 2";
+
+
+    render();
+
+
+    /*
+       Kleiner Schutz gegen Trackpad-Spikes.
+    */
+
+    setTimeout(
+        () => {
+
+            changingState = false;
+
+        },
+        80
+    );
+
 }
 
 
 /* =========================================================
-   EBENEN AKTUALISIEREN
+   AKTUELLE SEITE NEU AUFBAUEN
 ========================================================= */
 
-function updateLayers() {
+function rebuildCurrentPage() {
 
-    if (currentState === 0) {
+    const isBlue =
+        currentState === 0;
 
-        /*
-           Zustand 1:
 
-           Seite 1 liegt vorne.
-           Seite 2 liegt dahinter.
-        */
+    const backgroundClass =
+        isBlue
+            ? "page-blue"
+            : "page-green";
 
-        stateOne.style.zIndex = "20";
-        stateTwo.style.zIndex = "10";
 
-    } else {
+    const html =
+        isBlue
+            ? pageOneHTML()
+            : pageTwoHTML();
 
-        /*
-           Zustand 2:
 
-           Seite 2 liegt vorne.
-           Seite 1 liegt dahinter.
-        */
+    /*
+       Der eigentliche Inhalt wird in zwei
+       identische Hälften gesetzt.
 
-        stateOne.style.zIndex = "10";
-        stateTwo.style.zIndex = "20";
+       Dadurch kann die Seite von der Mitte
+       auseinandergehen.
+    */
 
-    }
+    currentPage.className =
+        "page current-page " +
+        backgroundClass;
+
+
+    currentPage.innerHTML = `
+
+        <div
+            id="currentLeft"
+            class="current-left ${backgroundClass}"
+        >
+
+            ${html}
+
+        </div>
+
+
+        <div
+            id="currentRight"
+            class="current-right ${backgroundClass}"
+        >
+
+            ${html}
+
+        </div>
+
+    `;
+
+
+    /*
+       Neue DOM-Referenzen.
+    */
+
+    window.currentLeft =
+        document.getElementById(
+            "currentLeft"
+        );
+
+    window.currentRight =
+        document.getElementById(
+            "currentRight"
+        );
 
 }
 
 
 /* =========================================================
-   WHEEL
+   SCROLL-VERARBEITUNG
 ========================================================= */
 
-function handleWheel(event) {
+function scrollByDelta(delta) {
 
-    const delta =
-        event.deltaY;
-
-
-    /*
-       Sehr kleine Bewegungen ignorieren.
-    */
-
-    if (
-        Math.abs(delta) < 1
-    ) {
+    if (changingState) {
         return;
     }
 
 
     /*
-       NACH UNTEN
+       Scrollrichtung feststellen.
     */
 
     if (delta > 0) {
 
-        /*
-           Zustand 1:
+        lastDirection = 1;
 
-           Spalte öffnen.
+    } else {
 
-           Erst wenn 100% erreicht sind,
-           darf Zustand 2 beginnen.
-        */
-
-        if (
-            currentState === 0
-        ) {
-
-            if (
-                progress < 1
-            ) {
-
-                event.preventDefault();
-
-                progress +=
-                    delta /
-                    SCROLL_DISTANCE;
-
-                applyProgress(progress);
-
-                return;
-
-            }
-
-
-            /*
-               Spalte ist jetzt wirklich 100%.
-
-               Erst JETZT:
-
-               Zustand 1
-               →
-               Zustand 2
-            */
-
-            event.preventDefault();
-
-            switchState(1);
-
-            return;
-        }
-
-
-        /*
-           Zustand 2:
-
-           Auch hier erst die Spalte
-           vollständig öffnen.
-        */
-
-        if (
-            currentState === 1
-        ) {
-
-            if (
-                progress < 1
-            ) {
-
-                event.preventDefault();
-
-                progress +=
-                    delta /
-                    SCROLL_DISTANCE;
-
-                applyProgress(progress);
-
-                return;
-
-            }
-
-
-            /*
-               Wenn Zustand 2 bereits komplett
-               geöffnet ist, darf normal
-               weitergescrollt werden.
-            */
-
-            return;
-        }
+        lastDirection = -1;
 
     }
 
 
     /*
-       NACH OBEN
+       Scrollgeschwindigkeit etwas reduzieren,
+       damit Trackpads nicht zu aggressiv sind.
     */
 
-    if (delta < 0) {
-
-        /*
-           Zustand 2:
-
-           Rückwärts öffnen.
-
-           Zuerst wird die Spalte wieder
-           geschlossen.
-        */
-
-        if (
-            currentState === 1
-        ) {
-
-            if (
-                progress > 0
-            ) {
-
-                event.preventDefault();
-
-                progress +=
-                    delta /
-                    SCROLL_DISTANCE;
-
-                applyProgress(progress);
-
-                return;
-
-            }
+    const amount =
+        Math.abs(delta);
 
 
-            /*
-               Erst wenn die Spalte 0% erreicht:
-
-               Zustand 2
-               →
-               Zustand 1
-            */
-
-            event.preventDefault();
-
-            switchState(-1);
-
-            return;
-        }
+    const movement =
+        amount /
+        SCROLL_DISTANCE;
 
 
-        /*
-           Zustand 1:
+    /*
+       JEDER Scroll öffnet die aktuelle Seite.
 
-           Wenn bereits geschlossen,
-           darf normal nach oben
-           weitergescrollt werden.
-        */
+       Nach unten:
 
-        if (
-            currentState === 0
-        ) {
+           Seite 1 → Seite 2
+           Seite 2 → Seite 1
+           Seite 1 → Seite 2 ...
 
-            if (
-                progress > 0
-            ) {
+       Nach oben:
 
-                event.preventDefault();
+           Seite 2 → Seite 1
+           Seite 1 → Seite 2
+           Seite 2 → Seite 1 ...
+    */
 
-                progress +=
-                    delta /
-                    SCROLL_DISTANCE;
+    progress += movement;
 
-                applyProgress(progress);
 
-                return;
+    /*
+       Fortschritt begrenzen.
+    */
 
-            }
+    progress =
+        clamp(
+            progress,
+            0,
+            1
+        );
 
-            return;
-        }
+
+    render();
+
+
+    /*
+       100 % erreicht?
+
+       Dann wird die darunterliegende Seite
+       zur neuen aktuellen Seite.
+    */
+
+    if (progress >= 1) {
+
+        finishTransition(
+            lastDirection
+        );
 
     }
 
@@ -2326,12 +1960,26 @@ function handleWheel(event) {
 
 
 /* =========================================================
-   WHEEL EVENT
+   MAUSRAD / TRACKPAD
 ========================================================= */
 
 window.addEventListener(
     "wheel",
-    handleWheel,
+    event => {
+
+        /*
+           Browser-Standard verhindern,
+           damit die Seite nicht normal scrollt.
+        */
+
+        event.preventDefault();
+
+
+        scrollByDelta(
+            event.deltaY
+        );
+
+    },
     {
         passive: false
     }
@@ -2347,13 +1995,13 @@ window.addEventListener(
     event => {
 
         if (
-            event.touches.length
-            === 0
+            !event.touches.length
         ) {
             return;
         }
 
-        touchStartY =
+
+        lastTouchY =
             event.touches[0].clientY;
 
     },
@@ -2372,7 +2020,7 @@ window.addEventListener(
     event => {
 
         if (
-            touchStartY === null
+            lastTouchY === null
         ) {
             return;
         }
@@ -2382,25 +2030,30 @@ window.addEventListener(
             event.touches[0].clientY;
 
 
-        const delta =
-            touchStartY -
-            currentY;
-
-
-        touchStartY =
-            currentY;
-
-
         /*
-           Virtuelles Wheel-Event
+           Finger nach oben =
+           Scroll nach unten.
         */
 
-        handleWheel({
-            deltaY: delta,
+        const delta =
+            lastTouchY -
+            currentY;
 
-            preventDefault:
-                () => event.preventDefault()
-        });
+
+        lastTouchY =
+            currentY;
+
+
+        event.preventDefault();
+
+
+        if (
+            Math.abs(delta) > 0
+        ) {
+
+            scrollByDelta(delta);
+
+        }
 
     },
     {
@@ -2417,7 +2070,7 @@ window.addEventListener(
     "touchend",
     () => {
 
-        touchStartY = null;
+        lastTouchY = null;
 
     },
     {
@@ -2427,24 +2080,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   INITIALISIERUNG
-========================================================= */
-
-currentState = 0;
-
-progress = 0;
-
-updateLayers();
-
-applyProgress(0);
-
-
-/* =========================================================
-   DEBUG:
-   Mit den Pfeiltasten kann man die Spalte testen.
-
-   Pfeil runter = öffnen
-   Pfeil hoch   = schließen
+   TASTATUR
 ========================================================= */
 
 window.addEventListener(
@@ -2452,36 +2088,85 @@ window.addEventListener(
     event => {
 
         if (
-            event.key === "ArrowDown"
+            event.key === "ArrowDown" ||
+            event.key === "PageDown"
         ) {
 
-            handleWheel({
-                deltaY: 100,
+            event.preventDefault();
 
-                preventDefault:
-                    () => {}
-            });
+            scrollByDelta(100);
 
         }
 
 
         if (
-            event.key === "ArrowUp"
+            event.key === "ArrowUp" ||
+            event.key === "PageUp"
         ) {
 
-            handleWheel({
-                deltaY: -100,
+            event.preventDefault();
 
-                preventDefault:
-                    () => {}
-            });
+            scrollByDelta(100);
 
         }
 
     }
 );
 
+
+/* =========================================================
+   STARTZUSTAND
+========================================================= */
+
+/*
+   Anfang:
+
+       SEITE 1
+
+       ┌───────────────────────────┐
+       │                           │
+       │       SEITE 1 – BLAU      │
+       │                           │
+       │             │             │
+       │             │ SPALTE      │
+       │             │             │
+       │                           │
+       └───────────────────────────┘
+
+   Seite 2 liegt bereits darunter.
+
+   Sie wird erst sichtbar, wenn Seite 1
+   von der Mitte aus geöffnet wird.
+========================================================= */
+
+currentState = 0;
+
+progress = 0;
+
+
+/*
+   Aktuelle Seite korrekt aufbauen.
+*/
+
+rebuildCurrentPage();
+
+
+/*
+   Nächste Seite vorbereiten.
+*/
+
+prepareNextPage(1);
+
+
+/*
+   Initial rendern.
+*/
+
+render();
+
+
 </script>
+
 
 </body>
 </html>
