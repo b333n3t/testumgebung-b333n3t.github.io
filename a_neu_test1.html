@@ -1,1553 +1,1317 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>B3NN3T – gespalten</title>
 
-
 <style>
-
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-
     width: 100%;
     height: 100%;
-
     overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background: #07131d;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color: #f2eee7;
-
-    user-select: none;
-
-    overscroll-behavior: none;
-
-    touch-action: none;
+    background: #000;
 }
 
-
 /* =========================================================
-   HAUPTBÜHNE
-========================================================= */
+   SEITEN
+   ========================================================= */
 
-#stage {
-
+.page {
     position: fixed;
-
-    left: 0;
-    top: 0;
-
+    inset: 0;
     width: 100vw;
     height: 100vh;
 
-    overflow: hidden;
-}
+    overflow-y: auto;
+    overflow-x: hidden;
 
+    -webkit-mask-image: none;
+    mask-image: none;
 
-/* =========================================================
-   GRUNDSÄTZLICHER SEITEN-LAYER
-========================================================= */
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
 
-.page {
-
-    position: absolute;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    overflow: hidden;
-}
-
-
-/* =========================================================
-   SEITE 1 – BLAU
-========================================================= */
-
-.page1 {
-
-    background:
-        radial-gradient(
-            ellipse at 50% 50%,
-            rgba(12, 91, 150, 0.55) 0%,
-            rgba(5, 31, 53, 0.25) 42%,
-            rgba(5, 17, 28, 0.95) 100%
-        ),
-        linear-gradient(
-            120deg,
-            #07131d 0%,
-            #0b2842 50%,
-            #061521 100%
-        );
-}
-
-
-/* =========================================================
-   SEITE 2 – GRÜN
-========================================================= */
-
-.page2 {
-
-    background:
-        radial-gradient(
-            ellipse at 50% 50%,
-            rgba(157, 160, 70, 0.32) 0%,
-            rgba(75, 82, 37, 0.28) 45%,
-            rgba(39, 43, 21, 0.96) 100%
-        ),
-        linear-gradient(
-            120deg,
-            #2f3517 0%,
-            #50572b 50%,
-            #303516 100%
-        );
-}
-
-
-/* =========================================================
-   FEINE TEXTUR
-========================================================= */
-
-.page::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
 
     pointer-events: none;
+}
 
-    opacity: 0.14;
+.page.active {
+    z-index: 10;
+    pointer-events: auto;
+}
 
-    background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.04) 0px,
-            rgba(255,255,255,0.04) 1px,
-            transparent 1px,
-            transparent 5px
-        );
+.page.behind {
+    z-index: 5;
+    pointer-events: none;
 }
 
 
 /* =========================================================
-   INHALT EINER SEITE
-========================================================= */
+   SEITE 1 – GESPALTEN
+   ========================================================= */
 
-.page-content {
+.page-1 {
+    background: #193dff;
+    color: white;
 
-    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    inset: 0;
+    padding: 40px;
+}
+
+.page-1-inner {
+    width: 100%;
+    max-width: 1400px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    gap: 60px;
+    align-items: center;
+}
+
+.page-1 h1 {
+    font-size: clamp(70px, 12vw, 190px);
+    line-height: 0.8;
+    font-weight: 900;
+    letter-spacing: -0.08em;
+}
+
+.page-1-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.page-1-right span {
+    font-size: clamp(30px, 4vw, 70px);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.video-wrapper {
+    grid-column: 1 / -1;
 
     width: 100%;
-    height: 100%;
+    max-width: 1000px;
 
-    z-index: 5;
+    margin: 40px auto 0;
+}
+
+.video-wrapper video {
+    display: block;
+    width: 100%;
+    height: auto;
+
+    background: #000;
 }
 
 
 /* =========================================================
-   LINKER BEREICH
-========================================================= */
+   SEITE 2 – DIE ANDERE
+   ========================================================= */
 
-.left-content {
+.page-2 {
+    background: #78824a;
+    color: #111;
 
-    position: absolute;
+    padding: 60px;
+}
 
-    left: 7vw;
-    top: 10vh;
+.page-2-inner {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
 
-    width: 42vw;
+.page-2 h2 {
+    font-size: clamp(70px, 12vw, 180px);
+    line-height: 0.8;
+    font-weight: 900;
+    letter-spacing: -0.08em;
+
+    margin-bottom: 80px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.info-card {
+    border: 2px solid #111;
+    padding: 30px;
+    min-height: 240px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info-card h3 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.info-card p {
+    font-size: 18px;
+    line-height: 1.4;
 }
 
 
 /* =========================================================
-   RECHTER BEREICH
-========================================================= */
+   SEITE 3 – SPOTIFY
+   ========================================================= */
 
-.right-content {
+.page-3 {
+    background: #111;
+    color: white;
 
-    position: absolute;
+    padding: 60px;
 
-    right: 7vw;
-    top: 11vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    width: 42vw;
+.spotify-inner {
+    width: 100%;
+    max-width: 1000px;
+}
 
-    text-align: right;
+.spotify-title {
+    font-size: clamp(60px, 10vw, 150px);
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
+
+    margin-bottom: 50px;
+}
+
+.spotify-frame {
+    width: 100%;
+}
+
+.spotify-frame iframe {
+    display: block;
+    width: 100%;
+    height: 352px;
+
+    border: 0;
 }
 
 
 /* =========================================================
-   KLEINE ORANGE ÜBERSCHRIFT
-========================================================= */
+   SEITE 4 – YOUTUBE
+   ========================================================= */
 
-.kicker {
+.page-4 {
+    background: #f0eee8;
+    color: #111;
 
-    margin-bottom: 18px;
-
-    color: #d39143;
-
-    font-size:
-        clamp(0.65rem, 0.9vw, 0.9rem);
-
-    font-weight: 700;
-
-    letter-spacing: 0.22em;
-
-    text-transform: uppercase;
+    padding: 60px;
 }
 
-
-/* =========================================================
-   HAUPTÜBERSCHRIFT
-========================================================= */
-
-h1 {
-
-    margin: 0;
-
-    color: #f1eee7;
-
-    font-size:
-        clamp(4.5rem, 9vw, 9rem);
-
-    line-height: 0.78;
-
-    letter-spacing: -0.075em;
-
-    font-weight: 700;
+.youtube-inner {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
+.youtube-title {
+    font-size: clamp(60px, 10vw, 150px);
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
 
-h2 {
-
-    margin: 0;
-
-    color: #f1eee7;
-
-    font-size:
-        clamp(3.5rem, 7vw, 7rem);
-
-    line-height: 0.80;
-
-    letter-spacing: -0.07em;
-
-    font-weight: 700;
+    margin-bottom: 60px;
 }
 
-
-/* =========================================================
-   UNTERTITEL
-========================================================= */
-
-.subtitle {
-
-    margin-top: 30px;
-
-    color: #d6c59d;
-
-    font-size:
-        clamp(0.85rem, 1.35vw, 1.25rem);
-
-    line-height: 1.5;
+.youtube-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
 }
 
-
-/* =========================================================
-   VIDEO
-========================================================= */
-
-.video-box {
-
+.youtube-card {
+    display: block;
     position: relative;
 
-    width: min(420px, 34vw);
-
-    aspect-ratio: 16 / 10;
-
-    margin-top: 42px;
+    text-decoration: none;
+    color: #111;
 
     overflow: hidden;
 
-    border:
-        2px solid
-        rgba(235, 227, 204, 0.72);
-
-    border-radius: 16px;
-
-    background: #c5bea9;
+    background: #ddd;
 }
 
+.youtube-thumb-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 
-.video-box video {
+    overflow: hidden;
+}
+
+.youtube-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 
     display: block;
 
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
+    transition:
+        transform 0.4s ease,
+        filter 0.4s ease;
 }
 
+.youtube-play {
+    position: absolute;
 
-/* =========================================================
-   SEITE 2 ZUSATZINHALT
-========================================================= */
+    left: 50%;
+    top: 50%;
 
-.page2 .left-content {
+    transform: translate(-50%, -50%);
 
-    width: 39vw;
-}
+    width: 70px;
+    height: 70px;
 
+    border-radius: 50%;
 
-.info-list {
-
-    margin-top: 38px;
+    background: white;
+    color: #111;
 
     display: flex;
+    align-items: center;
+    justify-content: center;
 
-    flex-direction: column;
-
-    gap: 14px;
-}
-
-
-.info-item {
-
-    padding: 15px 18px;
-
-    border:
-        1px solid
-        rgba(238, 231, 194, 0.27);
-
-    border-radius: 7px;
-
-    background:
-        rgba(0, 0, 0, 0.13);
-}
-
-
-.info-title {
-
-    margin-bottom: 6px;
-
-    color: #d39143;
-
-    font-size: 0.72rem;
-
-    font-weight: 700;
-
-    letter-spacing: 0.15em;
-
-    text-transform: uppercase;
-}
-
-
-.info-text {
-
-    color: #ddd5ae;
-
-    font-size: 0.88rem;
-
-    line-height: 1.45;
-}
-
-
-/* =========================================================
-   DIE SPALTE
-=========================================================
-
-   WICHTIG:
-
-   Die Spalte gehört NICHT zur jeweiligen Seite.
-
-   Sie liegt über beiden Seiten.
-
-   Dadurch bleibt sie IMMER sichtbar.
-========================================================= */
-
-#column {
-
-    position: absolute;
-
-    z-index: 1000;
-
-    left: 50%;
-    top: 0;
-
-    width: 6px;
-    height: 100%;
-
-    transform:
-        translateX(-50%);
-
-    pointer-events: none;
-}
-
-
-/* =========================================================
-   GLOW UM DIE SPALTE
-========================================================= */
-
-#column::before {
-
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    top: 0;
-
-    width: 36px;
-    height: 100%;
-
-    transform:
-        translateX(-50%);
-
-    background:
-        linear-gradient(
-            to right,
-            transparent 0%,
-            rgba(52, 157, 225, 0.13) 35%,
-            rgba(52, 157, 225, 0.26) 50%,
-            rgba(52, 157, 225, 0.13) 65%,
-            transparent 100%
-        );
-
-    filter: blur(8px);
-}
-
-
-/* =========================================================
-   KERN DER SPALTE
-========================================================= */
-
-#column::after {
-
-    content: "";
-
-    position: absolute;
-
-    left: 50%;
-    top: 0;
-
-    width: 2px;
-    height: 100%;
-
-    transform:
-        translateX(-50%);
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(82, 177, 239, 0.10),
-            rgba(82, 177, 239, 0.90) 25%,
-            rgba(111, 201, 255, 1) 50%,
-            rgba(82, 177, 239, 0.90) 75%,
-            rgba(82, 177, 239, 0.10)
-        );
-
-    box-shadow:
-        0 0 8px rgba(70, 180, 250, 0.9),
-        0 0 22px rgba(70, 180, 250, 0.55),
-        0 0 50px rgba(70, 180, 250, 0.30);
-}
-
-
-/* =========================================================
-   ÖFFNUNG DER AKTUELLEN SEITE
-=========================================================
-
-   Das ist der entscheidende Teil.
-
-   Die aktuelle Seite bekommt in der Mitte
-   einen transparenten Bereich.
-
-   progress = 0
-
-       ┌──────────────────────────┐
-       │       SEITE 1            │
-       │           │              │
-       │           │              │
-       └──────────────────────────┘
-
-   progress = 0.5
-
-       ┌───────────┐    ┌──────────┐
-       │ SEITE 1   │    │ SEITE 1  │
-       │           │    │          │
-       └───────────┘    └──────────┘
-
-                 ↑
-               SPALTE
-
-   progress = 1
-
-       ┌───────┐              ┌───────┐
-       │       │              │       │
-       │       │              │       │
-       └───────┘              └───────┘
-
-              SEITE 2
-             vollständig
-               sichtbar
-
-========================================================= */
-
-#page1,
-#page2 {
-
-    --opening: 0px;
-
-    /*
-       Die Maske erzeugt den Schlitz.
-
-       Schwarz = sichtbar
-       Transparent = darunterliegende Seite sichtbar
-    */
-
-    -webkit-mask-image:
-        linear-gradient(
-            to right,
-
-            black 0,
-
-            black
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% + var(--opening)),
-
-            black
-            calc(50% + var(--opening)),
-
-            black 100%
-        );
-
-    mask-image:
-        linear-gradient(
-            to right,
-
-            black 0,
-
-            black
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% + var(--opening)),
-
-            black
-            calc(50% + var(--opening)),
-
-            black 100%
-        );
-}
-
-
-/* =========================================================
-   DEBUG / STATUS
-========================================================= */
-
-#status {
-
-    position: fixed;
-
-    z-index: 2000;
-
-    right: 22px;
-    bottom: 22px;
-
-    width: 185px;
-
-    padding: 13px 15px;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.13);
-
-    border-radius: 5px;
-
-    background:
-        rgba(0,0,0,0.48);
-
-    backdrop-filter: blur(10px);
-
-    font-size: 10px;
-
-    line-height: 1.45;
-
-    letter-spacing: 0.08em;
-
-    text-transform: uppercase;
-}
-
-
-.status-label {
-
-    color: #d39143;
-}
-
-
-.status-value {
-
-    margin-bottom: 8px;
-
-    color: #fff;
-}
-
-
-/* =========================================================
-   SCROLL-HINWEIS
-========================================================= */
-
-#scrollHint {
-
-    position: fixed;
-
-    z-index: 1500;
-
-    left: 50%;
-    bottom: 27px;
-
-    transform:
-        translateX(-50%);
-
-    color: #d39143;
-
-    font-size: 0.68rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.18em;
-
-    text-transform: uppercase;
-
-    pointer-events: none;
+    font-size: 25px;
 
     transition:
-        opacity 0.25s ease;
+        transform 0.3s ease,
+        background 0.3s ease;
 }
 
+.youtube-card:hover .youtube-thumb {
+    transform: scale(1.04);
+    filter: brightness(0.75);
+}
 
-.arrow {
+.youtube-card:hover .youtube-play {
+    transform: translate(-50%, -50%) scale(1.12);
+}
 
-    width: 11px;
-    height: 11px;
+.youtube-label {
+    padding: 15px;
 
-    margin: 9px auto 0;
-
-    border-right:
-        2px solid
-        #d39143;
-
-    border-bottom:
-        2px solid
-        #d39143;
-
-    transform:
-        rotate(45deg);
+    font-size: 14px;
+    font-weight: 700;
 }
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
+   SEITE 5 – SOUNDCLOUD
+   ========================================================= */
 
-@media (max-width: 700px) {
+.page-5 {
+    background: #d7c8a4;
+    color: #111;
 
-    .left-content {
+    padding: 60px;
 
-        left: 5vw;
-        top: 7vh;
-
-        width: 42vw;
-    }
-
-
-    .right-content {
-
-        right: 5vw;
-        top: 8vh;
-
-        width: 42vw;
-    }
-
-
-    h1 {
-
-        font-size:
-            clamp(2.5rem, 11vw, 4.5rem);
-    }
-
-
-    h2 {
-
-        font-size:
-            clamp(2.3rem, 9vw, 4rem);
-    }
-
-
-    .subtitle {
-
-        margin-top: 18px;
-
-        font-size: 0.7rem;
-    }
-
-
-    .video-box {
-
-        width: 100%;
-
-        max-width: 180px;
-
-        margin-top: 20px;
-    }
-
-
-    #status {
-
-        right: 8px;
-        bottom: 8px;
-
-        width: 145px;
-
-        padding: 9px;
-
-        font-size: 8px;
-    }
-
-
-    #scrollHint {
-
-        bottom: 13px;
-
-        font-size: 0.52rem;
-    }
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-</style>
+.soundcloud-inner {
+    width: 100%;
+    max-width: 1000px;
+}
 
+.soundcloud-title {
+    font-size: clamp(60px, 10vw, 150px);
+    font-weight: 900;
+    line-height: 0.8;
+    letter-spacing: -0.08em;
+
+    margin-bottom: 50px;
+}
+
+.soundcloud-frame iframe {
+    display: block;
+
+    width: 100%;
+    height: 450px;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   SEITE 6
+   ========================================================= */
+
+.page-6 {
+    background: #e5e5e5;
+    color: #111;
+
+    padding: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.page-6-inner {
+    width: 100%;
+    max-width: 1400px;
+}
+
+.page-6 h2 {
+    font-size: clamp(70px, 12vw, 180px);
+    line-height: 0.8;
+    font-weight: 900;
+    letter-spacing: -0.08em;
+
+    margin-bottom: 50px;
+}
+
+.page-6 p {
+    max-width: 700px;
+
+    font-size: 24px;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   SCROLLBALKEN
+   ========================================================= */
+
+.page::-webkit-scrollbar {
+    width: 8px;
+}
+
+.page::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.page::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.25);
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .page-1 {
+        padding: 25px;
+    }
+
+    .page-1-inner {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .page-1-right {
+        justify-content: flex-start;
+    }
+
+    .page-2,
+    .page-3,
+    .page-4,
+    .page-5,
+    .page-6 {
+        padding: 30px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .youtube-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .spotify-frame iframe {
+        height: 352px;
+    }
+
+    .soundcloud-frame iframe {
+        height: 400px;
+    }
+}
+</style>
 </head>
 
 
 <body>
 
 
-<!-- =======================================================
-     BÜHNE
-======================================================= -->
+<!-- =====================================================
+     SEITE 1
+     ===================================================== -->
 
-<div id="stage">
+<section class="page page-1">
 
+    <div class="page-1-inner">
 
-    <!-- ===================================================
-         SEITE 2
+        <div>
+            <h1>gespalten</h1>
+        </div>
 
-         Sie liegt IMMER unter der aktuellen Seite.
-    ==================================================== -->
+        <div class="page-1-right">
+            <span>die andere seite</span>
+        </div>
 
-    <section
-        id="page2"
-        class="page page2"
-    >
+        <div class="video-wrapper">
 
-        <div class="page-content">
+            <video
+                controls
+                preload="metadata"
+                playsinline
+            >
+                <source
+                    src="/assets/gespalten/gespalten.mp4"
+                    type="video/mp4"
+                >
 
-
-            <!-- ===========================================
-                 LINKER BEREICH SEITE 2
-            ============================================ -->
-
-            <div class="left-content">
-
-                <div class="kicker">
-                    b3nn3t
-                </div>
-
-
-                <h1>
-                    die<br>
-                    andere
-                </h1>
-
-
-                <div class="subtitle">
-                    Eine zweite Perspektive.
-                    Neue Fragmente.
-                    Andere Räume.
-                </div>
-
-
-                <div class="info-list">
-
-
-                    <div class="info-item">
-
-                        <div class="info-title">
-                            fragment 01
-                        </div>
-
-                        <div class="info-text">
-                            Texte, Bilder und Notizen
-                            rund um das Album.
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-title">
-                            fragment 02
-                        </div>
-
-                        <div class="info-text">
-                            Zehn kurze Songs zwischen
-                            alt und neu.
-                        </div>
-
-                    </div>
-
-
-                    <div class="info-item">
-
-                        <div class="info-title">
-                            fragment 03
-                        </div>
-
-                        <div class="info-text">
-                            Dazwischen bleibt die Spalte.
-                        </div>
-
-                    </div>
-
-
-                </div>
-
-            </div>
-
-
-            <!-- ===========================================
-                 RECHTER BEREICH SEITE 2
-            ============================================ -->
-
-            <div class="right-content">
-
-                <div class="kicker">
-                    seite zwei
-                </div>
-
-
-                <h2>
-                    neu<br>
-                    gedacht
-                </h2>
-
-
-                <div class="subtitle">
-                    Seite 2 ist vollständig eigenständig.
-                    Sie liegt bereits unter Seite 1
-                    und wird durch die Öffnung sichtbar.
-                </div>
-
-            </div>
-
+                Dein Browser unterstützt dieses Video nicht.
+            </video>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 
 
-    <!-- ===================================================
-         SEITE 1
+<!-- =====================================================
+     SEITE 2
+     ===================================================== -->
 
-         DAS IST DER START.
+<section class="page page-2">
 
-         Sie liegt zunächst vollständig über Seite 2.
-    ==================================================== -->
+    <div class="page-2-inner">
 
-    <section
-        id="page1"
-        class="page page1"
-    >
+        <h2>die andere</h2>
 
-        <div class="page-content">
+        <div class="info-grid">
+
+            <div class="info-card">
+                <h3>neu gedacht</h3>
+                <p>
+                    Eine andere Perspektive auf Musik,
+                    Gestaltung und das, was dazwischen passiert.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>gespalten</h3>
+                <p>
+                    Zwei Seiten. Ein Gedanke.
+                    Bewegung zwischen Gegensätzen.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <h3>weiter</h3>
+                <p>
+                    Scroll weiter und entdecke die nächsten Ebenen.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-            <!-- ===========================================
-                 LINKER BEREICH SEITE 1
-            ============================================ -->
 
-            <div class="left-content">
+<!-- =====================================================
+     SEITE 3 – SPOTIFY
+     ===================================================== -->
 
-                <div class="kicker">
-                    b3nn3t
-                </div>
+<section class="page page-3">
+
+    <div class="spotify-inner">
+
+        <div class="spotify-title">
+            Spotify
+        </div>
+
+        <div class="spotify-frame">
+
+            <iframe
+                src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy">
+            </iframe>
+
+        </div>
+
+    </div>
+
+</section>
 
 
-                <h1>
-                    gespalten
-                </h1>
+
+<!-- =====================================================
+     SEITE 4 – YOUTUBE
+     ===================================================== -->
+
+<section class="page page-4">
+
+    <div class="youtube-inner">
+
+        <div class="youtube-title">
+            YouTube
+        </div>
+
+        <div class="youtube-grid">
 
 
-                <div class="subtitle">
-                    10 kurze Songs.
-                    12 Minuten zwischen alt und neu.
-                </div>
+            <!-- VIDEO 1 -->
 
+            <a
+                class="youtube-card"
+                href="https://youtu.be/G_qXoHHa3rg?is=12ezbLchqRejy5S9"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
 
-                <!-- =======================================
-                     VIDEO
-                ======================================== -->
+                <div class="youtube-thumb-wrapper">
 
-                <div class="video-box">
-
-                    <video
-                        controls
-                        playsinline
-                        preload="metadata"
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/G_qXoHHa3rg/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/G_qXoHHa3rg/hqdefault.jpg'"
                     >
 
-                        <source
-                            src="/assets/gespalten/gespalten.mp4"
-                            type="video/mp4"
-                        >
-
-                        Dein Browser unterstützt
-                        dieses Videoformat nicht.
-
-                    </video>
+                    <div class="youtube-play">
+                        ▶
+                    </div>
 
                 </div>
 
-            </div>
-
-
-
-            <!-- ===========================================
-                 RECHTER BEREICH SEITE 1
-            ============================================ -->
-
-            <div class="right-content">
-
-                <div class="kicker">
-                    neues album
+                <div class="youtube-label">
+                    neu
                 </div>
 
-
-                <h2>
-                    die andere<br>
-                    seite
-                </h2>
+            </a>
 
 
-                <div class="subtitle">
-                    Ein Übergang zwischen zwei Seiten.
-                    Alt und neu.
-                    Dazwischen liegt die Spalte.
+
+            <!-- VIDEO 2 -->
+
+            <a
+                class="youtube-card"
+                href="https://youtu.be/ZSaj_FuqPN8?is=WmmvzJ6-6PcYNV_3"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="youtube-thumb-wrapper">
+
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/ZSaj_FuqPN8/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/ZSaj_FuqPN8/hqdefault.jpg'"
+                    >
+
+                    <div class="youtube-play">
+                        ▶
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="youtube-label">
+                    video
+                </div>
 
+            </a>
+
+
+
+            <!-- VIDEO 3 -->
+
+            <a
+                class="youtube-card"
+                href="https://youtu.be/DMNl40Tip1w?is=gzdU-EU2U_YIvLL1"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="youtube-thumb-wrapper">
+
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/DMNl40Tip1w/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/DMNl40Tip1w/hqdefault.jpg'"
+                    >
+
+                    <div class="youtube-play">
+                        ▶
+                    </div>
+
+                </div>
+
+                <div class="youtube-label">
+                    video
+                </div>
+
+            </a>
+
+
+
+            <!-- VIDEO 4 -->
+
+            <a
+                class="youtube-card"
+                href="https://youtu.be/K5pKG0Smdfc?is=O-5g6uhpv5ulNDAw"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="youtube-thumb-wrapper">
+
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/K5pKG0Smdfc/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/K5pKG0Smdfc/hqdefault.jpg'"
+                    >
+
+                    <div class="youtube-play">
+                        ▶
+                    </div>
+
+                </div>
+
+                <div class="youtube-label">
+                    älter
+                </div>
+
+            </a>
+
+
+
+            <!-- VIDEO 5 -->
+
+            <a
+                class="youtube-card"
+                href="https://youtu.be/w0pNdnlb96M?is=M6ElK5WKQKU1IsW2"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="youtube-thumb-wrapper">
+
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/w0pNdnlb96M/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/w0pNdnlb96M/hqdefault.jpg'"
+                    >
+
+                    <div class="youtube-play">
+                        ▶
+                    </div>
+
+                </div>
+
+                <div class="youtube-label">
+                    älter
+                </div>
+
+            </a>
+
+
+
+            <!-- VIDEO 6 -->
+
+            <a
+                class="youtube-card"
+                href="https://youtu.be/rV1U891RKLo?is=rl9Fo4NkZpNyvfmm"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="youtube-thumb-wrapper">
+
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/rV1U891RKLo/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/rV1U891RKLo/hqdefault.jpg'"
+                    >
+
+                    <div class="youtube-play">
+                        ▶
+                    </div>
+
+                </div>
+
+                <div class="youtube-label">
+                    älter
+                </div>
+
+            </a>
+
+
+
+            <!-- VIDEO 7 -->
+
+            <a
+                class="youtube-card"
+                href="https://youtu.be/fq8zhAQMam0?is=ZUCQherHsGAgH16A"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <div class="youtube-thumb-wrapper">
+
+                    <img
+                        class="youtube-thumb"
+                        src="https://i.ytimg.com/vi/fq8zhAQMam0/maxresdefault.jpg"
+                        alt="YouTube Video"
+                        onerror="this.src='https://i.ytimg.com/vi/fq8zhAQMam0/hqdefault.jpg'"
+                    >
+
+                    <div class="youtube-play">
+                        ▶
+                    </div>
+
+                </div>
+
+                <div class="youtube-label">
+                    älter
+                </div>
+
+            </a>
 
         </div>
-
-    </section>
-
-
-
-    <!-- ===================================================
-         DIE SPALTE
-
-         IMMER SICHTBAR
-    ==================================================== -->
-
-    <div
-        id="column"
-        aria-hidden="true"
-    ></div>
-
-
-
-    <!-- ===================================================
-         SCROLL-HINWEIS
-    ==================================================== -->
-
-    <div id="scrollHint">
-
-        scrollen zum öffnen
-
-        <div class="arrow"></div>
 
     </div>
 
+</section>
 
 
-    <!-- ===================================================
-         STATUS
 
-         Kann später komplett entfernt werden.
-    ==================================================== -->
+<!-- =====================================================
+     SEITE 5 – SOUNDCLOUD
+     ===================================================== -->
 
-    <div id="status">
+<section class="page page-5">
 
-        <div class="status-label">
-            ZUSTAND
+    <div class="soundcloud-inner">
+
+        <div class="soundcloud-title">
+            SoundCloud
         </div>
 
-        <div
-            id="stateText"
-            class="status-value"
-        >
-            SEITE 1
-        </div>
+        <div class="soundcloud-frame">
 
+            <iframe
+                scrolling="no"
+                frameborder="no"
+                allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
+            </iframe>
 
-        <div class="status-label">
-            ÖFFNUNG
-        </div>
-
-        <div
-            id="progressText"
-            class="status-value"
-        >
-            0%
-        </div>
-
-
-        <div class="status-label">
-            RICHTUNG
-        </div>
-
-        <div
-            id="directionText"
-            class="status-value"
-        >
-            BEREIT
         </div>
 
     </div>
 
+</section>
 
-</div>
+
+
+<!-- =====================================================
+     SEITE 6
+     ===================================================== -->
+
+<section class="page page-6">
+
+    <div class="page-6-inner">
+
+        <h2>weiter</h2>
+
+        <p>
+            Das Ende ist kein Ende.
+            Scrolle weiter und die Schleife beginnt von vorne.
+        </p>
+
+    </div>
+
+</section>
 
 
 
 <script>
 
 /* =========================================================
-   B3NN3T – GESPALTEN
-   VERSION 2
-
-   NUR ZWEI SEITEN
-
-       SEITE 1
-          ↓
-       SEITE 2
-          ↓
-       SEITE 1
-          ↓
-       SEITE 2
-          ↓
-          ...
-
-   ENDLOS
-========================================================= */
-
-
-/* =========================================================
-   ELEMENTE
-========================================================= */
-
-const page1 =
-    document.getElementById("page1");
-
-const page2 =
-    document.getElementById("page2");
-
-const stateText =
-    document.getElementById("stateText");
-
-const progressText =
-    document.getElementById("progressText");
-
-const directionText =
-    document.getElementById("directionText");
-
-const scrollHint =
-    document.getElementById("scrollHint");
-
-
-/* =========================================================
-   KONFIGURATION
-========================================================= */
+   B3NN3T – REVERSIBLER SEITENÜBERGANG
+   ========================================================= */
 
 /*
-   Scrollstrecke für eine komplette Öffnung.
+    REIHENFOLGE:
 
-   Größer = langsamer
-   Kleiner = schneller
+    RUNTER:
+    1 → 2 → 3 → 4 → 5 → 6 → 1
+
+    HOCH:
+    6 → 5 → 4 → 3 → 2 → 1 → 6
+
+
+    WICHTIG:
+
+    progress = 0
+        = Spalt komplett geschlossen
+
+    progress = 1
+        = Spalt komplett geöffnet
+
+
+    Beim Runterscrollen:
+        progress wird größer
+
+    Beim Hochscrollen:
+        progress wird kleiner
+
+    Dadurch lässt sich die Animation wirklich
+    vor- UND zurückspulen.
 */
 
-const OPEN_DISTANCE = 900;
+
+const pages = Array.from(
+    document.querySelectorAll(".page")
+);
+
+
+/* Aktuell sichtbare Seite */
+
+let currentPage = 0;
 
 
 /*
-   Aktueller Zustand.
+    Übergangsposition.
 
-       0 = Seite 1
-       1 = Seite 2
-*/
-
-let state = 0;
-
-
-/*
-   Öffnungsfortschritt.
-
-       0 = Spalte nur als Linie
-       1 = Seite komplett geöffnet
+    0 = geschlossen
+    1 = vollständig geöffnet
 */
 
 let progress = 0;
 
 
 /*
-   Letzte Bewegungsrichtung.
+    Zielseite des aktuellen Übergangs.
 
-       +1 = nach unten
-       -1 = nach oben
+    1 = vorwärts
+    -1 = rückwärts
 */
 
 let direction = 1;
 
 
 /*
-   Verhindert Doppelwechsel bei extrem
-   schnellen Trackpad-Ereignissen.
+    Verhindert, dass während des eigentlichen
+    Seitenwechsels mehrfach gewechselt wird.
 */
 
 let switching = false;
 
 
 /*
-   Touch-Position
+    Je größer dieser Wert,
+    desto mehr Scrollbewegung braucht
+    man für einen kompletten Spalt.
 */
 
-let touchY = null;
+const OPEN_DISTANCE = 900;
+
 
 
 /* =========================================================
-   EASING
-========================================================= */
+   ZIELSEITE ERMITTELN
+   ========================================================= */
 
-function ease(value) {
+function getTargetPage() {
 
-    value =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                value
-            )
+    if (direction === 1) {
+
+        return (
+            (currentPage + 1) % pages.length
         );
 
-
-    return (
-        value < 0.5
-    )
-        ?
-        2 * value * value
-        :
-        1 -
-        Math.pow(
-            -2 * value + 2,
-            2
-        ) / 2;
-}
-
-
-/* =========================================================
-   AKTUELLE SEITE FESTLEGEN
-========================================================= */
-
-function updateLayers() {
-
-    if (state === 0) {
-
-        /*
-           Seite 1 oben.
-           Seite 2 unten.
-        */
-
-        page1.style.zIndex = "100";
-
-        page2.style.zIndex = "1";
-
-
-        stateText.textContent =
-            "SEITE 1";
-
-    } else {
-
-        /*
-           Seite 2 oben.
-           Seite 1 unten.
-        */
-
-        page2.style.zIndex = "100";
-
-        page1.style.zIndex = "1";
-
-
-        stateText.textContent =
-            "SEITE 2";
     }
 
+    return (
+        (currentPage - 1 + pages.length)
+        % pages.length
+    );
 }
 
 
-/* =========================================================
-   ÖFFNUNG RENDERN
-========================================================= */
 
-function render() {
+/* =========================================================
+   LAYER EINRICHTEN
+   ========================================================= */
+
+function setupLayers() {
+
+    pages.forEach(page => {
+
+        page.classList.remove(
+            "active",
+            "behind"
+        );
+
+        page.style.webkitMaskImage = "none";
+        page.style.maskImage = "none";
+
+    });
+
 
     /*
-       Easing für eine etwas organischere Bewegung.
+        Aktuelle Seite liegt oben.
     */
 
-    const eased =
-        ease(progress);
+    pages[currentPage].classList.add("active");
 
 
     /*
-       Maximal mögliche Öffnung.
+        Zielseite liegt darunter.
+    */
 
-       Bei 50vw wäre die komplette Seite
-       in der Mitte verschwunden.
+    pages[getTargetPage()].classList.add("behind");
+}
 
-       Wir verwenden 50vw minus 1px,
-       damit die beiden Seitenhälften
-       am Ende praktisch komplett weg sind.
+
+
+/* =========================================================
+   SPALT ZEICHNEN
+   ========================================================= */
+
+function updateMask() {
+
+    const current = pages[currentPage];
+
+
+    /*
+        Fast die komplette Bildschirmbreite.
+        In der Mitte bleibt beim vollständigen Öffnen
+        praktisch kein Inhalt der aktuellen Seite mehr.
     */
 
     const maxOpening =
-        Math.max(
-            0,
-            (window.innerWidth / 2) - 1
-        );
+        (window.innerWidth / 2) - 1;
 
 
     const opening =
-        eased *
-        maxOpening;
+        progress * maxOpening;
+
+
+    const openingPercent =
+        (opening / window.innerWidth) * 100;
+
+
+    const left =
+        50 - openingPercent;
+
+
+    const right =
+        50 + openingPercent;
 
 
     /*
-       Nur die AKTUELLE Seite wird geöffnet.
+        Schwarze Bereiche:
+        aktuelle Seite bleibt sichtbar.
 
-       Die andere Seite bleibt darunter.
+        Transparenter Bereich:
+        Zielseite darunter wird sichtbar.
     */
 
-    if (state === 0) {
-
-        page1.style.setProperty(
-            "--opening",
-            opening + "px"
-        );
-
-
-        /*
-           Seite 2 bleibt vollständig sichtbar
-           unter dem Schlitz.
-        */
-
-        page2.style.setProperty(
-            "--opening",
-            "0px"
-        );
-
-    } else {
-
-        page2.style.setProperty(
-            "--opening",
-            opening + "px"
-        );
+    const mask =
+        `linear-gradient(
+            to right,
+            black 0%,
+            black ${left}%,
+            transparent ${left}%,
+            transparent ${right}%,
+            black ${right}%,
+            black 100%
+        )`;
 
 
-        page1.style.setProperty(
-            "--opening",
-            "0px"
-        );
-
-    }
-
-
-    /*
-       Status
-    */
-
-    progressText.textContent =
-        Math.round(
-            progress * 100
-        ) + "%";
-
-
-    if (progress > 0.01) {
-
-        directionText.textContent =
-            direction > 0
-                ? "NACH UNTEN"
-                : "NACH OBEN";
-
-    } else {
-
-        directionText.textContent =
-            "BEREIT";
-
-    }
-
-
-    /*
-       Hinweis verschwinden lassen,
-       sobald gescrollt wurde.
-    */
-
-    scrollHint.style.opacity =
-        progress > 0.03
-            ? "0"
-            : "1";
-
+    current.style.webkitMaskImage = mask;
+    current.style.maskImage = mask;
 }
 
 
+
 /* =========================================================
-   ZUSTANDSWECHSEL
-========================================================= */
+   SEITE WECHSELN
+   ========================================================= */
 
-function switchState() {
-
-    if (switching) {
-        return;
-    }
-
-
-    switching = true;
-
+function changePage() {
 
     /*
-       Die gerade geöffnete Seite ist jetzt
-       vollständig geöffnet.
-
-       Die darunterliegende Seite wird nun
-       zur neuen aktiven Seite.
+        Die bisherige Zielseite wird jetzt
+        zur tatsächlich aktuellen Seite.
     */
 
-    if (state === 0) {
-
-        /*
-           Seite 1 → Seite 2
-        */
-
-        state = 1;
-
-    } else {
-
-        /*
-           Seite 2 → Seite 1
-        */
-
-        state = 0;
-
-    }
+    currentPage = getTargetPage();
 
 
     /*
-       Neue Seite startet wieder geschlossen.
-
-       Sie ist dadurch sofort vollständig sichtbar,
-       weil sie jetzt oben liegt und noch keinen
-       Schlitz besitzt.
+        Neuer Übergang startet geschlossen.
     */
 
     progress = 0;
 
 
     /*
-       Layer tauschen.
+        Layer neu sortieren.
     */
 
-    updateLayers();
+    setupLayers();
 
 
     /*
-       Rendern.
+        Die neue aktuelle Seite ist vollständig sichtbar.
     */
 
-    render();
-
-
-    /*
-       Kurzer Schutz gegen Trackpad-Spikes.
-    */
-
-    setTimeout(
-        function() {
-
-            switching = false;
-
-        },
-        60
-    );
-
+    pages[currentPage].style.webkitMaskImage = "none";
+    pages[currentPage].style.maskImage = "none";
 }
+
 
 
 /* =========================================================
-   SCROLL-VERARBEITUNG
-========================================================= */
+   SCROLLVERARBEITUNG
+   ========================================================= */
 
 function handleScroll(delta) {
 
-    /*
-       Wenn gerade der Zustand gewechselt wird,
-       ignorieren wir das einzelne Event.
-    */
-
-    if (switching) {
+    if (delta === 0) {
         return;
     }
 
 
     /*
-       Richtung merken.
+        Positive deltaY:
+            nach unten
 
-       Wichtig:
-
-       Der Öffnungsfortschritt läuft bei beiden
-       Richtungen von 0 → 100 %.
-
-       Der Unterschied ist nur, ob der Nutzer
-       nach oben oder unten durch den Kreislauf geht.
+        Negative deltaY:
+            nach oben
     */
 
-    if (delta > 0) {
-
-        direction = 1;
-
-    } else if (delta < 0) {
-
-        direction = -1;
-
-    }
+    const newDirection =
+        delta > 0 ? 1 : -1;
 
 
-    /*
-       Kleine Scrollbewegungen in Öffnung umwandeln.
-    */
 
-    const amount =
-        Math.abs(delta);
+    /* =====================================================
+       RICHTUNG WECHSELT WÄHREND DES ÜBERGANGS
+       ===================================================== */
 
+    if (newDirection !== direction) {
 
-    const increment =
-        amount /
-        OPEN_DISTANCE;
-
-
-    progress += increment;
-
-
-    /*
-       Ende erreicht?
-    */
-
-    if (progress >= 1) {
-
-        progress = 1;
-
-        render();
+        direction = newDirection;
 
 
         /*
-           Jetzt zur anderen Seite wechseln.
+            Das ist entscheidend:
+
+            Wir setzen progress NICHT zurück.
+
+            Wenn die Seite beispielsweise zu 70 %
+            geöffnet ist und man hochscrollt,
+            beginnt sie bei 70 % wieder zu schließen.
+
+            Genau dadurch wird die Bewegung reversibel.
         */
 
-        switchState();
+        setupLayers();
 
-
-        return;
+        updateMask();
     }
 
 
-    /*
-       Normal rendern.
-    */
 
-    render();
+    direction = newDirection;
+
+
+
+    /* =====================================================
+       NACH UNTEN
+       ===================================================== */
+
+    if (direction === 1) {
+
+        progress +=
+            Math.abs(delta) / OPEN_DISTANCE;
+
+
+        /*
+            Nicht über 1 hinaus.
+        */
+
+        progress =
+            Math.min(1, progress);
+
+
+
+        updateMask();
+
+
+
+        /*
+            Spalt vollständig offen:
+            nächste Seite übernehmen.
+        */
+
+        if (
+            progress >= 1 &&
+            !switching
+        ) {
+
+            switching = true;
+
+
+            /*
+                Kleine Verzögerung,
+                damit der vollständig geöffnete
+                Spalt sichtbar bleibt.
+            */
+
+            setTimeout(() => {
+
+                changePage();
+
+                switching = false;
+
+            }, 120);
+        }
+
+    }
+
+
+
+    /* =====================================================
+       NACH OBEN
+       ===================================================== */
+
+    else {
+
+        /*
+            Beim Hochscrollen wird progress
+            WIRKLICH kleiner.
+
+            Das ist der entscheidende Unterschied
+            zur vorherigen Version.
+        */
+
+        progress -=
+            Math.abs(delta) / OPEN_DISTANCE;
+
+
+        /*
+            Nicht unter 0.
+        */
+
+        progress =
+            Math.max(0, progress);
+
+
+
+        updateMask();
+
+
+
+        /*
+            Der Spalt ist wieder komplett geschlossen.
+
+            Jetzt gehen wir auf die vorherige Seite.
+        */
+
+        if (
+            progress <= 0 &&
+            !switching
+        ) {
+
+            switching = true;
+
+
+            setTimeout(() => {
+
+                /*
+                    direction ist -1,
+                    deshalb liefert getTargetPage()
+                    die vorherige Seite.
+                */
+
+                changePage();
+
+                switching = false;
+
+            }, 120);
+        }
+
+    }
 
 }
+
 
 
 /* =========================================================
    MAUSRAD / TRACKPAD
-========================================================= */
+   ========================================================= */
 
 window.addEventListener(
     "wheel",
-    function(event) {
+    event => {
 
         /*
-           Normales Browser-Scrolling verhindern.
+            Normales Scrollen der einzelnen Seiten
+            wird verhindert.
+
+            Die Seite selbst funktioniert als
+            horizontale/vertikale Übergangs-Navigation.
         */
 
         event.preventDefault();
 
 
-        handleScroll(
-            event.deltaY
-        );
+        handleScroll(event.deltaY);
 
     },
     {
@@ -1555,111 +1319,25 @@ window.addEventListener(
     }
 );
 
-
-/* =========================================================
-   TOUCH START
-========================================================= */
-
-window.addEventListener(
-    "touchstart",
-    function(event) {
-
-        if (
-            event.touches.length === 0
-        ) {
-            return;
-        }
-
-
-        touchY =
-            event.touches[0].clientY;
-
-    },
-    {
-        passive: true
-    }
-);
-
-
-/* =========================================================
-   TOUCH MOVE
-========================================================= */
-
-window.addEventListener(
-    "touchmove",
-    function(event) {
-
-        if (
-            touchY === null
-        ) {
-            return;
-        }
-
-
-        const newY =
-            event.touches[0].clientY;
-
-
-        /*
-           Finger nach oben = positive Scrollbewegung.
-           Finger nach unten = negative Scrollbewegung.
-        */
-
-        const delta =
-            touchY - newY;
-
-
-        touchY = newY;
-
-
-        event.preventDefault();
-
-
-        if (
-            Math.abs(delta) > 0
-        ) {
-
-            handleScroll(delta);
-
-        }
-
-    },
-    {
-        passive: false
-    }
-);
-
-
-/* =========================================================
-   TOUCH END
-========================================================= */
-
-window.addEventListener(
-    "touchend",
-    function() {
-
-        touchY = null;
-
-    },
-    {
-        passive: true
-    }
-);
 
 
 /* =========================================================
    TASTATUR
-
-   Pfeiltasten funktionieren ebenfalls.
-========================================================= */
+   ========================================================= */
 
 window.addEventListener(
     "keydown",
-    function(event) {
+    event => {
+
+
+        /*
+            NACH UNTEN
+        */
 
         if (
             event.key === "ArrowDown" ||
-            event.key === "PageDown"
+            event.key === "PageDown" ||
+            event.key === " "
         ) {
 
             event.preventDefault();
@@ -1668,6 +1346,11 @@ window.addEventListener(
 
         }
 
+
+
+        /*
+            NACH OBEN
+        */
 
         if (
             event.key === "ArrowUp" ||
@@ -1684,57 +1367,110 @@ window.addEventListener(
 );
 
 
+
+/* =========================================================
+   TOUCH
+   ========================================================= */
+
+let touchStartY = 0;
+
+
+window.addEventListener(
+    "touchstart",
+    event => {
+
+        touchStartY =
+            event.touches[0].clientY;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+window.addEventListener(
+    "touchend",
+    event => {
+
+        const touchEndY =
+            event.changedTouches[0].clientY;
+
+
+        const difference =
+            touchStartY - touchEndY;
+
+
+        /*
+            Kleine Bewegungen ignorieren.
+        */
+
+        if (
+            Math.abs(difference) <= 30
+        ) {
+            return;
+        }
+
+
+
+        /*
+            Finger nach oben:
+            Seite nach unten
+        */
+
+        if (difference > 0) {
+
+            handleScroll(
+                Math.abs(difference)
+            );
+
+        }
+
+
+        /*
+            Finger nach unten:
+            Seite nach oben
+        */
+
+        else {
+
+            handleScroll(
+                -Math.abs(difference)
+            );
+
+        }
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+
 /* =========================================================
    FENSTERGRÖSSE
-========================================================= */
+   ========================================================= */
 
 window.addEventListener(
     "resize",
-    function() {
+    () => {
 
-        render();
+        updateMask();
 
     }
 );
 
 
+
 /* =========================================================
-   INITIALISIERUNG
-========================================================= */
+   STARTZUSTAND
+   ========================================================= */
 
-
-/*
-   Start:
-
-       SEITE 1
-       vollständig sichtbar
-       Spalte sichtbar
-       Seite 2 liegt darunter
-*/
-
-state = 0;
-
-progress = 0;
-
-direction = 1;
-
-
-/*
-   Layer setzen.
-*/
-
-updateLayers();
-
-
-/*
-   Initial rendern.
-*/
-
-render();
+setupLayers();
+updateMask();
 
 </script>
 
-
 </body>
-
 </html>
