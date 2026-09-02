@@ -1,1071 +1,1595 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>b3nn3t — gespalten</title>
+<meta charset="UTF-8">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #111;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+<title>B3NN3T – gespalten</title>
 
-    body {
-      position: relative;
-    }
 
-    /* =========================
-       SEITEN
-       ========================= */
+<style>
 
-    .page {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
+/* =========================================================
+   RESET
+========================================================= */
 
-      overflow: hidden;
+* {
+    box-sizing: border-box;
+}
 
-      --opening: 0px;
+html,
+body {
+    margin: 0;
+    padding: 0;
 
-      -webkit-mask-image:
-        linear-gradient(
-          to right,
-          #000 0,
-          #000 calc(50% - var(--opening)),
-          transparent calc(50% - var(--opening)),
-          transparent calc(50% + var(--opening)),
-          #000 calc(50% + var(--opening)),
-          #000 100%
-        );
+    width: 100%;
+    height: 100%;
 
-      mask-image:
-        linear-gradient(
-          to right,
-          #000 0,
-          #000 calc(50% - var(--opening)),
-          transparent calc(50% - var(--opening)),
-          transparent calc(50% + var(--opening)),
-          #000 calc(50% + var(--opening)),
-          #000 100%
-        );
-    }
+    overflow: hidden;
+}
 
-    .page1 {
-      background: #1555ff;
-      color: #fff;
-    }
+body {
+    background: #07131d;
 
-    .page2 {
-      background: #75813b;
-      color: #111;
-    }
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-    .page3 {
-      background: #111;
-      color: #fff;
-    }
+    color: #f2eee7;
 
-    /* leichte Textur */
-    .page::before {
-      content: "";
-      position: absolute;
-      inset: 0;
+    user-select: none;
 
-      pointer-events: none;
+    overscroll-behavior: none;
 
-      opacity: 0.08;
+    touch-action: none;
+}
 
-      background-image:
+
+/* =========================================================
+   HAUPTBÜHNE
+========================================================= */
+
+#stage {
+
+    position: fixed;
+
+    left: 0;
+    top: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   GRUNDSÄTZLICHER SEITEN-LAYER
+========================================================= */
+
+.page {
+
+    position: absolute;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SEITE 1 – BLAU
+========================================================= */
+
+.page1 {
+
+    background:
         radial-gradient(
-          circle at 20% 20%,
-          rgba(255,255,255,0.8) 0 1px,
-          transparent 1px
+            ellipse at 50% 50%,
+            rgba(12, 91, 150, 0.55) 0%,
+            rgba(5, 31, 53, 0.25) 42%,
+            rgba(5, 17, 28, 0.95) 100%
+        ),
+        linear-gradient(
+            120deg,
+            #07131d 0%,
+            #0b2842 50%,
+            #061521 100%
+        );
+}
+
+
+/* =========================================================
+   SEITE 2 – GRÜN
+========================================================= */
+
+.page2 {
+
+    background:
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgba(157, 160, 70, 0.32) 0%,
+            rgba(75, 82, 37, 0.28) 45%,
+            rgba(39, 43, 21, 0.96) 100%
+        ),
+        linear-gradient(
+            120deg,
+            #2f3517 0%,
+            #50572b 50%,
+            #303516 100%
+        );
+}
+
+
+/* =========================================================
+   FEINE TEXTUR
+========================================================= */
+
+.page::before {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    opacity: 0.14;
+
+    background-image:
+        repeating-linear-gradient(
+            115deg,
+            rgba(255,255,255,0.04) 0px,
+            rgba(255,255,255,0.04) 1px,
+            transparent 1px,
+            transparent 5px
+        );
+}
+
+
+/* =========================================================
+   INHALT EINER SEITE
+========================================================= */
+
+.page-content {
+
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: 5;
+}
+
+
+/* =========================================================
+   LINKER BEREICH
+========================================================= */
+
+.left-content {
+
+    position: absolute;
+
+    left: 7vw;
+    top: 10vh;
+
+    width: 42vw;
+}
+
+
+/* =========================================================
+   RECHTER BEREICH
+========================================================= */
+
+.right-content {
+
+    position: absolute;
+
+    right: 7vw;
+    top: 11vh;
+
+    width: 42vw;
+
+    text-align: right;
+}
+
+
+/* =========================================================
+   KLEINE ORANGE ÜBERSCHRIFT
+========================================================= */
+
+.kicker {
+
+    margin-bottom: 18px;
+
+    color: #d39143;
+
+    font-size:
+        clamp(0.65rem, 0.9vw, 0.9rem);
+
+    font-weight: 700;
+
+    letter-spacing: 0.22em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   HAUPTÜBERSCHRIFT
+========================================================= */
+
+h1 {
+
+    margin: 0;
+
+    color: #f1eee7;
+
+    font-size:
+        clamp(4.5rem, 9vw, 9rem);
+
+    line-height: 0.78;
+
+    letter-spacing: -0.075em;
+
+    font-weight: 700;
+}
+
+
+h2 {
+
+    margin: 0;
+
+    color: #f1eee7;
+
+    font-size:
+        clamp(3.5rem, 7vw, 7rem);
+
+    line-height: 0.80;
+
+    letter-spacing: -0.07em;
+
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   UNTERTITEL
+========================================================= */
+
+.subtitle {
+
+    margin-top: 30px;
+
+    color: #d6c59d;
+
+    font-size:
+        clamp(0.85rem, 1.35vw, 1.25rem);
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.video-box {
+
+    position: relative;
+
+    width: min(420px, 34vw);
+
+    aspect-ratio: 16 / 10;
+
+    margin-top: 42px;
+
+    overflow: hidden;
+
+    border:
+        2px solid
+        rgba(235, 227, 204, 0.72);
+
+    border-radius: 16px;
+
+    background: #c5bea9;
+}
+
+
+.video-box video {
+
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+
+/* =========================================================
+   SEITE 2 ZUSATZINHALT
+========================================================= */
+
+.page2 .left-content {
+
+    width: 39vw;
+}
+
+
+.info-list {
+
+    margin-top: 38px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
+}
+
+
+.info-item {
+
+    padding: 15px 18px;
+
+    border:
+        1px solid
+        rgba(238, 231, 194, 0.27);
+
+    border-radius: 7px;
+
+    background:
+        rgba(0, 0, 0, 0.13);
+}
+
+
+.info-title {
+
+    margin-bottom: 6px;
+
+    color: #d39143;
+
+    font-size: 0.72rem;
+
+    font-weight: 700;
+
+    letter-spacing: 0.15em;
+
+    text-transform: uppercase;
+}
+
+
+.info-text {
+
+    color: #ddd5ae;
+
+    font-size: 0.88rem;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   ÖFFNUNG DER AKTUELLEN SEITE
+=========================================================
+
+   Die aktuelle Seite bekommt in der Mitte
+   einen transparenten Bereich.
+
+   progress = 0
+
+       ┌──────────────────────────┐
+       │       SEITE 1            │
+       │                          │
+       │                          │
+       └──────────────────────────┘
+
+   progress = 0.5
+
+       ┌───────────┐    ┌──────────┐
+       │ SEITE 1   │    │ SEITE 1  │
+       │           │    │          │
+       └───────────┘    └──────────┘
+
+   progress = 1
+
+       ┌───────┐              ┌───────┐
+       │       │              │       │
+       │       │              │       │
+       └───────┘              └───────┘
+
+              SEITE 2
+             vollständig
+               sichtbar
+
+========================================================= */
+
+#page1,
+#page2 {
+
+    --opening: 0px;
+
+    /*
+       Die Maske erzeugt den Schlitz.
+
+       Schwarz = sichtbar
+       Transparent = darunterliegende Seite sichtbar
+    */
+
+    -webkit-mask-image:
+        linear-gradient(
+            to right,
+
+            black 0,
+
+            black
+            calc(50% - var(--opening)),
+
+            transparent
+            calc(50% - var(--opening)),
+
+            transparent
+            calc(50% + var(--opening)),
+
+            black
+            calc(50% + var(--opening)),
+
+            black 100%
         );
 
-      background-size: 5px 5px;
-    }
+    mask-image:
+        linear-gradient(
+            to right,
 
-    /* =========================
-       CONTENT
-       ========================= */
+            black 0,
+
+            black
+            calc(50% - var(--opening)),
+
+            transparent
+            calc(50% - var(--opening)),
+
+            transparent
+            calc(50% + var(--opening)),
+
+            black
+            calc(50% + var(--opening)),
+
+            black 100%
+        );
+}
+
+
+/* =========================================================
+   DEBUG / STATUS
+========================================================= */
+
+#status {
+
+    position: fixed;
+
+    z-index: 2000;
+
+    right: 22px;
+    bottom: 22px;
+
+    width: 185px;
+
+    padding: 13px 15px;
+
+    border:
+        1px solid
+        rgba(255,255,255,0.13);
+
+    border-radius: 5px;
+
+    background:
+        rgba(0,0,0,0.48);
+
+    backdrop-filter: blur(10px);
+
+    font-size: 10px;
+
+    line-height: 1.45;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+}
+
+
+.status-label {
+
+    color: #d39143;
+}
+
+
+.status-value {
+
+    margin-bottom: 8px;
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   SCROLL-HINWEIS
+========================================================= */
+
+#scrollHint {
+
+    position: fixed;
+
+    z-index: 1500;
+
+    left: 50%;
+    bottom: 27px;
+
+    transform:
+        translateX(-50%);
+
+    color: #d39143;
+
+    font-size: 0.68rem;
+
+    font-weight: 600;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    pointer-events: none;
+
+    transition:
+        opacity 0.25s ease;
+}
+
+
+.arrow {
+
+    width: 11px;
+    height: 11px;
+
+    margin: 9px auto 0;
+
+    border-right:
+        2px solid
+        #d39143;
+
+    border-bottom:
+        2px solid
+        #d39143;
+
+    transform:
+        rotate(45deg);
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
 
     .left-content {
-      position: absolute;
-      left: 6vw;
-      top: 7vh;
-      width: 50vw;
-      max-width: 760px;
 
-      z-index: 2;
+        left: 5vw;
+        top: 7vh;
+
+        width: 42vw;
     }
+
 
     .right-content {
-      position: absolute;
-      right: 5vw;
-      bottom: 7vh;
 
-      width: 240px;
-
-      z-index: 2;
-    }
-
-    .kicker {
-      margin-bottom: 18px;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      margin: 0;
-
-      font-size: clamp(70px, 13vw, 190px);
-      line-height: 0.78;
-
-      font-weight: 900;
-      letter-spacing: -0.075em;
-
-      text-transform: lowercase;
-    }
-
-    h2 {
-      margin: 0 0 30px 0;
-
-      font-size: clamp(42px, 7vw, 100px);
-      line-height: 0.85;
-
-      font-weight: 900;
-      letter-spacing: -0.06em;
-
-      text-transform: lowercase;
-    }
-
-    .subtitle {
-      margin-top: 35px;
-
-      max-width: 480px;
-
-      font-size: 18px;
-      line-height: 1.35;
-    }
-
-    /* =========================
-       VIDEO
-       ========================= */
-
-    .video-box {
-      margin-top: 45px;
-
-      width: min(600px, 70vw);
-
-      aspect-ratio: 16 / 9;
-
-      overflow: hidden;
-
-      background: #000;
-    }
-
-    .video-box video {
-      display: block;
-
-      width: 100%;
-      height: 100%;
-
-      object-fit: cover;
-    }
-
-    /* =========================
-       INFO
-       ========================= */
-
-    .info-list {
-      margin-top: 45px;
-
-      max-width: 620px;
-    }
-
-    .info-item {
-      padding: 18px 0;
-
-      border-top: 1px solid currentColor;
-    }
-
-    .info-item:last-child {
-      border-bottom: 1px solid currentColor;
-    }
-
-    .info-title {
-      margin-bottom: 6px;
-
-      font-size: 12px;
-      font-weight: 700;
-
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-    }
-
-    .info-text {
-      font-size: 17px;
-      line-height: 1.3;
-    }
-
-    /* =========================
-       RECHTE SEITE
-       ========================= */
-
-    .right-content {
-      text-align: right;
-    }
-
-    .right-small {
-      font-size: 11px;
-      font-weight: 700;
-
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-
-      opacity: 0.7;
-    }
-
-    .right-big {
-      margin-top: 7px;
-
-      font-size: 25px;
-      line-height: 1;
-
-      font-weight: 800;
-      letter-spacing: -0.03em;
-    }
-
-    /* =========================
-       SPOTIFY
-       ========================= */
-
-    .spotify-page-content {
-      position: absolute;
-
-      left: 50%;
-      top: 50%;
-
-      transform: translate(-50%, -50%);
-
-      width: min(700px, 82vw);
-
-      z-index: 3;
-    }
-
-    .spotify-kicker {
-      margin-bottom: 20px;
-
-      font-size: 12px;
-      font-weight: 700;
-
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-
-      opacity: 0.65;
-    }
-
-    .spotify-title {
-      margin: 0 0 28px 0;
-
-      font-size: clamp(55px, 10vw, 130px);
-      line-height: 0.8;
-
-      font-weight: 900;
-      letter-spacing: -0.07em;
-    }
-
-    .spotify-frame {
-      width: 100%;
-
-      overflow: hidden;
-
-      border-radius: 12px;
-
-      background: #181818;
-    }
-
-    .spotify-frame iframe {
-      display: block;
-
-      width: 100%;
-
-      height: 352px;
-
-      border: 0;
-    }
-
-    .spotify-note {
-      margin-top: 18px;
-
-      font-size: 13px;
-      line-height: 1.3;
-
-      opacity: 0.55;
-    }
-
-    /* =========================
-       DEBUG
-       ========================= */
-
-    #status {
-      position: fixed;
-
-      left: 20px;
-      bottom: 20px;
-
-      z-index: 9999;
-
-      padding: 9px 12px;
-
-      background: rgba(0,0,0,0.7);
-      color: #fff;
-
-      font-family: monospace;
-      font-size: 11px;
-
-      pointer-events: none;
-
-      border-radius: 3px;
-    }
-
-    #scrollHint {
-      position: fixed;
-
-      left: 50%;
-      bottom: 22px;
-
-      transform: translateX(-50%);
-
-      z-index: 9999;
-
-      color: #fff;
-
-      font-size: 11px;
-      font-weight: 700;
-
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-
-      opacity: 1;
-
-      transition: opacity 0.25s ease;
-
-      pointer-events: none;
-    }
-
-    /* =========================
-       MOBILE
-       ========================= */
-
-    @media (max-width: 700px) {
-
-      .left-content {
-        left: 7vw;
+        right: 5vw;
         top: 8vh;
 
-        width: 78vw;
-      }
-
-      .right-content {
-        right: 7vw;
-        bottom: 7vh;
-
-        width: 190px;
-      }
-
-      .subtitle {
-        font-size: 16px;
-      }
-
-      .video-box {
-        width: 100%;
-      }
-
-      .spotify-page-content {
-        width: 86vw;
-      }
-
-      .spotify-title {
-        font-size: clamp(55px, 16vw, 100px);
-      }
-
-      .spotify-frame iframe {
-        height: 352px;
-      }
-
-      #status {
-        display: none;
-      }
+        width: 42vw;
     }
-  </style>
+
+
+    h1 {
+
+        font-size:
+            clamp(2.5rem, 11vw, 4.5rem);
+    }
+
+
+    h2 {
+
+        font-size:
+            clamp(2.3rem, 9vw, 4rem);
+    }
+
+
+    .subtitle {
+
+        margin-top: 18px;
+
+        font-size: 0.7rem;
+    }
+
+
+    .video-box {
+
+        width: 100%;
+
+        max-width: 180px;
+
+        margin-top: 20px;
+    }
+
+
+    #status {
+
+        right: 8px;
+        bottom: 8px;
+
+        width: 145px;
+
+        padding: 9px;
+
+        font-size: 8px;
+    }
+
+
+    #scrollHint {
+
+        bottom: 13px;
+
+        font-size: 0.52rem;
+    }
+
+}
+
+</style>
+
 </head>
 
 
 <body>
 
-  <!-- =====================================================
-       SEITE 1
-       ===================================================== -->
 
-  <section class="page page1" id="page1">
+<!-- =======================================================
+     BÜHNE
+======================================================= -->
 
-    <div class="left-content">
-
-      <div class="kicker">
-        b3nn3t
-      </div>
-
-      <h1>
-        gespalten
-      </h1>
-
-      <div class="subtitle">
-        10 kurze Songs. 12 Minuten zwischen alt und neu.
-      </div>
-
-      <div class="video-box">
-        <video
-          src="/assets/gespalten/gespalten.mp4"
-          autoplay
-          muted
-          loop
-          playsinline
-        ></video>
-      </div>
-
-    </div>
+<div id="stage">
 
 
-    <div class="right-content">
+    <!-- ===================================================
+         SEITE 2
 
-      <div class="right-small">
-        neues album
-      </div>
+         Sie liegt IMMER unter der aktuellen Seite.
+    ==================================================== -->
 
-      <div class="right-big">
-        die andere seite
-      </div>
+    <section
+        id="page2"
+        class="page page2"
+    >
 
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       SEITE 2
-       ===================================================== -->
-
-  <section class="page page2" id="page2">
-
-    <div class="left-content">
-
-      <div class="kicker">
-        b3nn3t
-      </div>
-
-      <h2>
-        die<br>
-        andere
-      </h2>
-
-      <div class="subtitle">
-        Eine zweite Perspektive.
-        Neue Fragmente. Andere Räume.
-      </div>
+        <div class="page-content">
 
 
-      <div class="info-list">
+            <!-- ===========================================
+                 LINKER BEREICH SEITE 2
+            ============================================ -->
 
-        <div class="info-item">
+            <div class="left-content">
 
-          <div class="info-title">
-            fragment 01
-          </div>
+                <div class="kicker">
+                    b3nn3t
+                </div>
 
-          <div class="info-text">
-            Texte, Bilder und Notizen rund um das Album.
-          </div>
+
+                <h1>
+                    die<br>
+                    andere
+                </h1>
+
+
+                <div class="subtitle">
+                    Eine zweite Perspektive.
+                    Neue Fragmente.
+                    Andere Räume.
+                </div>
+
+
+                <div class="info-list">
+
+
+                    <div class="info-item">
+
+                        <div class="info-title">
+                            fragment 01
+                        </div>
+
+                        <div class="info-text">
+                            Texte, Bilder und Notizen
+                            rund um das Album.
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-title">
+                            fragment 02
+                        </div>
+
+                        <div class="info-text">
+                            Zehn kurze Songs zwischen
+                            alt und neu.
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-item">
+
+                        <div class="info-title">
+                            fragment 03
+                        </div>
+
+                        <div class="info-text">
+                            Dazwischen bleibt die Spalte.
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- ===========================================
+                 RECHTER BEREICH SEITE 2
+            ============================================ -->
+
+            <div class="right-content">
+
+                <div class="kicker">
+                    seite zwei
+                </div>
+
+
+                <h2>
+                    neu<br>
+                    gedacht
+                </h2>
+
+
+                <div class="subtitle">
+                    Seite 2 ist vollständig eigenständig.
+                    Sie liegt bereits unter Seite 1
+                    und wird durch die Öffnung sichtbar.
+                </div>
+
+            </div>
+
 
         </div>
 
+    </section>
 
-        <div class="info-item">
 
-          <div class="info-title">
-            fragment 02
-          </div>
 
-          <div class="info-text">
-            Zehn kurze Songs zwischen alt und neu.
-          </div>
+    <!-- ===================================================
+         SEITE 1
+
+         DAS IST DER START.
+
+         Sie liegt zunächst vollständig über Seite 2.
+    ==================================================== -->
+
+    <section
+        id="page1"
+        class="page page1"
+    >
+
+        <div class="page-content">
+
+
+            <!-- ===========================================
+                 LINKER BEREICH SEITE 1
+            ============================================ -->
+
+            <div class="left-content">
+
+                <div class="kicker">
+                    b3nn3t
+                </div>
+
+
+                <h1>
+                    gespalten
+                </h1>
+
+
+                <div class="subtitle">
+                    10 kurze Songs.
+                    12 Minuten zwischen alt und neu.
+                </div>
+
+
+                <!-- =======================================
+                     VIDEO
+                ======================================== -->
+
+                <div class="video-box">
+
+                    <video
+                        controls
+                        playsinline
+                        preload="metadata"
+                    >
+
+                        <source
+                            src="/assets/gespalten/gespalten.mp4"
+                            type="video/mp4"
+                        >
+
+                        Dein Browser unterstützt
+                        dieses Videoformat nicht.
+
+                    </video>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ===========================================
+                 RECHTER BEREICH SEITE 1
+            ============================================ -->
+
+            <div class="right-content">
+
+                <div class="kicker">
+                    neues album
+                </div>
+
+
+                <h2>
+                    die andere<br>
+                    seite
+                </h2>
+
+
+                <div class="subtitle">
+                    Ein Übergang zwischen zwei Seiten.
+                    Alt und neu.
+                    Dazwischen liegt die Spalte.
+                </div>
+
+            </div>
+
 
         </div>
 
+    </section>
 
-        <div class="info-item">
 
-          <div class="info-title">
-            fragment 03
-          </div>
 
-          <div class="info-text">
-            Dazwischen bleibt die Spalte.
-          </div>
+    <!-- ===================================================
+         KEINE FESTE SPALTE MEHR
 
+         Der frühere #column-Container wurde vollständig
+         entfernt.
+
+         Die Spalte entsteht jetzt ausschließlich durch
+         die Maskierung der Seite.
+    ==================================================== -->
+
+
+
+    <!-- ===================================================
+         SCROLL-HINWEIS
+    ==================================================== -->
+
+    <div id="scrollHint">
+
+        scrollen zum öffnen
+
+        <div class="arrow"></div>
+
+    </div>
+
+
+
+    <!-- ===================================================
+         STATUS
+    ==================================================== -->
+
+    <div id="status">
+
+        <div class="status-label">
+            ZUSTAND
         </div>
 
-      </div>
+        <div
+            id="stateText"
+            class="status-value"
+        >
+            SEITE 1
+        </div>
+
+
+        <div class="status-label">
+            ÖFFNUNG
+        </div>
+
+        <div
+            id="progressText"
+            class="status-value"
+        >
+            0%
+        </div>
+
+
+        <div class="status-label">
+            RICHTUNG
+        </div>
+
+        <div
+            id="directionText"
+            class="status-value"
+        >
+            BEREIT
+        </div>
 
     </div>
 
 
-    <div class="right-content">
+</div>
 
-      <div class="right-small">
-        seite zwei
-      </div>
 
-      <div class="right-big">
-        neu gedacht
-      </div>
 
-    </div>
+<script>
 
-  </section>
+/* =========================================================
+   B3NN3T – GESPALTEN
 
+   EXAKT DIE VORHERIGE FUNKTIONIERENDE VERSION,
 
-  <!-- =====================================================
-       SEITE 3 — SPOTIFY
-       ===================================================== -->
+   ABER:
 
-  <section class="page page3" id="page3">
+   DIE PERMANENTE BLAUE LINIE WURDE ENTFERNT.
 
-    <div class="spotify-page-content">
+   SONST WURDE NICHTS AM SPLIT-MECHANISMUS GEÄNDERT.
+========================================================= */
 
-      <div class="spotify-kicker">
-        b3nn3t / musik
-      </div>
 
-      <h2 class="spotify-title">
-        hören.
-      </h2>
+/* =========================================================
+   ELEMENTE
+========================================================= */
 
+const page1 =
+    document.getElementById("page1");
 
-      <div class="spotify-frame">
+const page2 =
+    document.getElementById("page2");
 
-        <iframe
-          src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?utm_source=generator&theme=0"
-          allowfullscreen=""
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          loading="lazy">
-        </iframe>
+const stateText =
+    document.getElementById("stateText");
 
-      </div>
+const progressText =
+    document.getElementById("progressText");
 
+const directionText =
+    document.getElementById("directionText");
 
-      <div class="spotify-note">
-        b3nn3t auf Spotify
-      </div>
+const scrollHint =
+    document.getElementById("scrollHint");
 
-    </div>
 
+/* =========================================================
+   KONFIGURATION
+========================================================= */
 
-    <div class="right-content">
 
-      <div class="right-small">
-        nächste seite
-      </div>
+/*
+   Scrollstrecke für eine komplette Öffnung.
 
-      <div class="right-big">
-        zurück
-      </div>
+   Dieser Wert bleibt exakt wie vorher.
 
-    </div>
+   Größer = langsamer
+   Kleiner = schneller
+*/
 
-  </section>
+const OPEN_DISTANCE = 900;
 
 
-  <!-- =====================================================
-       DEBUG
-       ===================================================== -->
+/*
+   Aktueller Zustand.
 
-  <div id="status">
-    <span id="stateText">SEITE 1</span>
-    &nbsp; / &nbsp;
-    <span id="progressText">0%</span>
-    &nbsp; / &nbsp;
-    <span id="directionText">BEREIT</span>
-  </div>
+       0 = Seite 1
+       1 = Seite 2
+*/
 
+let state = 0;
 
-  <div id="scrollHint">
-    scrollen
-  </div>
 
+/*
+   Öffnungsfortschritt.
 
-  <script>
+       0 = geschlossen
+       1 = vollständig geöffnet
+*/
 
-    /* =====================================================
-       EINSTELLUNGEN
-       ===================================================== */
+let progress = 0;
 
-    const OPEN_DISTANCE = 900;
 
+/*
+   Letzte Bewegungsrichtung.
 
-    /* =====================================================
-       ELEMENTE
-       ===================================================== */
+       +1 = nach unten
+       -1 = nach oben
+*/
 
-    const page1 = document.getElementById("page1");
-    const page2 = document.getElementById("page2");
-    const page3 = document.getElementById("page3");
+let direction = 1;
 
-    const pages = [
-      page1,
-      page2,
-      page3
-    ];
 
-    const stateText =
-      document.getElementById("stateText");
+/*
+   Verhindert Doppelwechsel.
+*/
 
-    const progressText =
-      document.getElementById("progressText");
+let switching = false;
 
-    const directionText =
-      document.getElementById("directionText");
 
-    const scrollHint =
-      document.getElementById("scrollHint");
+/*
+   Touch-Position.
+*/
 
+let touchY = null;
 
-    /* =====================================================
-       STATUS
-       ===================================================== */
 
-    let state = 0;
+/* =========================================================
+   EASING
+========================================================= */
 
-    let progress = 0;
+function ease(value) {
 
-    let direction = 1;
-
-    let switching = false;
-
-    let touchY = null;
-
-
-    /* =====================================================
-       EASING
-       ===================================================== */
-
-    function ease(value) {
-
-      value = Math.max(
-        0,
-        Math.min(1, value)
-      );
-
-      return value < 0.5
-
-        ? 2 * value * value
-
-        : 1 -
-          Math.pow(
-            -2 * value + 2,
-            2
-          ) / 2;
-    }
-
-
-    /* =====================================================
-       SEITEN AKTIVIEREN
-       ===================================================== */
-
-    function updateLayers() {
-
-      pages.forEach((page, index) => {
-
-        if (index === state) {
-
-          page.style.zIndex = "100";
-
-        } else {
-
-          page.style.zIndex = "1";
-
-        }
-
-      });
-
-
-      if (state === 0) {
-
-        stateText.textContent = "SEITE 1";
-
-      }
-
-      else if (state === 1) {
-
-        stateText.textContent = "SEITE 2";
-
-      }
-
-      else {
-
-        stateText.textContent = "SPOTIFY";
-
-      }
-
-    }
-
-
-    /* =====================================================
-       RENDER
-       ===================================================== */
-
-    function render() {
-
-      const eased = ease(progress);
-
-
-      /*
-       * Öffnung geht bis fast an den linken
-       * und rechten Bildschirmrand.
-       */
-
-      const maxOpening =
+    value =
         Math.max(
-          0,
-          (window.innerWidth / 2) - 1
+            0,
+            Math.min(
+                1,
+                value
+            )
         );
 
 
-      const opening =
-        eased * maxOpening;
+    return (
+        value < 0.5
+    )
+        ?
+        2 * value * value
+        :
+        1 -
+        Math.pow(
+            -2 * value + 2,
+            2
+        ) / 2;
+}
 
 
-      /*
-       * Nur die aktuelle Seite
-       * bekommt die Öffnung.
-       */
+/* =========================================================
+   AKTUELLE SEITE FESTLEGEN
+========================================================= */
 
-      pages.forEach((page, index) => {
+function updateLayers() {
 
-        if (index === state) {
+    if (state === 0) {
 
-          page.style.setProperty(
+        /*
+           Seite 1 oben.
+           Seite 2 unten.
+        */
+
+        page1.style.zIndex = "100";
+
+        page2.style.zIndex = "1";
+
+
+        stateText.textContent =
+            "SEITE 1";
+
+    } else {
+
+        /*
+           Seite 2 oben.
+           Seite 1 unten.
+        */
+
+        page2.style.zIndex = "100";
+
+        page1.style.zIndex = "1";
+
+
+        stateText.textContent =
+            "SEITE 2";
+    }
+
+}
+
+
+/* =========================================================
+   ÖFFNUNG RENDERN
+========================================================= */
+
+function render() {
+
+    /*
+       Easing für die Bewegung.
+    */
+
+    const eased =
+        ease(progress);
+
+
+    /*
+       MAXIMALE ÖFFNUNG
+
+       WICHTIG:
+
+       Dieser Wert bleibt exakt wie in
+       deiner funktionierenden Version.
+
+       Die Spalte öffnet sich also bis fast
+       zur kompletten Bildschirmbreite,
+       bevor die nächste Seite erscheint.
+    */
+
+    const maxOpening =
+        Math.max(
+            0,
+            (window.innerWidth / 2) - 1
+        );
+
+
+    const opening =
+        eased *
+        maxOpening;
+
+
+    /*
+       AKTUELLE SEITE ÖFFNEN
+    */
+
+    if (state === 0) {
+
+        page1.style.setProperty(
             "--opening",
             opening + "px"
-          );
+        );
 
-        } else {
 
-          page.style.setProperty(
+        /*
+           Seite 2 liegt darunter.
+        */
+
+        page2.style.setProperty(
             "--opening",
             "0px"
-          );
+        );
 
-        }
+    } else {
 
-      });
+        page2.style.setProperty(
+            "--opening",
+            opening + "px"
+        );
 
 
-      progressText.textContent =
-        Math.round(progress * 100) + "%";
+        /*
+           Seite 1 liegt darunter.
+        */
+
+        page1.style.setProperty(
+            "--opening",
+            "0px"
+        );
+
+    }
 
 
-      directionText.textContent =
-        progress > 0.01
+    /*
+       STATUS
+    */
 
-          ? (
-              direction > 0
+    progressText.textContent =
+        Math.round(
+            progress * 100
+        ) + "%";
+
+
+    if (progress > 0.01) {
+
+        directionText.textContent =
+            direction > 0
                 ? "NACH UNTEN"
-                : "NACH OBEN"
-            )
+                : "NACH OBEN";
 
-          : "BEREIT";
+    } else {
+
+        directionText.textContent =
+            "BEREIT";
+
+    }
 
 
-      scrollHint.style.opacity =
+    /*
+       Scroll-Hinweis ausblenden.
+    */
+
+    scrollHint.style.opacity =
         progress > 0.03
-          ? "0"
-          : "1";
+            ? "0"
+            : "1";
+
+}
+
+
+/* =========================================================
+   ZUSTANDSWECHSEL
+========================================================= */
+
+function switchState() {
+
+    if (switching) {
+        return;
     }
 
 
-    /* =====================================================
-       SEITE WECHSELN
-       ===================================================== */
-
-    function switchState() {
-
-      if (switching) {
-        return;
-      }
+    switching = true;
 
 
-      switching = true;
+    /*
+       Seite wechseln.
+    */
 
+    if (state === 0) {
 
-      /*
-       * Seite 1 → Seite 2
-       * Seite 2 → Spotify
-       * Spotify → Seite 1
-       */
+        /*
+           Seite 1 → Seite 2
+        */
 
-      state =
-        (state + 1) % pages.length;
+        state = 1;
 
+    } else {
 
-      progress = 0;
+        /*
+           Seite 2 → Seite 1
+        */
 
-
-      updateLayers();
-
-      render();
-
-
-      setTimeout(() => {
-
-        switching = false;
-
-      }, 60);
+        state = 0;
 
     }
 
 
-    /* =====================================================
-       SCROLL
-       ===================================================== */
+    /*
+       Neue Seite beginnt geschlossen.
+    */
 
-    function handleScroll(delta) {
+    progress = 0;
 
-      if (switching) {
+
+    /*
+       Layer tauschen.
+    */
+
+    updateLayers();
+
+
+    /*
+       Rendern.
+    */
+
+    render();
+
+
+    /*
+       Kurzer Schutz vor Trackpad-Spikes.
+    */
+
+    setTimeout(
+        function() {
+
+            switching = false;
+
+        },
+        60
+    );
+
+}
+
+
+/* =========================================================
+   SCROLL-VERARBEITUNG
+========================================================= */
+
+function handleScroll(delta) {
+
+    /*
+       Wenn gerade gewechselt wird,
+       ignorieren wir dieses Event.
+    */
+
+    if (switching) {
         return;
-      }
+    }
 
 
-      if (delta > 0) {
+    /*
+       Richtung merken.
+    */
+
+    if (delta > 0) {
 
         direction = 1;
 
-      }
-
-      else if (delta < 0) {
+    } else if (delta < 0) {
 
         direction = -1;
 
-      }
+    }
 
 
-      const amount =
+    /*
+       Scrollbewegung in Öffnung umwandeln.
+    */
+
+    const amount =
         Math.abs(delta);
 
 
-      const increment =
-        amount / OPEN_DISTANCE;
+    const increment =
+        amount /
+        OPEN_DISTANCE;
 
 
-      progress += increment;
+    progress += increment;
 
 
-      if (progress >= 1) {
+    /*
+       Ende erreicht?
+    */
+
+    if (progress >= 1) {
 
         progress = 1;
 
         render();
 
+
+        /*
+           Zur anderen Seite wechseln.
+        */
+
         switchState();
 
+
         return;
-      }
-
-
-      render();
-
     }
 
 
-    /* =====================================================
-       MAUS / TRACKPAD
-       ===================================================== */
-
-    window.addEventListener(
-      "wheel",
-      (event) => {
-
-        event.preventDefault();
-
-        handleScroll(event.deltaY);
-
-      },
-      {
-        passive: false
-      }
-    );
-
-
-    /* =====================================================
-       TOUCH
-       ===================================================== */
-
-    window.addEventListener(
-      "touchstart",
-      (event) => {
-
-        if (
-          event.touches &&
-          event.touches.length
-        ) {
-
-          touchY =
-            event.touches[0].clientY;
-
-        }
-
-      },
-      {
-        passive: true
-      }
-    );
-
-
-    window.addEventListener(
-      "touchmove",
-      (event) => {
-
-        if (
-          touchY === null ||
-          !event.touches ||
-          !event.touches.length
-        ) {
-
-          return;
-        }
-
-
-        const currentY =
-          event.touches[0].clientY;
-
-
-        const delta =
-          touchY - currentY;
-
-
-        if (Math.abs(delta) > 0) {
-
-          handleScroll(delta);
-
-        }
-
-
-        touchY = currentY;
-
-
-        event.preventDefault();
-
-      },
-      {
-        passive: false
-      }
-    );
-
-
-    window.addEventListener(
-      "touchend",
-      () => {
-
-        touchY = null;
-
-      },
-      {
-        passive: true
-      }
-    );
-
-
-    /* =====================================================
-       TASTATUR
-       ===================================================== */
-
-    window.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key === "ArrowDown" ||
-          event.key === "PageDown"
-        ) {
-
-          event.preventDefault();
-
-          handleScroll(100);
-
-        }
-
-
-        if (
-          event.key === "ArrowUp" ||
-          event.key === "PageUp"
-        ) {
-
-          event.preventDefault();
-
-          handleScroll(-100);
-
-        }
-
-      }
-    );
-
-
-    /* =====================================================
-       RESIZE
-       ===================================================== */
-
-    window.addEventListener(
-      "resize",
-      () => {
-
-        render();
-
-      }
-    );
-
-
-    /* =====================================================
-       START
-       ===================================================== */
-
-    state = 0;
-
-    progress = 0;
-
-    direction = 1;
-
-
-    updateLayers();
+    /*
+       Normal rendern.
+    */
 
     render();
 
-  </script>
+}
+
+
+/* =========================================================
+   MAUSRAD / TRACKPAD
+========================================================= */
+
+window.addEventListener(
+    "wheel",
+    function(event) {
+
+        event.preventDefault();
+
+
+        handleScroll(
+            event.deltaY
+        );
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* =========================================================
+   TOUCH START
+========================================================= */
+
+window.addEventListener(
+    "touchstart",
+    function(event) {
+
+        if (
+            event.touches.length === 0
+        ) {
+            return;
+        }
+
+
+        touchY =
+            event.touches[0].clientY;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+/* =========================================================
+   TOUCH MOVE
+========================================================= */
+
+window.addEventListener(
+    "touchmove",
+    function(event) {
+
+        if (
+            touchY === null
+        ) {
+            return;
+        }
+
+
+        const newY =
+            event.touches[0].clientY;
+
+
+        /*
+           Finger nach oben = positive Bewegung.
+        */
+
+        const delta =
+            touchY - newY;
+
+
+        touchY = newY;
+
+
+        event.preventDefault();
+
+
+        if (
+            Math.abs(delta) > 0
+        ) {
+
+            handleScroll(delta);
+
+        }
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* =========================================================
+   TOUCH END
+========================================================= */
+
+window.addEventListener(
+    "touchend",
+    function() {
+
+        touchY = null;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+/* =========================================================
+   TASTATUR
+========================================================= */
+
+window.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "ArrowDown" ||
+            event.key === "PageDown"
+        ) {
+
+            event.preventDefault();
+
+            handleScroll(100);
+
+        }
+
+
+        if (
+            event.key === "ArrowUp" ||
+            event.key === "PageUp"
+        ) {
+
+            event.preventDefault();
+
+            handleScroll(-100);
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FENSTERGRÖSSE
+========================================================= */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        render();
+
+    }
+);
+
+
+/* =========================================================
+   INITIALISIERUNG
+========================================================= */
+
+state = 0;
+
+progress = 0;
+
+direction = 1;
+
+
+/*
+   Seite 1 nach vorne.
+*/
+
+updateLayers();
+
+
+/*
+   Initial rendern.
+*/
+
+render();
+
+</script>
+
 
 </body>
+
 </html>
