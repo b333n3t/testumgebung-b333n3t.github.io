@@ -7,7 +7,6 @@
   <title>b3nn3t — gespalten</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -26,15 +25,13 @@
       position: relative;
     }
 
-
-    /* =====================================================
+    /* =========================
        SEITEN
-       ===================================================== */
+       ========================= */
 
     .page {
       position: fixed;
       inset: 0;
-
       width: 100%;
       height: 100%;
 
@@ -65,11 +62,6 @@
         );
     }
 
-
-    /* =====================================================
-       FARBEN
-       ===================================================== */
-
     .page1 {
       background: #1555ff;
       color: #fff;
@@ -85,24 +77,9 @@
       color: #fff;
     }
 
-    .page4 {
-      background: #d8d0c0;
-      color: #111;
-    }
-
-    .page5 {
-      background: #ff6a00;
-      color: #111;
-    }
-
-
-    /* =====================================================
-       TEXTUR
-       ===================================================== */
-
+    /* leichte Textur */
     .page::before {
       content: "";
-
       position: absolute;
       inset: 0;
 
@@ -120,37 +97,29 @@
       background-size: 5px 5px;
     }
 
-
-    /* =====================================================
-       STANDARD CONTENT
-       ===================================================== */
+    /* =========================
+       CONTENT
+       ========================= */
 
     .left-content {
       position: absolute;
-
       left: 6vw;
       top: 7vh;
-
       width: 50vw;
       max-width: 760px;
 
       z-index: 2;
     }
 
-
     .right-content {
       position: absolute;
-
       right: 5vw;
       bottom: 7vh;
 
       width: 240px;
 
       z-index: 2;
-
-      text-align: right;
     }
-
 
     .kicker {
       margin-bottom: 18px;
@@ -159,40 +128,32 @@
       font-weight: 700;
 
       letter-spacing: 0.18em;
-
       text-transform: uppercase;
     }
-
 
     h1 {
       margin: 0;
 
       font-size: clamp(70px, 13vw, 190px);
-
       line-height: 0.78;
 
       font-weight: 900;
-
       letter-spacing: -0.075em;
 
       text-transform: lowercase;
     }
 
-
     h2 {
       margin: 0 0 30px 0;
 
       font-size: clamp(42px, 7vw, 100px);
-
       line-height: 0.85;
 
       font-weight: 900;
-
       letter-spacing: -0.06em;
 
       text-transform: lowercase;
     }
-
 
     .subtitle {
       margin-top: 35px;
@@ -200,14 +161,12 @@
       max-width: 480px;
 
       font-size: 18px;
-
       line-height: 1.35;
     }
 
-
-    /* =====================================================
+    /* =========================
        VIDEO
-       ===================================================== */
+       ========================= */
 
     .video-box {
       margin-top: 45px;
@@ -221,7 +180,6 @@
       background: #000;
     }
 
-
     .video-box video {
       display: block;
 
@@ -231,10 +189,9 @@
       object-fit: cover;
     }
 
-
-    /* =====================================================
+    /* =========================
        INFO
-       ===================================================== */
+       ========================= */
 
     .info-list {
       margin-top: 45px;
@@ -242,75 +199,64 @@
       max-width: 620px;
     }
 
-
     .info-item {
       padding: 18px 0;
 
       border-top: 1px solid currentColor;
     }
 
-
     .info-item:last-child {
       border-bottom: 1px solid currentColor;
     }
-
 
     .info-title {
       margin-bottom: 6px;
 
       font-size: 12px;
-
       font-weight: 700;
 
       letter-spacing: 0.15em;
-
       text-transform: uppercase;
     }
 
-
     .info-text {
       font-size: 17px;
-
       line-height: 1.3;
     }
 
-
-    /* =====================================================
+    /* =========================
        RECHTE SEITE
-       ===================================================== */
+       ========================= */
+
+    .right-content {
+      text-align: right;
+    }
 
     .right-small {
       font-size: 11px;
-
       font-weight: 700;
 
       letter-spacing: 0.15em;
-
       text-transform: uppercase;
 
       opacity: 0.7;
     }
 
-
     .right-big {
       margin-top: 7px;
 
       font-size: 25px;
-
       line-height: 1;
 
       font-weight: 800;
-
       letter-spacing: -0.03em;
     }
 
+    /* =========================
+       SPOTIFY
+       ========================= */
 
-    /* =====================================================
-       PLATTFORM-SEITEN
-       ===================================================== */
-
-    .platform-page-content {
-
+    .spotify-page-content {
       position: absolute;
 
       left: 50%;
@@ -318,56 +264,34 @@
 
       transform: translate(-50%, -50%);
 
-      width: min(760px, 82vw);
+      width: min(700px, 82vw);
 
       z-index: 3;
     }
 
-
-    .platform-kicker {
-
+    .spotify-kicker {
       margin-bottom: 20px;
 
       font-size: 12px;
-
       font-weight: 700;
 
       letter-spacing: 0.18em;
-
       text-transform: uppercase;
 
       opacity: 0.65;
     }
 
-
-    .platform-title {
-
+    .spotify-title {
       margin: 0 0 28px 0;
 
       font-size: clamp(55px, 10vw, 130px);
-
       line-height: 0.8;
 
       font-weight: 900;
-
       letter-spacing: -0.07em;
     }
 
-
-    /* =====================================================
-       SPOTIFY
-       ===================================================== */
-
-    .spotify-page {
-
-      background: #111;
-
-      color: #fff;
-    }
-
-
     .spotify-frame {
-
       width: 100%;
 
       overflow: hidden;
@@ -377,9 +301,7 @@
       background: #181818;
     }
 
-
     .spotify-frame iframe {
-
       display: block;
 
       width: 100%;
@@ -389,335 +311,20 @@
       border: 0;
     }
 
+    .spotify-note {
+      margin-top: 18px;
 
-    /* =====================================================
-       YOUTUBE
-       ===================================================== */
+      font-size: 13px;
+      line-height: 1.3;
 
-    .youtube-page {
-
-      background: #d8d0c0;
-
-      color: #111;
+      opacity: 0.55;
     }
 
-
-    .youtube-card {
-
-      width: 100%;
-
-      min-height: 360px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-      align-items: center;
-
-      text-align: center;
-
-      padding: 55px 40px;
-
-      background: #111;
-
-      color: #fff;
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-
-    .youtube-card::before {
-
-      content: "";
-
-      position: absolute;
-
-      width: 260px;
-      height: 260px;
-
-      border-radius: 50%;
-
-      border: 1px solid rgba(255,255,255,0.18);
-
-      transform: scale(1.4);
-    }
-
-
-    .youtube-mark {
-
-      position: relative;
-
-      width: 76px;
-      height: 54px;
-
-      margin-bottom: 28px;
-
-      border-radius: 16px;
-
-      background: #fff;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-    }
-
-
-    .youtube-mark::after {
-
-      content: "";
-
-      width: 0;
-      height: 0;
-
-      border-top: 11px solid transparent;
-      border-bottom: 11px solid transparent;
-
-      border-left: 17px solid #111;
-
-      margin-left: 4px;
-    }
-
-
-    .youtube-card-title {
-
-      position: relative;
-
-      font-size: clamp(30px, 5vw, 55px);
-
-      font-weight: 900;
-
-      letter-spacing: -0.05em;
-    }
-
-
-    .youtube-card-text {
-
-      position: relative;
-
-      max-width: 440px;
-
-      margin-top: 14px;
-
-      font-size: 15px;
-
-      line-height: 1.4;
-
-      opacity: 0.65;
-    }
-
-
-    .platform-button {
-
-      position: relative;
-
-      display: inline-flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      margin-top: 28px;
-
-      padding: 15px 22px;
-
-      background: #fff;
-
-      color: #111;
-
-      text-decoration: none;
-
-      font-size: 12px;
-
-      font-weight: 800;
-
-      letter-spacing: 0.12em;
-
-      text-transform: uppercase;
-
-      transition:
-        transform 0.2s ease,
-        background 0.2s ease;
-    }
-
-
-    .platform-button:hover {
-
-      transform: translateY(-2px);
-
-      background: #e9e9e9;
-    }
-
-
-    /* =====================================================
-       SOUNDCLOUD
-       ===================================================== */
-
-    .soundcloud-page {
-
-      background: #ff6a00;
-
-      color: #111;
-    }
-
-
-    .soundcloud-card {
-
-      width: 100%;
-
-      min-height: 360px;
-
-      display: flex;
-
-      flex-direction: column;
-
-      justify-content: center;
-
-      align-items: center;
-
-      text-align: center;
-
-      padding: 55px 40px;
-
-      background: #111;
-
-      color: #fff;
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-
-    .soundcloud-card::before {
-
-      content: "";
-
-      position: absolute;
-
-      width: 340px;
-      height: 340px;
-
-      border-radius: 50%;
-
-      border: 1px solid rgba(255,255,255,0.15);
-
-      transform: scale(1.15);
-    }
-
-
-    .soundcloud-wave {
-
-      position: relative;
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      gap: 5px;
-
-      height: 65px;
-
-      margin-bottom: 24px;
-    }
-
-
-    .soundcloud-wave span {
-
-      display: block;
-
-      width: 5px;
-
-      border-radius: 10px;
-
-      background: #fff;
-
-      opacity: 0.9;
-    }
-
-
-    .soundcloud-wave span:nth-child(1) {
-      height: 20px;
-    }
-
-    .soundcloud-wave span:nth-child(2) {
-      height: 35px;
-    }
-
-    .soundcloud-wave span:nth-child(3) {
-      height: 55px;
-    }
-
-    .soundcloud-wave span:nth-child(4) {
-      height: 42px;
-    }
-
-    .soundcloud-wave span:nth-child(5) {
-      height: 62px;
-    }
-
-    .soundcloud-wave span:nth-child(6) {
-      height: 38px;
-    }
-
-    .soundcloud-wave span:nth-child(7) {
-      height: 52px;
-    }
-
-    .soundcloud-wave span:nth-child(8) {
-      height: 29px;
-    }
-
-    .soundcloud-wave span:nth-child(9) {
-      height: 46px;
-    }
-
-    .soundcloud-wave span:nth-child(10) {
-      height: 20px;
-    }
-
-
-    .soundcloud-card-title {
-
-      position: relative;
-
-      font-size: clamp(30px, 5vw, 55px);
-
-      font-weight: 900;
-
-      letter-spacing: -0.05em;
-    }
-
-
-    .soundcloud-card-text {
-
-      position: relative;
-
-      max-width: 440px;
-
-      margin-top: 14px;
-
-      font-size: 15px;
-
-      line-height: 1.4;
-
-      opacity: 0.65;
-    }
-
-
-    /* =====================================================
-       STATUS
-       ===================================================== */
+    /* =========================
+       DEBUG
+       ========================= */
 
     #status {
-
       position: fixed;
 
       left: 20px;
@@ -728,11 +335,9 @@
       padding: 9px 12px;
 
       background: rgba(0,0,0,0.7);
-
       color: #fff;
 
       font-family: monospace;
-
       font-size: 11px;
 
       pointer-events: none;
@@ -740,9 +345,7 @@
       border-radius: 3px;
     }
 
-
     #scrollHint {
-
       position: fixed;
 
       left: 50%;
@@ -755,11 +358,9 @@
       color: #fff;
 
       font-size: 11px;
-
       font-weight: 700;
 
       letter-spacing: 0.15em;
-
       text-transform: uppercase;
 
       opacity: 1;
@@ -769,83 +370,55 @@
       pointer-events: none;
     }
 
-
-    /* =====================================================
+    /* =========================
        MOBILE
-       ===================================================== */
+       ========================= */
 
     @media (max-width: 700px) {
 
       .left-content {
-
         left: 7vw;
         top: 8vh;
 
         width: 78vw;
       }
 
-
       .right-content {
-
         right: 7vw;
         bottom: 7vh;
 
         width: 190px;
       }
 
-
       .subtitle {
-
         font-size: 16px;
       }
 
-
       .video-box {
-
         width: 100%;
       }
 
-
-      .platform-page-content {
-
+      .spotify-page-content {
         width: 86vw;
       }
 
-
-      .platform-title {
-
+      .spotify-title {
         font-size: clamp(55px, 16vw, 100px);
       }
 
-
       .spotify-frame iframe {
-
         height: 352px;
       }
 
-
-      .youtube-card,
-      .soundcloud-card {
-
-        min-height: 330px;
-
-        padding: 40px 25px;
-      }
-
-
       #status {
-
         display: none;
       }
-
     }
-
   </style>
 </head>
 
 
 <body>
-
 
   <!-- =====================================================
        SEITE 1
@@ -868,7 +441,6 @@
       </div>
 
       <div class="video-box">
-
         <video
           src="/assets/gespalten/gespalten.mp4"
           autoplay
@@ -876,7 +448,6 @@
           loop
           playsinline
         ></video>
-
       </div>
 
     </div>
@@ -895,7 +466,6 @@
     </div>
 
   </section>
-
 
 
   <!-- =====================================================
@@ -981,23 +551,19 @@
   </section>
 
 
-
   <!-- =====================================================
        SEITE 3 — SPOTIFY
        ===================================================== -->
 
-  <section
-    class="page page3 spotify-page"
-    id="page3"
-  >
+  <section class="page page3" id="page3">
 
-    <div class="platform-page-content">
+    <div class="spotify-page-content">
 
-      <div class="platform-kicker">
+      <div class="spotify-kicker">
         b3nn3t / musik
       </div>
 
-      <h2 class="platform-title">
+      <h2 class="spotify-title">
         hören.
       </h2>
 
@@ -1007,80 +573,15 @@
         <iframe
           src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?utm_source=generator&theme=0"
           allowfullscreen=""
-          allow="
-            autoplay;
-            clipboard-write;
-            encrypted-media;
-            fullscreen;
-            picture-in-picture
-          "
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
           loading="lazy">
         </iframe>
 
       </div>
 
-    </div>
 
-
-    <div class="right-content">
-
-      <div class="right-small">
-        plattform 03
-      </div>
-
-      <div class="right-big">
-        spotify
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       SEITE 4 — YOUTUBE
-       ===================================================== -->
-
-  <section
-    class="page page4 youtube-page"
-    id="page4"
-  >
-
-    <div class="platform-page-content">
-
-      <div class="platform-kicker">
-        b3nn3t / video
-      </div>
-
-      <h2 class="platform-title">
-        sehen.
-      </h2>
-
-
-      <div class="youtube-card">
-
-        <div class="youtube-mark"></div>
-
-        <div class="youtube-card-title">
-          b3nn3t
-        </div>
-
-        <div class="youtube-card-text">
-          Videos, Musik und visuelle Fragmente
-          auf dem YouTube-Kanal.
-        </div>
-
-
-        <a
-          class="platform-button"
-          href="https://youtube.com/@b333nn3t?si=tJR1-fYURPgzd2v0"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          YouTube öffnen →
-        </a>
-
+      <div class="spotify-note">
+        b3nn3t auf Spotify
       </div>
 
     </div>
@@ -1089,11 +590,11 @@
     <div class="right-content">
 
       <div class="right-small">
-        plattform 04
+        nächste seite
       </div>
 
       <div class="right-big">
-        youtube
+        zurück
       </div>
 
     </div>
@@ -1101,108 +602,16 @@
   </section>
 
 
-
   <!-- =====================================================
-       SEITE 5 — SOUNDCLOUD
-       ===================================================== -->
-
-  <section
-    class="page page5 soundcloud-page"
-    id="page5"
-  >
-
-    <div class="platform-page-content">
-
-      <div class="platform-kicker">
-        b3nn3t / sound
-      </div>
-
-      <h2 class="platform-title">
-        hören.
-      </h2>
-
-
-      <div class="soundcloud-card">
-
-        <div class="soundcloud-wave">
-
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-
-        </div>
-
-
-        <div class="soundcloud-card-title">
-          b3nn3t
-        </div>
-
-
-        <div class="soundcloud-card-text">
-          Musik, Tracks und weitere Sounds
-          auf SoundCloud.
-        </div>
-
-
-        <a
-          class="platform-button"
-          href="https://on.soundcloud.com/8SACrlHdCDSmVSmm1g"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          SoundCloud öffnen →
-        </a>
-
-      </div>
-
-    </div>
-
-
-    <div class="right-content">
-
-      <div class="right-small">
-        plattform 05
-      </div>
-
-      <div class="right-big">
-        soundcloud
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       STATUS
+       DEBUG
        ===================================================== -->
 
   <div id="status">
-
-    <span id="stateText">
-      SEITE 1
-    </span>
-
+    <span id="stateText">SEITE 1</span>
     &nbsp; / &nbsp;
-
-    <span id="progressText">
-      0%
-    </span>
-
+    <span id="progressText">0%</span>
     &nbsp; / &nbsp;
-
-    <span id="directionText">
-      BEREIT
-    </span>
-
+    <span id="directionText">BEREIT</span>
   </div>
 
 
@@ -1211,9 +620,7 @@
   </div>
 
 
-
   <script>
-
 
     /* =====================================================
        EINSTELLUNGEN
@@ -1222,53 +629,31 @@
     const OPEN_DISTANCE = 900;
 
 
-
     /* =====================================================
        ELEMENTE
        ===================================================== */
 
-    const page1 =
-      document.getElementById("page1");
-
-    const page2 =
-      document.getElementById("page2");
-
-    const page3 =
-      document.getElementById("page3");
-
-    const page4 =
-      document.getElementById("page4");
-
-    const page5 =
-      document.getElementById("page5");
-
+    const page1 = document.getElementById("page1");
+    const page2 = document.getElementById("page2");
+    const page3 = document.getElementById("page3");
 
     const pages = [
-
       page1,
       page2,
-      page3,
-      page4,
-      page5
-
+      page3
     ];
-
 
     const stateText =
       document.getElementById("stateText");
 
-
     const progressText =
       document.getElementById("progressText");
-
 
     const directionText =
       document.getElementById("directionText");
 
-
     const scrollHint =
       document.getElementById("scrollHint");
-
 
 
     /* =====================================================
@@ -1286,7 +671,6 @@
     let touchY = null;
 
 
-
     /* =====================================================
        EASING
        ===================================================== */
@@ -1297,7 +681,6 @@
         0,
         Math.min(1, value)
       );
-
 
       return value < 0.5
 
@@ -1311,69 +694,46 @@
     }
 
 
-
     /* =====================================================
        SEITEN AKTIVIEREN
        ===================================================== */
 
     function updateLayers() {
 
-      pages.forEach(
-        (page, index) => {
+      pages.forEach((page, index) => {
 
-          if (index === state) {
+        if (index === state) {
 
-            page.style.zIndex = "100";
+          page.style.zIndex = "100";
 
-          }
+        } else {
 
-          else {
-
-            page.style.zIndex = "1";
-
-          }
+          page.style.zIndex = "1";
 
         }
-      );
+
+      });
 
 
       if (state === 0) {
 
-        stateText.textContent =
-          "SEITE 1";
+        stateText.textContent = "SEITE 1";
 
       }
 
       else if (state === 1) {
 
-        stateText.textContent =
-          "SEITE 2";
-
-      }
-
-      else if (state === 2) {
-
-        stateText.textContent =
-          "SPOTIFY";
-
-      }
-
-      else if (state === 3) {
-
-        stateText.textContent =
-          "YOUTUBE";
+        stateText.textContent = "SEITE 2";
 
       }
 
       else {
 
-        stateText.textContent =
-          "SOUNDCLOUD";
+        stateText.textContent = "SPOTIFY";
 
       }
 
     }
-
 
 
     /* =====================================================
@@ -1382,9 +742,13 @@
 
     function render() {
 
-      const eased =
-        ease(progress);
+      const eased = ease(progress);
 
+
+      /*
+       * Öffnung geht bis fast an den linken
+       * und rechten Bildschirmrand.
+       */
 
       const maxOpening =
         Math.max(
@@ -1397,29 +761,30 @@
         eased * maxOpening;
 
 
-      pages.forEach(
-        (page, index) => {
+      /*
+       * Nur die aktuelle Seite
+       * bekommt die Öffnung.
+       */
 
-          if (index === state) {
+      pages.forEach((page, index) => {
 
-            page.style.setProperty(
-              "--opening",
-              opening + "px"
-            );
+        if (index === state) {
 
-          }
+          page.style.setProperty(
+            "--opening",
+            opening + "px"
+          );
 
-          else {
+        } else {
 
-            page.style.setProperty(
-              "--opening",
-              "0px"
-            );
-
-          }
+          page.style.setProperty(
+            "--opening",
+            "0px"
+          );
 
         }
-      );
+
+      });
 
 
       progressText.textContent =
@@ -1442,9 +807,7 @@
         progress > 0.03
           ? "0"
           : "1";
-
     }
-
 
 
     /* =====================================================
@@ -1454,9 +817,7 @@
     function switchState() {
 
       if (switching) {
-
         return;
-
       }
 
 
@@ -1464,11 +825,9 @@
 
 
       /*
-       * 1 → 2
-       * 2 → Spotify
-       * Spotify → YouTube
-       * YouTube → SoundCloud
-       * SoundCloud → 1
+       * Seite 1 → Seite 2
+       * Seite 2 → Spotify
+       * Spotify → Seite 1
        */
 
       state =
@@ -1483,17 +842,13 @@
       render();
 
 
-      setTimeout(
-        () => {
+      setTimeout(() => {
 
-          switching = false;
+        switching = false;
 
-        },
-        60
-      );
+      }, 60);
 
     }
-
 
 
     /* =====================================================
@@ -1503,9 +858,7 @@
     function handleScroll(delta) {
 
       if (switching) {
-
         return;
-
       }
 
 
@@ -1542,14 +895,12 @@
         switchState();
 
         return;
-
       }
 
 
       render();
 
     }
-
 
 
     /* =====================================================
@@ -1569,7 +920,6 @@
         passive: false
       }
     );
-
 
 
     /* =====================================================
@@ -1608,7 +958,6 @@
         ) {
 
           return;
-
         }
 
 
@@ -1627,8 +976,7 @@
         }
 
 
-        touchY =
-          currentY;
+        touchY = currentY;
 
 
         event.preventDefault();
@@ -1651,7 +999,6 @@
         passive: true
       }
     );
-
 
 
     /* =====================================================
@@ -1689,7 +1036,6 @@
     );
 
 
-
     /* =====================================================
        RESIZE
        ===================================================== */
@@ -1702,7 +1048,6 @@
 
       }
     );
-
 
 
     /* =====================================================
