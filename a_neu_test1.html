@@ -7,6 +7,11 @@
 <title>B3NN3T – gespalten</title>
 
 <style>
+
+/* =========================================================
+   GRUNDLAGE
+   ========================================================= */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -18,12 +23,14 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
+
     font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background: #000;
+    background: #111;
 }
+
 
 /* =========================================================
    SEITEN
@@ -32,148 +39,159 @@ body {
 .page {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
 
-    overflow-y: auto;
-    overflow-x: hidden;
+    width: 100%;
+    height: 100%;
 
-    -webkit-mask-image: none;
-    mask-image: none;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1;
+
+    /*
+        Die Maske wird ausschließlich
+        per JavaScript gesteuert.
+    */
 
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
 
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
-
-    pointer-events: none;
 }
 
 .page.active {
     z-index: 10;
-    pointer-events: auto;
 }
 
 .page.behind {
     z-index: 5;
-    pointer-events: none;
 }
 
 
 /* =========================================================
-   SEITE 1 – GESPALTEN
+   SEITE 1
    ========================================================= */
 
 .page-1 {
-    background: #193dff;
+    background: #315f91;
     color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 40px;
 }
 
-.page-1-inner {
-    width: 100%;
-    max-width: 1400px;
+.page-1-content {
+    width: min(1100px, 90vw);
 
     display: grid;
     grid-template-columns: 1fr 1fr;
 
     gap: 60px;
+
     align-items: center;
 }
 
 .page-1 h1 {
-    font-size: clamp(70px, 12vw, 190px);
-    line-height: 0.8;
-    font-weight: 900;
+    font-size: clamp(60px, 10vw, 150px);
+
+    font-weight: 700;
+
+    line-height: .85;
+
     letter-spacing: -0.08em;
 }
 
-.page-1-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.page-1-right span {
-    font-size: clamp(30px, 4vw, 70px);
-    font-weight: 700;
-    line-height: 1;
-}
-
-.video-wrapper {
-    grid-column: 1 / -1;
-
+.page-1-video {
     width: 100%;
-    max-width: 1000px;
-
-    margin: 40px auto 0;
 }
 
-.video-wrapper video {
+.page-1-video video {
+    width: 100%;
     display: block;
-    width: 100%;
-    height: auto;
-
-    background: #000;
 }
 
 
 /* =========================================================
-   SEITE 2 – DIE ANDERE
+   SEITEN-BESCHRIFTUNG
+   ========================================================= */
+
+.side-label {
+    position: absolute;
+
+    right: 35px;
+    top: 50%;
+
+    transform:
+        translateY(-50%)
+        rotate(90deg);
+
+    transform-origin: center;
+
+    font-size: 15px;
+
+    letter-spacing: .18em;
+
+    text-transform: lowercase;
+}
+
+
+/* =========================================================
+   SEITE 2
    ========================================================= */
 
 .page-2 {
-    background: #78824a;
+    background: #788044;
     color: #111;
-
-    padding: 60px;
 }
 
-.page-2-inner {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
+.page-2-content {
+    width: min(1100px, 90vw);
 }
 
 .page-2 h2 {
-    font-size: clamp(70px, 12vw, 180px);
-    line-height: 0.8;
-    font-weight: 900;
-    letter-spacing: -0.08em;
+    font-size: clamp(55px, 9vw, 130px);
 
-    margin-bottom: 80px;
+    letter-spacing: -0.07em;
+
+    line-height: .85;
+
+    margin-bottom: 55px;
 }
 
 .info-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 18px;
 }
 
 .info-card {
-    border: 2px solid #111;
-    padding: 30px;
-    min-height: 240px;
+    border: 1px solid rgba(0,0,0,.5);
 
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding: 25px;
+
+    min-height: 150px;
 }
 
-.info-card h3 {
-    font-size: 28px;
+.info-card span {
+    display: block;
+
+    font-size: 12px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .15em;
+
     margin-bottom: 20px;
 }
 
 .info-card p {
     font-size: 18px;
-    line-height: 1.4;
+
+    line-height: 1.35;
 }
 
 
@@ -182,40 +200,32 @@ body {
    ========================================================= */
 
 .page-3 {
-    background: #111;
+    background: #151515;
     color: white;
-
-    padding: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.spotify-inner {
-    width: 100%;
-    max-width: 1000px;
+.page-3-content {
+    width: min(1000px, 88vw);
 }
 
-.spotify-title {
-    font-size: clamp(60px, 10vw, 150px);
-    font-weight: 900;
-    line-height: 0.8;
-    letter-spacing: -0.08em;
+.page-3 h2 {
+    font-size: clamp(50px, 8vw, 120px);
 
-    margin-bottom: 50px;
+    letter-spacing: -0.07em;
+
+    line-height: .85;
+
+    margin-bottom: 40px;
 }
 
 .spotify-frame {
     width: 100%;
-}
 
-.spotify-frame iframe {
+    height: 500px;
+
+    border: none;
+
     display: block;
-    width: 100%;
-    height: 352px;
-
-    border: 0;
 }
 
 
@@ -224,64 +234,150 @@ body {
    ========================================================= */
 
 .page-4 {
-    background: #f0eee8;
+    background: #f2f2f0;
     color: #111;
-
-    padding: 60px;
 }
 
-.youtube-inner {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
+.page-4-content {
+    width: min(1100px, 90vw);
+
+    height: 88vh;
+
+    display: flex;
+
+    flex-direction: column;
 }
 
-.youtube-title {
-    font-size: clamp(60px, 10vw, 150px);
-    font-weight: 900;
-    line-height: 0.8;
-    letter-spacing: -0.08em;
+.youtube-heading {
+    display: flex;
 
-    margin-bottom: 60px;
+    align-items: baseline;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 25px;
 }
+
+.youtube-heading h2 {
+    font-size: clamp(50px, 8vw, 110px);
+
+    letter-spacing: -0.07em;
+
+    line-height: .8;
+}
+
+.youtube-heading span {
+    font-size: 14px;
+
+    letter-spacing: .15em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   YOUTUBE GRID
+   ========================================================= */
 
 .youtube-grid {
+    flex: 1;
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 18px;
+
+    overflow-y: auto;
+
+    padding-right: 5px;
 }
+
+
+/* =========================================================
+   YOUTUBE CARD
+   ========================================================= */
 
 .youtube-card {
-    display: block;
     position: relative;
+
+    display: block;
 
     text-decoration: none;
-    color: #111;
+
+    color: inherit;
+
+    border: 1px solid #111;
+
+    background: #111;
 
     overflow: hidden;
 
-    background: #ddd;
+    min-height: 180px;
 }
 
-.youtube-thumb-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
 
-    overflow: hidden;
-}
+/* =========================================================
+   YOUTUBE THUMBNAIL
+   ========================================================= */
 
 .youtube-thumb {
     width: 100%;
+
     height: 100%;
+
+    min-height: 180px;
+
     object-fit: cover;
 
     display: block;
 
     transition:
-        transform 0.4s ease,
-        filter 0.4s ease;
+        transform .4s ease,
+        filter .4s ease;
 }
+
+
+/*
+    Hover:
+    Thumbnail zoomt leicht
+*/
+
+.youtube-card:hover .youtube-thumb {
+    transform: scale(1.04);
+
+    filter: brightness(.75);
+}
+
+
+/* =========================================================
+   YOUTUBE VERLAUF
+   ========================================================= */
+
+.youtube-card::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.8),
+            transparent 55%
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   PLAY SYMBOL
+   ========================================================= */
 
 .youtube-play {
     position: absolute;
@@ -289,41 +385,124 @@ body {
     left: 50%;
     top: 50%;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
-    width: 70px;
-    height: 70px;
+    width: 58px;
+    height: 58px;
 
     border-radius: 50%;
 
     background: white;
+
     color: #111;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
-    font-size: 25px;
+    font-size: 21px;
+
+    padding-left: 3px;
+
+    z-index: 3;
 
     transition:
-        transform 0.3s ease,
-        background 0.3s ease;
-}
-
-.youtube-card:hover .youtube-thumb {
-    transform: scale(1.04);
-    filter: brightness(0.75);
+        transform .3s ease;
 }
 
 .youtube-card:hover .youtube-play {
-    transform: translate(-50%, -50%) scale(1.12);
+    transform:
+        translate(-50%, -50%)
+        scale(1.12);
 }
 
-.youtube-label {
-    padding: 15px;
 
-    font-size: 14px;
-    font-weight: 700;
+/* =========================================================
+   VIDEO NUMMER
+   ========================================================= */
+
+.youtube-number {
+    position: absolute;
+
+    left: 15px;
+    top: 13px;
+
+    color: white;
+
+    font-size: 12px;
+
+    letter-spacing: .15em;
+
+    z-index: 4;
+}
+
+
+/* =========================================================
+   VIDEO INFO
+   ========================================================= */
+
+.youtube-bottom {
+    position: absolute;
+
+    left: 15px;
+    right: 15px;
+
+    bottom: 13px;
+
+    color: white;
+
+    z-index: 4;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    font-size: 12px;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   YOUTUBE KANAL
+   ========================================================= */
+
+.youtube-channel {
+    margin-top: 20px;
+
+    align-self: flex-end;
+
+    display: inline-block;
+
+    padding: 13px 22px;
+
+    border: 1px solid #111;
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-size: 12px;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    transition:
+        background .25s ease,
+        color .25s ease;
+}
+
+.youtube-channel:hover {
+    background: #111;
+
+    color: white;
 }
 
 
@@ -332,91 +511,71 @@ body {
    ========================================================= */
 
 .page-5 {
-    background: #d7c8a4;
+    background: #e7e1d5;
+
     color: #111;
-
-    padding: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-.soundcloud-inner {
+.page-5-content {
+    width: min(1000px, 88vw);
+}
+
+.page-5 h2 {
+    font-size: clamp(50px, 8vw, 120px);
+
+    letter-spacing: -0.07em;
+
+    line-height: .8;
+
+    margin-bottom: 40px;
+}
+
+
+/* =========================================================
+   SOUNDCLOUD PLAYER
+   ========================================================= */
+
+.soundcloud-box {
     width: 100%;
-    max-width: 1000px;
+
+    background: #111;
+
+    padding: 20px;
 }
 
-.soundcloud-title {
-    font-size: clamp(60px, 10vw, 150px);
-    font-weight: 900;
-    line-height: 0.8;
-    letter-spacing: -0.08em;
-
-    margin-bottom: 50px;
-}
-
-.soundcloud-frame iframe {
-    display: block;
-
+.soundcloud-box iframe {
     width: 100%;
+
     height: 450px;
 
-    border: 0;
+    border: none;
+
+    display: block;
 }
 
 
 /* =========================================================
-   SEITE 6
+   SOUNDCLOUD LINK
    ========================================================= */
 
-.page-6 {
-    background: #e5e5e5;
+.soundcloud-link {
+    display: inline-block;
+
+    margin-top: 20px;
+
     color: #111;
 
-    padding: 60px;
+    text-decoration: none;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    border-bottom: 1px solid #111;
 
-.page-6-inner {
-    width: 100%;
-    max-width: 1400px;
-}
+    padding-bottom: 5px;
 
-.page-6 h2 {
-    font-size: clamp(70px, 12vw, 180px);
-    line-height: 0.8;
-    font-weight: 900;
-    letter-spacing: -0.08em;
+    font-size: 13px;
 
-    margin-bottom: 50px;
-}
+    letter-spacing: .1em;
 
-.page-6 p {
-    max-width: 700px;
-
-    font-size: 24px;
-    line-height: 1.4;
-}
-
-
-/* =========================================================
-   SCROLLBALKEN
-   ========================================================= */
-
-.page::-webkit-scrollbar {
-    width: 8px;
-}
-
-.page::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.page::-webkit-scrollbar-thumb {
-    background: rgba(0,0,0,0.25);
+    text-transform: uppercase;
 }
 
 
@@ -424,45 +583,60 @@ body {
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 800px) {
 
-    .page-1 {
-        padding: 25px;
-    }
-
-    .page-1-inner {
+    .page-1-content {
         grid-template-columns: 1fr;
+
         gap: 35px;
     }
 
-    .page-1-right {
-        justify-content: flex-start;
-    }
-
-    .page-2,
-    .page-3,
-    .page-4,
-    .page-5,
-    .page-6 {
-        padding: 30px;
+    .page-1-video {
+        max-width: 600px;
     }
 
     .info-grid {
         grid-template-columns: 1fr;
     }
 
+    .spotify-frame {
+        height: 450px;
+    }
+
     .youtube-grid {
         grid-template-columns: 1fr;
     }
 
-    .spotify-frame iframe {
-        height: 352px;
+    .page-4-content {
+        height: 90vh;
     }
 
-    .soundcloud-frame iframe {
+    .soundcloud-box iframe {
         height: 400px;
     }
+
+    .side-label {
+        right: 10px;
+    }
 }
+
+
+/* =========================================================
+   YOUTUBE SCROLLBAR
+   ========================================================= */
+
+.youtube-grid::-webkit-scrollbar {
+    width: 5px;
+}
+
+.youtube-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.youtube-grid::-webkit-scrollbar-thumb {
+    background: #111;
+}
+
 </style>
 </head>
 
@@ -470,405 +644,508 @@ body {
 <body>
 
 
-<!-- =====================================================
+<!-- =======================================================
      SEITE 1
-     ===================================================== -->
+     ======================================================= -->
 
-<section class="page page-1">
+<section
+    class="page page-1 active"
+    data-page="0"
+>
 
-    <div class="page-1-inner">
+    <div class="page-1-content">
 
-        <div>
-            <h1>gespalten</h1>
-        </div>
+        <h1>
+            gespalten
+        </h1>
 
-        <div class="page-1-right">
-            <span>die andere seite</span>
-        </div>
-
-        <div class="video-wrapper">
+        <div class="page-1-video">
 
             <video
                 controls
                 preload="metadata"
                 playsinline
             >
+
                 <source
                     src="/assets/gespalten/gespalten.mp4"
                     type="video/mp4"
                 >
 
                 Dein Browser unterstützt dieses Video nicht.
+
             </video>
 
         </div>
 
     </div>
 
+    <div class="side-label">
+        die andere seite
+    </div>
+
 </section>
 
 
 
-<!-- =====================================================
+<!-- =======================================================
      SEITE 2
-     ===================================================== -->
+     ======================================================= -->
 
-<section class="page page-2">
+<section
+    class="page page-2"
+    data-page="1"
+>
 
-    <div class="page-2-inner">
+    <div class="page-2-content">
 
-        <h2>die andere</h2>
+        <h2>
+            die andere
+        </h2>
 
         <div class="info-grid">
 
             <div class="info-card">
-                <h3>neu gedacht</h3>
+
+                <span>
+                    01 / blick
+                </span>
+
                 <p>
-                    Eine andere Perspektive auf Musik,
-                    Gestaltung und das, was dazwischen passiert.
+                    Was passiert, wenn sich eine Seite
+                    öffnet und gleichzeitig eine andere
+                    verschwindet?
                 </p>
+
             </div>
 
-            <div class="info-card">
-                <h3>gespalten</h3>
-                <p>
-                    Zwei Seiten. Ein Gedanke.
-                    Bewegung zwischen Gegensätzen.
-                </p>
-            </div>
 
             <div class="info-card">
-                <h3>weiter</h3>
+
+                <span>
+                    02 / perspektive
+                </span>
+
                 <p>
-                    Scroll weiter und entdecke die nächsten Ebenen.
+                    Zwischen dem Sichtbaren und dem,
+                    was dahinter liegt.
                 </p>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <span>
+                    03 / bewegung
+                </span>
+
+                <p>
+                    Eine Seite endet nicht.
+                    Sie wird zur nächsten.
+                </p>
+
             </div>
 
         </div>
 
     </div>
 
+    <div class="side-label">
+        neu gedacht
+    </div>
+
 </section>
 
 
 
-<!-- =====================================================
+<!-- =======================================================
      SEITE 3 – SPOTIFY
-     ===================================================== -->
+     ======================================================= -->
 
-<section class="page page-3">
+<section
+    class="page page-3"
+    data-page="2"
+>
 
-    <div class="spotify-inner">
+    <div class="page-3-content">
 
-        <div class="spotify-title">
-            Spotify
-        </div>
+        <h2>
+            spotify
+        </h2>
 
-        <div class="spotify-frame">
+        <iframe
+            class="spotify-frame"
+            src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+            loading="lazy"
+            allow="
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                fullscreen;
+                picture-in-picture
+            "
+        ></iframe>
 
-            <iframe
-                src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy">
-            </iframe>
+    </div>
 
-        </div>
-
+    <div class="side-label">
+        hören
     </div>
 
 </section>
 
 
 
-<!-- =====================================================
+<!-- =======================================================
      SEITE 4 – YOUTUBE
-     ===================================================== -->
+     ======================================================= -->
 
-<section class="page page-4">
+<section
+    class="page page-4"
+    data-page="3"
+>
 
-    <div class="youtube-inner">
+    <div class="page-4-content">
 
-        <div class="youtube-title">
-            YouTube
+        <div class="youtube-heading">
+
+            <h2>
+                youtube
+            </h2>
+
+            <span>
+                b3nn3t / videos
+            </span>
+
         </div>
+
 
         <div class="youtube-grid">
 
 
-            <!-- VIDEO 1 -->
+            <!-- VIDEO 01 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/G_qXoHHa3rg?is=12ezbLchqRejy5S9"
+                href="https://youtu.be/G_qXoHHa3rg"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/G_qXoHHa3rg/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 01"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/G_qXoHHa3rg/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/G_qXoHHa3rg/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/G_qXoHHa3rg/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    01
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    neu
-                </div>
+                <span class="youtube-bottom">
+                    <span>neu</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
 
 
-            <!-- VIDEO 2 -->
+            <!-- VIDEO 02 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/ZSaj_FuqPN8?is=WmmvzJ6-6PcYNV_3"
+                href="https://youtu.be/ZSaj_FuqPN8"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/ZSaj_FuqPN8/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 02"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/ZSaj_FuqPN8/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/ZSaj_FuqPN8/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/ZSaj_FuqPN8/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    02
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    video
-                </div>
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
 
 
-            <!-- VIDEO 3 -->
+            <!-- VIDEO 03 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/DMNl40Tip1w?is=gzdU-EU2U_YIvLL1"
+                href="https://youtu.be/DMNl40Tip1w"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/DMNl40Tip1w/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 03"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/DMNl40Tip1w/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/DMNl40Tip1w/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/DMNl40Tip1w/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    03
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    video
-                </div>
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
 
 
-            <!-- VIDEO 4 -->
+            <!-- VIDEO 04 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/K5pKG0Smdfc?is=O-5g6uhpv5ulNDAw"
+                href="https://youtu.be/K5pKG0Smdfc"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/K5pKG0Smdfc/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 04"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/K5pKG0Smdfc/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/K5pKG0Smdfc/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/K5pKG0Smdfc/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    04
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    älter
-                </div>
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
 
 
-            <!-- VIDEO 5 -->
+            <!-- VIDEO 05 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/w0pNdnlb96M?is=M6ElK5WKQKU1IsW2"
+                href="https://youtu.be/w0pNdnlb96M"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/w0pNdnlb96M/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 05"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/w0pNdnlb96M/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/w0pNdnlb96M/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/w0pNdnlb96M/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    05
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    älter
-                </div>
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
 
 
-            <!-- VIDEO 6 -->
+            <!-- VIDEO 06 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/rV1U891RKLo?is=rl9Fo4NkZpNyvfmm"
+                href="https://youtu.be/rV1U891RKLo"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/rV1U891RKLo/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 06"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/rV1U891RKLo/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/rV1U891RKLo/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/rV1U891RKLo/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    06
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    älter
-                </div>
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
 
 
-            <!-- VIDEO 7 -->
+            <!-- VIDEO 07 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/fq8zhAQMam0?is=ZUCQherHsGAgH16A"
+                href="https://youtu.be/fq8zhAQMam0"
                 target="_blank"
                 rel="noopener noreferrer"
             >
 
-                <div class="youtube-thumb-wrapper">
+                <img
+                    class="youtube-thumb"
+                    src="https://i.ytimg.com/vi/fq8zhAQMam0/maxresdefault.jpg"
+                    alt="b3nn3t YouTube Video 07"
+                    loading="lazy"
+                    onerror="
+                        this.src =
+                        'https://i.ytimg.com/vi/fq8zhAQMam0/hqdefault.jpg'
+                    "
+                >
 
-                    <img
-                        class="youtube-thumb"
-                        src="https://i.ytimg.com/vi/fq8zhAQMam0/maxresdefault.jpg"
-                        alt="YouTube Video"
-                        onerror="this.src='https://i.ytimg.com/vi/fq8zhAQMam0/hqdefault.jpg'"
-                    >
+                <span class="youtube-number">
+                    07
+                </span>
 
-                    <div class="youtube-play">
-                        ▶
-                    </div>
+                <span class="youtube-play">
+                    ▶
+                </span>
 
-                </div>
-
-                <div class="youtube-label">
-                    älter
-                </div>
+                <span class="youtube-bottom">
+                    <span>älter</span>
+                    <span>↗</span>
+                </span>
 
             </a>
 
         </div>
 
+
+        <a
+            class="youtube-channel"
+            href="https://youtube.com/@b333nn3t?si=tJR1-fYURPgzd2v0"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            kanal ansehen →
+        </a>
+
+    </div>
+
+
+    <div class="side-label">
+        anschauen
     </div>
 
 </section>
 
 
 
-<!-- =====================================================
+<!-- =======================================================
      SEITE 5 – SOUNDCLOUD
-     ===================================================== -->
+     ======================================================= -->
 
-<section class="page page-5">
+<section
+    class="page page-5"
+    data-page="4"
+>
 
-    <div class="soundcloud-inner">
+    <div class="page-5-content">
 
-        <div class="soundcloud-title">
-            SoundCloud
-        </div>
+        <h2>
+            soundcloud
+        </h2>
 
-        <div class="soundcloud-frame">
+
+        <div class="soundcloud-box">
 
             <iframe
                 scrolling="no"
                 frameborder="no"
                 allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true">
-            </iframe>
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+            ></iframe>
 
         </div>
 
+
+        <a
+            class="soundcloud-link"
+            href="https://soundcloud.com/bennet-6942069420"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            soundcloud öffnen →
+        </a>
+
     </div>
 
-</section>
 
-
-
-<!-- =====================================================
-     SEITE 6
-     ===================================================== -->
-
-<section class="page page-6">
-
-    <div class="page-6-inner">
-
-        <h2>weiter</h2>
-
-        <p>
-            Das Ende ist kein Ende.
-            Scrolle weiter und die Schleife beginnt von vorne.
-        </p>
-
+    <div class="side-label">
+        hören
     </div>
 
 </section>
@@ -878,89 +1155,69 @@ body {
 <script>
 
 /* =========================================================
-   B3NN3T – REVERSIBLER SEITENÜBERGANG
+   GESPALTEN
+   BIDIREKTIONALE NAVIGATION
    ========================================================= */
 
+
 /*
-    REIHENFOLGE:
-
-    RUNTER:
-    1 → 2 → 3 → 4 → 5 → 6 → 1
-
-    HOCH:
-    6 → 5 → 4 → 3 → 2 → 1 → 6
-
-
-    WICHTIG:
-
-    progress = 0
-        = Spalt komplett geschlossen
-
-    progress = 1
-        = Spalt komplett geöffnet
-
-
-    Beim Runterscrollen:
-        progress wird größer
-
-    Beim Hochscrollen:
-        progress wird kleiner
-
-    Dadurch lässt sich die Animation wirklich
-    vor- UND zurückspulen.
+    Alle Seiten
 */
-
 
 const pages = Array.from(
     document.querySelectorAll(".page")
 );
 
 
-/* Aktuell sichtbare Seite */
+/*
+    Aktuelle Seite
+
+    0 = gespalten
+    1 = die andere
+    2 = Spotify
+    3 = YouTube
+    4 = SoundCloud
+*/
 
 let currentPage = 0;
 
 
 /*
-    Übergangsposition.
+    Fortschritt des Spalts
 
     0 = geschlossen
-    1 = vollständig geöffnet
+    1 = komplett geöffnet
 */
 
 let progress = 0;
 
 
 /*
-    Zielseite des aktuellen Übergangs.
+    Richtung
 
-    1 = vorwärts
-    -1 = rückwärts
+     1 = nach unten
+    -1 = nach oben
 */
 
 let direction = 1;
 
 
 /*
-    Verhindert, dass während des eigentlichen
-    Seitenwechsels mehrfach gewechselt wird.
+    Animation läuft gerade
 */
 
-let switching = false;
+let animating = false;
 
 
 /*
-    Je größer dieser Wert,
-    desto mehr Scrollbewegung braucht
-    man für einen kompletten Spalt.
+    Scrollgeschwindigkeit
 */
 
 const OPEN_DISTANCE = 900;
 
 
-
 /* =========================================================
-   ZIELSEITE ERMITTELN
+   ZIELSEITE
    ========================================================= */
 
 function getTargetPage() {
@@ -968,31 +1225,30 @@ function getTargetPage() {
     if (direction === 1) {
 
         return (
-            (currentPage + 1) % pages.length
+            (currentPage + 1) %
+            pages.length
         );
 
     }
 
     return (
-        (currentPage - 1 + pages.length)
-        % pages.length
+        (currentPage - 1 + pages.length) %
+        pages.length
     );
+
 }
 
 
-
 /* =========================================================
-   LAYER EINRICHTEN
+   SEITEN-EBENEN AUFBAUEN
    ========================================================= */
 
 function setupLayers() {
 
-    pages.forEach(page => {
+    pages.forEach((page) => {
 
-        page.classList.remove(
-            "active",
-            "behind"
-        );
+        page.classList.remove("active");
+        page.classList.remove("behind");
 
         page.style.webkitMaskImage = "none";
         page.style.maskImage = "none";
@@ -1004,31 +1260,40 @@ function setupLayers() {
         Aktuelle Seite liegt oben.
     */
 
-    pages[currentPage].classList.add("active");
+    pages[currentPage]
+        .classList.add("active");
 
 
     /*
         Zielseite liegt darunter.
     */
 
-    pages[getTargetPage()].classList.add("behind");
+    pages[getTargetPage()]
+        .classList.add("behind");
+
 }
 
 
-
 /* =========================================================
-   SPALT ZEICHNEN
+   MASKE
    ========================================================= */
 
 function updateMask() {
 
-    const current = pages[currentPage];
+    const current =
+        pages[currentPage];
+
+
+    if (!current) {
+        return;
+    }
 
 
     /*
-        Fast die komplette Bildschirmbreite.
-        In der Mitte bleibt beim vollständigen Öffnen
-        praktisch kein Inhalt der aktuellen Seite mehr.
+        Maximale Öffnung:
+
+        Der Spalt geht bis fast an
+        den linken und rechten Rand.
     */
 
     const maxOpening =
@@ -1040,7 +1305,10 @@ function updateMask() {
 
 
     const openingPercent =
-        (opening / window.innerWidth) * 100;
+        (
+            opening /
+            window.innerWidth
+        ) * 100;
 
 
     const left =
@@ -1052,11 +1320,13 @@ function updateMask() {
 
 
     /*
-        Schwarze Bereiche:
-        aktuelle Seite bleibt sichtbar.
+        Aktuelle Seite:
 
-        Transparenter Bereich:
-        Zielseite darunter wird sichtbar.
+        außen = sichtbar
+        mitte = transparent
+
+        Dadurch wird die Seite
+        darunter sichtbar.
     */
 
     const mask =
@@ -1072,51 +1342,58 @@ function updateMask() {
 
 
     current.style.webkitMaskImage = mask;
+
     current.style.maskImage = mask;
+
 }
 
 
-
 /* =========================================================
-   SEITE WECHSELN
+   SEITENWECHSEL
    ========================================================= */
 
 function changePage() {
 
     /*
-        Die bisherige Zielseite wird jetzt
-        zur tatsächlich aktuellen Seite.
+        Die Richtung entscheidet,
+        welche Seite als nächstes kommt.
     */
 
-    currentPage = getTargetPage();
+    currentPage =
+        getTargetPage();
 
 
     /*
-        Neuer Übergang startet geschlossen.
+        Neuer Zustand:
+
+        Die neue Seite ist komplett sichtbar.
     */
 
     progress = 0;
 
 
     /*
-        Layer neu sortieren.
+        Ebenen neu sortieren.
     */
 
     setupLayers();
 
 
     /*
-        Die neue aktuelle Seite ist vollständig sichtbar.
+        Maske zurücksetzen.
     */
 
-    pages[currentPage].style.webkitMaskImage = "none";
-    pages[currentPage].style.maskImage = "none";
+    pages[currentPage]
+        .style.webkitMaskImage = "none";
+
+    pages[currentPage]
+        .style.maskImage = "none";
+
 }
 
 
-
 /* =========================================================
-   SCROLLVERARBEITUNG
+   SCROLL
    ========================================================= */
 
 function handleScroll(delta) {
@@ -1127,169 +1404,98 @@ function handleScroll(delta) {
 
 
     /*
-        Positive deltaY:
-            nach unten
-
-        Negative deltaY:
-            nach oben
+        =====================================================
+        RICHTUNG ERKENNEN
+        =====================================================
     */
 
     const newDirection =
         delta > 0 ? 1 : -1;
 
 
+    /*
+        Wenn sich die Richtung ändert,
+        bleibt die aktuelle Spaltbreite
+        erhalten.
 
-    /* =====================================================
-       RICHTUNG WECHSELT WÄHREND DES ÜBERGANGS
-       ===================================================== */
+        Das ist wichtig für ein echtes
+        Rückwärtsverhalten.
+    */
 
     if (newDirection !== direction) {
 
-        direction = newDirection;
+        direction =
+            newDirection;
 
 
         /*
-            Das ist entscheidend:
-
-            Wir setzen progress NICHT zurück.
-
-            Wenn die Seite beispielsweise zu 70 %
-            geöffnet ist und man hochscrollt,
-            beginnt sie bei 70 % wieder zu schließen.
-
-            Genau dadurch wird die Bewegung reversibel.
+            Die neue Zielseite liegt
+            jetzt unter der aktuellen Seite.
         */
 
         setupLayers();
 
         updateMask();
-    }
-
-
-
-    direction = newDirection;
-
-
-
-    /* =====================================================
-       NACH UNTEN
-       ===================================================== */
-
-    if (direction === 1) {
-
-        progress +=
-            Math.abs(delta) / OPEN_DISTANCE;
-
-
-        /*
-            Nicht über 1 hinaus.
-        */
-
-        progress =
-            Math.min(1, progress);
-
-
-
-        updateMask();
-
-
-
-        /*
-            Spalt vollständig offen:
-            nächste Seite übernehmen.
-        */
-
-        if (
-            progress >= 1 &&
-            !switching
-        ) {
-
-            switching = true;
-
-
-            /*
-                Kleine Verzögerung,
-                damit der vollständig geöffnete
-                Spalt sichtbar bleibt.
-            */
-
-            setTimeout(() => {
-
-                changePage();
-
-                switching = false;
-
-            }, 120);
-        }
 
     }
 
 
+    /*
+        Richtung merken
+    */
 
-    /* =====================================================
-       NACH OBEN
-       ===================================================== */
-
-    else {
-
-        /*
-            Beim Hochscrollen wird progress
-            WIRKLICH kleiner.
-
-            Das ist der entscheidende Unterschied
-            zur vorherigen Version.
-        */
-
-        progress -=
-            Math.abs(delta) / OPEN_DISTANCE;
+    direction =
+        newDirection;
 
 
-        /*
-            Nicht unter 0.
-        */
+    /*
+        Scrollbewegung in Öffnung
+        umwandeln.
+    */
 
-        progress =
-            Math.max(0, progress);
-
-
-
-        updateMask();
+    const movement =
+        Math.abs(delta) /
+        OPEN_DISTANCE;
 
 
-
-        /*
-            Der Spalt ist wieder komplett geschlossen.
-
-            Jetzt gehen wir auf die vorherige Seite.
-        */
-
-        if (
-            progress <= 0 &&
-            !switching
-        ) {
-
-            switching = true;
+    progress += movement;
 
 
-            setTimeout(() => {
+    progress =
+        Math.min(
+            1,
+            progress
+        );
 
-                /*
-                    direction ist -1,
-                    deshalb liefert getTargetPage()
-                    die vorherige Seite.
-                */
 
-                changePage();
+    updateMask();
 
-                switching = false;
 
-            }, 120);
-        }
+    /*
+        =====================================================
+        VOLLSTÄNDIG GEÖFFNET
+        =====================================================
+    */
+
+    if (
+        progress >= 1 &&
+        !animating
+    ) {
+
+        animating = true;
+
+
+        setTimeout(() => {
+
+            changePage();
+
+            animating = false;
+
+        }, 180);
 
     }
 
 }
-
 
 
 /* =========================================================
@@ -1298,20 +1504,14 @@ function handleScroll(delta) {
 
 window.addEventListener(
     "wheel",
-    event => {
-
-        /*
-            Normales Scrollen der einzelnen Seiten
-            wird verhindert.
-
-            Die Seite selbst funktioniert als
-            horizontale/vertikale Übergangs-Navigation.
-        */
+    (event) => {
 
         event.preventDefault();
 
 
-        handleScroll(event.deltaY);
+        handleScroll(
+            event.deltaY
+        );
 
     },
     {
@@ -1320,14 +1520,13 @@ window.addEventListener(
 );
 
 
-
 /* =========================================================
    TASTATUR
    ========================================================= */
 
 window.addEventListener(
     "keydown",
-    event => {
+    (event) => {
 
 
         /*
@@ -1345,7 +1544,6 @@ window.addEventListener(
             handleScroll(100);
 
         }
-
 
 
         /*
@@ -1367,7 +1565,6 @@ window.addEventListener(
 );
 
 
-
 /* =========================================================
    TOUCH
    ========================================================= */
@@ -1377,7 +1574,7 @@ let touchStartY = 0;
 
 window.addEventListener(
     "touchstart",
-    event => {
+    (event) => {
 
         touchStartY =
             event.touches[0].clientY;
@@ -1391,31 +1588,29 @@ window.addEventListener(
 
 window.addEventListener(
     "touchend",
-    event => {
+    (event) => {
 
         const touchEndY =
             event.changedTouches[0].clientY;
 
 
         const difference =
-            touchStartY - touchEndY;
+            touchStartY -
+            touchEndY;
 
-
-        /*
-            Kleine Bewegungen ignorieren.
-        */
 
         if (
             Math.abs(difference) <= 30
         ) {
+
             return;
+
         }
 
 
-
         /*
-            Finger nach oben:
-            Seite nach unten
+            Finger nach oben
+            = nach unten navigieren
         */
 
         if (difference > 0) {
@@ -1428,8 +1623,8 @@ window.addEventListener(
 
 
         /*
-            Finger nach unten:
-            Seite nach oben
+            Finger nach unten
+            = nach oben navigieren
         */
 
         else {
@@ -1447,27 +1642,22 @@ window.addEventListener(
 );
 
 
-
 /* =========================================================
-   FENSTERGRÖSSE
+   RESIZE
    ========================================================= */
 
 window.addEventListener(
     "resize",
-    () => {
-
-        updateMask();
-
-    }
+    updateMask
 );
 
 
-
 /* =========================================================
-   STARTZUSTAND
+   INITIALISIERUNG
    ========================================================= */
 
 setupLayers();
+
 updateMask();
 
 </script>
