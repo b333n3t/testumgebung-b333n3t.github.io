@@ -1,22 +1,15 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>B3NN3T – gespalten</title>
-
 
 <style>
 
 /* =========================================================
-   RESET
+   GRUNDLAYOUT
 ========================================================= */
 
 * {
@@ -27,28 +20,15 @@ html,
 body {
     margin: 0;
     padding: 0;
-
     width: 100%;
     height: 100%;
-
     overflow: hidden;
+    background: #07131b;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-    background: #07131d;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color: #f2eee7;
-
-    user-select: none;
-
-    overscroll-behavior: none;
-
-    touch-action: none;
+    color: #fff;
 }
 
 
@@ -57,104 +37,73 @@ body {
 ========================================================= */
 
 #stage {
-
     position: fixed;
-
-    left: 0;
-    top: 0;
-
+    inset: 0;
     width: 100vw;
     height: 100vh;
-
     overflow: hidden;
+    background: #07131b;
 }
 
 
 /* =========================================================
-   GRUNDSÄTZLICHER SEITEN-LAYER
+   SEITEN
 ========================================================= */
 
 .page {
-
     position: absolute;
-
-    left: 0;
-    top: 0;
-
+    inset: 0;
     width: 100%;
     height: 100%;
 
     overflow: hidden;
+
+    will-change: clip-path, transform;
+
+    transition: none;
 }
 
 
 /* =========================================================
-   SEITE 1 – BLAU
+   SEITE 1
 ========================================================= */
 
-.page1 {
+#page1 {
+    z-index: 2;
 
     background:
         radial-gradient(
-            ellipse at 50% 50%,
-            rgba(12, 91, 150, 0.55) 0%,
-            rgba(5, 31, 53, 0.25) 42%,
-            rgba(5, 17, 28, 0.95) 100%
+            circle at 25% 50%,
+            rgba(0, 110, 170, 0.25),
+            transparent 40%
         ),
         linear-gradient(
-            120deg,
-            #07131d 0%,
-            #0b2842 50%,
-            #061521 100%
+            135deg,
+            #071b28 0%,
+            #0b3044 45%,
+            #05131d 100%
         );
 }
 
 
 /* =========================================================
-   SEITE 2 – GRÜN
+   SEITE 2
 ========================================================= */
 
-.page2 {
+#page2 {
+    z-index: 1;
 
     background:
         radial-gradient(
-            ellipse at 50% 50%,
-            rgba(157, 160, 70, 0.32) 0%,
-            rgba(75, 82, 37, 0.28) 45%,
-            rgba(39, 43, 21, 0.96) 100%
+            circle at 75% 50%,
+            rgba(35, 130, 95, 0.22),
+            transparent 40%
         ),
         linear-gradient(
-            120deg,
-            #2f3517 0%,
-            #50572b 50%,
-            #303516 100%
-        );
-}
-
-
-/* =========================================================
-   FEINE TEXTUR
-========================================================= */
-
-.page::before {
-
-    content: "";
-
-    position: absolute;
-
-    inset: 0;
-
-    pointer-events: none;
-
-    opacity: 0.14;
-
-    background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.04) 0px,
-            rgba(255,255,255,0.04) 1px,
-            transparent 1px,
-            transparent 5px
+            135deg,
+            #071812 0%,
+            #174c3b 48%,
+            #07130f 100%
         );
 }
 
@@ -164,123 +113,119 @@ body {
 ========================================================= */
 
 .page-content {
-
     position: absolute;
-
     inset: 0;
 
     width: 100%;
     height: 100%;
 
-    z-index: 5;
+    display: grid;
+    grid-template-columns: 50% 50%;
+
+    pointer-events: none;
 }
 
 
 /* =========================================================
-   LINKER BEREICH
+   LINKE / RECHTE HÄLFTE
 ========================================================= */
 
-.left-content {
+.side {
+    position: relative;
 
-    position: absolute;
+    width: 100%;
+    height: 100%;
 
-    left: 7vw;
-    top: 10vh;
+    display: flex;
+    flex-direction: column;
 
-    width: 42vw;
+    justify-content: center;
+
+    padding: clamp(30px, 6vw, 110px);
 }
 
+.side-left {
+    align-items: flex-start;
+    text-align: left;
+}
 
-/* =========================================================
-   RECHTER BEREICH
-========================================================= */
-
-.right-content {
-
-    position: absolute;
-
-    right: 7vw;
-    top: 11vh;
-
-    width: 42vw;
-
+.side-right {
+    align-items: flex-end;
     text-align: right;
 }
 
 
 /* =========================================================
-   KLEINE ORANGE ÜBERSCHRIFT
+   TYPOGRAFIE
 ========================================================= */
 
-.kicker {
+.logo {
+    margin: 0;
 
-    margin-bottom: 18px;
+    font-size: clamp(42px, 8vw, 130px);
+    line-height: 0.8;
 
-    color: #d39143;
+    font-weight: 900;
+    letter-spacing: -0.07em;
 
-    font-size:
-        clamp(0.65rem, 0.9vw, 0.9rem);
+    color: #d88a43;
 
-    font-weight: 700;
+    text-shadow:
+        1px 1px 0 #8d4d20,
+        2px 2px 0 #5b3016,
+        0 0 25px rgba(216, 138, 67, 0.18);
+}
 
-    letter-spacing: 0.22em;
+
+.title {
+    margin: 24px 0 0 0;
+
+    font-size: clamp(32px, 5.5vw, 90px);
+    line-height: 0.9;
+
+    font-weight: 800;
+    letter-spacing: -0.045em;
+
+    color: #e2a05f;
 
     text-transform: uppercase;
 }
 
 
-/* =========================================================
-   HAUPTÜBERSCHRIFT
-========================================================= */
+.subtitle {
+    margin-top: 28px;
 
-h1 {
+    max-width: 520px;
 
+    font-size: clamp(15px, 1.4vw, 22px);
+    line-height: 1.5;
+
+    color: rgba(255,255,255,0.78);
+}
+
+
+.small-label {
+    margin-bottom: 18px;
+
+    font-size: 12px;
+    letter-spacing: 0.25em;
+
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.5);
+}
+
+
+.big-word {
     margin: 0;
 
-    color: #f1eee7;
+    font-size: clamp(50px, 9vw, 145px);
+    line-height: 0.82;
 
-    font-size:
-        clamp(4.5rem, 9vw, 9rem);
-
-    line-height: 0.78;
-
+    font-weight: 900;
     letter-spacing: -0.075em;
 
-    font-weight: 700;
-}
-
-
-h2 {
-
-    margin: 0;
-
-    color: #f1eee7;
-
-    font-size:
-        clamp(3.5rem, 7vw, 7rem);
-
-    line-height: 0.80;
-
-    letter-spacing: -0.07em;
-
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   UNTERTITEL
-========================================================= */
-
-.subtitle {
-
-    margin-top: 30px;
-
-    color: #d6c59d;
-
-    font-size:
-        clamp(0.85rem, 1.35vw, 1.25rem);
-
-    line-height: 1.5;
+    color: rgba(255,255,255,0.92);
 }
 
 
@@ -288,30 +233,28 @@ h2 {
    VIDEO
 ========================================================= */
 
-.video-box {
+.video-wrap {
+    position: absolute;
 
-    position: relative;
+    left: clamp(30px, 5vw, 90px);
+    bottom: clamp(30px, 5vw, 80px);
 
-    width: min(420px, 34vw);
+    width: min(42vw, 600px);
 
-    aspect-ratio: 16 / 10;
-
-    margin-top: 42px;
+    aspect-ratio: 16 / 9;
 
     overflow: hidden;
 
-    border:
-        2px solid
-        rgba(235, 227, 204, 0.72);
+    border: 1px solid rgba(255,255,255,0.18);
 
-    border-radius: 16px;
+    background: #000;
 
-    background: #c5bea9;
+    box-shadow:
+        0 20px 80px rgba(0,0,0,0.45);
 }
 
 
-.video-box video {
-
+.video-wrap video {
     display: block;
 
     width: 100%;
@@ -322,261 +265,163 @@ h2 {
 
 
 /* =========================================================
-   SEITE 2 ZUSATZINHALT
+   TEXT-INFOS
 ========================================================= */
 
-.page2 .left-content {
-
-    width: 39vw;
-}
-
-
 .info-list {
-
-    margin-top: 38px;
+    margin-top: 40px;
 
     display: flex;
-
     flex-direction: column;
-
     gap: 14px;
+
+    font-size: clamp(14px, 1.3vw, 20px);
+
+    color: rgba(255,255,255,0.72);
 }
 
 
 .info-item {
-
-    padding: 15px 18px;
-
-    border:
-        1px solid
-        rgba(238, 231, 194, 0.27);
-
-    border-radius: 7px;
-
-    background:
-        rgba(0, 0, 0, 0.13);
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 
-.info-title {
-
-    margin-bottom: 6px;
-
-    color: #d39143;
-
-    font-size: 0.72rem;
-
+.info-number {
     font-weight: 700;
-
-    letter-spacing: 0.15em;
-
-    text-transform: uppercase;
-}
-
-
-.info-text {
-
-    color: #ddd5ae;
-
-    font-size: 0.88rem;
-
-    line-height: 1.45;
+    color: #d88a43;
 }
 
 
 /* =========================================================
-   ÖFFNUNG DER AKTUELLEN SEITE
-=========================================================
-
-   Die aktuelle Seite bekommt in der Mitte
-   einen transparenten Bereich.
-
-   progress = 0
-
-       ┌──────────────────────────┐
-       │       SEITE 1            │
-       │                          │
-       │                          │
-       └──────────────────────────┘
-
-   progress = 0.5
-
-       ┌───────────┐    ┌──────────┐
-       │ SEITE 1   │    │ SEITE 1  │
-       │           │    │          │
-       └───────────┘    └──────────┘
-
-   progress = 1
-
-       ┌───────┐              ┌───────┐
-       │       │              │       │
-       │       │              │       │
-       └───────┘              └───────┘
-
-              SEITE 2
-             vollständig
-               sichtbar
-
+   SEITE 2 SPEZIFISCHE ELEMENTE
 ========================================================= */
 
-#page1,
-#page2 {
+#page2 .logo {
+    color: #dca26a;
+}
 
-    --opening: 0px;
+#page2 .title {
+    color: #b8d4b6;
+}
 
-    /*
-       Die Maske erzeugt den Schlitz.
-
-       Schwarz = sichtbar
-       Transparent = darunterliegende Seite sichtbar
-    */
-
-    -webkit-mask-image:
-        linear-gradient(
-            to right,
-
-            black 0,
-
-            black
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% + var(--opening)),
-
-            black
-            calc(50% + var(--opening)),
-
-            black 100%
-        );
-
-    mask-image:
-        linear-gradient(
-            to right,
-
-            black 0,
-
-            black
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% - var(--opening)),
-
-            transparent
-            calc(50% + var(--opening)),
-
-            black
-            calc(50% + var(--opening)),
-
-            black 100%
-        );
+#page2 .big-word {
+    color: #d7e4d8;
 }
 
 
 /* =========================================================
-   DEBUG / STATUS
+   DIE BEIDEN SPALTKANTEN
+   KEINE FESTE LINIE IN DER MITTE!
 ========================================================= */
 
-#status {
+.seam-edge {
+    position: absolute;
 
-    position: fixed;
+    top: 0;
 
-    z-index: 2000;
+    width: 2px;
+    height: 100%;
 
-    right: 22px;
-    bottom: 22px;
-
-    width: 185px;
-
-    padding: 13px 15px;
-
-    border:
-        1px solid
-        rgba(255,255,255,0.13);
-
-    border-radius: 5px;
-
-    background:
-        rgba(0,0,0,0.48);
-
-    backdrop-filter: blur(10px);
-
-    font-size: 10px;
-
-    line-height: 1.45;
-
-    letter-spacing: 0.08em;
-
-    text-transform: uppercase;
-}
-
-
-.status-label {
-
-    color: #d39143;
-}
-
-
-.status-value {
-
-    margin-bottom: 8px;
-
-    color: #fff;
-}
-
-
-/* =========================================================
-   SCROLL-HINWEIS
-========================================================= */
-
-#scrollHint {
-
-    position: fixed;
-
-    z-index: 1500;
-
-    left: 50%;
-    bottom: 27px;
-
-    transform:
-        translateX(-50%);
-
-    color: #d39143;
-
-    font-size: 0.68rem;
-
-    font-weight: 600;
-
-    letter-spacing: 0.18em;
-
-    text-transform: uppercase;
+    z-index: 20;
 
     pointer-events: none;
 
-    transition:
-        opacity 0.25s ease;
+    opacity: 0;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(255,255,255,0.05),
+            rgba(255,255,255,0.65) 25%,
+            rgba(255,255,255,0.25) 50%,
+            rgba(255,255,255,0.65) 75%,
+            rgba(255,255,255,0.05)
+        );
+
+    box-shadow:
+        0 0 10px rgba(255,255,255,0.18);
 }
 
 
-.arrow {
+/*
+   Wichtig:
+   Diese Kanten sitzen NICHT dauerhaft in der Mitte.
+   Sie werden per JavaScript mit der Öffnung verschoben.
+*/
 
-    width: 11px;
-    height: 11px;
+#seamLeft {
+    left: 50%;
+}
 
-    margin: 9px auto 0;
+#seamRight {
+    left: 50%;
+}
 
-    border-right:
-        2px solid
-        #d39143;
 
-    border-bottom:
-        2px solid
-        #d39143;
+/* =========================================================
+   LEICHTER INNERER SCHATTEN AN DER SPALTE
+========================================================= */
 
-    transform:
-        rotate(45deg);
+.split-shadow {
+    position: absolute;
+
+    top: 0;
+    height: 100%;
+
+    width: 35px;
+
+    pointer-events: none;
+
+    z-index: 15;
+
+    opacity: 0;
+}
+
+#shadowLeft {
+    transform: translateX(-100%);
+
+    background:
+        linear-gradient(
+            to right,
+            transparent,
+            rgba(0,0,0,0.38)
+        );
+}
+
+#shadowRight {
+    background:
+        linear-gradient(
+            to left,
+            transparent,
+            rgba(0,0,0,0.38)
+        );
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+#state-label {
+    position: fixed;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    z-index: 100;
+
+    font-size: 10px;
+
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.35);
+
+    pointer-events: none;
 }
 
 
@@ -586,205 +431,109 @@ h2 {
 
 @media (max-width: 700px) {
 
-    .left-content {
-
-        left: 5vw;
-        top: 7vh;
-
-        width: 42vw;
+    .page-content {
+        grid-template-columns: 50% 50%;
     }
 
-
-    .right-content {
-
-        right: 5vw;
-        top: 8vh;
-
-        width: 42vw;
+    .side {
+        padding: 25px;
     }
 
-
-    h1 {
-
-        font-size:
-            clamp(2.5rem, 11vw, 4.5rem);
+    .video-wrap {
+        width: 75vw;
+        left: 25px;
+        bottom: 30px;
     }
-
-
-    h2 {
-
-        font-size:
-            clamp(2.3rem, 9vw, 4rem);
-    }
-
 
     .subtitle {
-
-        margin-top: 18px;
-
-        font-size: 0.7rem;
+        max-width: 75vw;
     }
 
-
-    .video-box {
-
-        width: 100%;
-
-        max-width: 180px;
-
-        margin-top: 20px;
-    }
+}
 
 
-    #status {
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
 
-        right: 8px;
-        bottom: 8px;
+@media (prefers-reduced-motion: reduce) {
 
-        width: 145px;
-
-        padding: 9px;
-
-        font-size: 8px;
-    }
-
-
-    #scrollHint {
-
-        bottom: 13px;
-
-        font-size: 0.52rem;
+    .page {
+        transition: none;
     }
 
 }
 
 </style>
-
 </head>
 
 
 <body>
 
-
-<!-- =======================================================
-     BÜHNE
-======================================================= -->
-
 <div id="stage">
 
-
-    <!-- ===================================================
-         SEITE 2
-
-         Sie liegt IMMER unter der aktuellen Seite.
-    ==================================================== -->
+    <!-- =====================================================
+         SEITE 2 – liegt zunächst HINTER SEITE 1
+    ====================================================== -->
 
     <section
         id="page2"
-        class="page page2"
+        class="page"
+        aria-hidden="true"
     >
 
         <div class="page-content">
 
+            <!-- LINKe SEITE -->
+            <div class="side side-left">
 
-            <!-- ===========================================
-                 LINKER BEREICH SEITE 2
-            ============================================ -->
-
-            <div class="left-content">
-
-                <div class="kicker">
-                    b3nn3t
+                <div class="small-label">
+                    b3nn3t / 02
                 </div>
 
-
-                <h1>
-                    die<br>
-                    andere
+                <h1 class="logo">
+                    b3nn3t
                 </h1>
 
-
-                <div class="subtitle">
-                    Eine zweite Perspektive.
-                    Neue Fragmente.
-                    Andere Räume.
-                </div>
-
+                <h2 class="title">
+                    die andere
+                </h2>
 
                 <div class="info-list">
 
-
                     <div class="info-item">
-
-                        <div class="info-title">
-                            fragment 01
-                        </div>
-
-                        <div class="info-text">
-                            Texte, Bilder und Notizen
-                            rund um das Album.
-                        </div>
-
+                        <span class="info-number">01</span>
+                        <span>neue Perspektive</span>
                     </div>
 
-
                     <div class="info-item">
-
-                        <div class="info-title">
-                            fragment 02
-                        </div>
-
-                        <div class="info-text">
-                            Zehn kurze Songs zwischen
-                            alt und neu.
-                        </div>
-
+                        <span class="info-number">02</span>
+                        <span>neue Räume</span>
                     </div>
 
-
                     <div class="info-item">
-
-                        <div class="info-title">
-                            fragment 03
-                        </div>
-
-                        <div class="info-text">
-                            Dazwischen bleibt die Spalte.
-                        </div>
-
+                        <span class="info-number">03</span>
+                        <span>neue Richtung</span>
                     </div>
-
 
                 </div>
 
             </div>
 
 
-            <!-- ===========================================
-                 RECHTER BEREICH SEITE 2
-            ============================================ -->
+            <!-- RECHTE SEITE -->
+            <div class="side side-right">
 
-            <div class="right-content">
-
-                <div class="kicker">
+                <div class="small-label">
                     seite zwei
                 </div>
 
-
-                <h2>
-                    neu<br>
-                    gedacht
+                <h2 class="big-word">
+                    NEU<br>
+                    GEDACHT
                 </h2>
 
-
-                <div class="subtitle">
-                    Seite 2 ist vollständig eigenständig.
-                    Sie liegt bereits unter Seite 1
-                    und wird durch die Öffnung sichtbar.
-                </div>
-
             </div>
-
 
         </div>
 
@@ -792,97 +541,67 @@ h2 {
 
 
 
-    <!-- ===================================================
-         SEITE 1
-
-         DAS IST DER START.
-
-         Sie liegt zunächst vollständig über Seite 2.
-    ==================================================== -->
+    <!-- =====================================================
+         SEITE 1 – STARTSEITE
+    ====================================================== -->
 
     <section
         id="page1"
-        class="page page1"
+        class="page"
+        aria-hidden="false"
     >
 
         <div class="page-content">
 
+            <!-- LINKE SEITE -->
+            <div class="side side-left">
 
-            <!-- ===========================================
-                 LINKER BEREICH SEITE 1
-            ============================================ -->
-
-            <div class="left-content">
-
-                <div class="kicker">
-                    b3nn3t
+                <div class="small-label">
+                    neues album / 01
                 </div>
 
-
-                <h1>
-                    gespalten
+                <h1 class="logo">
+                    b3nn3t
                 </h1>
 
+                <h2 class="title">
+                    gespalten
+                </h2>
 
-                <div class="subtitle">
+                <p class="subtitle">
                     10 kurze Songs.
                     12 Minuten zwischen alt und neu.
-                </div>
+                </p>
 
 
-                <!-- =======================================
-                     VIDEO
-                ======================================== -->
-
-                <div class="video-box">
+                <div class="video-wrap">
 
                     <video
+                        src="/assets/gespalten/gespalten.mp4"
                         controls
                         playsinline
                         preload="metadata"
-                    >
-
-                        <source
-                            src="/assets/gespalten/gespalten.mp4"
-                            type="video/mp4"
-                        >
-
-                        Dein Browser unterstützt
-                        dieses Videoformat nicht.
-
-                    </video>
+                    ></video>
 
                 </div>
 
             </div>
 
 
+            <!-- RECHTE SEITE -->
+            <div class="side side-right">
 
-            <!-- ===========================================
-                 RECHTER BEREICH SEITE 1
-            ============================================ -->
-
-            <div class="right-content">
-
-                <div class="kicker">
-                    neues album
+                <div class="small-label">
+                    die andere seite
                 </div>
 
-
-                <h2>
-                    die andere<br>
-                    seite
+                <h2 class="big-word">
+                    ZWISCHEN<br>
+                    DEN<br>
+                    SEITEN
                 </h2>
 
-
-                <div class="subtitle">
-                    Ein Übergang zwischen zwei Seiten.
-                    Alt und neu.
-                    Dazwischen liegt die Spalte.
-                </div>
-
             </div>
-
 
         </div>
 
@@ -890,92 +609,67 @@ h2 {
 
 
 
-    <!-- ===================================================
-         KEINE FESTE SPALTE MEHR
+    <!-- =====================================================
+         DIE SPALTKANTEN
+         WICHTIG:
+         KEINE BLAUE DAUERLINIE!
+    ====================================================== -->
 
-         Der frühere #column-Container wurde vollständig
-         entfernt.
+    <div
+        id="seamLeft"
+        class="seam-edge"
+    ></div>
 
-         Die Spalte entsteht jetzt ausschließlich durch
-         die Maskierung der Seite.
-    ==================================================== -->
+    <div
+        id="seamRight"
+        class="seam-edge"
+    ></div>
 
 
+    <!-- SCHATTEN DER ÖFFNUNG -->
 
-    <!-- ===================================================
-         SCROLL-HINWEIS
-    ==================================================== -->
+    <div
+        id="shadowLeft"
+        class="split-shadow"
+    ></div>
 
-    <div id="scrollHint">
+    <div
+        id="shadowRight"
+        class="split-shadow"
+    ></div>
 
-        scrollen zum öffnen
 
-        <div class="arrow"></div>
+    <!-- STATUS -->
 
+    <div id="state-label">
+        gespalten
     </div>
-
-
-
-    <!-- ===================================================
-         STATUS
-    ==================================================== -->
-
-    <div id="status">
-
-        <div class="status-label">
-            ZUSTAND
-        </div>
-
-        <div
-            id="stateText"
-            class="status-value"
-        >
-            SEITE 1
-        </div>
-
-
-        <div class="status-label">
-            ÖFFNUNG
-        </div>
-
-        <div
-            id="progressText"
-            class="status-value"
-        >
-            0%
-        </div>
-
-
-        <div class="status-label">
-            RICHTUNG
-        </div>
-
-        <div
-            id="directionText"
-            class="status-value"
-        >
-            BEREIT
-        </div>
-
-    </div>
-
 
 </div>
-
 
 
 <script>
 
 /* =========================================================
    B3NN3T – GESPALTEN
+   VERSION 3
 
-   EXAKT DIE VORHERIGE FUNKTIONIERENDE VERSION,
+   ZWEI ZUSTÄNDE:
 
-   ABER:
+   SEITE 1
+       ↓
+   SPALTE
+       ↓
+   SEITE 2
 
-   DIE PERMANENTE BLAUE LINIE WURDE ENTFERNT.
+   und wieder zurück:
 
-   SONST WURDE NICHTS AM SPLIT-MECHANISMUS GEÄNDERT.
+   SEITE 2
+       ↓
+   SPALTE
+       ↓
+   SEITE 1
+
 ========================================================= */
 
 
@@ -983,397 +677,359 @@ h2 {
    ELEMENTE
 ========================================================= */
 
-const page1 =
-    document.getElementById("page1");
+const stage = document.getElementById("stage");
 
-const page2 =
-    document.getElementById("page2");
+const page1 = document.getElementById("page1");
+const page2 = document.getElementById("page2");
 
-const stateText =
-    document.getElementById("stateText");
+const seamLeft = document.getElementById("seamLeft");
+const seamRight = document.getElementById("seamRight");
 
-const progressText =
-    document.getElementById("progressText");
+const shadowLeft = document.getElementById("shadowLeft");
+const shadowRight = document.getElementById("shadowRight");
 
-const directionText =
-    document.getElementById("directionText");
-
-const scrollHint =
-    document.getElementById("scrollHint");
+const stateLabel = document.getElementById("state-label");
 
 
 /* =========================================================
-   KONFIGURATION
+   ZUSTAND
 ========================================================= */
 
-
 /*
-   Scrollstrecke für eine komplette Öffnung.
+   state = 0
+   Seite 1 sichtbar
 
-   Dieser Wert bleibt exakt wie vorher.
-
-   Größer = langsamer
-   Kleiner = schneller
-*/
-
-const OPEN_DISTANCE = 900;
-
-
-/*
-   Aktueller Zustand.
-
-       0 = Seite 1
-       1 = Seite 2
+   state = 1
+   Seite 2 sichtbar
 */
 
 let state = 0;
 
 
 /*
-   Öffnungsfortschritt.
+   progress:
 
-       0 = geschlossen
-       1 = vollständig geöffnet
+   0 = Seite vollständig geschlossen
+
+   1 = Seite vollständig geöffnet
 */
 
 let progress = 0;
 
 
 /*
-   Letzte Bewegungsrichtung.
-
-       +1 = nach unten
-       -1 = nach oben
+   Maximale Breite der Spalte
 */
 
-let direction = 1;
+const MAX_OPENING = 50;
 
 
 /*
-   Verhindert Doppelwechsel.
+   Geschwindigkeit
 */
 
-let switching = false;
+const SCROLL_SPEED = 0.0018;
 
 
 /*
-   Touch-Position.
+   Touch
 */
 
-let touchY = null;
+let touchStartY = null;
+
+
+/*
+   verhindert zu schnelle Mehrfachauslösung
+*/
+
+let lastInputTime = 0;
 
 
 /* =========================================================
-   EASING
+   INITIALISIERUNG
 ========================================================= */
 
-function ease(value) {
+function init() {
 
-    value =
-        Math.max(
-            0,
-            Math.min(
-                1,
-                value
-            )
-        );
+    page1.style.zIndex = "2";
+    page2.style.zIndex = "1";
 
+    page1.style.display = "block";
+    page2.style.display = "block";
 
-    return (
-        value < 0.5
-    )
-        ?
-        2 * value * value
-        :
-        1 -
-        Math.pow(
-            -2 * value + 2,
-            2
-        ) / 2;
-}
-
-
-/* =========================================================
-   AKTUELLE SEITE FESTLEGEN
-========================================================= */
-
-function updateLayers() {
-
-    if (state === 0) {
-
-        /*
-           Seite 1 oben.
-           Seite 2 unten.
-        */
-
-        page1.style.zIndex = "100";
-
-        page2.style.zIndex = "1";
-
-
-        stateText.textContent =
-            "SEITE 1";
-
-    } else {
-
-        /*
-           Seite 2 oben.
-           Seite 1 unten.
-        */
-
-        page2.style.zIndex = "100";
-
-        page1.style.zIndex = "1";
-
-
-        stateText.textContent =
-            "SEITE 2";
-    }
+    render();
 
 }
 
+init();
+
 
 /* =========================================================
-   ÖFFNUNG RENDERN
+   RENDERN
 ========================================================= */
 
 function render() {
 
     /*
-       Easing für die Bewegung.
+       Öffnungsbreite.
+
+       Bei progress = 0:
+
+       keine Spalte
+
+       Bei progress = 1:
+
+       50px links
+       50px rechts
+
+       = 100px Gesamtöffnung
     */
 
-    const eased =
-        ease(progress);
+    const opening = progress * MAX_OPENING;
 
+
+    /* =====================================================
+       AKTIVE SEITE
+    ===================================================== */
+
+    const activePage =
+        state === 0
+            ? page1
+            : page2;
+
+
+    const inactivePage =
+        state === 0
+            ? page2
+            : page1;
+
+
+    /* =====================================================
+       Z-INDEX
+    ===================================================== */
+
+    activePage.style.zIndex = "2";
+    inactivePage.style.zIndex = "1";
+
+
+    /* =====================================================
+       AKTIVE SEITE SPALTEN
+    ===================================================== */
 
     /*
-       MAXIMALE ÖFFNUNG
+       Die Seite wird NICHT verschoben.
 
-       WICHTIG:
+       Stattdessen wird die Mitte transparent.
 
-       Dieser Wert bleibt exakt wie in
-       deiner funktionierenden Version.
-
-       Die Spalte öffnet sich also bis fast
-       zur kompletten Bildschirmbreite,
-       bevor die nächste Seite erscheint.
+       Dadurch kommt die darunterliegende Seite
+       durch die Öffnung zum Vorschein.
     */
 
-    const maxOpening =
-        Math.max(
-            0,
-            (window.innerWidth / 2) - 1
-        );
+    const left =
+        `calc(50% - ${opening}px)`;
+
+    const right =
+        `calc(50% + ${opening}px)`;
 
 
-    const opening =
-        eased *
-        maxOpening;
+    const mask = `
+        linear-gradient(
+            to right,
+            black 0,
+            black ${left},
+            transparent ${left},
+            transparent ${right},
+            black ${right},
+            black 100%
+        )
+    `;
 
+
+    activePage.style.webkitMaskImage = mask;
+    activePage.style.maskImage = mask;
+
+
+    /* =====================================================
+       DIE INAKTIVE SEITE
+    ===================================================== */
+
+    inactivePage.style.webkitMaskImage = "none";
+    inactivePage.style.maskImage = "none";
+
+
+    /* =====================================================
+       SPALTKANTEN
+    ===================================================== */
 
     /*
-       AKTUELLE SEITE ÖFFNEN
+       GANZ WICHTIG:
+
+       Die Kanten sind nicht mehr dauerhaft bei 50%.
+
+       Sie wandern mit der Öffnung nach außen.
+
+       Dadurch gibt es KEINE blaue Linie mehr,
+       die von Anfang an in der Mitte steht.
     */
+
+    if (progress <= 0.001) {
+
+        seamLeft.style.opacity = "0";
+        seamRight.style.opacity = "0";
+
+        shadowLeft.style.opacity = "0";
+        shadowRight.style.opacity = "0";
+
+    } else {
+
+        /*
+           Die Kanten werden langsam sichtbar.
+        */
+
+        const edgeOpacity =
+            Math.min(1, progress * 5);
+
+
+        seamLeft.style.opacity =
+            edgeOpacity;
+
+        seamRight.style.opacity =
+            edgeOpacity;
+
+
+        /*
+           Linke Kante
+        */
+
+        seamLeft.style.left =
+            `calc(50% - ${opening}px)`;
+
+
+        /*
+           Rechte Kante
+        */
+
+        seamRight.style.left =
+            `calc(50% + ${opening}px)`;
+
+
+        /*
+           Schatten
+        */
+
+        shadowLeft.style.left =
+            `calc(50% - ${opening}px)`;
+
+        shadowRight.style.left =
+            `calc(50% + ${opening}px)`;
+
+
+        shadowLeft.style.opacity =
+            edgeOpacity * 0.7;
+
+        shadowRight.style.opacity =
+            edgeOpacity * 0.7;
+
+    }
+
+
+    /* =====================================================
+       STATUS-TEXT
+    ===================================================== */
 
     if (state === 0) {
 
-        page1.style.setProperty(
-            "--opening",
-            opening + "px"
-        );
-
-
-        /*
-           Seite 2 liegt darunter.
-        */
-
-        page2.style.setProperty(
-            "--opening",
-            "0px"
-        );
+        stateLabel.textContent =
+            "gespalten · seite 1";
 
     } else {
 
-        page2.style.setProperty(
-            "--opening",
-            opening + "px"
-        );
-
-
-        /*
-           Seite 1 liegt darunter.
-        */
-
-        page1.style.setProperty(
-            "--opening",
-            "0px"
-        );
+        stateLabel.textContent =
+            "gespalten · seite 2";
 
     }
-
-
-    /*
-       STATUS
-    */
-
-    progressText.textContent =
-        Math.round(
-            progress * 100
-        ) + "%";
-
-
-    if (progress > 0.01) {
-
-        directionText.textContent =
-            direction > 0
-                ? "NACH UNTEN"
-                : "NACH OBEN";
-
-    } else {
-
-        directionText.textContent =
-            "BEREIT";
-
-    }
-
-
-    /*
-       Scroll-Hinweis ausblenden.
-    */
-
-    scrollHint.style.opacity =
-        progress > 0.03
-            ? "0"
-            : "1";
 
 }
 
 
 /* =========================================================
-   ZUSTANDSWECHSEL
+   ÜBERGANG ZU ANDERER SEITE
 ========================================================= */
 
-function switchState() {
-
-    if (switching) {
-        return;
-    }
-
-
-    switching = true;
-
+function switchPage() {
 
     /*
-       Seite wechseln.
+       Seite wechseln
     */
 
-    if (state === 0) {
-
-        /*
-           Seite 1 → Seite 2
-        */
-
-        state = 1;
-
-    } else {
-
-        /*
-           Seite 2 → Seite 1
-        */
-
-        state = 0;
-
-    }
+    state =
+        state === 0
+            ? 1
+            : 0;
 
 
     /*
-       Neue Seite beginnt geschlossen.
+       Nach dem Seitenwechsel beginnt die neue Seite
+       wieder geschlossen.
+
+       Dadurch entsteht:
+
+       Seite 1
+          →
+       Spalte
+          →
+       Seite 2
+          →
+       Spalte
+          →
+       Seite 1
     */
 
     progress = 0;
 
 
-    /*
-       Layer tauschen.
-    */
-
-    updateLayers();
-
-
-    /*
-       Rendern.
-    */
-
     render();
-
-
-    /*
-       Kurzer Schutz vor Trackpad-Spikes.
-    */
-
-    setTimeout(
-        function() {
-
-            switching = false;
-
-        },
-        60
-    );
 
 }
 
 
 /* =========================================================
-   SCROLL-VERARBEITUNG
+   SCROLL
 ========================================================= */
 
 function handleScroll(delta) {
 
+    const now = Date.now();
+
     /*
-       Wenn gerade gewechselt wird,
-       ignorieren wir dieses Event.
+       Kleine Eingaben zusammenfassen,
+       damit Trackpads nicht zu hektisch reagieren.
     */
 
-    if (switching) {
+    if (now - lastInputTime < 8) {
         return;
     }
 
-
-    /*
-       Richtung merken.
-    */
-
-    if (delta > 0) {
-
-        direction = 1;
-
-    } else if (delta < 0) {
-
-        direction = -1;
-
-    }
+    lastInputTime = now;
 
 
     /*
-       Scrollbewegung in Öffnung umwandeln.
+       Normale Scrollrichtung:
+
+       runter  = vorwärts
+       hoch    = rückwärts
     */
 
-    const amount =
-        Math.abs(delta);
+    const movement =
+        delta * SCROLL_SPEED;
 
 
-    const increment =
-        amount /
-        OPEN_DISTANCE;
+    progress += movement;
 
 
-    progress += increment;
-
-
-    /*
-       Ende erreicht?
-    */
+    /* =====================================================
+       VORWÄRTS BIS ZUR NÄCHSTEN SEITE
+    ===================================================== */
 
     if (progress >= 1) {
 
@@ -1381,21 +1037,61 @@ function handleScroll(delta) {
 
         render();
 
-
         /*
-           Zur anderen Seite wechseln.
+           kurze Verzögerung, damit die vollständig
+           geöffnete Spalte sichtbar bleibt
         */
 
-        switchState();
+        setTimeout(() => {
 
+            /*
+               Nur wechseln, wenn wir tatsächlich
+               noch am Ende sind.
+            */
+
+            if (progress >= 1) {
+
+                switchPage();
+
+            }
+
+        }, 120);
 
         return;
     }
 
 
-    /*
-       Normal rendern.
-    */
+    /* =====================================================
+       RÜCKWÄRTS
+    ===================================================== */
+
+    if (progress <= 0) {
+
+        /*
+           Wenn wir bereits am Anfang der aktuellen
+           Seite stehen, wird bei weiterem Hochscrollen
+           die vorherige Seite geöffnet.
+        */
+
+        if (state === 1) {
+
+            state = 0;
+
+            progress = 1;
+
+        } else {
+
+            /*
+               Seite 1 ist Anfang des Zyklus.
+               Wir bleiben dort.
+            */
+
+            progress = 0;
+
+        }
+
+    }
+
 
     render();
 
@@ -1403,7 +1099,7 @@ function handleScroll(delta) {
 
 
 /* =========================================================
-   MAUSRAD / TRACKPAD
+   MAUS / TRACKPAD
 ========================================================= */
 
 window.addEventListener(
@@ -1412,10 +1108,7 @@ window.addEventListener(
 
         event.preventDefault();
 
-
-        handleScroll(
-            event.deltaY
-        );
+        handleScroll(event.deltaY);
 
     },
     {
@@ -1425,21 +1118,18 @@ window.addEventListener(
 
 
 /* =========================================================
-   TOUCH START
+   TOUCH
 ========================================================= */
 
 window.addEventListener(
     "touchstart",
     function(event) {
 
-        if (
-            event.touches.length === 0
-        ) {
+        if (!event.touches.length) {
             return;
         }
 
-
-        touchY =
+        touchStartY =
             event.touches[0].clientY;
 
     },
@@ -1449,46 +1139,36 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   TOUCH MOVE
-========================================================= */
-
 window.addEventListener(
     "touchmove",
     function(event) {
 
         if (
-            touchY === null
+            touchStartY === null ||
+            !event.touches.length
         ) {
             return;
         }
 
-
-        const newY =
+        const currentY =
             event.touches[0].clientY;
 
-
-        /*
-           Finger nach oben = positive Bewegung.
-        */
-
         const delta =
-            touchY - newY;
+            touchStartY - currentY;
 
 
-        touchY = newY;
+        if (Math.abs(delta) < 2) {
+            return;
+        }
+
+
+        handleScroll(delta);
+
+
+        touchStartY = currentY;
 
 
         event.preventDefault();
-
-
-        if (
-            Math.abs(delta) > 0
-        ) {
-
-            handleScroll(delta);
-
-        }
 
     },
     {
@@ -1497,15 +1177,11 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   TOUCH END
-========================================================= */
-
 window.addEventListener(
     "touchend",
     function() {
 
-        touchY = null;
+        touchStartY = null;
 
     },
     {
@@ -1522,17 +1198,29 @@ window.addEventListener(
     "keydown",
     function(event) {
 
+        /*
+           Pfeil nach unten / PageDown / Leertaste
+           = vorwärts
+        */
+
         if (
             event.key === "ArrowDown" ||
-            event.key === "PageDown"
+            event.key === "PageDown" ||
+            event.key === " "
         ) {
 
             event.preventDefault();
 
-            handleScroll(100);
+            handleScroll(120);
 
+            return;
         }
 
+
+        /*
+           Pfeil nach oben / PageUp
+           = rückwärts
+        */
 
         if (
             event.key === "ArrowUp" ||
@@ -1541,8 +1229,9 @@ window.addEventListener(
 
             event.preventDefault();
 
-            handleScroll(-100);
+            handleScroll(-120);
 
+            return;
         }
 
     }
@@ -1550,7 +1239,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   FENSTERGRÖSSE
+   RESIZE
 ========================================================= */
 
 window.addEventListener(
@@ -1562,34 +1251,7 @@ window.addEventListener(
     }
 );
 
-
-/* =========================================================
-   INITIALISIERUNG
-========================================================= */
-
-state = 0;
-
-progress = 0;
-
-direction = 1;
-
-
-/*
-   Seite 1 nach vorne.
-*/
-
-updateLayers();
-
-
-/*
-   Initial rendern.
-*/
-
-render();
-
 </script>
 
-
 </body>
-
 </html>
