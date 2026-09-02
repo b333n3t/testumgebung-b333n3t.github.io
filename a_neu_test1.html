@@ -7,6 +7,7 @@
   <title>b3nn3t — gespalten</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -136,6 +137,7 @@
       z-index: 2;
     }
 
+
     .right-content {
       position: absolute;
 
@@ -149,6 +151,7 @@
       text-align: right;
     }
 
+
     .kicker {
       margin-bottom: 18px;
 
@@ -156,13 +159,16 @@
       font-weight: 700;
 
       letter-spacing: 0.18em;
+
       text-transform: uppercase;
     }
+
 
     h1 {
       margin: 0;
 
       font-size: clamp(70px, 13vw, 190px);
+
       line-height: 0.78;
 
       font-weight: 900;
@@ -172,10 +178,12 @@
       text-transform: lowercase;
     }
 
+
     h2 {
       margin: 0 0 30px 0;
 
       font-size: clamp(42px, 7vw, 100px);
+
       line-height: 0.85;
 
       font-weight: 900;
@@ -185,12 +193,14 @@
       text-transform: lowercase;
     }
 
+
     .subtitle {
       margin-top: 35px;
 
       max-width: 480px;
 
       font-size: 18px;
+
       line-height: 1.35;
     }
 
@@ -210,6 +220,7 @@
 
       background: #000;
     }
+
 
     .video-box video {
       display: block;
@@ -231,28 +242,35 @@
       max-width: 620px;
     }
 
+
     .info-item {
       padding: 18px 0;
 
       border-top: 1px solid currentColor;
     }
 
+
     .info-item:last-child {
       border-bottom: 1px solid currentColor;
     }
+
 
     .info-title {
       margin-bottom: 6px;
 
       font-size: 12px;
+
       font-weight: 700;
 
       letter-spacing: 0.15em;
+
       text-transform: uppercase;
     }
 
+
     .info-text {
       font-size: 17px;
+
       line-height: 1.3;
     }
 
@@ -263,18 +281,22 @@
 
     .right-small {
       font-size: 11px;
+
       font-weight: 700;
 
       letter-spacing: 0.15em;
+
       text-transform: uppercase;
 
       opacity: 0.7;
     }
 
+
     .right-big {
       margin-top: 7px;
 
       font-size: 25px;
+
       line-height: 1;
 
       font-weight: 800;
@@ -284,10 +306,11 @@
 
 
     /* =====================================================
-       STREAMING SEITEN
+       PLATTFORM-SEITEN
        ===================================================== */
 
     .platform-page-content {
+
       position: absolute;
 
       left: 50%;
@@ -300,10 +323,13 @@
       z-index: 3;
     }
 
+
     .platform-kicker {
+
       margin-bottom: 20px;
 
       font-size: 12px;
+
       font-weight: 700;
 
       letter-spacing: 0.18em;
@@ -313,7 +339,9 @@
       opacity: 0.65;
     }
 
+
     .platform-title {
+
       margin: 0 0 28px 0;
 
       font-size: clamp(55px, 10vw, 130px);
@@ -330,7 +358,16 @@
        SPOTIFY
        ===================================================== */
 
+    .spotify-page {
+
+      background: #111;
+
+      color: #fff;
+    }
+
+
     .spotify-frame {
+
       width: 100%;
 
       overflow: hidden;
@@ -340,18 +377,16 @@
       background: #181818;
     }
 
+
     .spotify-frame iframe {
+
       display: block;
 
       width: 100%;
+
       height: 352px;
 
       border: 0;
-    }
-
-    .spotify-page {
-      background: #111;
-      color: #fff;
     }
 
 
@@ -360,31 +395,162 @@
        ===================================================== */
 
     .youtube-page {
+
       background: #d8d0c0;
+
       color: #111;
     }
 
-    .youtube-frame {
+
+    .youtube-card {
+
+      width: 100%;
+
+      min-height: 360px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      text-align: center;
+
+      padding: 55px 40px;
+
+      background: #111;
+
+      color: #fff;
+
       position: relative;
 
-      width: 100%;
-
-      aspect-ratio: 16 / 9;
-
       overflow: hidden;
-
-      background: #000;
     }
 
-    .youtube-frame iframe {
+
+    .youtube-card::before {
+
+      content: "";
+
       position: absolute;
 
-      inset: 0;
+      width: 260px;
+      height: 260px;
 
-      width: 100%;
-      height: 100%;
+      border-radius: 50%;
 
-      border: 0;
+      border: 1px solid rgba(255,255,255,0.18);
+
+      transform: scale(1.4);
+    }
+
+
+    .youtube-mark {
+
+      position: relative;
+
+      width: 76px;
+      height: 54px;
+
+      margin-bottom: 28px;
+
+      border-radius: 16px;
+
+      background: #fff;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+    }
+
+
+    .youtube-mark::after {
+
+      content: "";
+
+      width: 0;
+      height: 0;
+
+      border-top: 11px solid transparent;
+      border-bottom: 11px solid transparent;
+
+      border-left: 17px solid #111;
+
+      margin-left: 4px;
+    }
+
+
+    .youtube-card-title {
+
+      position: relative;
+
+      font-size: clamp(30px, 5vw, 55px);
+
+      font-weight: 900;
+
+      letter-spacing: -0.05em;
+    }
+
+
+    .youtube-card-text {
+
+      position: relative;
+
+      max-width: 440px;
+
+      margin-top: 14px;
+
+      font-size: 15px;
+
+      line-height: 1.4;
+
+      opacity: 0.65;
+    }
+
+
+    .platform-button {
+
+      position: relative;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      margin-top: 28px;
+
+      padding: 15px 22px;
+
+      background: #fff;
+
+      color: #111;
+
+      text-decoration: none;
+
+      font-size: 12px;
+
+      font-weight: 800;
+
+      letter-spacing: 0.12em;
+
+      text-transform: uppercase;
+
+      transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+    }
+
+
+    .platform-button:hover {
+
+      transform: translateY(-2px);
+
+      background: #e9e9e9;
     }
 
 
@@ -393,59 +559,165 @@
        ===================================================== */
 
     .soundcloud-page {
+
       background: #ff6a00;
+
       color: #111;
     }
 
-    .soundcloud-frame {
+
+    .soundcloud-card {
+
       width: 100%;
 
-      min-height: 352px;
+      min-height: 360px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
+      text-align: center;
+
+      padding: 55px 40px;
+
+      background: #111;
+
+      color: #fff;
+
+      position: relative;
 
       overflow: hidden;
-
-      border-radius: 12px;
-
-      background: #fff;
     }
 
-    .soundcloud-frame iframe {
+
+    .soundcloud-card::before {
+
+      content: "";
+
+      position: absolute;
+
+      width: 340px;
+      height: 340px;
+
+      border-radius: 50%;
+
+      border: 1px solid rgba(255,255,255,0.15);
+
+      transform: scale(1.15);
+    }
+
+
+    .soundcloud-wave {
+
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      gap: 5px;
+
+      height: 65px;
+
+      margin-bottom: 24px;
+    }
+
+
+    .soundcloud-wave span {
+
       display: block;
 
-      width: 100%;
+      width: 5px;
 
-      height: 352px;
+      border-radius: 10px;
 
-      border: 0;
+      background: #fff;
+
+      opacity: 0.9;
     }
 
-    .soundcloud-link {
-      display: inline-block;
 
-      margin-top: 18px;
-
-      color: currentColor;
-
-      font-size: 13px;
-      font-weight: 700;
-
-      letter-spacing: 0.08em;
-
-      text-transform: uppercase;
-
-      text-decoration: none;
+    .soundcloud-wave span:nth-child(1) {
+      height: 20px;
     }
 
-    .soundcloud-link:hover {
-      text-decoration: underline;
+    .soundcloud-wave span:nth-child(2) {
+      height: 35px;
+    }
+
+    .soundcloud-wave span:nth-child(3) {
+      height: 55px;
+    }
+
+    .soundcloud-wave span:nth-child(4) {
+      height: 42px;
+    }
+
+    .soundcloud-wave span:nth-child(5) {
+      height: 62px;
+    }
+
+    .soundcloud-wave span:nth-child(6) {
+      height: 38px;
+    }
+
+    .soundcloud-wave span:nth-child(7) {
+      height: 52px;
+    }
+
+    .soundcloud-wave span:nth-child(8) {
+      height: 29px;
+    }
+
+    .soundcloud-wave span:nth-child(9) {
+      height: 46px;
+    }
+
+    .soundcloud-wave span:nth-child(10) {
+      height: 20px;
+    }
+
+
+    .soundcloud-card-title {
+
+      position: relative;
+
+      font-size: clamp(30px, 5vw, 55px);
+
+      font-weight: 900;
+
+      letter-spacing: -0.05em;
+    }
+
+
+    .soundcloud-card-text {
+
+      position: relative;
+
+      max-width: 440px;
+
+      margin-top: 14px;
+
+      font-size: 15px;
+
+      line-height: 1.4;
+
+      opacity: 0.65;
     }
 
 
     /* =====================================================
-       DEBUG
+       STATUS
        ===================================================== */
 
     #status {
+
       position: fixed;
 
       left: 20px;
@@ -468,7 +740,9 @@
       border-radius: 3px;
     }
 
+
     #scrollHint {
+
       position: fixed;
 
       left: 50%;
@@ -481,6 +755,7 @@
       color: #fff;
 
       font-size: 11px;
+
       font-weight: 700;
 
       letter-spacing: 0.15em;
@@ -502,47 +777,69 @@
     @media (max-width: 700px) {
 
       .left-content {
+
         left: 7vw;
         top: 8vh;
 
         width: 78vw;
       }
 
+
       .right-content {
+
         right: 7vw;
         bottom: 7vh;
 
         width: 190px;
       }
 
+
       .subtitle {
+
         font-size: 16px;
       }
 
+
       .video-box {
+
         width: 100%;
       }
 
+
       .platform-page-content {
+
         width: 86vw;
       }
 
+
       .platform-title {
+
         font-size: clamp(55px, 16vw, 100px);
       }
 
+
       .spotify-frame iframe {
+
         height: 352px;
       }
 
-      .soundcloud-frame iframe {
-        height: 352px;
+
+      .youtube-card,
+      .soundcloud-card {
+
+        min-height: 330px;
+
+        padding: 40px 25px;
       }
+
 
       #status {
+
         display: none;
       }
+
     }
+
   </style>
 </head>
 
@@ -761,22 +1058,28 @@
       </h2>
 
 
-      <div class="youtube-frame">
+      <div class="youtube-card">
 
-        <iframe
-          src="https://www.youtube.com/embed?listType=user_uploads&list=b333nn3t"
-          title="b3nn3t auf YouTube"
-          allow="
-            accelerometer;
-            autoplay;
-            clipboard-write;
-            encrypted-media;
-            gyroscope;
-            picture-in-picture;
-            web-share
-          "
-          allowfullscreen>
-        </iframe>
+        <div class="youtube-mark"></div>
+
+        <div class="youtube-card-title">
+          b3nn3t
+        </div>
+
+        <div class="youtube-card-text">
+          Videos, Musik und visuelle Fragmente
+          auf dem YouTube-Kanal.
+        </div>
+
+
+        <a
+          class="platform-button"
+          href="https://youtube.com/@b333nn3t?si=tJR1-fYURPgzd2v0"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          YouTube öffnen →
+        </a>
 
       </div>
 
@@ -819,26 +1122,45 @@
       </h2>
 
 
-      <div class="soundcloud-frame">
+      <div class="soundcloud-card">
 
-        <iframe
-          src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/b3nn3t&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-          title="b3nn3t auf SoundCloud"
-          scrolling="no"
-          allow="autoplay">
-        </iframe>
+        <div class="soundcloud-wave">
+
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+
+        </div>
+
+
+        <div class="soundcloud-card-title">
+          b3nn3t
+        </div>
+
+
+        <div class="soundcloud-card-text">
+          Musik, Tracks und weitere Sounds
+          auf SoundCloud.
+        </div>
+
+
+        <a
+          class="platform-button"
+          href="https://on.soundcloud.com/8SACrlHdCDSmVSmm1g"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          SoundCloud öffnen →
+        </a>
 
       </div>
-
-
-      <a
-        class="soundcloud-link"
-        href="https://on.soundcloud.com/8SACrlHdCDSmVSmm1g"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        soundcloud öffnen →
-      </a>
 
     </div>
 
@@ -892,11 +1214,13 @@
 
   <script>
 
+
     /* =====================================================
        EINSTELLUNGEN
        ===================================================== */
 
     const OPEN_DISTANCE = 900;
+
 
 
     /* =====================================================
@@ -933,14 +1257,18 @@
     const stateText =
       document.getElementById("stateText");
 
+
     const progressText =
       document.getElementById("progressText");
+
 
     const directionText =
       document.getElementById("directionText");
 
+
     const scrollHint =
       document.getElementById("scrollHint");
+
 
 
     /* =====================================================
@@ -958,6 +1286,7 @@
     let touchY = null;
 
 
+
     /* =====================================================
        EASING
        ===================================================== */
@@ -969,6 +1298,7 @@
         Math.min(1, value)
       );
 
+
       return value < 0.5
 
         ? 2 * value * value
@@ -979,6 +1309,7 @@
             2
           ) / 2;
     }
+
 
 
     /* =====================================================
@@ -994,7 +1325,9 @@
 
             page.style.zIndex = "100";
 
-          } else {
+          }
+
+          else {
 
             page.style.zIndex = "1";
 
@@ -1042,6 +1375,7 @@
     }
 
 
+
     /* =====================================================
        RENDER
        ===================================================== */
@@ -1073,7 +1407,9 @@
               opening + "px"
             );
 
-          } else {
+          }
+
+          else {
 
             page.style.setProperty(
               "--opening",
@@ -1110,6 +1446,7 @@
     }
 
 
+
     /* =====================================================
        SEITE WECHSELN
        ===================================================== */
@@ -1117,7 +1454,9 @@
     function switchState() {
 
       if (switching) {
+
         return;
+
       }
 
 
@@ -1156,6 +1495,7 @@
     }
 
 
+
     /* =====================================================
        SCROLL
        ===================================================== */
@@ -1163,7 +1503,9 @@
     function handleScroll(delta) {
 
       if (switching) {
+
         return;
+
       }
 
 
@@ -1209,6 +1551,7 @@
     }
 
 
+
     /* =====================================================
        MAUS / TRACKPAD
        ===================================================== */
@@ -1226,6 +1569,7 @@
         passive: false
       }
     );
+
 
 
     /* =====================================================
@@ -1309,6 +1653,7 @@
     );
 
 
+
     /* =====================================================
        TASTATUR
        ===================================================== */
@@ -1344,6 +1689,7 @@
     );
 
 
+
     /* =====================================================
        RESIZE
        ===================================================== */
@@ -1356,6 +1702,7 @@
 
       }
     );
+
 
 
     /* =====================================================
