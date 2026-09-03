@@ -1218,11 +1218,17 @@ const OPEN_DISTANCE = 900;
 
 /* =========================================================
    ZIELSEITE
+
+   Die Zielseite hängt von der aktuell
+   laufenden Geste ("direction") ab:
+
+    1 = vorwärts / abwärts  -> nächste Seite
+   -1 = rückwärts / aufwärts -> vorherige Seite
    ========================================================= */
 
-function getTargetPage() {
+function getTargetPage(dir) {
 
-    if (direction === 1) {
+    if (dir === 1) {
 
         return (
             (currentPage + 1) %
@@ -1243,7 +1249,7 @@ function getTargetPage() {
    SEITEN-EBENEN AUFBAUEN
    ========================================================= */
 
-function setupLayers() {
+function setupLayers(dir) {
 
     pages.forEach((page) => {
 
@@ -1268,7 +1274,7 @@ function setupLayers() {
         Zielseite liegt darunter.
     */
 
-    pages[getTargetPage()]
+    pages[getTargetPage(dir)]
         .classList.add("behind");
 
 }
@@ -1276,6 +1282,23 @@ function setupLayers() {
 
 /* =========================================================
    MASKE
+
+   Es gibt zwei Maskenformen, je nach
+   Richtung der aktiven Geste:
+
+   1) VORWÄRTS (direction === 1):
+      Ein Spalt öffnet sich in der Mitte
+      und wächst nach außen. Die aktuelle
+      Seite verschwindet von innen nach
+      außen, die nächste Seite kommt zum
+      Vorschein.
+
+   2) RÜCKWÄRTS (direction === -1):
+      Genau umgekehrt: Die aktuelle Seite
+      verschwindet von außen nach innen
+      (die Ränder werden zuerst transparent),
+      die vorherige Seite kommt von außen
+      nach innen zum Vorschein.
    ========================================================= */
 
 function updateMask() {
@@ -1289,61 +1312,89 @@ function updateMask() {
     }
 
 
-    /*
-        Maximale Öffnung:
+    if (direction === 1) {
 
-        Der Spalt geht bis fast an
-        den linken und rechten Rand.
-    */
+        /*
+            VORWÄRTS: Spalt wächst
+            von der Mitte nach außen.
+        */
 
-    const maxOpening =
-        (window.innerWidth / 2) - 1;
-
-
-    const opening =
-        progress * maxOpening;
+        const maxOpening =
+            (window.innerWidth / 2) - 1;
 
 
-    const openingPercent =
-        (
-            opening /
-            window.innerWidth
-        ) * 100;
+        const opening =
+            progress * maxOpening;
 
 
-    const left =
-        50 - openingPercent;
+        const openingPercent =
+            (
+                opening /
+                window.innerWidth
+            ) * 100;
 
 
-    const right =
-        50 + openingPercent;
+        const left =
+            50 - openingPercent;
 
 
-    /*
-        Aktuelle Seite:
-
-        außen = sichtbar
-        mitte = transparent
-
-        Dadurch wird die Seite
-        darunter sichtbar.
-    */
-
-    const mask =
-        `linear-gradient(
-            to right,
-            black 0%,
-            black ${left}%,
-            transparent ${left}%,
-            transparent ${right}%,
-            black ${right}%,
-            black 100%
-        )`;
+        const right =
+            50 + openingPercent;
 
 
-    current.style.webkitMaskImage = mask;
+        const mask =
+            `linear-gradient(
+                to right,
+                black 0%,
+                black ${left}%,
+                transparent ${left}%,
+                transparent ${right}%,
+                black ${right}%,
+                black 100%
+            )`;
 
-    current.style.maskImage = mask;
+
+        current.style.webkitMaskImage = mask;
+
+        current.style.maskImage = mask;
+
+    } else {
+
+        /*
+            RÜCKWÄRTS: die Seite löst
+            sich von den Rändern her auf,
+            die Auflösung wandert nach innen.
+        */
+
+        const edge =
+            progress * 50;
+
+
+        const innerLeft =
+            edge;
+
+
+        const innerRight =
+            100 - edge;
+
+
+        const mask =
+            `linear-gradient(
+                to right,
+                transparent 0%,
+                transparent ${innerLeft}%,
+                black ${innerLeft}%,
+                black ${innerRight}%,
+                transparent ${innerRight}%,
+                transparent 100%
+            )`;
+
+
+        current.style.webkitMaskImage = mask;
+
+        current.style.maskImage = mask;
+
+    }
 
 }
 
@@ -1360,7 +1411,7 @@ function changePage() {
     */
 
     currentPage =
-        getTargetPage();
+        getTargetPage(direction);
 
 
     /*
@@ -1373,10 +1424,13 @@ function changePage() {
 
 
     /*
-        Ebenen neu sortieren.
+        Ebenen neu sortieren
+        (Ziel für die nächste Geste ist
+        noch unbekannt, wird beim nächsten
+        Scroll neu bestimmt).
     */
 
-    setupLayers();
+    setupLayers(direction);
 
 
     /*
@@ -1394,78 +1448,81 @@ function changePage() {
 
 /* =========================================================
    SCROLL
+
+   Kernidee:
+
+   - Solange progress === 0 ist (kein
+     Spalt offen), startet jeder Scroll
+     eine NEUE Geste in genau der Richtung,
+     in die gerade gescrollt wird.
+
+   - Läuft bereits eine Geste (progress > 0)
+     und wird in dieselbe Richtung weiter-
+     gescrollt, wächst der Spalt (progress
+     steigt).
+
+   - Läuft bereits eine Geste und wird in
+     die ENTGEGENGESETZTE Richtung gescrollt,
+     schließt sich der Spalt wieder
+     (progress sinkt) - die Seite bleibt
+     dieselbe. Erst wenn progress bei 0
+     ankommt, kann eine neue Geste in der
+     neuen Richtung beginnen.
    ========================================================= */
 
 function handleScroll(delta) {
 
-    if (delta === 0) {
+    if (delta === 0 || animating) {
         return;
     }
 
 
-    /*
-        =====================================================
-        RICHTUNG ERKENNEN
-        =====================================================
-    */
-
-    const newDirection =
+    const rawDirection =
         delta > 0 ? 1 : -1;
 
-
-    /*
-        Wenn sich die Richtung ändert,
-        bleibt die aktuelle Spaltbreite
-        erhalten.
-
-        Das ist wichtig für ein echtes
-        Rückwärtsverhalten.
-    */
-
-    if (newDirection !== direction) {
-
-        direction =
-            newDirection;
-
-
-        /*
-            Die neue Zielseite liegt
-            jetzt unter der aktuellen Seite.
-        */
-
-        setupLayers();
-
-        updateMask();
-
-    }
-
-
-    /*
-        Richtung merken
-    */
-
-    direction =
-        newDirection;
-
-
-    /*
-        Scrollbewegung in Öffnung
-        umwandeln.
-    */
 
     const movement =
         Math.abs(delta) /
         OPEN_DISTANCE;
 
 
-    progress += movement;
+    if (progress === 0) {
 
+        /*
+            Keine Geste aktiv:
+            neue Geste in Scrollrichtung
+            starten.
+        */
 
-    progress =
-        Math.min(
-            1,
-            progress
-        );
+        direction =
+            rawDirection;
+
+        setupLayers(direction);
+
+        progress =
+            Math.min(1, movement);
+
+    } else if (rawDirection === direction) {
+
+        /*
+            Gleiche Richtung:
+            Spalt weiter öffnen.
+        */
+
+        progress =
+            Math.min(1, progress + movement);
+
+    } else {
+
+        /*
+            Entgegengesetzte Richtung:
+            Spalt wieder schließen.
+        */
+
+        progress =
+            Math.max(0, progress - movement);
+
+    }
 
 
     updateMask();
@@ -1656,7 +1713,7 @@ window.addEventListener(
    INITIALISIERUNG
    ========================================================= */
 
-setupLayers();
+setupLayers(direction);
 
 updateMask();
 
@@ -1664,3 +1721,4 @@ updateMask();
 
 </body>
 </html>
+
