@@ -38,7 +38,6 @@ body {
 
 .page {
     position: fixed;
-
     inset: 0;
 
     width: 100%;
@@ -50,15 +49,12 @@ body {
     align-items: center;
     justify-content: center;
 
-    /*
-        Jede Seite liegt exakt übereinander.
-        Die aktive Seite wird über die Maske geöffnet.
-    */
-
     z-index: 1;
 
-    -webkit-mask-image: none;
-    mask-image: none;
+    /*
+        Die Maske wird ausschließlich
+        per JavaScript gesteuert.
+    */
 
     -webkit-mask-repeat: no-repeat;
     mask-repeat: no-repeat;
@@ -77,7 +73,7 @@ body {
 
 
 /* =========================================================
-   SEITE 1 – GESPALTEN
+   SEITE 1
    ========================================================= */
 
 .page-1 {
@@ -112,7 +108,6 @@ body {
 
 .page-1-video video {
     width: 100%;
-
     display: block;
 }
 
@@ -142,7 +137,7 @@ body {
 
 
 /* =========================================================
-   SEITE 2 – DIE ANDERE
+   SEITE 2
    ========================================================= */
 
 .page-2 {
@@ -164,24 +159,32 @@ body {
     margin-bottom: 55px;
 }
 
-.info-grid {
+.andere-grid {
     display: grid;
 
     grid-template-columns:
         repeat(3, 1fr);
 
     gap: 18px;
+
+    align-items: start;
 }
 
-.info-card {
+.andere-tile {
     border: 1px solid rgba(0,0,0,.5);
 
     padding: 25px;
 
-    min-height: 150px;
+    display: flex;
+
+    flex-direction: column;
+
+    max-height: 62vh;
+
+    overflow-y: auto;
 }
 
-.info-card span {
+.tile-label {
     display: block;
 
     font-size: 12px;
@@ -191,12 +194,269 @@ body {
     letter-spacing: .15em;
 
     margin-bottom: 20px;
+
+    flex-shrink: 0;
 }
 
-.info-card p {
-    font-size: 18px;
 
-    line-height: 1.35;
+/* =========================================================
+   ÜBER MICH
+   ========================================================= */
+
+.about-emoji {
+    font-size: clamp(28px, 4vw, 40px);
+
+    letter-spacing: -0.02em;
+
+    line-height: 1;
+
+    margin-bottom: 22px;
+}
+
+#about-typewriter .type-line {
+    font-size: 16px;
+
+    line-height: 1.5;
+
+    margin-bottom: 14px;
+
+    min-height: 1.5em;
+}
+
+#about-typewriter .type-line.no-gap {
+    margin-bottom: 4px;
+}
+
+
+/* =========================================================
+   PRESSE / ARTIKEL-KARTEN
+   ========================================================= */
+
+.grid-seen {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 14px;
+}
+
+.card-article {
+    position: relative;
+
+    display: block;
+
+    text-decoration: none;
+
+    color: inherit;
+
+    border: 1px solid #111;
+
+    background: #111;
+
+    overflow: hidden;
+
+    min-height: 150px;
+}
+
+.card-article .thumb {
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition:
+        transform .4s ease,
+        filter .4s ease;
+}
+
+.card-article:hover .thumb {
+    transform: scale(1.04);
+
+    filter: brightness(.75);
+}
+
+.article-overlay {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0,0,0,.85),
+            transparent 55%
+        );
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: flex-end;
+
+    padding: 14px 15px 34px;
+
+    color: white;
+
+    pointer-events: none;
+}
+
+.article-label {
+    font-size: 11px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .1em;
+
+    margin-bottom: 4px;
+}
+
+.article-meta {
+    font-size: 10px;
+
+    opacity: .75;
+}
+
+.article-label:empty,
+.article-meta:empty {
+    display: none;
+}
+
+.card-article > .play-label {
+    position: absolute;
+
+    left: 15px;
+    bottom: 13px;
+
+    color: white;
+
+    font-size: 12px;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    z-index: 4;
+}
+
+.card-article > small {
+    position: absolute;
+
+    right: 15px;
+    bottom: 13px;
+
+    color: white;
+
+    font-size: 12px;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    z-index: 4;
+}
+
+
+/* =========================================================
+   TERMINE AKKORDEON
+   ========================================================= */
+
+.sub-group {
+    border: 1px solid rgba(0,0,0,.5);
+}
+
+.sub-toggle {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    background: none;
+
+    border: none;
+
+    padding: 16px 18px;
+
+    font: inherit;
+
+    color: #111;
+
+    font-size: 13px;
+
+    letter-spacing: .15em;
+
+    text-transform: uppercase;
+
+    text-align: left;
+
+    cursor: pointer;
+}
+
+.sub-toggle .arrow {
+    display: inline-block;
+
+    font-size: 11px;
+
+    transition: transform .25s ease;
+}
+
+.sub-toggle[aria-expanded="true"] .arrow {
+    transform: rotate(90deg);
+}
+
+.sub-content {
+    border-top: 1px solid rgba(0,0,0,.5);
+
+    padding: 18px;
+}
+
+.termine-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.termin-row {
+    display: grid;
+
+    grid-template-columns: 110px 1fr auto;
+
+    gap: 12px;
+
+    align-items: baseline;
+
+    font-size: 14px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid rgba(0,0,0,.15);
+}
+
+.termin-row:last-child {
+    border-bottom: none;
+
+    padding-bottom: 0;
+}
+
+.termin-row .datum time {
+    font-weight: 700;
+}
+
+.termin-row .ort {
+    text-align: right;
+
+    opacity: .8;
+
+    font-size: 13px;
+
+    white-space: nowrap;
 }
 
 
@@ -206,7 +466,6 @@ body {
 
 .page-3 {
     background: #151515;
-
     color: white;
 }
 
@@ -241,7 +500,6 @@ body {
 
 .page-4 {
     background: #f2f2f0;
-
     color: #111;
 }
 
@@ -328,7 +586,7 @@ body {
 
 
 /* =========================================================
-   THUMBNAIL
+   YOUTUBE THUMBNAIL
    ========================================================= */
 
 .youtube-thumb {
@@ -349,7 +607,8 @@ body {
 
 
 /*
-    Leichter Zoom beim Darüberfahren
+    Hover:
+    Thumbnail zoomt leicht
 */
 
 .youtube-card:hover .youtube-thumb {
@@ -360,7 +619,7 @@ body {
 
 
 /* =========================================================
-   DUNKLER VERLAUF
+   YOUTUBE VERLAUF
    ========================================================= */
 
 .youtube-card::after {
@@ -382,7 +641,7 @@ body {
 
 
 /* =========================================================
-   PLAY BUTTON
+   PLAY SYMBOL
    ========================================================= */
 
 .youtube-play {
@@ -418,11 +677,6 @@ body {
         transform .3s ease;
 }
 
-
-/*
-    Play-Symbol wird beim Hover etwas größer
-*/
-
 .youtube-card:hover .youtube-play {
     transform:
         translate(-50%, -50%)
@@ -451,7 +705,7 @@ body {
 
 
 /* =========================================================
-   UNTERE VIDEO-INFORMATION
+   VIDEO INFO
    ========================================================= */
 
 .youtube-bottom {
@@ -481,7 +735,7 @@ body {
 
 
 /* =========================================================
-   KANAL BUTTON
+   YOUTUBE KANAL
    ========================================================= */
 
 .youtube-channel {
@@ -606,10 +860,6 @@ body {
         max-width: 600px;
     }
 
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
-
     .spotify-frame {
         height: 450px;
     }
@@ -629,6 +879,47 @@ body {
     .side-label {
         right: 10px;
     }
+
+
+    /*
+        SEITE 2 – "die andere"
+
+        Auf kleinen Bildschirmen wird
+        die ganze Kachel-Spalte auf
+        einmal gescrollt, statt drei
+        einzeln scrollende Kacheln
+        übereinander zu stapeln.
+    */
+
+    .page-2-content {
+        max-height: 88vh;
+
+        overflow-y: auto;
+    }
+
+    .andere-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .andere-tile {
+        max-height: none;
+
+        overflow-y: visible;
+    }
+
+    .grid-seen {
+        grid-template-columns: 1fr;
+    }
+
+    .termin-row {
+        grid-template-columns: 1fr;
+
+        gap: 4px;
+    }
+
+    .termin-row .ort {
+        text-align: left;
+    }
 }
 
 
@@ -636,15 +927,21 @@ body {
    YOUTUBE SCROLLBAR
    ========================================================= */
 
-.youtube-grid::-webkit-scrollbar {
+.youtube-grid::-webkit-scrollbar,
+.andere-tile::-webkit-scrollbar,
+.page-2-content::-webkit-scrollbar {
     width: 5px;
 }
 
-.youtube-grid::-webkit-scrollbar-track {
+.youtube-grid::-webkit-scrollbar-track,
+.andere-tile::-webkit-scrollbar-track,
+.page-2-content::-webkit-scrollbar-track {
     background: transparent;
 }
 
-.youtube-grid::-webkit-scrollbar-thumb {
+.youtube-grid::-webkit-scrollbar-thumb,
+.andere-tile::-webkit-scrollbar-thumb,
+.page-2-content::-webkit-scrollbar-thumb {
     background: #111;
 }
 
@@ -670,16 +967,7 @@ body {
             gespalten
         </h1>
 
-
         <div class="page-1-video">
-
-            <!--
-                KEIN AUTOPLAY
-
-                controls =
-                Play / Pause / Lautstärke /
-                Fortschritt / Vollbild
-            -->
 
             <video
                 controls
@@ -692,15 +980,13 @@ body {
                     type="video/mp4"
                 >
 
-                Dein Browser unterstützt
-                dieses Video nicht.
+                Dein Browser unterstützt dieses Video nicht.
 
             </video>
 
         </div>
 
     </div>
-
 
     <div class="side-label">
         die andere seite
@@ -725,57 +1011,213 @@ body {
             die andere
         </h2>
 
+        <div class="andere-grid">
 
-        <div class="info-grid">
+            <!-- KACHEL 01 – ÜBER MICH -->
 
+            <div class="andere-tile tile-about">
 
-            <div class="info-card">
-
-                <span>
-                    01 / blick
+                <span class="tile-label">
+                    01 / über mich
                 </span>
 
-                <p>
-                    Was passiert, wenn sich eine Seite
-                    öffnet und gleichzeitig eine andere
-                    verschwindet?
-                </p>
+                <h1 class="about-emoji">
+                    ( ◡́.◡̀)(^◡^ )
+                </h1>
+
+                <div id="about-typewriter">
+                    <p class="no-gap type-line" data-full="hallo ich bin bennet, 20 jahre und künstler (oder so) aus st. gallen."></p>
+                    <p class="type-line" data-full="++ich gib ratschläge, die ich eigentlich selber bräuchte."></p>
+                    <p class="type-line" data-full="irgendjemandem wirds schon helfen so yk. :p"></p>
+                    <p class="type-line" data-full="liebe grüsse &lt;333³³33³"></p>
+                </div>
 
             </div>
 
 
-            <div class="info-card">
+            <!-- KACHEL 02 – PRESSE -->
 
-                <span>
-                    02 / perspektive
+            <div class="andere-tile tile-press">
+
+                <span class="tile-label">
+                    02 / presse
                 </span>
 
-                <p>
-                    Zwischen dem Sichtbaren und dem,
-                    was dahinter liegt.
-                </p>
+                <div class="grid-seen">
+
+                    <a
+                        class="card card-article"
+                        id="article1"
+                        href="https://musikfestwochen.ch/acts/b3nn3t/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="51.WINTERTHURER MUSIKWOCHEN"
+                    >
+
+                        <img
+                            class="thumb"
+                            src="assets/gesehen/reel-winti.avif"
+                            alt="51.WINTERTHURER MUSIKWOCHEN"
+                            width="960"
+                            height="540"
+                            loading="lazy"
+                            decoding="async"
+                            sizes="(max-width: 820px) 100vw, 350px"
+                        >
+
+                        <div class="article-overlay">
+                            <span class="article-label"></span>
+                            <small class="article-meta"></small>
+                        </div>
+
+                        <span class="play-label">
+                            b3nn3t
+                        </span>
+
+                        <small>
+                            51.WINTERTHURER MUSIKWOCHEN
+                        </small>
+
+                    </a>
+
+
+                    <a
+                        class="card card-article"
+                        id="article2"
+                        href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leeremelancholie-und-moderner-indie-aesthetik/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label="Artikel - Frontstage"
+                    >
+
+                        <img
+                            class="thumb"
+                            src="assets/gesehen/reel8.avif"
+                            alt="Artikel Frontstage"
+                            width="960"
+                            height="540"
+                            loading="lazy"
+                            decoding="async"
+                            sizes="(max-width: 820px) 100vw, 350px"
+                        >
+
+                        <div class="article-overlay">
+                            <span class="article-label">
+                                Artikel - Frontstage
+                            </span>
+                            <small class="article-meta">
+                                Magazine - April 2026
+                            </small>
+                        </div>
+
+                        <span class="play-label">
+                            → zum Artikel ←
+                        </span>
+
+                        <small>
+                            Presse
+                        </small>
+
+                    </a>
+
+                </div>
 
             </div>
 
 
-            <div class="info-card">
+            <!-- KACHEL 03 – TERMINE -->
 
-                <span>
-                    03 / bewegung
+            <div class="andere-tile tile-termine">
+
+                <span class="tile-label">
+                    03 / termine
                 </span>
 
-                <p>
-                    Eine Seite endet nicht.
-                    Sie wird zur nächsten.
-                </p>
+                <div class="sub-group" id="acc-termine">
+
+                    <button
+                        class="sub-toggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="termine-content"
+                    >
+                        <span class="arrow" aria-hidden="true">►</span>
+                        <span>termine anzeigen</span>
+                    </button>
+
+                    <div class="sub-content" id="termine-content" hidden>
+
+                        <div class="termine-responsive">
+
+                            <div class="termine-list" role="table" aria-label="Termine">
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                                    <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
+                                    <div class="ort" role="cell">frauenfeld · 17:15 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2025 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 20:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 20:30 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
+                                    <div class="ort" role="cell">wien · 20:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
+                                    <div class="ort" role="cell">rüti · 18:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
+                                    <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 19:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-06-26">26.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· OYA! OPEN AIR FESTIVAL (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 19:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-08-08">08.08.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
+                                    <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
-
 
         </div>
 
     </div>
-
 
     <div class="side-label">
         neu gedacht
@@ -800,7 +1242,6 @@ body {
             spotify
         </h2>
 
-
         <iframe
             class="spotify-frame"
             src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
@@ -815,7 +1256,6 @@ body {
         ></iframe>
 
     </div>
-
 
     <div class="side-label">
         hören
@@ -836,7 +1276,6 @@ body {
 
     <div class="page-4-content">
 
-
         <div class="youtube-heading">
 
             <h2>
@@ -850,16 +1289,14 @@ body {
         </div>
 
 
-
         <div class="youtube-grid">
 
 
-            <!-- =================================================
-                 VIDEO 01 – NEUESTES
-                 ================================================= -->
+            <!-- VIDEO 08 -->
 
             <a
                 class="youtube-card"
+                id="yt8"
                 href="https://youtu.be/G_qXoHHa3rg"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -867,293 +1304,44 @@ body {
 
                 <img
                     class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/G_qXoHHa3rg/maxresdefault.jpg"
-                    alt="b3nn3t YouTube Video 01"
-                    loading="lazy"
+                    src="assets/gesehen/reel8.avif"
+                    alt="b3nn3t YouTube Video 08"
+                    width="960"
+                    height="540"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    data-fallback-id="G_qXoHHa3rg"
+                    sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
+                        this.onerror = null;
                         this.src =
-                        'https://i.ytimg.com/vi/G_qXoHHa3rg/hqdefault.jpg'
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
                     "
                 >
 
-
                 <span class="youtube-number">
-                    01
+                    08
                 </span>
-
 
                 <span class="youtube-play">
                     ▶
                 </span>
 
-
                 <span class="youtube-bottom">
-
-                    <span>
-                        neu
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
+                    <span>neu</span>
+                    <span>↗</span>
                 </span>
 
             </a>
 
 
 
-            <!-- =================================================
-                 VIDEO 02
-                 ================================================= -->
+            <!-- VIDEO 07 -->
 
             <a
                 class="youtube-card"
-                href="https://youtu.be/ZSaj_FuqPN8"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/ZSaj_FuqPN8/maxresdefault.jpg"
-                    alt="b3nn3t YouTube Video 02"
-                    loading="lazy"
-                    onerror="
-                        this.src =
-                        'https://i.ytimg.com/vi/ZSaj_FuqPN8/hqdefault.jpg'
-                    "
-                >
-
-
-                <span class="youtube-number">
-                    02
-                </span>
-
-
-                <span class="youtube-play">
-                    ▶
-                </span>
-
-
-                <span class="youtube-bottom">
-
-                    <span>
-                        video
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
-                </span>
-
-            </a>
-
-
-
-            <!-- =================================================
-                 VIDEO 03
-                 ================================================= -->
-
-            <a
-                class="youtube-card"
-                href="https://youtu.be/DMNl40Tip1w"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/DMNl40Tip1w/maxresdefault.jpg"
-                    alt="b3nn3t YouTube Video 03"
-                    loading="lazy"
-                    onerror="
-                        this.src =
-                        'https://i.ytimg.com/vi/DMNl40Tip1w/hqdefault.jpg'
-                    "
-                >
-
-
-                <span class="youtube-number">
-                    03
-                </span>
-
-
-                <span class="youtube-play">
-                    ▶
-                </span>
-
-
-                <span class="youtube-bottom">
-
-                    <span>
-                        video
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
-                </span>
-
-            </a>
-
-
-
-            <!-- =================================================
-                 VIDEO 04
-                 ================================================= -->
-
-            <a
-                class="youtube-card"
-                href="https://youtu.be/K5pKG0Smdfc"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/K5pKG0Smdfc/maxresdefault.jpg"
-                    alt="b3nn3t YouTube Video 04"
-                    loading="lazy"
-                    onerror="
-                        this.src =
-                        'https://i.ytimg.com/vi/K5pKG0Smdfc/hqdefault.jpg'
-                    "
-                >
-
-
-                <span class="youtube-number">
-                    04
-                </span>
-
-
-                <span class="youtube-play">
-                    ▶
-                </span>
-
-
-                <span class="youtube-bottom">
-
-                    <span>
-                        video
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
-                </span>
-
-            </a>
-
-
-
-            <!-- =================================================
-                 VIDEO 05
-                 ================================================= -->
-
-            <a
-                class="youtube-card"
-                href="https://youtu.be/w0pNdnlb96M"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/w0pNdnlb96M/maxresdefault.jpg"
-                    alt="b3nn3t YouTube Video 05"
-                    loading="lazy"
-                    onerror="
-                        this.src =
-                        'https://i.ytimg.com/vi/w0pNdnlb96M/hqdefault.jpg'
-                    "
-                >
-
-
-                <span class="youtube-number">
-                    05
-                </span>
-
-
-                <span class="youtube-play">
-                    ▶
-                </span>
-
-
-                <span class="youtube-bottom">
-
-                    <span>
-                        video
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
-                </span>
-
-            </a>
-
-
-
-            <!-- =================================================
-                 VIDEO 06
-                 ================================================= -->
-
-            <a
-                class="youtube-card"
-                href="https://youtu.be/rV1U891RKLo"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/rV1U891RKLo/maxresdefault.jpg"
-                    alt="b3nn3t YouTube Video 06"
-                    loading="lazy"
-                    onerror="
-                        this.src =
-                        'https://i.ytimg.com/vi/rV1U891RKLo/hqdefault.jpg'
-                    "
-                >
-
-
-                <span class="youtube-number">
-                    06
-                </span>
-
-
-                <span class="youtube-play">
-                    ▶
-                </span>
-
-
-                <span class="youtube-bottom">
-
-                    <span>
-                        video
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
-                </span>
-
-            </a>
-
-
-
-            <!-- =================================================
-                 VIDEO 07 – ÄLTESTES
-                 ================================================= -->
-
-            <a
-                class="youtube-card"
+                id="yt7"
                 href="https://youtu.be/fq8zhAQMam0"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -1161,48 +1349,303 @@ body {
 
                 <img
                     class="youtube-thumb"
-                    src="https://i.ytimg.com/vi/fq8zhAQMam0/maxresdefault.jpg"
+                    src="assets/gesehen/reel7.avif"
                     alt="b3nn3t YouTube Video 07"
-                    loading="lazy"
+                    width="960"
+                    height="540"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    data-fallback-id="fq8zhAQMam0"
+                    sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
+                        this.onerror = null;
                         this.src =
-                        'https://i.ytimg.com/vi/fq8zhAQMam0/hqdefault.jpg'
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
                     "
                 >
-
 
                 <span class="youtube-number">
                     07
                 </span>
 
-
                 <span class="youtube-play">
                     ▶
                 </span>
 
-
                 <span class="youtube-bottom">
-
-                    <span>
-                        älter
-                    </span>
-
-                    <span>
-                        ↗
-                    </span>
-
+                    <span>video</span>
+                    <span>↗</span>
                 </span>
 
             </a>
 
 
+
+            <!-- VIDEO 06 -->
+
+            <a
+                class="youtube-card"
+                id="yt6"
+                href="https://youtu.be/rV1U891RKLo"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel6.avif"
+                    alt="b3nn3t YouTube Video 06"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="rV1U891RKLo"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    06
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
+
+            </a>
+
+
+
+            <!-- VIDEO 05 -->
+
+            <a
+                class="youtube-card"
+                id="yt5"
+                href="https://youtu.be/w0pNdnlb96M"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel5.avif"
+                    alt="b3nn3t YouTube Video 05"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="w0pNdnlb96M"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    05
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
+
+            </a>
+
+
+
+            <!-- VIDEO 04 -->
+
+            <a
+                class="youtube-card"
+                id="yt4"
+                href="https://youtu.be/4I9vlcGvFGQ"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel4.avif"
+                    alt="b3nn3t YouTube Video 04"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="4I9vlcGvFGQ"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    04
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
+
+            </a>
+
+
+
+            <!-- VIDEO 03 -->
+
+            <a
+                class="youtube-card"
+                id="yt3"
+                href="https://youtu.be/K5pKG0Smdfc"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel3.avif"
+                    alt="b3nn3t YouTube Video 03"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="K5pKG0Smdfc"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    03
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
+
+            </a>
+
+
+
+            <!-- VIDEO 02 -->
+
+            <a
+                class="youtube-card"
+                id="yt2"
+                href="https://youtu.be/DMNl40Tip1w"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel2.avif"
+                    alt="b3nn3t YouTube Video 02"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="DMNl40Tip1w"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    02
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>↗</span>
+                </span>
+
+            </a>
+
+
+
+            <!-- VIDEO 01 -->
+
+            <a
+                class="youtube-card"
+                id="yt1"
+                href="https://youtu.be/ZSaj_FuqPN8"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel1.avif"
+                    alt="b3nn3t YouTube Video 01"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="ZSaj_FuqPN8"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    01
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>älter</span>
+                    <span>↗</span>
+                </span>
+
+            </a>
+
         </div>
 
-
-
-        <!-- =================================================
-             YOUTUBE KANAL
-             ================================================= -->
 
         <a
             class="youtube-channel"
@@ -1212,7 +1655,6 @@ body {
         >
             kanal ansehen →
         </a>
-
 
     </div>
 
@@ -1243,22 +1685,12 @@ body {
 
         <div class="soundcloud-box">
 
-
-            <!--
-                B3NN3T SOUNDCLOUD PROFIL
-
-                Autoplay ist ausdrücklich deaktiviert.
-                Der Player zeigt das Profil / die Tracks
-                direkt innerhalb des Fensters.
-            -->
-
             <iframe
                 scrolling="no"
                 frameborder="no"
                 allow="autoplay"
                 src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
             ></iframe>
-
 
         </div>
 
@@ -1286,18 +1718,18 @@ body {
 <script>
 
 /* =========================================================
-   SPLIT / ZIPPER NAVIGATION
+   GESPALTEN
+   BIDIREKTIONALE NAVIGATION
    ========================================================= */
 
 
 /*
-    Alle fünf Seiten
+    Alle Seiten
 */
 
-const pages =
-    Array.from(
-        document.querySelectorAll(".page")
-    );
+const pages = Array.from(
+    document.querySelectorAll(".page")
+);
 
 
 /*
@@ -1314,9 +1746,9 @@ let currentPage = 0;
 
 
 /*
-    Öffnungszustand
+    Fortschritt des Spalts
 
-    0 = komplett geschlossen
+    0 = geschlossen
     1 = komplett geöffnet
 */
 
@@ -1324,38 +1756,63 @@ let progress = 0;
 
 
 /*
-    Bewegungsrichtung
+    Richtung
 
-     1 = nach unten / vorwärts
-
-    -1 = nach oben / rückwärts
+     1 = nach unten
+    -1 = nach oben
 */
 
 let direction = 1;
 
 
 /*
-    Sperre gegen extrem schnelle
-    Mehrfachwechsel
+    Animation läuft gerade
 */
 
 let animating = false;
 
 
 /*
-    Wie viel Scrollbewegung benötigt wird,
-    um den Spalt komplett zu öffnen.
+    Scrollgeschwindigkeit
 */
 
 const OPEN_DISTANCE = 900;
 
 
 /* =========================================================
-   SEITEN VORBEREITEN
+   ZIELSEITE
+
+   Die Zielseite hängt von der aktuell
+   laufenden Geste ("direction") ab:
+
+    1 = vorwärts / abwärts  -> nächste Seite
+   -1 = rückwärts / aufwärts -> vorherige Seite
    ========================================================= */
 
-function preparePages() {
+function getTargetPage(dir) {
 
+    if (dir === 1) {
+
+        return (
+            (currentPage + 1) %
+            pages.length
+        );
+
+    }
+
+    return (
+        (currentPage - 1 + pages.length) %
+        pages.length
+    );
+
+}
+
+
+/* =========================================================
+   SEITEN-EBENEN AUFBAUEN
+   ========================================================= */
+
+function setupLayers(dir) {
 
     pages.forEach((page) => {
 
@@ -1369,7 +1826,7 @@ function preparePages() {
 
 
     /*
-        Aktuelle Seite oben
+        Aktuelle Seite liegt oben.
     */
 
     pages[currentPage]
@@ -1377,146 +1834,130 @@ function preparePages() {
 
 
     /*
-        Die Zielseite liegt darunter.
-
-        Dadurch wird sie sichtbar,
-        sobald die aktuelle Seite
-        in der Mitte geöffnet wird.
+        Zielseite liegt darunter.
     */
 
-    const targetPage =
-        getTargetPage();
-
-
-    pages[targetPage]
+    pages[getTargetPage(dir)]
         .classList.add("behind");
-
-
-    updateMask();
-
-}
-
-
-/* =========================================================
-   ZIELSEITE BERECHNEN
-   ========================================================= */
-
-function getTargetPage() {
-
-
-    if (direction === 1) {
-
-        /*
-            Vorwärts
-
-            0 → 1
-            1 → 2
-            2 → 3
-            3 → 4
-            4 → 0
-        */
-
-        return (
-            (currentPage + 1) %
-            pages.length
-        );
-
-    }
-
-
-    /*
-        Rückwärts
-
-        0 → 4
-        4 → 3
-        3 → 2
-        2 → 1
-        1 → 0
-    */
-
-    return (
-        (currentPage - 1 + pages.length) %
-        pages.length
-    );
 
 }
 
 
 /* =========================================================
    MASKE
+
+   Es gibt zwei Maskenformen, je nach
+   Richtung der aktiven Geste:
+
+   1) VORWÄRTS (direction === 1):
+      Ein Spalt öffnet sich in der Mitte
+      und wächst nach außen. Die aktuelle
+      Seite verschwindet von innen nach
+      außen, die nächste Seite kommt zum
+      Vorschein.
+
+   2) RÜCKWÄRTS (direction === -1):
+      Genau umgekehrt: Die aktuelle Seite
+      verschwindet von außen nach innen
+      (die Ränder werden zuerst transparent),
+      die vorherige Seite kommt von außen
+      nach innen zum Vorschein.
    ========================================================= */
 
 function updateMask() {
 
-
-    const page =
+    const current =
         pages[currentPage];
 
 
-    if (!page) return;
+    if (!current) {
+        return;
+    }
 
 
-    /*
-        Maximale Öffnung bis fast an
-        den linken und rechten Rand.
-    */
+    if (direction === 1) {
 
-    const maxOpening =
-        (window.innerWidth / 2) - 1;
+        /*
+            VORWÄRTS: Spalt wächst
+            von der Mitte nach außen.
+        */
 
-
-    const opening =
-        Math.max(
-            0,
-            progress * maxOpening
-        );
+        const maxOpening =
+            (window.innerWidth / 2) - 1;
 
 
-    /*
-        Umrechnung in Prozent
-    */
-
-    const openingPercent =
-        (
-            opening /
-            window.innerWidth
-        ) * 100;
+        const opening =
+            progress * maxOpening;
 
 
-    const left =
-        50 - openingPercent;
+        const openingPercent =
+            (
+                opening /
+                window.innerWidth
+            ) * 100;
 
 
-    const right =
-        50 + openingPercent;
+        const left =
+            50 - openingPercent;
 
 
-    /*
-        Die aktuelle Seite wird
-        in der Mitte transparent.
-
-        Dadurch wird die Zielseite
-        darunter sichtbar.
-
-        Das funktioniert sowohl
-        vorwärts als auch rückwärts.
-    */
-
-    const mask =
-        `linear-gradient(
-            to right,
-            black 0%,
-            black ${left}%,
-            transparent ${left}%,
-            transparent ${right}%,
-            black ${right}%,
-            black 100%
-        )`;
+        const right =
+            50 + openingPercent;
 
 
-    page.style.webkitMaskImage = mask;
+        const mask =
+            `linear-gradient(
+                to right,
+                black 0%,
+                black ${left}%,
+                transparent ${left}%,
+                transparent ${right}%,
+                black ${right}%,
+                black 100%
+            )`;
 
-    page.style.maskImage = mask;
+
+        current.style.webkitMaskImage = mask;
+
+        current.style.maskImage = mask;
+
+    } else {
+
+        /*
+            RÜCKWÄRTS: die Seite löst
+            sich von den Rändern her auf,
+            die Auflösung wandert nach innen.
+        */
+
+        const edge =
+            progress * 50;
+
+
+        const innerLeft =
+            edge;
+
+
+        const innerRight =
+            100 - edge;
+
+
+        const mask =
+            `linear-gradient(
+                to right,
+                transparent 0%,
+                transparent ${innerLeft}%,
+                black ${innerLeft}%,
+                black ${innerRight}%,
+                transparent ${innerRight}%,
+                transparent 100%
+            )`;
+
+
+        current.style.webkitMaskImage = mask;
+
+        current.style.maskImage = mask;
+
+    }
 
 }
 
@@ -1525,111 +1966,323 @@ function updateMask() {
    SEITENWECHSEL
    ========================================================= */
 
-function switchPage() {
-
+function changePage() {
 
     /*
-        Zielseite ist abhängig von
-        der aktuellen Richtung.
+        Die Richtung entscheidet,
+        welche Seite als nächstes kommt.
     */
 
     currentPage =
-        getTargetPage();
+        getTargetPage(direction);
 
 
     /*
-        Nach dem Seitenwechsel
-        ist die neue Seite zunächst
-        wieder komplett geschlossen.
+        Neuer Zustand:
+
+        Die neue Seite ist komplett sichtbar.
     */
 
     progress = 0;
 
 
-    preparePages();
+    /*
+        Seite 2 ("die andere") zeigt beim
+        ersten Erscheinen den Typewriter-Text.
+    */
+
+    if (currentPage === 1) {
+
+        startAboutTypewriter();
+
+    }
+
+
+    /*
+        Ebenen neu sortieren
+        (Ziel für die nächste Geste ist
+        noch unbekannt, wird beim nächsten
+        Scroll neu bestimmt).
+    */
+
+    setupLayers(direction);
+
+
+    /*
+        Maske zurücksetzen.
+    */
+
+    pages[currentPage]
+        .style.webkitMaskImage = "none";
+
+    pages[currentPage]
+        .style.maskImage = "none";
+
+}
+
+
+/* =========================================================
+   SEITE 2 – TYPEWRITER "ÜBER MICH"
+
+   Tippt die Zeilen in #about-typewriter
+   nacheinander Zeichen für Zeichen,
+   sobald die Seite zum ersten Mal
+   sichtbar wird.
+   ========================================================= */
+
+let aboutTypewriterStarted = false;
+
+function startAboutTypewriter() {
+
+    if (aboutTypewriterStarted) {
+        return;
+    }
+
+
+    const container =
+        document.getElementById("about-typewriter");
+
+
+    if (!container) {
+        return;
+    }
+
+
+    aboutTypewriterStarted = true;
+
+
+    const lines =
+        Array.from(
+            container.querySelectorAll(".type-line")
+        );
+
+
+    const CHAR_SPEED = 26;
+
+    const LINE_PAUSE = 350;
+
+
+    function typeLine(line, onDone) {
+
+        const text =
+            line.getAttribute("data-full") || "";
+
+        let i = 0;
+
+        line.textContent = "";
+
+
+        (function step() {
+
+            if (i <= text.length) {
+
+                line.textContent =
+                    text.slice(0, i);
+
+                i++;
+
+                setTimeout(step, CHAR_SPEED);
+
+            } else if (onDone) {
+
+                onDone();
+
+            }
+
+        })();
+
+    }
+
+
+    function typeNext(index) {
+
+        if (index >= lines.length) {
+            return;
+        }
+
+        typeLine(
+            lines[index],
+            () =>
+                setTimeout(
+                    () => typeNext(index + 1),
+                    LINE_PAUSE
+                )
+        );
+
+    }
+
+
+    typeNext(0);
+
+}
+
+
+/* =========================================================
+   SEITE 2 – TERMINE AKKORDEON
+   ========================================================= */
+
+document.querySelectorAll(".sub-toggle").forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const expanded =
+            button.getAttribute("aria-expanded") === "true";
+
+        const content =
+            document.getElementById(
+                button.getAttribute("aria-controls")
+            );
+
+        button.setAttribute(
+            "aria-expanded",
+            String(!expanded)
+        );
+
+
+        if (content) {
+            content.hidden = expanded;
+        }
+
+
+        const arrow =
+            button.querySelector(".arrow");
+
+        if (arrow) {
+
+            arrow.textContent =
+                expanded ? "►" : "▼";
+
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   INNERES SCROLLEN ERKENNEN
+
+   Manche Kacheln (Termine, YouTube-Grid, ...)
+   haben eigenen Inhalt zum Scrollen. Befindet
+   sich der Mauszeiger über so einem Bereich
+   und ist dort noch Scrollraum in die gewünschte
+   Richtung vorhanden, soll normal gescrollt
+   werden statt die Seite umzublättern.
+   ========================================================= */
+
+function findScrollableAncestor(element) {
+
+    let el = element;
+
+    while (el && el !== document.body) {
+
+        const style =
+            window.getComputedStyle(el);
+
+        const canScrollY =
+            (style.overflowY === "auto" ||
+                style.overflowY === "scroll") &&
+            el.scrollHeight > el.clientHeight;
+
+        if (canScrollY) {
+            return el;
+        }
+
+        el = el.parentElement;
+
+    }
+
+    return null;
 
 }
 
 
 /* =========================================================
    SCROLL
+
+   Kernidee:
+
+   - Solange progress === 0 ist (kein
+     Spalt offen), startet jeder Scroll
+     eine NEUE Geste in genau der Richtung,
+     in die gerade gescrollt wird.
+
+   - Läuft bereits eine Geste (progress > 0)
+     und wird in dieselbe Richtung weiter-
+     gescrollt, wächst der Spalt (progress
+     steigt).
+
+   - Läuft bereits eine Geste und wird in
+     die ENTGEGENGESETZTE Richtung gescrollt,
+     schließt sich der Spalt wieder
+     (progress sinkt) - die Seite bleibt
+     dieselbe. Erst wenn progress bei 0
+     ankommt, kann eine neue Geste in der
+     neuen Richtung beginnen.
    ========================================================= */
 
 function handleScroll(delta) {
 
-
-    if (delta === 0) {
+    if (delta === 0 || animating) {
         return;
     }
 
 
-    /*
-        Scrollrichtung erkennen
+    const rawDirection =
+        delta > 0 ? 1 : -1;
 
-        delta > 0 = nach unten
-        delta < 0 = nach oben
-    */
-
-    if (delta > 0) {
-
-        direction = 1;
-
-    } else {
-
-        direction = -1;
-
-    }
-
-
-    /*
-        Zielseite direkt unter
-        der aktuellen Seite vorbereiten.
-
-        Wichtig:
-        Das passiert auch beim
-        Richtungswechsel.
-    */
-
-    const targetPage =
-        getTargetPage();
-
-
-    pages.forEach((page) => {
-
-        page.classList.remove("behind");
-
-    });
-
-
-    pages[targetPage]
-        .classList.add("behind");
-
-
-    /*
-        Scrollstärke in Öffnung umwandeln
-    */
 
     const movement =
         Math.abs(delta) /
         OPEN_DISTANCE;
 
 
-    progress += movement;
+    if (progress === 0) {
 
+        /*
+            Keine Geste aktiv:
+            neue Geste in Scrollrichtung
+            starten.
+        */
 
-    progress =
-        Math.min(
-            1,
-            progress
-        );
+        direction =
+            rawDirection;
+
+        setupLayers(direction);
+
+        progress =
+            Math.min(1, movement);
+
+    } else if (rawDirection === direction) {
+
+        /*
+            Gleiche Richtung:
+            Spalt weiter öffnen.
+        */
+
+        progress =
+            Math.min(1, progress + movement);
+
+    } else {
+
+        /*
+            Entgegengesetzte Richtung:
+            Spalt wieder schließen.
+        */
+
+        progress =
+            Math.max(0, progress - movement);
+
+    }
 
 
     updateMask();
 
 
     /*
-        Vollständig geöffnet:
-        Seite wechseln.
+        =====================================================
+        VOLLSTÄNDIG GEÖFFNET
+        =====================================================
     */
 
     if (
@@ -1642,7 +2295,7 @@ function handleScroll(delta) {
 
         setTimeout(() => {
 
-            switchPage();
+            changePage();
 
             animating = false;
 
@@ -1661,13 +2314,42 @@ window.addEventListener(
     "wheel",
     (event) => {
 
-        /*
-            Normales Scrollen der Seite
-            verhindern.
+        const scrollable =
+            findScrollableAncestor(event.target);
 
-            Das gesamte Fenster wird
-            von unserer Navigation gesteuert.
-        */
+
+        if (scrollable) {
+
+            const atTop =
+                scrollable.scrollTop <= 0;
+
+            const atBottom =
+                Math.ceil(
+                    scrollable.scrollTop +
+                    scrollable.clientHeight
+                ) >= scrollable.scrollHeight;
+
+            const scrollingDown =
+                event.deltaY > 0;
+
+
+            /*
+                Noch Platz in die gewünschte
+                Richtung: normal scrollen lassen,
+                Seiten-Navigation nicht auslösen.
+            */
+
+            if (
+                (scrollingDown && !atBottom) ||
+                (!scrollingDown && !atTop)
+            ) {
+
+                return;
+
+            }
+
+        }
+
 
         event.preventDefault();
 
@@ -1704,7 +2386,6 @@ window.addEventListener(
 
             event.preventDefault();
 
-
             handleScroll(100);
 
         }
@@ -1720,7 +2401,6 @@ window.addEventListener(
         ) {
 
             event.preventDefault();
-
 
             handleScroll(-100);
 
@@ -1755,7 +2435,6 @@ window.addEventListener(
     "touchend",
     (event) => {
 
-
         const touchEndY =
             event.changedTouches[0].clientY;
 
@@ -1765,20 +2444,18 @@ window.addEventListener(
             touchEndY;
 
 
-        /*
-            Kleine Bewegungen ignorieren
-        */
-
         if (
             Math.abs(difference) <= 30
         ) {
+
             return;
+
         }
 
 
         /*
-            Finger nach oben:
-            Seite nach unten
+            Finger nach oben
+            = nach unten navigieren
         */
 
         if (difference > 0) {
@@ -1791,8 +2468,8 @@ window.addEventListener(
 
 
         /*
-            Finger nach unten:
-            Seite nach oben
+            Finger nach unten
+            = nach oben navigieren
         */
 
         else {
@@ -1811,7 +2488,7 @@ window.addEventListener(
 
 
 /* =========================================================
-   FENSTERGRÖSSE
+   RESIZE
    ========================================================= */
 
 window.addEventListener(
@@ -1821,12 +2498,15 @@ window.addEventListener(
 
 
 /* =========================================================
-   START
+   INITIALISIERUNG
    ========================================================= */
 
-preparePages();
+setupLayers(direction);
+
+updateMask();
 
 </script>
 
 </body>
 </html>
+
