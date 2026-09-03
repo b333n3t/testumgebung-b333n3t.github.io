@@ -3,80 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>b3nn3t – gespalten</title>
+<title>gespalten</title>
 
 <style>
-
-/* =========================================================
-   GRUNDLAGEN
-========================================================= */
-
-:root {
-    --blue-dark: #061523;
-    --blue: #0b2438;
-    --blue-end: #091c2c;
-
-    --olive-dark: #323718;
-    --olive: #4a5027;
-    --olive-end: #343919;
-
-    --thread: #c47725;
-    --thread-light: #e09a3b;
-
-    --white: #f1f0e7;
-
-    --offwhite: #ece9df;
-    --black: #101010;
-    --beige: #d8ccb0;
-}
-
 * {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
 }
 
-html {
-    scroll-behavior: auto;
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #111;
 }
 
 body {
-    overflow-x: hidden;
-    background: var(--blue-dark);
-    color: var(--white);
-    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
 }
-
-button,
-a {
-    font-family: inherit;
-}
-
 
 /* =========================================================
-   BURGER MENÜ
-========================================================= */
+   BURGER MENU
+   ========================================================= */
 
-.burger-button {
+#menuButton {
     position: fixed;
     top: 18px;
     right: 18px;
-
     width: 48px;
     height: 48px;
-
-    z-index: 5000;
-
-    border: 1px solid rgba(255,255,255,0.35);
+    border: 0;
     border-radius: 50%;
-
-    background: rgba(10,15,18,0.72);
-
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-
+    background: rgba(255,255,255,0.92);
     cursor: pointer;
+    z-index: 5000;
 
     display: flex;
     flex-direction: column;
@@ -84,129 +47,99 @@ a {
     justify-content: center;
     gap: 5px;
 
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.18);
 }
 
-.burger-button:hover {
-    background: rgba(10,15,18,0.92);
-    transform: scale(1.05);
-}
-
-.burger-button span {
-    display: block;
-
-    width: 20px;
+#menuButton span {
+    width: 21px;
     height: 2px;
-
-    background: #f1f0e7;
-
-    transition:
-        transform 0.25s ease,
-        opacity 0.25s ease;
+    background: #111;
+    display: block;
+    transition: transform .2s ease, opacity .2s ease;
 }
 
-.burger-button.open span:nth-child(1) {
+#menuButton.active span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
 }
 
-.burger-button.open span:nth-child(2) {
+#menuButton.active span:nth-child(2) {
     opacity: 0;
 }
 
-.burger-button.open span:nth-child(3) {
+#menuButton.active span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
 }
 
-
-.burger-menu {
+#menu {
     position: fixed;
-
-    top: 76px;
+    top: 18px;
     right: 18px;
+    width: min(320px, calc(100vw - 36px));
+    padding: 78px 20px 20px;
 
-    z-index: 4999;
+    background: rgba(15,15,15,0.96);
+    border-radius: 22px;
 
-    width: min(280px, calc(100vw - 36px));
+    z-index: 4900;
 
-    padding: 12px;
-
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 16px;
-
-    background: rgba(12,16,17,0.94);
-
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-
-    box-shadow:
-        0 20px 60px rgba(0,0,0,0.35);
-
+    transform: translateY(-20px);
     opacity: 0;
-    visibility: hidden;
-
-    transform:
-        translateY(-10px)
-        scale(0.97);
-
-    transform-origin: top right;
+    pointer-events: none;
 
     transition:
-        opacity 0.2s ease,
-        visibility 0.2s ease,
-        transform 0.2s ease;
+        opacity .22s ease,
+        transform .22s ease;
 }
 
-.burger-menu.open {
+#menu.open {
     opacity: 1;
-    visibility: visible;
-
-    transform:
-        translateY(0)
-        scale(1);
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
-.burger-menu-title {
-    padding: 8px 10px 12px;
-
-    color: var(--thread-light);
-
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
+.menu-title {
+    color: white;
+    font-size: 12px;
+    letter-spacing: .15em;
     text-transform: uppercase;
+    margin-bottom: 14px;
 }
 
-.burger-menu button {
+.menu-item {
     width: 100%;
+    padding: 13px 4px;
 
-    padding: 12px 10px;
-
+    background: none;
     border: 0;
-    border-radius: 8px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
 
-    background: transparent;
-
-    color: var(--white);
-
+    color: white;
     text-align: left;
+    font-size: 18px;
 
     cursor: pointer;
-
-    transition:
-        background 0.18s ease,
-        padding-left 0.18s ease;
 }
 
-.burger-menu button:hover {
-    background: rgba(255,255,255,0.08);
-    padding-left: 16px;
+.menu-item:last-child {
+    border-bottom: 0;
+}
+
+.menu-item:hover {
+    opacity: .65;
 }
 
 
 /* =========================================================
-   SEITEN
-========================================================= */
+   PAGE LAYERS
+   ========================================================= */
+
+#pages {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
 
 .page {
     position: absolute;
@@ -218,909 +151,524 @@ a {
     overflow: hidden;
 }
 
-.page-content {
-    position: relative;
-    z-index: 2;
-
+.page-inner {
     width: 100%;
     height: 100%;
 }
 
 
 /* =========================================================
-   SEITE 1 – BLAU
-========================================================= */
+   PAGE 1
+   ========================================================= */
 
 .page-1 {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(50,100,135,0.20),
-            transparent 55%
-        ),
-        linear-gradient(
-            115deg,
-            var(--blue-dark),
-            var(--blue) 50%,
-            var(--blue-end)
-        );
-}
-
-.page-1::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    opacity: 0.2;
-
-    pointer-events: none;
-
-    background-image:
-        repeating-linear-gradient(
-            115deg,
-            rgba(255,255,255,0.035) 0px,
-            rgba(255,255,255,0.035) 1px,
-            transparent 1px,
-            transparent 3px
-        ),
-        repeating-linear-gradient(
-            25deg,
-            rgba(0,0,0,0.09) 0px,
-            rgba(0,0,0,0.09) 1px,
-            transparent 1px,
-            transparent 4px
-        );
-}
-
-.page-1-inner {
-    position: absolute;
-
-    left: 7vw;
-    right: 7vw;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 8vw;
-
-    align-items: center;
-}
-
-.page-1-left {
-    text-align: left;
-}
-
-.page-1-right {
-    text-align: right;
-}
-
-.kicker {
-    color: var(--thread-light);
-
-    font-size: 0.85rem;
-    font-weight: bold;
-
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-
-    margin-bottom: 18px;
-}
-
-.main-title {
-    color: var(--white);
-
-    font-size: clamp(4rem, 9vw, 9rem);
-
-    line-height: 0.8;
-
-    letter-spacing: -0.07em;
-
-    margin-bottom: 25px;
-}
-
-.subtitle {
-    color: #d2b98d;
-
-    font-size: clamp(1rem, 1.6vw, 1.3rem);
-
-    line-height: 1.6;
-}
-
-.page-1-right h2 {
-    color: var(--white);
-
-    font-size: clamp(3rem, 6vw, 6rem);
-
-    line-height: 0.85;
-
-    letter-spacing: -0.06em;
-
-    margin-bottom: 25px;
-}
-
-.page-1-right p {
-    color: #d0bb8d;
-
-    line-height: 1.7;
-
-    max-width: 430px;
-
-    margin-left: auto;
-}
-
-.video-box {
-    width: min(370px, 34vw);
-
-    aspect-ratio: 16 / 10;
-
-    margin-top: 35px;
-
-    border: 2px solid rgba(230,220,190,0.55);
-
-    border-radius: 15px;
-
-    overflow: hidden;
-
-    background: #222;
+    background: #164cff;
+    color: white;
 
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.video-box video {
+.page-1-content {
     width: 100%;
     height: 100%;
 
-    object-fit: cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 40px;
+}
+
+.page-1 h1 {
+    margin: 0 0 35px;
+    font-size: clamp(50px, 12vw, 150px);
+    font-weight: 700;
+    line-height: .85;
+    letter-spacing: -.06em;
+}
+
+.video-main {
+    width: min(800px, 82vw);
+    max-height: 55vh;
+    display: block;
 }
 
 
 /* =========================================================
-   ALLGEMEINER SEITENÜBERGANG
-========================================================= */
-
-.zip-transition {
-    position: relative;
-
-    width: 100vw;
-    height: 100vh;
-
-    --open: 0%;
-    --skew: 0vw;
-    --hint-opacity: 1;
-}
-
-.zip-sticky {
-    position: absolute;
-    inset: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    overflow: hidden;
-
-    isolation: isolate;
-}
-
-.reveal-page {
-    position: absolute;
-    inset: 0;
-
-    z-index: 1;
-
-    overflow: hidden;
-}
-
-.zip-cover {
-    position: absolute;
-    inset: 0;
-
-    z-index: 10;
-
-    pointer-events: none;
-
-    overflow: hidden;
-}
-
-.zip-left,
-.zip-right {
-    position: absolute;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: inherit;
-}
-
-.zip-left {
-    clip-path:
-        polygon(
-            0 0,
-            calc(50% - var(--open)) 0,
-            calc(50% - var(--open) - 5px) 14%,
-            calc(50% - var(--open) - var(--skew) + 4px) 27%,
-            calc(50% - var(--open) - 9px) 41%,
-            calc(50% - var(--open) - var(--skew) - 3px) 55%,
-            calc(50% - var(--open) - 7px) 68%,
-            calc(50% - var(--open) - var(--skew) + 5px) 82%,
-            calc(50% - var(--open) - var(--skew)) 100%,
-            0 100%
-        );
-
-    filter:
-        drop-shadow(0 0 10px rgba(255,214,150,0.5))
-        drop-shadow(0 0 26px rgba(255,178,90,0.28));
-}
-
-.zip-right {
-    clip-path:
-        polygon(
-            calc(50% + var(--open)) 0,
-            100% 0,
-            100% 100%,
-            calc(50% + var(--open) + var(--skew)) 100%,
-            calc(50% + var(--open) + var(--skew) - 5px) 82%,
-            calc(50% + var(--open) + 7px) 68%,
-            calc(50% + var(--open) + var(--skew) + 3px) 55%,
-            calc(50% + var(--open) + 9px) 41%,
-            calc(50% + var(--open) + var(--skew) - 4px) 27%,
-            calc(50% + var(--open) + 5px) 14%
-        );
-
-    filter:
-        drop-shadow(0 0 10px rgba(255,214,150,0.5))
-        drop-shadow(0 0 26px rgba(255,178,90,0.28));
-}
-
-
-/* =========================================================
-   SEITE 2 – OLIV / KACHELN
-========================================================= */
+   PAGE 2
+   ========================================================= */
 
 .page-2 {
-    background:
-        radial-gradient(
-            ellipse at center,
-            rgba(135,139,72,0.16),
-            transparent 55%
-        ),
-        linear-gradient(
-            135deg,
-            var(--olive-dark),
-            var(--olive) 45%,
-            var(--olive-end)
-        );
+    background: #899c45;
+    color: #111;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.page-2::before {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    opacity: 0.17;
-
-    pointer-events: none;
-
-    background-image:
-        repeating-linear-gradient(
-            0deg,
-            rgba(255,255,255,0.06) 0px,
-            rgba(255,255,255,0.06) 1px,
-            transparent 1px,
-            transparent 4px
-        ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(0,0,0,0.08) 0px,
-            rgba(0,0,0,0.08) 1px,
-            transparent 1px,
-            transparent 5px
-        );
+.andere-heading {
+    flex: 0 0 auto;
+    padding: 25px 7vw 20px;
 }
 
-.page-2-inner {
-    position: absolute;
-
-    inset: 0;
-
-    padding:
-        10vh
-        6vw
-        8vh;
+.andere-heading h2 {
+    margin: 0;
+    font-size: clamp(50px, 10vw, 130px);
+    letter-spacing: -.07em;
+    line-height: .85;
 }
-
-.page-2-heading {
-    max-width: 700px;
-
-    margin-bottom: 45px;
-}
-
-.page-2-title {
-    color: var(--white);
-
-    font-size: clamp(3.5rem, 8vw, 7rem);
-
-    line-height: 0.82;
-
-    letter-spacing: -0.07em;
-
-    margin-bottom: 22px;
-}
-
-.page-2-intro {
-    color: #d4c99c;
-
-    font-size: clamp(0.95rem, 1.5vw, 1.15rem);
-
-    line-height: 1.65;
-}
-
-
-/* =========================================================
-   KACHEL-BEREICH
-========================================================= */
 
 .andere-grid {
     width: 100%;
+    flex: 0 0 auto;
 
     display: flex;
-
-    gap: 22px;
+    gap: 18px;
 
     overflow-x: auto;
     overflow-y: hidden;
 
-    padding:
-        4px
-        4px
-        22px;
+    padding: 15px 7vw 35px;
 
-    scrollbar-width: none;
-
-    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 
     touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
 
     overscroll-behavior-x: contain;
 }
 
 .andere-grid::-webkit-scrollbar {
-    display: none;
+    height: 7px;
+}
+
+.andere-grid::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.35);
+    border-radius: 10px;
 }
 
 
-/*
-   WICHTIG:
-
-   Die Breite und Höhe wird EINMAL über clamp()
-   definiert.
-
-   Sie verändert sich während der Benutzung nicht.
-*/
+/* =========================================================
+   FIXED TILES
+   ========================================================= */
 
 .andere-tile {
-    flex:
-        0 0 clamp(270px, 30vw, 350px);
+    flex: 0 0 clamp(270px, 30vw, 350px);
 
-    width:
-        clamp(270px, 30vw, 350px);
+    width: clamp(270px, 30vw, 350px);
 
-    height:
-        clamp(360px, 52vh, 450px);
+    height: clamp(360px, 52vh, 450px);
+    min-height: clamp(360px, 52vh, 450px);
+    max-height: clamp(360px, 52vh, 450px);
 
-    min-height:
-        clamp(360px, 52vh, 450px);
+    background: #f2f0e8;
 
-    max-height:
-        clamp(360px, 52vh, 450px);
-
-    flex-shrink: 0;
-
-    border:
-        1px solid rgba(220,220,190,0.35);
-
-    border-radius: 12px;
-
-    background:
-        rgba(0,0,0,0.16);
-
-    overflow: hidden;
+    border-radius: 4px;
 
     display: flex;
     flex-direction: column;
+
+    overflow: hidden;
 }
 
-.andere-tile-head {
-    flex-shrink: 0;
+.andere-tile-header {
+    flex: 0 0 auto;
 
-    padding: 20px 20px 15px;
+    padding: 18px 20px 15px;
 
-    border-bottom:
-        1px solid rgba(220,220,190,0.18);
+    border-bottom: 1px solid rgba(0,0,0,.18);
 }
 
-.andere-number {
-    color: var(--thread-light);
-
-    font-size: 0.7rem;
-
-    letter-spacing: 0.2em;
+.tile-number {
+    font-size: 11px;
+    letter-spacing: .12em;
+    opacity: .5;
+    margin-bottom: 7px;
 }
 
-.andere-tile h2 {
-    color: var(--white);
-
-    font-size: 1.4rem;
-
-    margin-top: 6px;
+.tile-title {
+    font-size: 21px;
+    line-height: 1.05;
 }
-
-
-/*
-   NUR DIESER BEREICH scrollt.
-
-   Die Kachel selbst bleibt immer gleich groß.
-*/
 
 .andere-tile-content {
-    flex: 1;
-
+    flex: 1 1 auto;
     min-height: 0;
-
-    padding: 18px 20px 22px;
 
     overflow-y: auto;
     overflow-x: hidden;
 
+    padding: 20px;
+
     scrollbar-width: thin;
 
     overscroll-behavior: contain;
-
     -webkit-overflow-scrolling: touch;
 }
 
 .andere-tile-content::-webkit-scrollbar {
-    width: 5px;
+    width: 6px;
 }
 
 .andere-tile-content::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.25);
-
-    border-radius: 20px;
-}
-
-.andere-tile p {
-    color: #d0c89d;
-
-    line-height: 1.65;
-
-    font-size: 0.92rem;
-}
-
-.andere-tile a {
-    color: var(--thread-light);
-
-    text-decoration: none;
-}
-
-.andere-tile a:hover {
-    text-decoration: underline;
+    background: rgba(0,0,0,.25);
+    border-radius: 10px;
 }
 
 
-/* =========================================================
-   TYPEWRITER
-========================================================= */
+/* ABOUT */
 
-.typewriter {
+#typewriter {
     white-space: pre-wrap;
-}
-
-.typewriter-cursor {
-    display: inline-block;
-
-    width: 7px;
-    height: 1em;
-
-    margin-left: 3px;
-
-    background: var(--thread-light);
-
-    vertical-align: -2px;
-
-    animation: blink 0.8s infinite;
-}
-
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
+    font-size: 16px;
+    line-height: 1.5;
 }
 
 
-/* =========================================================
-   ACCORDION
-========================================================= */
+/* PRESS */
 
-.accordion {
-    border-top:
-        1px solid rgba(255,255,255,0.16);
+.press-link {
+    display: block;
+
+    color: #111;
+    text-decoration: none;
+
+    padding: 13px 0;
+
+    border-bottom: 1px solid rgba(0,0,0,.2);
+
+    font-size: 15px;
+    line-height: 1.3;
 }
+
+.press-link:hover {
+    opacity: .55;
+}
+
+
+/* ACCORDION */
 
 .accordion-item {
-    border-bottom:
-        1px solid rgba(255,255,255,0.16);
+    border-bottom: 1px solid rgba(0,0,0,.2);
 }
 
 .accordion-button {
     width: 100%;
-
-    padding: 14px 0;
+    padding: 13px 0;
 
     border: 0;
-
-    background: transparent;
-
-    color: var(--white);
-
-    cursor: pointer;
+    background: none;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     text-align: left;
-}
+    font: inherit;
 
-.accordion-button span:last-child {
-    color: var(--thread-light);
-
-    font-size: 1.2rem;
+    cursor: pointer;
 }
 
 .accordion-content {
     max-height: 0;
-
     overflow: hidden;
 
-    transition: max-height 0.25s ease;
+    transition: max-height .3s ease;
 }
 
 .accordion-content-inner {
-    padding:
-        0 0 15px;
+    padding: 0 0 14px;
+    font-size: 14px;
+    line-height: 1.4;
+}
 
-    color: #d0c89d;
+.accordion-item.open .accordion-content {
+    max-height: 300px;
+}
 
-    font-size: 0.85rem;
+.accordion-symbol {
+    font-size: 20px;
+    transition: transform .2s ease;
+}
 
-    line-height: 1.6;
+.accordion-item.open .accordion-symbol {
+    transform: rotate(45deg);
 }
 
 
 /* =========================================================
-   SEITE 3 – SPOTIFY
-========================================================= */
+   PAGE 3 — SPOTIFY
+   ========================================================= */
 
 .page-3 {
-    background: #0d0d0d;
-
-    color: #fff;
-}
-
-.page-3-inner {
-    position: absolute;
-
-    inset: 0;
+    background: #101010;
+    color: white;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
-
-    padding: 80px 20px 40px;
 }
 
-.page-3-content {
+.spotify-wrap {
     width: min(760px, 82vw);
 
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.page-3-title {
-    color: #fff;
+.spotify-label {
+    margin-bottom: 20px;
 
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: 12px;
+    letter-spacing: .16em;
+    text-transform: uppercase;
 
-    line-height: 0.9;
-
-    margin-bottom: 25px;
+    opacity: .55;
 }
 
 .spotify-frame {
-    width: 100%;
+    width: 380px;
+    max-width: 100%;
 
-    height: 380px;
+    height: 420px;
 
     border: 0;
-
-    border-radius: 14px;
-
-    display: block;
+    border-radius: 12px;
 }
 
 
 /* =========================================================
-   SEITE 4 – YOUTUBE
-========================================================= */
+   PAGE 4 — VIDEOS
+   ========================================================= */
 
 .page-4 {
-    background: var(--offwhite);
+    background: #f0eee6;
+    color: #111;
 
-    color: #161616;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.page-4-inner {
-    position: absolute;
-
-    inset: 0;
-
-    padding:
-        9vh
-        6vw
-        7vh;
+.youtube-heading {
+    padding: 0 7vw 20px;
 }
 
-.page-4-title {
-    color: #161616;
+.youtube-heading h2 {
+    margin: 0;
 
-    font-size: clamp(3rem, 7vw, 6rem);
-
-    line-height: 0.85;
-
-    letter-spacing: -0.07em;
-
-    margin-bottom: 35px;
+    font-size: clamp(45px, 9vw, 115px);
+    letter-spacing: -.07em;
+    line-height: .85;
 }
 
 .youtube-grid {
     width: 100%;
 
     display: flex;
-
-    gap: 20px;
+    gap: 18px;
 
     overflow-x: auto;
     overflow-y: hidden;
 
-    padding:
-        5px
-        5px
-        20px;
+    padding: 15px 7vw 35px;
 
-    scrollbar-width: none;
-
-    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 
     touch-action: pan-x;
+    -webkit-overflow-scrolling: touch;
 
     overscroll-behavior-x: contain;
 }
 
 .youtube-grid::-webkit-scrollbar {
-    display: none;
+    height: 7px;
 }
 
-
-/*
-   Auch die Videokarten haben eine stabile Größe.
-*/
+.youtube-grid::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,.3);
+    border-radius: 10px;
+}
 
 .youtube-card {
-    flex:
-        0 0 clamp(280px, 30vw, 350px);
+    flex: 0 0 clamp(270px, 31vw, 390px);
 
-    width:
-        clamp(280px, 30vw, 350px);
+    height: clamp(210px, 30vh, 300px);
 
-    flex-shrink: 0;
-
-    border:
-        1px solid rgba(0,0,0,0.2);
-
-    background: #fff;
+    background: #ddd;
 
     cursor: pointer;
 
     overflow: hidden;
-}
-
-.youtube-thumb {
-    width: 100%;
-
-    aspect-ratio: 16 / 10;
-
-    object-fit: cover;
-
-    display: block;
-}
-
-.youtube-info {
-    padding: 12px 14px;
-
-    color: #222;
-
-    font-size: 0.8rem;
-
-    line-height: 1.4;
-}
-
-
-/* =========================================================
-   VIDEO MODAL
-========================================================= */
-
-.video-modal {
-    position: fixed;
-
-    inset: 0;
-
-    z-index: 6000;
-
-    background:
-        rgba(0,0,0,0.9);
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 25px;
-}
-
-.video-modal.open {
-    display: flex;
-}
-
-.video-modal-inner {
-    width: min(1000px, 95vw);
 
     position: relative;
 }
 
-.video-modal iframe {
+.youtube-card img {
     width: 100%;
+    height: 100%;
 
-    aspect-ratio: 16 / 9;
-
-    border: 0;
+    object-fit: cover;
 
     display: block;
+
+    transition: transform .35s ease;
 }
 
-.video-modal-close {
+.youtube-card:hover img {
+    transform: scale(1.035);
+}
+
+.youtube-play {
     position: absolute;
+    left: 50%;
+    top: 50%;
 
-    right: 0;
-    bottom: calc(100% + 10px);
+    transform: translate(-50%, -50%);
 
-    width: 40px;
-    height: 40px;
+    width: 55px;
+    height: 55px;
 
-    border: 1px solid rgba(255,255,255,0.35);
     border-radius: 50%;
 
-    background: rgba(0,0,0,0.6);
+    background: rgba(255,255,255,.9);
 
-    color: white;
-
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     font-size: 20px;
 }
 
 
 /* =========================================================
-   SEITE 5 – SOUNDCLOUD
-========================================================= */
+   VIDEO MODAL
+   ========================================================= */
 
-.page-5 {
-    background: var(--beige);
-
-    color: #181818;
-}
-
-.page-5-inner {
-    position: absolute;
-
+#videoModal {
+    position: fixed;
     inset: 0;
 
-    display: flex;
+    background: rgba(0,0,0,.92);
 
+    z-index: 6000;
+
+    display: flex;
     align-items: center;
     justify-content: center;
 
-    padding:
-        70px 20px 30px;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity .2s ease;
 }
 
-.page-5-content {
-    width: min(760px, 82vw);
-
-    text-align: center;
+#videoModal.open {
+    opacity: 1;
+    pointer-events: auto;
 }
 
-.page-5-title {
-    color: #1a1a1a;
-
-    font-size: clamp(2rem, 5vw, 4rem);
-
-    line-height: 0.9;
-
-    margin-bottom: 25px;
+.video-modal-inner {
+    width: min(1000px, 92vw);
+    position: relative;
 }
 
-.soundcloud-box {
+#youtubePlayer {
     width: 100%;
-
-    padding: 14px;
-
-    background: #111;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 15px 50px rgba(0,0,0,0.18);
-}
-
-.soundcloud-box iframe {
-    display: block;
-
-    width: 100%;
-
-    height: 320px;
-
+    aspect-ratio: 16 / 9;
     border: 0;
 }
 
-.soundcloud-link {
-    display: inline-block;
+#closeVideo {
+    position: absolute;
 
-    margin-top: 20px;
+    top: -50px;
+    right: 0;
 
-    color: #222;
+    width: 40px;
+    height: 40px;
 
-    font-weight: bold;
+    border: 0;
+    border-radius: 50%;
 
-    text-decoration: none;
-}
+    background: white;
+    color: #111;
 
-.soundcloud-link:hover {
-    text-decoration: underline;
+    font-size: 25px;
+
+    cursor: pointer;
 }
 
 
 /* =========================================================
-   SEITE 6 – 3D KARO-RAUM
-========================================================= */
+   PAGE 5 — SOUNDCLOUD
+   ========================================================= */
+
+.page-5 {
+    background: #ded0b8;
+    color: #111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.soundcloud-wrap {
+    width: min(760px, 82vw);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.soundcloud-label {
+    margin-bottom: 18px;
+
+    font-size: 12px;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+
+    opacity: .55;
+}
+
+.soundcloud-frame {
+    width: 320px;
+    max-width: 100%;
+    height: 420px;
+
+    border: 0;
+}
+
+.soundcloud-profile {
+    margin-top: 18px;
+
+    color: #111;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+.soundcloud-profile:hover {
+    opacity: .55;
+}
+
+
+/* =========================================================
+   PAGE 6 — 3D CARO ROOM
+   ========================================================= */
 
 .page-6 {
-    background: #0d0d0d;
-
-    overflow: hidden;
+    background: #090909;
 }
 
 .room-canvas {
     position: absolute;
-
     inset: 0;
 
     width: 100%;
@@ -1131,292 +679,577 @@ a {
 
 
 /* =========================================================
-   HINWEIS
-========================================================= */
-
-.zip-hint {
-    position: absolute;
-
-    left: 50%;
-    bottom: 28px;
-
-    transform: translateX(-50%);
-
-    z-index: 200;
-
-    color: var(--thread);
-
-    font-size: 0.7rem;
-
-    letter-spacing: 0.18em;
-
-    text-transform: uppercase;
-
-    white-space: nowrap;
-
-    opacity: var(--hint-opacity);
-
-    pointer-events: none;
-}
-
-.zip-hint::after {
-    content: "";
-
-    display: block;
-
-    width: 14px;
-    height: 14px;
-
-    margin: 9px auto 0;
-
-    border-right:
-        2px solid var(--thread);
-
-    border-bottom:
-        2px solid var(--thread);
-
-    transform: rotate(45deg);
-}
-
-
-/* =========================================================
    MOBILE
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 700px) {
 
-    .burger-button {
+    #menuButton {
         top: 12px;
         right: 12px;
     }
 
-    .burger-menu {
-        top: 70px;
+    #menu {
+        top: 12px;
         right: 12px;
     }
 
-
-    /* Seite 1 */
-
-    .page-1-inner {
-        grid-template-columns: 1fr;
-
-        gap: 45px;
-
-        top: 50%;
-
-        transform: translateY(-50%);
+    .page-1-content {
+        padding: 25px;
     }
 
-    .page-1-left,
-    .page-1-right {
-        text-align: left;
-    }
-
-    .page-1-right p {
-        margin-left: 0;
-    }
-
-    .video-box {
-        width: min(82vw, 340px);
-    }
-
-
-    /* Seite 2 */
-
-    .page-2-inner {
-        padding:
-            8vh
-            6vw
-            6vh;
-    }
-
-    .page-2-heading {
+    .page-1 h1 {
         margin-bottom: 25px;
     }
 
+    .video-main {
+        width: 88vw;
+    }
+
+    .andere-heading {
+        padding-left: 7vw;
+        padding-right: 7vw;
+    }
+
     .andere-grid {
-        gap: 16px;
+        padding-left: 7vw;
+        padding-right: 7vw;
     }
 
     .andere-tile {
-        /*
-           Auf Mobilgeräten bleibt die Kachel ebenfalls
-           während der gesamten Nutzung exakt gleich groß.
-        */
+        flex-basis: min(82vw, 330px);
+        width: min(82vw, 330px);
 
-        flex:
-            0 0 min(82vw, 330px);
-
-        width:
-            min(82vw, 330px);
-
-        height:
-            min(68vh, 430px);
-
-        min-height:
-            min(68vh, 430px);
-
-        max-height:
-            min(68vh, 430px);
-    }
-
-
-    /* Spotify */
-
-    .page-3-inner {
-        padding-top: 70px;
-    }
-
-    .page-3-content {
-        width: min(88vw, 600px);
+        height: min(68vh, 430px);
+        min-height: min(68vh, 430px);
+        max-height: min(68vh, 430px);
     }
 
     .spotify-frame {
-        height: 330px;
-    }
-
-
-    /* YouTube */
-
-    .page-4-inner {
-        padding:
-            8vh
-            6vw
-            6vh;
+        width: 330px;
+        height: 400px;
     }
 
     .youtube-grid {
-        gap: 16px;
+        padding-left: 7vw;
+        padding-right: 7vw;
     }
 
     .youtube-card {
-        flex:
-            0 0 min(82vw, 340px);
-
-        width:
-            min(82vw, 340px);
+        flex-basis: 82vw;
+        height: 240px;
     }
 
-
-    /* SoundCloud */
-
-    .page-5-content {
-        width: min(88vw, 600px);
-    }
-
-    .soundcloud-box {
-        padding: 10px;
-    }
-
-    .soundcloud-box iframe {
-        height: 300px;
+    .soundcloud-frame {
+        width: 300px;
+        height: 400px;
     }
 }
 
 
 /* =========================================================
    REDUCED MOTION
-========================================================= */
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
-    * {
+    *,
+    *::before,
+    *::after {
         scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
     }
 }
-
 </style>
 </head>
 
 
 <body>
 
-
 <!-- =======================================================
      BURGER
-======================================================= -->
+     ======================================================= -->
 
-<button
-    class="burger-button"
-    id="burgerButton"
-    aria-label="Menü öffnen"
-    aria-expanded="false"
->
+<button id="menuButton" aria-label="Menü öffnen">
     <span></span>
     <span></span>
     <span></span>
 </button>
 
+<nav id="menu">
+    <div class="menu-title">Seiten</div>
 
-<nav
-    class="burger-menu"
-    id="burgerMenu"
-    aria-label="Seitennavigation"
->
-
-    <div class="burger-menu-title">
-        navigation
-    </div>
-
-    <button data-page="0">
+    <button class="menu-item" data-page="0">
         01 / gespalten
     </button>
 
-    <button data-page="1">
+    <button class="menu-item" data-page="1">
         02 / die andere
     </button>
 
-    <button data-page="2">
+    <button class="menu-item" data-page="2">
         03 / spotify
     </button>
 
-    <button data-page="3">
+    <button class="menu-item" data-page="3">
         04 / videos
     </button>
 
-    <button data-page="4">
+    <button class="menu-item" data-page="4">
         05 / soundcloud
     </button>
 
-    <button data-page="5">
+    <button class="menu-item" data-page="5">
         06 / raum
     </button>
-
 </nav>
 
 
 <!-- =======================================================
-     VIDEO MODAL
-======================================================= -->
+     PAGES
+     ======================================================= -->
 
-<div
-    class="video-modal"
-    id="videoModal"
->
+<main id="pages">
+
+    <!-- ===================================================
+         PAGE 1
+         =================================================== -->
+
+    <section class="page page-1" data-page-index="0">
+
+        <div class="page-inner page-1-content">
+
+            <h1>gespalten</h1>
+
+            <video
+                class="video-main"
+                controls
+                playsinline
+                preload="metadata"
+            >
+                <source
+                    src="/assets/gespalten/gespalten.mp4"
+                    type="video/mp4"
+                >
+                Dein Browser unterstützt dieses Video nicht.
+            </video>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PAGE 2
+         =================================================== -->
+
+    <section class="page page-2" data-page-index="1">
+
+        <div class="andere-heading">
+            <h2>die andere</h2>
+        </div>
+
+        <div class="andere-grid" id="andereGrid">
+
+            <!-- 01 -->
+
+            <article class="andere-tile">
+
+                <div class="andere-tile-header">
+                    <div class="tile-number">01</div>
+                    <div class="tile-title">über mich</div>
+                </div>
+
+                <div class="andere-tile-content">
+
+                    <div id="typewriter"></div>
+
+                </div>
+
+            </article>
+
+
+            <!-- 02 -->
+
+            <article class="andere-tile">
+
+                <div class="andere-tile-header">
+                    <div class="tile-number">02</div>
+                    <div class="tile-title">
+                        presse – winterthur
+                    </div>
+                </div>
+
+                <div class="andere-tile-content">
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Winterthur – Presseartikel
+                    </a>
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Weitere Veröffentlichung
+                    </a>
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Medienbericht
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- 03 -->
+
+            <article class="andere-tile">
+
+                <div class="andere-tile-header">
+                    <div class="tile-number">03</div>
+                    <div class="tile-title">
+                        presse – artikel
+                    </div>
+                </div>
+
+                <div class="andere-tile-content">
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Artikel 01
+                    </a>
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Artikel 02
+                    </a>
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Artikel 03
+                    </a>
+
+                    <a
+                        class="press-link"
+                        href="#"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        Artikel 04
+                    </a>
+
+                </div>
+
+            </article>
+
+
+            <!-- 04 -->
+
+            <article class="andere-tile">
+
+                <div class="andere-tile-header">
+                    <div class="tile-number">04</div>
+                    <div class="tile-title">
+                        termine
+                    </div>
+                </div>
+
+                <div class="andere-tile-content">
+
+                    <div class="accordion-item">
+
+                        <button class="accordion-button">
+                            <span>Termin 01</span>
+                            <span class="accordion-symbol">+</span>
+                        </button>
+
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                Weitere Informationen zum Termin.
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="accordion-item">
+
+                        <button class="accordion-button">
+                            <span>Termin 02</span>
+                            <span class="accordion-symbol">+</span>
+                        </button>
+
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                Weitere Informationen zum Termin.
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="accordion-item">
+
+                        <button class="accordion-button">
+                            <span>Termin 03</span>
+                            <span class="accordion-symbol">+</span>
+                        </button>
+
+                        <div class="accordion-content">
+                            <div class="accordion-content-inner">
+                                Weitere Informationen zum Termin.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PAGE 3 — SPOTIFY
+         =================================================== -->
+
+    <section class="page page-3" data-page-index="2">
+
+        <div class="spotify-wrap">
+
+            <div class="spotify-label">
+                musik
+            </div>
+
+            <iframe
+                class="spotify-frame"
+                src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+            ></iframe>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PAGE 4 — YOUTUBE
+         =================================================== -->
+
+    <section class="page page-4" data-page-index="3">
+
+        <div class="youtube-heading">
+            <h2>videos</h2>
+        </div>
+
+
+        <div class="youtube-grid" id="youtubeGrid">
+
+            <article
+                class="youtube-card"
+                data-video="G_qXoHHa3rg"
+            >
+                <img
+                    src="assets/gesehen/reel8.avif"
+                    alt="Video 8"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="fq8zhAQMam0"
+            >
+                <img
+                    src="assets/gesehen/reel7.avif"
+                    alt="Video 7"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="rV1U891RKLo"
+            >
+                <img
+                    src="assets/gesehen/reel6.avif"
+                    alt="Video 6"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="w0pNdnlb96M"
+            >
+                <img
+                    src="assets/gesehen/reel5.avif"
+                    alt="Video 5"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="4I9vlcGvFGQ"
+            >
+                <img
+                    src="assets/gesehen/reel4.avif"
+                    alt="Video 4"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="K5pKG0Smdfc"
+            >
+                <img
+                    src="assets/gesehen/reel3.avif"
+                    alt="Video 3"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="DMNl40Tip1w"
+            >
+                <img
+                    src="assets/gesehen/reel2.avif"
+                    alt="Video 2"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+
+            <article
+                class="youtube-card"
+                data-video="ZSaj_FuqPN8"
+            >
+                <img
+                    src="assets/gesehen/reel1.avif"
+                    alt="Video 1"
+                    draggable="false"
+                >
+                <div class="youtube-play">▶</div>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PAGE 5 — SOUNDCLOUD
+         =================================================== -->
+
+    <section class="page page-5" data-page-index="4">
+
+        <div class="soundcloud-wrap">
+
+            <div class="soundcloud-label">
+                soundcloud
+            </div>
+
+            <iframe
+                class="soundcloud-frame"
+                scrolling="no"
+                frameborder="no"
+                allow="autoplay"
+                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
+            ></iframe>
+
+            <a
+                class="soundcloud-profile"
+                href="https://soundcloud.com/bennet-6942069420"
+                target="_blank"
+                rel="noopener"
+            >
+                soundcloud.com/bennet-6942069420
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ===================================================
+         PAGE 6 — 3D ROOM
+         =================================================== -->
+
+    <section class="page page-6" data-page-index="5">
+
+        <canvas
+            id="roomCanvas"
+            class="room-canvas"
+        ></canvas>
+
+    </section>
+
+</main>
+
+
+<!-- =======================================================
+     VIDEO MODAL
+     ======================================================= -->
+
+<div id="videoModal">
 
     <div class="video-modal-inner">
 
         <button
-            class="video-modal-close"
-            id="videoModalClose"
+            id="closeVideo"
             aria-label="Video schließen"
         >
             ×
         </button>
 
         <iframe
-            id="videoModalFrame"
+            id="youtubePlayer"
             src=""
-            allow="
-                accelerometer;
-                autoplay;
-                clipboard-write;
-                encrypted-media;
-                gyroscope;
-                picture-in-picture;
-                web-share
-            "
+            allow="autoplay; encrypted-media; picture-in-picture"
             allowfullscreen
         ></iframe>
 
@@ -1425,642 +1258,20 @@ a {
 </div>
 
 
-<!-- =======================================================
-     HAUPTBEREICH
-======================================================= -->
-
-<main id="pages">
-
-
-<!-- =======================================================
-     SEITE 1
-======================================================= -->
-
-<section
-    class="page page-1"
-    data-page-index="0"
->
-
-    <div class="page-content">
-
-        <div class="page-1-inner">
-
-            <div class="page-1-left">
-
-                <div class="kicker">
-                    b3nn3t
-                </div>
-
-                <h1 class="main-title">
-                    gespalten
-                </h1>
-
-                <p class="subtitle">
-                    10 kurze Songs. 12 Minuten zwischen alt und neu.
-                </p>
-
-                <div class="video-box">
-
-                    <video
-                        src="/assets/gespalten/gespalten.mp4"
-                        controls
-                        playsinline
-                    ></video>
-
-                </div>
-
-            </div>
-
-
-            <div class="page-1-right">
-
-                <div class="kicker">
-                    neues album
-                </div>
-
-                <h2>
-                    die andere seite
-                </h2>
-
-                <p>
-                    Ein Übergang zwischen zwei Seiten.
-                    Alt und neu.
-                    Dazwischen liegt die Spalte.
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =======================================================
-     SEITE 2
-======================================================= -->
-
-<section
-    class="page page-2"
-    data-page-index="1"
->
-
-    <div class="page-content page-2-inner">
-
-        <div class="page-2-heading">
-
-            <div class="kicker">
-                b3nn3t
-            </div>
-
-            <h1 class="page-2-title">
-                die andere
-            </h1>
-
-            <p class="page-2-intro">
-                Hier beginnt die zweite Seite.
-                Ein paar Fragmente, Informationen und Dinge,
-                die zwischen Musik, Texten und Alltag liegen.
-            </p>
-
-        </div>
-
-
-        <div
-            class="andere-grid"
-            id="andereGrid"
-        >
-
-
-            <!-- KACHEL 01 -->
-
-            <article class="andere-tile">
-
-                <div class="andere-tile-head">
-
-                    <div class="andere-number">
-                        01
-                    </div>
-
-                    <h2>
-                        über mich
-                    </h2>
-
-                </div>
-
-                <div class="andere-tile-content">
-
-                    <p
-                        class="typewriter"
-                        id="typewriterText"
-                    ></p>
-
-                    <span
-                        class="typewriter-cursor"
-                        id="typewriterCursor"
-                    ></span>
-
-                </div>
-
-            </article>
-
-
-            <!-- KACHEL 02 -->
-
-            <article class="andere-tile">
-
-                <div class="andere-tile-head">
-
-                    <div class="andere-number">
-                        02
-                    </div>
-
-                    <h2>
-                        presse – winterthur
-                    </h2>
-
-                </div>
-
-                <div class="andere-tile-content">
-
-                    <p>
-
-                        <strong>
-                            winterthur
-                        </strong>
-
-                        <br><br>
-
-                        Hier findest du Presseinformationen,
-                        Berichte und Veröffentlichungen rund um
-                        b3nn3t und die Musik.
-
-                        <br><br>
-
-                        <a
-                            href="#"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            artikel öffnen →
-                        </a>
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-            <!-- KACHEL 03 -->
-
-            <article class="andere-tile">
-
-                <div class="andere-tile-head">
-
-                    <div class="andere-number">
-                        03
-                    </div>
-
-                    <h2>
-                        presse – artikel
-                    </h2>
-
-                </div>
-
-                <div class="andere-tile-content">
-
-                    <p>
-
-                        <strong>
-                            artikel
-                        </strong>
-
-                        <br><br>
-
-                        Weitere Texte, Interviews,
-                        Besprechungen und Veröffentlichungen.
-
-                        <br><br>
-
-                        <a
-                            href="#"
-                            target="_blank"
-                            rel="noopener"
-                        >
-                            mehr lesen →
-                        </a>
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-            <!-- KACHEL 04 -->
-
-            <article class="andere-tile">
-
-                <div class="andere-tile-head">
-
-                    <div class="andere-number">
-                        04
-                    </div>
-
-                    <h2>
-                        termine
-                    </h2>
-
-                </div>
-
-                <div class="andere-tile-content">
-
-                    <div class="accordion">
-
-
-                        <div class="accordion-item">
-
-                            <button
-                                class="accordion-button"
-                                type="button"
-                            >
-                                <span>
-                                    2026
-                                </span>
-
-                                <span>
-                                    +
-                                </span>
-                            </button>
-
-                            <div class="accordion-content">
-
-                                <div class="accordion-content-inner">
-
-                                    weitere termine folgen.
-
-                                    <br><br>
-
-                                    hier kannst du später
-                                    konzerte, releases,
-                                    veranstaltungen und
-                                    weitere daten ergänzen.
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                        <div class="accordion-item">
-
-                            <button
-                                class="accordion-button"
-                                type="button"
-                            >
-                                <span>
-                                    kommende shows
-                                </span>
-
-                                <span>
-                                    +
-                                </span>
-                            </button>
-
-                            <div class="accordion-content">
-
-                                <div class="accordion-content-inner">
-
-                                    aktuell keine weiteren
-                                    termine eingetragen.
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-
-                    </div>
-
-                </div>
-
-            </article>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =======================================================
-     SEITE 3 – SPOTIFY
-======================================================= -->
-
-<section
-    class="page page-3"
-    data-page-index="2"
->
-
-    <div class="page-3-inner">
-
-        <div class="page-3-content">
-
-            <div class="kicker">
-                hören
-            </div>
-
-            <h1 class="page-3-title">
-                spotify
-            </h1>
-
-            <iframe
-                class="spotify-frame"
-                src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
-                loading="lazy"
-                allow="
-                    autoplay;
-                    clipboard-write;
-                    encrypted-media;
-                    fullscreen;
-                    picture-in-picture
-                "
-            ></iframe>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =======================================================
-     SEITE 4 – VIDEOS
-======================================================= -->
-
-<section
-    class="page page-4"
-    data-page-index="3"
->
-
-    <div class="page-4-inner">
-
-        <div class="kicker">
-            gesehen
-        </div>
-
-        <h1 class="page-4-title">
-            videos
-        </h1>
-
-
-        <div
-            class="youtube-grid"
-            id="youtubeGrid"
-        >
-
-
-            <article
-                class="youtube-card"
-                data-video="G_qXoHHa3rg"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel8.avif"
-                    alt="Video 8"
-                >
-
-                <div class="youtube-info">
-                    reel 08
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="fq8zhAQMam0"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel7.avif"
-                    alt="Video 7"
-                >
-
-                <div class="youtube-info">
-                    reel 07
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="rV1U891RKLo"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel6.avif"
-                    alt="Video 6"
-                >
-
-                <div class="youtube-info">
-                    reel 06
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="w0pNdnlb96M"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel5.avif"
-                    alt="Video 5"
-                >
-
-                <div class="youtube-info">
-                    reel 05
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="4I9vlcGvFGQ"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel4.avif"
-                    alt="Video 4"
-                >
-
-                <div class="youtube-info">
-                    reel 04
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="K5pKG0Smdfc"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel3.avif"
-                    alt="Video 3"
-                >
-
-                <div class="youtube-info">
-                    reel 03
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="DMNl40Tip1w"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel2.avif"
-                    alt="Video 2"
-                >
-
-                <div class="youtube-info">
-                    reel 02
-                </div>
-
-            </article>
-
-
-            <article
-                class="youtube-card"
-                data-video="ZSaj_FuqPN8"
-            >
-
-                <img
-                    class="youtube-thumb"
-                    src="assets/gesehen/reel1.avif"
-                    alt="Video 1"
-                >
-
-                <div class="youtube-info">
-                    reel 01
-                </div>
-
-            </article>
-
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =======================================================
-     SEITE 5 – SOUNDCLOUD
-======================================================= -->
-
-<section
-    class="page page-5"
-    data-page-index="4"
->
-
-    <div class="page-5-inner">
-
-        <div class="page-5-content">
-
-            <div class="kicker">
-                hören
-            </div>
-
-            <h1 class="page-5-title">
-                soundcloud
-            </h1>
-
-
-            <div class="soundcloud-box">
-
-                <iframe
-                    src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-                    loading="lazy"
-                    allow="autoplay"
-                ></iframe>
-
-            </div>
-
-
-            <a
-                class="soundcloud-link"
-                href="https://soundcloud.com/bennet-6942069420"
-                target="_blank"
-                rel="noopener"
-            >
-                soundcloud öffnen →
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =======================================================
-     SEITE 6 – 3D RAUM
-======================================================= -->
-
-<section
-    class="page page-6"
-    data-page-index="5"
->
-
-    <canvas
-        id="roomCanvas"
-        class="room-canvas"
-    ></canvas>
-
-</section>
-
-
-</main>
-
-
 <script>
 
 /* =========================================================
-   GRUNDVARIABLEN
-========================================================= */
+   PAGE / ZIPPER SYSTEM
+   ========================================================= */
 
 const pages = Array.from(
     document.querySelectorAll(".page")
 );
 
-const pageCount = pages.length;
-
 let currentPage = 0;
+let targetPage = 1;
 
 let progress = 0;
-
 let direction = 1;
 
 let animating = false;
@@ -2068,128 +1279,179 @@ let animating = false;
 const OPEN_DISTANCE = 900;
 
 
-/* =========================================================
-   SEITEN INITIALISIEREN
-========================================================= */
+/* ---------------------------------------------------------
+   INITIAL PAGE ORDER
+   --------------------------------------------------------- */
 
 function showPage(index) {
 
     pages.forEach((page, i) => {
 
-        page.style.display =
-            i === index
-                ? "block"
-                : "none";
+        page.style.zIndex =
+            i === index ? 10 : 1;
 
+        page.style.visibility =
+            i === index ? "visible" : "hidden";
+
+        page.style.pointerEvents =
+            i === index ? "auto" : "none";
     });
 
+    updateRoom(1);
 }
 
-showPage(0);
+
+/* ---------------------------------------------------------
+   TARGET PAGE
+   --------------------------------------------------------- */
+
+function getTargetPage(dir) {
+
+    if (dir > 0) {
+
+        return (
+            (currentPage + 1) %
+            pages.length
+        );
+
+    } else {
+
+        return (
+            (currentPage - 1 + pages.length) %
+            pages.length
+        );
+    }
+}
 
 
-/* =========================================================
-   REISSVERSCHLUSS / MASK
-========================================================= */
+/* ---------------------------------------------------------
+   PREPARE TRANSITION
+   --------------------------------------------------------- */
+
+function setupLayers(dir) {
+
+    targetPage = getTargetPage(dir);
+
+    const current = pages[currentPage];
+    const target = pages[targetPage];
+
+    current.style.visibility = "visible";
+    target.style.visibility = "visible";
+
+    current.style.pointerEvents = "none";
+    target.style.pointerEvents = "none";
+
+    /*
+       Target page sits below current page.
+    */
+
+    current.style.zIndex = 20;
+    target.style.zIndex = 10;
+
+    /*
+       Mask starts as a very small opening.
+    */
+
+    current.style.webkitMaskImage =
+        "radial-gradient(ellipse 0px 0px at 50% 50%, transparent 0%, transparent 100%, black 101%)";
+
+    current.style.maskImage =
+        "radial-gradient(ellipse 0px 0px at 50% 50%, transparent 0%, transparent 100%, black 101%)";
+}
+
+
+/* ---------------------------------------------------------
+   MASK
+   --------------------------------------------------------- */
 
 function updateMask() {
 
-    const eased =
-        progress < 0.5
-            ? 2 * progress * progress
-            : 1 - Math.pow(
-                -2 * progress + 2,
-                2
-            ) / 2;
+    const current = pages[currentPage];
 
     const maxOpening =
         (window.innerWidth / 2) - 1;
 
     const opening =
-        eased * maxOpening;
-
-    const skew =
-        eased * 4;
-
-    const transitions =
-        document.querySelectorAll(".zip-transition");
-
-    transitions.forEach(transition => {
-
-        transition.style.setProperty(
-            "--open",
-            opening + "px"
-        );
-
-        transition.style.setProperty(
-            "--skew",
-            skew + "vw"
-        );
-
-        transition.style.setProperty(
-            "--hint-opacity",
-            Math.max(
-                0,
-                1 - eased * 5
+        Math.max(
+            0,
+            Math.min(
+                maxOpening,
+                progress * maxOpening
             )
         );
 
-    });
-
     /*
-       Seite 6 direkt an den Übergangsfortschritt
-       koppeln.
+       A transparent central opening.
+       The page underneath becomes visible through it.
     */
 
-    updateRoom(progress);
+    const mask = `
+        radial-gradient(
+            ellipse ${opening}px ${opening}px at 50% 50%,
+            transparent 0%,
+            transparent 96%,
+            black 100%
+        )
+    `;
 
+    current.style.webkitMaskImage = mask;
+    current.style.maskImage = mask;
+
+    updateRoomDuringTransition();
 }
 
 
-/* =========================================================
-   SEITENWECHSEL
-========================================================= */
+/* ---------------------------------------------------------
+   CHANGE PAGE
+   --------------------------------------------------------- */
 
 function changePage() {
 
-    if (direction > 0) {
-
-        currentPage++;
-
-        if (currentPage >= pageCount) {
-            currentPage = 0;
-        }
-
-    } else {
-
-        currentPage--;
-
-        if (currentPage < 0) {
-            currentPage = pageCount - 1;
-        }
-
-    }
+    currentPage = targetPage;
 
     progress = 0;
 
-    showPage(currentPage);
+    const current = pages[currentPage];
 
-    updateMask();
+    pages.forEach((page, i) => {
+
+        if (i === currentPage) {
+
+            page.style.visibility = "visible";
+            page.style.pointerEvents = "auto";
+            page.style.zIndex = 20;
+
+            page.style.webkitMaskImage = "none";
+            page.style.maskImage = "none";
+
+        } else {
+
+            page.style.visibility = "hidden";
+            page.style.pointerEvents = "none";
+            page.style.zIndex = 1;
+
+            page.style.webkitMaskImage = "none";
+            page.style.maskImage = "none";
+        }
+    });
+
+    targetPage = getTargetPage(direction);
+
+    updateRoom(1);
 
     /*
-       Typewriter auf Seite 2 starten.
+       Start typewriter when page 2 becomes active.
     */
 
     if (currentPage === 1) {
         startTypewriter();
     }
-
 }
 
 
 /* =========================================================
-   HAUPT-SCROLL
-========================================================= */
+   SCROLL
+   ========================================================= */
 
 function handleScroll(delta) {
 
@@ -2201,9 +1463,7 @@ function handleScroll(delta) {
     }
 
     const rawDirection =
-        delta > 0
-            ? 1
-            : -1;
+        delta > 0 ? 1 : -1;
 
     const movement =
         Math.abs(delta) /
@@ -2211,14 +1471,15 @@ function handleScroll(delta) {
 
 
     /*
-       Noch keine geöffnete Spalte:
-       Richtung festlegen.
+       Start a new transition.
     */
 
     if (progress === 0) {
 
         direction =
             rawDirection;
+
+        setupLayers(direction);
 
         progress =
             Math.min(
@@ -2228,10 +1489,8 @@ function handleScroll(delta) {
 
     }
 
-
     /*
-       Gleiche Richtung:
-       weiter öffnen.
+       Continue in same direction.
     */
 
     else if (
@@ -2246,13 +1505,9 @@ function handleScroll(delta) {
 
     }
 
-
     /*
-       Gegenrichtung:
-       zuerst wieder schließen.
-
-       Dadurch funktioniert das Zurückscrollen
-       tatsächlich rückwärts.
+       Reverse direction:
+       the opening closes again.
     */
 
     else {
@@ -2262,14 +1517,14 @@ function handleScroll(delta) {
                 0,
                 progress - movement
             );
-
     }
+
 
     updateMask();
 
 
     /*
-       Übergang vollständig geöffnet.
+       Once fully open, change page.
     */
 
     if (
@@ -2286,76 +1541,81 @@ function handleScroll(delta) {
             animating = false;
 
         }, 180);
-
     }
-
 }
 
 
 /* =========================================================
    WHEEL / TRACKPAD
-========================================================= */
+   ========================================================= */
+
+let wheelLock = false;
 
 window.addEventListener(
     "wheel",
-    event => {
+    function(event) {
 
         /*
-           Horizontales Trackpad-Scrolling innerhalb
-           der Kachel-/Videobereiche soll dort bleiben.
+           If the pointer is over a horizontal
+           scrolling element and the gesture is horizontal,
+           allow that element to consume the movement.
         */
 
-        const horizontalTarget =
+        const horizontalElement =
             event.target.closest(
                 ".andere-grid, .youtube-grid"
             );
 
         if (
-            horizontalTarget &&
+            horizontalElement &&
             Math.abs(event.deltaX) >
             Math.abs(event.deltaY)
         ) {
 
             return;
-
         }
 
+        let delta =
+            event.deltaY;
+
         /*
-           Bei einer normalen vertikalen Bewegung
-           den Seitenwechsel steuern.
+           Trackpad can produce tiny values.
+           Do not exaggerate them.
         */
 
-        handleScroll(
-            event.deltaY
-        );
+        if (
+            Math.abs(delta) <
+            0.5
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+
+        handleScroll(delta);
 
     },
     {
-        passive: true
+        passive: false
     }
 );
 
 
 /* =========================================================
-   TOUCH – VERTIKALES SEITENSCROLLEN
-========================================================= */
+   TOUCH — GLOBAL VERTICAL NAVIGATION
+   ========================================================= */
 
 let touchStartX = 0;
 let touchStartY = 0;
 
-let lastTouchX = 0;
-let lastTouchY = 0;
-
-let touchMode = null;
-
-
-window.addEventListener(
+document.addEventListener(
     "touchstart",
-    event => {
+    function(event) {
 
         if (
-            !event.touches ||
-            !event.touches.length
+            event.target.closest(
+                ".andere-grid, .youtube-grid"
+            )
         ) {
             return;
         }
@@ -2369,14 +1629,6 @@ window.addEventListener(
         touchStartY =
             touch.clientY;
 
-        lastTouchX =
-            touch.clientX;
-
-        lastTouchY =
-            touch.clientY;
-
-        touchMode = null;
-
     },
     {
         passive: true
@@ -2384,131 +1636,76 @@ window.addEventListener(
 );
 
 
-window.addEventListener(
+document.addEventListener(
     "touchmove",
-    event => {
+    function(event) {
 
         if (
-            !event.touches ||
-            !event.touches.length
+            event.target.closest(
+                ".andere-grid, .youtube-grid"
+            )
         ) {
             return;
         }
 
-        /*
-           Wenn sich die Berührung innerhalb
-           eines horizontalen Containers befindet,
-           übernehmen dessen eigener Handler
-           die Bewegung.
-        */
+        const touch =
+            event.touches[0];
 
-        const target =
-            event.target.closest(
-                ".andere-grid, .youtube-grid"
-            );
+        const dx =
+            touch.clientX -
+            touchStartX;
 
-        if (target) {
-
-            const dx =
-                event.touches[0].clientX -
-                touchStartX;
-
-            const dy =
-                event.touches[0].clientY -
-                touchStartY;
-
-            /*
-               Horizontale Bewegung gehört zum
-               jeweiligen Container.
-            */
-
-            if (
-                touchMode === null &&
-                Math.abs(dx) > 8 &&
-                Math.abs(dx) > Math.abs(dy)
-            ) {
-
-                touchMode = "horizontal";
-
-            }
-
-            if (
-                touchMode === "horizontal"
-            ) {
-
-                return;
-
-            }
-
-        }
-
+        const dy =
+            touch.clientY -
+            touchStartY;
 
         /*
-           Normales vertikales Wischen.
+           Only vertical gestures.
         */
-
-        if (touchMode === null) {
-
-            const dx =
-                event.touches[0].clientX -
-                touchStartX;
-
-            const dy =
-                event.touches[0].clientY -
-                touchStartY;
-
-            if (
-                Math.abs(dy) > 8 &&
-                Math.abs(dy) > Math.abs(dx)
-            ) {
-
-                touchMode = "vertical";
-
-            }
-
-        }
-
 
         if (
-            touchMode === "vertical"
+            Math.abs(dx) >
+            Math.abs(dy)
         ) {
-
-            const currentY =
-                event.touches[0].clientY;
-
-            const deltaY =
-                lastTouchY -
-                currentY;
-
-            lastTouchY =
-                currentY;
-
-            handleScroll(deltaY);
-
+            return;
         }
+
+        if (
+            Math.abs(dy) <
+            3
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+
+        /*
+           1:1-ish touch sensitivity.
+        */
+
+        handleScroll(-dy * 0.55);
+
+        touchStartX =
+            touch.clientX;
+
+        touchStartY =
+            touch.clientY;
 
     },
     {
-        passive: true
+        passive: false
     }
 );
 
 
 /* =========================================================
-   FEINFÜHLIGES HORIZONTALES TOUCH-SCROLLING
-========================================================= */
+   HORIZONTAL TOUCH SCROLL
+   ========================================================= */
 
-function enableSensitiveHorizontalSwipe(
-    element
-) {
-
-    if (!element) {
-        return;
-    }
+function enableHorizontalTouchScroll(element) {
 
     let startX = 0;
     let startY = 0;
-
     let lastX = 0;
 
     let active = false;
@@ -2516,22 +1713,25 @@ function enableSensitiveHorizontalSwipe(
 
     element.addEventListener(
         "touchstart",
-        event => {
+        function(event) {
 
             if (
-                !event.touches.length
+                event.touches.length !== 1
             ) {
                 return;
             }
 
+            const touch =
+                event.touches[0];
+
             startX =
-                event.touches[0].clientX;
+                touch.clientX;
 
             startY =
-                event.touches[0].clientY;
+                touch.clientY;
 
             lastX =
-                startX;
+                touch.clientX;
 
             active = false;
 
@@ -2544,19 +1744,22 @@ function enableSensitiveHorizontalSwipe(
 
     element.addEventListener(
         "touchmove",
-        event => {
+        function(event) {
 
             if (
-                !event.touches.length
+                event.touches.length !== 1
             ) {
                 return;
             }
 
+            const touch =
+                event.touches[0];
+
             const x =
-                event.touches[0].clientX;
+                touch.clientX;
 
             const y =
-                event.touches[0].clientY;
+                touch.clientY;
 
             const totalX =
                 x - startX;
@@ -2566,57 +1769,59 @@ function enableSensitiveHorizontalSwipe(
 
 
             /*
-               Erst ab einer kleinen Bewegung
-               entscheiden wir, ob es horizontal ist.
+               Determine gesture direction
+               after a small threshold.
             */
-
-            if (
-                !active &&
-                Math.abs(totalX) > 6 &&
-                Math.abs(totalX) >
-                Math.abs(totalY)
-            ) {
-
-                active = true;
-
-            }
-
 
             if (!active) {
-                return;
+
+                if (
+                    Math.abs(totalX) < 6 &&
+                    Math.abs(totalY) < 6
+                ) {
+                    return;
+                }
+
+                if (
+                    Math.abs(totalX) <=
+                    Math.abs(totalY)
+                ) {
+                    return;
+                }
+
+                active = true;
             }
 
 
-            /*
-               Die tatsächliche Fingerbewegung
-               wird 1:1 auf scrollLeft übertragen.
+            if (active) {
 
-               Kein Sprung.
-               Kein künstlicher Schritt.
-               Keine Kachelsprung-Logik.
-            */
+                /*
+                   Direct 1:1 movement.
+                   Finger moves left → content moves left.
+                */
 
-            const movement =
-                lastX - x;
+                const difference =
+                    lastX - x;
 
-            element.scrollLeft +=
-                movement;
+                element.scrollLeft +=
+                    difference;
 
-            lastX = x;
+                lastX = x;
+
+                event.preventDefault();
+            }
 
         },
         {
-            passive: true
+            passive: false
         }
     );
 
 
     element.addEventListener(
         "touchend",
-        () => {
-
+        function() {
             active = false;
-
         },
         {
             passive: true
@@ -2626,138 +1831,88 @@ function enableSensitiveHorizontalSwipe(
 
     element.addEventListener(
         "touchcancel",
-        () => {
-
+        function() {
             active = false;
-
         },
         {
             passive: true
         }
     );
-
 }
 
 
-/* =========================================================
-   HORIZONTALE BEREICHE AKTIVIEREN
-========================================================= */
-
-enableSensitiveHorizontalSwipe(
-    document.getElementById("andereGrid")
+enableHorizontalTouchScroll(
+    document.getElementById(
+        "andereGrid"
+    )
 );
 
-enableSensitiveHorizontalSwipe(
-    document.getElementById("youtubeGrid")
+enableHorizontalTouchScroll(
+    document.getElementById(
+        "youtubeGrid"
+    )
 );
 
 
 /* =========================================================
-   ACCORDION
-========================================================= */
+   KEYBOARD
+   ========================================================= */
 
-document
-    .querySelectorAll(".accordion-button")
-    .forEach(button => {
+window.addEventListener(
+    "keydown",
+    function(event) {
 
-        button.addEventListener(
-            "click",
-            () => {
+        if (
+            event.key === "ArrowDown" ||
+            event.key === "PageDown" ||
+            event.key === " "
+        ) {
 
-                const content =
-                    button.nextElementSibling;
+            event.preventDefault();
 
-                const symbol =
-                    button.querySelector(
-                        "span:last-child"
-                    );
+            handleScroll(80);
 
-                const isOpen =
-                    content.style.maxHeight &&
-                    content.style.maxHeight !== "0px";
+        }
 
+        else if (
+            event.key === "ArrowUp" ||
+            event.key === "PageUp"
+        ) {
 
-                /*
-                   Alle anderen schließen.
-                */
+            event.preventDefault();
 
-                document
-                    .querySelectorAll(
-                        ".accordion-content"
-                    )
-                    .forEach(item => {
+            handleScroll(-80);
 
-                        if (item !== content) {
+        }
 
-                            item.style.maxHeight =
-                                null;
+        else if (
+            event.key === "Escape"
+        ) {
 
-                        }
+            closeMenu();
+            closeVideo();
 
-                    });
-
-
-                document
-                    .querySelectorAll(
-                        ".accordion-button span:last-child"
-                    )
-                    .forEach(item => {
-
-                        if (item !== symbol) {
-
-                            item.textContent =
-                                "+";
-
-                        }
-
-                    });
-
-
-                if (isOpen) {
-
-                    content.style.maxHeight =
-                        null;
-
-                    symbol.textContent =
-                        "+";
-
-                } else {
-
-                    content.style.maxHeight =
-                        content.scrollHeight +
-                        "px";
-
-                    symbol.textContent =
-                        "−";
-
-                }
-
-            }
-        );
-
-    });
+        }
+    }
+);
 
 
 /* =========================================================
    TYPEWRITER
-========================================================= */
+   ========================================================= */
 
-let aboutTypewriterStarted = false;
+let aboutTypewriterStarted =
+    false;
 
 const aboutText =
-`b3nn3t ist ein Musiker und Künstler.
+`Ich bin B3NN3T.
 
-zwischen deutschsprachigen skizzen,
-fragmenten, erinnerungen und neuen ideen.
+Musik, Texte, Bilder, Bewegung und das Dazwischen.
 
-musik entsteht dabei nicht immer
-geradeaus.
+Diese Seite ist eine Sammlung verschiedener Arbeiten,
+Gedanken und Projekte.
 
-manchmal bleibt etwas unfertig.
-manchmal wird daraus ein song.
-
-genau dazwischen liegt diese seite.`;
-
+Mehr entsteht unterwegs.`;
 
 function startTypewriter() {
 
@@ -2767,300 +1922,309 @@ function startTypewriter() {
         return;
     }
 
-    aboutTypewriterStarted = true;
+    aboutTypewriterStarted =
+        true;
 
-    const output =
+    const element =
         document.getElementById(
-            "typewriterText"
+            "typewriter"
         );
 
-    const cursor =
-        document.getElementById(
-            "typewriterCursor"
-        );
-
-    if (!output) {
+    if (!element) {
         return;
     }
 
-    output.textContent = "";
+    element.textContent = "";
 
     let index = 0;
 
-
-    function type() {
+    function write() {
 
         if (
-            index <
+            index >=
             aboutText.length
         ) {
-
-            output.textContent +=
-                aboutText.charAt(index);
-
-            index++;
-
-            setTimeout(
-                type,
-                24
-            );
-
-        } else if (cursor) {
-
-            cursor.style.display =
-                "none";
-
+            return;
         }
 
+        element.textContent +=
+            aboutText[index];
+
+        index++;
+
+        setTimeout(
+            write,
+            28
+        );
     }
 
-    type();
-
+    write();
 }
 
 
 /* =========================================================
+   ACCORDION
+   ========================================================= */
+
+document.querySelectorAll(
+    ".accordion-button"
+).forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                const item =
+                    button.closest(
+                        ".accordion-item"
+                    );
+
+                item.classList.toggle(
+                    "open"
+                );
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
    YOUTUBE MODAL
-========================================================= */
+   ========================================================= */
 
 const videoModal =
     document.getElementById(
         "videoModal"
     );
 
-const videoModalFrame =
+const youtubePlayer =
     document.getElementById(
-        "videoModalFrame"
+        "youtubePlayer"
     );
 
-const videoModalClose =
+const closeVideoButton =
     document.getElementById(
-        "videoModalClose"
+        "closeVideo"
     );
 
 
-document
-    .querySelectorAll(".youtube-card")
-    .forEach(card => {
+document.querySelectorAll(
+    ".youtube-card"
+).forEach(
+    card => {
 
         card.addEventListener(
             "click",
-            () => {
+            function() {
 
-                const id =
+                const videoId =
                     card.dataset.video;
 
-                if (!id) {
-                    return;
-                }
-
-                videoModalFrame.src =
+                youtubePlayer.src =
                     "https://www.youtube.com/embed/" +
-                    id +
+                    videoId +
                     "?autoplay=1&rel=0";
 
                 videoModal.classList.add(
                     "open"
                 );
-
             }
         );
 
-    });
+    }
+);
 
 
-function closeVideoModal() {
+function closeVideo() {
 
     videoModal.classList.remove(
         "open"
     );
 
-    videoModalFrame.src = "";
-
+    youtubePlayer.src = "";
 }
 
 
-videoModalClose.addEventListener(
+closeVideoButton.addEventListener(
     "click",
-    closeVideoModal
+    closeVideo
 );
 
 
 videoModal.addEventListener(
     "click",
-    event => {
+    function(event) {
 
         if (
             event.target ===
             videoModal
         ) {
-
-            closeVideoModal();
-
+            closeVideo();
         }
-
-    }
-);
-
-
-document.addEventListener(
-    "keydown",
-    event => {
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            closeVideoModal();
-
-            closeBurger();
-
-        }
-
     }
 );
 
 
 /* =========================================================
-   BURGER MENÜ
-========================================================= */
+   BURGER MENU
+   ========================================================= */
 
-const burgerButton =
+const menuButton =
     document.getElementById(
-        "burgerButton"
+        "menuButton"
     );
 
-const burgerMenu =
+const menu =
     document.getElementById(
-        "burgerMenu"
+        "menu"
     );
 
 
-function openBurger() {
+function openMenu() {
 
-    burgerButton.classList.add(
+    menu.classList.add(
         "open"
     );
 
-    burgerMenu.classList.add(
-        "open"
+    menuButton.classList.add(
+        "active"
     );
-
-    burgerButton.setAttribute(
-        "aria-expanded",
-        "true"
-    );
-
 }
 
 
-function closeBurger() {
+function closeMenu() {
 
-    burgerButton.classList.remove(
+    menu.classList.remove(
         "open"
     );
 
-    burgerMenu.classList.remove(
-        "open"
+    menuButton.classList.remove(
+        "active"
     );
-
-    burgerButton.setAttribute(
-        "aria-expanded",
-        "false"
-    );
-
 }
 
 
-burgerButton.addEventListener(
+menuButton.addEventListener(
     "click",
-    () => {
+    function() {
 
         if (
-            burgerMenu.classList.contains(
+            menu.classList.contains(
                 "open"
             )
         ) {
 
-            closeBurger();
+            closeMenu();
 
         } else {
 
-            openBurger();
-
+            openMenu();
         }
+    }
+);
+
+
+/* ---------------------------------------------------------
+   DIRECT PAGE NAVIGATION
+   --------------------------------------------------------- */
+
+document.querySelectorAll(
+    ".menu-item"
+).forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            function() {
+
+                const index =
+                    Number(
+                        button.dataset.page
+                    );
+
+                goToPage(index);
+
+                closeMenu();
+            }
+        );
 
     }
 );
 
 
-/*
-   Direkter Seitenwechsel aus dem Menü.
-*/
+function goToPage(index) {
 
-burgerMenu
-    .querySelectorAll(
-        "button[data-page]"
-    )
-    .forEach(button => {
+    if (
+        index < 0 ||
+        index >= pages.length
+    ) {
+        return;
+    }
 
-        button.addEventListener(
-            "click",
-            () => {
+    currentPage =
+        index;
 
-                const target =
-                    parseInt(
-                        button.dataset.page,
-                        10
-                    );
+    targetPage =
+        getTargetPage(1);
 
-                if (
-                    Number.isNaN(target)
-                ) {
-                    return;
-                }
+    progress = 0;
 
-                currentPage =
-                    Math.max(
-                        0,
-                        Math.min(
-                            pageCount - 1,
-                            target
-                        )
-                    );
+    animating = false;
 
-                progress = 0;
+    pages.forEach(
+        (page, i) => {
 
-                direction = 1;
+            page.style.webkitMaskImage =
+                "none";
 
-                animating = false;
+            page.style.maskImage =
+                "none";
 
-                showPage(
-                    currentPage
-                );
+            page.style.zIndex =
+                i === currentPage
+                    ? 20
+                    : 1;
 
-                updateMask();
+            page.style.visibility =
+                i === currentPage
+                    ? "visible"
+                    : "hidden";
 
-                closeBurger();
+            page.style.pointerEvents =
+                i === currentPage
+                    ? "auto"
+                    : "none";
+        }
+    );
 
 
-                if (
-                    currentPage === 1
-                ) {
+    if (
+        currentPage === 1
+    ) {
+        startTypewriter();
+    }
 
-                    startTypewriter();
 
-                }
+    /*
+       Page 6 should always be fully built
+       when reached directly through menu.
+    */
 
-            }
-        );
-
-    });
+    if (
+        currentPage === 5
+    ) {
+        updateRoom(1);
+    } else {
+        updateRoom(0);
+    }
+}
 
 
 /* =========================================================
-   SEITE 6 – CANVAS 3D RAUM
-========================================================= */
+   3D ROOM CANVAS
+   ========================================================= */
 
 const roomCanvas =
     document.getElementById(
@@ -3073,39 +2237,57 @@ const roomCtx =
     );
 
 
+let roomWidth = 0;
+let roomHeight = 0;
+let roomDpr = 1;
+
+
 function resizeRoomCanvas() {
 
-    const dpr =
+    roomDpr =
         Math.min(
             window.devicePixelRatio || 1,
             2
         );
 
+    roomWidth =
+        window.innerWidth;
+
+    roomHeight =
+        window.innerHeight;
+
     roomCanvas.width =
-        window.innerWidth * dpr;
+        Math.round(
+            roomWidth *
+            roomDpr
+        );
 
     roomCanvas.height =
-        window.innerHeight * dpr;
+        Math.round(
+            roomHeight *
+            roomDpr
+        );
 
     roomCanvas.style.width =
-        window.innerWidth + "px";
+        roomWidth + "px";
 
     roomCanvas.style.height =
-        window.innerHeight + "px";
+        roomHeight + "px";
 
     roomCtx.setTransform(
-        dpr,
+        roomDpr,
         0,
         0,
-        dpr,
+        roomDpr,
         0,
         0
     );
 
     updateRoom(
-        progress
+        currentPage === 5
+            ? 1
+            : 0
     );
-
 }
 
 
@@ -3115,49 +2297,40 @@ window.addEventListener(
 );
 
 
-/* =========================================================
-   3D KARO-RAUM
-========================================================= */
+/* ---------------------------------------------------------
+   ROOM DRAWING
+   --------------------------------------------------------- */
 
-function updateRoom(roomProgress) {
+function updateRoom(progressValue) {
 
     if (!roomCtx) {
         return;
     }
 
-    const w =
-        window.innerWidth;
-
-    const h =
-        window.innerHeight;
-
-
-    roomProgress =
+    const p =
         Math.max(
             0,
             Math.min(
                 1,
-                roomProgress
+                progressValue
             )
         );
 
-
-    /*
-       Hintergrund immer löschen.
-    */
-
-    roomCtx.clearRect(
-        0,
-        0,
-        w,
-        h
-    );
+    drawRoom(p);
+}
 
 
-    roomCtx.fillStyle =
-        "#0d0d0d";
+function drawRoom(p) {
 
-    roomCtx.fillRect(
+    const ctx = roomCtx;
+
+    const w =
+        roomWidth;
+
+    const h =
+        roomHeight;
+
+    ctx.clearRect(
         0,
         0,
         w,
@@ -3166,396 +2339,122 @@ function updateRoom(roomProgress) {
 
 
     /*
-       Bei 0% ist der Raum vollständig abgebaut.
+       Dark room background.
     */
 
-    if (
-        roomProgress <= 0.001
-    ) {
+    ctx.fillStyle =
+        "#090909";
+
+    ctx.fillRect(
+        0,
+        0,
+        w,
+        h
+    );
+
+
+    if (p <= 0) {
         return;
     }
 
 
     /*
-       Fluchtpunkt.
+       Vanishing point.
     */
 
-    const vanishX =
-        w / 2;
+    const vx =
+        w * 0.5;
 
-    const vanishY =
+    const vy =
         h * 0.46;
 
 
     /*
-       =====================================================
-       BODEN
-       =====================================================
+       Room boundaries.
     */
 
-    const floorStart =
-        vanishY;
+    const left =
+        0;
 
-    const floorDepth =
-        34;
+    const right =
+        w;
+
+    const top =
+        0;
+
+    const bottom =
+        h;
 
 
     /*
-       Horizontale Karo-Linien.
+       Progressive depth.
+       This makes the room physically
+       "grow" as p increases.
     */
 
-    for (
-        let i = 0;
-        i <= floorDepth;
-        i++
-    ) {
-
-        const t =
-            i / floorDepth;
-
-        /*
-           Perspektivische Verteilung.
-        */
-
-        const perspective =
-            Math.pow(
-                t,
-                2.15
-            );
-
-
-        /*
-           Nur so weit zeichnen,
-           wie der Raum aufgebaut ist.
-        */
-
-        const visible =
-            Math.min(
-                1,
-                roomProgress * 1.15
-            );
-
-        if (
-            t > visible
-        ) {
-            continue;
-        }
-
-
-        const y =
-            floorStart +
-            (h - floorStart) *
-            perspective;
-
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            0,
-            y
+    const depth =
+        Math.pow(
+            p,
+            0.72
         );
-
-        roomCtx.lineTo(
-            w,
-            y
-        );
-
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.12 +
-                roomProgress * 0.28
-            ) +
-            ")";
-
-        roomCtx.lineWidth = 1;
-
-        roomCtx.stroke();
-
-    }
 
 
     /*
-       Längslinien des Bodens.
+       BACK WALL
     */
 
-    const floorColumns =
-        24;
-
-
-    for (
-        let i = -floorColumns;
-        i <= floorColumns;
-        i++
-    ) {
-
-        const bottomX =
-            vanishX +
-            i *
-            (
-                w /
-                floorColumns
-            ) *
-            1.8;
-
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            vanishX,
-            vanishY
+    const backWidth =
+        Math.max(
+            4,
+            w * 0.13 * depth
         );
 
-        roomCtx.lineTo(
-            bottomX,
-            h
+    const backHeight =
+        Math.max(
+            4,
+            h * 0.14 * depth
         );
 
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.10 +
-                roomProgress * 0.25
-            ) +
-            ")";
+    const backLeft =
+        vx - backWidth / 2;
 
-        roomCtx.lineWidth = 1;
+    const backRight =
+        vx + backWidth / 2;
 
-        roomCtx.stroke();
+    const backTop =
+        vy - backHeight / 2;
 
-    }
+    const backBottom =
+        vy + backHeight / 2;
 
 
     /*
-       =====================================================
-       DECKE
-       =====================================================
+       subtle back wall
     */
 
-    const ceilingLines =
-        18;
+    ctx.beginPath();
+
+    ctx.rect(
+        backLeft,
+        backTop,
+        backWidth,
+        backHeight
+    );
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.28)";
+
+    ctx.lineWidth = 1;
+
+    ctx.stroke();
 
 
-    for (
-        let i = 0;
-        i <= ceilingLines;
-        i++
-    ) {
-
-        const t =
-            i /
-            ceilingLines;
-
-
-        const visible =
-            Math.min(
-                1,
-                roomProgress * 1.15
-            );
-
-
-        if (
-            t > visible
-        ) {
-            continue;
-        }
-
-
-        const y =
-            vanishY -
-            (
-                vanishY * 0.92
-            ) *
-            Math.pow(
-                t,
-                1.85
-            );
-
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            0,
-            y
-        );
-
-        roomCtx.lineTo(
-            w,
-            y
-        );
-
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.08 +
-                roomProgress * 0.18
-            ) +
-            ")";
-
-        roomCtx.stroke();
-
-    }
-
-
-    /*
-       Decken-Längslinien.
-    */
-
-    const ceilingColumns =
-        22;
-
-
-    for (
-        let i = -ceilingColumns;
-        i <= ceilingColumns;
-        i++
-    ) {
-
-        const topX =
-            vanishX +
-            i *
-            (
-                w /
-                ceilingColumns
-            ) *
-            1.8;
-
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            vanishX,
-            vanishY
-        );
-
-        roomCtx.lineTo(
-            topX,
-            0
-        );
-
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.08 +
-                roomProgress * 0.18
-            ) +
-            ")";
-
-        roomCtx.stroke();
-
-    }
-
-
-    /*
-       =====================================================
-       LINKE UND RECHTE WAND
-       =====================================================
-    */
-
-    const wallRows =
-        18;
-
-
-    for (
-        let i = 0;
-        i <= wallRows;
-        i++
-    ) {
-
-        const t =
-            i /
-            wallRows;
-
-
-        const visible =
-            Math.min(
-                1,
-                roomProgress * 1.15
-            );
-
-
-        if (
-            t > visible
-        ) {
-            continue;
-        }
-
-
-        /*
-           Linke Wand.
-        */
-
-        const leftY =
-            vanishY -
-            (
-                vanishY * 0.92
-            ) *
-            Math.pow(
-                t,
-                1.8
-            );
-
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            vanishX,
-            vanishY
-        );
-
-        roomCtx.lineTo(
-            0,
-            leftY
-        );
-
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.08 +
-                roomProgress * 0.20
-            ) +
-            ")";
-
-        roomCtx.stroke();
-
-
-        /*
-           Rechte Wand.
-        */
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            vanishX,
-            vanishY
-        );
-
-        roomCtx.lineTo(
-            w,
-            leftY
-        );
-
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.08 +
-                roomProgress * 0.20
-            ) +
-            ")";
-
-        roomCtx.stroke();
-
-    }
-
-
-    /*
-       =====================================================
-       TIEFE DES RAUMES
-       =====================================================
-    */
+    /* =====================================================
+       FLOOR / CEILING DEPTH LINES
+       ===================================================== */
 
     const depthLines =
-        24;
+        18;
 
 
     for (
@@ -3564,194 +2463,574 @@ function updateRoom(roomProgress) {
         i++
     ) {
 
-        const t =
-            i /
-            depthLines;
+        const normalized =
+            i / depthLines;
 
-
-        /*
-           Der Raum wird von vorne nach hinten
-           aufgebaut.
-        */
-
-        const visible =
-            roomProgress * 1.25;
-
-
-        if (
-            t > visible
-        ) {
-            continue;
-        }
-
-
-        const perspective =
+        const local =
             Math.pow(
-                t,
-                1.75
-            );
-
-
-        const y =
-            vanishY +
-            (
-                h - vanishY
+                normalized,
+                1.65
             ) *
-            perspective;
+            depth;
 
+        const yBottom =
+            vy +
+            (bottom - vy) *
+            local;
 
-        const halfWidth =
-            (
-                w * 0.48
-            ) *
-            perspective;
+        const yTop =
+            vy -
+            (vy - top) *
+            local;
 
 
         /*
-           Horizontale Karo-Linie.
+           Floor line
         */
 
-        roomCtx.beginPath();
+        ctx.beginPath();
 
-        roomCtx.moveTo(
-            vanishX -
-            halfWidth,
-            y
+        ctx.moveTo(
+            vx,
+            vy
         );
 
-        roomCtx.lineTo(
-            vanishX +
-            halfWidth,
-            y
+        ctx.lineTo(
+            w,
+            yBottom
         );
 
-        roomCtx.strokeStyle =
-            "rgba(215,210,190," +
-            (
-                0.10 +
-                roomProgress * 0.28
-            ) +
-            ")";
+        ctx.strokeStyle =
+            "rgba(255,255,255,.18)";
 
-        roomCtx.stroke();
+        ctx.lineWidth = 1;
 
+        /*
+           Instead of drawing each ray twice,
+           horizontal cross-lines below.
+        */
+
+        ctx.stroke();
+
+
+        /*
+           Ceiling line
+        */
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            0,
+            yTop
+        );
+
+        ctx.stroke();
     }
 
 
+    /* =====================================================
+       HORIZONTAL CARO LINES
+       ===================================================== */
+
+    for (
+        let i = 1;
+        i <= depthLines;
+        i++
+    ) {
+
+        const normalized =
+            i / depthLines;
+
+        const local =
+            Math.pow(
+                normalized,
+                1.7
+            ) *
+            depth;
+
+
+        /*
+           FLOOR
+        */
+
+        const floorY =
+            vy +
+            (bottom - vy) *
+            local;
+
+        const floorLeftX =
+            vx +
+            (left - vx) *
+            local;
+
+        const floorRightX =
+            vx +
+            (right - vx) *
+            local;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            floorLeftX,
+            floorY
+        );
+
+        ctx.lineTo(
+            floorRightX,
+            floorY
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.24)";
+
+        ctx.lineWidth = 1;
+
+        ctx.stroke();
+
+
+        /*
+           CEILING
+        */
+
+        const ceilingY =
+            vy -
+            (vy - top) *
+            local;
+
+        const ceilingLeftX =
+            vx +
+            (left - vx) *
+            local;
+
+        const ceilingRightX =
+            vx +
+            (right - vx) *
+            local;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            ceilingLeftX,
+            ceilingY
+        );
+
+        ctx.lineTo(
+            ceilingRightX,
+            ceilingY
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.20)";
+
+        ctx.stroke();
+    }
+
+
+    /* =====================================================
+       FLOOR / CEILING RAYS
+       ===================================================== */
+
+    const rayCount = 17;
+
+
+    for (
+        let i = 0;
+        i <= rayCount;
+        i++
+    ) {
+
+        const t =
+            i / rayCount;
+
+
+        /*
+           Floor rays.
+        */
+
+        const floorX =
+            left +
+            (right - left) *
+            t;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            floorX,
+            bottom
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.22)";
+
+        ctx.lineWidth = 1;
+
+        ctx.stroke();
+
+
+        /*
+           Ceiling rays.
+        */
+
+        const ceilingX =
+            left +
+            (right - left) *
+            t;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            ceilingX,
+            top
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.18)";
+
+        ctx.stroke();
+    }
+
+
+    /* =====================================================
+       SIDE WALL GRID
+       ===================================================== */
+
+    const sideLines = 9;
+
+
+    for (
+        let i = 0;
+        i <= sideLines;
+        i++
+    ) {
+
+        const t =
+            i / sideLines;
+
+        const floorTarget =
+            left +
+            (vx - left) *
+            t;
+
+        const ceilingTarget =
+            left +
+            (vx - left) *
+            t;
+
+
+        /*
+           Left wall vertical-ish lines.
+        */
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            floorTarget,
+            bottom
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.15)";
+
+        ctx.stroke();
+
+
+        /*
+           Right wall.
+        */
+
+        const rightTarget =
+            vx +
+            (right - vx) *
+            t;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            rightTarget,
+            bottom
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.15)";
+
+        ctx.stroke();
+    }
+
+
+    /* =====================================================
+       WALL VERTICAL GRID
+       ===================================================== */
+
+    const verticals = 12;
+
+
+    for (
+        let i = 0;
+        i <= verticals;
+        i++
+    ) {
+
+        const t =
+            i / verticals;
+
+
+        /*
+           Left side.
+        */
+
+        const bottomX =
+            vx +
+            (left - vx) *
+            t;
+
+        const topX =
+            vx +
+            (left - vx) *
+            t;
+
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            bottomX,
+            bottom
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.16)";
+
+        ctx.stroke();
+
+
+        /*
+           Right side.
+        */
+
+        const rb =
+            vx +
+            (right - vx) *
+            t;
+
+        ctx.beginPath();
+
+        ctx.moveTo(
+            vx,
+            vy
+        );
+
+        ctx.lineTo(
+            rb,
+            bottom
+        );
+
+        ctx.strokeStyle =
+            "rgba(255,255,255,.16)";
+
+        ctx.stroke();
+    }
+
+
+    /* =====================================================
+       STRONG ROOM EDGES
+       ===================================================== */
+
+    ctx.strokeStyle =
+        "rgba(255,255,255,.48)";
+
+    ctx.lineWidth = 1.5;
+
+
     /*
-       =====================================================
-       ZENTRALER FLUCHTPUNKT
-       =====================================================
+       Left wall edge.
     */
 
-    roomCtx.beginPath();
+    ctx.beginPath();
 
-    roomCtx.arc(
-        vanishX,
-        vanishY,
+    ctx.moveTo(
+        vx,
+        vy
+    );
+
+    ctx.lineTo(
+        0,
+        h
+    );
+
+    ctx.stroke();
+
+
+    /*
+       Right wall edge.
+    */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        vx,
+        vy
+    );
+
+    ctx.lineTo(
+        w,
+        h
+    );
+
+    ctx.stroke();
+
+
+    /*
+       Ceiling edges.
+    */
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        vx,
+        vy
+    );
+
+    ctx.lineTo(
+        0,
+        0
+    );
+
+    ctx.stroke();
+
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        vx,
+        vy
+    );
+
+    ctx.lineTo(
+        w,
+        0
+    );
+
+    ctx.stroke();
+
+
+    /* =====================================================
+       VANISHING POINT
+       ===================================================== */
+
+    const pointSize =
         2 +
-        roomProgress * 6,
+        p * 5;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        vx,
+        vy,
+        pointSize,
         0,
         Math.PI * 2
     );
 
-    roomCtx.fillStyle =
-        "#d7d2bd";
+    ctx.fillStyle =
+        "rgba(255,255,255,.8)";
 
-    roomCtx.fill();
-
-
-    /*
-       =====================================================
-       LEICHTER INNERER RAUM
-       =====================================================
-    */
-
-    if (
-        roomProgress > 0.15
-    ) {
-
-        const innerAlpha =
-            (
-                roomProgress - 0.15
-            ) *
-            0.10;
-
-
-        roomCtx.fillStyle =
-            "rgba(215,210,190," +
-            innerAlpha +
-            ")";
-
-
-        roomCtx.beginPath();
-
-        roomCtx.moveTo(
-            vanishX,
-            vanishY
-        );
-
-        roomCtx.lineTo(
-            0,
-            h
-        );
-
-        roomCtx.lineTo(
-            w,
-            h
-        );
-
-        roomCtx.closePath();
-
-        roomCtx.fill();
-
-    }
-
+    ctx.fill();
 }
 
 
 /* =========================================================
-   INITIALISIERUNG CANVAS
-========================================================= */
+   ROOM PROGRESS DURING ZIPPER TRANSITION
+   ========================================================= */
 
-resizeRoomCanvas();
+function updateRoomDuringTransition() {
+
+    /*
+       Entering page 6:
+       room builds from 0 → 1.
+
+       Leaving page 6:
+       room breaks down from 1 → 0.
+    */
+
+    const roomProgress =
+        currentPage === 5
+            ? (
+                targetPage === 5
+                    ? 1
+                    : 1 - progress
+              )
+            : (
+                targetPage === 5
+                    ? progress
+                    : 0
+              );
+
+    updateRoom(
+        roomProgress
+    );
+}
 
 
 /* =========================================================
-   BURGER – KLICK AUSSERHALB
-========================================================= */
-
-document.addEventListener(
-    "click",
-    event => {
-
-        if (
-            !burgerMenu.contains(event.target) &&
-            !burgerButton.contains(event.target)
-        ) {
-
-            closeBurger();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   INITIALER ZUSTAND
-========================================================= */
+   INITIALIZE
+   ========================================================= */
 
 showPage(
     currentPage
 );
 
-updateMask();
+resizeRoomCanvas();
+
+if (
+    currentPage === 1
+) {
+    startTypewriter();
+}
 
 
 /* =========================================================
-   ENDE
-========================================================= */
+   RESIZE SAFETY
+   ========================================================= */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        updateMask();
+
+    }
+);
 
 </script>
 
