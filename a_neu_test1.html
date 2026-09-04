@@ -1236,22 +1236,19 @@ body {
 
 
 /* =========================================================
-   SEITE 6 – INSTAGRAM
+   SEITE 6 – PLATTFORMEN
    ========================================================= */
 
-.page-instagram {
-    background:
-        radial-gradient(circle at 26% 20%, rgba(255,255,255,.10), transparent 30%),
-        radial-gradient(circle at 82% 78%, rgba(147,0,16,.26), transparent 32%),
-        linear-gradient(135deg, #111, #1b1b1b 55%, #050505);
-    color: white;
+.page-platforms {
+    background: #788044;
+    color: #111;
 }
 
-.instagram-content {
-    width: min(1050px, 90vw);
+.platforms-content {
+    width: min(1300px, 92vw);
 }
 
-.instagram-heading {
+.platforms-header {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -1259,116 +1256,131 @@ body {
     margin-bottom: 35px;
 }
 
-.instagram-heading h2 {
-    font-size: clamp(50px, 8vw, 120px);
+.platforms-header h2 {
+    font-size: clamp(55px, 9vw, 130px);
     letter-spacing: -0.07em;
-    line-height: .8;
+    line-height: .85;
     margin: 0;
 }
 
-.instagram-heading span {
-    font-size: 14px;
-    letter-spacing: .15em;
-    text-transform: lowercase;
-    opacity: .78;
-}
-
-.instagram-window {
-    display: block;
-    width: min(620px, 86vw);
-    margin-left: auto;
-    margin-right: auto;
-    padding: 16px;
-    border: 1px solid rgba(255,255,255,.35);
-    border-radius: 28px;
-    background: rgba(255,255,255,.06);
-    color: white;
-    text-decoration: none;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 30px 80px rgba(0,0,0,.35);
-
-    transition:
-        transform .25s ease,
-        border-color .25s ease,
-        background .25s ease;
-}
-
-.instagram-window:hover {
-    transform: translateY(-4px) rotate(-0.4deg);
-    border-color: rgba(255,255,255,.85);
-    background: rgba(255,255,255,.10);
-}
-
-.instagram-topbar {
+.platforms-nav {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 14px;
+    gap: 10px;
+    flex-shrink: 0;
 }
 
-.instagram-dots {
-    display: flex;
-    gap: 8px;
-}
-
-.instagram-dots span {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.6);
-}
-
-.instagram-handle {
-    font-size: 12px;
-    letter-spacing: .13em;
-    text-transform: lowercase;
-    opacity: .86;
-}
-
-.instagram-grid-preview {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-}
-
-.instagram-preview-cell {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 1 / 1;
-    border-radius: 12px;
-    background:
-        linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.03)),
-        #222;
-}
-
-.instagram-preview-cell img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.instagram-preview-cell span {
-    position: absolute;
-    inset: 0;
+.platforms-nav-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #111;
+    background: none;
+    color: #111;
+    font-size: 20px;
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255,255,255,.65);
-    font-size: 11px;
-    letter-spacing: .12em;
+    transition:
+        background .25s ease,
+        color .25s ease;
+}
+
+.platforms-nav-btn:hover {
+    background: #111;
+    color: #788044;
+}
+
+.platforms-grid {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+    align-items: stretch;
+    padding-bottom: 6px;
+    cursor: grab;
+}
+
+.platforms-grid.dragging {
+    cursor: grabbing;
+    user-select: none;
+    scroll-snap-type: none;
+}
+
+.platform-tile {
+    flex: 0 0 auto;
+    width: min(360px, 78vw);
+    height: 62vh;
+    scroll-snap-align: start;
+    border: 1px solid rgba(0,0,0,.5);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.platform-link-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    min-height: 220px;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid rgba(0,0,0,.5);
+    background: rgba(0,0,0,.05);
+    transition:
+        background .25s ease,
+        transform .25s ease;
+}
+
+.platform-link-card:hover {
+    background: rgba(0,0,0,.10);
+    transform: translateY(-4px);
+}
+
+.platform-logo {
+    width: 74px;
+    height: 74px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.platform-logo img {
+    width: 64px;
+    height: 64px;
+    display: block;
+    object-fit: contain;
+}
+
+.platform-name {
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: -0.03em;
     text-transform: lowercase;
 }
 
-.instagram-bottom {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-top: 16px;
-    font-size: 13px;
+.platform-action {
+    font-size: 12px;
     letter-spacing: .12em;
-    text-transform: lowercase;
+    text-transform: uppercase;
+    opacity: .75;
+}
+
+.platforms-grid::-webkit-scrollbar {
+    height: 5px;
+}
+
+.platforms-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.platforms-grid::-webkit-scrollbar-thumb {
+    background: rgba(17,17,17,.5);
 }
 
 /* =========================================================
@@ -1487,28 +1499,23 @@ body {
         width: min(520px, 100%);
     }
 
-    .instagram-heading {
-        display: block;
-        margin-bottom: 28px;
+    .platforms-header {
+        margin-bottom: 25px;
     }
 
-    .instagram-heading span {
-        display: block;
-        margin-top: 14px;
+    .platform-tile {
+        width: 56vw;
+        height: 46vh;
+        padding: 18px;
     }
 
-    .instagram-window {
-        width: min(420px, 86vw);
-        padding: 12px;
-        border-radius: 22px;
+    .platform-logo img {
+        width: 52px;
+        height: 52px;
     }
 
-    .instagram-grid-preview {
-        gap: 6px;
-    }
-
-    .instagram-preview-cell {
-        border-radius: 9px;
+    .platform-name {
+        font-size: 20px;
     }
 
     .page-1 .side-label {
@@ -1875,7 +1882,7 @@ body {
         <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
         <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
         <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
-        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> instagram</button>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> plattformen</button>
         <button class="burger-link" type="button" data-page="6"><span class="num">07</span> soundcloud</button>
         <a class="burger-link" href="kontakt.html"><span class="num">08</span> kontakt</a>
         <a class="burger-link" href="impressum.html"><span class="num">09</span> impressum</a>
@@ -2810,91 +2817,109 @@ body {
 
 
 <!-- =======================================================
-     SEITE 6 – INSTAGRAM
+     SEITE 6 – PLATTFORMEN
      ======================================================= -->
 
 <section
-    class="page page-instagram"
+    class="page page-platforms"
     data-page="5"
 >
 
-    <div class="instagram-content">
+    <div class="platforms-content">
 
-        <div class="instagram-heading">
+        <div class="platforms-header">
 
             <h2>
-                instagram
+                plattformen
             </h2>
 
-            <span>
-                @b333nn3t
-            </span>
+            <div class="platforms-nav">
+                <button class="platforms-nav-btn" type="button" data-dir="-1" aria-label="vorherige Plattform">‹</button>
+                <button class="platforms-nav-btn" type="button" data-dir="1" aria-label="nächste Plattform">›</button>
+            </div>
 
         </div>
 
-        <a
-            class="instagram-window"
-            href="https://www.instagram.com/b333nn3t"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Instagram Profil von b3nn3t öffnen"
-        >
+        <div class="platforms-grid">
 
-            <div class="instagram-topbar">
-                <div class="instagram-dots" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="instagram-handle">
-                    b333nn3t
-                </div>
+            <div class="platform-tile">
+                <span class="tile-label">01 / apple music</span>
+                <a
+                    class="platform-link-card"
+                    href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Apple Music öffnen"
+                >
+                    <picture class="platform-logo">
+                        <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
+                        <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="64" height="64" loading="lazy" decoding="async">
+                    </picture>
+                    <span class="platform-name">apple music</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
             </div>
 
-            <div class="instagram-grid-preview">
-                <div class="instagram-preview-cell">
-                    <span>post 01</span>
-                    <img src="assets/instagram/insta-01.avif" alt="Instagram Vorschau 01" loading="lazy" onerror="this.style.display='none'">
-                </div>
-
-                <div class="instagram-preview-cell">
-                    <span>post 02</span>
-                    <img src="assets/instagram/insta-02.avif" alt="Instagram Vorschau 02" loading="lazy" onerror="this.style.display='none'">
-                </div>
-
-                <div class="instagram-preview-cell">
-                    <span>post 03</span>
-                    <img src="assets/instagram/insta-03.avif" alt="Instagram Vorschau 03" loading="lazy" onerror="this.style.display='none'">
-                </div>
-
-                <div class="instagram-preview-cell">
-                    <span>post 04</span>
-                    <img src="assets/instagram/insta-04.avif" alt="Instagram Vorschau 04" loading="lazy" onerror="this.style.display='none'">
-                </div>
-
-                <div class="instagram-preview-cell">
-                    <span>post 05</span>
-                    <img src="assets/instagram/insta-05.avif" alt="Instagram Vorschau 05" loading="lazy" onerror="this.style.display='none'">
-                </div>
-
-                <div class="instagram-preview-cell">
-                    <span>post 06</span>
-                    <img src="assets/instagram/insta-06.avif" alt="Instagram Vorschau 06" loading="lazy" onerror="this.style.display='none'">
-                </div>
+            <div class="platform-tile">
+                <span class="tile-label">02 / instagram</span>
+                <a
+                    class="platform-link-card"
+                    href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Instagram öffnen"
+                >
+                    <picture class="platform-logo">
+                        <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
+                        <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="64" height="64" loading="lazy" decoding="async">
+                    </picture>
+                    <span class="platform-name">instagram</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
             </div>
 
-            <div class="instagram-bottom">
-                <span>mehr chaos hier</span>
-                <span>öffnen →</span>
+            <div class="platform-tile">
+                <span class="tile-label">03 / mx3</span>
+                <a
+                    class="platform-link-card"
+                    href="https://mx3.ch/b3nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf MX3 öffnen"
+                >
+                    <picture class="platform-logo">
+                        <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
+                        <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="64" height="64" loading="lazy" decoding="async">
+                    </picture>
+                    <span class="platform-name">mx3</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
             </div>
 
-        </a>
+            <div class="platform-tile">
+                <span class="tile-label">04 / genius</span>
+                <a
+                    class="platform-link-card"
+                    href="https://genius.com/artists/B3nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Genius öffnen"
+                >
+                    <picture class="platform-logo">
+                        <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
+                        <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="64" height="64" loading="lazy" decoding="async">
+                    </picture>
+                    <span class="platform-name">genius</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+        </div>
 
     </div>
 
     <div class="side-label">
-        folgen
+        links
     </div>
 
 </section>
@@ -2974,7 +2999,7 @@ const pages = Array.from(
     2 = Spotify
     3 = YouTube
     4 = Drei
-    5 = Instagram
+    5 = Plattformen
     6 = SoundCloud
 */
 
@@ -4008,6 +4033,93 @@ document.querySelectorAll(".youtube-nav-btn").forEach((button) => {
                 youtubeGrid.clientWidth * 0.8;
 
         youtubeGrid.scrollBy({
+            left: dir * step,
+            behavior: "smooth"
+        });
+
+    });
+
+});
+
+
+/* =========================================================
+   SEITE 6 – HORIZONTALES SCROLLEN DER PLATTFORM-KACHELN
+   ========================================================= */
+
+const platformsGrid =
+    document.querySelector(".platforms-grid");
+
+makeDraggable(platformsGrid);
+
+if (platformsGrid) {
+
+    platformsGrid.addEventListener(
+        "wheel",
+        (event) => {
+
+            const delta =
+                (event.deltaX !== 0 ?
+                    event.deltaX :
+                    event.deltaY) *
+                H_SCROLL_SENSITIVITY;
+
+            const maxScrollLeft =
+                platformsGrid.scrollWidth -
+                platformsGrid.clientWidth;
+
+            if (maxScrollLeft <= 0) {
+                return;
+            }
+
+            const atStart =
+                platformsGrid.scrollLeft <= 0;
+
+            const atEnd =
+                platformsGrid.scrollLeft >=
+                maxScrollLeft - 1;
+
+            const scrollingForward =
+                delta > 0;
+
+            if (
+                (scrollingForward && atEnd) ||
+                (!scrollingForward && atStart)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            platformsGrid.scrollLeft += delta;
+
+        },
+        { passive: false }
+    );
+
+}
+
+
+document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        if (!platformsGrid) {
+            return;
+        }
+
+        const dir =
+            Number(button.getAttribute("data-dir"));
+
+        const tile =
+            platformsGrid.querySelector(".platform-tile");
+
+        const step =
+            tile ?
+                tile.getBoundingClientRect().width + 18 :
+                platformsGrid.clientWidth * 0.8;
+
+        platformsGrid.scrollBy({
             left: dir * step,
             behavior: "smooth"
         });
