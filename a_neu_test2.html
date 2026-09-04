@@ -120,12 +120,12 @@ body {
 .page-1-content {
     width: min(1100px, 90vw);
 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
 
-    gap: 60px;
+    gap: 26px;
 
-    align-items: center;
+    align-items: flex-start;
 }
 
 .page-1 h1 {
@@ -136,15 +136,79 @@ body {
     line-height: .85;
 
     letter-spacing: -0.08em;
+
+    margin: 0;
 }
 
 .page-1-video {
-    width: 100%;
+    position: relative;
+
+    width: min(520px, 100%);
+
+    aspect-ratio: 16 / 9;
+
+    background: transparent;
 }
 
 .page-1-video video {
     width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: #000;
+}
+
+.page-1-video.is-open {
+    background: #000;
+}
+
+.page-1-video.is-open video {
     display: block;
+}
+
+
+.video-play-trigger {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 74px;
+    height: 74px;
+
+    border: 1px solid rgba(255,255,255,.82);
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.12);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    line-height: 1;
+    padding-left: 4px;
+
+    cursor: pointer;
+
+    backdrop-filter: blur(4px);
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.video-play-trigger:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: rgba(255,255,255,.20);
+}
+
+.page-1-video.is-open .video-play-trigger,
+.page-drei-video.is-open .video-play-trigger {
+    display: none;
 }
 
 
@@ -179,10 +243,14 @@ body {
 */
 
 .page-1 .side-label {
-    top: auto;
-    bottom: 8%;
+    right: max(35px, calc((100vw - min(1100px, 90vw)) / 2));
 
-    transform: rotate(90deg);
+    top: 58%;
+    bottom: auto;
+
+    transform:
+        translateY(-50%)
+        rotate(90deg);
 }
 
 
@@ -437,6 +505,23 @@ body {
     min-height: 150px;
 }
 
+.radio-card {
+    width: 100%;
+
+    font: inherit;
+
+    text-align: left;
+
+    padding: 0;
+
+    cursor: pointer;
+}
+
+.radio-card.is-playing .play-label {
+    color: #ffb46f;
+}
+
+
 .card-article .thumb {
     width: 100%;
 
@@ -654,6 +739,15 @@ body {
     max-height: 92vh;
 
     overflow-y: auto;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.page-3-content::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 .page-3 h2 {
@@ -1080,6 +1174,66 @@ body {
 
 
 /* =========================================================
+   SEITE 5 – DREI
+   ========================================================= */
+
+.page-drei {
+    background: #930010;
+    color: white;
+}
+
+.page-drei-content {
+    width: min(1100px, 90vw);
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 26px;
+
+    align-items: flex-start;
+}
+
+.page-drei h2 {
+    font-size: clamp(60px, 10vw, 150px);
+
+    font-weight: 700;
+
+    line-height: .85;
+
+    letter-spacing: -0.08em;
+
+    margin: 0;
+}
+
+.page-drei-video {
+    position: relative;
+
+    width: min(520px, 100%);
+
+    aspect-ratio: 16 / 9;
+
+    background: transparent;
+}
+
+.page-drei-video video {
+    width: 100%;
+    height: 100%;
+
+    display: none;
+
+    background: #000;
+}
+
+.page-drei-video.is-open {
+    background: #000;
+}
+
+.page-drei-video.is-open video {
+    display: block;
+}
+
+
+/* =========================================================
    SEITE 5 – SOUNDCLOUD
    ========================================================= */
 
@@ -1152,20 +1306,56 @@ body {
 }
 
 
+
+
+/* =========================================================
+   AKTUELLE ANPASSUNGEN
+   ========================================================= */
+
+@media (min-width: 801px) {
+    /* Seite 1 und drei: Video-/Playbereich ein Drittel Richtung Mitte verschieben. */
+    .page-1-video,
+    .page-drei-video {
+        margin-left: calc((100% - min(520px, 100%)) / 3);
+    }
+
+    /* YouTube: vertikalen Text etwas weiter nach rechts setzen. */
+    .page-4 .side-label {
+        right: 20px;
+    }
+}
+
+/* Radio-Bild vollständig im Rahmen zeigen statt zu beschneiden. */
+.radio-card .thumb {
+    object-fit: contain;
+    background: #111;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
 
 @media (max-width: 800px) {
 
-    .page-1-content {
-        grid-template-columns: 1fr;
+    .page-1-content,
+    .page-drei-content {
+        width: min(620px, 86vw);
 
-        gap: 35px;
+        gap: 24px;
     }
 
-    .page-1-video {
-        max-width: 600px;
+    .page-1-video,
+    .page-drei-video {
+        width: min(520px, 100%);
+    }
+
+    .page-1 .side-label {
+        right: 8px;
+        top: 76%;
+
+        transform:
+            translateY(-50%)
+            rotate(90deg);
     }
 
     .spotify-frame {
@@ -1522,9 +1712,10 @@ body {
         <button class="burger-link" type="button" data-page="1"><span class="num">02</span> die andere</button>
         <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
         <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
-        <button class="burger-link" type="button" data-page="4"><span class="num">05</span> soundcloud</button>
-        <a class="burger-link" href="kontakt.html"><span class="num">06</span> kontakt</a>
-        <a class="burger-link" href="impressum.html"><span class="num">07</span> impressum</a>
+        <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> soundcloud</button>
+        <a class="burger-link" href="kontakt.html"><span class="num">07</span> kontakt</a>
+        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
     </div>
 </nav>
 
@@ -1578,6 +1769,13 @@ body {
 </div>
 
 
+<audio
+    id="radio-audio"
+    src="assets/radio/catfish-radio.mp3"
+    preload="none"
+></audio>
+
+
 <!-- =======================================================
      SEITE 1
      ======================================================= -->
@@ -1593,7 +1791,15 @@ body {
             gespalten
         </h1>
 
-        <div class="page-1-video">
+        <div class="page-1-video video-launcher">
+
+            <button
+                class="video-play-trigger"
+                type="button"
+                aria-label="Video abspielen"
+            >
+                ▶
+            </button>
 
             <video
                 controls
@@ -1678,13 +1884,11 @@ body {
                     02 / radio
                 </span>
 
-                <a
-                    class="card card-article"
+                <button
+                    class="card card-article radio-card"
                     id="article-radio"
-                    href="https://weeklycatch.org/v/2026-09-02-card.html"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="The Weekly Catch – Radio Feature"
+                    type="button"
+                    aria-label="The Weekly Catch – Radio Feature abspielen"
                 >
 
                     <img
@@ -1715,7 +1919,7 @@ body {
                         Radio
                     </small>
 
-                </a>
+                </button>
 
             </div>
 
@@ -2390,12 +2594,65 @@ body {
 
 
 <!-- =======================================================
+     SEITE 5 – DREI
+     ======================================================= -->
+
+<section
+    class="page page-drei"
+    data-page="4"
+>
+
+    <div class="page-drei-content">
+
+        <h2>
+            drei
+        </h2>
+
+        <div class="page-drei-video video-launcher">
+
+            <button
+                class="video-play-trigger"
+                type="button"
+                aria-label="Video abspielen"
+            >
+                ▶
+            </button>
+
+            <video
+                controls
+                preload="metadata"
+                playsinline
+                poster="/assets/release/drei-cover-384.webp"
+            >
+
+                <source
+                    src="/assets/release/dreivideo.mp4"
+                    type="video/mp4"
+                >
+
+                Dein Browser unterstützt dieses Video nicht.
+
+            </video>
+
+        </div>
+
+    </div>
+
+    <div class="side-label">
+        mal
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
      SEITE 5 – SOUNDCLOUD
      ======================================================= -->
 
 <section
     class="page page-5"
-    data-page="4"
+    data-page="5"
 >
 
     <div class="page-5-content">
@@ -2859,6 +3116,109 @@ function startAboutTypewriter() {
 
 
     typeNext(0);
+
+}
+
+
+/* =========================================================
+   VIDEO-STARTER AUF SEITE 1 UND SEITE "DREI"
+
+   Beim ersten Aufruf ist nur das Play-Zeichen sichtbar.
+   Erst nach Klick/Tap wird das Videofenster geöffnet
+   und das jeweilige Video gestartet.
+   ========================================================= */
+
+document.querySelectorAll(".video-launcher").forEach((launcher) => {
+
+    const button =
+        launcher.querySelector(".video-play-trigger");
+
+    const video =
+        launcher.querySelector("video");
+
+    if (!button || !video) {
+        return;
+    }
+
+    button.addEventListener("click", () => {
+
+        launcher.classList.add("is-open");
+
+        video.setAttribute("controls", "controls");
+
+        const playPromise =
+            video.play();
+
+        if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {
+                /* Browser kann Autoplay mit Ton blockieren.
+                   In diesem Fall bleibt das Videofenster sichtbar
+                   und der Nutzer kann manuell starten. */
+            });
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   SEITE 2 – RADIO KACHEL
+
+   Klick auf "02 / radio" spielt die lokale MP3
+   assets/radio/catfish-radio.mp3 ab bzw. pausiert sie.
+   ========================================================= */
+
+const radioCard =
+    document.getElementById("article-radio");
+
+const radioAudio =
+    document.getElementById("radio-audio");
+
+if (radioCard && radioAudio) {
+
+    radioCard.addEventListener("click", () => {
+
+        if (radioAudio.paused) {
+
+            radioAudio
+                .play()
+                .then(() => {
+                    radioCard.classList.add("is-playing");
+                    radioCard.setAttribute(
+                        "aria-label",
+                        "The Weekly Catch – Radio Feature pausieren"
+                    );
+                })
+                .catch(() => {
+                    radioCard.classList.remove("is-playing");
+                });
+
+        } else {
+
+            radioAudio.pause();
+
+            radioCard.classList.remove("is-playing");
+
+            radioCard.setAttribute(
+                "aria-label",
+                "The Weekly Catch – Radio Feature abspielen"
+            );
+
+        }
+
+    });
+
+    radioAudio.addEventListener("ended", () => {
+
+        radioCard.classList.remove("is-playing");
+
+        radioCard.setAttribute(
+            "aria-label",
+            "The Weekly Catch – Radio Feature abspielen"
+        );
+
+    });
 
 }
 
