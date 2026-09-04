@@ -61,6 +61,24 @@ body {
 
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
+
+    /*
+        GPU-Beschleunigung fürs Masken:
+        eigene Compositor-Ebene, damit das
+        Öffnen/Schließen des Spalts vor
+        allem auf Mobilgeräten flüssig
+        bleibt statt jedes Mal die ganze
+        Seite neu zu zeichnen.
+    */
+
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+
+    will-change: -webkit-mask-image, mask-image;
+
+    backface-visibility: hidden;
+
+    contain: paint;
 }
 
 .page.active {
@@ -69,6 +87,24 @@ body {
 
 .page.behind {
     z-index: 5;
+}
+
+/*
+    Seiten, die gerade weder aktiv noch
+    die dahinterliegende Zielseite sind,
+    sind für die Nutzer:innen ohnehin
+    unsichtbar (vom Spalt überdeckt).
+    "visibility: hidden" nimmt sie zusätzlich
+    aus dem Compositing raus – spart auf
+    dem Handy spürbar Leistung, vor allem
+    bei der bildlastigen YouTube-Seite,
+    ohne dass sich am Verhalten oder
+    Aussehen etwas ändert.
+*/
+
+.page:not(.active):not(.behind) {
+    visibility: hidden;
+    pointer-events: none;
 }
 
 
@@ -558,7 +594,7 @@ body {
 .spotify-frame {
     width: 100%;
 
-    height: 500px;
+    height: 420px;
 
     border: none;
 
@@ -710,9 +746,19 @@ body {
 
     flex: 0 0 auto;
 
-    width: min(320px, 78vw);
+    /*
+        Größe an die Referenzseite
+        b3nn3t.com/gesehen.html angelehnt
+        (dort: Kachel ~320px breit, Vorschau
+        fix 167px hoch) – hier als feste
+        Höhe statt Seitenverhältnis, damit
+        sie auf jedem Gerät gleich kompakt
+        bleibt.
+    */
 
-    aspect-ratio: 16 / 9;
+    width: min(300px, 70vw);
+
+    height: 168px;
 
     text-decoration: none;
 
@@ -773,8 +819,6 @@ body {
     width: 100%;
 
     height: 100%;
-
-    min-height: 180px;
 
     object-fit: cover;
 
@@ -1041,7 +1085,7 @@ body {
     }
 
     .spotify-frame {
-        height: 450px;
+        height: 340px;
     }
 
     .youtube-grid {
@@ -1049,7 +1093,7 @@ body {
     }
 
     .youtube-card {
-        width: 82vw;
+        width: min(280px, 74vw);
     }
 
     .youtube-heading {
@@ -1078,7 +1122,9 @@ body {
     */
 
     .andere-tile {
-        width: 84vw;
+        width: 56vw;
+
+        height: 46vh;
     }
 
     .andere-header {
@@ -2310,6 +2356,18 @@ const OPEN_DISTANCE = 900;
 
 const H_SCROLL_SENSITIVITY = 2.6;
 
+/*
+    Zusätzliche Verstärkung nur für die
+    vertikale Spalt-Geste (Seitenwechsel)
+    per Touch. Höher als 1 bedeutet: der
+    Spalt öffnet/schließt sich schneller
+    und flüssiger, bei gleicher Wisch-
+    distanz mit dem Finger.
+*/
+
+const TOUCH_SPALT_SENSITIVITY = 1.7;
+
+
 
 /* =========================================================
    ZIELSEITE
@@ -3288,7 +3346,7 @@ function handleScroll(delta) {
 
             animating = false;
 
-        }, 180);
+        }, 110);
 
     }
 
@@ -3298,6 +3356,28 @@ function handleScroll(delta) {
 /* =========================================================
    MAUSRAD / TRACKPAD
    ========================================================= */
+
+let pendingWheelDelta = 0;
+
+let wheelRafScheduled = false;
+
+
+function flushWheelDelta() {
+
+    wheelRafScheduled = false;
+
+    if (pendingWheelDelta === 0) {
+        return;
+    }
+
+    const delta = pendingWheelDelta;
+
+    pendingWheelDelta = 0;
+
+    handleScroll(delta);
+
+}
+
 
 window.addEventListener(
     "wheel",
@@ -3357,9 +3437,23 @@ window.addEventListener(
         event.preventDefault();
 
 
-        handleScroll(
-            event.deltaY
-        );
+        /*
+            Mehrere Wheel-Events pro Bild
+            (v. a. bei Trackpads) zu einem
+            Update bündeln – flüssiger und
+            spart unnötige Neuberechnungen.
+        */
+
+        pendingWheelDelta +=
+            event.deltaY;
+
+        if (!wheelRafScheduled) {
+
+            wheelRafScheduled = true;
+
+            requestAnimationFrame(flushWheelDelta);
+
+        }
 
     },
     {
@@ -3435,11 +3529,47 @@ window.addEventListener(
 
 /* =========================================================
    TOUCH
+
+   Der Spalt folgt jetzt in Echtzeit der
+   Fingerbewegung (touchmove), statt erst
+   beim Loslassen (touchend) zu springen.
+   Das macht die Animation spürbar flüssiger
+   und an die tatsächliche Wisch-Geschwindigkeit
+   gekoppelt. Updates werden per
+   requestAnimationFrame gebündelt, damit bei
+   sehr schnellen Touch-Events nicht mehr
+   als einmal pro Bildwechsel neu gezeichnet
+   wird.
    ========================================================= */
 
 let touchStartY = 0;
 
 let touchStartX = 0;
+
+let touchLastY = 0;
+
+let touchAxisLocked = null;
+
+let pendingTouchDelta = 0;
+
+let touchRafScheduled = false;
+
+
+function flushTouchDelta() {
+
+    touchRafScheduled = false;
+
+    if (pendingTouchDelta === 0) {
+        return;
+    }
+
+    const delta = pendingTouchDelta;
+
+    pendingTouchDelta = 0;
+
+    handleScroll(delta);
+
+}
 
 
 window.addEventListener(
@@ -3452,6 +3582,12 @@ window.addEventListener(
         touchStartX =
             event.touches[0].clientX;
 
+        touchLastY = touchStartY;
+
+        touchAxisLocked = null;
+
+        pendingTouchDelta = 0;
+
     },
     {
         passive: true
@@ -3460,7 +3596,7 @@ window.addEventListener(
 
 
 window.addEventListener(
-    "touchend",
+    "touchmove",
     (event) => {
 
         /*
@@ -3473,74 +3609,93 @@ window.addEventListener(
         }
 
 
-        const touchEndY =
-            event.changedTouches[0].clientY;
+        const touch =
+            event.touches[0];
 
-        const touchEndX =
-            event.changedTouches[0].clientX;
+        const dx =
+            touch.clientX -
+            touchStartX;
 
-
-        const differenceY =
-            touchStartY -
-            touchEndY;
-
-        const differenceX =
-            touchStartX -
-            touchEndX;
+        const dy =
+            touch.clientY -
+            touchStartY;
 
 
         /*
-            Überwiegend horizontale Geste:
-            das ist ein Wisch durch die
-            Kachel-Reihe, keine Seiten-
-            Navigation.
+            Richtung der Geste erst nach
+            ein paar Pixeln festlegen
+            (horizontal = Kachel-Wisch,
+            vertikal = Seiten-Navigation).
         */
 
-        if (
-            Math.abs(differenceX) >
-            Math.abs(differenceY)
-        ) {
+        if (touchAxisLocked === null) {
 
+            if (
+                Math.abs(dx) < 10 &&
+                Math.abs(dy) < 10
+            ) {
+
+                return;
+
+            }
+
+            touchAxisLocked =
+                Math.abs(dx) > Math.abs(dy) ?
+                    "x" :
+                    "y";
+
+        }
+
+
+        /*
+            Horizontale Geste: das ist ein
+            Wisch durch die Kachel-Reihe,
+            native Scroll übernimmt.
+        */
+
+        if (touchAxisLocked === "x") {
             return;
-
         }
 
 
-        if (
-            Math.abs(differenceY) <= 30
-        ) {
-
-            return;
-
-        }
+        event.preventDefault();
 
 
-        /*
-            Finger nach oben
-            = nach unten navigieren
-        */
+        const incrementalDelta =
+            touchLastY -
+            touch.clientY;
 
-        if (differenceY > 0) {
+        touchLastY = touch.clientY;
 
-            handleScroll(
-                Math.abs(differenceY)
-            );
-
-        }
+        pendingTouchDelta +=
+            incrementalDelta *
+            TOUCH_SPALT_SENSITIVITY;
 
 
-        /*
-            Finger nach unten
-            = nach oben navigieren
-        */
+        if (!touchRafScheduled) {
 
-        else {
+            touchRafScheduled = true;
 
-            handleScroll(
-                -Math.abs(differenceY)
-            );
+            requestAnimationFrame(flushTouchDelta);
 
         }
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+window.addEventListener(
+    "touchend",
+    () => {
+
+        touchAxisLocked = null;
+
+        pendingTouchDelta = 0;
+
+        touchRafScheduled = false;
 
     },
     {
