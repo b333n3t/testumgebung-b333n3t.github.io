@@ -1233,8 +1233,146 @@ body {
 }
 
 
+
+
 /* =========================================================
-   SEITE 5 – SOUNDCLOUD
+   SEITE 6 – INSTAGRAM
+   ========================================================= */
+
+.page-instagram {
+    background:
+        radial-gradient(circle at 26% 20%, rgba(255,255,255,.10), transparent 30%),
+        radial-gradient(circle at 82% 78%, rgba(147,0,16,.26), transparent 32%),
+        linear-gradient(135deg, #111, #1b1b1b 55%, #050505);
+    color: white;
+}
+
+.instagram-content {
+    width: min(1050px, 90vw);
+}
+
+.instagram-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 35px;
+}
+
+.instagram-heading h2 {
+    font-size: clamp(50px, 8vw, 120px);
+    letter-spacing: -0.07em;
+    line-height: .8;
+    margin: 0;
+}
+
+.instagram-heading span {
+    font-size: 14px;
+    letter-spacing: .15em;
+    text-transform: lowercase;
+    opacity: .78;
+}
+
+.instagram-window {
+    display: block;
+    width: min(620px, 86vw);
+    margin-left: auto;
+    margin-right: auto;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 28px;
+    background: rgba(255,255,255,.06);
+    color: white;
+    text-decoration: none;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 30px 80px rgba(0,0,0,.35);
+
+    transition:
+        transform .25s ease,
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.instagram-window:hover {
+    transform: translateY(-4px) rotate(-0.4deg);
+    border-color: rgba(255,255,255,.85);
+    background: rgba(255,255,255,.10);
+}
+
+.instagram-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.instagram-dots {
+    display: flex;
+    gap: 8px;
+}
+
+.instagram-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.6);
+}
+
+.instagram-handle {
+    font-size: 12px;
+    letter-spacing: .13em;
+    text-transform: lowercase;
+    opacity: .86;
+}
+
+.instagram-grid-preview {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.instagram-preview-cell {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    background:
+        linear-gradient(135deg, rgba(255,255,255,.13), rgba(255,255,255,.03)),
+        #222;
+}
+
+.instagram-preview-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.instagram-preview-cell span {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,.65);
+    font-size: 11px;
+    letter-spacing: .12em;
+    text-transform: lowercase;
+}
+
+.instagram-bottom {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 16px;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: lowercase;
+}
+
+/* =========================================================
+   SEITE 7 – SOUNDCLOUD
    ========================================================= */
 
 .page-5 {
@@ -1306,6 +1444,31 @@ body {
 }
 
 
+
+
+/* =========================================================
+   AKTUELLE ANPASSUNGEN
+   ========================================================= */
+
+@media (min-width: 801px) {
+    /* Seite 1 und drei: Video-/Playbereich ein Drittel Richtung Mitte verschieben. */
+    .page-1-video,
+    .page-drei-video {
+        margin-left: calc((100% - min(520px, 100%)) / 3);
+    }
+
+    /* YouTube: vertikalen Text etwas weiter nach rechts setzen. */
+    .page-4 .side-label {
+        right: 20px;
+    }
+}
+
+/* Radio-Bild vollständig im Rahmen zeigen statt zu beschneiden. */
+.radio-card .thumb {
+    object-fit: contain;
+    background: #111;
+}
+
 /* =========================================================
    RESPONSIVE
    ========================================================= */
@@ -1324,9 +1487,33 @@ body {
         width: min(520px, 100%);
     }
 
+    .instagram-heading {
+        display: block;
+        margin-bottom: 28px;
+    }
+
+    .instagram-heading span {
+        display: block;
+        margin-top: 14px;
+    }
+
+    .instagram-window {
+        width: min(420px, 86vw);
+        padding: 12px;
+        border-radius: 22px;
+    }
+
+    .instagram-grid-preview {
+        gap: 6px;
+    }
+
+    .instagram-preview-cell {
+        border-radius: 9px;
+    }
+
     .page-1 .side-label {
         right: 8px;
-        top: 63%;
+        top: 76%;
 
         transform:
             translateY(-50%)
@@ -1688,9 +1875,10 @@ body {
         <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
         <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
         <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
-        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> soundcloud</button>
-        <a class="burger-link" href="kontakt.html"><span class="num">07</span> kontakt</a>
-        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> instagram</button>
+        <button class="burger-link" type="button" data-page="6"><span class="num">07</span> soundcloud</button>
+        <a class="burger-link" href="kontakt.html"><span class="num">08</span> kontakt</a>
+        <a class="burger-link" href="impressum.html"><span class="num">09</span> impressum</a>
     </div>
 </nav>
 
@@ -2614,7 +2802,7 @@ body {
     </div>
 
     <div class="side-label">
-        drei
+        mal
     </div>
 
 </section>
@@ -2622,12 +2810,104 @@ body {
 
 
 <!-- =======================================================
-     SEITE 5 – SOUNDCLOUD
+     SEITE 6 – INSTAGRAM
+     ======================================================= -->
+
+<section
+    class="page page-instagram"
+    data-page="5"
+>
+
+    <div class="instagram-content">
+
+        <div class="instagram-heading">
+
+            <h2>
+                instagram
+            </h2>
+
+            <span>
+                @b333nn3t
+            </span>
+
+        </div>
+
+        <a
+            class="instagram-window"
+            href="https://www.instagram.com/b333nn3t"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram Profil von b3nn3t öffnen"
+        >
+
+            <div class="instagram-topbar">
+                <div class="instagram-dots" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="instagram-handle">
+                    b333nn3t
+                </div>
+            </div>
+
+            <div class="instagram-grid-preview">
+                <div class="instagram-preview-cell">
+                    <span>post 01</span>
+                    <img src="assets/instagram/insta-01.avif" alt="Instagram Vorschau 01" loading="lazy" onerror="this.style.display='none'">
+                </div>
+
+                <div class="instagram-preview-cell">
+                    <span>post 02</span>
+                    <img src="assets/instagram/insta-02.avif" alt="Instagram Vorschau 02" loading="lazy" onerror="this.style.display='none'">
+                </div>
+
+                <div class="instagram-preview-cell">
+                    <span>post 03</span>
+                    <img src="assets/instagram/insta-03.avif" alt="Instagram Vorschau 03" loading="lazy" onerror="this.style.display='none'">
+                </div>
+
+                <div class="instagram-preview-cell">
+                    <span>post 04</span>
+                    <img src="assets/instagram/insta-04.avif" alt="Instagram Vorschau 04" loading="lazy" onerror="this.style.display='none'">
+                </div>
+
+                <div class="instagram-preview-cell">
+                    <span>post 05</span>
+                    <img src="assets/instagram/insta-05.avif" alt="Instagram Vorschau 05" loading="lazy" onerror="this.style.display='none'">
+                </div>
+
+                <div class="instagram-preview-cell">
+                    <span>post 06</span>
+                    <img src="assets/instagram/insta-06.avif" alt="Instagram Vorschau 06" loading="lazy" onerror="this.style.display='none'">
+                </div>
+            </div>
+
+            <div class="instagram-bottom">
+                <span>mehr chaos hier</span>
+                <span>öffnen →</span>
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="side-label">
+        folgen
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE 7 – SOUNDCLOUD
      ======================================================= -->
 
 <section
     class="page page-5"
-    data-page="5"
+    data-page="6"
 >
 
     <div class="page-5-content">
@@ -2693,7 +2973,9 @@ const pages = Array.from(
     1 = die andere
     2 = Spotify
     3 = YouTube
-    4 = SoundCloud
+    4 = Drei
+    5 = Instagram
+    6 = SoundCloud
 */
 
 let currentPage = 0;
