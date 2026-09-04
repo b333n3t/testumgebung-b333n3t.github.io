@@ -61,6 +61,24 @@ body {
 
     -webkit-mask-size: 100% 100%;
     mask-size: 100% 100%;
+
+    /*
+        GPU-Beschleunigung fürs Masken:
+        eigene Compositor-Ebene, damit das
+        Öffnen/Schließen des Spalts vor
+        allem auf Mobilgeräten flüssig
+        bleibt statt jedes Mal die ganze
+        Seite neu zu zeichnen.
+    */
+
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+
+    will-change: -webkit-mask-image, mask-image;
+
+    backface-visibility: hidden;
+
+    contain: paint;
 }
 
 .page.active {
@@ -69,6 +87,24 @@ body {
 
 .page.behind {
     z-index: 5;
+}
+
+/*
+    Seiten, die gerade weder aktiv noch
+    die dahinterliegende Zielseite sind,
+    sind für die Nutzer:innen ohnehin
+    unsichtbar (vom Spalt überdeckt).
+    "visibility: hidden" nimmt sie zusätzlich
+    aus dem Compositing raus – spart auf
+    dem Handy spürbar Leistung, vor allem
+    bei der bildlastigen YouTube-Seite,
+    ohne dass sich am Verhalten oder
+    Aussehen etwas ändert.
+*/
+
+.page:not(.active):not(.behind) {
+    visibility: hidden;
+    pointer-events: none;
 }
 
 
@@ -215,13 +251,23 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
 
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: x proximity;
 
     -webkit-overflow-scrolling: touch;
 
     touch-action: pan-x;
 
+    align-items: stretch;
+
     padding-bottom: 6px;
+
+    cursor: grab;
+}
+
+.andere-grid.dragging {
+    cursor: grabbing;
+    user-select: none;
+    scroll-snap-type: none;
 }
 
 .andere-tile {
@@ -239,7 +285,7 @@ body {
 
     flex-direction: column;
 
-    max-height: 62vh;
+    height: 62vh;
 
     overflow-y: auto;
 }
@@ -678,6 +724,14 @@ body {
     -webkit-overflow-scrolling: touch;
 
     touch-action: pan-x;
+
+    cursor: grab;
+}
+
+.youtube-grid.dragging {
+    cursor: grabbing;
+    user-select: none;
+    scroll-snap-type: none;
 }
 
 
@@ -1031,7 +1085,7 @@ body {
     }
 
     .youtube-card {
-        width: 82vw;
+        width: 58vw;
     }
 
     .youtube-heading {
@@ -1060,7 +1114,9 @@ body {
     */
 
     .andere-tile {
-        width: 84vw;
+        width: 66vw;
+
+        height: 52vh;
     }
 
     .andere-header {
@@ -1210,6 +1266,144 @@ body {
 
 }
 
+/* =========================================================
+   BURGER-MENÜ
+   Permanent oben rechts sichtbar, über
+   allen Seiten. Öffnet per Klick/Tap
+   nach unten auf; verlässt der Mauszeiger
+   das Menü (bewegt sich nach unten davon
+   weg), schließt es sich automatisch
+   wieder.
+   ========================================================= */
+
+.burger-menu {
+    position: fixed;
+
+    top: 22px;
+    right: 22px;
+
+    z-index: 2000;
+}
+
+.burger-btn {
+    width: 46px;
+    height: 46px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: white;
+    color: #111;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    cursor: pointer;
+
+    box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+.burger-btn span {
+    display: block;
+
+    width: 18px;
+    height: 2px;
+
+    background: #111;
+
+    transition: transform .25s ease, opacity .25s ease;
+}
+
+.burger-menu.open .burger-btn span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.burger-menu.open .burger-btn span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.open .burger-btn span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
+.burger-dropdown {
+    position: absolute;
+
+    top: 58px;
+    right: 0;
+
+    min-width: 220px;
+
+    background: #111;
+    color: white;
+
+    padding: 10px 0;
+
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+
+    transition: opacity .2s ease, transform .2s ease;
+
+    box-shadow: 0 8px 24px rgba(0,0,0,.35);
+}
+
+.burger-menu.open .burger-dropdown {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.burger-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 13px 22px;
+
+    color: white;
+    text-decoration: none;
+
+    font-size: 13px;
+    letter-spacing: .1em;
+    text-transform: lowercase;
+
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+
+    transition: background .2s ease;
+}
+
+.burger-link:hover,
+.burger-link.current {
+    background: rgba(255,255,255,.1);
+}
+
+.burger-link .num {
+    opacity: .5;
+    font-size: 11px;
+}
+
+@media (max-width: 800px) {
+
+    .burger-menu {
+        top: 16px;
+        right: 16px;
+    }
+
+    .burger-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+}
+
 </style>
 </head>
 
@@ -1218,9 +1412,36 @@ body {
 
 
 <!-- =======================================================
+     BURGER-MENÜ
+     ======================================================= -->
+<nav class="burger-menu" id="burger-menu" aria-label="Seitennavigation">
+    <button
+        class="burger-btn"
+        id="burger-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="burger-dropdown"
+        aria-label="Menü öffnen"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="burger-dropdown" id="burger-dropdown">
+        <button class="burger-link" type="button" data-page="0"><span class="num">01</span> gespalten</button>
+        <button class="burger-link" type="button" data-page="1"><span class="num">02</span> die andere</button>
+        <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
+        <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
+        <button class="burger-link" type="button" data-page="4"><span class="num">05</span> soundcloud</button>
+    </div>
+</nav>
+
+
+<!-- =======================================================
      VIDEO-MODAL
 
      Wird per JS befüllt und eingeblendet,
+
      wenn eine YouTube-Karte angeklickt wird.
      Liegt über allen Seiten (z-index 1000)
      und ist unabhängig von der Spalt-Animation.
@@ -2115,6 +2336,18 @@ let animating = false;
 
 const OPEN_DISTANCE = 900;
 
+/*
+    Empfindlichkeit des horizontalen
+    Scrollens (Kacheln / YouTube-Reihe).
+    Werte über 1 verstärken jede
+    Maus-, Trackpad- oder Touch-Geste,
+    damit schon ein leichtes Wischen
+    bzw. ein kleiner Wheel-Ausschlag
+    spürbar etwas bewegt.
+*/
+
+const H_SCROLL_SENSITIVITY = 2.6;
+
 
 /* =========================================================
    ZIELSEITE
@@ -2535,6 +2768,108 @@ function findScrollableAncestor(element) {
 
 
 /* =========================================================
+   KLICK-UND-ZIEHEN MIT DER NORMALEN MAUS
+   Erlaubt horizontales Scrollen der
+   Kacheln bzw. der YouTube-Reihe auch
+   ganz ohne Mausrad/Trackpad – einfach
+   klicken, halten und ziehen. Reagiert
+   nur auf echte Mausereignisse (nicht
+   auf Touch, das läuft nativ).
+   ========================================================= */
+
+function makeDraggable(el) {
+
+    if (!el) {
+        return;
+    }
+
+    let isDown = false;
+    let dragged = false;
+    let startX = 0;
+    let startScrollLeft = 0;
+
+    el.addEventListener("pointerdown", (event) => {
+
+        if (event.pointerType !== "mouse") {
+            return;
+        }
+
+        isDown = true;
+        dragged = false;
+
+        startX = event.clientX;
+        startScrollLeft = el.scrollLeft;
+
+        el.classList.add("dragging");
+
+    });
+
+    window.addEventListener("pointermove", (event) => {
+
+        if (!isDown || event.pointerType !== "mouse") {
+            return;
+        }
+
+        const dx = event.clientX - startX;
+
+        if (Math.abs(dx) > 4) {
+            dragged = true;
+        }
+
+        if (dragged) {
+            event.preventDefault();
+            el.scrollLeft = startScrollLeft - dx;
+        }
+
+    });
+
+    function endDrag(event) {
+
+        if (event && event.pointerType && event.pointerType !== "mouse") {
+            return;
+        }
+
+        if (isDown && dragged) {
+
+            /*
+                Verhindert, dass der Klick
+                nach dem Ziehen noch ein
+                Video öffnet oder einen
+                Link auslöst.
+            */
+
+            const suppressClick = (clickEvent) => {
+                clickEvent.preventDefault();
+                clickEvent.stopPropagation();
+                el.removeEventListener(
+                    "click",
+                    suppressClick,
+                    true
+                );
+            };
+
+            el.addEventListener(
+                "click",
+                suppressClick,
+                true
+            );
+
+        }
+
+        isDown = false;
+        dragged = false;
+
+        el.classList.remove("dragging");
+
+    }
+
+    window.addEventListener("pointerup", endDrag);
+    window.addEventListener("pointercancel", endDrag);
+
+}
+
+
+/* =========================================================
    VIDEO-MODAL (INLINE-WIEDERGABE)
 
    Beim Klick auf eine YouTube-Karte wird
@@ -2656,6 +2991,8 @@ if (videoModal) {
 const andereGrid =
     document.querySelector(".andere-grid");
 
+makeDraggable(andereGrid);
+
 
 if (andereGrid) {
 
@@ -2705,9 +3042,10 @@ if (andereGrid) {
             */
 
             const delta =
-                event.deltaX !== 0 ?
+                (event.deltaX !== 0 ?
                     event.deltaX :
-                    event.deltaY;
+                    event.deltaY) *
+                H_SCROLL_SENSITIVITY;
 
             const maxScrollLeft =
                 andereGrid.scrollWidth -
@@ -2797,6 +3135,8 @@ document.querySelectorAll(".andere-nav-btn").forEach((button) => {
 const youtubeGrid =
     document.querySelector(".youtube-grid");
 
+makeDraggable(youtubeGrid);
+
 
 if (youtubeGrid) {
 
@@ -2805,9 +3145,10 @@ if (youtubeGrid) {
         (event) => {
 
             const delta =
-                event.deltaX !== 0 ?
+                (event.deltaX !== 0 ?
                     event.deltaX :
-                    event.deltaY;
+                    event.deltaY) *
+                H_SCROLL_SENSITIVITY;
 
             const maxScrollLeft =
                 youtubeGrid.scrollWidth -
@@ -3257,6 +3598,145 @@ window.addEventListener(
 
 
 /* =========================================================
+   BURGER-MENÜ
+   Permanent oben rechts. Öffnet per Klick;
+   bewegt sich die Maus vom geöffneten Menü
+   weg (nach unten hinaus), schließt es sich
+   automatisch wieder. Die Links springen
+   direkt zur gewählten Seite, ohne die
+   Spalt-Animation abzuspielen.
+   ========================================================= */
+
+const burgerMenu =
+    document.getElementById("burger-menu");
+
+const burgerBtn =
+    document.getElementById("burger-btn");
+
+function openBurgerMenu() {
+
+    if (!burgerMenu || !burgerBtn) {
+        return;
+    }
+
+    burgerMenu.classList.add("open");
+
+    burgerBtn.setAttribute("aria-expanded", "true");
+
+}
+
+function closeBurgerMenu() {
+
+    if (!burgerMenu || !burgerBtn) {
+        return;
+    }
+
+    burgerMenu.classList.remove("open");
+
+    burgerBtn.setAttribute("aria-expanded", "false");
+
+}
+
+if (burgerBtn) {
+
+    burgerBtn.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        if (burgerMenu.classList.contains("open")) {
+            closeBurgerMenu();
+        } else {
+            openBurgerMenu();
+        }
+
+    });
+
+}
+
+if (burgerMenu) {
+
+    /*
+        Verlässt die Maus das Menü nach
+        unten (oder in eine andere Richtung),
+        schließt es sich wieder.
+    */
+
+    burgerMenu.addEventListener("mouseleave", () => {
+        closeBurgerMenu();
+    });
+
+}
+
+/*
+    Klick außerhalb des Menüs schließt es
+    ebenfalls (z. B. für Touch-Geräte).
+*/
+
+document.addEventListener("click", (event) => {
+
+    if (!burgerMenu) {
+        return;
+    }
+
+    if (
+        burgerMenu.classList.contains("open") &&
+        !burgerMenu.contains(event.target)
+    ) {
+        closeBurgerMenu();
+    }
+
+});
+
+/*
+    Direktsprung zu einer Seite über das
+    Menü, ohne die Spalt-Animation.
+*/
+
+function jumpToPage(index) {
+
+    if (
+        index === currentPage ||
+        !pages[index] ||
+        animating
+    ) {
+        return;
+    }
+
+    currentPage = index;
+    progress = 0;
+
+    setupLayers(direction);
+
+    pages.forEach((page) => {
+        page.style.webkitMaskImage = "none";
+        page.style.maskImage = "none";
+    });
+
+    if (currentPage === 1) {
+        startAboutTypewriter();
+    }
+
+}
+
+document.querySelectorAll(".burger-link").forEach((link) => {
+
+    link.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        const index =
+            Number(link.getAttribute("data-page"));
+
+        jumpToPage(index);
+
+        closeBurgerMenu();
+
+    });
+
+});
+
+
+/* =========================================================
    INITIALISIERUNG
    ========================================================= */
 
@@ -3268,4 +3748,3 @@ updateMask();
 
 </body>
 </html>
-
