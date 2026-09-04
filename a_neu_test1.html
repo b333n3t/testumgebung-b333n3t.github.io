@@ -1085,7 +1085,7 @@ body {
     }
 
     .youtube-card {
-        width: 58vw;
+        width: 46vw;
     }
 
     .youtube-heading {
@@ -1114,9 +1114,9 @@ body {
     */
 
     .andere-tile {
-        width: 66vw;
+        width: 56vw;
 
-        height: 52vh;
+        height: 46vh;
     }
 
     .andere-header {
@@ -3337,6 +3337,28 @@ function handleScroll(delta) {
    MAUSRAD / TRACKPAD
    ========================================================= */
 
+let pendingWheelDelta = 0;
+
+let wheelRafScheduled = false;
+
+
+function flushWheelDelta() {
+
+    wheelRafScheduled = false;
+
+    if (pendingWheelDelta === 0) {
+        return;
+    }
+
+    const delta = pendingWheelDelta;
+
+    pendingWheelDelta = 0;
+
+    handleScroll(delta);
+
+}
+
+
 window.addEventListener(
     "wheel",
     (event) => {
@@ -3395,9 +3417,23 @@ window.addEventListener(
         event.preventDefault();
 
 
-        handleScroll(
-            event.deltaY
-        );
+        /*
+            Mehrere Wheel-Events pro Bild
+            (v. a. bei Trackpads) zu einem
+            Update bündeln – flüssiger und
+            spart unnötige Neuberechnungen.
+        */
+
+        pendingWheelDelta +=
+            event.deltaY;
+
+        if (!wheelRafScheduled) {
+
+            wheelRafScheduled = true;
+
+            requestAnimationFrame(flushWheelDelta);
+
+        }
 
     },
     {
@@ -3473,11 +3509,47 @@ window.addEventListener(
 
 /* =========================================================
    TOUCH
+
+   Der Spalt folgt jetzt in Echtzeit der
+   Fingerbewegung (touchmove), statt erst
+   beim Loslassen (touchend) zu springen.
+   Das macht die Animation spürbar flüssiger
+   und an die tatsächliche Wisch-Geschwindigkeit
+   gekoppelt. Updates werden per
+   requestAnimationFrame gebündelt, damit bei
+   sehr schnellen Touch-Events nicht mehr
+   als einmal pro Bildwechsel neu gezeichnet
+   wird.
    ========================================================= */
 
 let touchStartY = 0;
 
 let touchStartX = 0;
+
+let touchLastY = 0;
+
+let touchAxisLocked = null;
+
+let pendingTouchDelta = 0;
+
+let touchRafScheduled = false;
+
+
+function flushTouchDelta() {
+
+    touchRafScheduled = false;
+
+    if (pendingTouchDelta === 0) {
+        return;
+    }
+
+    const delta = pendingTouchDelta;
+
+    pendingTouchDelta = 0;
+
+    handleScroll(delta);
+
+}
 
 
 window.addEventListener(
@@ -3490,6 +3562,12 @@ window.addEventListener(
         touchStartX =
             event.touches[0].clientX;
 
+        touchLastY = touchStartY;
+
+        touchAxisLocked = null;
+
+        pendingTouchDelta = 0;
+
     },
     {
         passive: true
@@ -3498,7 +3576,7 @@ window.addEventListener(
 
 
 window.addEventListener(
-    "touchend",
+    "touchmove",
     (event) => {
 
         /*
@@ -3511,74 +3589,91 @@ window.addEventListener(
         }
 
 
-        const touchEndY =
-            event.changedTouches[0].clientY;
+        const touch =
+            event.touches[0];
 
-        const touchEndX =
-            event.changedTouches[0].clientX;
+        const dx =
+            touch.clientX -
+            touchStartX;
 
-
-        const differenceY =
-            touchStartY -
-            touchEndY;
-
-        const differenceX =
-            touchStartX -
-            touchEndX;
+        const dy =
+            touch.clientY -
+            touchStartY;
 
 
         /*
-            Überwiegend horizontale Geste:
-            das ist ein Wisch durch die
-            Kachel-Reihe, keine Seiten-
-            Navigation.
+            Richtung der Geste erst nach
+            ein paar Pixeln festlegen
+            (horizontal = Kachel-Wisch,
+            vertikal = Seiten-Navigation).
         */
 
-        if (
-            Math.abs(differenceX) >
-            Math.abs(differenceY)
-        ) {
+        if (touchAxisLocked === null) {
 
+            if (
+                Math.abs(dx) < 10 &&
+                Math.abs(dy) < 10
+            ) {
+
+                return;
+
+            }
+
+            touchAxisLocked =
+                Math.abs(dx) > Math.abs(dy) ?
+                    "x" :
+                    "y";
+
+        }
+
+
+        /*
+            Horizontale Geste: das ist ein
+            Wisch durch die Kachel-Reihe,
+            native Scroll übernimmt.
+        */
+
+        if (touchAxisLocked === "x") {
             return;
-
         }
 
 
-        if (
-            Math.abs(differenceY) <= 30
-        ) {
-
-            return;
-
-        }
+        event.preventDefault();
 
 
-        /*
-            Finger nach oben
-            = nach unten navigieren
-        */
+        const incrementalDelta =
+            touchLastY -
+            touch.clientY;
 
-        if (differenceY > 0) {
+        touchLastY = touch.clientY;
 
-            handleScroll(
-                Math.abs(differenceY)
-            );
+        pendingTouchDelta += incrementalDelta;
+
+
+        if (!touchRafScheduled) {
+
+            touchRafScheduled = true;
+
+            requestAnimationFrame(flushTouchDelta);
 
         }
 
+    },
+    {
+        passive: false
+    }
+);
 
-        /*
-            Finger nach unten
-            = nach oben navigieren
-        */
 
-        else {
+window.addEventListener(
+    "touchend",
+    () => {
 
-            handleScroll(
-                -Math.abs(differenceY)
-            );
+        touchAxisLocked = null;
 
-        }
+        pendingTouchDelta = 0;
+
+        touchRafScheduled = false;
 
     },
     {
