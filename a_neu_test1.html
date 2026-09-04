@@ -1240,8 +1240,10 @@ body {
    ========================================================= */
 
 .page-platforms {
-    background: #788044;
-    color: #111;
+    background:
+        radial-gradient(circle at 25% 20%, rgba(120,128,68,.24), transparent 32%),
+        linear-gradient(135deg, #10120b, #1d2012 55%, #050604);
+    color: #f2f2f0;
 }
 
 .platforms-content {
@@ -1272,9 +1274,9 @@ body {
 .platforms-nav-btn {
     width: 42px;
     height: 42px;
-    border: 1px solid #111;
+    border: 1px solid rgba(242,242,240,.65);
     background: none;
-    color: #111;
+    color: #f2f2f0;
     font-size: 20px;
     cursor: pointer;
     display: flex;
@@ -1286,8 +1288,8 @@ body {
 }
 
 .platforms-nav-btn:hover {
-    background: #111;
-    color: #788044;
+    background: #f2f2f0;
+    color: #10120b;
 }
 
 .platforms-grid {
@@ -1314,7 +1316,7 @@ body {
     width: min(360px, 78vw);
     height: 62vh;
     scroll-snap-align: start;
-    border: 1px solid rgba(0,0,0,.5);
+    border: 1px solid rgba(242,242,240,.35);
     padding: 25px;
     display: flex;
     flex-direction: column;
@@ -1330,15 +1332,16 @@ body {
     min-height: 220px;
     text-decoration: none;
     color: inherit;
-    border: 1px solid rgba(0,0,0,.5);
-    background: rgba(0,0,0,.05);
+    border: none;
+    background: transparent;
+    outline: none;
     transition:
-        background .25s ease,
+        opacity .25s ease,
         transform .25s ease;
 }
 
 .platform-link-card:hover {
-    background: rgba(0,0,0,.10);
+    opacity: .78;
     transform: translateY(-4px);
 }
 
@@ -1380,7 +1383,7 @@ body {
 }
 
 .platforms-grid::-webkit-scrollbar-thumb {
-    background: rgba(17,17,17,.5);
+    background: rgba(242,242,240,.45);
 }
 
 /* =========================================================
