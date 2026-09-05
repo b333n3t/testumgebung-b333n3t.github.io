@@ -338,12 +338,12 @@ body {
 .page-1 .side-label {
     right: max(35px, calc((100vw - min(1100px, 90vw)) / 2));
 
-    top: 58%;
-    bottom: auto;
+    bottom: 24px;
+    top: auto;
 
-    transform:
-        translateY(-50%)
-        rotate(90deg);
+    transform-origin: right bottom;
+
+    transform: rotate(90deg);
 }
 
 
@@ -885,7 +885,13 @@ body {
 }
 
 .page-4-content {
-    width: min(1100px, 90vw);
+    /*
+        Etwas schmaler, damit rechts Platz
+        für das vertikale "anschauen"-Label
+        bleibt, statt es zu überlappen.
+    */
+
+    width: min(1000px, 80vw);
 
     display: flex;
 
@@ -1027,7 +1033,7 @@ body {
         bleibt.
     */
 
-    width: min(300px, 70vw);
+    width: min(250px, 62vw);
 
     height: 168px;
 
@@ -1421,6 +1427,20 @@ body {
     padding: 18px;
     display: flex;
     flex-direction: column;
+
+    /*
+        Dezente Tiefe für die Kachel selbst,
+        seit die Icons wieder flach sind.
+    */
+
+    box-shadow: 0 10px 24px rgba(0,0,0,.28);
+
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.platform-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0,0,0,.36);
 }
 
 .platforms-divider {
@@ -1474,34 +1494,12 @@ body {
     top: 0;
     left: 0;
 
-    width: 66px;
-    height: 66px;
+    width: 48px;
+    height: 48px;
 
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 50%;
-
-    background:
-        radial-gradient(
-            circle at 30% 24%,
-            rgba(255,255,255,.95),
-            rgba(255,255,255,0) 42%
-        ),
-        radial-gradient(
-            circle at 72% 78%,
-            rgba(0,0,0,.4),
-            rgba(0,0,0,0) 55%
-        ),
-        #f2f2f0;
-
-    box-shadow:
-        inset -10px -10px 20px rgba(0,0,0,.5),
-        inset 7px 7px 14px rgba(255,255,255,.55),
-        0 14px 22px rgba(0,0,0,.45);
-
-    overflow: hidden;
 
     will-change: transform;
 }
@@ -1511,29 +1509,6 @@ body {
     height: 44px;
     display: block;
     object-fit: contain;
-
-    /*
-        Der Ball selbst wird per JS
-        verschoben (bounce); das Icon
-        darin dreht sich unabhängig davon
-        immer weiter, wie eine rollende
-        Kugel.
-    */
-
-    animation: platform-ball-spin 7s linear infinite;
-}
-
-@keyframes platform-ball-spin {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .platform-logo img {
-        animation: none;
-    }
-
 }
 
 .platform-name {
@@ -1561,80 +1536,6 @@ body {
 .platforms-grid::-webkit-scrollbar-thumb {
     background: rgba(242,242,240,.45);
 }
-
-/* =========================================================
-   SEITE 7 – SOUNDCLOUD
-   ========================================================= */
-
-.page-5 {
-    background: #e7e1d5;
-
-    color: #111;
-}
-
-.page-5-content {
-    width: min(1000px, 88vw);
-}
-
-.page-5 h2 {
-    font-size: clamp(50px, 8vw, 120px);
-
-    letter-spacing: -0.07em;
-
-    line-height: .8;
-
-    margin-bottom: 40px;
-}
-
-
-/* =========================================================
-   SOUNDCLOUD PLAYER
-   ========================================================= */
-
-.soundcloud-box {
-    width: 100%;
-
-    background: #111;
-
-    padding: 20px;
-}
-
-.soundcloud-box iframe {
-    width: 100%;
-
-    height: 450px;
-
-    border: none;
-
-    display: block;
-}
-
-
-/* =========================================================
-   SOUNDCLOUD LINK
-   ========================================================= */
-
-.soundcloud-link {
-    display: inline-block;
-
-    margin-top: 20px;
-
-    color: #111;
-
-    text-decoration: none;
-
-    border-bottom: 1px solid #111;
-
-    padding-bottom: 5px;
-
-    font-size: 13px;
-
-    letter-spacing: .1em;
-
-    text-transform: uppercase;
-}
-
-
 
 
 /* =========================================================
@@ -1689,13 +1590,13 @@ body {
     }
 
     .platform-logo {
-        width: 46px;
-        height: 46px;
+        width: 38px;
+        height: 38px;
     }
 
     .platform-logo img {
-        width: 30px;
-        height: 30px;
+        width: 34px;
+        height: 34px;
     }
 
     .platform-name {
@@ -1704,11 +1605,12 @@ body {
 
     .page-1 .side-label {
         right: 8px;
-        top: 76%;
+        bottom: 16px;
+        top: auto;
 
-        transform:
-            translateY(-50%)
-            rotate(90deg);
+        transform-origin: right bottom;
+
+        transform: rotate(90deg);
     }
 
     .spotify-frame {
@@ -1722,15 +1624,11 @@ body {
     }
 
     .youtube-card {
-        width: min(280px, 74vw);
+        width: min(220px, 66vw);
     }
 
     .youtube-heading {
         flex-wrap: wrap;
-    }
-
-    .soundcloud-box iframe {
-        height: 400px;
     }
 
     .side-label {
@@ -2067,9 +1965,8 @@ body {
         <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
         <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
         <button class="burger-link" type="button" data-page="5"><span class="num">06</span> connect</button>
-        <button class="burger-link" type="button" data-page="6"><span class="num">07</span> soundcloud</button>
-        <a class="burger-link" href="kontakt.html"><span class="num">08</span> kontakt</a>
-        <a class="burger-link" href="impressum.html"><span class="num">09</span> impressum</a>
+        <a class="burger-link" href="kontakt.html"><span class="num">07</span> kontakt</a>
+        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
     </div>
 </nav>
 
@@ -3180,54 +3077,6 @@ body {
 
 
 
-<!-- =======================================================
-     SEITE 7 – SOUNDCLOUD
-     ======================================================= -->
-
-<section
-    class="page page-5"
-    data-page="6"
->
-
-    <div class="page-5-content">
-
-        <h2>
-            soundcloud
-        </h2>
-
-
-        <div class="soundcloud-box">
-
-            <iframe
-                scrolling="no"
-                frameborder="no"
-                allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-            ></iframe>
-
-        </div>
-
-
-        <a
-            class="soundcloud-link"
-            href="https://soundcloud.com/bennet-6942069420"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            soundcloud öffnen →
-        </a>
-
-    </div>
-
-
-    <div class="side-label">
-        hören
-    </div>
-
-</section>
-
-
-
 <script>
 
 /* =========================================================
@@ -3253,8 +3102,7 @@ const pages = Array.from(
     2 = Spotify
     3 = YouTube
     4 = Drei
-    5 = Plattformen
-    6 = SoundCloud
+    5 = Connect
 */
 
 let currentPage = 0;
