@@ -4,7 +4,100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>B3NN3T – gespalten</title>
+<!-- Basis-SEO -->
+<title>b3nn3t (deutschrap&indie-pop, sing-/songwriter aus st.gallen)</title>
+<meta name="description" content="hier gibts musik, videos, kontaktformulare, neuigkeiten&termine zu entdecken.^^" />
+<meta name="robots" content="index,follow" />
+
+<!-- Favicons: Google, Browser, Apple -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<!-- Canonical & hreflang -->
+<link rel="canonical" href="https://www.b3nn3t.com/">
+<link rel="alternate" hreflang="de"        href="https://www.b3nn3t.com/index.html" />
+<link rel="alternate" hreflang="de-DE"     href="https://www.b3nn3t.de/index.html" />
+<link rel="alternate" hreflang="de-CH"     href="https://www.b3nn3t.ch/index.html" />
+<link rel="alternate" hreflang="de-AT"     href="https://www.b3nn3t.at/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.b3nn3t.com/index.html" />
+
+<!-- Open Graph / Social Preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="b3nn3t">
+<meta property="og:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
+<meta property="og:description" content="Offizielle Seite von b3nn3t: Deutschrap & Indie-Pop, Diskografie, aktuelle Releases, News, Live-Termine und Kontakt.">
+<meta property="og:url" content="https://www.b3nn3t.com/" />
+<meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+<meta property="og:locale" content="de_DE">
+
+<!-- Twitter Card (X) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
+<meta name="twitter:description" content="Offizielle Website von b3nn3t. Deutschrap & Indie-Pop, Releases, News, Live-Termine und Kontakt.">
+<meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+
+<!-- Schema.org: Website & Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.b3nn3t.com/#website",
+      "url": "https://www.b3nn3t.com/",
+      "name": "b3nn3t",
+      "inLanguage": "de-DE",
+      "description": "b3nn3t – Deutschrap & Indie-Pop aus der Schweiz. Musik, Veröffentlichungen und Projekte von b3nn3t.",
+      "publisher": { "@id": "https://www.b3nn3t.com/#org" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.b3nn3t.com/#startseite",
+      "url": "https://www.b3nn3t.com/",
+      "name": "b3nn3t – Offizielle Startseite",
+      "description": "Startseite von b3nn3t mit Überblick zu Musik, Releases, News, Terminen und Plattformen.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@id": "https://www.b3nn3t.com/#website" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.b3nn3t.com/#person",
+      "name": "b3nn3t",
+      "alternateName": "b3nn3t",
+      "url": "https://www.b3nn3t.com/",
+      "image": { "@type": "ImageObject", "url": "https://www.b3nn3t.com/assets/index/bennet_index1.jpg" },
+      "description": "b3nn3t ist ein Deutschrap- und Indie-Pop-Künstler aus der Schweiz.",
+      "sameAs": [
+        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A",
+        "https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE",
+        "https://mx3.ch/b3nn3t",
+        "https://genius.com/artists/B3nn3t",
+        "https://soundcloud.com/b3nn3t-music",
+        "https://www.instagram.com/b3nn3t",
+        "https://www.youtube.com/@b333nn3t"
+      ]
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.b3nn3t.com/#org",
+      "name": "b3nn3t",
+      "url": "https://www.b3nn3t.com/",
+      "genre": "Deutschrap & Indie Pop",
+      "areaServed": ["DE", "CH", "AT"],
+      "address": { "@type": "PostalAddress", "addressCountry": "CH" },
+      "member": { "@id": "https://www.b3nn3t.com/#person" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" }
+      ]
+    }
+  ]
+}
+</script>
 
 <style>
 
@@ -1247,7 +1340,15 @@ body {
 }
 
 .platforms-content {
-    width: min(1300px, 92vw);
+    /*
+        Etwas schmaler als vorher, damit
+        rechts sichtbar Platz für das
+        vertikale "links"-Label bleibt und
+        die Kachelreihe nicht bis an den
+        Bildschirmrand reicht.
+    */
+
+    width: min(1150px, 80vw);
 }
 
 .platforms-header {
@@ -1313,13 +1414,21 @@ body {
 
 .platform-tile {
     flex: 0 0 auto;
-    width: min(280px, 68vw);
-    height: 48vh;
+    width: min(230px, 58vw);
+    height: 42vh;
     scroll-snap-align: start;
     border: 1px solid rgba(242,242,240,.35);
-    padding: 22px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
+}
+
+.platforms-divider {
+    flex: 0 0 auto;
+    width: 1px;
+    align-self: stretch;
+    margin: 6px 4px;
+    background: rgba(242,242,240,.35);
 }
 
 .platform-link-card {
@@ -1376,16 +1485,21 @@ body {
 
     background:
         radial-gradient(
-            circle at 32% 28%,
-            rgba(255,255,255,.65),
-            rgba(255,255,255,0) 45%
+            circle at 30% 24%,
+            rgba(255,255,255,.95),
+            rgba(255,255,255,0) 42%
         ),
-        rgba(242,242,240,.9);
+        radial-gradient(
+            circle at 72% 78%,
+            rgba(0,0,0,.4),
+            rgba(0,0,0,0) 55%
+        ),
+        #f2f2f0;
 
     box-shadow:
-        inset -7px -7px 14px rgba(0,0,0,.35),
-        inset 5px 5px 10px rgba(255,255,255,.35),
-        0 10px 18px rgba(0,0,0,.35);
+        inset -10px -10px 20px rgba(0,0,0,.5),
+        inset 7px 7px 14px rgba(255,255,255,.55),
+        0 14px 22px rgba(0,0,0,.45);
 
     overflow: hidden;
 
@@ -1569,23 +1683,23 @@ body {
     }
 
     .platform-tile {
-        width: 44vw;
-        height: 36vh;
-        padding: 14px;
+        width: 38vw;
+        height: 32vh;
+        padding: 12px;
     }
 
     .platform-logo {
-        width: 54px;
-        height: 54px;
+        width: 46px;
+        height: 46px;
     }
 
     .platform-logo img {
-        width: 36px;
-        height: 36px;
+        width: 30px;
+        height: 30px;
     }
 
     .platform-name {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .page-1 .side-label {
@@ -1952,7 +2066,7 @@ body {
         <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
         <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
         <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
-        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> plattformen</button>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> connect</button>
         <button class="burger-link" type="button" data-page="6"><span class="num">07</span> soundcloud</button>
         <a class="burger-link" href="kontakt.html"><span class="num">08</span> kontakt</a>
         <a class="burger-link" href="impressum.html"><span class="num">09</span> impressum</a>
@@ -2900,12 +3014,12 @@ body {
         <div class="platforms-header">
 
             <h2>
-                plattformen
+                connect
             </h2>
 
             <div class="platforms-nav">
-                <button class="platforms-nav-btn" type="button" data-dir="-1" aria-label="vorherige Plattform">‹</button>
-                <button class="platforms-nav-btn" type="button" data-dir="1" aria-label="nächste Plattform">›</button>
+                <button class="platforms-nav-btn" type="button" data-dir="-1" aria-label="vorheriger Kanal">‹</button>
+                <button class="platforms-nav-btn" type="button" data-dir="1" aria-label="nächster Kanal">›</button>
             </div>
 
         </div>
@@ -2913,7 +3027,27 @@ body {
         <div class="platforms-grid">
 
             <div class="platform-tile">
-                <span class="tile-label">01 / apple music</span>
+                <span class="tile-label">01 / spotify</span>
+                <a
+                    class="platform-link-card"
+                    href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Spotify öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/spotify_128.webp" type="image/webp">
+                            <img src="assets/plattformen/spotify_128.png" alt="Spotify Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">spotify</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">02 / apple music</span>
                 <a
                     class="platform-link-card"
                     href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
@@ -2922,18 +3056,18 @@ body {
                     aria-label="b3nn3t auf Apple Music öffnen"
                 >
                     <div class="platform-arena">
-                <picture class="platform-logo">
-                        <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
-                        <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
-                </div>
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
+                            <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">apple music</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
             </div>
 
             <div class="platform-tile">
-                <span class="tile-label">02 / instagram</span>
+                <span class="tile-label">03 / instagram</span>
                 <a
                     class="platform-link-card"
                     href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
@@ -2942,18 +3076,60 @@ body {
                     aria-label="b3nn3t auf Instagram öffnen"
                 >
                     <div class="platform-arena">
-                <picture class="platform-logo">
-                        <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
-                        <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
-                </div>
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
+                            <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">instagram</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
             </div>
 
             <div class="platform-tile">
-                <span class="tile-label">03 / mx3</span>
+                <span class="tile-label">04 / youtube</span>
+                <a
+                    class="platform-link-card"
+                    href="https://www.youtube.com/@b333nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf YouTube öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/youtube_128.webp" type="image/webp">
+                            <img src="assets/plattformen/youtube_128.png" alt="YouTube Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">youtube</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">05 / soundcloud</span>
+                <a
+                    class="platform-link-card"
+                    href="https://soundcloud.com/bennet-6942069420"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf SoundCloud öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/soundcloud_128.webp" type="image/webp">
+                            <img src="assets/plattformen/soundcloud_128.png" alt="SoundCloud Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">soundcloud</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platforms-divider" aria-hidden="true"></div>
+
+            <div class="platform-tile">
+                <span class="tile-label">06 / mx3</span>
                 <a
                     class="platform-link-card"
                     href="https://mx3.ch/b3nn3t"
@@ -2962,18 +3138,18 @@ body {
                     aria-label="b3nn3t auf MX3 öffnen"
                 >
                     <div class="platform-arena">
-                <picture class="platform-logo">
-                        <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
-                        <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
-                </div>
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
+                            <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">mx3</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
             </div>
 
             <div class="platform-tile">
-                <span class="tile-label">04 / genius</span>
+                <span class="tile-label">07 / genius</span>
                 <a
                     class="platform-link-card"
                     href="https://genius.com/artists/B3nn3t"
@@ -2982,11 +3158,11 @@ body {
                     aria-label="b3nn3t auf Genius öffnen"
                 >
                     <div class="platform-arena">
-                <picture class="platform-logo">
-                        <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
-                        <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
-                </div>
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
+                            <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">genius</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
