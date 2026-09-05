@@ -284,32 +284,41 @@
     form{ margin:0; display:grid; gap:.8rem; max-width:650px; }
     form label{ font-weight:600; }
 
-    /* ✅ Felder transparent + Text weiss */
+    /* ✅ Formularfelder passend zum hellen SoundCloud-Hintergrund:
+       Rahmen, Text und Placeholder dunkel/grau statt weiss. */
     form input:not([type="checkbox"]),
     form textarea{
       width:100%;
-      border:1px solid rgba(255,255,255,0.45);
+      border:1px solid rgba(17,17,17,0.46);
       border-radius:8px;
       padding:.6rem;
 
-      background: transparent;
-      color:#fff;
+      background: rgba(255,255,255,0.10);
+      color:#111;
 
       font:inherit;
       outline:none;
     }
     form textarea{ min-height:120px; overflow:auto; }
 
-    /* Placeholder etwas heller */
     form input::placeholder,
     form textarea::placeholder{
-      color: rgba(255,255,255,0.65);
+      color: rgba(17,17,17,0.52);
     }
 
-    /* Optional: Fokus etwas sichtbarer */
     form input:focus,
     form textarea:focus{
-      border-color: rgba(255,255,255,0.8);
+      border-color: rgba(17,17,17,0.85);
+      background: rgba(255,255,255,0.18);
+    }
+
+    /* Browser-Autofill ebenfalls dunkel halten */
+    form input:-webkit-autofill,
+    form input:-webkit-autofill:hover,
+    form input:-webkit-autofill:focus{
+      -webkit-text-fill-color:#111;
+      box-shadow:0 0 0 1000px rgba(255,255,255,0.18) inset;
+      transition:background-color 9999s ease-in-out 0s;
     }
 
     form input[type="checkbox"]{
@@ -333,7 +342,7 @@
     }
     form button[disabled]{ opacity:0.6; cursor:default; }
 
-    /* ===== Custom Checkbox (weiss + roter Haken) ===== */
+    /* ===== Custom Checkbox: dunkel/grau statt weiss ===== */
     form input[type="checkbox"]{
       appearance: none;
       -webkit-appearance: none;
@@ -343,9 +352,9 @@
       height: 16px;
       margin: .3rem .6rem 0 0;
 
-      border: 1.5px solid #ffffff;
+      border: 1.5px solid rgba(17,17,17,0.7);
       border-radius: 3px;
-      background: #ffffff;
+      background: transparent;
 
       display: inline-grid;
       place-content: center;
@@ -353,13 +362,13 @@
       cursor: pointer;
     }
 
-    /* roter Haken */
+    /* dunkler Haken */
     form input[type="checkbox"]::before{
       content: "";
       width: 9px;
       height: 5px;
-      border-left: 2px solid #930010;
-      border-bottom: 2px solid #930010;
+      border-left: 2px solid #111;
+      border-bottom: 2px solid #111;
       transform: rotate(-45deg) scale(0);
       transition: transform .12s ease-in-out;
     }
@@ -372,7 +381,7 @@
     /* Fokus (optional, dezent) */
     form input[type="checkbox"]:focus{
       outline: none;
-      box-shadow: 0 0 0 2px rgba(147,0,16,0.25);
+      box-shadow: 0 0 0 2px rgba(17,17,17,0.18);
     }
 
     /* ===== Privacy-consent layout (neu) ===== */
@@ -417,7 +426,7 @@
     .sending-indicator.active{ display:flex; }
     .sending-indicator .spinner{
       width:14px;height:14px;border-radius:50%;
-      border:2px solid #111;
+      border:2px solid rgba(17,17,17,.7);
       border-top-color:transparent;
       animation:spin .7s linear infinite;
     }
@@ -563,9 +572,10 @@
         <a class="burger-link" href="gespalten.html#page=1"><span class="num">02</span> die andere</a>
         <a class="burger-link" href="gespalten.html#page=2"><span class="num">03</span> spotify</a>
         <a class="burger-link" href="gespalten.html#page=3"><span class="num">04</span> youtube</a>
-        <a class="burger-link" href="gespalten.html#page=4"><span class="num">05</span> soundcloud</a>
-        <span class="burger-link current"><span class="num">06</span> kontakt</span>
-        <a class="burger-link" href="impressum.html"><span class="num">07</span> impressum</a>
+        <a class="burger-link" href="gespalten.html#page=4"><span class="num">05</span> drei</a>
+        <a class="burger-link" href="gespalten.html#page=5"><span class="num">06</span> connect</a>
+        <span class="burger-link current"><span class="num">07</span> kontakt</span>
+        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
     </div>
   </nav>
 
