@@ -3705,6 +3705,10 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
 
         if (content) {
             content.hidden = expanded;
+
+            requestAnimationFrame(
+                updateAllScrollableMetrics
+            );
         }
 
 
@@ -3734,18 +3738,56 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
    werden statt die Seite umzublättern.
    ========================================================= */
 
+const scrollMetrics = new WeakMap();
+
+function updateScrollableMetrics(element) {
+
+    if (!element) {
+        return;
+    }
+
+    scrollMetrics.set(
+        element,
+        {
+            maxScrollTop: Math.max(
+                0,
+                element.scrollHeight - element.clientHeight
+            )
+        }
+    );
+
+}
+
+function updateAllScrollableMetrics() {
+
+    document
+        .querySelectorAll(
+            ".andere-tile, .page-3-content"
+        )
+        .forEach(updateScrollableMetrics);
+
+}
+
+function getMaxScrollTop(element) {
+
+    const metrics =
+        scrollMetrics.get(element);
+
+    return metrics ? metrics.maxScrollTop : 0;
+
+}
+
 function findScrollableAncestor(element) {
 
     /*
-        Performance-Fix: Statt bei jedem
-        Wheel-Event den DOM-Baum manuell mit
-        getComputedStyle() hochzulaufen (das
-        erzwingt bei jedem Schritt ein Style-
-        Recalc – "Forced Reflow"), nutzen wir
-        das native, günstige closest() und
-        prüfen nur an EINER Stelle die reinen
-        Geometrie-Werte. Es gibt im Projekt nur
-        zwei bewusst scrollbare Container.
+        Performance-Fix:
+        Die teuren Geometrie-Werte
+        scrollHeight/clientHeight werden nicht mehr
+        während wheel/touchmove gelesen, sondern
+        nur nach Layout-Änderungen gecacht.
+        Während der eigentlichen Geste lesen wir
+        nur noch scrollTop. Das verhindert die
+        typischen Forced-Reflow-Warnungen auf Mobile.
     */
 
     const scrollable =
@@ -3755,12 +3797,39 @@ function findScrollableAncestor(element) {
 
     if (
         scrollable &&
-        scrollable.scrollHeight > scrollable.clientHeight
+        getMaxScrollTop(scrollable) > 0
     ) {
         return scrollable;
     }
 
     return null;
+
+}
+
+updateAllScrollableMetrics();
+
+window.addEventListener(
+    "load",
+    updateAllScrollableMetrics
+);
+
+window.addEventListener(
+    "resize",
+    () => requestAnimationFrame(updateAllScrollableMetrics)
+);
+
+if ("ResizeObserver" in window) {
+
+    const scrollMetricsObserver =
+        new ResizeObserver(updateAllScrollableMetrics);
+
+    document
+        .querySelectorAll(
+            ".andere-tile, .page-3-content"
+        )
+        .forEach((element) => {
+            scrollMetricsObserver.observe(element);
+        });
 
 }
 
@@ -4025,14 +4094,17 @@ if (andereGrid) {
 
             if (verticalScrollable) {
 
+                const maxScrollTop =
+                    getMaxScrollTop(verticalScrollable);
+
+                const currentScrollTop =
+                    verticalScrollable.scrollTop;
+
                 const atTop =
-                    verticalScrollable.scrollTop <= 0;
+                    currentScrollTop <= 0;
 
                 const atBottom =
-                    Math.ceil(
-                        verticalScrollable.scrollTop +
-                        verticalScrollable.clientHeight
-                    ) >= verticalScrollable.scrollHeight;
+                    currentScrollTop >= maxScrollTop - 1;
 
                 const scrollingDown =
                     event.deltaY > 0;
@@ -4703,14 +4775,17 @@ window.addEventListener(
 
         if (scrollable) {
 
+            const maxScrollTop =
+                getMaxScrollTop(scrollable);
+
+            const currentScrollTop =
+                scrollable.scrollTop;
+
             const atTop =
-                scrollable.scrollTop <= 0;
+                currentScrollTop <= 0;
 
             const atBottom =
-                Math.ceil(
-                    scrollable.scrollTop +
-                    scrollable.clientHeight
-                ) >= scrollable.scrollHeight;
+                currentScrollTop >= maxScrollTop - 1;
 
             const scrollingDown =
                 event.deltaY > 0;
@@ -4967,14 +5042,17 @@ window.addEventListener(
 
         if (verticalScrollable) {
 
+            const maxScrollTop =
+                getMaxScrollTop(verticalScrollable);
+
+            const currentScrollTop =
+                verticalScrollable.scrollTop;
+
             const atTop =
-                verticalScrollable.scrollTop <= 0;
+                currentScrollTop <= 0;
 
             const atBottom =
-                Math.ceil(
-                    verticalScrollable.scrollTop +
-                    verticalScrollable.clientHeight
-                ) >= verticalScrollable.scrollHeight;
+                currentScrollTop >= maxScrollTop - 1;
 
             const scrollingDown =
                 incrementalDelta > 0;
