@@ -1060,35 +1060,6 @@ body {
 
 
 /* =========================================================
-   YOUTUBE INLINE-PLAYER
-
-   Wird per JS eingefügt, sobald eine
-   Karte angeklickt wird.
-   ========================================================= */
-
-.youtube-embed {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    border: none;
-
-    z-index: 10;
-}
-
-.youtube-card.is-playing .youtube-thumb,
-.youtube-card.is-playing .youtube-number,
-.youtube-card.is-playing .youtube-play,
-.youtube-card.is-playing .youtube-bottom {
-    display: none;
-}
-
-
-/* =========================================================
    YOUTUBE THUMBNAIL
    ========================================================= */
 
@@ -3662,24 +3633,28 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
 
 function findScrollableAncestor(element) {
 
-    let el = element;
+    /*
+        Performance-Fix: Statt bei jedem
+        Wheel-Event den DOM-Baum manuell mit
+        getComputedStyle() hochzulaufen (das
+        erzwingt bei jedem Schritt ein Style-
+        Recalc – "Forced Reflow"), nutzen wir
+        das native, günstige closest() und
+        prüfen nur an EINER Stelle die reinen
+        Geometrie-Werte. Es gibt im Projekt nur
+        zwei bewusst scrollbare Container.
+    */
 
-    while (el && el !== document.body) {
+    const scrollable =
+        element.closest(
+            ".andere-tile, .page-3-content"
+        );
 
-        const style =
-            window.getComputedStyle(el);
-
-        const canScrollY =
-            (style.overflowY === "auto" ||
-                style.overflowY === "scroll") &&
-            el.scrollHeight > el.clientHeight;
-
-        if (canScrollY) {
-            return el;
-        }
-
-        el = el.parentElement;
-
+    if (
+        scrollable &&
+        scrollable.scrollHeight > scrollable.clientHeight
+    ) {
+        return scrollable;
     }
 
     return null;
@@ -3708,23 +3683,17 @@ function makeDraggable(el) {
     let startX = 0;
     let startScrollLeft = 0;
 
-    el.addEventListener("pointerdown", (event) => {
+    /*
+        Performance-Fix: pointermove/-up/
+        -cancel werden erst WÄHREND eines
+        Drags an window gehängt (statt
+        dauerhaft für jede der 3 Kachel-
+        Reihen zu lauschen) – spart auf
+        jeder normalen Mausbewegung drei
+        überflüssige Funktionsaufrufe.
+    */
 
-        if (event.pointerType !== "mouse") {
-            return;
-        }
-
-        isDown = true;
-        dragged = false;
-
-        startX = event.clientX;
-        startScrollLeft = el.scrollLeft;
-
-        el.classList.add("dragging");
-
-    });
-
-    window.addEventListener("pointermove", (event) => {
+    function onPointerMove(event) {
 
         if (!isDown || event.pointerType !== "mouse") {
             return;
@@ -3741,7 +3710,7 @@ function makeDraggable(el) {
             el.scrollLeft = startScrollLeft - dx;
         }
 
-    });
+    }
 
     function endDrag(event) {
 
@@ -3781,10 +3750,31 @@ function makeDraggable(el) {
 
         el.classList.remove("dragging");
 
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", endDrag);
+        window.removeEventListener("pointercancel", endDrag);
+
     }
 
-    window.addEventListener("pointerup", endDrag);
-    window.addEventListener("pointercancel", endDrag);
+    el.addEventListener("pointerdown", (event) => {
+
+        if (event.pointerType !== "mouse") {
+            return;
+        }
+
+        isDown = true;
+        dragged = false;
+
+        startX = event.clientX;
+        startScrollLeft = el.scrollLeft;
+
+        el.classList.add("dragging");
+
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", endDrag);
+        window.addEventListener("pointercancel", endDrag);
+
+    });
 
 }
 
@@ -4344,14 +4334,41 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
     let lastTime = null;
 
-    function tick(time) {
+    let rafRunning = false;
+
+    /*
+        Performance-Fix: Statt die rAF-Schleife
+        dauerhaft ab dem ersten Seitenaufruf
+        durchlaufen zu lassen (auch wenn die
+        Connect-Seite nie angeschaut wird),
+        läuft sie nur, während die Seite
+        tatsächlich sichtbar ist, und stoppt
+        sich danach komplett selbst – statt
+        sich nur "leer" weiterzuplanen.
+    */
+
+    function ensureTickRunning() {
+
+        if (rafRunning || !isPlatformsPageVisible()) {
+            return;
+        }
+
+        rafRunning = true;
+        lastTime = null;
 
         requestAnimationFrame(tick);
 
+    }
+
+    function tick(time) {
+
         if (!isPlatformsPageVisible()) {
+            rafRunning = false;
             lastTime = null;
             return;
         }
+
+        requestAnimationFrame(tick);
 
         if (lastTime === null) {
             lastTime = time;
@@ -4402,7 +4419,24 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
     }
 
-    requestAnimationFrame(tick);
+    ensureTickRunning();
+
+    /*
+        Startet die Schleife neu, sobald die
+        Connect-Seite wieder aktiv/Zielseite
+        wird (Klassenwechsel durch die
+        Seiten-Navigation).
+    */
+
+    if (platformsPage && "MutationObserver" in window) {
+
+        new MutationObserver(ensureTickRunning)
+            .observe(platformsPage, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+
+    }
 
 })();
 
@@ -4893,6 +4927,9 @@ const burgerMenu =
 const burgerBtn =
     document.getElementById("burger-btn");
 
+const burgerDropdown =
+    document.getElementById("burger-dropdown");
+
 function openBurgerMenu() {
 
     if (!burgerMenu || !burgerBtn) {
@@ -4936,14 +4973,33 @@ if (burgerBtn) {
 if (burgerMenu) {
 
     /*
-        Verlässt die Maus das Menü nach
-        unten (oder in eine andere Richtung),
-        schließt es sich wieder.
+        Verlässt die Maus das Menü, schließt
+        es sich wieder – aber erst mit
+        kurzer Verzögerung. Der Button ist
+        kleiner als die aufgeklappte Liste
+        darunter; ohne Verzögerung würde die
+        Lücke dazwischen das Menü sofort
+        schließen, bevor man einen Punkt
+        anklicken kann.
     */
 
-    burgerMenu.addEventListener("mouseleave", () => {
-        closeBurgerMenu();
-    });
+    let closeTimer = null;
+
+    function scheduleBurgerClose() {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(closeBurgerMenu, 300);
+    }
+
+    function cancelBurgerClose() {
+        clearTimeout(closeTimer);
+    }
+
+    burgerMenu.addEventListener("mouseleave", scheduleBurgerClose);
+    burgerBtn.addEventListener("mouseenter", cancelBurgerClose);
+
+    if (burgerDropdown) {
+        burgerDropdown.addEventListener("mouseenter", cancelBurgerClose);
+    }
 
 }
 
