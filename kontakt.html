@@ -539,6 +539,61 @@
       letter-spacing: 0 !important;
       line-height: 1.2 !important;
     }
+
+    /* =========================================================
+       MOBILE BACKGROUND FIX
+       Auf dem Handy denselben SoundCloud-Hintergrund wie Desktop erzwingen.
+       Externe mobile Hintergrundbilder aus styles.css / swipe-helper.css
+       werden hier zuverlässig überschrieben.
+       ========================================================= */
+
+    html,
+    html body,
+    body,
+    main.main {
+        background-image: none !important;
+        background-color: #e7e1d5 !important;
+        background: #e7e1d5 !important;
+    }
+
+    body::before,
+    body::after,
+    main.main::before,
+    main.main::after,
+    .main::before,
+    .main::after {
+        content: none !important;
+        display: none !important;
+        background-image: none !important;
+    }
+
+    @media (max-width: 767px) {
+        html,
+        html body,
+        body,
+        main.main,
+        .main,
+        .scroll-panel,
+        .content-offset {
+            background-image: none !important;
+            background-color: #e7e1d5 !important;
+            background: #e7e1d5 !important;
+        }
+
+        body::before,
+        body::after,
+        main.main::before,
+        main.main::after,
+        .main::before,
+        .main::after,
+        .content-offset::before,
+        .content-offset::after {
+            content: none !important;
+            display: none !important;
+            background-image: none !important;
+        }
+    }
+
   </style>
 
   <!-- Plausible Analytics -->
