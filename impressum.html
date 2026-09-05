@@ -559,6 +559,7 @@ target="_blank" rel="noopener noreferrer">
 (function(){
   var menu = document.getElementById('burger-menu');
   var btn = document.getElementById('burger-btn');
+  var dropdown = document.getElementById('burger-dropdown');
   if (!menu || !btn) return;
 
   function openMenu(){
@@ -576,8 +577,28 @@ target="_blank" rel="noopener noreferrer">
     else { openMenu(); }
   });
 
-  /* Verlässt die Maus das Menü, schließt es sich. */
-  menu.addEventListener('mouseleave', closeMenu);
+  /*
+    Verlässt die Maus das Menü, schließt es
+    sich – aber erst mit kurzer Verzögerung,
+    damit die Lücke zwischen Button und der
+    aufgeklappten Liste darunter nicht sofort
+    zum Schließen führt, bevor man einen
+    Punkt anklicken kann.
+  */
+  var closeTimer = null;
+  function scheduleClose(){
+    clearTimeout(closeTimer);
+    closeTimer = setTimeout(closeMenu, 300);
+  }
+  function cancelClose(){
+    clearTimeout(closeTimer);
+  }
+
+  menu.addEventListener('mouseleave', scheduleClose);
+  btn.addEventListener('mouseenter', cancelClose);
+  if (dropdown) {
+    dropdown.addEventListener('mouseenter', cancelClose);
+  }
 
   /* Klick außerhalb schließt es ebenfalls. */
   document.addEventListener('click', function(e){
