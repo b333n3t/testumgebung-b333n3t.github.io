@@ -783,13 +783,15 @@ body {
 .termin-row {
     display: grid;
 
-    grid-template-columns: 110px 1fr auto;
+    grid-template-columns: 105px minmax(0, 1fr) max-content;
 
     gap: 12px;
 
     align-items: baseline;
 
     font-size: 14px;
+
+    line-height: 1.25;
 
     padding-bottom: 12px;
 
@@ -804,6 +806,16 @@ body {
 
 .termin-row .datum time {
     font-weight: 700;
+}
+
+.termin-row .datum,
+.termin-row .veranstaltung,
+.termin-row .ort {
+    min-width: 0;
+}
+
+.termin-row .veranstaltung {
+    overflow-wrap: anywhere;
 }
 
 .termin-row .ort {
@@ -1623,10 +1635,31 @@ body {
         nur die Kachelbreite wird angepasst.
     */
 
+    .andere-grid {
+        touch-action: pan-x pan-y;
+    }
+
     .andere-tile {
         width: 56vw;
 
         height: 46vh;
+    }
+
+    .tile-termine {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        touch-action: pan-y;
+    }
+
+    .tile-termine .sub-content {
+        padding: 14px;
+    }
+
+    .tile-termine .sub-toggle {
+        padding: 14px 16px;
+        gap: 10px;
+        line-height: 1.2;
     }
 
     .andere-header {
@@ -1634,13 +1667,27 @@ body {
     }
 
     .termin-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
 
         gap: 4px;
+
+        align-items: start;
+
+        font-size: 13px;
+    }
+
+    .termin-row .datum,
+    .termin-row .veranstaltung,
+    .termin-row .ort {
+        min-width: 0;
+        text-align: left;
+        white-space: normal;
+        overflow-wrap: anywhere;
     }
 
     .termin-row .ort {
-        text-align: left;
+        opacity: .72;
+        font-size: 12px;
     }
 }
 
@@ -2325,45 +2372,9 @@ form select:focus {
                             <div class="termine-list" role="table" aria-label="Termine">
 
                                 <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
-                                    <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
-                                    <div class="ort" role="cell">frauenfeld · 17:15 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· jugendfestival 2025 (ZAK)</div>
-                                    <div class="ort" role="cell">jona · 20:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
-                                    <div class="ort" role="cell">wien · 20:30 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
-                                    <div class="ort" role="cell">wien · 20:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
-                                    <div class="ort" role="cell">rüti · 18:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
-                                    <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
-                                    <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
-                                    <div class="ort" role="cell">jona · 19:00 uhr</div>
+                                    <div class="datum" role="cell"><time datetime="2026-08-08">08.08.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
+                                    <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
                                 </div>
 
                                 <div class="termin-row" role="row">
@@ -2373,9 +2384,45 @@ form select:focus {
                                 </div>
 
                                 <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2026-08-08">08.08.2026</time></div>
-                                    <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
-                                    <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
+                                    <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 19:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
+                                    <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
+                                    <div class="ort" role="cell">rüti · 18:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
+                                    <div class="ort" role="cell">wien · 20:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 20:30 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2025 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 20:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                                    <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
+                                    <div class="ort" role="cell">frauenfeld · 17:15 uhr</div>
                                 </div>
 
                             </div>
@@ -4911,12 +4958,40 @@ window.addEventListener(
         }
 
 
-        event.preventDefault();
-
-
         const incrementalDelta =
             touchLastY -
             touch.clientY;
+
+        const verticalScrollable =
+            findScrollableAncestor(event.target);
+
+        if (verticalScrollable) {
+
+            const atTop =
+                verticalScrollable.scrollTop <= 0;
+
+            const atBottom =
+                Math.ceil(
+                    verticalScrollable.scrollTop +
+                    verticalScrollable.clientHeight
+                ) >= verticalScrollable.scrollHeight;
+
+            const scrollingDown =
+                incrementalDelta > 0;
+
+            if (
+                (scrollingDown && !atBottom) ||
+                (!scrollingDown && !atTop)
+            ) {
+                touchLastY = touch.clientY;
+                return;
+            }
+
+        }
+
+
+        event.preventDefault();
+
 
         touchLastY = touch.clientY;
 
