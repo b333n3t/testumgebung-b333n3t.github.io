@@ -1556,7 +1556,7 @@ body {
 
     .platform-tile {
         width: 38vw;
-        height: 32vh;
+        height: 27vh;
         padding: 12px;
     }
 
@@ -1575,11 +1575,11 @@ body {
     }
 
     .page-1 .side-label {
-        right: 8px;
-        bottom: 16px;
+        right: 30px;
+        bottom: 72px;
         top: auto;
 
-        transform-origin: right bottom;
+        transform-origin: center;
 
         transform: rotate(90deg);
     }
@@ -1604,6 +1604,14 @@ body {
 
     .side-label {
         right: 10px;
+    }
+
+    .page-4 .side-label {
+        right: -18px;
+        top: 50%;
+        transform-origin: center;
+        transform: translateY(-50%) rotate(90deg);
+        z-index: 50;
     }
 
 
@@ -1904,6 +1912,54 @@ body {
         height: 42px;
     }
 
+}
+
+
+/* =========================================================
+   KONTAKTFORMULAR – dunkle/graue Formularfelder
+   ========================================================= */
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select,
+form input,
+form textarea,
+form select {
+    border: 1px solid rgba(0,0,0,.55);
+    color: #111;
+    background: rgba(255,255,255,.72);
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder,
+form input::placeholder,
+form textarea::placeholder {
+    color: rgba(0,0,0,.58);
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus,
+form input:focus,
+form textarea:focus,
+form select:focus {
+    outline: none;
+    border-color: #111;
+    background: rgba(255,255,255,.9);
+}
+
+/* =========================================================
+   SOUNDCLOUD – Mobile: Farbe statt Hintergrundbild
+   ========================================================= */
+
+@media (max-width: 800px) {
+    .page-soundcloud,
+    .page-5.soundcloud,
+    .soundcloud-page,
+    .page-5 {
+        background-image: none !important;
+        background: #e7e1d5 !important;
+    }
 }
 
 </style>
