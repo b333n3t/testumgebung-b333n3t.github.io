@@ -508,8 +508,13 @@
     }
 
     /* Seiten-Hintergrund (übernommen von der ehemaligen SoundCloud-Seite) */
-    html { background: #e7e1d5 !important; }
-    body{ background: #e7e1d5 !important; }
+    html,
+    html body,
+    body {
+        background-image: none !important;
+        background-color: #e7e1d5 !important;
+        background: #e7e1d5 !important;
+    }
 
     /* Text passend zum hellen Hintergrund schwarz statt weiß */
     body{ color:#111; }
@@ -646,6 +651,7 @@
   (function(){
     const menu = document.getElementById('burger-menu');
     const btn = document.getElementById('burger-btn');
+    const dropdown = document.getElementById('burger-dropdown');
     if (!menu || !btn) return;
 
     function openMenu(){
@@ -663,8 +669,28 @@
       else { openMenu(); }
     });
 
-    /* Verlässt die Maus das Menü, schließt es sich. */
-    menu.addEventListener('mouseleave', closeMenu);
+    /*
+      Verlässt die Maus das Menü, schließt es
+      sich – aber erst mit kurzer Verzögerung,
+      damit die Lücke zwischen Button und der
+      aufgeklappten Liste darunter nicht sofort
+      zum Schließen führt, bevor man einen
+      Punkt anklicken kann.
+    */
+    let closeTimer = null;
+    function scheduleClose(){
+      clearTimeout(closeTimer);
+      closeTimer = setTimeout(closeMenu, 300);
+    }
+    function cancelClose(){
+      clearTimeout(closeTimer);
+    }
+
+    menu.addEventListener('mouseleave', scheduleClose);
+    btn.addEventListener('mouseenter', cancelClose);
+    if (dropdown) {
+      dropdown.addEventListener('mouseenter', cancelClose);
+    }
 
     /* Klick außerhalb schließt es ebenfalls. */
     document.addEventListener('click', function(e){
