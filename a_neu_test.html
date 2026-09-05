@@ -783,11 +783,12 @@ body {
 .termin-row {
     display: grid;
 
-    grid-template-columns: 105px minmax(0, 1fr) max-content;
+    grid-template-columns: 100px minmax(0, 1fr);
 
-    gap: 12px;
+    column-gap: 16px;
+    row-gap: 4px;
 
-    align-items: baseline;
+    align-items: start;
 
     font-size: 14px;
 
@@ -804,6 +805,11 @@ body {
     padding-bottom: 0;
 }
 
+.termin-row .datum {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+}
+
 .termin-row .datum time {
     font-weight: 700;
 }
@@ -815,17 +821,23 @@ body {
 }
 
 .termin-row .veranstaltung {
-    overflow-wrap: anywhere;
+    grid-column: 2;
+    overflow-wrap: normal;
+    word-break: normal;
+    hyphens: auto;
 }
 
 .termin-row .ort {
-    text-align: right;
+    grid-column: 2;
+    text-align: left;
 
     opacity: .8;
 
     font-size: 13px;
 
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: normal;
+    word-break: normal;
 }
 
 
@@ -1679,6 +1691,8 @@ body {
     .termin-row .datum,
     .termin-row .veranstaltung,
     .termin-row .ort {
+        grid-column: auto;
+        grid-row: auto;
         min-width: 0;
         text-align: left;
         white-space: normal;
@@ -2490,7 +2504,8 @@ form select:focus {
 
         <iframe
             class="spotify-frame"
-            src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+            title="b3nn3t auf Spotify"
+            data-src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
             loading="lazy"
             allow="
                 autoplay;
@@ -3169,6 +3184,58 @@ const pages = Array.from(
 
 
 /*
+    Spotify-Embed nicht direkt beim ersten Rendern laden.
+    Stattdessen nach kurzer Leerlaufzeit automatisch nachladen
+    und zusätzlich sofort, sobald die Spotify-Seite sichtbar wird.
+*/
+
+const spotifyFrame =
+    document.querySelector(".spotify-frame");
+
+let spotifyEmbedLoaded = false;
+
+function loadSpotifyEmbed() {
+
+    if (
+        spotifyEmbedLoaded ||
+        !spotifyFrame ||
+        spotifyFrame.getAttribute("src")
+    ) {
+        return;
+    }
+
+    const src =
+        spotifyFrame.getAttribute("data-src");
+
+    if (!src) {
+        return;
+    }
+
+    spotifyFrame.setAttribute("src", src);
+    spotifyEmbedLoaded = true;
+
+}
+
+function scheduleSpotifyIdleLoad() {
+
+    if (spotifyEmbedLoaded || !spotifyFrame) {
+        return;
+    }
+
+    const load = () => setTimeout(loadSpotifyEmbed, 1200);
+
+    if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(load, { timeout: 2500 });
+    } else {
+        setTimeout(loadSpotifyEmbed, 1800);
+    }
+
+}
+
+scheduleSpotifyIdleLoad();
+
+
+/*
     Aktuelle Seite
 
     0 = gespalten
@@ -3298,8 +3365,15 @@ function setupLayers(dir) {
         Zielseite liegt darunter.
     */
 
-    pages[getTargetPage(dir)]
+    const targetPage =
+        getTargetPage(dir);
+
+    pages[targetPage]
         .classList.add("behind");
+
+    if (currentPage === 2 || targetPage === 2) {
+        loadSpotifyEmbed();
+    }
 
 }
 
@@ -3455,6 +3529,12 @@ function changePage() {
     if (currentPage === 1) {
 
         startAboutTypewriter();
+
+    }
+
+    if (currentPage === 2) {
+
+        loadSpotifyEmbed();
 
     }
 
@@ -5261,6 +5341,10 @@ function jumpToPage(index) {
         startAboutTypewriter();
     }
 
+    if (currentPage === 2) {
+        loadSpotifyEmbed();
+    }
+
 }
 
 document.querySelectorAll(".burger-link").forEach((link) => {
@@ -5320,6 +5404,10 @@ function applyPageFromHash() {
 
         if (currentPage === 1) {
             startAboutTypewriter();
+        }
+
+        if (currentPage === 2) {
+            loadSpotifyEmbed();
         }
 
     }
