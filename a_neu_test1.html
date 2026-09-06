@@ -2204,6 +2204,138 @@ body {
     }
 }
 
+/* =========================================================
+   MOBILE / DESKTOP CORRECTIONS v2 (2026-09-06)
+   ========================================================= */
+
+/* Termine auch auf Desktop so umbrechen, dass Ort + Zeit nie rechts abgeschnitten werden. */
+.tile-termine .termin-row {
+    grid-template-columns: 88px minmax(0, 1fr);
+    align-items: start;
+}
+
+.tile-termine .termin-row .veranstaltung {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.tile-termine .termin-row .ort {
+    grid-column: 2;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 800px) and (orientation: portrait) {
+    /* Alle Kacheln, inklusive 05 / Termine, exakt gleich hoch. */
+    .andere-tile,
+    .tile-termine {
+        height: 58dvh;
+    }
+
+    .tile-termine .sub-group {
+        flex: 1;
+        min-height: 0;
+        max-height: none;
+        overflow: hidden;
+    }
+
+    .tile-termine .sub-content {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .tile-termine .termine-responsive {
+        height: 100%;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    /* Rotierte Texte über einen inneren Mittelpunkt verankern: kein Abschneiden am Rand. */
+    .page-1 .side-label,
+    .page-drei .side-label,
+    .page-platforms .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+        max-width: 62vh;
+    }
+
+    /* YouTube: rechts neben den Karten bewusst Platz für das vertikale Label lassen. */
+    .page-4-content {
+        width: min(1000px, 74vw);
+        margin-right: 8vw;
+    }
+
+    .page-4 .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+        max-width: 58vh;
+    }
+}
+
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    /* Seite 1 und Drei: Randtext vollständig innerhalb des Displays. */
+    .page-1 .side-label,
+    .page-drei .side-label,
+    .page-platforms .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    /* Spotify nutzt im Querformat fast die gesamte verfügbare Höhe. */
+    .page-3-content {
+        width: min(900px, 88vw);
+        height: 96dvh;
+        max-height: 96dvh;
+        padding-top: 2dvh;
+        padding-bottom: 2dvh;
+        overflow: hidden;
+    }
+
+    .page-3 h2 {
+        font-size: clamp(34px, 9vh, 58px);
+        margin-bottom: 5px;
+        line-height: .8;
+    }
+
+    .spotify-frame {
+        width: 94%;
+        height: calc(94dvh - 50px);
+        min-height: 260px;
+        margin: 0 auto;
+    }
+
+    /* YouTube-Label rechts außerhalb der Kartenreihe. */
+    .page-4-content {
+        width: min(900px, 76vw);
+        margin-right: 8vw;
+        padding-right: 0;
+    }
+
+    .page-4 .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+        max-width: 45vh;
+    }
+}
+
 </style>
 </head>
 
