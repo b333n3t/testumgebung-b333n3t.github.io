@@ -2336,6 +2336,46 @@ body {
     }
 }
 
+
+
+/* =========================================================
+   SPOTIFY LANDSCAPE HEIGHT FIX v3
+   Auf kleinen Handys im Querformat braucht der Spotify-Embed
+   mindestens ca. 352px Hoehe, damit die Songliste statt nur
+   des kompakten Players sichtbar wird. Der Seitencontainer
+   darf deshalb vertikal scrollen, falls die Browserleisten
+   den sichtbaren Viewport stark verkleinern.
+   ========================================================= */
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    .page-3 {
+        align-items: flex-start;
+    }
+
+    .page-3-content {
+        width: min(900px, 90vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        padding: 6px 22px 18px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .page-3 h2 {
+        font-size: clamp(28px, 8vh, 48px);
+        margin-bottom: 4px;
+        line-height: .8;
+    }
+
+    .spotify-frame {
+        width: 96%;
+        height: 380px;
+        min-height: 380px;
+        margin: 0 auto;
+        flex: 0 0 auto;
+    }
+}
+
 </style>
 </head>
 
