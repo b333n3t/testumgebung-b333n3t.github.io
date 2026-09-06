@@ -4,7 +4,100 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>B3NN3T – gespalten</title>
+<!-- Basis-SEO -->
+<title>b3nn3t (deutschrap&indie-pop, sing-/songwriter aus st.gallen)</title>
+<meta name="description" content="hier gibts musik, videos, kontaktformulare, neuigkeiten&termine zu entdecken.^^" />
+<meta name="robots" content="index,follow" />
+
+<!-- Favicons: Google, Browser, Apple -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+<!-- Canonical & hreflang -->
+<link rel="canonical" href="https://www.b3nn3t.com/">
+<link rel="alternate" hreflang="de"        href="https://www.b3nn3t.com/index.html" />
+<link rel="alternate" hreflang="de-DE"     href="https://www.b3nn3t.de/index.html" />
+<link rel="alternate" hreflang="de-CH"     href="https://www.b3nn3t.ch/index.html" />
+<link rel="alternate" hreflang="de-AT"     href="https://www.b3nn3t.at/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.b3nn3t.com/index.html" />
+
+<!-- Open Graph / Social Preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="b3nn3t">
+<meta property="og:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
+<meta property="og:description" content="Offizielle Seite von b3nn3t: Deutschrap & Indie-Pop, Diskografie, aktuelle Releases, News, Live-Termine und Kontakt.">
+<meta property="og:url" content="https://www.b3nn3t.com/" />
+<meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+<meta property="og:locale" content="de_DE">
+
+<!-- Twitter Card (X) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
+<meta name="twitter:description" content="Offizielle Website von b3nn3t. Deutschrap & Indie-Pop, Releases, News, Live-Termine und Kontakt.">
+<meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+
+<!-- Schema.org: Website & Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.b3nn3t.com/#website",
+      "url": "https://www.b3nn3t.com/",
+      "name": "b3nn3t",
+      "inLanguage": "de-DE",
+      "description": "b3nn3t – Deutschrap & Indie-Pop aus der Schweiz. Musik, Veröffentlichungen und Projekte von b3nn3t.",
+      "publisher": { "@id": "https://www.b3nn3t.com/#org" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.b3nn3t.com/#startseite",
+      "url": "https://www.b3nn3t.com/",
+      "name": "b3nn3t – Offizielle Startseite",
+      "description": "Startseite von b3nn3t mit Überblick zu Musik, Releases, News, Terminen und Plattformen.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@id": "https://www.b3nn3t.com/#website" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.b3nn3t.com/#person",
+      "name": "b3nn3t",
+      "alternateName": "b3nn3t",
+      "url": "https://www.b3nn3t.com/",
+      "image": { "@type": "ImageObject", "url": "https://www.b3nn3t.com/assets/index/bennet_index1.jpg" },
+      "description": "b3nn3t ist ein Deutschrap- und Indie-Pop-Künstler aus der Schweiz.",
+      "sameAs": [
+        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A",
+        "https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE",
+        "https://mx3.ch/b3nn3t",
+        "https://genius.com/artists/B3nn3t",
+        "https://soundcloud.com/b3nn3t-music",
+        "https://www.instagram.com/b3nn3t",
+        "https://www.youtube.com/@b333nn3t"
+      ]
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.b3nn3t.com/#org",
+      "name": "b3nn3t",
+      "url": "https://www.b3nn3t.com/",
+      "genre": "Deutschrap & Indie Pop",
+      "areaServed": ["DE", "CH", "AT"],
+      "address": { "@type": "PostalAddress", "addressCountry": "CH" },
+      "member": { "@id": "https://www.b3nn3t.com/#person" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" }
+      ]
+    }
+  ]
+}
+</script>
 
 <style>
 
@@ -245,12 +338,12 @@ body {
 .page-1 .side-label {
     right: max(35px, calc((100vw - min(1100px, 90vw)) / 2));
 
-    top: 58%;
-    bottom: auto;
+    bottom: 24px;
+    top: auto;
 
-    transform:
-        translateY(-50%)
-        rotate(90deg);
+    transform-origin: right bottom;
+
+    transform: rotate(90deg);
 }
 
 
@@ -792,7 +885,13 @@ body {
 }
 
 .page-4-content {
-    width: min(1100px, 90vw);
+    /*
+        Etwas schmaler, damit rechts Platz
+        für das vertikale "anschauen"-Label
+        bleibt, statt es zu überlappen.
+    */
+
+    width: min(1000px, 80vw);
 
     display: flex;
 
@@ -934,7 +1033,7 @@ body {
         bleibt.
     */
 
-    width: min(300px, 70vw);
+    width: min(250px, 62vw);
 
     height: 168px;
 
@@ -957,35 +1056,6 @@ body {
     outline: 2px solid #111;
 
     outline-offset: 2px;
-}
-
-
-/* =========================================================
-   YOUTUBE INLINE-PLAYER
-
-   Wird per JS eingefügt, sobald eine
-   Karte angeklickt wird.
-   ========================================================= */
-
-.youtube-embed {
-    position: absolute;
-
-    inset: 0;
-
-    width: 100%;
-
-    height: 100%;
-
-    border: none;
-
-    z-index: 10;
-}
-
-.youtube-card.is-playing .youtube-thumb,
-.youtube-card.is-playing .youtube-number,
-.youtube-card.is-playing .youtube-play,
-.youtube-card.is-playing .youtube-bottom {
-    display: none;
 }
 
 
@@ -1247,7 +1317,15 @@ body {
 }
 
 .platforms-content {
-    width: min(1300px, 92vw);
+    /*
+        Etwas schmaler als vorher, damit
+        rechts sichtbar Platz für das
+        vertikale "links"-Label bleibt und
+        die Kachelreihe nicht bis an den
+        Bildschirmrand reicht.
+    */
+
+    width: min(1150px, 80vw);
 }
 
 .platforms-header {
@@ -1313,13 +1391,35 @@ body {
 
 .platform-tile {
     flex: 0 0 auto;
-    width: min(360px, 78vw);
-    height: 62vh;
+    width: min(230px, 58vw);
+    height: 42vh;
     scroll-snap-align: start;
     border: 1px solid rgba(242,242,240,.35);
-    padding: 25px;
+    padding: 18px;
     display: flex;
     flex-direction: column;
+
+    /*
+        Dezente Tiefe für die Kachel selbst,
+        seit die Icons wieder flach sind.
+    */
+
+    box-shadow: 0 10px 24px rgba(0,0,0,.28);
+
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.platform-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px rgba(0,0,0,.36);
+}
+
+.platforms-divider {
+    flex: 0 0 auto;
+    width: 1px;
+    align-self: stretch;
+    margin: 6px 4px;
+    background: rgba(242,242,240,.35);
 }
 
 .platform-link-card {
@@ -1327,41 +1427,63 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 24px;
-    min-height: 220px;
+    justify-content: flex-end;
+    gap: 14px;
+    min-height: 200px;
     text-decoration: none;
     color: inherit;
     border: none;
     background: transparent;
     outline: none;
     transition:
-        opacity .25s ease,
-        transform .25s ease;
+        opacity .25s ease;
 }
 
 .platform-link-card:hover {
     opacity: .78;
-    transform: translateY(-4px);
+}
+
+/*
+    "Arena": der Bereich, in dem der
+    Logo-Ball frei herumprallt (wie ein
+    DVD-Bildschirmschoner). Nimmt den
+    Platz oberhalb von Name/Link ein.
+*/
+
+.platform-arena {
+    position: relative;
+
+    width: 100%;
+    flex: 1;
+
+    min-height: 0;
 }
 
 .platform-logo {
-    width: 74px;
-    height: 74px;
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 48px;
+    height: 48px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+
+    will-change: transform;
 }
 
 .platform-logo img {
-    width: 64px;
-    height: 64px;
+    width: 44px;
+    height: 44px;
     display: block;
     object-fit: contain;
 }
 
 .platform-name {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1;
     letter-spacing: -0.03em;
     text-transform: lowercase;
@@ -1385,80 +1507,6 @@ body {
 .platforms-grid::-webkit-scrollbar-thumb {
     background: rgba(242,242,240,.45);
 }
-
-/* =========================================================
-   SEITE 7 – SOUNDCLOUD
-   ========================================================= */
-
-.page-5 {
-    background: #e7e1d5;
-
-    color: #111;
-}
-
-.page-5-content {
-    width: min(1000px, 88vw);
-}
-
-.page-5 h2 {
-    font-size: clamp(50px, 8vw, 120px);
-
-    letter-spacing: -0.07em;
-
-    line-height: .8;
-
-    margin-bottom: 40px;
-}
-
-
-/* =========================================================
-   SOUNDCLOUD PLAYER
-   ========================================================= */
-
-.soundcloud-box {
-    width: 100%;
-
-    background: #111;
-
-    padding: 20px;
-}
-
-.soundcloud-box iframe {
-    width: 100%;
-
-    height: 450px;
-
-    border: none;
-
-    display: block;
-}
-
-
-/* =========================================================
-   SOUNDCLOUD LINK
-   ========================================================= */
-
-.soundcloud-link {
-    display: inline-block;
-
-    margin-top: 20px;
-
-    color: #111;
-
-    text-decoration: none;
-
-    border-bottom: 1px solid #111;
-
-    padding-bottom: 5px;
-
-    font-size: 13px;
-
-    letter-spacing: .1em;
-
-    text-transform: uppercase;
-}
-
-
 
 
 /* =========================================================
@@ -1507,27 +1555,33 @@ body {
     }
 
     .platform-tile {
-        width: 56vw;
-        height: 46vh;
-        padding: 18px;
+        width: 38vw;
+        height: 32vh;
+        padding: 12px;
+    }
+
+    .platform-logo {
+        width: 38px;
+        height: 38px;
     }
 
     .platform-logo img {
-        width: 52px;
-        height: 52px;
+        width: 34px;
+        height: 34px;
     }
 
     .platform-name {
-        font-size: 20px;
+        font-size: 15px;
     }
 
     .page-1 .side-label {
         right: 8px;
-        top: 76%;
+        bottom: 16px;
+        top: auto;
 
-        transform:
-            translateY(-50%)
-            rotate(90deg);
+        transform-origin: right bottom;
+
+        transform: rotate(90deg);
     }
 
     .spotify-frame {
@@ -1541,15 +1595,11 @@ body {
     }
 
     .youtube-card {
-        width: min(280px, 74vw);
+        width: min(220px, 66vw);
     }
 
     .youtube-heading {
         flex-wrap: wrap;
-    }
-
-    .soundcloud-box iframe {
-        height: 400px;
     }
 
     .side-label {
@@ -1856,6 +1906,87 @@ body {
 
 }
 
+
+/* =========================================================
+   MOBILE QUERFORMAT (LANDSCAPE)
+
+   Die bisherigen Anpassungen greifen nur
+   nach Breite (max-width: 800px). Ein Handy
+   im Querformat ist aber oft BREITER als
+   800px, bekommt also fälschlich die
+   Desktop-Maße, obwohl die Höhe genauso
+   knapp ist wie im Hochformat. Das führte
+   zu abgeschnittenen Überschriften, einem
+   zu großen Videobereich und einer
+   Termin-Tabelle, die über den Kachelrand
+   hinausläuft.
+
+   Dieser Block greift zusätzlich, sobald
+   die tatsächliche Bildschirmhöhe knapp
+   ist – unabhängig von der Breite.
+   ========================================================= */
+
+@media (max-height: 500px) and (orientation: landscape) {
+
+    /*
+        Überschriften: deutlich kleiner und
+        an der Höhe statt der Breite
+        orientiert, damit sie nicht mehr
+        oben von der Browserleiste
+        abgeschnitten werden.
+    */
+
+    .page-1 h1,
+    .page-2 h2,
+    .page-3 h2,
+    .youtube-heading h2,
+    .page-drei h2,
+    .platforms-header h2 {
+        font-size: clamp(26px, 9vh, 46px);
+    }
+
+    .page-1-content,
+    .page-drei-content {
+        gap: 16px;
+    }
+
+    .page-1-video,
+    .page-drei-video {
+        width: min(280px, 40vw);
+    }
+
+    .andere-header,
+    .platforms-header {
+        margin-bottom: 12px;
+    }
+
+    /*
+        Termine-Tabelle: erzwingt die
+        einspaltige Darstellung (sonst nur
+        per max-width ausgelöst), damit
+        nichts mehr über den Kachelrand
+        hinausläuft.
+    */
+
+    .termin-row {
+        grid-template-columns: 1fr;
+        gap: 4px;
+    }
+
+    .termin-row .ort {
+        text-align: left;
+    }
+
+    .andere-tile {
+        padding: 14px;
+    }
+
+    .spotify-frame {
+        height: 60vh;
+    }
+
+}
+
 </style>
 </head>
 
@@ -1885,10 +2016,9 @@ body {
         <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
         <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
         <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
-        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> plattformen</button>
-        <button class="burger-link" type="button" data-page="6"><span class="num">07</span> soundcloud</button>
-        <a class="burger-link" href="kontakt.html"><span class="num">08</span> kontakt</a>
-        <a class="burger-link" href="impressum.html"><span class="num">09</span> impressum</a>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> connect</button>
+        <a class="burger-link" href="kontakt.html"><span class="num">07</span> kontakt</a>
+        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
     </div>
 </nav>
 
@@ -2433,29 +2563,25 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 07 -->
+<!-- VIDEO 07 -->
 
             <div
                 class="youtube-card"
-                id="yt7"
-                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
+                id="yt1"
+                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel7.avif"
-                    alt="b3nn3t YouTube Video 07"
+                    src="assets/gesehen/reel1.avif"
+                    alt="b3nn3t YouTube Video 01"
                     width="960"
                     height="540"
-                    loading="eager"
-                    fetchpriority="high"
+                    loading="lazy"
                     decoding="async"
-                    data-fallback-id="fq8zhAQMam0"
+                    data-fallback-id="ZSaj_FuqPN8"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2478,28 +2604,25 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 06 -->
+<!-- VIDEO 06 -->
 
             <div
                 class="youtube-card"
-                id="yt6"
-                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
+                id="yt2"
+                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel6.avif"
-                    alt="b3nn3t YouTube Video 06"
+                    src="assets/gesehen/reel2.avif"
+                    alt="b3nn3t YouTube Video 02"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="rV1U891RKLo"
+                    data-fallback-id="DMNl40Tip1w"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2522,28 +2645,25 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 05 -->
+<!-- VIDEO 05 -->
 
             <div
                 class="youtube-card"
-                id="yt5"
-                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
+                id="yt3"
+                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel5.avif"
-                    alt="b3nn3t YouTube Video 05"
+                    src="assets/gesehen/reel3.avif"
+                    alt="b3nn3t YouTube Video 03"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="w0pNdnlb96M"
+                    data-fallback-id="K5pKG0Smdfc"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2566,10 +2686,7 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 04 -->
+<!-- VIDEO 04 -->
 
             <div
                 class="youtube-card"
@@ -2610,28 +2727,25 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 03 -->
+<!-- VIDEO 03 -->
 
             <div
                 class="youtube-card"
-                id="yt3"
-                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
+                id="yt5"
+                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel3.avif"
-                    alt="b3nn3t YouTube Video 03"
+                    src="assets/gesehen/reel5.avif"
+                    alt="b3nn3t YouTube Video 05"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="K5pKG0Smdfc"
+                    data-fallback-id="w0pNdnlb96M"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2654,28 +2768,25 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 02 -->
+<!-- VIDEO 02 -->
 
             <div
                 class="youtube-card"
-                id="yt2"
-                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
+                id="yt6"
+                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel2.avif"
-                    alt="b3nn3t YouTube Video 02"
+                    src="assets/gesehen/reel6.avif"
+                    alt="b3nn3t YouTube Video 06"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="DMNl40Tip1w"
+                    data-fallback-id="rV1U891RKLo"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2698,28 +2809,26 @@ body {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 01 -->
+<!-- VIDEO 01 -->
 
             <div
                 class="youtube-card"
-                id="yt1"
-                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
+                id="yt7"
+                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel1.avif"
-                    alt="b3nn3t YouTube Video 01"
+                    src="assets/gesehen/reel7.avif"
+                    alt="b3nn3t YouTube Video 07"
                     width="960"
                     height="540"
-                    loading="lazy"
+                    loading="eager"
+                    fetchpriority="high"
                     decoding="async"
-                    data-fallback-id="ZSaj_FuqPN8"
+                    data-fallback-id="fq8zhAQMam0"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2833,12 +2942,12 @@ body {
         <div class="platforms-header">
 
             <h2>
-                plattformen
+                connect
             </h2>
 
             <div class="platforms-nav">
-                <button class="platforms-nav-btn" type="button" data-dir="-1" aria-label="vorherige Plattform">‹</button>
-                <button class="platforms-nav-btn" type="button" data-dir="1" aria-label="nächste Plattform">›</button>
+                <button class="platforms-nav-btn" type="button" data-dir="-1" aria-label="vorheriger Kanal">‹</button>
+                <button class="platforms-nav-btn" type="button" data-dir="1" aria-label="nächster Kanal">›</button>
             </div>
 
         </div>
@@ -2846,7 +2955,27 @@ body {
         <div class="platforms-grid">
 
             <div class="platform-tile">
-                <span class="tile-label">01 / apple music</span>
+                <span class="tile-label">01 / spotify</span>
+                <a
+                    class="platform-link-card"
+                    href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Spotify öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/spotify_128.webp" type="image/webp">
+                            <img src="assets/plattformen/spotify_128.png" alt="Spotify Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">spotify</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">02 / apple music</span>
                 <a
                     class="platform-link-card"
                     href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
@@ -2854,17 +2983,19 @@ body {
                     rel="noopener"
                     aria-label="b3nn3t auf Apple Music öffnen"
                 >
-                    <picture class="platform-logo">
-                        <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
-                        <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
+                            <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">apple music</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
             </div>
 
             <div class="platform-tile">
-                <span class="tile-label">02 / instagram</span>
+                <span class="tile-label">03 / instagram</span>
                 <a
                     class="platform-link-card"
                     href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
@@ -2872,17 +3003,61 @@ body {
                     rel="noopener"
                     aria-label="b3nn3t auf Instagram öffnen"
                 >
-                    <picture class="platform-logo">
-                        <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
-                        <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
+                            <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">instagram</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
             </div>
 
             <div class="platform-tile">
-                <span class="tile-label">03 / mx3</span>
+                <span class="tile-label">04 / youtube</span>
+                <a
+                    class="platform-link-card"
+                    href="https://www.youtube.com/@b333nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf YouTube öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/youtube_128.webp" type="image/webp">
+                            <img src="assets/plattformen/youtube_128.png" alt="YouTube Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">youtube</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">05 / soundcloud</span>
+                <a
+                    class="platform-link-card"
+                    href="https://soundcloud.com/bennet-6942069420"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf SoundCloud öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/soundcloud_128.webp" type="image/webp">
+                            <img src="assets/plattformen/soundcloud_128.png" alt="SoundCloud Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">soundcloud</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platforms-divider" aria-hidden="true"></div>
+
+            <div class="platform-tile">
+                <span class="tile-label">06 / mx3</span>
                 <a
                     class="platform-link-card"
                     href="https://mx3.ch/b3nn3t"
@@ -2890,17 +3065,19 @@ body {
                     rel="noopener"
                     aria-label="b3nn3t auf MX3 öffnen"
                 >
-                    <picture class="platform-logo">
-                        <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
-                        <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
+                            <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">mx3</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
             </div>
 
             <div class="platform-tile">
-                <span class="tile-label">04 / genius</span>
+                <span class="tile-label">07 / genius</span>
                 <a
                     class="platform-link-card"
                     href="https://genius.com/artists/B3nn3t"
@@ -2908,10 +3085,12 @@ body {
                     rel="noopener"
                     aria-label="b3nn3t auf Genius öffnen"
                 >
-                    <picture class="platform-logo">
-                        <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
-                        <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="64" height="64" loading="lazy" decoding="async">
-                    </picture>
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
+                            <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
                     <span class="platform-name">genius</span>
                     <span class="platform-action">öffnen →</span>
                 </a>
@@ -2923,54 +3102,6 @@ body {
 
     <div class="side-label">
         links
-    </div>
-
-</section>
-
-
-
-<!-- =======================================================
-     SEITE 7 – SOUNDCLOUD
-     ======================================================= -->
-
-<section
-    class="page page-5"
-    data-page="6"
->
-
-    <div class="page-5-content">
-
-        <h2>
-            soundcloud
-        </h2>
-
-
-        <div class="soundcloud-box">
-
-            <iframe
-                scrolling="no"
-                frameborder="no"
-                allow="autoplay"
-                src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/bennet-6942069420&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"
-            ></iframe>
-
-        </div>
-
-
-        <a
-            class="soundcloud-link"
-            href="https://soundcloud.com/bennet-6942069420"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            soundcloud öffnen →
-        </a>
-
-    </div>
-
-
-    <div class="side-label">
-        hören
     </div>
 
 </section>
@@ -3002,8 +3133,7 @@ const pages = Array.from(
     2 = Spotify
     3 = YouTube
     4 = Drei
-    5 = Plattformen
-    6 = SoundCloud
+    5 = Connect
 */
 
 let currentPage = 0;
@@ -3563,24 +3693,28 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
 
 function findScrollableAncestor(element) {
 
-    let el = element;
+    /*
+        Performance-Fix: Statt bei jedem
+        Wheel-Event den DOM-Baum manuell mit
+        getComputedStyle() hochzulaufen (das
+        erzwingt bei jedem Schritt ein Style-
+        Recalc – "Forced Reflow"), nutzen wir
+        das native, günstige closest() und
+        prüfen nur an EINER Stelle die reinen
+        Geometrie-Werte. Es gibt im Projekt nur
+        zwei bewusst scrollbare Container.
+    */
 
-    while (el && el !== document.body) {
+    const scrollable =
+        element.closest(
+            ".andere-tile, .page-3-content"
+        );
 
-        const style =
-            window.getComputedStyle(el);
-
-        const canScrollY =
-            (style.overflowY === "auto" ||
-                style.overflowY === "scroll") &&
-            el.scrollHeight > el.clientHeight;
-
-        if (canScrollY) {
-            return el;
-        }
-
-        el = el.parentElement;
-
+    if (
+        scrollable &&
+        scrollable.scrollHeight > scrollable.clientHeight
+    ) {
+        return scrollable;
     }
 
     return null;
@@ -3609,23 +3743,17 @@ function makeDraggable(el) {
     let startX = 0;
     let startScrollLeft = 0;
 
-    el.addEventListener("pointerdown", (event) => {
+    /*
+        Performance-Fix: pointermove/-up/
+        -cancel werden erst WÄHREND eines
+        Drags an window gehängt (statt
+        dauerhaft für jede der 3 Kachel-
+        Reihen zu lauschen) – spart auf
+        jeder normalen Mausbewegung drei
+        überflüssige Funktionsaufrufe.
+    */
 
-        if (event.pointerType !== "mouse") {
-            return;
-        }
-
-        isDown = true;
-        dragged = false;
-
-        startX = event.clientX;
-        startScrollLeft = el.scrollLeft;
-
-        el.classList.add("dragging");
-
-    });
-
-    window.addEventListener("pointermove", (event) => {
+    function onPointerMove(event) {
 
         if (!isDown || event.pointerType !== "mouse") {
             return;
@@ -3642,7 +3770,7 @@ function makeDraggable(el) {
             el.scrollLeft = startScrollLeft - dx;
         }
 
-    });
+    }
 
     function endDrag(event) {
 
@@ -3682,10 +3810,31 @@ function makeDraggable(el) {
 
         el.classList.remove("dragging");
 
+        window.removeEventListener("pointermove", onPointerMove);
+        window.removeEventListener("pointerup", endDrag);
+        window.removeEventListener("pointercancel", endDrag);
+
     }
 
-    window.addEventListener("pointerup", endDrag);
-    window.addEventListener("pointercancel", endDrag);
+    el.addEventListener("pointerdown", (event) => {
+
+        if (event.pointerType !== "mouse") {
+            return;
+        }
+
+        isDown = true;
+        dragged = false;
+
+        startX = event.clientX;
+        startScrollLeft = el.scrollLeft;
+
+        el.classList.add("dragging");
+
+        window.addEventListener("pointermove", onPointerMove);
+        window.addEventListener("pointerup", endDrag);
+        window.addEventListener("pointercancel", endDrag);
+
+    });
 
 }
 
@@ -4130,6 +4279,226 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
     });
 
 });
+
+
+/* =========================================================
+   PLATTFORMEN – BALL-BOUNCE
+
+   Die Plattform-Logos prallen wie ein
+   DVD-Bildschirmschoner innerhalb ihrer
+   Kachel hin und her. Läuft nur, während
+   die Plattformen-Seite sichtbar ist
+   (aktiv oder Zielseite), und pausiert bei
+   reduzierter Bewegungspräferenz oder wenn
+   der Tab im Hintergrund ist.
+   ========================================================= */
+
+(function () {
+
+    const reduceMotion =
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+    const arenas = Array.from(
+        document.querySelectorAll(".platform-arena")
+    );
+
+    if (reduceMotion || arenas.length === 0) {
+        return;
+    }
+
+    const platformsPage =
+        document.querySelector(".page-platforms");
+
+    const balls = arenas.map((arena) => ({
+        arena,
+        ball: arena.querySelector(".platform-logo"),
+        x: 0,
+        y: 0,
+        vx: 0,
+        vy: 0,
+        maxX: 0,
+        maxY: 0,
+        ready: false
+    }));
+
+    /*
+        Zufällige Startposition + -richtung
+        je Ball, damit sie nicht synchron
+        laufen.
+    */
+
+    function initBall(b) {
+
+        if (!b.ball) {
+            return;
+        }
+
+        const arenaRect =
+            b.arena.getBoundingClientRect();
+
+        const ballRect =
+            b.ball.getBoundingClientRect();
+
+        const maxX =
+            Math.max(0, arenaRect.width - ballRect.width);
+
+        const maxY =
+            Math.max(0, arenaRect.height - ballRect.height);
+
+        b.maxX = maxX;
+        b.maxY = maxY;
+
+        if (!b.ready) {
+
+            b.x = Math.random() * maxX;
+            b.y = Math.random() * maxY;
+
+            const angle =
+                Math.random() * Math.PI * 2;
+
+            const speed = 34 + Math.random() * 22;
+
+            b.vx = Math.cos(angle) * speed;
+            b.vy = Math.sin(angle) * speed;
+
+            b.ready = true;
+
+        } else {
+
+            b.x = Math.min(b.x, maxX);
+            b.y = Math.min(b.y, maxY);
+
+        }
+
+    }
+
+    balls.forEach(initBall);
+
+    window.addEventListener("resize", () => {
+        balls.forEach(initBall);
+    });
+
+    function isPlatformsPageVisible() {
+
+        return Boolean(
+            platformsPage &&
+            (
+                platformsPage.classList.contains("active") ||
+                platformsPage.classList.contains("behind")
+            )
+        );
+
+    }
+
+    let lastTime = null;
+
+    let rafRunning = false;
+
+    /*
+        Performance-Fix: Statt die rAF-Schleife
+        dauerhaft ab dem ersten Seitenaufruf
+        durchlaufen zu lassen (auch wenn die
+        Connect-Seite nie angeschaut wird),
+        läuft sie nur, während die Seite
+        tatsächlich sichtbar ist, und stoppt
+        sich danach komplett selbst – statt
+        sich nur "leer" weiterzuplanen.
+    */
+
+    function ensureTickRunning() {
+
+        if (rafRunning || !isPlatformsPageVisible()) {
+            return;
+        }
+
+        rafRunning = true;
+        lastTime = null;
+
+        requestAnimationFrame(tick);
+
+    }
+
+    function tick(time) {
+
+        if (!isPlatformsPageVisible()) {
+            rafRunning = false;
+            lastTime = null;
+            return;
+        }
+
+        requestAnimationFrame(tick);
+
+        if (lastTime === null) {
+            lastTime = time;
+            return;
+        }
+
+        /*
+            Zeitdifferenz begrenzen, damit ein
+            kurzzeitig inaktiver Tab beim
+            Zurückkehren nicht zu einem riesigen
+            Sprung führt.
+        */
+
+        const dt =
+            Math.min(time - lastTime, 40) / 1000;
+
+        lastTime = time;
+
+        balls.forEach((b) => {
+
+            if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
+                return;
+            }
+
+            b.x += b.vx * dt;
+            b.y += b.vy * dt;
+
+            if (b.x <= 0) {
+                b.x = 0;
+                b.vx = Math.abs(b.vx);
+            } else if (b.x >= b.maxX) {
+                b.x = b.maxX;
+                b.vx = -Math.abs(b.vx);
+            }
+
+            if (b.y <= 0) {
+                b.y = 0;
+                b.vy = Math.abs(b.vy);
+            } else if (b.y >= b.maxY) {
+                b.y = b.maxY;
+                b.vy = -Math.abs(b.vy);
+            }
+
+            b.ball.style.transform =
+                `translate3d(${b.x}px, ${b.y}px, 0)`;
+
+        });
+
+    }
+
+    ensureTickRunning();
+
+    /*
+        Startet die Schleife neu, sobald die
+        Connect-Seite wieder aktiv/Zielseite
+        wird (Klassenwechsel durch die
+        Seiten-Navigation).
+    */
+
+    if (platformsPage && "MutationObserver" in window) {
+
+        new MutationObserver(ensureTickRunning)
+            .observe(platformsPage, {
+                attributes: true,
+                attributeFilter: ["class"]
+            });
+
+    }
+
+})();
 
 
 /* =========================================================
@@ -4618,6 +4987,9 @@ const burgerMenu =
 const burgerBtn =
     document.getElementById("burger-btn");
 
+const burgerDropdown =
+    document.getElementById("burger-dropdown");
+
 function openBurgerMenu() {
 
     if (!burgerMenu || !burgerBtn) {
@@ -4661,14 +5033,33 @@ if (burgerBtn) {
 if (burgerMenu) {
 
     /*
-        Verlässt die Maus das Menü nach
-        unten (oder in eine andere Richtung),
-        schließt es sich wieder.
+        Verlässt die Maus das Menü, schließt
+        es sich wieder – aber erst mit
+        kurzer Verzögerung. Der Button ist
+        kleiner als die aufgeklappte Liste
+        darunter; ohne Verzögerung würde die
+        Lücke dazwischen das Menü sofort
+        schließen, bevor man einen Punkt
+        anklicken kann.
     */
 
-    burgerMenu.addEventListener("mouseleave", () => {
-        closeBurgerMenu();
-    });
+    let closeTimer = null;
+
+    function scheduleBurgerClose() {
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(closeBurgerMenu, 300);
+    }
+
+    function cancelBurgerClose() {
+        clearTimeout(closeTimer);
+    }
+
+    burgerMenu.addEventListener("mouseleave", scheduleBurgerClose);
+    burgerBtn.addEventListener("mouseenter", cancelBurgerClose);
+
+    if (burgerDropdown) {
+        burgerDropdown.addEventListener("mouseenter", cancelBurgerClose);
+    }
 
 }
 
