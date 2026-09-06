@@ -783,16 +783,13 @@ body {
 .termin-row {
     display: grid;
 
-    grid-template-columns: 100px minmax(0, 1fr);
+    grid-template-columns: 110px 1fr auto;
 
-    column-gap: 16px;
-    row-gap: 4px;
+    gap: 12px;
 
-    align-items: start;
+    align-items: baseline;
 
     font-size: 14px;
-
-    line-height: 1.25;
 
     padding-bottom: 12px;
 
@@ -805,39 +802,18 @@ body {
     padding-bottom: 0;
 }
 
-.termin-row .datum {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-}
-
 .termin-row .datum time {
     font-weight: 700;
 }
 
-.termin-row .datum,
-.termin-row .veranstaltung,
 .termin-row .ort {
-    min-width: 0;
-}
-
-.termin-row .veranstaltung {
-    grid-column: 2;
-    overflow-wrap: normal;
-    word-break: normal;
-    hyphens: auto;
-}
-
-.termin-row .ort {
-    grid-column: 2;
-    text-align: left;
+    text-align: right;
 
     opacity: .8;
 
     font-size: 13px;
 
-    white-space: normal;
-    overflow-wrap: normal;
-    word-break: normal;
+    white-space: nowrap;
 }
 
 
@@ -1580,7 +1556,7 @@ body {
 
     .platform-tile {
         width: 38vw;
-        height: 27vh;
+        height: 32vh;
         padding: 12px;
     }
 
@@ -1599,11 +1575,11 @@ body {
     }
 
     .page-1 .side-label {
-        right: 30px;
-        bottom: 72px;
+        right: 8px;
+        bottom: 16px;
         top: auto;
 
-        transform-origin: center;
+        transform-origin: right bottom;
 
         transform: rotate(90deg);
     }
@@ -1630,14 +1606,6 @@ body {
         right: 10px;
     }
 
-    .page-4 .side-label {
-        right: -18px;
-        top: 50%;
-        transform-origin: center;
-        transform: translateY(-50%) rotate(90deg);
-        z-index: 50;
-    }
-
 
     /*
         SEITE 2 – "die andere"
@@ -1647,31 +1615,10 @@ body {
         nur die Kachelbreite wird angepasst.
     */
 
-    .andere-grid {
-        touch-action: pan-x pan-y;
-    }
-
     .andere-tile {
         width: 56vw;
 
         height: 46vh;
-    }
-
-    .tile-termine {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-        touch-action: pan-y;
-    }
-
-    .tile-termine .sub-content {
-        padding: 14px;
-    }
-
-    .tile-termine .sub-toggle {
-        padding: 14px 16px;
-        gap: 10px;
-        line-height: 1.2;
     }
 
     .andere-header {
@@ -1679,29 +1626,13 @@ body {
     }
 
     .termin-row {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
 
         gap: 4px;
-
-        align-items: start;
-
-        font-size: 13px;
     }
 
-    .termin-row .datum,
-    .termin-row .veranstaltung,
     .termin-row .ort {
-        grid-column: auto;
-        grid-row: auto;
-        min-width: 0;
         text-align: left;
-        white-space: normal;
-        overflow-wrap: anywhere;
-    }
-
-    .termin-row .ort {
-        opacity: .72;
-        font-size: 12px;
     }
 }
 
@@ -1975,54 +1906,6 @@ body {
 
 }
 
-
-/* =========================================================
-   KONTAKTFORMULAR – dunkle/graue Formularfelder
-   ========================================================= */
-
-.contact-form input,
-.contact-form textarea,
-.contact-form select,
-form input,
-form textarea,
-form select {
-    border: 1px solid rgba(0,0,0,.55);
-    color: #111;
-    background: rgba(255,255,255,.72);
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder,
-form input::placeholder,
-form textarea::placeholder {
-    color: rgba(0,0,0,.58);
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus,
-.contact-form select:focus,
-form input:focus,
-form textarea:focus,
-form select:focus {
-    outline: none;
-    border-color: #111;
-    background: rgba(255,255,255,.9);
-}
-
-/* =========================================================
-   SOUNDCLOUD – Mobile: Farbe statt Hintergrundbild
-   ========================================================= */
-
-@media (max-width: 800px) {
-    .page-soundcloud,
-    .page-5.soundcloud,
-    .soundcloud-page,
-    .page-5 {
-        background-image: none !important;
-        background: #e7e1d5 !important;
-    }
-}
-
 </style>
 </head>
 
@@ -2147,8 +2030,8 @@ form select:focus {
             >
 
                 <source
-                    src="/assets/gespalten/gespalten.webm"
-                    type="video/webm"
+                    src="/assets/gespalten/gespalten.mp4"
+                    type="video/mp4"
                 >
 
                 Dein Browser unterstützt dieses Video nicht.
@@ -2232,7 +2115,7 @@ form select:focus {
 
                     <img
                         class="thumb"
-                        src="assets/radio/weekly-catch-small.webp"
+                        src="https://weeklycatch.org/art/weekly-catch-small.png"
                         alt="The Weekly Catch – Cover"
                         width="400"
                         height="277"
@@ -2251,11 +2134,11 @@ form select:focus {
                     </div>
 
                     <span class="play-label">
-                        b3nn3t: desigual
+                        → b3nn3t: desigual ←
                     </span>
 
                     <small>
-                        
+                        Radio
                     </small>
 
                 </button>
@@ -2297,7 +2180,7 @@ form select:focus {
                     </div>
 
                     <span class="play-label">
-                        
+                        b3nn3t
                     </span>
 
                     <small>
@@ -2347,11 +2230,11 @@ form select:focus {
                     </div>
 
                     <span class="play-label">
-                       
+                        → zum Artikel ←
                     </span>
 
                     <small>
-                       
+                        Presse
                     </small>
 
                 </a>
@@ -2386,45 +2269,9 @@ form select:focus {
                             <div class="termine-list" role="table" aria-label="Termine">
 
                                 <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2026-08-08">08.08.2026</time></div>
-                                    <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
-                                    <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2026-06-26">26.06.2026</time></div>
-                                    <div class="veranstaltung" role="cell">· OYA! OPEN AIR FESTIVAL (gleis19)</div>
-                                    <div class="ort" role="cell">wien · 19:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
-                                    <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
-                                    <div class="ort" role="cell">jona · 19:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
-                                    <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
-                                    <div class="ort" role="cell">rüti · 18:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
-                                    <div class="ort" role="cell">wien · 20:00 uhr</div>
-                                </div>
-
-                                <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
-                                    <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
-                                    <div class="ort" role="cell">wien · 20:30 uhr</div>
+                                    <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                                    <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
+                                    <div class="ort" role="cell">frauenfeld · 17:15 uhr</div>
                                 </div>
 
                                 <div class="termin-row" role="row">
@@ -2434,9 +2281,45 @@ form select:focus {
                                 </div>
 
                                 <div class="termin-row" role="row">
-                                    <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
-                                    <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
-                                    <div class="ort" role="cell">frauenfeld · 17:15 uhr</div>
+                                    <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 20:30 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
+                                    <div class="ort" role="cell">wien · 20:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
+                                    <div class="ort" role="cell">rüti · 18:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
+                                    <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 19:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-06-26">26.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· OYA! OPEN AIR FESTIVAL (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 19:00 uhr</div>
+                                </div>
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-08-08">08.08.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
+                                    <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
                                 </div>
 
                             </div>
@@ -2504,8 +2387,7 @@ form select:focus {
 
         <iframe
             class="spotify-frame"
-            title="b3nn3t auf Spotify"
-            data-src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+            src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
             loading="lazy"
             allow="
                 autoplay;
@@ -2600,29 +2482,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 07 -->
+<!-- VIDEO 07 -->
 
             <div
                 class="youtube-card"
-                id="yt7"
-                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
+                id="yt1"
+                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel7.avif"
-                    alt="b3nn3t YouTube Video 07"
+                    src="assets/gesehen/reel1.avif"
+                    alt="b3nn3t YouTube Video 01"
                     width="960"
                     height="540"
-                    loading="eager"
-                    fetchpriority="high"
+                    loading="lazy"
                     decoding="async"
-                    data-fallback-id="fq8zhAQMam0"
+                    data-fallback-id="ZSaj_FuqPN8"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2645,28 +2523,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 06 -->
+<!-- VIDEO 06 -->
 
             <div
                 class="youtube-card"
-                id="yt6"
-                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
+                id="yt2"
+                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel6.avif"
-                    alt="b3nn3t YouTube Video 06"
+                    src="assets/gesehen/reel2.avif"
+                    alt="b3nn3t YouTube Video 02"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="rV1U891RKLo"
+                    data-fallback-id="DMNl40Tip1w"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2689,28 +2564,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 05 -->
+<!-- VIDEO 05 -->
 
             <div
                 class="youtube-card"
-                id="yt5"
-                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
+                id="yt3"
+                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel5.avif"
-                    alt="b3nn3t YouTube Video 05"
+                    src="assets/gesehen/reel3.avif"
+                    alt="b3nn3t YouTube Video 03"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="w0pNdnlb96M"
+                    data-fallback-id="K5pKG0Smdfc"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2733,10 +2605,7 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 04 -->
+<!-- VIDEO 04 -->
 
             <div
                 class="youtube-card"
@@ -2777,28 +2646,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 03 -->
+<!-- VIDEO 03 -->
 
             <div
                 class="youtube-card"
-                id="yt3"
-                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
+                id="yt5"
+                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel3.avif"
-                    alt="b3nn3t YouTube Video 03"
+                    src="assets/gesehen/reel5.avif"
+                    alt="b3nn3t YouTube Video 05"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="K5pKG0Smdfc"
+                    data-fallback-id="w0pNdnlb96M"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2821,28 +2687,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 02 -->
+<!-- VIDEO 02 -->
 
             <div
                 class="youtube-card"
-                id="yt2"
-                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
+                id="yt6"
+                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel2.avif"
-                    alt="b3nn3t YouTube Video 02"
+                    src="assets/gesehen/reel6.avif"
+                    alt="b3nn3t YouTube Video 06"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="DMNl40Tip1w"
+                    data-fallback-id="rV1U891RKLo"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2865,28 +2728,26 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 01 -->
+<!-- VIDEO 01 -->
 
             <div
                 class="youtube-card"
-                id="yt1"
-                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
+                id="yt7"
+                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel1.avif"
-                    alt="b3nn3t YouTube Video 01"
+                    src="assets/gesehen/reel7.avif"
+                    alt="b3nn3t YouTube Video 07"
                     width="960"
                     height="540"
-                    loading="lazy"
+                    loading="eager"
+                    fetchpriority="high"
                     decoding="async"
-                    data-fallback-id="ZSaj_FuqPN8"
+                    data-fallback-id="fq8zhAQMam0"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -3184,58 +3045,6 @@ const pages = Array.from(
 
 
 /*
-    Spotify-Embed nicht direkt beim ersten Rendern laden.
-    Stattdessen nach kurzer Leerlaufzeit automatisch nachladen
-    und zusätzlich sofort, sobald die Spotify-Seite sichtbar wird.
-*/
-
-const spotifyFrame =
-    document.querySelector(".spotify-frame");
-
-let spotifyEmbedLoaded = false;
-
-function loadSpotifyEmbed() {
-
-    if (
-        spotifyEmbedLoaded ||
-        !spotifyFrame ||
-        spotifyFrame.getAttribute("src")
-    ) {
-        return;
-    }
-
-    const src =
-        spotifyFrame.getAttribute("data-src");
-
-    if (!src) {
-        return;
-    }
-
-    spotifyFrame.setAttribute("src", src);
-    spotifyEmbedLoaded = true;
-
-}
-
-function scheduleSpotifyIdleLoad() {
-
-    if (spotifyEmbedLoaded || !spotifyFrame) {
-        return;
-    }
-
-    const load = () => setTimeout(loadSpotifyEmbed, 1200);
-
-    if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(load, { timeout: 2500 });
-    } else {
-        setTimeout(loadSpotifyEmbed, 1800);
-    }
-
-}
-
-scheduleSpotifyIdleLoad();
-
-
-/*
     Aktuelle Seite
 
     0 = gespalten
@@ -3365,15 +3174,8 @@ function setupLayers(dir) {
         Zielseite liegt darunter.
     */
 
-    const targetPage =
-        getTargetPage(dir);
-
-    pages[targetPage]
+    pages[getTargetPage(dir)]
         .classList.add("behind");
-
-    if (currentPage === 2 || targetPage === 2) {
-        loadSpotifyEmbed();
-    }
 
 }
 
@@ -3529,12 +3331,6 @@ function changePage() {
     if (currentPage === 1) {
 
         startAboutTypewriter();
-
-    }
-
-    if (currentPage === 2) {
-
-        loadSpotifyEmbed();
 
     }
 
@@ -3785,10 +3581,6 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
 
         if (content) {
             content.hidden = expanded;
-
-            requestAnimationFrame(
-                updateAllScrollableMetrics
-            );
         }
 
 
@@ -3818,56 +3610,18 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
    werden statt die Seite umzublättern.
    ========================================================= */
 
-const scrollMetrics = new WeakMap();
-
-function updateScrollableMetrics(element) {
-
-    if (!element) {
-        return;
-    }
-
-    scrollMetrics.set(
-        element,
-        {
-            maxScrollTop: Math.max(
-                0,
-                element.scrollHeight - element.clientHeight
-            )
-        }
-    );
-
-}
-
-function updateAllScrollableMetrics() {
-
-    document
-        .querySelectorAll(
-            ".andere-tile, .page-3-content"
-        )
-        .forEach(updateScrollableMetrics);
-
-}
-
-function getMaxScrollTop(element) {
-
-    const metrics =
-        scrollMetrics.get(element);
-
-    return metrics ? metrics.maxScrollTop : 0;
-
-}
-
 function findScrollableAncestor(element) {
 
     /*
-        Performance-Fix:
-        Die teuren Geometrie-Werte
-        scrollHeight/clientHeight werden nicht mehr
-        während wheel/touchmove gelesen, sondern
-        nur nach Layout-Änderungen gecacht.
-        Während der eigentlichen Geste lesen wir
-        nur noch scrollTop. Das verhindert die
-        typischen Forced-Reflow-Warnungen auf Mobile.
+        Performance-Fix: Statt bei jedem
+        Wheel-Event den DOM-Baum manuell mit
+        getComputedStyle() hochzulaufen (das
+        erzwingt bei jedem Schritt ein Style-
+        Recalc – "Forced Reflow"), nutzen wir
+        das native, günstige closest() und
+        prüfen nur an EINER Stelle die reinen
+        Geometrie-Werte. Es gibt im Projekt nur
+        zwei bewusst scrollbare Container.
     */
 
     const scrollable =
@@ -3877,39 +3631,12 @@ function findScrollableAncestor(element) {
 
     if (
         scrollable &&
-        getMaxScrollTop(scrollable) > 0
+        scrollable.scrollHeight > scrollable.clientHeight
     ) {
         return scrollable;
     }
 
     return null;
-
-}
-
-updateAllScrollableMetrics();
-
-window.addEventListener(
-    "load",
-    updateAllScrollableMetrics
-);
-
-window.addEventListener(
-    "resize",
-    () => requestAnimationFrame(updateAllScrollableMetrics)
-);
-
-if ("ResizeObserver" in window) {
-
-    const scrollMetricsObserver =
-        new ResizeObserver(updateAllScrollableMetrics);
-
-    document
-        .querySelectorAll(
-            ".andere-tile, .page-3-content"
-        )
-        .forEach((element) => {
-            scrollMetricsObserver.observe(element);
-        });
 
 }
 
@@ -4174,17 +3901,14 @@ if (andereGrid) {
 
             if (verticalScrollable) {
 
-                const maxScrollTop =
-                    getMaxScrollTop(verticalScrollable);
-
-                const currentScrollTop =
-                    verticalScrollable.scrollTop;
-
                 const atTop =
-                    currentScrollTop <= 0;
+                    verticalScrollable.scrollTop <= 0;
 
                 const atBottom =
-                    currentScrollTop >= maxScrollTop - 1;
+                    Math.ceil(
+                        verticalScrollable.scrollTop +
+                        verticalScrollable.clientHeight
+                    ) >= verticalScrollable.scrollHeight;
 
                 const scrollingDown =
                     event.deltaY > 0;
@@ -4855,17 +4579,14 @@ window.addEventListener(
 
         if (scrollable) {
 
-            const maxScrollTop =
-                getMaxScrollTop(scrollable);
-
-            const currentScrollTop =
-                scrollable.scrollTop;
-
             const atTop =
-                currentScrollTop <= 0;
+                scrollable.scrollTop <= 0;
 
             const atBottom =
-                currentScrollTop >= maxScrollTop - 1;
+                Math.ceil(
+                    scrollable.scrollTop +
+                    scrollable.clientHeight
+                ) >= scrollable.scrollHeight;
 
             const scrollingDown =
                 event.deltaY > 0;
@@ -5113,43 +4834,12 @@ window.addEventListener(
         }
 
 
+        event.preventDefault();
+
+
         const incrementalDelta =
             touchLastY -
             touch.clientY;
-
-        const verticalScrollable =
-            findScrollableAncestor(event.target);
-
-        if (verticalScrollable) {
-
-            const maxScrollTop =
-                getMaxScrollTop(verticalScrollable);
-
-            const currentScrollTop =
-                verticalScrollable.scrollTop;
-
-            const atTop =
-                currentScrollTop <= 0;
-
-            const atBottom =
-                currentScrollTop >= maxScrollTop - 1;
-
-            const scrollingDown =
-                incrementalDelta > 0;
-
-            if (
-                (scrollingDown && !atBottom) ||
-                (!scrollingDown && !atTop)
-            ) {
-                touchLastY = touch.clientY;
-                return;
-            }
-
-        }
-
-
-        event.preventDefault();
-
 
         touchLastY = touch.clientY;
 
@@ -5341,10 +5031,6 @@ function jumpToPage(index) {
         startAboutTypewriter();
     }
 
-    if (currentPage === 2) {
-        loadSpotifyEmbed();
-    }
-
 }
 
 document.querySelectorAll(".burger-link").forEach((link) => {
@@ -5404,10 +5090,6 @@ function applyPageFromHash() {
 
         if (currentPage === 1) {
             startAboutTypewriter();
-        }
-
-        if (currentPage === 2) {
-            loadSpotifyEmbed();
         }
 
     }
