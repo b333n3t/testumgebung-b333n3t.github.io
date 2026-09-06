@@ -1908,83 +1908,300 @@ body {
 
 
 /* =========================================================
-   MOBILE QUERFORMAT (LANDSCAPE)
-
-   Die bisherigen Anpassungen greifen nur
-   nach Breite (max-width: 800px). Ein Handy
-   im Querformat ist aber oft BREITER als
-   800px, bekommt also fälschlich die
-   Desktop-Maße, obwohl die Höhe genauso
-   knapp ist wie im Hochformat. Das führte
-   zu abgeschnittenen Überschriften, einem
-   zu großen Videobereich und einer
-   Termin-Tabelle, die über den Kachelrand
-   hinausläuft.
-
-   Dieser Block greift zusätzlich, sobald
-   die tatsächliche Bildschirmhöhe knapp
-   ist – unabhängig von der Breite.
+   MOBILE PORTRAIT + LANDSCAPE FIXES (2026-09-06)
    ========================================================= */
 
-@media (max-height: 500px) and (orientation: landscape) {
+/* Vertikale Randtexte immer innerhalb des sichtbaren Bereichs halten. */
+.side-label {
+    max-width: min(62vh, 360px);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 20;
+}
 
-    /*
-        Überschriften: deutlich kleiner und
-        an der Höhe statt der Breite
-        orientiert, damit sie nicht mehr
-        oben von der Browserleiste
-        abgeschnitten werden.
-    */
+/* Termine: eigener, klar begrenzter Scrollbereich statt Scrollen der ganzen Kachel. */
+.tile-termine {
+    overflow: hidden;
+}
 
-    .page-1 h1,
-    .page-2 h2,
-    .page-3 h2,
-    .youtube-heading h2,
-    .page-drei h2,
-    .platforms-header h2 {
-        font-size: clamp(26px, 9vh, 46px);
+.tile-termine .sub-group {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-termine .sub-content {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.tile-termine .termine-responsive {
+    min-height: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    scrollbar-gutter: stable;
+    padding-right: 4px;
+}
+
+.tile-termine .termine-responsive::-webkit-scrollbar {
+    width: 5px;
+}
+
+.tile-termine .termine-responsive::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tile-termine .termine-responsive::-webkit-scrollbar-thumb {
+    background: rgba(17,17,17,.55);
+}
+
+@media (max-width: 800px) and (orientation: portrait) {
+    .page-2-content {
+        width: min(640px, 90vw);
+        max-height: 88dvh;
     }
 
-    .page-1-content,
-    .page-drei-content {
-        gap: 16px;
+    .andere-header {
+        gap: 10px;
+        margin-bottom: 16px;
+        padding-right: 34px;
     }
 
-    .page-1-video,
-    .page-drei-video {
-        width: min(280px, 40vw);
+    .page-2 h2 {
+        font-size: clamp(42px, 14vw, 76px);
+        line-height: .88;
     }
 
-    .andere-header,
-    .platforms-header {
-        margin-bottom: 12px;
+    .andere-tile {
+        width: min(82vw, 350px);
+        height: 58dvh;
+        padding: 18px;
     }
 
-    /*
-        Termine-Tabelle: erzwingt die
-        einspaltige Darstellung (sonst nur
-        per max-width ausgelöst), damit
-        nichts mehr über den Kachelrand
-        hinausläuft.
-    */
+    .tile-termine {
+        height: 64dvh;
+    }
+
+    .tile-termine .sub-group {
+        flex: 1;
+        max-height: calc(100% - 34px);
+    }
+
+    .tile-termine .sub-content {
+        flex: 1;
+        padding: 12px;
+    }
+
+    .tile-termine .termine-responsive {
+        height: 100%;
+        max-height: 100%;
+    }
 
     .termin-row {
         grid-template-columns: 1fr;
-        gap: 4px;
+        gap: 3px;
+        font-size: 13px;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
     }
 
     .termin-row .ort {
         text-align: left;
+        white-space: normal;
+        font-size: 12px;
+    }
+
+    .sub-toggle {
+        padding: 13px 14px;
+    }
+
+    .page-1 .side-label,
+    .page-4 .side-label,
+    .page-drei .side-label,
+    .page-platforms .side-label {
+        right: max(8px, env(safe-area-inset-right));
+    }
+}
+
+/* Kleine Handys im Querformat: Seitenhöhe ist der limitierende Faktor. */
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    .page {
+        align-items: center;
+    }
+
+    .page-1-content,
+    .page-drei-content {
+        width: min(760px, 82vw);
+        max-height: 88dvh;
+        gap: 10px;
+    }
+
+    .page-1 h1,
+    .page-drei h2 {
+        font-size: clamp(42px, 11vh, 72px);
+        line-height: .82;
+        letter-spacing: -0.06em;
+    }
+
+    .page-1-video,
+    .page-drei-video {
+        width: min(430px, 58vw, calc(74dvh * 16 / 9));
+        margin-left: 0;
+    }
+
+    .page-1 .side-label,
+    .page-drei .side-label {
+        right: max(8px, env(safe-area-inset-right));
+        bottom: 10px;
+        top: auto;
+        transform: rotate(90deg);
+        transform-origin: right bottom;
+        font-size: 12px;
+    }
+
+    .page-2-content {
+        width: min(900px, 88vw);
+        max-height: 90dvh;
+    }
+
+    .andere-header {
+        margin-bottom: 10px;
+        padding-right: 34px;
+    }
+
+    .page-2 h2 {
+        font-size: clamp(38px, 11vh, 64px);
+        line-height: .84;
     }
 
     .andere-tile {
+        width: min(42vw, 300px);
+        height: 62dvh;
         padding: 14px;
     }
 
-    .spotify-frame {
-        height: 60vh;
+    .tile-label {
+        margin-bottom: 10px;
     }
 
+    .tile-termine .sub-group {
+        flex: 1;
+        max-height: calc(100% - 26px);
+    }
+
+    .tile-termine .sub-content {
+        flex: 1;
+        padding: 10px;
+    }
+
+    .tile-termine .termine-responsive {
+        height: 100%;
+    }
+
+    .termin-row {
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 5px 8px;
+        font-size: 11px;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .termin-row .ort {
+        grid-column: 2;
+        text-align: left;
+        white-space: normal;
+        font-size: 10px;
+    }
+
+    .sub-toggle {
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+
+    .page-3-content {
+        width: min(820px, 84vw);
+        height: 88dvh;
+        max-height: 88dvh;
+        overflow: hidden;
+        padding-right: 24px;
+    }
+
+    .page-3 h2 {
+        font-size: clamp(38px, 11vh, 64px);
+        margin-bottom: 10px;
+    }
+
+    .spotify-frame {
+        width: 92%;
+        height: calc(88dvh - 78px);
+        min-height: 210px;
+        margin: 0;
+    }
+
+    .page-4-content {
+        width: min(900px, 82vw);
+        max-height: 88dvh;
+        padding-right: 28px;
+    }
+
+    .youtube-heading {
+        margin-bottom: 10px;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .youtube-heading h2 {
+        font-size: clamp(36px, 10vh, 62px);
+        line-height: .82;
+    }
+
+    .youtube-heading-right > span {
+        display: none;
+    }
+
+    .youtube-card {
+        width: min(220px, 34vw);
+        height: min(138px, 36dvh);
+    }
+
+    .youtube-channel {
+        margin-top: 8px;
+        padding: 9px 14px;
+    }
+
+    .page-4 .side-label {
+        right: max(6px, env(safe-area-inset-right));
+        font-size: 12px;
+        max-width: 45vh;
+    }
+
+    .platforms-content {
+        width: min(900px, 82vw);
+    }
+
+    .platforms-header {
+        margin-bottom: 10px;
+        padding-right: 30px;
+    }
+
+    .platforms-header h2 {
+        font-size: clamp(38px, 11vh, 64px);
+    }
+
+    .platform-tile {
+        width: min(210px, 31vw);
+        height: 56dvh;
+    }
+
+    .side-label {
+        right: max(6px, env(safe-area-inset-right));
+        font-size: 12px;
+        max-width: 48vh;
+    }
 }
 
 </style>
@@ -2215,11 +2432,11 @@ body {
                     </div>
 
                     <span class="play-label">
-                        → b3nn3t: desigual ←
+                        desigual
                     </span>
 
                     <small>
-                        Radio
+                        
                     </small>
 
                 </button>
@@ -2261,7 +2478,7 @@ body {
                     </div>
 
                     <span class="play-label">
-                        b3nn3t
+                        
                     </span>
 
                     <small>
@@ -2303,7 +2520,7 @@ body {
 
                     <div class="article-overlay">
                         <span class="article-label">
-                            Artikel - Frontstage
+                            Frontstage
                         </span>
                         <small class="article-meta">
                             Magazine - April 2026
@@ -2311,11 +2528,11 @@ body {
                     </div>
 
                     <span class="play-label">
-                        → zum Artikel ←
+                       
                     </span>
 
                     <small>
-                        Presse
+                        
                     </small>
 
                 </a>
@@ -3707,7 +3924,7 @@ function findScrollableAncestor(element) {
 
     const scrollable =
         element.closest(
-            ".andere-tile, .page-3-content"
+            ".termine-responsive, .andere-tile, .page-3-content"
         );
 
     if (
@@ -4914,6 +5131,35 @@ window.addEventListener(
             return;
         }
 
+        /*
+            Vertikale Geste innerhalb eines echten
+            Scrollbereichs (vor allem 05 / Termine):
+            natives Touch-Scrollen hat Vorrang. Nur
+            wenn der Bereich am oberen/unteren Ende
+            angekommen ist, darf die Seiten-Geste
+            übernehmen.
+        */
+        const touchScrollable =
+            findScrollableAncestor(event.target);
+
+        if (touchScrollable) {
+            const atTop = touchScrollable.scrollTop <= 0;
+            const atBottom = Math.ceil(
+                touchScrollable.scrollTop +
+                touchScrollable.clientHeight
+            ) >= touchScrollable.scrollHeight;
+
+            const fingerMovesUp =
+                touch.clientY < touchLastY;
+
+            if (
+                (fingerMovesUp && !atBottom) ||
+                (!fingerMovesUp && !atTop)
+            ) {
+                touchLastY = touch.clientY;
+                return;
+            }
+        }
 
         event.preventDefault();
 
