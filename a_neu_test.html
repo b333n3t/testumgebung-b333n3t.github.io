@@ -2494,18 +2494,14 @@ body {
             </button>
 
             <video
+                class="fallback-video"
                 controls
                 preload="metadata"
                 playsinline
- >
-
-                <source
-                    src="/assets/gespalten/gespalten.webm"
-                    type="video/webm"
-                >
-
+                data-webm="/assets/gespalten/gespalten.webm"
+                data-mp4="/assets/gespalten/gespalten.mp4"
+            >
                 Dein Browser unterstützt dieses Video nicht.
-
             </video>
 
         </div>
@@ -3290,19 +3286,15 @@ body {
             </button>
 
             <video
+                class="fallback-video"
                 controls
                 preload="metadata"
                 playsinline
                 poster="/assets/release/drei-cover-384.webp"
+                data-webm="/assets/release/dreivideo.webm"
+                data-mp4="/assets/release/drei.mp4"
             >
-
-                <source
-                    src="/assets/release/dreivideo.webm"
-                    type="video/webm"
-                >
-
                 Dein Browser unterstützt dieses Video nicht.
-
             </video>
 
         </div>
@@ -3826,6 +3818,35 @@ function changePage() {
         .style.maskImage = "none";
 
 }
+
+
+/* =========================================================
+   VIDEO-FORMAT-FALLBACK
+
+   WebM wird bevorzugt. MP4 wird nur gesetzt, wenn der Browser
+   WebM laut canPlayType() nicht unterstützt. Dadurch wird die
+   MP4-Datei auf kompatiblen Geräten nicht vorsorglich geladen.
+   ========================================================= */
+
+document.querySelectorAll(".fallback-video").forEach((video) => {
+
+    const webm = video.getAttribute("data-webm");
+    const mp4 = video.getAttribute("data-mp4");
+
+    if (!webm && !mp4) {
+        return;
+    }
+
+    const canPlayWebm =
+        webm && video.canPlayType("video/webm");
+
+    if (canPlayWebm) {
+        video.src = webm;
+    } else if (mp4) {
+        video.src = mp4;
+    }
+
+});
 
 
 /* =========================================================
