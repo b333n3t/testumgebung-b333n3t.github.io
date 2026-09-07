@@ -783,16 +783,13 @@ body {
 .termin-row {
     display: grid;
 
-    grid-template-columns: 100px minmax(0, 1fr);
+    grid-template-columns: 110px 1fr auto;
 
-    column-gap: 16px;
-    row-gap: 4px;
+    gap: 12px;
 
-    align-items: start;
+    align-items: baseline;
 
     font-size: 14px;
-
-    line-height: 1.25;
 
     padding-bottom: 12px;
 
@@ -805,39 +802,18 @@ body {
     padding-bottom: 0;
 }
 
-.termin-row .datum {
-    grid-column: 1;
-    grid-row: 1 / span 2;
-}
-
 .termin-row .datum time {
     font-weight: 700;
 }
 
-.termin-row .datum,
-.termin-row .veranstaltung,
 .termin-row .ort {
-    min-width: 0;
-}
-
-.termin-row .veranstaltung {
-    grid-column: 2;
-    overflow-wrap: normal;
-    word-break: normal;
-    hyphens: auto;
-}
-
-.termin-row .ort {
-    grid-column: 2;
-    text-align: left;
+    text-align: right;
 
     opacity: .8;
 
     font-size: 13px;
 
-    white-space: normal;
-    overflow-wrap: normal;
-    word-break: normal;
+    white-space: nowrap;
 }
 
 
@@ -1580,7 +1556,7 @@ body {
 
     .platform-tile {
         width: 38vw;
-        height: 27vh;
+        height: 32vh;
         padding: 12px;
     }
 
@@ -1599,11 +1575,11 @@ body {
     }
 
     .page-1 .side-label {
-        right: 30px;
-        bottom: 72px;
+        right: 8px;
+        bottom: 16px;
         top: auto;
 
-        transform-origin: center;
+        transform-origin: right bottom;
 
         transform: rotate(90deg);
     }
@@ -1630,14 +1606,6 @@ body {
         right: 10px;
     }
 
-    .page-4 .side-label {
-        right: -18px;
-        top: 50%;
-        transform-origin: center;
-        transform: translateY(-50%) rotate(90deg);
-        z-index: 50;
-    }
-
 
     /*
         SEITE 2 – "die andere"
@@ -1647,31 +1615,10 @@ body {
         nur die Kachelbreite wird angepasst.
     */
 
-    .andere-grid {
-        touch-action: pan-x pan-y;
-    }
-
     .andere-tile {
         width: 56vw;
 
         height: 46vh;
-    }
-
-    .tile-termine {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior: contain;
-        touch-action: pan-y;
-    }
-
-    .tile-termine .sub-content {
-        padding: 14px;
-    }
-
-    .tile-termine .sub-toggle {
-        padding: 14px 16px;
-        gap: 10px;
-        line-height: 1.2;
     }
 
     .andere-header {
@@ -1679,29 +1626,13 @@ body {
     }
 
     .termin-row {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
 
         gap: 4px;
-
-        align-items: start;
-
-        font-size: 13px;
     }
 
-    .termin-row .datum,
-    .termin-row .veranstaltung,
     .termin-row .ort {
-        grid-column: auto;
-        grid-row: auto;
-        min-width: 0;
         text-align: left;
-        white-space: normal;
-        overflow-wrap: anywhere;
-    }
-
-    .termin-row .ort {
-        opacity: .72;
-        font-size: 12px;
     }
 }
 
@@ -1977,49 +1908,527 @@ body {
 
 
 /* =========================================================
-   KONTAKTFORMULAR – dunkle/graue Formularfelder
+   MOBILE PORTRAIT + LANDSCAPE FIXES (2026-09-06)
    ========================================================= */
 
-.contact-form input,
-.contact-form textarea,
-.contact-form select,
-form input,
-form textarea,
-form select {
-    border: 1px solid rgba(0,0,0,.55);
-    color: #111;
-    background: rgba(255,255,255,.72);
+/* Vertikale Randtexte immer innerhalb des sichtbaren Bereichs halten. */
+.side-label {
+    max-width: min(62vh, 360px);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 20;
 }
 
-.contact-form input::placeholder,
-.contact-form textarea::placeholder,
-form input::placeholder,
-form textarea::placeholder {
-    color: rgba(0,0,0,.58);
+/* Termine: eigener, klar begrenzter Scrollbereich statt Scrollen der ganzen Kachel. */
+.tile-termine {
+    overflow: hidden;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus,
-.contact-form select:focus,
-form input:focus,
-form textarea:focus,
-form select:focus {
-    outline: none;
-    border-color: #111;
-    background: rgba(255,255,255,.9);
+.tile-termine .sub-group {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.tile-termine .sub-content {
+    min-height: 0;
+    overflow: hidden;
+}
+
+.tile-termine .termine-responsive {
+    min-height: 0;
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+    scrollbar-gutter: stable;
+    padding-right: 4px;
+}
+
+.tile-termine .termine-responsive::-webkit-scrollbar {
+    width: 5px;
+}
+
+.tile-termine .termine-responsive::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tile-termine .termine-responsive::-webkit-scrollbar-thumb {
+    background: rgba(17,17,17,.55);
+}
+
+@media (max-width: 800px) and (orientation: portrait) {
+    .page-2-content {
+        width: min(640px, 90vw);
+        max-height: 88dvh;
+    }
+
+    .andere-header {
+        gap: 10px;
+        margin-bottom: 16px;
+        padding-right: 34px;
+    }
+
+    .page-2 h2 {
+        font-size: clamp(42px, 14vw, 76px);
+        line-height: .88;
+    }
+
+    .andere-tile {
+        width: min(82vw, 350px);
+        height: 58dvh;
+        padding: 18px;
+    }
+
+    .tile-termine {
+        height: 64dvh;
+    }
+
+    .tile-termine .sub-group {
+        flex: 1;
+        max-height: calc(100% - 34px);
+    }
+
+    .tile-termine .sub-content {
+        flex: 1;
+        padding: 12px;
+    }
+
+    .tile-termine .termine-responsive {
+        height: 100%;
+        max-height: 100%;
+    }
+
+    .termin-row {
+        grid-template-columns: 1fr;
+        gap: 3px;
+        font-size: 13px;
+        line-height: 1.35;
+        overflow-wrap: anywhere;
+    }
+
+    .termin-row .ort {
+        text-align: left;
+        white-space: normal;
+        font-size: 12px;
+    }
+
+    .sub-toggle {
+        padding: 13px 14px;
+    }
+
+    .page-1 .side-label,
+    .page-4 .side-label,
+    .page-drei .side-label,
+    .page-platforms .side-label {
+        right: max(8px, env(safe-area-inset-right));
+    }
+}
+
+/* Kleine Handys im Querformat: Seitenhöhe ist der limitierende Faktor. */
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    .page {
+        align-items: center;
+    }
+
+    .page-1-content,
+    .page-drei-content {
+        width: min(760px, 82vw);
+        max-height: 88dvh;
+        gap: 10px;
+    }
+
+    .page-1 h1,
+    .page-drei h2 {
+        font-size: clamp(42px, 11vh, 72px);
+        line-height: .82;
+        letter-spacing: -0.06em;
+    }
+
+    .page-1-video,
+    .page-drei-video {
+        width: min(430px, 58vw, calc(74dvh * 16 / 9));
+        margin-left: 0;
+    }
+
+    .page-1 .side-label,
+    .page-drei .side-label {
+        right: max(8px, env(safe-area-inset-right));
+        bottom: 10px;
+        top: auto;
+        transform: rotate(90deg);
+        transform-origin: right bottom;
+        font-size: 12px;
+    }
+
+    .page-2-content {
+        width: min(900px, 88vw);
+        max-height: 90dvh;
+    }
+
+    .andere-header {
+        margin-bottom: 10px;
+        padding-right: 34px;
+    }
+
+    .page-2 h2 {
+        font-size: clamp(38px, 11vh, 64px);
+        line-height: .84;
+    }
+
+    .andere-tile {
+        width: min(42vw, 300px);
+        height: 62dvh;
+        padding: 14px;
+    }
+
+    .tile-label {
+        margin-bottom: 10px;
+    }
+
+    .tile-termine .sub-group {
+        flex: 1;
+        max-height: calc(100% - 26px);
+    }
+
+    .tile-termine .sub-content {
+        flex: 1;
+        padding: 10px;
+    }
+
+    .tile-termine .termine-responsive {
+        height: 100%;
+    }
+
+    .termin-row {
+        grid-template-columns: 82px minmax(0, 1fr);
+        gap: 5px 8px;
+        font-size: 11px;
+        line-height: 1.25;
+        overflow-wrap: anywhere;
+    }
+
+    .termin-row .ort {
+        grid-column: 2;
+        text-align: left;
+        white-space: normal;
+        font-size: 10px;
+    }
+
+    .sub-toggle {
+        padding: 10px 12px;
+        font-size: 11px;
+    }
+
+    .page-3-content {
+        width: min(820px, 84vw);
+        height: 88dvh;
+        max-height: 88dvh;
+        overflow: hidden;
+        padding-right: 24px;
+    }
+
+    .page-3 h2 {
+        font-size: clamp(38px, 11vh, 64px);
+        margin-bottom: 10px;
+    }
+
+    .spotify-frame {
+        width: 92%;
+        height: calc(88dvh - 78px);
+        min-height: 210px;
+        margin: 0;
+    }
+
+    .page-4-content {
+        width: min(900px, 82vw);
+        max-height: 88dvh;
+        padding-right: 28px;
+    }
+
+    .youtube-heading {
+        margin-bottom: 10px;
+        gap: 10px;
+        flex-wrap: nowrap;
+    }
+
+    .youtube-heading h2 {
+        font-size: clamp(36px, 10vh, 62px);
+        line-height: .82;
+    }
+
+    .youtube-heading-right > span {
+        display: none;
+    }
+
+    .youtube-card {
+        width: min(220px, 34vw);
+        height: min(138px, 36dvh);
+    }
+
+    .youtube-channel {
+        margin-top: 8px;
+        padding: 9px 14px;
+    }
+
+    .page-4 .side-label {
+        right: max(6px, env(safe-area-inset-right));
+        font-size: 12px;
+        max-width: 45vh;
+    }
+
+    .platforms-content {
+        width: min(900px, 82vw);
+    }
+
+    .platforms-header {
+        margin-bottom: 10px;
+        padding-right: 30px;
+    }
+
+    .platforms-header h2 {
+        font-size: clamp(38px, 11vh, 64px);
+    }
+
+    .platform-tile {
+        width: min(210px, 31vw);
+        height: 56dvh;
+    }
+
+    .side-label {
+        right: max(6px, env(safe-area-inset-right));
+        font-size: 12px;
+        max-width: 48vh;
+    }
 }
 
 /* =========================================================
-   SOUNDCLOUD – Mobile: Farbe statt Hintergrundbild
+   MOBILE / DESKTOP CORRECTIONS v2 (2026-09-06)
    ========================================================= */
 
-@media (max-width: 800px) {
-    .page-soundcloud,
-    .page-5.soundcloud,
-    .soundcloud-page,
-    .page-5 {
-        background-image: none !important;
-        background: #e7e1d5 !important;
+/* Termine auch auf Desktop so umbrechen, dass Ort + Zeit nie rechts abgeschnitten werden. */
+.tile-termine .termin-row {
+    grid-template-columns: 88px minmax(0, 1fr);
+    align-items: start;
+}
+
+.tile-termine .termin-row .veranstaltung {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.tile-termine .termin-row .ort {
+    grid-column: 2;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 800px) and (orientation: portrait) {
+    /* Alle Kacheln, inklusive 05 / Termine, exakt gleich hoch. */
+    .andere-tile,
+    .tile-termine {
+        height: 58dvh;
+    }
+
+    .tile-termine .sub-group {
+        flex: 1;
+        min-height: 0;
+        max-height: none;
+        overflow: hidden;
+    }
+
+    .tile-termine .sub-content {
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .tile-termine .termine-responsive {
+        height: 100%;
+        min-height: 0;
+        overflow-y: auto;
+    }
+
+    /* Rotierte Texte über einen inneren Mittelpunkt verankern: kein Abschneiden am Rand. */
+    .page-1 .side-label,
+    .page-drei .side-label,
+    .page-platforms .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+        max-width: 62vh;
+    }
+
+    /* YouTube: rechts neben den Karten bewusst Platz für das vertikale Label lassen. */
+    .page-4-content {
+        width: min(1000px, 74vw);
+        margin-right: 8vw;
+    }
+
+    .page-4 .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+        max-width: 58vh;
+    }
+}
+
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    /* Seite 1 und Drei: Randtext vollständig innerhalb des Displays. */
+    .page-1 .side-label,
+    .page-drei .side-label,
+    .page-platforms .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    /* Spotify nutzt im Querformat fast die gesamte verfügbare Höhe. */
+    .page-3-content {
+        width: min(900px, 88vw);
+        height: 96dvh;
+        max-height: 96dvh;
+        padding-top: 2dvh;
+        padding-bottom: 2dvh;
+        overflow: hidden;
+    }
+
+    .page-3 h2 {
+        font-size: clamp(34px, 9vh, 58px);
+        margin-bottom: 5px;
+        line-height: .8;
+    }
+
+    .spotify-frame {
+        width: 94%;
+        height: calc(94dvh - 50px);
+        min-height: 260px;
+        margin: 0 auto;
+    }
+
+    /* YouTube-Label rechts außerhalb der Kartenreihe. */
+    .page-4-content {
+        width: min(900px, 76vw);
+        margin-right: 8vw;
+        padding-right: 0;
+    }
+
+    .page-4 .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+        max-width: 45vh;
+    }
+}
+
+
+
+/* =========================================================
+   SPOTIFY LANDSCAPE HEIGHT FIX v3
+   Auf kleinen Handys im Querformat braucht der Spotify-Embed
+   mindestens ca. 352px Hoehe, damit die Songliste statt nur
+   des kompakten Players sichtbar wird. Der Seitencontainer
+   darf deshalb vertikal scrollen, falls die Browserleisten
+   den sichtbaren Viewport stark verkleinern.
+   ========================================================= */
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    .page-3 {
+        align-items: flex-start;
+    }
+
+    .page-3-content {
+        width: min(900px, 90vw);
+        height: 100dvh;
+        max-height: 100dvh;
+        padding: 6px 22px 18px;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .page-3 h2 {
+        font-size: clamp(28px, 8vh, 48px);
+        margin-bottom: 4px;
+        line-height: .8;
+    }
+
+    .spotify-frame {
+        width: 96%;
+        height: 380px;
+        min-height: 380px;
+        margin: 0 auto;
+        flex: 0 0 auto;
+    }
+}
+
+
+
+/* =========================================================
+   MOBILE PORTRAIT FEINSCHLIFF (2026-09-07)
+   Nur Hochformat auf Mobiltelefonen: Connect, YouTube,
+   vertikaler Hinweis auf "gespalten".
+   ========================================================= */
+@media (max-width: 800px) and (orientation: portrait) {
+    /* Connect: zwei Kacheln sauber innerhalb der sichtbaren Breite halten,
+       damit obere/rechte Rahmen nicht abgeschnitten werden. */
+    .platforms-grid {
+        gap: 12px;
+        padding-top: 2px;
+        padding-right: 2px;
+        padding-bottom: 10px;
+    }
+
+    .platform-tile {
+        width: calc((100% - 12px) / 2);
+        min-width: calc((100% - 12px) / 2);
+        height: 34dvh;
+        padding: 12px;
+        overflow: hidden;
+    }
+
+    /* Auf kleinen Displays darf die Link-Karte nicht durch ihre bisherige
+       Mindesthöhe über den unteren Kachelrahmen hinausdrücken. */
+    .platform-link-card {
+        min-height: 0;
+    }
+
+    .platform-action {
+        flex-shrink: 0;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        line-height: 1.1;
+    }
+
+    /* YouTube: Pfeil-Buttons rechts bündig zum rechten Abschluss
+       von "kanal ansehen →" positionieren. */
+    .youtube-heading-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .youtube-nav {
+        margin-left: auto;
+    }
+
+    /* Seite "gespalten": vertikalen Text etwas tiefer setzen,
+       damit er optisch mittiger zum Videofenster steht. */
+    .page-1 .side-label {
+        top: calc(50% + 26px);
     }
 }
 
@@ -2144,11 +2553,11 @@ form select:focus {
                 controls
                 preload="metadata"
                 playsinline
-            >
+ >
 
                 <source
-                    src="/assets/gespalten/gespalten.webm"
-                    type="video/webm"
+                    src="/assets/gespalten/gespalten.mp4"
+                    type="video/mp4"
                 >
 
                 Dein Browser unterstützt dieses Video nicht.
@@ -2234,8 +2643,8 @@ form select:focus {
                         class="thumb"
                         src="assets/radio/weekly-catch-small.webp"
                         alt="The Weekly Catch – Cover"
-                        width="400"
-                        height="277"
+                        width="177"
+                        height="122"
                         loading="lazy"
                         decoding="async"
                         sizes="(max-width: 820px) 100vw, 350px"
@@ -2251,7 +2660,7 @@ form select:focus {
                     </div>
 
                     <span class="play-label">
-                        b3nn3t: desigual
+                        desigual
                     </span>
 
                     <small>
@@ -2339,7 +2748,7 @@ form select:focus {
 
                     <div class="article-overlay">
                         <span class="article-label">
-                            Artikel - Frontstage
+                            Frontstage
                         </span>
                         <small class="article-meta">
                             Magazine - April 2026
@@ -2351,7 +2760,7 @@ form select:focus {
                     </span>
 
                     <small>
-                       
+                        
                     </small>
 
                 </a>
@@ -2390,49 +2799,41 @@ form select:focus {
                                     <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
                                     <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2026-06-26">26.06.2026</time></div>
                                     <div class="veranstaltung" role="cell">· OYA! OPEN AIR FESTIVAL (gleis19)</div>
                                     <div class="ort" role="cell">wien · 19:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
                                     <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
                                     <div class="ort" role="cell">jona · 19:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
                                     <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
                                     <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
                                     <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
                                     <div class="ort" role="cell">rüti · 18:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
                                     <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
                                     <div class="ort" role="cell">wien · 20:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
                                     <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
                                     <div class="ort" role="cell">wien · 20:30 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
                                     <div class="veranstaltung" role="cell">· jugendfestival 2025 (ZAK)</div>
                                     <div class="ort" role="cell">jona · 20:00 uhr</div>
                                 </div>
-
                                 <div class="termin-row" role="row">
                                     <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
                                     <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
@@ -2504,8 +2905,7 @@ form select:focus {
 
         <iframe
             class="spotify-frame"
-            title="b3nn3t auf Spotify"
-            data-src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+            src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
             loading="lazy"
             allow="
                 autoplay;
@@ -2600,29 +3000,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 07 -->
+<!-- VIDEO 07 -->
 
             <div
                 class="youtube-card"
-                id="yt7"
-                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
+                id="yt1"
+                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel7.avif"
-                    alt="b3nn3t YouTube Video 07"
+                    src="assets/gesehen/reel1.avif"
+                    alt="b3nn3t YouTube Video 01"
                     width="960"
                     height="540"
-                    loading="eager"
-                    fetchpriority="high"
+                    loading="lazy"
                     decoding="async"
-                    data-fallback-id="fq8zhAQMam0"
+                    data-fallback-id="ZSaj_FuqPN8"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2645,28 +3041,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 06 -->
+<!-- VIDEO 06 -->
 
             <div
                 class="youtube-card"
-                id="yt6"
-                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
+                id="yt2"
+                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel6.avif"
-                    alt="b3nn3t YouTube Video 06"
+                    src="assets/gesehen/reel2.avif"
+                    alt="b3nn3t YouTube Video 02"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="rV1U891RKLo"
+                    data-fallback-id="DMNl40Tip1w"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2689,28 +3082,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 05 -->
+<!-- VIDEO 05 -->
 
             <div
                 class="youtube-card"
-                id="yt5"
-                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
+                id="yt3"
+                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel5.avif"
-                    alt="b3nn3t YouTube Video 05"
+                    src="assets/gesehen/reel3.avif"
+                    alt="b3nn3t YouTube Video 03"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="w0pNdnlb96M"
+                    data-fallback-id="K5pKG0Smdfc"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2733,10 +3123,7 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 04 -->
+<!-- VIDEO 04 -->
 
             <div
                 class="youtube-card"
@@ -2777,28 +3164,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 03 -->
+<!-- VIDEO 03 -->
 
             <div
                 class="youtube-card"
-                id="yt3"
-                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
+                id="yt5"
+                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel3.avif"
-                    alt="b3nn3t YouTube Video 03"
+                    src="assets/gesehen/reel5.avif"
+                    alt="b3nn3t YouTube Video 05"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="K5pKG0Smdfc"
+                    data-fallback-id="w0pNdnlb96M"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2821,28 +3205,25 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 02 -->
+<!-- VIDEO 02 -->
 
             <div
                 class="youtube-card"
-                id="yt2"
-                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
+                id="yt6"
+                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel2.avif"
-                    alt="b3nn3t YouTube Video 02"
+                    src="assets/gesehen/reel6.avif"
+                    alt="b3nn3t YouTube Video 06"
                     width="960"
                     height="540"
                     loading="lazy"
                     decoding="async"
-                    data-fallback-id="DMNl40Tip1w"
+                    data-fallback-id="rV1U891RKLo"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -2865,28 +3246,26 @@ form select:focus {
                 </span>
 
             </div>
-
-
-
-            <!-- VIDEO 01 -->
+<!-- VIDEO 01 -->
 
             <div
                 class="youtube-card"
-                id="yt1"
-                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
+                id="yt7"
+                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
                 role="button"
                 tabindex="0"
             >
 
                 <img
                     class="youtube-thumb"
-                    src="assets/gesehen/reel1.avif"
-                    alt="b3nn3t YouTube Video 01"
+                    src="assets/gesehen/reel7.avif"
+                    alt="b3nn3t YouTube Video 07"
                     width="960"
                     height="540"
-                    loading="lazy"
+                    loading="eager"
+                    fetchpriority="high"
                     decoding="async"
-                    data-fallback-id="ZSaj_FuqPN8"
+                    data-fallback-id="fq8zhAQMam0"
                     sizes="(max-width: 820px) 100vw, 350px"
                     onerror="
                         this.onerror = null;
@@ -3184,58 +3563,6 @@ const pages = Array.from(
 
 
 /*
-    Spotify-Embed nicht direkt beim ersten Rendern laden.
-    Stattdessen nach kurzer Leerlaufzeit automatisch nachladen
-    und zusätzlich sofort, sobald die Spotify-Seite sichtbar wird.
-*/
-
-const spotifyFrame =
-    document.querySelector(".spotify-frame");
-
-let spotifyEmbedLoaded = false;
-
-function loadSpotifyEmbed() {
-
-    if (
-        spotifyEmbedLoaded ||
-        !spotifyFrame ||
-        spotifyFrame.getAttribute("src")
-    ) {
-        return;
-    }
-
-    const src =
-        spotifyFrame.getAttribute("data-src");
-
-    if (!src) {
-        return;
-    }
-
-    spotifyFrame.setAttribute("src", src);
-    spotifyEmbedLoaded = true;
-
-}
-
-function scheduleSpotifyIdleLoad() {
-
-    if (spotifyEmbedLoaded || !spotifyFrame) {
-        return;
-    }
-
-    const load = () => setTimeout(loadSpotifyEmbed, 1200);
-
-    if ("requestIdleCallback" in window) {
-        window.requestIdleCallback(load, { timeout: 2500 });
-    } else {
-        setTimeout(loadSpotifyEmbed, 1800);
-    }
-
-}
-
-scheduleSpotifyIdleLoad();
-
-
-/*
     Aktuelle Seite
 
     0 = gespalten
@@ -3365,15 +3692,8 @@ function setupLayers(dir) {
         Zielseite liegt darunter.
     */
 
-    const targetPage =
-        getTargetPage(dir);
-
-    pages[targetPage]
+    pages[getTargetPage(dir)]
         .classList.add("behind");
-
-    if (currentPage === 2 || targetPage === 2) {
-        loadSpotifyEmbed();
-    }
 
 }
 
@@ -3529,12 +3849,6 @@ function changePage() {
     if (currentPage === 1) {
 
         startAboutTypewriter();
-
-    }
-
-    if (currentPage === 2) {
-
-        loadSpotifyEmbed();
 
     }
 
@@ -3785,10 +4099,6 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
 
         if (content) {
             content.hidden = expanded;
-
-            requestAnimationFrame(
-                updateAllScrollableMetrics
-            );
         }
 
 
@@ -3818,98 +4128,33 @@ document.querySelectorAll(".sub-toggle").forEach((button) => {
    werden statt die Seite umzublättern.
    ========================================================= */
 
-const scrollMetrics = new WeakMap();
-
-function updateScrollableMetrics(element) {
-
-    if (!element) {
-        return;
-    }
-
-    scrollMetrics.set(
-        element,
-        {
-            maxScrollTop: Math.max(
-                0,
-                element.scrollHeight - element.clientHeight
-            )
-        }
-    );
-
-}
-
-function updateAllScrollableMetrics() {
-
-    document
-        .querySelectorAll(
-            ".andere-tile, .page-3-content"
-        )
-        .forEach(updateScrollableMetrics);
-
-}
-
-function getMaxScrollTop(element) {
-
-    const metrics =
-        scrollMetrics.get(element);
-
-    return metrics ? metrics.maxScrollTop : 0;
-
-}
-
 function findScrollableAncestor(element) {
 
     /*
-        Performance-Fix:
-        Die teuren Geometrie-Werte
-        scrollHeight/clientHeight werden nicht mehr
-        während wheel/touchmove gelesen, sondern
-        nur nach Layout-Änderungen gecacht.
-        Während der eigentlichen Geste lesen wir
-        nur noch scrollTop. Das verhindert die
-        typischen Forced-Reflow-Warnungen auf Mobile.
+        Performance-Fix: Statt bei jedem
+        Wheel-Event den DOM-Baum manuell mit
+        getComputedStyle() hochzulaufen (das
+        erzwingt bei jedem Schritt ein Style-
+        Recalc – "Forced Reflow"), nutzen wir
+        das native, günstige closest() und
+        prüfen nur an EINER Stelle die reinen
+        Geometrie-Werte. Es gibt im Projekt nur
+        zwei bewusst scrollbare Container.
     */
 
     const scrollable =
         element.closest(
-            ".andere-tile, .page-3-content"
+            ".termine-responsive, .andere-tile, .page-3-content"
         );
 
     if (
         scrollable &&
-        getMaxScrollTop(scrollable) > 0
+        scrollable.scrollHeight > scrollable.clientHeight
     ) {
         return scrollable;
     }
 
     return null;
-
-}
-
-updateAllScrollableMetrics();
-
-window.addEventListener(
-    "load",
-    updateAllScrollableMetrics
-);
-
-window.addEventListener(
-    "resize",
-    () => requestAnimationFrame(updateAllScrollableMetrics)
-);
-
-if ("ResizeObserver" in window) {
-
-    const scrollMetricsObserver =
-        new ResizeObserver(updateAllScrollableMetrics);
-
-    document
-        .querySelectorAll(
-            ".andere-tile, .page-3-content"
-        )
-        .forEach((element) => {
-            scrollMetricsObserver.observe(element);
-        });
 
 }
 
@@ -4174,17 +4419,14 @@ if (andereGrid) {
 
             if (verticalScrollable) {
 
-                const maxScrollTop =
-                    getMaxScrollTop(verticalScrollable);
-
-                const currentScrollTop =
-                    verticalScrollable.scrollTop;
-
                 const atTop =
-                    currentScrollTop <= 0;
+                    verticalScrollable.scrollTop <= 0;
 
                 const atBottom =
-                    currentScrollTop >= maxScrollTop - 1;
+                    Math.ceil(
+                        verticalScrollable.scrollTop +
+                        verticalScrollable.clientHeight
+                    ) >= verticalScrollable.scrollHeight;
 
                 const scrollingDown =
                     event.deltaY > 0;
@@ -4855,17 +5097,14 @@ window.addEventListener(
 
         if (scrollable) {
 
-            const maxScrollTop =
-                getMaxScrollTop(scrollable);
-
-            const currentScrollTop =
-                scrollable.scrollTop;
-
             const atTop =
-                currentScrollTop <= 0;
+                scrollable.scrollTop <= 0;
 
             const atBottom =
-                currentScrollTop >= maxScrollTop - 1;
+                Math.ceil(
+                    scrollable.scrollTop +
+                    scrollable.clientHeight
+                ) >= scrollable.scrollHeight;
 
             const scrollingDown =
                 event.deltaY > 0;
@@ -5112,44 +5351,42 @@ window.addEventListener(
             return;
         }
 
-
-        const incrementalDelta =
-            touchLastY -
-            touch.clientY;
-
-        const verticalScrollable =
+        /*
+            Vertikale Geste innerhalb eines echten
+            Scrollbereichs (vor allem 05 / Termine):
+            natives Touch-Scrollen hat Vorrang. Nur
+            wenn der Bereich am oberen/unteren Ende
+            angekommen ist, darf die Seiten-Geste
+            übernehmen.
+        */
+        const touchScrollable =
             findScrollableAncestor(event.target);
 
-        if (verticalScrollable) {
+        if (touchScrollable) {
+            const atTop = touchScrollable.scrollTop <= 0;
+            const atBottom = Math.ceil(
+                touchScrollable.scrollTop +
+                touchScrollable.clientHeight
+            ) >= touchScrollable.scrollHeight;
 
-            const maxScrollTop =
-                getMaxScrollTop(verticalScrollable);
-
-            const currentScrollTop =
-                verticalScrollable.scrollTop;
-
-            const atTop =
-                currentScrollTop <= 0;
-
-            const atBottom =
-                currentScrollTop >= maxScrollTop - 1;
-
-            const scrollingDown =
-                incrementalDelta > 0;
+            const fingerMovesUp =
+                touch.clientY < touchLastY;
 
             if (
-                (scrollingDown && !atBottom) ||
-                (!scrollingDown && !atTop)
+                (fingerMovesUp && !atBottom) ||
+                (!fingerMovesUp && !atTop)
             ) {
                 touchLastY = touch.clientY;
                 return;
             }
-
         }
-
 
         event.preventDefault();
 
+
+        const incrementalDelta =
+            touchLastY -
+            touch.clientY;
 
         touchLastY = touch.clientY;
 
@@ -5341,10 +5578,6 @@ function jumpToPage(index) {
         startAboutTypewriter();
     }
 
-    if (currentPage === 2) {
-        loadSpotifyEmbed();
-    }
-
 }
 
 document.querySelectorAll(".burger-link").forEach((link) => {
@@ -5404,10 +5637,6 @@ function applyPageFromHash() {
 
         if (currentPage === 1) {
             startAboutTypewriter();
-        }
-
-        if (currentPage === 2) {
-            loadSpotifyEmbed();
         }
 
     }
