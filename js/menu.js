@@ -202,38 +202,24 @@ function applyPageFromHash() {
 
     const index = Number(match[1]);
 
-    if (!pages[index]) {
-        return;
-    }
+    if (pages[index]) {
 
-    currentPage = index;
+        currentPage = index;
 
-    progress = 0;
+        if (currentPage === 1) {
+            startAboutTypewriter();
+        }
 
-    animating = false;
-
-    pages.forEach((page) => {
-
-        page.classList.remove("active");
-
-        page.classList.remove("behind");
-
-        page.style.webkitMaskImage = "none";
-
-        page.style.maskImage = "none";
-
-    });
-
-    pages[currentPage].classList.add("active");
-
-    if (currentPage === 1) {
-        startAboutTypewriter();
     }
 
 }
 
-window.addEventListener("hashchange", applyPageFromHash);
+applyPageFromHash();
 
+
+
+/* Browser-Zurück/Vorwärts und direkte Änderungen von #page=N übernehmen. */
+window.addEventListener("hashchange", applyPageFromHash);
 
 /* =========================================================
    INITIALISIERUNG
@@ -242,6 +228,3 @@ window.addEventListener("hashchange", applyPageFromHash);
 setupLayers(direction);
 
 updateMask();
-
-applyPageFromHash();
-

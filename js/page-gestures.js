@@ -28,12 +28,15 @@ function handleScroll(delta) {
         return;
     }
 
+
     const rawDirection =
         delta > 0 ? 1 : -1;
+
 
     const movement =
         Math.abs(delta) /
         OPEN_DISTANCE;
+
 
     if (progress === 0) {
 
@@ -73,7 +76,15 @@ function handleScroll(delta) {
 
     }
 
+
     updateMask();
+
+
+    /*
+        =====================================================
+        VOLLSTÄNDIG GEÖFFNET
+        =====================================================
+    */
 
     if (
         progress >= 1 &&
@@ -81,6 +92,7 @@ function handleScroll(delta) {
     ) {
 
         animating = true;
+
 
         setTimeout(() => {
 
@@ -92,35 +104,6 @@ function handleScroll(delta) {
 
     }
 
-}
-
-
-/* =========================================================
-   INNERES SCROLLEN
-
-   Termine, Kacheln mit Ueberlaenge und der Spotify-Container
-   duerfen wieder selbst vertikal scrollen. Erst wenn der
-   jeweilige Bereich oben bzw. unten angekommen ist, uebernimmt
-   die globale Seiten-Navigation.
-   ========================================================= */
-
-function findScrollableAncestor(element) {
-    if (!element || typeof element.closest !== "function") {
-        return null;
-    }
-
-    const scrollable = element.closest(
-        ".termine-responsive, .andere-tile, .page-3-content"
-    );
-
-    if (
-        scrollable &&
-        scrollable.scrollHeight > scrollable.clientHeight + 1
-    ) {
-        return scrollable;
-    }
-
-    return null;
 }
 
 
@@ -168,23 +151,42 @@ window.addEventListener(
         }
 
 
-        const scrollable = findScrollableAncestor(event.target);
+        const scrollable =
+            findScrollableAncestor(event.target);
+
 
         if (scrollable) {
-            const atTop = scrollable.scrollTop <= 0;
-            const atBottom = Math.ceil(
-                scrollable.scrollTop + scrollable.clientHeight
-            ) >= scrollable.scrollHeight;
-            const scrollingDown = event.deltaY > 0;
+
+            const atTop =
+                scrollable.scrollTop <= 0;
+
+            const atBottom =
+                Math.ceil(
+                    scrollable.scrollTop +
+                    scrollable.clientHeight
+                ) >= scrollable.scrollHeight;
+
+            const scrollingDown =
+                event.deltaY > 0;
+
+
+            /*
+                Noch Platz in die gewünschte
+                Richtung: normal scrollen lassen,
+                Seiten-Navigation nicht auslösen.
+            */
 
             if (
                 (scrollingDown && !atBottom) ||
                 (!scrollingDown && !atTop)
             ) {
-                /* Der innere Bereich hat noch Scrollraum. */
+
                 return;
+
             }
+
         }
+
 
         event.preventDefault();
 
@@ -409,21 +411,32 @@ window.addEventListener(
             return;
         }
 
-        const touchScrollable = findScrollableAncestor(event.target);
+        /*
+            Vertikale Geste innerhalb eines echten
+            Scrollbereichs (vor allem 05 / Termine):
+            natives Touch-Scrollen hat Vorrang. Nur
+            wenn der Bereich am oberen/unteren Ende
+            angekommen ist, darf die Seiten-Geste
+            übernehmen.
+        */
+        const touchScrollable =
+            findScrollableAncestor(event.target);
 
         if (touchScrollable) {
             const atTop = touchScrollable.scrollTop <= 0;
             const atBottom = Math.ceil(
-                touchScrollable.scrollTop + touchScrollable.clientHeight
+                touchScrollable.scrollTop +
+                touchScrollable.clientHeight
             ) >= touchScrollable.scrollHeight;
-            const fingerMovesUp = touch.clientY < touchLastY;
+
+            const fingerMovesUp =
+                touch.clientY < touchLastY;
 
             if (
                 (fingerMovesUp && !atBottom) ||
                 (!fingerMovesUp && !atTop)
             ) {
                 touchLastY = touch.clientY;
-                /* Natives Scrollen innerhalb der Kachel/Terminliste. */
                 return;
             }
         }
@@ -472,5 +485,3 @@ window.addEventListener(
         passive: true
     }
 );
-
-

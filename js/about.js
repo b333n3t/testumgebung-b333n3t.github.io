@@ -92,5 +92,3 @@ function startAboutTypewriter() {
     typeNext(0);
 
 }
-
-

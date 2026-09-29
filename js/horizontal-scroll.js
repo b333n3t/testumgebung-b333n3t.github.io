@@ -1,148 +1,332 @@
 /* =========================================================
-   ECHTES HORIZONTALES SCROLLEN
-   Kachel-/Videoreihen scrollen wieder nativ horizontal:
-   - Touch / Trackpad direkt
-   - Mausrad wird innerhalb der Reihe horizontal umgesetzt
-   - Maus: klicken + ziehen
-   - Pfeilbuttons scrollen um jeweils eine Kachel
+   SEITE 2 – HORIZONTALES SCROLLEN DER KACHELN
+
+   Die vier Kacheln liegen nebeneinander
+   und werden per Mausrad (vertikal
+   umgesetzt), Trackpad-Geste, Touch-Wisch
+   oder den Pfeil-Buttons durchblättert.
+   Nur an den Rändern der Kachel-Reihe
+   übernimmt die normale Seiten-Navigation.
    ========================================================= */
 
-function makeDraggable(el) {
-    if (!el) return;
+const andereGrid =
+    document.querySelector(".andere-grid");
 
-    let isDown = false;
-    let dragged = false;
-    let startX = 0;
-    let startScrollLeft = 0;
+makeDraggable(andereGrid);
 
-    function onPointerMove(event) {
-        if (!isDown || event.pointerType !== "mouse") return;
 
-        const dx = event.clientX - startX;
-        if (Math.abs(dx) > 4) dragged = true;
+if (andereGrid) {
 
-        if (dragged) {
-            event.preventDefault();
-            el.scrollLeft = startScrollLeft - dx;
-        }
-    }
+    andereGrid.addEventListener(
+        "wheel",
+        (event) => {
 
-    function endDrag(event) {
-        if (event && event.pointerType && event.pointerType !== "mouse") return;
+            /*
+                Ein Element mit eigenem
+                vertikalem Scrollraum
+                (z. B. die offene Termine-Liste)
+                hat Vorrang.
+            */
 
-        if (isDown && dragged) {
-            const suppressClick = (clickEvent) => {
-                clickEvent.preventDefault();
-                clickEvent.stopPropagation();
-                el.removeEventListener("click", suppressClick, true);
-            };
-            el.addEventListener("click", suppressClick, true);
-        }
+            const verticalScrollable =
+                findScrollableAncestor(event.target);
 
-        isDown = false;
-        dragged = false;
-        el.classList.remove("dragging");
+            if (verticalScrollable) {
 
-        window.removeEventListener("pointermove", onPointerMove);
-        window.removeEventListener("pointerup", endDrag);
-        window.removeEventListener("pointercancel", endDrag);
-    }
+                const atTop =
+                    verticalScrollable.scrollTop <= 0;
 
-    el.addEventListener("pointerdown", (event) => {
-        if (event.pointerType !== "mouse") return;
+                const atBottom =
+                    Math.ceil(
+                        verticalScrollable.scrollTop +
+                        verticalScrollable.clientHeight
+                    ) >= verticalScrollable.scrollHeight;
 
-        isDown = true;
-        dragged = false;
-        startX = event.clientX;
-        startScrollLeft = el.scrollLeft;
-        el.classList.add("dragging");
+                const scrollingDown =
+                    event.deltaY > 0;
 
-        window.addEventListener("pointermove", onPointerMove);
-        window.addEventListener("pointerup", endDrag);
-        window.addEventListener("pointercancel", endDrag);
-    });
-}
+                if (
+                    (scrollingDown && !atBottom) ||
+                    (!scrollingDown && !atTop)
+                ) {
+                    return;
+                }
 
-function bindHorizontalStrip(grid, itemSelector, navSelector) {
-    if (!grid) return;
+            }
 
-    const nav = document.querySelector(navSelector);
-    if (nav) nav.hidden = false;
 
-    makeDraggable(grid);
+            /*
+                Horizontales Scrollen der Reihe.
+                Trackpad-Geste (deltaX) hat Vorrang,
+                sonst wird das vertikale Mausrad
+                in horizontales Scrollen übersetzt.
+            */
 
-    grid.addEventListener("wheel", (event) => {
-        /* Eigenes vertikales Scrollen innerhalb einer Kachel hat Vorrang. */
-        const inner = event.target.closest(
-            ".termine-responsive, .andere-tile, .page-3-content"
-        );
+            const delta =
+                (event.deltaX !== 0 ?
+                    event.deltaX :
+                    event.deltaY) *
+                H_SCROLL_SENSITIVITY;
 
-        if (inner && inner !== grid && inner.scrollHeight > inner.clientHeight) {
-            const atTop = inner.scrollTop <= 0;
-            const atBottom = Math.ceil(inner.scrollTop + inner.clientHeight) >= inner.scrollHeight;
-            const down = event.deltaY > 0;
+            const maxScrollLeft =
+                andereGrid.scrollWidth -
+                andereGrid.clientWidth;
 
-            if ((down && !atBottom) || (!down && !atTop)) {
+            if (maxScrollLeft <= 0) {
                 return;
             }
+
+            const atStart =
+                andereGrid.scrollLeft <= 0;
+
+            const atEnd =
+                andereGrid.scrollLeft >=
+                maxScrollLeft - 1;
+
+            const scrollingForward =
+                delta > 0;
+
+
+            /*
+                Am Rand der Kachel-Reihe:
+                weiterreichen an die
+                Seiten-Navigation.
+            */
+
+            if (
+                (scrollingForward && atEnd) ||
+                (!scrollingForward && atStart)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            andereGrid.scrollLeft += delta;
+
+        },
+        { passive: false }
+    );
+
+}
+
+
+document.querySelectorAll(".andere-nav-btn").forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        if (!andereGrid) {
+            return;
         }
 
-        const maxScrollLeft = grid.scrollWidth - grid.clientWidth;
-        if (maxScrollLeft <= 0) return;
+        const dir =
+            Number(button.getAttribute("data-dir"));
 
-        const delta = event.deltaX !== 0 ? event.deltaX : event.deltaY;
-        const atStart = grid.scrollLeft <= 0;
-        const atEnd = grid.scrollLeft >= maxScrollLeft - 1;
-        const forward = delta > 0;
+        const tile =
+            andereGrid.querySelector(".andere-tile");
 
-        /* Am Ende der Reihe darf die Hauptseiten-Navigation wieder übernehmen. */
-        if ((forward && atEnd) || (!forward && atStart)) return;
+        const step =
+            tile ?
+                tile.getBoundingClientRect().width + 18 :
+                andereGrid.clientWidth * 0.8;
 
-        event.preventDefault();
-        event.stopPropagation();
-        grid.scrollLeft += delta * 2.6;
-    }, { passive: false });
-
-    if (nav) {
-        nav.querySelectorAll("button").forEach((button) => {
-            button.addEventListener("click", () => {
-                const dir = Number(button.getAttribute("data-dir")) || 0;
-                const item = grid.querySelector(itemSelector);
-                const gap = parseFloat(getComputedStyle(grid).columnGap || getComputedStyle(grid).gap) || 18;
-                const step = item
-                    ? item.getBoundingClientRect().width + gap
-                    : grid.clientWidth * 0.8;
-
-                grid.scrollBy({
-                    left: dir * step,
-                    behavior: "smooth"
-                });
-            });
+        andereGrid.scrollBy({
+            left: dir * step,
+            behavior: "smooth"
         });
-    }
+
+    });
+
+});
+
+
+/* =========================================================
+   SEITE 4 – HORIZONTALES SCROLLEN DER YOUTUBE-REIHE
+
+   Gleiches Prinzip wie bei den Kacheln
+   auf Seite 2: Mausrad (vertikal
+   umgesetzt), Trackpad-Geste, Touch-Wisch
+   oder die Pfeil-Buttons blättern die
+   Videos durch. Erst an den Rändern der
+   Reihe übernimmt die Seiten-Navigation.
+   ========================================================= */
+
+const youtubeGrid =
+    document.querySelector(".youtube-grid");
+
+makeDraggable(youtubeGrid);
+
+
+if (youtubeGrid) {
+
+    youtubeGrid.addEventListener(
+        "wheel",
+        (event) => {
+
+            const delta =
+                (event.deltaX !== 0 ?
+                    event.deltaX :
+                    event.deltaY) *
+                H_SCROLL_SENSITIVITY;
+
+            const maxScrollLeft =
+                youtubeGrid.scrollWidth -
+                youtubeGrid.clientWidth;
+
+            if (maxScrollLeft <= 0) {
+                return;
+            }
+
+            const atStart =
+                youtubeGrid.scrollLeft <= 0;
+
+            const atEnd =
+                youtubeGrid.scrollLeft >=
+                maxScrollLeft - 1;
+
+            const scrollingForward =
+                delta > 0;
+
+
+            /*
+                Am Rand der Video-Reihe:
+                weiterreichen an die
+                Seiten-Navigation.
+            */
+
+            if (
+                (scrollingForward && atEnd) ||
+                (!scrollingForward && atStart)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            youtubeGrid.scrollLeft += delta;
+
+        },
+        { passive: false }
+    );
+
 }
 
-bindHorizontalStrip(
-    document.querySelector(".andere-grid"),
-    ".andere-tile",
-    ".andere-nav"
-);
 
-bindHorizontalStrip(
-    document.querySelector(".youtube-grid"),
-    ".youtube-card",
-    ".youtube-nav"
-);
+document.querySelectorAll(".youtube-nav-btn").forEach((button) => {
 
-bindHorizontalStrip(
-    document.querySelector(".platforms-grid"),
-    ".platform-tile",
-    ".platforms-nav"
-);
+    button.addEventListener("click", () => {
 
-/* Spotify bleibt direkt bedienbar; keine transparente Schutzschicht. */
-const spotifyShield = document.querySelector(".spotify-shield");
-if (spotifyShield) {
-    spotifyShield.hidden = true;
-    spotifyShield.style.pointerEvents = "none";
+        if (!youtubeGrid) {
+            return;
+        }
+
+        const dir =
+            Number(button.getAttribute("data-dir"));
+
+        const card =
+            youtubeGrid.querySelector(".youtube-card");
+
+        const step =
+            card ?
+                card.getBoundingClientRect().width + 18 :
+                youtubeGrid.clientWidth * 0.8;
+
+        youtubeGrid.scrollBy({
+            left: dir * step,
+            behavior: "smooth"
+        });
+
+    });
+
+});
+
+
+/* =========================================================
+   SEITE 6 – HORIZONTALES SCROLLEN DER PLATTFORM-KACHELN
+   ========================================================= */
+
+const platformsGrid =
+    document.querySelector(".platforms-grid");
+
+makeDraggable(platformsGrid);
+
+if (platformsGrid) {
+
+    platformsGrid.addEventListener(
+        "wheel",
+        (event) => {
+
+            const delta =
+                (event.deltaX !== 0 ?
+                    event.deltaX :
+                    event.deltaY) *
+                H_SCROLL_SENSITIVITY;
+
+            const maxScrollLeft =
+                platformsGrid.scrollWidth -
+                platformsGrid.clientWidth;
+
+            if (maxScrollLeft <= 0) {
+                return;
+            }
+
+            const atStart =
+                platformsGrid.scrollLeft <= 0;
+
+            const atEnd =
+                platformsGrid.scrollLeft >=
+                maxScrollLeft - 1;
+
+            const scrollingForward =
+                delta > 0;
+
+            if (
+                (scrollingForward && atEnd) ||
+                (!scrollingForward && atStart)
+            ) {
+                return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            platformsGrid.scrollLeft += delta;
+
+        },
+        { passive: false }
+    );
+
 }
+
+
+document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        if (!platformsGrid) {
+            return;
+        }
+
+        const dir =
+            Number(button.getAttribute("data-dir"));
+
+        const tile =
+            platformsGrid.querySelector(".platform-tile");
+
+        const step =
+            tile ?
+                tile.getBoundingClientRect().width + 18 :
+                platformsGrid.clientWidth * 0.8;
+
+        platformsGrid.scrollBy({
+            left: dir * step,
+            behavior: "smooth"
+        });
+
+    });
+
+});
