@@ -608,25 +608,43 @@
     transform: translateY(-3px);
 }
 
-.tile-termine .termine-responsive,
-.andere-tile,
-.page-3-content {
-    overflow: hidden;
+/* Internes vertikales Scrollen wie vor dem Pull Request beibehalten. */
+.tile-termine .termine-responsive {
+    overflow-y: auto;
+    overflow-x: hidden;
     touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
+/* Feste Desktop-Kacheln bleiben erhalten; zu langer Inhalt darf innerhalb
+   der jeweiligen Kachel wieder vertikal gescrollt werden. */
+.andere-tile {
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+/* Spotify-Seitencontainer darf wieder eigenen vertikalen Scrollraum haben. */
 .page-3-content {
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 }
 
 .spotify-embed {
     position: relative;
 }
 
+/* Der PR legte eine transparente Ebene ueber Spotify. Diese fing Scroll-
+   und Touch-Gesten ab. Spotify soll wie vorher sofort direkt bedienbar sein. */
 .spotify-shield {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
+    display: none !important;
+    pointer-events: none !important;
 }
 
 .andere-nav[hidden],
