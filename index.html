@@ -1418,6 +1418,30 @@ body {
     box-shadow: 0 14px 30px rgba(0,0,0,.36);
 }
 
+/*
+    CONNECT – offene Kachel beim Hover:
+    Der Rahmen der aktiven Kachel verschwindet. Das Logo darf dann
+    über die freie Connect-Seite laufen, bleibt aber außerhalb der
+    anderen weiterhin geschlossenen Kacheln. Beim Verlassen der
+    Kachel wird der normale Zustand wiederhergestellt.
+*/
+@media (hover: hover) and (pointer: fine) {
+    .platform-tile.is-roaming {
+        border-color: transparent;
+        box-shadow: none;
+        overflow: visible;
+        z-index: 40;
+    }
+
+    .platform-tile.is-roaming .platform-logo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2200;
+        pointer-events: none;
+    }
+}
+
 .platforms-divider {
     flex: 0 0 auto;
     width: 1px;
@@ -4758,6 +4782,7 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
     const balls = arenas.map((arena) => ({
         arena,
+        tile: arena.closest(".platform-tile"),
         ball: arena.querySelector(".platform-logo"),
         x: 0,
         y: 0,
@@ -4765,8 +4790,71 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         vy: 0,
         maxX: 0,
         maxY: 0,
-        ready: false
+        ready: false,
+        roaming: false
     }));
+
+    const canHover =
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
+    }
+
+    function startRoaming(b) {
+
+        if (!canHover || !b.ball || !b.tile || b.roaming) {
+            return;
+        }
+
+        const rect = b.ball.getBoundingClientRect();
+
+        b.x = rect.left;
+        b.y = rect.top;
+        b.roaming = true;
+
+        b.tile.classList.add("is-roaming");
+
+        /* fixed position verwendet nun Viewport-Koordinaten */
+        b.ball.style.transform =
+            `translate3d(${b.x}px, ${b.y}px, 0)`;
+    }
+
+    function stopRoaming(b) {
+
+        if (!b.ball || !b.tile || !b.roaming) {
+            return;
+        }
+
+        const viewportX = b.x;
+        const viewportY = b.y;
+
+        b.roaming = false;
+        b.tile.classList.remove("is-roaming");
+
+        const arenaRect = b.arena.getBoundingClientRect();
+        const ballRect = b.ball.getBoundingClientRect();
+
+        b.maxX = Math.max(0, arenaRect.width - ballRect.width);
+        b.maxY = Math.max(0, arenaRect.height - ballRect.height);
+
+        b.x = clamp(viewportX - arenaRect.left, 0, b.maxX);
+        b.y = clamp(viewportY - arenaRect.top, 0, b.maxY);
+
+        b.ball.style.transform =
+            `translate3d(${b.x}px, ${b.y}px, 0)`;
+    }
+
+    if (canHover) {
+        balls.forEach((b) => {
+            if (!b.tile) {
+                return;
+            }
+
+            b.tile.addEventListener("mouseenter", () => startRoaming(b));
+            b.tile.addEventListener("mouseleave", () => stopRoaming(b));
+        });
+    }
 
     /*
         Zufällige Startposition + -richtung
@@ -4777,6 +4865,12 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
     function initBall(b) {
 
         if (!b.ball) {
+            return;
+        }
+
+        /* Während des freien Hover-Modus bleiben die Viewport-Grenzen
+           aktiv und werden nicht auf die kleine Arena zurückgesetzt. */
+        if (b.roaming) {
             return;
         }
 
@@ -4894,27 +4988,107 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
         balls.forEach((b) => {
 
-            if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
+            if (!b.ball) {
                 return;
             }
 
-            b.x += b.vx * dt;
-            b.y += b.vy * dt;
+            if (b.roaming) {
 
-            if (b.x <= 0) {
-                b.x = 0;
-                b.vx = Math.abs(b.vx);
-            } else if (b.x >= b.maxX) {
-                b.x = b.maxX;
-                b.vx = -Math.abs(b.vx);
-            }
+                const ballRect = b.ball.getBoundingClientRect();
+                const ballW = ballRect.width;
+                const ballH = ballRect.height;
 
-            if (b.y <= 0) {
-                b.y = 0;
-                b.vy = Math.abs(b.vy);
-            } else if (b.y >= b.maxY) {
-                b.y = b.maxY;
-                b.vy = -Math.abs(b.vy);
+                /* Freie Flaeche: sichtbarer Connect-Viewport mit etwas Rand. */
+                const minX = 10;
+                const minY = 10;
+                const maxX = Math.max(minX, window.innerWidth - ballW - 10);
+                const maxY = Math.max(minY, window.innerHeight - ballH - 10);
+
+                let nextX = b.x + b.vx * dt;
+                let nextY = b.y + b.vy * dt;
+
+                if (nextX <= minX) {
+                    nextX = minX;
+                    b.vx = Math.abs(b.vx);
+                } else if (nextX >= maxX) {
+                    nextX = maxX;
+                    b.vx = -Math.abs(b.vx);
+                }
+
+                if (nextY <= minY) {
+                    nextY = minY;
+                    b.vy = Math.abs(b.vy);
+                } else if (nextY >= maxY) {
+                    nextY = maxY;
+                    b.vy = -Math.abs(b.vy);
+                }
+
+                /* Alle anderen geschlossenen Kacheln sind Hindernisse. */
+                const obstacles = Array.from(
+                    document.querySelectorAll(".platform-tile:not(.is-roaming)")
+                ).map((tile) => tile.getBoundingClientRect());
+
+                obstacles.forEach((r) => {
+                    const overlaps =
+                        nextX < r.right &&
+                        nextX + ballW > r.left &&
+                        nextY < r.bottom &&
+                        nextY + ballH > r.top;
+
+                    if (!overlaps) {
+                        return;
+                    }
+
+                    const fromLeft = Math.abs((nextX + ballW) - r.left);
+                    const fromRight = Math.abs(r.right - nextX);
+                    const fromTop = Math.abs((nextY + ballH) - r.top);
+                    const fromBottom = Math.abs(r.bottom - nextY);
+                    const minOverlap = Math.min(
+                        fromLeft, fromRight, fromTop, fromBottom
+                    );
+
+                    if (minOverlap === fromLeft) {
+                        nextX = r.left - ballW;
+                        b.vx = -Math.abs(b.vx);
+                    } else if (minOverlap === fromRight) {
+                        nextX = r.right;
+                        b.vx = Math.abs(b.vx);
+                    } else if (minOverlap === fromTop) {
+                        nextY = r.top - ballH;
+                        b.vy = -Math.abs(b.vy);
+                    } else {
+                        nextY = r.bottom;
+                        b.vy = Math.abs(b.vy);
+                    }
+                });
+
+                b.x = nextX;
+                b.y = nextY;
+
+            } else {
+
+                if (b.maxX <= 0 && b.maxY <= 0) {
+                    return;
+                }
+
+                b.x += b.vx * dt;
+                b.y += b.vy * dt;
+
+                if (b.x <= 0) {
+                    b.x = 0;
+                    b.vx = Math.abs(b.vx);
+                } else if (b.x >= b.maxX) {
+                    b.x = b.maxX;
+                    b.vx = -Math.abs(b.vx);
+                }
+
+                if (b.y <= 0) {
+                    b.y = 0;
+                    b.vy = Math.abs(b.vy);
+                } else if (b.y >= b.maxY) {
+                    b.y = b.maxY;
+                    b.vy = -Math.abs(b.vy);
+                }
             }
 
             b.ball.style.transform =
