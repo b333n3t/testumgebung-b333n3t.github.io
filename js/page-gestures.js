@@ -176,6 +176,35 @@ function handleScroll(delta) {
 
 
 /* =========================================================
+   INNERES SCROLLEN
+
+   Termine, Kacheln mit Ueberlaenge und der Spotify-Container
+   duerfen wieder selbst vertikal scrollen. Erst wenn der
+   jeweilige Bereich oben bzw. unten angekommen ist, uebernimmt
+   die globale Seiten-Navigation.
+   ========================================================= */
+
+function findScrollableAncestor(element) {
+    if (!element || typeof element.closest !== "function") {
+        return null;
+    }
+
+    const scrollable = element.closest(
+        ".termine-responsive, .andere-tile, .page-3-content"
+    );
+
+    if (
+        scrollable &&
+        scrollable.scrollHeight > scrollable.clientHeight + 1
+    ) {
+        return scrollable;
+    }
+
+    return null;
+}
+
+
+/* =========================================================
    MAUSRAD / TRACKPAD
    ========================================================= */
 
@@ -218,6 +247,24 @@ window.addEventListener(
 
         }
 
+
+        const scrollable = findScrollableAncestor(event.target);
+
+        if (scrollable) {
+            const atTop = scrollable.scrollTop <= 0;
+            const atBottom = Math.ceil(
+                scrollable.scrollTop + scrollable.clientHeight
+            ) >= scrollable.scrollHeight;
+            const scrollingDown = event.deltaY > 0;
+
+            if (
+                (scrollingDown && !atBottom) ||
+                (!scrollingDown && !atTop)
+            ) {
+                /* Der innere Bereich hat noch Scrollraum. */
+                return;
+            }
+        }
 
         event.preventDefault();
 
@@ -440,6 +487,25 @@ window.addEventListener(
 
         if (touchAxisLocked === "x") {
             return;
+        }
+
+        const touchScrollable = findScrollableAncestor(event.target);
+
+        if (touchScrollable) {
+            const atTop = touchScrollable.scrollTop <= 0;
+            const atBottom = Math.ceil(
+                touchScrollable.scrollTop + touchScrollable.clientHeight
+            ) >= touchScrollable.scrollHeight;
+            const fingerMovesUp = touch.clientY < touchLastY;
+
+            if (
+                (fingerMovesUp && !atBottom) ||
+                (!fingerMovesUp && !atTop)
+            ) {
+                touchLastY = touch.clientY;
+                /* Natives Scrollen innerhalb der Kachel/Terminliste. */
+                return;
+            }
         }
 
         event.preventDefault();
