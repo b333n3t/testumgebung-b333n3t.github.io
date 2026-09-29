@@ -201,4 +201,12 @@
     background: rgba(242,242,240,.45);
 }
 
-
+/* =========================================================
+   CONNECT – RAND-FIX
+   Gibt Hover-Kacheln oben/rechts etwas Luft, damit der Rahmen
+   beim leichten Anheben nicht vom Scroll-Container abgeschnitten wird.
+   ========================================================= */
+.platforms-grid {
+    padding-top: 4px;
+    padding-right: 2px;
+}
