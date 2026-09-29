@@ -484,7 +484,7 @@ body {
 
 /*
     Eigener Block für Icon + Text, damit
-    "06 / kontakt" oben auf gleicher Höhe
+    "07 / kontakt" oben auf gleicher Höhe
     wie bei den anderen Kacheln bleibt und
     nur der Rest darunter zentriert wird.
 */
@@ -579,18 +579,7 @@ body {
 
     min-height: 220px;
 }
-/* Winterthur-Kachel: Bild vollständig anzeigen */
-.winterthur-card {
-    background: #788044;
-}
 
-.winterthur-card .winterthur-thumb {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    object-position: center;
-    background: #788044;
-}
 .card-article {
     position: relative;
 
@@ -607,6 +596,21 @@ body {
     overflow: hidden;
 
     min-height: 150px;
+}
+
+
+
+/* Stadtkonzerte-Kachel: Bild vollständig anzeigen, freie Fläche weiß. */
+.stadtkonzerte-card {
+    background: white;
+}
+
+.stadtkonzerte-card .stadtkonzerte-thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    background: white;
 }
 
 .radio-card {
@@ -1427,34 +1431,6 @@ body {
 .platform-tile:hover {
     transform: translateY(-3px);
     box-shadow: 0 14px 30px rgba(0,0,0,.36);
-}
-
-/* Connect: auf Desktop darf das aktive Logo beim Hover aus seiner
-   Kachel ausbrechen. Die Flug-Ebene liegt ueber der Connect-Seite,
-   waehrend die uebrigen Kacheln und Texte als Hindernisse dienen. */
-@media (hover: hover) and (pointer: fine) {
-    .page-platforms {
-        isolation: isolate;
-    }
-
-    .platform-tile.is-freeflight {
-        border-color: transparent;
-        overflow: visible;
-        z-index: 30;
-    }
-
-    .platform-flight-layer {
-        position: absolute;
-        inset: 0;
-        z-index: 60;
-        pointer-events: none;
-        overflow: hidden;
-    }
-
-    .platform-flight-layer .platform-logo {
-        pointer-events: none;
-        z-index: 1;
-    }
 }
 
 .platforms-divider {
@@ -2475,21 +2451,6 @@ body {
     }
 }
 
-
-
-/* =========================================================
-   PRESSE – STADTKONZERTE
-   Bild vollständig zeigen; freie Fläche bleibt weiß.
-   ========================================================= */
-#article3 {
-    background: #fff;
-}
-
-#article3 .thumb {
-    object-fit: contain;
-    background: #fff;
-}
-
 </style>
 </head>
 
@@ -2738,36 +2699,40 @@ body {
                     03 / presse – winterthur
                 </span>
 
-<a
-    class="card card-article winterthur-card"
-    id="article1"
-    href="https://musikfestwochen.ch/acts/b3nn3t/"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="51.WINTERTHURER MUSIKWOCHEN"
->
-    <img
-        class="thumb winterthur-thumb"
-        src="assets/gesehen/reel-winti.avif"
-        alt="51.WINTERTHURER MUSIKWOCHEN"
-        width="960"
-        height="540"
-        loading="lazy"
-        decoding="async"
-        sizes="(max-width: 820px) 100vw, 350px"
-    >
+                <a
+                    class="card card-article"
+                    id="article1"
+                    href="https://musikfestwochen.ch/acts/b3nn3t/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="51.WINTERTHURER MUSIKWOCHEN"
+                >
 
-    <div class="article-overlay">
-        <span class="article-label"></span>
-        <small class="article-meta"></small>
-    </div>
+                    <img
+                        class="thumb"
+                        src="assets/gesehen/reel-winti.avif"
+                        alt="51.WINTERTHURER MUSIKWOCHEN"
+                        width="960"
+                        height="540"
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 820px) 100vw, 350px"
+                    >
 
-    <span class="play-label"></span>
+                    <div class="article-overlay">
+                        <span class="article-label"></span>
+                        <small class="article-meta"></small>
+                    </div>
 
-    <small>
-        51.WINTERTHURER MUSIKWOCHEN
-    </small>
-</a>
+                    <span class="play-label">
+                        
+                    </span>
+
+                    <small>
+                        51.WINTERTHURER MUSIKWOCHEN
+                    </small>
+
+                </a>
 
             </div>
 
@@ -2822,46 +2787,46 @@ body {
             </div>
 
 
-           <!-- KACHEL 05 – PRESSE: STADTKONZERTE -->
+            <!-- KACHEL 05 – PRESSE: STADTKONZERTE -->
 
-<div class="andere-tile tile-press">
+            <div class="andere-tile tile-press">
 
-    <span class="tile-label">
-        05 / presse – stadtkonzerte
-    </span>
+                <span class="tile-label">
+                    05 / presse – stadtkonzerte
+                </span>
 
-    <a
-        class="card card-article stadtkonzerte-card"
-        id="article3"
-        href="https://stadtkonzerte.ch/artists/b3nn3t"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Stadtkonzerte – b3nn3t"
-    >
+                <a
+                    class="card card-article stadtkonzerte-card"
+                    id="article3"
+                    href="https://stadtkonzerte.ch/artists/b3nn3t"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Stadtkonzerte – b3nn3t"
+                >
 
-        <img
-            class="thumb stadtkonzerte-thumb"
-            src="/assets/presse/stadtkonzerte.webp"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            sizes="(max-width: 820px) 100vw, 350px"
-        >
+                    <img
+                        class="thumb stadtkonzerte-thumb"
+                        src="/assets/presse/stadtkonzerte.webp"
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 820px) 100vw, 350px"
+                    >
 
-        <div class="article-overlay">
-            <span class="article-label"></span>
-            <small class="article-meta"></small>
-        </div>
+                    <div class="article-overlay">
+                        <span class="article-label"></span>
+                        <small class="article-meta"></small>
+                    </div>
 
-        <span class="play-label"></span>
+                    <span class="play-label"></span>
 
-        <small>
-            STADTKONZERTE.CH
-        </small>
+                    <small>
+                        STADTKONZERTE.CH
+                    </small>
 
-    </a>
+                </a>
 
-</div>
+            </div>
 
 
             <!-- KACHEL 06 – TERMINE -->
@@ -2956,7 +2921,7 @@ body {
             >
 
                 <span class="tile-label">
-                    07 / kontakt
+                    06 / kontakt
                 </span>
 
                 <span class="tile-contact-body">
@@ -4819,23 +4784,23 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
 
 /* =========================================================
-   PLATTFORMEN – BALL-BOUNCE + FREIFLUG BEIM HOVER
+   PLATTFORMEN – BALL-BOUNCE
 
-   Normal: jedes Logo prallt innerhalb seiner eigenen Kachel.
-   Desktop-Hover: Rahmen der aktiven Kachel verschwindet und
-   nur ihr Logo darf ueber die Connect-Seite fliegen. Andere
-   Kacheln, wichtige Texte/Bedienelemente und der Seitenrand
-   sind feste Hindernisse. Beim Verlassen kehrt das Logo in
-   seine Kachel zurueck.
+   Die Plattform-Logos prallen wie ein
+   DVD-Bildschirmschoner innerhalb ihrer
+   Kachel hin und her. Läuft nur, während
+   die Plattformen-Seite sichtbar ist
+   (aktiv oder Zielseite), und pausiert bei
+   reduzierter Bewegungspräferenz oder wenn
+   der Tab im Hintergrund ist.
    ========================================================= */
 
 (function () {
 
     const reduceMotion =
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const canHover =
-        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
 
     const arenas = Array.from(
         document.querySelectorAll(".platform-arena")
@@ -4848,18 +4813,8 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
     const platformsPage =
         document.querySelector(".page-platforms");
 
-    if (!platformsPage) {
-        return;
-    }
-
-    const flightLayer = document.createElement("div");
-    flightLayer.className = "platform-flight-layer";
-    flightLayer.setAttribute("aria-hidden", "true");
-    platformsPage.appendChild(flightLayer);
-
     const balls = arenas.map((arena) => ({
         arena,
-        tile: arena.closest(".platform-tile"),
         ball: arena.querySelector(".platform-logo"),
         x: 0,
         y: 0,
@@ -4867,261 +4822,104 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         vy: 0,
         maxX: 0,
         maxY: 0,
-        ready: false,
-        flying: false,
-        obstacles: []
+        ready: false
     }));
 
-    function rectRelativeToPage(el) {
-        const r = el.getBoundingClientRect();
-        const p = platformsPage.getBoundingClientRect();
-
-        return {
-            left: r.left - p.left,
-            top: r.top - p.top,
-            right: r.right - p.left,
-            bottom: r.bottom - p.top
-        };
-    }
+    /*
+        Zufällige Startposition + -richtung
+        je Ball, damit sie nicht synchron
+        laufen.
+    */
 
     function initBall(b) {
 
-        if (!b.ball || b.flying) {
+        if (!b.ball) {
             return;
         }
 
-        const arenaRect = b.arena.getBoundingClientRect();
-        const ballRect = b.ball.getBoundingClientRect();
+        const arenaRect =
+            b.arena.getBoundingClientRect();
 
-        b.maxX = Math.max(0, arenaRect.width - ballRect.width);
-        b.maxY = Math.max(0, arenaRect.height - ballRect.height);
+        const ballRect =
+            b.ball.getBoundingClientRect();
+
+        const maxX =
+            Math.max(0, arenaRect.width - ballRect.width);
+
+        const maxY =
+            Math.max(0, arenaRect.height - ballRect.height);
+
+        b.maxX = maxX;
+        b.maxY = maxY;
 
         if (!b.ready) {
-            b.x = Math.random() * b.maxX;
-            b.y = Math.random() * b.maxY;
 
-            const angle = Math.random() * Math.PI * 2;
+            b.x = Math.random() * maxX;
+            b.y = Math.random() * maxY;
+
+            const angle =
+                Math.random() * Math.PI * 2;
+
             const speed = 34 + Math.random() * 22;
 
             b.vx = Math.cos(angle) * speed;
             b.vy = Math.sin(angle) * speed;
+
             b.ready = true;
+
         } else {
-            b.x = Math.max(0, Math.min(b.x, b.maxX));
-            b.y = Math.max(0, Math.min(b.y, b.maxY));
+
+            b.x = Math.min(b.x, maxX);
+            b.y = Math.min(b.y, maxY);
+
         }
 
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
     }
 
-    function collectObstacles(activeBall) {
-        const selectors = [
-            ".platform-tile:not(.is-freeflight)",
-            ".platforms-header h2",
-            ".platforms-nav",
-            ".page-platforms .side-label",
-            ".page-platforms .tile-label",
-            ".page-platforms .platform-name",
-            ".page-platforms .platform-action",
-            ".burger-menu"
-        ];
-
-        return Array.from(
-            document.querySelectorAll(selectors.join(","))
-        )
-        .filter((el) => {
-            if (!el.getClientRects().length) {
-                return false;
-            }
-
-            if (activeBall.ball.contains(el)) {
-                return false;
-            }
-
-            return true;
-        })
-        .map(rectRelativeToPage);
-    }
-
-    function startFreeFlight(b) {
-
-        if (!canHover || !b.ball || !b.tile || b.flying) {
-            return;
-        }
-
-        const ballRect = b.ball.getBoundingClientRect();
-        const pageRect = platformsPage.getBoundingClientRect();
-
-        b.x = ballRect.left - pageRect.left;
-        b.y = ballRect.top - pageRect.top;
-        b.flying = true;
-
-        b.tile.classList.add("is-freeflight");
-        flightLayer.appendChild(b.ball);
-
-        const movedRect = b.ball.getBoundingClientRect();
-        b.maxX = Math.max(0, pageRect.width - movedRect.width);
-        b.maxY = Math.max(0, pageRect.height - movedRect.height);
-        b.obstacles = collectObstacles(b);
-
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
-    }
-
-    function stopFreeFlight(b) {
-
-        if (!b.ball || !b.tile || !b.flying) {
-            return;
-        }
-
-        b.flying = false;
-        b.tile.classList.remove("is-freeflight");
-        b.arena.appendChild(b.ball);
-
-        b.ready = false;
-        b.obstacles = [];
-        initBall(b);
-    }
-
-    function overlaps(x, y, w, h, r) {
-        return (
-            x < r.right &&
-            x + w > r.left &&
-            y < r.bottom &&
-            y + h > r.top
-        );
-    }
-
-    function moveFlyingBall(b, dt) {
-        const pageRect = platformsPage.getBoundingClientRect();
-        const ballRect = b.ball.getBoundingClientRect();
-        const w = ballRect.width;
-        const h = ballRect.height;
-
-        b.maxX = Math.max(0, pageRect.width - w);
-        b.maxY = Math.max(0, pageRect.height - h);
-
-        let nextX = b.x + b.vx * dt;
-
-        if (nextX <= 0) {
-            nextX = 0;
-            b.vx = Math.abs(b.vx);
-        } else if (nextX >= b.maxX) {
-            nextX = b.maxX;
-            b.vx = -Math.abs(b.vx);
-        }
-
-        for (const r of b.obstacles) {
-            if (overlaps(nextX, b.y, w, h, r)) {
-                if (b.vx > 0) {
-                    nextX = Math.max(0, r.left - w);
-                    b.vx = -Math.abs(b.vx);
-                } else {
-                    nextX = Math.min(b.maxX, r.right);
-                    b.vx = Math.abs(b.vx);
-                }
-                break;
-            }
-        }
-
-        b.x = nextX;
-
-        let nextY = b.y + b.vy * dt;
-
-        if (nextY <= 0) {
-            nextY = 0;
-            b.vy = Math.abs(b.vy);
-        } else if (nextY >= b.maxY) {
-            nextY = b.maxY;
-            b.vy = -Math.abs(b.vy);
-        }
-
-        for (const r of b.obstacles) {
-            if (overlaps(b.x, nextY, w, h, r)) {
-                if (b.vy > 0) {
-                    nextY = Math.max(0, r.top - h);
-                    b.vy = -Math.abs(b.vy);
-                } else {
-                    nextY = Math.min(b.maxY, r.bottom);
-                    b.vy = Math.abs(b.vy);
-                }
-                break;
-            }
-        }
-
-        b.y = nextY;
-
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
-    }
-
-    function moveArenaBall(b, dt) {
-
-        if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
-            return;
-        }
-
-        b.x += b.vx * dt;
-        b.y += b.vy * dt;
-
-        if (b.x <= 0) {
-            b.x = 0;
-            b.vx = Math.abs(b.vx);
-        } else if (b.x >= b.maxX) {
-            b.x = b.maxX;
-            b.vx = -Math.abs(b.vx);
-        }
-
-        if (b.y <= 0) {
-            b.y = 0;
-            b.vy = Math.abs(b.vy);
-        } else if (b.y >= b.maxY) {
-            b.y = b.maxY;
-            b.vy = -Math.abs(b.vy);
-        }
-
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
-    }
-
-    balls.forEach((b) => {
-        initBall(b);
-
-        if (canHover && b.tile) {
-            b.tile.addEventListener("mouseenter", () => startFreeFlight(b));
-            b.tile.addEventListener("mouseleave", () => stopFreeFlight(b));
-        }
-    });
+    balls.forEach(initBall);
 
     window.addEventListener("resize", () => {
-        balls.forEach((b) => {
-            if (b.flying) {
-                b.obstacles = collectObstacles(b);
-            } else {
-                initBall(b);
-            }
-        });
+        balls.forEach(initBall);
     });
 
     function isPlatformsPageVisible() {
+
         return Boolean(
-            platformsPage.classList.contains("active") ||
-            platformsPage.classList.contains("behind")
+            platformsPage &&
+            (
+                platformsPage.classList.contains("active") ||
+                platformsPage.classList.contains("behind")
+            )
         );
+
     }
 
     let lastTime = null;
+
     let rafRunning = false;
 
+    /*
+        Performance-Fix: Statt die rAF-Schleife
+        dauerhaft ab dem ersten Seitenaufruf
+        durchlaufen zu lassen (auch wenn die
+        Connect-Seite nie angeschaut wird),
+        läuft sie nur, während die Seite
+        tatsächlich sichtbar ist, und stoppt
+        sich danach komplett selbst – statt
+        sich nur "leer" weiterzuplanen.
+    */
+
     function ensureTickRunning() {
+
         if (rafRunning || !isPlatformsPageVisible()) {
             return;
         }
 
         rafRunning = true;
         lastTime = null;
+
         requestAnimationFrame(tick);
+
     }
 
     function tick(time) {
@@ -5139,33 +4937,71 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
             return;
         }
 
-        const dt = Math.min(time - lastTime, 40) / 1000;
+        /*
+            Zeitdifferenz begrenzen, damit ein
+            kurzzeitig inaktiver Tab beim
+            Zurückkehren nicht zu einem riesigen
+            Sprung führt.
+        */
+
+        const dt =
+            Math.min(time - lastTime, 40) / 1000;
+
         lastTime = time;
 
         balls.forEach((b) => {
-            if (!b.ball) {
+
+            if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
                 return;
             }
 
-            if (b.flying) {
-                moveFlyingBall(b, dt);
-            } else {
-                moveArenaBall(b, dt);
+            b.x += b.vx * dt;
+            b.y += b.vy * dt;
+
+            if (b.x <= 0) {
+                b.x = 0;
+                b.vx = Math.abs(b.vx);
+            } else if (b.x >= b.maxX) {
+                b.x = b.maxX;
+                b.vx = -Math.abs(b.vx);
             }
+
+            if (b.y <= 0) {
+                b.y = 0;
+                b.vy = Math.abs(b.vy);
+            } else if (b.y >= b.maxY) {
+                b.y = b.maxY;
+                b.vy = -Math.abs(b.vy);
+            }
+
+            b.ball.style.transform =
+                `translate3d(${b.x}px, ${b.y}px, 0)`;
+
         });
+
     }
 
     ensureTickRunning();
 
-    if ("MutationObserver" in window) {
+    /*
+        Startet die Schleife neu, sobald die
+        Connect-Seite wieder aktiv/Zielseite
+        wird (Klassenwechsel durch die
+        Seiten-Navigation).
+    */
+
+    if (platformsPage && "MutationObserver" in window) {
+
         new MutationObserver(ensureTickRunning)
             .observe(platformsPage, {
                 attributes: true,
                 attributeFilter: ["class"]
             });
+
     }
 
 })();
+
 
 /* =========================================================
    SCROLL
