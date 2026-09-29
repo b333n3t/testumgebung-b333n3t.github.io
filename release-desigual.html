@@ -179,6 +179,45 @@
       background: #000;
     }
 
+    .listen-wrap {
+      margin-top: 1.6rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .listen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.95rem 1.35rem;
+      border-radius: 999px;
+      background: #ffffff;
+      color: #171716;
+      text-decoration: none;
+      font-weight: 850;
+      letter-spacing: 0.04em;
+      text-transform: lowercase;
+      border: 2px solid rgba(255,255,255,0.62);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+      transition: transform .18s ease, box-shadow .25s ease, opacity .2s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .listen-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+
+    .listen-btn:active {
+      transform: translateY(0px) scale(0.99);
+    }
+
+    .listen-btn:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.85);
+      outline-offset: 4px;
+    }
+
     section.block {
       margin-bottom: clamp(1.8rem, 2.6vw, 2.4rem);
     }
@@ -528,23 +567,46 @@
         font-size: clamp(3rem, 18vw, 5.6rem);
       }
 
+      .listen-wrap {
+        justify-content: flex-start;
+        margin-top: 1.25rem;
+      }
+
+      .listen-btn {
+        padding: 0.85rem 1.15rem;
+        font-size: 0.92rem;
+      }
+
       .video-inner {
         border-radius: 24px;
       }
 
       .world-map {
-        height: 270px;
+        height: 245px;
         border-radius: 24px;
+        margin: 1rem 0 1.15rem;
       }
 
       .map-title,
       .map-label,
       .map-now {
-        font-size: 0.66rem;
+        font-size: 0.62rem;
+      }
+
+      .map-label {
+        left: 0.9rem;
+        bottom: 0.85rem;
       }
 
       .map-now {
+        right: 0.9rem;
+        bottom: 0.85rem;
         max-width: 48%;
+      }
+
+      .map-title {
+        left: 0.9rem;
+        top: 0.85rem;
       }
 
       .map-image,
@@ -553,18 +615,78 @@
         inset: 18% 4%;
       }
 
+      .timeline-counter {
+        font-size: 1.05rem;
+        margin-bottom: 0.8rem !important;
+      }
+
+      .timeline-block p.timeline-sub {
+        font-size: 0.92rem;
+        line-height: 1.55;
+      }
+
+      .timeline-list {
+        gap: 0;
+      }
+
       .timeline-row {
-        grid-template-columns: 1.2rem 1.8rem minmax(6.5rem, 1fr) 5.2rem;
-        gap: 0.45rem;
+        grid-template-columns: 1.25rem 2rem 1fr;
+        gap: 0.25rem 0.5rem;
+        padding: 0.62rem 0;
+        border-bottom: 1px solid rgba(255,255,255,0.09);
+        font-size: 0.92rem;
+        line-height: 1.25;
+      }
+
+      .timeline-row .status-dot {
+        grid-column: 1;
+        grid-row: 1 / span 3;
+        width: 1.25rem;
+      }
+
+      .timeline-row .country-code {
+        grid-column: 2;
+        grid-row: 1;
+        font-size: 0.72rem;
+        align-self: center;
+      }
+
+      .timeline-row .country-name {
+        grid-column: 3;
+        grid-row: 1;
+        min-width: 0;
+        font-size: 0.93rem;
+      }
+
+      .timeline-row .release-time {
+        grid-column: 2 / -1;
+        grid-row: 2;
+        font-size: 0.78rem;
+        opacity: 0.7;
+        white-space: normal;
       }
 
       .timeline-row .status-text {
-        grid-column: 4 / -1;
+        grid-column: 2 / -1;
+        grid-row: 3;
+        font-size: 0.82rem;
+        white-space: normal;
       }
 
       .timeline-row .online-since {
-        grid-column: 3 / -1;
-        font-size: 0.9rem;
+        grid-column: 2 / -1;
+        grid-row: 4;
+        font-size: 0.78rem;
+        opacity: 0.82;
+        white-space: normal;
+      }
+
+      .timeline-row.is-live .status-text {
+        font-size: 0.82rem;
+      }
+
+      .timeline-row.is-upcoming {
+        opacity: 0.42;
       }
     }
 
@@ -579,6 +701,7 @@
         display: none;
       }
 
+      .listen-btn,
       .social-link,
       .map-tz {
         transition: none;
@@ -614,6 +737,16 @@
                 Dein Browser unterstützt dieses Videoformat nicht.
               </video>
             </div>
+          </div>
+
+          <div class="listen-wrap">
+            <a
+              class="listen-btn"
+              href="https://open.spotify.com/intl-de/album/4QAZWss3g5UjzKYUIp1hoo?si=SbTcszRQSbeEP6fSLD_btA"
+              target="_blank"
+              rel="noopener">
+              "desigual" hören
+            </a>
           </div>
         </section>
 
@@ -664,8 +797,8 @@
           <div class="social-section" aria-label="Social Media Links">
             <div class="social-icons">
 
-              <a href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
-                 class="social-link" aria-label="Spotify – b3nn3t" target="_blank" rel="noopener">
+              <a href="https://open.spotify.com/intl-de/album/4QAZWss3g5UjzKYUIp1hoo?si=SbTcszRQSbeEP6fSLD_btA"
+                 class="social-link" aria-label="Spotify – desigual" target="_blank" rel="noopener">
                 <picture>
                   <source srcset="assets/release/spotify_128.webp" type="image/webp">
                   <img class="social-icon-img" src="assets/release/spotify_128.png" alt="Spotify">
@@ -788,6 +921,7 @@
 
       const TOTAL_COUNTRIES = 251;
 
+      
       function releaseInstant(offsetHours) {
         return Date.UTC(RELEASE_YEAR, RELEASE_MONTH, RELEASE_DAY, 0, 0, 0) - offsetHours * 3600 * 1000;
       }

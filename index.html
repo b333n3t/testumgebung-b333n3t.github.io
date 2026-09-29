@@ -1,655 +1,1244 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Basis-SEO -->
-  <title>b3nn3t – Deutschrap & Indie-Pop aus der Schweiz | Songwriter & Musiker</title>
-  <meta name="description" content="b3nn3t – Deutschrap und Indie-Pop aus der Schweiz. Moderner Sound, starke Texte und authentische Songs. Jetzt Musik, Releases, Videos, News, Termine entdecken." />
-  <meta name="robots" content="index,follow" />
+<!-- Basis-SEO -->
+<title>b3nn3t (deutschrap&indie-pop, sing-/songwriter aus st.gallen)</title>
+<meta name="description" content="hier gibts musik, videos, kontaktformulare, neuigkeiten&termine zu entdecken.^^" />
+<meta name="robots" content="index,follow" />
 
-  <!-- Favicons: Google, Browser, Apple -->
-  <link rel="icon" href="/favicon.ico" sizes="any">
-  <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<!-- Favicons: Google, Browser, Apple -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <!-- Hero-Bild vorladen (LCP-Optimierung) -->
-  <link rel="preload" as="image" href="/assets/plattformen/genius_128.webp">
-  <link rel="preload" as="image" href="/assets/plattformen/mx3_128.webp">
-  <link rel="preload" as="image" href="/assets/plattformen/instagram_128.webp">
-  <link rel="preload" as="image" href="/assets/plattformen/apple_music_128.webp">
-  <link rel="preload" as="image" href="/assets/plattformen/soundcloud_128.webp">
-  <link rel="preload" as="image" href="/assets/plattformen/spotify_128.webp">
-  <link rel="preload" as="image" href="/assets/plattformen/youtube_128.webp">
+<!-- Canonical & hreflang -->
+<link rel="canonical" href="https://www.b3nn3t.com/">
+<link rel="alternate" hreflang="de"        href="https://www.b3nn3t.com/index.html" />
+<link rel="alternate" hreflang="de-DE"     href="https://www.b3nn3t.de/index.html" />
+<link rel="alternate" hreflang="de-CH"     href="https://www.b3nn3t.ch/index.html" />
+<link rel="alternate" hreflang="de-AT"     href="https://www.b3nn3t.at/index.html" />
+<link rel="alternate" hreflang="x-default" href="https://www.b3nn3t.com/index.html" />
 
-  <!-- Canonical & hreflang -->
-  <link rel="canonical" href="https://www.b3nn3t.com/">
-  <link rel="alternate" hreflang="de"        href="https://www.b3nn3t.com/index.html" />
-  <link rel="alternate" hreflang="de-DE"     href="https://www.b3nn3t.de/index.html" />
-  <link rel="alternate" hreflang="de-CH"     href="https://www.b3nn3t.ch/index.html" />
-  <link rel="alternate" hreflang="de-AT"     href="https://www.b3nn3t.at/index.html" />
-  <link rel="alternate" hreflang="x-default" href="https://www.b3nn3t.com/index.html" />
+<!-- Open Graph / Social Preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="b3nn3t">
+<meta property="og:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
+<meta property="og:description" content="Offizielle Seite von b3nn3t: Deutschrap & Indie-Pop, Diskografie, aktuelle Releases, News, Live-Termine und Kontakt.">
+<meta property="og:url" content="https://www.b3nn3t.com/" />
+<meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
+<meta property="og:locale" content="de_DE">
 
-  <!-- Open Graph / Social Preview -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="b3nn3t">
-  <meta property="og:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
-  <meta property="og:description" content="Offizielle Seite von b3nn3t: Deutschrap & Indie-Pop, Diskografie, aktuelle Releases, News, Live-Termine und Kontakt.">
-  <meta property="og:url" content="https://www.b3nn3t.com/" />
-  <meta property="og:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
-  <meta property="og:locale" content="de_DE">
+<!-- Twitter Card (X) -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
+<meta name="twitter:description" content="Offizielle Website von b3nn3t. Deutschrap & Indie-Pop, Releases, News, Live-Termine und Kontakt.">
+<meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
 
-  <!-- Twitter Card (X) -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="b3nn3t – Deutschrap & Indie-Pop aus der Schweiz">
-  <meta name="twitter:description" content="Offizielle Website von b3nn3t. Deutschrap & Indie-Pop, Releases, News, Live-Termine und Kontakt.">
-  <meta name="twitter:image" content="https://www.b3nn3t.com/assets/index/bennet_index1.jpg">
-
-  <!-- Schema.org: Website & Person -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebSite",
-        "@id": "https://www.b3nn3t.com/#website",
-        "url": "https://www.b3nn3t.com/",
-        "name": "b3nn3t",
-        "inLanguage": "de-DE",
-        "description": "b3nn3t – Deutschrap & Indie-Pop aus der Schweiz. Musik, Veröffentlichungen und Projekte von b3nn3t.",
-        "publisher": { "@id": "https://www.b3nn3t.com/#org" }
-      },
-      {
-        "@type": "WebPage",
-        "@id": "https://www.b3nn3t.com/#startseite",
-        "url": "https://www.b3nn3t.com/",
-        "name": "b3nn3t – Offizielle Startseite",
-        "description": "Startseite von b3nn3t mit Überblick zu Musik, Releases, News, Terminen und Plattformen.",
-        "inLanguage": "de-DE",
-        "isPartOf": { "@id": "https://www.b3nn3t.com/#website" }
-      },
-      {
-        "@type": "Person",
-        "@id": "https://www.b3nn3t.com/#person",
-        "name": "b3nn3t",
-        "alternateName": "b3nn3t",
-        "url": "https://www.b3nn3t.com/",
-        "image": { "@type": "ImageObject", "url": "https://www.b3nn3t.com/assets/index/bennet_index1.jpg" },
-        "description": "b3nn3t ist ein Deutschrap- und Indie-Pop-Künstler aus der Schweiz.",
-        "sameAs": [
-          "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A",
-          "https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE",
-          "https://mx3.ch/b3nn3t",
-          "https://genius.com/artists/B3nn3t",
-          "https://soundcloud.com/b3nn3t-music",
-          "https://www.instagram.com/b3nn3t",
-          "https://www.youtube.com/@b333nn3t"
-        ]
-      },
-      {
-        "@type": "MusicGroup",
-        "@id": "https://www.b3nn3t.com/#org",
-        "name": "b3nn3t",
-        "url": "https://www.b3nn3t.com/",
-        "genre": "Deutschrap & Indie Pop",
-        "areaServed": ["DE", "CH", "AT"],
-        "address": { "@type": "PostalAddress", "addressCountry": "CH" },
-        "member": { "@id": "https://www.b3nn3t.com/#person" }
-      },
-      {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" }
-        ]
-      }
-    ]
-  }
-  </script>
-
-  <!-- 🔁 Intro-Redirect (nur einmal pro Session, aber NICHT für Bots) -->
-  <script>
-    (function () {
-      try {
-        const played    = sessionStorage.getItem("introPlayed") === "1";
-        const fromIntro = document.referrer && /tv-intro\.html(?:$|[?#])/.test(document.referrer);
-        const bypass    = location.search.includes("nointro=1");
-
-        const ua    = navigator.userAgent || "";
-        const isBot = /bot|crawl|slurp|spider|preview|Chrome-Lighthouse|Lighthouse|Google-InspectionTool|Google-Site-Verification|Google-PageRenderer|Google-StructuredDataTestingTool|Google-StructuredDataTestingTool/i.test(ua);
-
-        if (!isBot && !played && !fromIntro && !bypass) {
-          const returnUrl =
-            (location.pathname || "index.html") +
-            (location.search || "") +
-            (location.hash || "");
-
-          sessionStorage.setItem("introReturn", returnUrl);
-          location.replace("tv-intro.html");
-        }
-      } catch (e) {}
-    })();
-  </script>
-
-  <!-- Externe Styles -->
-  <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="styles_nav_arrows.css" />
-  <link rel="stylesheet" href="swipe-helper.css" />
-
-  <!-- 👇 Mobile: grauer Container näher am unteren Rand -->
-  <style>
-    @media (max-width: 768px) {
-      main.main {
-        min-height: calc(100dvh - 56px - 20px);
-        height: calc(100dvh - 56px - 20px);
-      }
+<!-- Schema.org: Website & Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.b3nn3t.com/#website",
+      "url": "https://www.b3nn3t.com/",
+      "name": "b3nn3t",
+      "inLanguage": "de-DE",
+      "description": "b3nn3t – Deutschrap & Indie-Pop aus der Schweiz. Musik, Veröffentlichungen und Projekte von b3nn3t.",
+      "publisher": { "@id": "https://www.b3nn3t.com/#org" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.b3nn3t.com/#startseite",
+      "url": "https://www.b3nn3t.com/",
+      "name": "b3nn3t – Offizielle Startseite",
+      "description": "Startseite von b3nn3t mit Überblick zu Musik, Releases, News, Terminen und Plattformen.",
+      "inLanguage": "de-DE",
+      "isPartOf": { "@id": "https://www.b3nn3t.com/#website" }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://www.b3nn3t.com/#person",
+      "name": "b3nn3t",
+      "alternateName": "b3nn3t",
+      "url": "https://www.b3nn3t.com/",
+      "image": { "@type": "ImageObject", "url": "https://www.b3nn3t.com/assets/index/bennet_index1.jpg" },
+      "description": "b3nn3t ist ein Deutschrap- und Indie-Pop-Künstler aus der Schweiz.",
+      "sameAs": [
+        "https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A",
+        "https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE",
+        "https://mx3.ch/b3nn3t",
+        "https://genius.com/artists/B3nn3t",
+        "https://soundcloud.com/b3nn3t-music",
+        "https://www.instagram.com/b3nn3t",
+        "https://www.youtube.com/@b333nn3t"
+      ]
+    },
+    {
+      "@type": "MusicGroup",
+      "@id": "https://www.b3nn3t.com/#org",
+      "name": "b3nn3t",
+      "url": "https://www.b3nn3t.com/",
+      "genre": "Deutschrap & Indie Pop",
+      "areaServed": ["DE", "CH", "AT"],
+      "address": { "@type": "PostalAddress", "addressCountry": "CH" },
+      "member": { "@id": "https://www.b3nn3t.com/#person" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Start", "item": "https://www.b3nn3t.com/" }
+      ]
     }
-  </style>
-
-  <style>
-:root{
-  --bottom-gap: 60px;
-
-  /* ✅ Footer (hochkant rechts) – feinjustierbar */
-  --footer-top-desktop: 430px;
-  --footer-right-desktop: 0px;
-
-  --footer-top-mobile: 520px;
-  --footer-right-mobile: 0.2px;
+  ]
 }
-@media (max-width: 768px){
-  :root{ --bottom-gap: 20px; }
-}
+</script>
 
-/* Seite selbst scrollt nicht – nur das Panel */
-html, body{ overflow: hidden; }
-@media (max-width: 767px){
-  html, body{ overflow: auto; -webkit-overflow-scrolling: touch; }
-}
-
-/* Body als Flex-Container */
-body{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* ===== Header / Menü ===== */
-.hamburger{
-  position:fixed;top:14px;right:18px;width:20px;height:20px;
-  border:0;background:transparent;display:grid;place-items:center;
-  cursor:pointer;z-index:1200;padding:0
-}
-.hamburger span{
-  display:block;width:12px;height:1.4px;margin:1.5px 0;
-  background:#000;border-radius:2px;
-  transition:transform .2s,opacity .2s
-}
-body.menu-open .hamburger span:nth-child(1){ transform:translateY(3.5px) rotate(45deg) }
-body.menu-open .hamburger span:nth-child(2){ opacity:0 }
-body.menu-open .hamburger span:nth-child(3){ transform:translateY(-3.5px) rotate(-45deg) }
-
-.menu-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.08);
-  backdrop-filter:blur(1px);-webkit-backdrop-filter:blur(1px);
-  z-index:1099
-}
-body.menu-open #menu-overlay{display:block}
-#menu-overlay[hidden]{display:none}
-
-.site-menu{
-  position:fixed;top:0;right:0;height:auto;max-height:90vh;
-  width:min(40vw,150px);
-  background:rgba(255,255,255,.32);
-  backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);
-  box-shadow:0 20px 50px rgba(0,0,0,.08);
-  transform:translateX(100%);transition:transform .25s;
-  z-index:1101;padding:46px 10px 14px
-}
-body.menu-open .site-menu{transform:translateX(0)}
-
-.site-menu ul{list-style:none;margin:0;padding:0}
-.site-menu li{margin:0 0 10px}
-.site-menu li.sep{
-  margin-top:18px;padding-top:8px;
-  border-top:1px solid rgba(0,0,0,.08)
-}
-.site-menu a{
-  display:block;
-  padding:8px 6px;
-  border-radius:10px;
-  color:#222;
-  text-decoration:none;
-  font-size:1rem;
-  font-weight:500;
-  text-shadow:none;
-}
-.site-menu a:hover{ background:rgba(0,0,0,.06); }
-
-/* ===== FIXED Glas-Overlay ===== */
-#page-glass{
-  position:fixed; left:0; right:0; top:0; bottom:0;
-  pointer-events:none;
-  z-index:0;
-}
-#page-glass .glass-fade{
-  position:absolute; left:0; right:0; top:100vh; height:10vh;
-  background:linear-gradient(to bottom,
-    rgba(255,255,255,0) 0%,
-    rgba(255,255,255,.32) 100%);
-  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
-}
-#page-glass .glass-solid{
-  position:absolute; left:0; right:0; top:110vh; bottom:0;
-  background:rgba(255,255,255,.32);
-  backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px);
-}
-
-/* main selbst ist nur Rahmen – kein Scroll-Container */
-body .main,
-body .main::before,
-body .main::after{
-  background:transparent !important;
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
-  box-shadow:none !important;
-}
-.main{
-  flex:1 0 auto;
-  border-radius:12px;
-  padding:0;
-  position:relative;
-  z-index:1;
-  overflow:visible;
-}
-
-/* UNSICHTBARES Scroll-Panel */
-.scroll-panel{
-  max-width:min(1000px,94vw);
-  max-height:75vh; /* wird per JS korrigiert */
-  margin:0;
-  overflow-y:auto;
-  -webkit-overflow-scrolling:touch;
-
-  background:transparent;
-  backdrop-filter:none;
-  -webkit-backdrop-filter:none;
-  border-radius:0;
-  box-shadow:none;
-
-  padding:1.25rem 1rem 1.5rem;
-
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-}
-.scroll-panel::-webkit-scrollbar{display:none}
-
-/* Inhalt oben */
-.content-offset{ padding-top:1.5rem; }
-
-/* Grid – nur Textblöcke */
-.grid{
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-}
-
-/* Seitennamen mit Pfeil */
-.page-link{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:1.1rem;
-  text-decoration:none;
-  color:inherit;
-}
-.page-link .arrow{
-  display:inline-block;
-  transition:transform .2s ease;
-}
-.page-link:active .arrow{ transform:rotate(90deg); }
-
-/* ✅ Footer hochkant rechts – bevorzugt deine Position, fällt nach unten zurück */
-.footer-inline{
-  position: fixed;
-  right: var(--footer-right-desktop);
-  top: var(--footer-top-desktop);
-  bottom: auto;
-  left: auto;
-  z-index: 2000;
-
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-
-  /* ✅ Option A: minimal dunkler für besseren Kontrast (optisch praktisch gleich) */
-  color:#930010 !important;
-  font-size:.82rem;
-  padding: 6px 4px;
-  white-space: nowrap;
-
-  max-height: calc(100vh - 16px);
-}
-
-/* Links */
-.footer-inline a,
-.footer-inline a:visited,
-.footer-inline a:active,
-.footer-inline a:focus{
-  color:#7f000d !important;
-  text-decoration:none;
-  white-space: nowrap;
-  display:inline-block;
-  padding:6px 6px;
-}
-.footer-inline a:hover{ text-decoration: underline; }
-
-/* Mobile: weiterhin exakt steuerbar */
-@media (max-width:768px){
-  .footer-inline{
-    right: var(--footer-right-mobile);
-    top: var(--footer-top-mobile);
-  }
-}
-
-/* ✅ FALLBACK: wenn Höhe zu klein → lieber unten als zu hoch */
-@media (max-height: 720px){
-  .footer-inline{
-    top: auto !important;
-    bottom: 16px !important;
-    font-size: .78rem;
-  }
-}
-
-@media (max-height: 620px){
-  .footer-inline{
-    top: auto !important;
-    bottom: 12px !important;
-    font-size: .72rem;
-  }
-}
-
-/* ✅✅✅ WICHTIG: Pfeile links/rechts/unten IMMER aus (Desktop & Mobile) */
-.nav-arrow,
-.scroll-cue{
-  display:none !important;
-}
-
-/* swipe helper */
-.edge-swipe{
-  position:fixed;
-  top:0; bottom:0;
-  width:28px;
-  z-index:1201;
-  background:transparent;
-  pointer-events:none;
-}
-.edge-swipe.left{ left:0; }
-.edge-swipe.right{ right:0; }
-@media (pointer:coarse){
-  .edge-swipe{ pointer-events:auto; }
-  .edge-swipe.right{ pointer-events:none !important; } /* ✅ blockiert Footer nicht */
-}
-
-/* =========================================================
-   ✅ WHITE THEME OVERRIDES (wie ueber-mich/diskografie/etc.)
-   ========================================================= */
-body{ color:#fff; }
-
-/* Header Brand (b3nn3t) weiß */
-.header .brand,
-.header .brand strong{
-  color:#fff !important;
-}
-
-/* Startseiten-Links weiß */
-.page-link,
-.page-link:visited{
-  color:#fff !important;
-}
-  </style>
-
-  <!-- ✅ Nur Performance: Verbindungen vorbereiten -->
-  <link rel="preconnect" href="https://open.spotify.com" crossorigin>
-  <link rel="preconnect" href="https://i.scdn.co" crossorigin>
-
-  <!-- ✅ Spotify-Warmup -->
-  <script>
-    (function(){
-      const DISCO_SPOTIFY_URLS = [
-        "https://open.spotify.com/intl-de/album/0om0qmIgGQdOfVaNIKUNmz",
-        "https://open.spotify.com/album/4n2ziE3adhDkSf4WPy7c1l",
-        "https://open.spotify.com/album/3d7F0wnumMBtTKar2t2cgI",
-        "https://open.spotify.com/album/363ITnyvTfkJ4p5yu3K0Bz",
-        "https://open.spotify.com/track/3Ja7f0z3lM23ieRq58FcDM",
-        "https://open.spotify.com/track/7zRS3iAoQbzgMHBsSJl5MG",
-        "https://open.spotify.com/track/1xDwlGUQyPBzaHL6iDJphM"
-      ];
-
-      async function warmupSpotifyThumb(u){
-        try{
-          const r = await fetch(`https://open.spotify.com/oembed?url=${encodeURIComponent(u)}`, {mode:'cors'});
-          if(!r.ok) return;
-          const j = await r.json();
-          const thumb = (j.thumbnail_url || '').replace(/&?size=\d+/, '');
-          if(thumb) new Image().src = thumb;
-        }catch{}
-      }
-
-      function startWarmup(){
-        if ('connection' in navigator && navigator.connection && navigator.connection.saveData) return;
-        const ua = navigator.userAgent || "";
-        if (/Lighthouse|Chrome-Lighthouse|PageSpeed|Speed Insights/i.test(ua)) return;
-
-        const DELAY = 80, MAX = 6;
-        let active = 0, i = 0;
-
-        function next(){
-          while(active < MAX && i < DISCO_SPOTIFY_URLS.length){
-            active++;
-            warmupSpotifyThumb(DISCO_SPOTIFY_URLS[i++]).finally(()=>{
-              active--;
-              setTimeout(next, DELAY);
-            });
-          }
-        }
-        next();
-      }
-
-      window.addEventListener('load', function () {
-        setTimeout(startWarmup, 1500);
-      });
-    })();
-  </script>
-
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/page-gespalten.css">
+<link rel="stylesheet" href="css/page-andere.css">
+<link rel="stylesheet" href="css/page-spotify.css">
+<link rel="stylesheet" href="css/page-youtube.css">
+<link rel="stylesheet" href="css/page-drei.css">
+<link rel="stylesheet" href="css/page-connect.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/video-modal.css">
+<link rel="stylesheet" href="css/burger.css">
+<link rel="stylesheet" href="css/mobile.css">
 </head>
 
-<body ontouchstart="">
-  <header class="header">
-    <a class="brand" href="index.html" aria-label="b3nn3t Home">
-      <img src="/favicon.svg" alt="b3nn3t Logo"><strong>b3nn3t</strong>
-    </a>
-  </header>
 
-  <div id="page-glass" aria-hidden="true">
-    <div class="glass-fade"></div>
-    <div class="glass-solid"></div>
-  </div>
+<body>
 
-  <button class="hamburger" aria-label="Menü öffnen" aria-expanded="false" aria-controls="site-menu">
-    <span></span><span></span><span></span>
-  </button>
-  <div id="menu-overlay" class="menu-overlay" hidden></div>
 
-  <!-- Burger-Menü -->
-  <nav id="site-menu" class="site-menu" aria-hidden="true">
-    <ul>
-      <li><a href="ueber-mich.html">über mich</a></li>
-      <li><a href="diskografie.html">diskografie</a></li>
-      <li><a href="kontakt.html">kontakt</a></li>
-      <li><a href="aktuell.html">aktuell</a></li>
-      <li><a href="gesehen.html">gesehen</a></li>
-      <li><a href="plattformen.html">links</a></li>
-      <li class="sep"><a href="impressum.html">Impressum / Datenschutz</a></li>
-    </ul>
-  </nav>
-
-  <main class="main">
-    <h1 class="sr-only">b3nn3t – Deutschrap & Indie-Pop aus der Schweiz</h1>
-
-    <div class="scroll-panel">
-      <div class="content-offset">
-
-        <section class="grid" aria-label="Seitenübersicht">
-
-          <a class="page-link" href="ueber-mich.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>über mich</span>
-          </a>
-
-          <a class="page-link" href="diskografie.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>diskografie</span>
-          </a>
-
-          <a class="page-link" href="kontakt.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>kontakt</span>
-          </a>
-
-          <a class="page-link" href="aktuell.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>aktuell</span>
-          </a>
-
-          <a class="page-link" href="gesehen.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>gesehen</span>
-          </a>
-
-          <a class="page-link" href="plattformen.html">
-            <span class="arrow" aria-hidden="true">►</span>
-            <span>links</span>
-          </a>
-
-        </section>
-
-      </div>
+<!-- =======================================================
+     BURGER-MENÜ
+     ======================================================= -->
+<nav class="burger-menu" id="burger-menu" aria-label="Seitennavigation">
+    <button
+        class="burger-btn"
+        id="burger-btn"
+        type="button"
+        aria-expanded="false"
+        aria-controls="burger-dropdown"
+        aria-label="Menü öffnen"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+    <div class="burger-dropdown" id="burger-dropdown">
+        <button class="burger-link" type="button" data-page="0"><span class="num">01</span> gespalten</button>
+        <button class="burger-link" type="button" data-page="1"><span class="num">02</span> die andere</button>
+        <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
+        <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
+        <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> connect</button>
+        <a class="burger-link" href="kontakt.html"><span class="num">07</span> kontakt</a>
+        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
     </div>
-  </main>
+</nav>
 
-  <!-- Fester Footer (hochkant rechts) -->
-  <div class="footer-inline">
-    © b3nn3t · <a href="impressum.html">Impressum / Datenschutz</a>
-  </div>
 
-  <div class="edge-swipe left" aria-hidden="true"></div>
-  <div class="edge-swipe right" aria-hidden="true"></div>
+<!-- =======================================================
+     VIDEO-MODAL
 
-  <script src="script.js"></script>
-  <script src="swipe-nav.js?v=12" defer></script>
+     Wird per JS befüllt und eingeblendet,
 
-  <!-- ✅ A11y Fix: verhindert "aria-hidden enthält fokussierbare Elemente" (ohne Optikänderung) -->
-  <script>
-  (function () {
-    const btn = document.querySelector('.hamburger');
-    const overlay = document.getElementById('menu-overlay');
-    const menu = document.getElementById('site-menu');
-    if (!btn || !menu || !overlay) return;
+     wenn eine YouTube-Karte angeklickt wird.
+     Liegt über allen Seiten (z-index 1000)
+     und ist unabhängig von der Spalt-Animation.
+     ======================================================= -->
 
-    function setMenuA11y(isOpen){
-      btn.setAttribute('aria-expanded', String(isOpen));
-      menu.setAttribute('aria-hidden', String(!isOpen));
+<div
+    class="video-modal"
+    id="video-modal"
+    aria-hidden="true"
+>
 
-      // Links im geschlossenen Menü aus dem Tab-Fokus nehmen
-      menu.querySelectorAll('a, button, [tabindex]').forEach(el => {
-        if (isOpen) el.removeAttribute('tabindex');
-        else el.setAttribute('tabindex', '-1');
-      });
-    }
+    <div
+        class="video-modal-backdrop"
+        data-close="true"
+    ></div>
 
-    // initial
-    setMenuA11y(document.body.classList.contains('menu-open'));
+    <div class="video-modal-box">
 
-    // Beobachtet body.menu-open (falls script.js toggelt)
-    const obs = new MutationObserver(() => {
-      setMenuA11y(document.body.classList.contains('menu-open'));
-    });
-    obs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+        <button
+            class="video-modal-close"
+            type="button"
+            aria-label="Video schließen"
+            data-close="true"
+        >
+            ✕
+        </button>
 
-    // ESC schließt (nur A11y/UX)
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && document.body.classList.contains('menu-open')) {
-        document.body.classList.remove('menu-open');
-        overlay.hidden = true;
-        setMenuA11y(false);
-        btn.focus();
-      }
-    });
-  })();
-  </script>
+        <div class="video-modal-frame">
 
-  <!-- Glas-Overlay-Positionierung -->
-  <script>
-    (function () {
-      const glass = document.getElementById('page-glass');
-      const panel = document.querySelector('.main');
-      if (!glass || !panel) return;
+            <iframe
+                id="video-modal-iframe"
+                src=""
+                title="YouTube Video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            ></iframe>
 
-      function positionGlass() {
-        const r = panel.getBoundingClientRect();
-        glass.style.left  = r.left + 'px';
-        glass.style.right = (window.innerWidth - r.right) + 'px';
-        const cs = getComputedStyle(panel);
-        glass.style.borderRadius = cs.borderRadius || '12px';
-      }
+        </div>
 
-      window.addEventListener('load', positionGlass);
-      window.addEventListener('resize', positionGlass);
-      window.addEventListener('scroll', positionGlass, { passive: true });
+    </div>
 
-      let raf;
-      function tick(){
-        positionGlass();
-        raf = requestAnimationFrame(tick);
-      }
-      tick();
-      setTimeout(()=>cancelAnimationFrame(raf), 800);
-    })();
-  </script>
+</div>
 
-  <!-- Dynamische Höhe des Scroll-Panels -->
-  <script>
-    (function(){
-      const panel = document.querySelector('.scroll-panel');
-      if (!panel) return;
 
-      function resizePanel(){
-        const header = document.querySelector('.header');
-        const main   = document.querySelector('.main');
+<audio
+    id="radio-audio"
+    src="assets/radio/catfish-radio.mp3"
+    preload="none"
+></audio>
 
-        const hh = header ? header.offsetHeight : 0;
-        let pt = 0, pb = 0;
-        if(main){
-          const cs = getComputedStyle(main);
-          pt = parseFloat(cs.paddingTop)  || 0;
-          pb = parseFloat(cs.paddingBottom) || 0;
-        }
 
-        const gap = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--bottom-gap')) || 0;
-        const vh  = (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+<!-- =======================================================
+     SEITE 1
+     ======================================================= -->
 
-        let max = vh - hh - pt - pb - gap;
-        if (max < 260) max = 260;
-        panel.style.maxHeight = max + 'px';
-      }
+<section
+    class="page page-1 active"
+    data-page="0"
+>
 
-      window.addEventListener('load', resizePanel);
-      window.addEventListener('resize', resizePanel);
-      if (window.visualViewport) {
-        window.visualViewport.addEventListener('resize', resizePanel);
-      }
-    })();
-  </script>
+    <div class="page-1-content">
+
+        <h1>
+            gespalten
+        </h1>
+
+        <div class="page-1-video video-launcher">
+
+            <button
+                class="video-play-trigger"
+                type="button"
+                aria-label="Video abspielen"
+            >
+                ▶
+            </button>
+
+            <video
+                controls
+                preload="metadata"
+                playsinline
+ >
+
+                <source
+                    src="/assets/gespalten/gespalten.mp4"
+                    type="video/mp4"
+                >
+
+                Dein Browser unterstützt dieses Video nicht.
+
+            </video>
+
+        </div>
+
+    </div>
+
+    <div class="side-label">
+        scroll und swipe
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE 2
+     ======================================================= -->
+
+<section
+    class="page page-2"
+    data-page="1"
+>
+
+    <div class="page-2-content">
+
+        <div class="andere-header">
+
+            <h2>
+                die andere
+            </h2>
+
+            <div class="andere-nav">
+                <button class="andere-nav-btn" type="button" data-dir="-1" aria-label="vorherige Kachel">‹</button>
+                <button class="andere-nav-btn" type="button" data-dir="1" aria-label="nächste Kachel">›</button>
+            </div>
+
+        </div>
+
+        <div class="strip-clip">
+        <div class="andere-grid">
+
+            <!-- KACHEL 01 – ÜBER MICH -->
+
+            <div class="andere-tile tile-about">
+
+                <span class="tile-label">
+                    01 / über mich
+                </span>
+
+                <h1 class="about-emoji">
+                    ( ◡́.◡̀)(^◡^ )
+                </h1>
+
+                <div id="about-typewriter">
+                    <p class="no-gap type-line" data-full="hallo ich bin b3nn3t, anfang 20 und künstler (oder so) aus st. gallen."></p>
+                    <p class="type-line" data-full="++ich gib ratschläge, die ich eigentlich selber bräuchte."></p>
+                    <p class="type-line" data-full="irgendjemandem wirds schon helfen so yk. :p"></p>
+                    <p class="type-line" data-full="liebe grüsse &lt;333³³33³"></p>
+                </div>
+
+            </div>
+
+
+            <!-- KACHEL 02 – RADIO -->
+
+            <div class="andere-tile tile-press">
+
+                <span class="tile-label">
+                    02 / radio
+                </span>
+
+                <button
+                    class="card card-article radio-card"
+                    id="article-radio"
+                    type="button"
+                    aria-label="The Weekly Catch – Radio Feature abspielen"
+                >
+
+                    <img
+                        class="thumb"
+                        src="assets/radio/weekly-catch-small.webp"
+                        alt="The Weekly Catch – Cover"
+                        width="177"
+                        height="122"
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 820px) 100vw, 350px"
+                    >
+
+                    <div class="article-overlay">
+                        <span class="article-label">
+                            The Weekly Catch
+                        </span>
+                        <small class="article-meta">
+                            KSKQ 89.5 FM · 2. September 2026
+                        </small>
+                    </div>
+
+                    <span class="play-label">
+                        desigual
+                    </span>
+
+                    <small>
+                        
+                    </small>
+
+                </button>
+
+            </div>
+
+
+            <!-- KACHEL 03 – PRESSE: WINTERTHUR -->
+
+            <div class="andere-tile tile-press">
+
+                <span class="tile-label">
+                    03 / presse – winterthur
+                </span>
+
+                <a
+                    class="card card-article"
+                    id="article1"
+                    href="https://musikfestwochen.ch/acts/b3nn3t/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="51.WINTERTHURER MUSIKWOCHEN"
+                >
+
+                    <img
+                        class="thumb"
+                        src="assets/gesehen/reel-winti.avif"
+                        alt="51.WINTERTHURER MUSIKWOCHEN"
+                        width="960"
+                        height="540"
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 820px) 100vw, 350px"
+                    >
+
+                    <div class="article-overlay">
+                        <span class="article-label"></span>
+                        <small class="article-meta"></small>
+                    </div>
+
+                    <span class="play-label">
+                        
+                    </span>
+
+                    <small>
+                        51.WINTERTHURER MUSIKWOCHEN
+                    </small>
+
+                </a>
+
+            </div>
+
+
+            <!-- KACHEL 04 – PRESSE: ARTIKEL -->
+
+            <div class="andere-tile tile-press">
+
+                <span class="tile-label">
+                    04 / presse – artikel
+                </span>
+
+                <a
+                    class="card card-article"
+                    id="article2"
+                    href="https://frontstage-magazine.de/2026/04/15/b3nn3t-veroeffentlicht-neue-single-3-4-zwischen-leere-melancholie-und-moderner-indie-aesthetik/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Artikel - Frontstage"
+                >
+
+                    <img
+                        class="thumb"
+                        src="assets/gesehen/reel8.avif"
+                        alt="Artikel Frontstage"
+                        width="960"
+                        height="540"
+                        loading="lazy"
+                        decoding="async"
+                        sizes="(max-width: 820px) 100vw, 350px"
+                    >
+
+                    <div class="article-overlay">
+                        <span class="article-label">
+                            Frontstage
+                        </span>
+                        <small class="article-meta">
+                            Magazine - April 2026
+                        </small>
+                    </div>
+
+                    <span class="play-label">
+                       
+                    </span>
+
+                    <small>
+                        
+                    </small>
+
+                </a>
+
+            </div>
+
+
+            <!-- KACHEL 05 – TERMINE -->
+
+            <div class="andere-tile tile-termine">
+
+                <span class="tile-label">
+                    05 / termine
+                </span>
+
+                <div class="sub-group" id="acc-termine">
+
+                    <button
+                        class="sub-toggle"
+                        type="button"
+                        aria-expanded="false"
+                        aria-controls="termine-content"
+                    >
+                        <span class="arrow" aria-hidden="true">►</span>
+                        <span>termine anzeigen</span>
+                    </button>
+
+                    <div class="sub-content" id="termine-content" hidden>
+
+                        <div class="termine-responsive">
+
+                            <div class="termine-list" role="table" aria-label="Termine">
+
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-08-08">08.08.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· Winterthurer Musikfestwochen 2026</div>
+                                    <div class="ort" role="cell">winterthur - theater · 18:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-06-26">26.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· OYA! OPEN AIR FESTIVAL (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 19:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2026-06-13">13.06.2026</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2026 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 19:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-10-10">10.10.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· full HD (grün&amp;gold)</div>
+                                    <div class="ort" role="cell">heidelberg · 21:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-09-20">20.09.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· kinder- und jugendarbeitsfest (feuerwehr rüti)</div>
+                                    <div class="ort" role="cell">rüti · 18:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-08-02">02.08.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· oya open air (gleis19) (abgesagt)</div>
+                                    <div class="ort" role="cell">wien · 20:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-06-28">28.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· booted up open air (gleis19)</div>
+                                    <div class="ort" role="cell">wien · 20:30 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2025-06-13">13.06.2025</time></div>
+                                    <div class="veranstaltung" role="cell">· jugendfestival 2025 (ZAK)</div>
+                                    <div class="ort" role="cell">jona · 20:00 uhr</div>
+                                </div>
+                                <div class="termin-row" role="row">
+                                    <div class="datum" role="cell"><time datetime="2024-07-10">10.07.2024</time></div>
+                                    <div class="veranstaltung" role="cell">· rap city contest (openair frauenfeld)</div>
+                                    <div class="ort" role="cell">frauenfeld · 17:15 uhr</div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- KACHEL 06 – KONTAKT -->
+
+            <a
+                class="andere-tile tile-contact"
+                href="kontakt.html"
+                aria-label="Kontakt aufnehmen"
+            >
+
+                <span class="tile-label">
+                    06 / kontakt
+                </span>
+
+                <span class="tile-contact-body">
+
+                    <span class="tile-contact-icon" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" width="48" height="48">
+                            <rect x="3" y="9" width="42" height="30" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/>
+                            <path d="M5 12 L24 27 L43 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+
+                    <span class="tile-contact-label">
+                        schreib mir
+                    </span>
+
+                </span>
+
+            </a>
+
+        </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE 3 – SPOTIFY
+     ======================================================= -->
+
+<section
+    class="page page-3"
+    data-page="2"
+>
+
+    <div class="page-3-content">
+
+        <h2>
+            spotify
+        </h2>
+
+        <div class="spotify-embed">
+        <iframe
+            class="spotify-frame"
+            src="https://open.spotify.com/embed/artist/7pajHvUWNCnOPhDPyH4M6x?theme=0"
+            loading="lazy"
+            allow="
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                fullscreen;
+                picture-in-picture
+            "
+        ></iframe>
+        <div class="spotify-shield" aria-hidden="true"></div>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE 4 – YOUTUBE
+     ======================================================= -->
+
+<section
+    class="page page-4"
+    data-page="3"
+>
+
+    <div class="page-4-content">
+
+        <div class="youtube-heading">
+
+            <h2>
+                youtube
+            </h2>
+
+            <div class="youtube-heading-right">
+
+                <span>
+                    b3nn3t / videos
+                </span>
+
+                <div class="youtube-nav">
+                    <button class="youtube-nav-btn" type="button" data-dir="-1" aria-label="vorheriges Video">‹</button>
+                    <button class="youtube-nav-btn" type="button" data-dir="1" aria-label="nächstes Video">›</button>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="strip-clip">
+        <div class="youtube-grid">
+
+
+            <!-- VIDEO 08 -->
+
+            <div
+                class="youtube-card"
+                id="yt8"
+                data-embed-src="https://www.youtube.com/embed/G_qXoHHa3rg"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel8.avif"
+                    alt="b3nn3t YouTube Video 08"
+                    width="960"
+                    height="540"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    data-fallback-id="G_qXoHHa3rg"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    08
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>neu</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 07 -->
+
+            <div
+                class="youtube-card"
+                id="yt1"
+                data-embed-src="https://www.youtube.com/embed/ZSaj_FuqPN8"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel1.avif"
+                    alt="b3nn3t YouTube Video 01"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="ZSaj_FuqPN8"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    07
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 06 -->
+
+            <div
+                class="youtube-card"
+                id="yt2"
+                data-embed-src="https://www.youtube.com/embed/DMNl40Tip1w"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel2.avif"
+                    alt="b3nn3t YouTube Video 02"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="DMNl40Tip1w"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    06
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 05 -->
+
+            <div
+                class="youtube-card"
+                id="yt3"
+                data-embed-src="https://www.youtube.com/embed/K5pKG0Smdfc"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel3.avif"
+                    alt="b3nn3t YouTube Video 03"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="K5pKG0Smdfc"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    05
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 04 -->
+
+            <div
+                class="youtube-card"
+                id="yt4"
+                data-embed-src="https://www.youtube.com/embed/4I9vlcGvFGQ"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel4.avif"
+                    alt="b3nn3t YouTube Video 04"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="4I9vlcGvFGQ"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    04
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 03 -->
+
+            <div
+                class="youtube-card"
+                id="yt5"
+                data-embed-src="https://www.youtube.com/embed/w0pNdnlb96M"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel5.avif"
+                    alt="b3nn3t YouTube Video 05"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="w0pNdnlb96M"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    03
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 02 -->
+
+            <div
+                class="youtube-card"
+                id="yt6"
+                data-embed-src="https://www.youtube.com/embed/rV1U891RKLo"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel6.avif"
+                    alt="b3nn3t YouTube Video 06"
+                    width="960"
+                    height="540"
+                    loading="lazy"
+                    decoding="async"
+                    data-fallback-id="rV1U891RKLo"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    02
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+<!-- VIDEO 01 -->
+
+            <div
+                class="youtube-card"
+                id="yt7"
+                data-embed-src="https://www.youtube.com/embed/fq8zhAQMam0"
+                role="button"
+                tabindex="0"
+            >
+
+                <img
+                    class="youtube-thumb"
+                    src="assets/gesehen/reel7.avif"
+                    alt="b3nn3t YouTube Video 07"
+                    width="960"
+                    height="540"
+                    loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
+                    data-fallback-id="fq8zhAQMam0"
+                    sizes="(max-width: 820px) 100vw, 350px"
+                    onerror="
+                        this.onerror = null;
+                        this.src =
+                        'https://i.ytimg.com/vi/' + this.dataset.fallbackId + '/hqdefault.jpg'
+                    "
+                >
+
+                <span class="youtube-number">
+                    01
+                </span>
+
+                <span class="youtube-play">
+                    ▶
+                </span>
+
+                <span class="youtube-bottom">
+                    <span>älter</span>
+                    <span>▶</span>
+                </span>
+
+            </div>
+
+        </div>
+        </div>
+
+
+        <a
+            class="youtube-channel"
+            href="https://youtube.com/@b333nn3t?si=tJR1-fYURPgzd2v0"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            kanal ansehen →
+        </a>
+
+    </div>
+
+
+    <div class="side-label">
+        anschauen
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE 5 – DREI
+     ======================================================= -->
+
+<section
+    class="page page-drei"
+    data-page="4"
+>
+
+    <div class="page-drei-content">
+
+        <h2>
+            drei
+        </h2>
+
+        <div class="page-drei-video video-launcher">
+
+            <button
+                class="video-play-trigger"
+                type="button"
+                aria-label="Video abspielen"
+            >
+                ▶
+            </button>
+
+            <video
+                controls
+                preload="metadata"
+                playsinline
+                poster="/assets/release/drei-cover-384.webp"
+            >
+
+                <source
+                    src="/assets/release/dreivideo.mp4"
+                    type="video/mp4"
+                >
+
+                Dein Browser unterstützt dieses Video nicht.
+
+            </video>
+
+        </div>
+
+    </div>
+
+    <div class="side-label">
+        mal
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
+     SEITE 6 – PLATTFORMEN
+     ======================================================= -->
+
+<section
+    class="page page-platforms"
+    data-page="5"
+>
+
+    <div class="platforms-content">
+
+        <div class="platforms-header">
+
+            <h2>
+                connect
+            </h2>
+
+            <div class="platforms-nav">
+                <button class="platforms-nav-btn" type="button" data-dir="-1" aria-label="vorheriger Kanal">‹</button>
+                <button class="platforms-nav-btn" type="button" data-dir="1" aria-label="nächster Kanal">›</button>
+            </div>
+
+        </div>
+
+        <div class="strip-clip">
+        <div class="platforms-grid">
+
+            <div class="platform-tile">
+                <span class="tile-label">01 / spotify</span>
+                <a
+                    class="platform-link-card"
+                    href="https://open.spotify.com/intl-de/artist/7pajHvUWNCnOPhDPyH4M6x?si=08HMnGtNR-SaKSFFgxCz2A"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Spotify öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/spotify_128.webp" type="image/webp">
+                            <img src="assets/plattformen/spotify_128.png" alt="Spotify Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">spotify</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">02 / apple music</span>
+                <a
+                    class="platform-link-card"
+                    href="https://music.apple.com/ch/artist/b3nn3t/1786857463?l=de-DE"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Apple Music öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/apple_music_128.webp" type="image/webp">
+                            <img src="assets/plattformen/apple_music_128.png" alt="Apple Music Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">apple music</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">03 / instagram</span>
+                <a
+                    class="platform-link-card"
+                    href="https://www.instagram.com/b333nn3t?igsh=MWphMjcxdXZwZ2s1ZQ=="
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Instagram öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/instagram_128.webp" type="image/webp">
+                            <img src="assets/plattformen/instagram_128.png" alt="Instagram Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">instagram</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">04 / youtube</span>
+                <a
+                    class="platform-link-card"
+                    href="https://www.youtube.com/@b333nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf YouTube öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/youtube_128.webp" type="image/webp">
+                            <img src="assets/plattformen/youtube_128.png" alt="YouTube Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">youtube</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">05 / soundcloud</span>
+                <a
+                    class="platform-link-card"
+                    href="https://soundcloud.com/bennet-6942069420"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf SoundCloud öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/soundcloud_128.webp" type="image/webp">
+                            <img src="assets/plattformen/soundcloud_128.png" alt="SoundCloud Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">soundcloud</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platforms-divider" aria-hidden="true"></div>
+
+            <div class="platform-tile">
+                <span class="tile-label">06 / mx3</span>
+                <a
+                    class="platform-link-card"
+                    href="https://mx3.ch/b3nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf MX3 öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/mx3_128.webp" type="image/webp">
+                            <img src="assets/plattformen/mx3_128.png" alt="MX3 Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">mx3</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+            <div class="platform-tile">
+                <span class="tile-label">07 / genius</span>
+                <a
+                    class="platform-link-card"
+                    href="https://genius.com/artists/B3nn3t"
+                    target="_blank"
+                    rel="noopener"
+                    aria-label="b3nn3t auf Genius öffnen"
+                >
+                    <div class="platform-arena">
+                        <picture class="platform-logo">
+                            <source srcset="assets/plattformen/genius_128.webp" type="image/webp">
+                            <img src="assets/plattformen/genius_128.png" alt="Genius Logo" width="64" height="64" loading="lazy" decoding="async">
+                        </picture>
+                    </div>
+                    <span class="platform-name">genius</span>
+                    <span class="platform-action">öffnen →</span>
+                </a>
+            </div>
+
+        </div>
+        </div>
+
+    </div>
+
+    <div class="side-label">
+        links
+    </div>
+
+</section>
+
+
+
+<script src="js/state.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/about.js"></script>
+<script src="js/media.js"></script>
+<script src="js/horizontal-scroll.js"></script>
+<script src="js/platform-balls.js"></script>
+<script src="js/page-gestures.js"></script>
+<script src="js/menu.js"></script>
+
 </body>
 </html>
