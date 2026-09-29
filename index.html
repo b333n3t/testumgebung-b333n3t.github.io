@@ -600,28 +600,6 @@ body {
 
 
 
-/* Stadtkonzerte-Kachel: Logo kleiner und zentriert auf weißer Fläche. */
-.card-article.stadtkonzerte-card {
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.stadtkonzerte-card .stadtkonzerte-thumb {
-    width: auto;
-    height: auto;
-    max-width: 72%;
-    max-height: 68%;
-    object-fit: contain;
-    object-position: center;
-    background: white;
-}
-
-.stadtkonzerte-card:hover .stadtkonzerte-thumb {
-    transform: scale(1.03);
-}
-
 .radio-card {
     width: 100%;
 
@@ -657,6 +635,38 @@ body {
     transform: scale(1.04);
 
     filter: brightness(.75);
+}
+
+
+/* Stadtkonzerte-Kachel: komplettes Logo sichtbar auf weißer Fläche. */
+.card-article.stadtkonzerte-card {
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-article.stadtkonzerte-card .stadtkonzerte-thumb {
+    width: 82%;
+    height: 82%;
+
+    max-width: 82%;
+    max-height: 82%;
+
+    object-fit: contain;
+    object-position: center;
+
+    background: white;
+
+    display: block;
+
+    transform: none;
+    filter: none;
+}
+
+.card-article.stadtkonzerte-card:hover .stadtkonzerte-thumb {
+    transform: none;
+    filter: none;
 }
 
 .article-overlay {
