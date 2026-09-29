@@ -22,155 +22,75 @@
      neuen Richtung beginnen.
    ========================================================= */
 
-let progressTarget = 0;
-let glideRaf = 0;
-let glideLast = 0;
-let releaseTimer = 0;
-let settling = false;
-
-function clearOpenSpalt() {
-    progress = 0;
-    progressTarget = 0;
-    lastMaskProgress = -1;
-    pages.forEach((page) => {
-        page.classList.remove("behind");
-        page.style.webkitMaskImage = "none";
-        page.style.maskImage = "none";
-    });
-    pages[currentPage].classList.add("active");
-}
-
-function finishOpen() {
-    progress = 1;
-    progressTarget = 0;
-    animating = true;
-    settling = false;
-    clearTimeout(releaseTimer);
-    setTimeout(() => {
-        changePage();
-        animating = false;
-    }, 40);
-}
-
-function tweenSpalt(target) {
-    settling = true;
-    const from = progress;
-    const start = performance.now();
-    const duration = 320;
-    function step(now) {
-        if (!settling) {
-            return;
-        }
-        const t = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        progress = from + (target - from) * eased;
-        progressTarget = progress;
-        updateMask();
-        if (t < 1) {
-            glideRaf = requestAnimationFrame(step);
-            return;
-        }
-        settling = false;
-        if (target >= 1) {
-            finishOpen();
-            return;
-        }
-        clearOpenSpalt();
-    }
-    cancelAnimationFrame(glideRaf);
-    glideRaf = requestAnimationFrame(step);
-}
-
-function onRelease() {
-    if (animating || settling || progressTarget <= 0) {
-        return;
-    }
-    if (progressTarget <= CLOSE_BELOW) {
-        tweenSpalt(0);
-    } else if (progressTarget >= OPEN_ABOVE) {
-        tweenSpalt(1);
-    }
-}
-
-function armRelease() {
-    clearTimeout(releaseTimer);
-    releaseTimer = setTimeout(onRelease, 120);
-}
-
-function glideSpalt(now) {
-    if (animating || settling) {
-        return;
-    }
-    if (!glideLast) {
-        glideLast = now;
-    }
-    const dt = Math.min(0.05, (now - glideLast) / 1000);
-    glideLast = now;
-    const gap = progressTarget - progress;
-    const follow = 1 - Math.exp(-dt / 0.09);
-    if (Math.abs(gap) < 0.004) {
-        progress = progressTarget;
-    } else {
-        progress += gap * follow;
-    }
-    if (progress <= 0.004 && progressTarget === 0) {
-        clearOpenSpalt();
-        glideLast = 0;
-        return;
-    }
-    updateMask();
-    if (progress > 0.985 && progressTarget >= 1) {
-        glideLast = 0;
-        finishOpen();
-        return;
-    }
-    if (Math.abs(progressTarget - progress) >= 0.004) {
-        glideRaf = requestAnimationFrame(glideSpalt);
-    } else {
-        glideLast = 0;
-    }
-}
-
 function handleScroll(delta) {
 
     if (delta === 0 || animating) {
         return;
     }
 
-
     const rawDirection =
         delta > 0 ? 1 : -1;
 
+    const movement =
+        Math.abs(delta) /
+        OPEN_DISTANCE;
 
-    if (settling) {
-        settling = false;
-        cancelAnimationFrame(glideRaf);
-    }
+    if (progress === 0) {
 
-    const movement = Math.abs(delta) / OPEN_DISTANCE;
+        /*
+            Keine Geste aktiv:
+            neue Geste in Scrollrichtung
+            starten.
+        */
 
-    if (progressTarget === 0 && progress === 0) {
-
-        direction = rawDirection;
+        direction =
+            rawDirection;
 
         setupLayers(direction);
 
-        progressTarget = Math.min(1, movement);
+        progress =
+            Math.min(1, movement);
 
     } else if (rawDirection === direction) {
 
-        progressTarget = Math.min(1, progressTarget + movement);
+        /*
+            Gleiche Richtung:
+            Spalt weiter öffnen.
+        */
+
+        progress =
+            Math.min(1, progress + movement);
 
     } else {
 
-        progressTarget = Math.max(0, progressTarget - movement);
+        /*
+            Entgegengesetzte Richtung:
+            Spalt wieder schließen.
+        */
+
+        progress =
+            Math.max(0, progress - movement);
 
     }
 
-    cancelAnimationFrame(glideRaf);
-    glideLast = 0;
-    glideRaf = requestAnimationFrame(glideSpalt);
-    armRelease();
+    updateMask();
+
+    if (
+        progress >= 1 &&
+        !animating
+    ) {
+
+        animating = true;
+
+        setTimeout(() => {
+
+            changePage();
+
+            animating = false;
+
+        }, 110);
+
+    }
 
 }
 
