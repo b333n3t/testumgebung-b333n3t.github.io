@@ -692,3 +692,119 @@
     }
 }
 
+
+/* =========================================================
+   HORIZONTAL SCROLL RESTORE
+   Die drei Kachel-/Videoreihen wieder als echte horizontale
+   Scrollbereiche verwenden. Vertikales internes Scrollen
+   (z. B. Termine / Spotify) bleibt erhalten.
+   ========================================================= */
+
+.strip-clip {
+    width: 100%;
+    overflow: visible;
+    padding: 0;
+}
+
+.andere-grid,
+.youtube-grid,
+.platforms-grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+    transform: none !important;
+    transition: none;
+    scrollbar-width: thin;
+}
+
+.andere-grid.dragging,
+.youtube-grid.dragging,
+.platforms-grid.dragging {
+    cursor: grabbing;
+    user-select: none;
+    scroll-snap-type: none;
+}
+
+.andere-tile {
+    flex: 0 0 auto;
+    width: min(360px, 78vw);
+    height: 62vh;
+    max-height: none;
+    scroll-snap-align: start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    touch-action: pan-y;
+}
+
+.youtube-card {
+    flex: 0 0 auto;
+    width: min(250px, 62vw);
+    min-width: 0;
+    max-width: none;
+    height: 168px;
+    max-height: none;
+    scroll-snap-align: start;
+}
+
+.platform-tile {
+    flex: 0 0 auto;
+    width: min(230px, 58vw);
+    min-width: 0;
+    max-width: none;
+    height: 42vh;
+    min-height: 0;
+    max-height: none;
+    scroll-snap-align: start;
+}
+
+.platforms-divider {
+    display: block;
+    flex: 0 0 auto;
+}
+
+.andere-nav[hidden],
+.youtube-nav[hidden],
+.platforms-nav[hidden] {
+    display: flex;
+}
+
+@media (max-width: 800px) {
+    .strip-clip {
+        overflow: visible;
+    }
+
+    .andere-grid,
+    .youtube-grid,
+    .platforms-grid {
+        width: 100%;
+        gap: 12px;
+        transform: none !important;
+    }
+
+    .andere-tile {
+        flex: 0 0 min(82vw, 350px);
+        width: min(82vw, 350px);
+        height: 58dvh;
+    }
+
+    .youtube-card {
+        flex: 0 0 min(220px, 66vw);
+        width: min(220px, 66vw);
+        height: 168px;
+    }
+
+    .platform-tile {
+        flex: 0 0 38vw;
+        width: 38vw;
+        height: 32vh;
+        min-height: 0;
+    }
+}
