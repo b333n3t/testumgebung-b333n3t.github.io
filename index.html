@@ -5029,23 +5029,36 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
             return;
         }
 
+        /*
+            Die aktuelle Bildschirmposition VOR dem Umhaengen merken.
+            Dadurch beginnt der Freiflug exakt dort, wo das Logo in der
+            Kachel gerade war – ohne sichtbaren Sprung/Teleport.
+            vx/vy bleiben unveraendert, also auch die Flugrichtung.
+        */
         const ballRect = b.ball.getBoundingClientRect();
         const pageRect = platformsPage.getBoundingClientRect();
 
-        b.x = ballRect.left - pageRect.left;
-        b.y = ballRect.top - pageRect.top;
-        b.flying = true;
+        const startX = ballRect.left - pageRect.left;
+        const startY = ballRect.top - pageRect.top;
 
+        b.flying = true;
         b.tile.classList.add("is-freeflight");
+
+        /* Alte Arena-Transformation entfernen, BEVOR die neue absolute
+           Position gesetzt wird. Sonst wuerde sie doppelt eingerechnet. */
+        b.ball.style.transform = "none";
         flightLayer.appendChild(b.ball);
+
+        b.x = startX;
+        b.y = startY;
+
+        b.ball.style.left = `${b.x}px`;
+        b.ball.style.top = `${b.y}px`;
 
         const movedRect = b.ball.getBoundingClientRect();
         b.maxX = Math.max(0, pageRect.width - movedRect.width);
         b.maxY = Math.max(0, pageRect.height - movedRect.height);
         b.obstacles = collectObstacles(b);
-
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
     }
 
     function stopFreeFlight(b) {
@@ -5056,6 +5069,13 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
         b.flying = false;
         b.tile.classList.remove("is-freeflight");
+
+        /* Freiflug-Koordinaten entfernen; in der Arena wird wieder
+           ausschliesslich mit translate3d gearbeitet. */
+        b.ball.style.left = "0px";
+        b.ball.style.top = "0px";
+        b.ball.style.transform = "none";
+
         b.arena.appendChild(b.ball);
 
         b.ready = false;
@@ -5131,8 +5151,11 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
         b.y = nextY;
 
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
+        /* Im Freiflug liegen x/y bereits im Koordinatensystem der
+           Connect-Seite. left/top verhindert einen Positionssprung beim
+           Wechsel aus der vorher transformierten Kachel-Arena. */
+        b.ball.style.left = `${b.x}px`;
+        b.ball.style.top = `${b.y}px`;
     }
 
     function moveArenaBall(b, dt) {
