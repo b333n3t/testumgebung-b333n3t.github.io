@@ -664,9 +664,9 @@ body {
     filter: none;
 }
 
-.stadtkonzerte-card:hover .stadtkonzerte-thumb {
-    transform: scale(1.04);
-    filter: brightness(.75);
+.card-article.stadtkonzerte-card:hover .stadtkonzerte-thumb {
+    transform: none;
+    filter: none;
 }
 
 .article-overlay {
@@ -1450,6 +1450,39 @@ body {
 .platform-tile:hover {
     transform: translateY(-3px);
     box-shadow: 0 14px 30px rgba(0,0,0,.36);
+}
+
+/* Connect Desktop: aktive Kachel oeffnet sich fuer den Logo-Freiflug. */
+@media (hover: hover) and (pointer: fine) {
+    .page-platforms {
+        isolation: isolate;
+    }
+
+    .platform-tile.is-freeflight {
+        border-color: transparent;
+        box-shadow: none;
+        background: transparent;
+        transform: none;
+        overflow: visible;
+        z-index: 30;
+    }
+
+    .platform-tile.is-freeflight .platform-link-card {
+        opacity: 1;
+    }
+
+    .platform-flight-layer {
+        position: absolute;
+        inset: 0;
+        z-index: 60;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .platform-flight-layer .platform-logo {
+        pointer-events: none;
+        z-index: 1;
+    }
 }
 
 .platforms-divider {
@@ -4803,23 +4836,24 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
 
 /* =========================================================
-   PLATTFORMEN – BALL-BOUNCE
+   PLATTFORMEN – BALL-BOUNCE + FREIFLUG BEIM HOVER
 
-   Die Plattform-Logos prallen wie ein
-   DVD-Bildschirmschoner innerhalb ihrer
-   Kachel hin und her. Läuft nur, während
-   die Plattformen-Seite sichtbar ist
-   (aktiv oder Zielseite), und pausiert bei
-   reduzierter Bewegungspräferenz oder wenn
-   der Tab im Hintergrund ist.
+   Normal: jedes Logo prallt innerhalb seiner eigenen Kachel.
+   Desktop-Hover: Rahmen und Schatten der aktiven Kachel
+   verschwinden; nur ihr Logo darf ueber die Connect-Seite
+   fliegen. Andere Kacheln, sichtbare Texte, Bedienelemente,
+   die horizontale Scrollbar und der Seitenrand sind feste
+   Hindernisse. Beim Verlassen kehrt das Logo in seine Kachel
+   zurueck.
    ========================================================= */
 
 (function () {
 
     const reduceMotion =
-        window.matchMedia(
-            "(prefers-reduced-motion: reduce)"
-        ).matches;
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const canHover =
+        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
     const arenas = Array.from(
         document.querySelectorAll(".platform-arena")
@@ -4832,8 +4866,21 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
     const platformsPage =
         document.querySelector(".page-platforms");
 
+    const platformsGrid =
+        document.querySelector(".platforms-grid");
+
+    if (!platformsPage) {
+        return;
+    }
+
+    const flightLayer = document.createElement("div");
+    flightLayer.className = "platform-flight-layer";
+    flightLayer.setAttribute("aria-hidden", "true");
+    platformsPage.appendChild(flightLayer);
+
     const balls = arenas.map((arena) => ({
         arena,
+        tile: arena.closest(".platform-tile"),
         ball: arena.querySelector(".platform-logo"),
         x: 0,
         y: 0,
@@ -4841,104 +4888,336 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         vy: 0,
         maxX: 0,
         maxY: 0,
-        ready: false
+        ready: false,
+        flying: false,
+        obstacles: []
     }));
 
-    /*
-        Zufällige Startposition + -richtung
-        je Ball, damit sie nicht synchron
-        laufen.
-    */
+    function rectRelativeToPage(el) {
+        const r = el.getBoundingClientRect();
+        const p = platformsPage.getBoundingClientRect();
+
+        return {
+            left: r.left - p.left,
+            top: r.top - p.top,
+            right: r.right - p.left,
+            bottom: r.bottom - p.top
+        };
+    }
+
+    /* Bei Texten nur die tatsaechlich sichtbaren Buchstaben-/Textgrenzen
+       verwenden. Ein display:block-Label soll nicht als unsichtbare
+       Barriere ueber die komplette Kachelbreite wirken. */
+    function textRectRelativeToPage(el) {
+        const range = document.createRange();
+        range.selectNodeContents(el);
+
+        const r = range.getBoundingClientRect();
+        const p = platformsPage.getBoundingClientRect();
+
+        if (r.width <= 0 || r.height <= 0) {
+            return null;
+        }
+
+        const pad = 3;
+
+        return {
+            left: r.left - p.left - pad,
+            top: r.top - p.top - pad,
+            right: r.right - p.left + pad,
+            bottom: r.bottom - p.top + pad
+        };
+    }
 
     function initBall(b) {
 
-        if (!b.ball) {
+        if (!b.ball || b.flying) {
             return;
         }
 
-        const arenaRect =
-            b.arena.getBoundingClientRect();
+        const arenaRect = b.arena.getBoundingClientRect();
+        const ballRect = b.ball.getBoundingClientRect();
 
-        const ballRect =
-            b.ball.getBoundingClientRect();
-
-        const maxX =
-            Math.max(0, arenaRect.width - ballRect.width);
-
-        const maxY =
-            Math.max(0, arenaRect.height - ballRect.height);
-
-        b.maxX = maxX;
-        b.maxY = maxY;
+        b.maxX = Math.max(0, arenaRect.width - ballRect.width);
+        b.maxY = Math.max(0, arenaRect.height - ballRect.height);
 
         if (!b.ready) {
+            b.x = Math.random() * b.maxX;
+            b.y = Math.random() * b.maxY;
 
-            b.x = Math.random() * maxX;
-            b.y = Math.random() * maxY;
-
-            const angle =
-                Math.random() * Math.PI * 2;
-
+            const angle = Math.random() * Math.PI * 2;
             const speed = 34 + Math.random() * 22;
 
             b.vx = Math.cos(angle) * speed;
             b.vy = Math.sin(angle) * speed;
-
             b.ready = true;
-
         } else {
-
-            b.x = Math.min(b.x, maxX);
-            b.y = Math.min(b.y, maxY);
-
+            b.x = Math.max(0, Math.min(b.x, b.maxX));
+            b.y = Math.max(0, Math.min(b.y, b.maxY));
         }
 
+        b.ball.style.transform =
+            `translate3d(${b.x}px, ${b.y}px, 0)`;
     }
 
-    balls.forEach(initBall);
+    function collectObstacles(activeBall) {
+        const obstacles = [];
 
-    window.addEventListener("resize", () => {
-        balls.forEach(initBall);
+        /* Geschlossene Kacheln sind komplett gesperrt. */
+        document
+            .querySelectorAll(".page-platforms .platform-tile:not(.is-freeflight)")
+            .forEach((el) => {
+                if (el.getClientRects().length) {
+                    obstacles.push(rectRelativeToPage(el));
+                }
+            });
+
+        /* Grosse Seitenelemente / Bedienelemente. */
+        [
+            ".platforms-header h2",
+            ".platforms-nav",
+            ".page-platforms .side-label",
+            ".page-platforms .platforms-divider",
+            ".burger-menu"
+        ].forEach((selector) => {
+            document.querySelectorAll(selector).forEach((el) => {
+                if (el.getClientRects().length) {
+                    obstacles.push(rectRelativeToPage(el));
+                }
+            });
+        });
+
+        /* In der geoeffneten Kachel bleiben deren sichtbare Texte
+           Hindernisse – aber nur die echte Textflaeche, nicht der
+           komplette Block/obere Kachelrand. */
+        if (activeBall.tile) {
+            activeBall.tile
+                .querySelectorAll(".tile-label, .platform-name, .platform-action")
+                .forEach((el) => {
+                    const r = textRectRelativeToPage(el);
+                    if (r) {
+                        obstacles.push(r);
+                    }
+                });
+        }
+
+        /* Die sichtbare horizontale Connect-Scrollbar ist ebenfalls
+           eine Barriere. Falls der Browser eine Overlay-Scrollbar nutzt,
+           wird mindestens ein 7px hoher Kollisionsstreifen verwendet. */
+        if (
+            platformsGrid &&
+            platformsGrid.scrollWidth > platformsGrid.clientWidth
+        ) {
+            const gridRect = rectRelativeToPage(platformsGrid);
+            const measured =
+                platformsGrid.offsetHeight - platformsGrid.clientHeight;
+            const thickness = Math.max(7, measured || 0);
+
+            obstacles.push({
+                left: gridRect.left,
+                right: gridRect.right,
+                top: gridRect.bottom - thickness,
+                bottom: gridRect.bottom + 1
+            });
+        }
+
+        return obstacles;
+    }
+
+    function startFreeFlight(b) {
+
+        if (!canHover || !b.ball || !b.tile || b.flying) {
+            return;
+        }
+
+        const ballRect = b.ball.getBoundingClientRect();
+        const pageRect = platformsPage.getBoundingClientRect();
+
+        b.x = ballRect.left - pageRect.left;
+        b.y = ballRect.top - pageRect.top;
+        b.flying = true;
+
+        b.tile.classList.add("is-freeflight");
+        flightLayer.appendChild(b.ball);
+
+        const movedRect = b.ball.getBoundingClientRect();
+        b.maxX = Math.max(0, pageRect.width - movedRect.width);
+        b.maxY = Math.max(0, pageRect.height - movedRect.height);
+        b.obstacles = collectObstacles(b);
+
+        b.ball.style.transform =
+            `translate3d(${b.x}px, ${b.y}px, 0)`;
+    }
+
+    function stopFreeFlight(b) {
+
+        if (!b.ball || !b.tile || !b.flying) {
+            return;
+        }
+
+        b.flying = false;
+        b.tile.classList.remove("is-freeflight");
+        b.arena.appendChild(b.ball);
+
+        b.ready = false;
+        b.obstacles = [];
+        initBall(b);
+    }
+
+    function overlaps(x, y, w, h, r) {
+        return (
+            x < r.right &&
+            x + w > r.left &&
+            y < r.bottom &&
+            y + h > r.top
+        );
+    }
+
+    function moveFlyingBall(b, dt) {
+        const pageRect = platformsPage.getBoundingClientRect();
+        const ballRect = b.ball.getBoundingClientRect();
+        const w = ballRect.width;
+        const h = ballRect.height;
+
+        b.maxX = Math.max(0, pageRect.width - w);
+        b.maxY = Math.max(0, pageRect.height - h);
+
+        let nextX = b.x + b.vx * dt;
+
+        if (nextX <= 0) {
+            nextX = 0;
+            b.vx = Math.abs(b.vx);
+        } else if (nextX >= b.maxX) {
+            nextX = b.maxX;
+            b.vx = -Math.abs(b.vx);
+        }
+
+        for (const r of b.obstacles) {
+            if (overlaps(nextX, b.y, w, h, r)) {
+                if (b.vx > 0) {
+                    nextX = Math.max(0, r.left - w);
+                    b.vx = -Math.abs(b.vx);
+                } else {
+                    nextX = Math.min(b.maxX, r.right);
+                    b.vx = Math.abs(b.vx);
+                }
+                break;
+            }
+        }
+
+        b.x = nextX;
+
+        let nextY = b.y + b.vy * dt;
+
+        if (nextY <= 0) {
+            nextY = 0;
+            b.vy = Math.abs(b.vy);
+        } else if (nextY >= b.maxY) {
+            nextY = b.maxY;
+            b.vy = -Math.abs(b.vy);
+        }
+
+        for (const r of b.obstacles) {
+            if (overlaps(b.x, nextY, w, h, r)) {
+                if (b.vy > 0) {
+                    nextY = Math.max(0, r.top - h);
+                    b.vy = -Math.abs(b.vy);
+                } else {
+                    nextY = Math.min(b.maxY, r.bottom);
+                    b.vy = Math.abs(b.vy);
+                }
+                break;
+            }
+        }
+
+        b.y = nextY;
+
+        b.ball.style.transform =
+            `translate3d(${b.x}px, ${b.y}px, 0)`;
+    }
+
+    function moveArenaBall(b, dt) {
+
+        if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
+            return;
+        }
+
+        b.x += b.vx * dt;
+        b.y += b.vy * dt;
+
+        if (b.x <= 0) {
+            b.x = 0;
+            b.vx = Math.abs(b.vx);
+        } else if (b.x >= b.maxX) {
+            b.x = b.maxX;
+            b.vx = -Math.abs(b.vx);
+        }
+
+        if (b.y <= 0) {
+            b.y = 0;
+            b.vy = Math.abs(b.vy);
+        } else if (b.y >= b.maxY) {
+            b.y = b.maxY;
+            b.vy = -Math.abs(b.vy);
+        }
+
+        b.ball.style.transform =
+            `translate3d(${b.x}px, ${b.y}px, 0)`;
+    }
+
+    function refreshFlyingObstacles() {
+        balls.forEach((b) => {
+            if (b.flying) {
+                b.obstacles = collectObstacles(b);
+            }
+        });
+    }
+
+    balls.forEach((b) => {
+        initBall(b);
+
+        if (canHover && b.tile) {
+            b.tile.addEventListener("mouseenter", () => startFreeFlight(b));
+            b.tile.addEventListener("mouseleave", () => stopFreeFlight(b));
+        }
     });
 
-    function isPlatformsPageVisible() {
+    window.addEventListener("resize", () => {
+        balls.forEach((b) => {
+            if (b.flying) {
+                b.obstacles = collectObstacles(b);
+            } else {
+                initBall(b);
+            }
+        });
+    });
 
-        return Boolean(
-            platformsPage &&
-            (
-                platformsPage.classList.contains("active") ||
-                platformsPage.classList.contains("behind")
-            )
+    if (platformsGrid) {
+        platformsGrid.addEventListener(
+            "scroll",
+            refreshFlyingObstacles,
+            { passive: true }
         );
+    }
 
+    function isPlatformsPageVisible() {
+        return Boolean(
+            platformsPage.classList.contains("active") ||
+            platformsPage.classList.contains("behind")
+        );
     }
 
     let lastTime = null;
-
     let rafRunning = false;
 
-    /*
-        Performance-Fix: Statt die rAF-Schleife
-        dauerhaft ab dem ersten Seitenaufruf
-        durchlaufen zu lassen (auch wenn die
-        Connect-Seite nie angeschaut wird),
-        läuft sie nur, während die Seite
-        tatsächlich sichtbar ist, und stoppt
-        sich danach komplett selbst – statt
-        sich nur "leer" weiterzuplanen.
-    */
-
     function ensureTickRunning() {
-
         if (rafRunning || !isPlatformsPageVisible()) {
             return;
         }
 
         rafRunning = true;
         lastTime = null;
-
         requestAnimationFrame(tick);
-
     }
 
     function tick(time) {
@@ -4956,67 +5235,30 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
             return;
         }
 
-        /*
-            Zeitdifferenz begrenzen, damit ein
-            kurzzeitig inaktiver Tab beim
-            Zurückkehren nicht zu einem riesigen
-            Sprung führt.
-        */
-
-        const dt =
-            Math.min(time - lastTime, 40) / 1000;
-
+        const dt = Math.min(time - lastTime, 40) / 1000;
         lastTime = time;
 
         balls.forEach((b) => {
-
-            if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
+            if (!b.ball) {
                 return;
             }
 
-            b.x += b.vx * dt;
-            b.y += b.vy * dt;
-
-            if (b.x <= 0) {
-                b.x = 0;
-                b.vx = Math.abs(b.vx);
-            } else if (b.x >= b.maxX) {
-                b.x = b.maxX;
-                b.vx = -Math.abs(b.vx);
+            if (b.flying) {
+                moveFlyingBall(b, dt);
+            } else {
+                moveArenaBall(b, dt);
             }
-
-            if (b.y <= 0) {
-                b.y = 0;
-                b.vy = Math.abs(b.vy);
-            } else if (b.y >= b.maxY) {
-                b.y = b.maxY;
-                b.vy = -Math.abs(b.vy);
-            }
-
-            b.ball.style.transform =
-                `translate3d(${b.x}px, ${b.y}px, 0)`;
-
         });
-
     }
 
     ensureTickRunning();
 
-    /*
-        Startet die Schleife neu, sobald die
-        Connect-Seite wieder aktiv/Zielseite
-        wird (Klassenwechsel durch die
-        Seiten-Navigation).
-    */
-
-    if (platformsPage && "MutationObserver" in window) {
-
+    if ("MutationObserver" in window) {
         new MutationObserver(ensureTickRunning)
             .observe(platformsPage, {
                 attributes: true,
                 attributeFilter: ["class"]
             });
-
     }
 
 })();
