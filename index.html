@@ -4892,6 +4892,9 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         obstacles: []
     }));
 
+    /* Es darf immer nur genau EIN Logo im Freiflug sein. */
+    let activeFlyingBall = null;
+
     function rectRelativeToPage(el) {
         const r = el.getBoundingClientRect();
         const p = platformsPage.getBoundingClientRect();
@@ -5025,7 +5028,16 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
     function startFreeFlight(b, forceTouch = false) {
 
-        if ((!canHover && !forceTouch) || !b.ball || !b.tile || b.flying) {
+        if ((!canHover && !forceTouch) || !b.ball || !b.tile) {
+            return;
+        }
+
+        if (activeFlyingBall && activeFlyingBall !== b) {
+            stopFreeFlight(activeFlyingBall);
+        }
+
+        if (b.flying) {
+            activeFlyingBall = b;
             return;
         }
 
@@ -5042,6 +5054,7 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         const startY = ballRect.top - pageRect.top;
 
         b.flying = true;
+        activeFlyingBall = b;
         b.tile.classList.add("is-freeflight");
 
         /* Alte Arena-Transformation entfernen, BEVOR die neue absolute
@@ -5068,6 +5081,9 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         }
 
         b.flying = false;
+        if (activeFlyingBall === b) {
+            activeFlyingBall = null;
+        }
         b.tile.classList.remove("is-freeflight");
 
         /* Freiflug-Koordinaten entfernen; in der Arena wird wieder
@@ -5092,6 +5108,41 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         );
     }
 
+    /* Falls sich durch horizontales Scrollen ein Hindernis unter das
+       fliegende Logo schiebt, wird das Logo ueber den KUERZESTEN Weg
+       wieder vor die Kante gesetzt. So gibt es keinen Sprung auf die
+       gegenueberliegende Seite der Kachel. */
+    function resolveExistingOverlap(b, w, h) {
+        for (const r of b.obstacles) {
+            if (!overlaps(b.x, b.y, w, h, r)) {
+                continue;
+            }
+
+            const exits = [
+                { side: "left",   d: Math.max(0, b.x + w - r.left) },
+                { side: "right",  d: Math.max(0, r.right - b.x) },
+                { side: "top",    d: Math.max(0, b.y + h - r.top) },
+                { side: "bottom", d: Math.max(0, r.bottom - b.y) }
+            ];
+
+            const best = exits.reduce((a, c) => c.d < a.d ? c : a);
+
+            if (best.side === "left") {
+                b.x = Math.max(0, r.left - w);
+                b.vx = -Math.abs(b.vx);
+            } else if (best.side === "right") {
+                b.x = Math.min(b.maxX, r.right);
+                b.vx = Math.abs(b.vx);
+            } else if (best.side === "top") {
+                b.y = Math.max(0, r.top - h);
+                b.vy = -Math.abs(b.vy);
+            } else {
+                b.y = Math.min(b.maxY, r.bottom);
+                b.vy = Math.abs(b.vy);
+            }
+        }
+    }
+
     function moveFlyingBall(b, dt) {
         const pageRect = platformsPage.getBoundingClientRect();
         const ballRect = b.ball.getBoundingClientRect();
@@ -5100,6 +5151,8 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
         b.maxX = Math.max(0, pageRect.width - w);
         b.maxY = Math.max(0, pageRect.height - h);
+
+        resolveExistingOverlap(b, w, h);
 
         let nextX = b.x + b.vx * dt;
 
@@ -5112,16 +5165,25 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         }
 
         for (const r of b.obstacles) {
-            if (overlaps(nextX, b.y, w, h, r)) {
-                if (b.vx > 0) {
-                    nextX = Math.max(0, r.left - w);
-                    b.vx = -Math.abs(b.vx);
-                } else {
-                    nextX = Math.min(b.maxX, r.right);
-                    b.vx = Math.abs(b.vx);
-                }
-                break;
+            if (!overlaps(nextX, b.y, w, h, r)) {
+                continue;
             }
+
+            /* Nur gegen die Kante prallen, die vom bisherigen Punkt aus
+               wirklich gekreuzt wurde. Kein Versetzen auf die Gegenseite. */
+            if (b.x + w <= r.left + 1 && nextX + w > r.left) {
+                nextX = Math.max(0, r.left - w);
+                b.vx = -Math.abs(b.vx);
+            } else if (b.x >= r.right - 1 && nextX < r.right) {
+                nextX = Math.min(b.maxX, r.right);
+                b.vx = Math.abs(b.vx);
+            } else {
+                /* Hindernis hat sich durch Scrollen unter das Logo bewegt. */
+                b.x = nextX;
+                resolveExistingOverlap(b, w, h);
+                nextX = b.x;
+            }
+            break;
         }
 
         b.x = nextX;
@@ -5137,16 +5199,22 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         }
 
         for (const r of b.obstacles) {
-            if (overlaps(b.x, nextY, w, h, r)) {
-                if (b.vy > 0) {
-                    nextY = Math.max(0, r.top - h);
-                    b.vy = -Math.abs(b.vy);
-                } else {
-                    nextY = Math.min(b.maxY, r.bottom);
-                    b.vy = Math.abs(b.vy);
-                }
-                break;
+            if (!overlaps(b.x, nextY, w, h, r)) {
+                continue;
             }
+
+            if (b.y + h <= r.top + 1 && nextY + h > r.top) {
+                nextY = Math.max(0, r.top - h);
+                b.vy = -Math.abs(b.vy);
+            } else if (b.y >= r.bottom - 1 && nextY < r.bottom) {
+                nextY = Math.min(b.maxY, r.bottom);
+                b.vy = Math.abs(b.vy);
+            } else {
+                b.y = nextY;
+                resolveExistingOverlap(b, w, h);
+                nextY = b.y;
+            }
+            break;
         }
 
         b.y = nextY;
@@ -5191,6 +5259,10 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         balls.forEach((b) => {
             if (b.flying) {
                 b.obstacles = collectObstacles(b);
+                const rect = b.ball.getBoundingClientRect();
+                resolveExistingOverlap(b, rect.width, rect.height);
+                b.ball.style.left = `${b.x}px`;
+                b.ball.style.top = `${b.y}px`;
             }
         });
     }
@@ -5254,6 +5326,36 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
                 ) {
                     touchWasSwipe = true;
                     startFreeFlight(touchBall, true);
+                }
+
+                if (touchWasSwipe) {
+                    /* Beim horizontalen Scrollen kann unter dem Finger
+                       bereits die naechste Kachel liegen. Dann wird der
+                       bisherige Freiflug sofort beendet und auf genau
+                       diese Kachel gewechselt. */
+                    const touch = event.touches[0];
+                    const underFinger = document.elementFromPoint(
+                        touch.clientX,
+                        touch.clientY
+                    );
+                    const currentTile = underFinger
+                        ? underFinger.closest(".platform-tile")
+                        : null;
+                    const nextBall = currentTile
+                        ? balls.find((b) => b.tile === currentTile)
+                        : null;
+
+                    if (nextBall && nextBall !== touchBall) {
+                        if (touchBall && touchBall.flying) {
+                            stopFreeFlight(touchBall);
+                        }
+                        touchBall = nextBall;
+                        startFreeFlight(touchBall, true);
+                    } else if (!nextBall && touchBall && touchBall.flying) {
+                        /* Finger liegt im Zwischenraum: altes Logo darf
+                           nicht auf der Seite zurueckbleiben. */
+                        stopFreeFlight(touchBall);
+                    }
                 }
             },
             { passive: true }
