@@ -1452,37 +1452,36 @@ body {
     box-shadow: 0 14px 30px rgba(0,0,0,.36);
 }
 
-/* Connect Desktop: aktive Kachel oeffnet sich fuer den Logo-Freiflug. */
-@media (hover: hover) and (pointer: fine) {
-    .page-platforms {
-        isolation: isolate;
-    }
+/* Connect: aktive Kachel oeffnet sich fuer den Logo-Freiflug.
+   Desktop per Hover, Touchgeraete waehrend eines horizontalen Swipes. */
+.page-platforms {
+    isolation: isolate;
+}
 
-    .platform-tile.is-freeflight {
-        border-color: transparent;
-        box-shadow: none;
-        background: transparent;
-        transform: none;
-        overflow: visible;
-        z-index: 30;
-    }
+.platform-tile.is-freeflight {
+    border-color: transparent;
+    box-shadow: none;
+    background: transparent;
+    transform: none;
+    overflow: visible;
+    z-index: 30;
+}
 
-    .platform-tile.is-freeflight .platform-link-card {
-        opacity: 1;
-    }
+.platform-tile.is-freeflight .platform-link-card {
+    opacity: 1;
+}
 
-    .platform-flight-layer {
-        position: absolute;
-        inset: 0;
-        z-index: 60;
-        pointer-events: none;
-        overflow: hidden;
-    }
+.platform-flight-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    overflow: hidden;
+}
 
-    .platform-flight-layer .platform-logo {
-        pointer-events: none;
-        z-index: 1;
-    }
+.platform-flight-layer .platform-logo {
+    pointer-events: none;
+    z-index: 1;
 }
 
 .platforms-divider {
@@ -5024,9 +5023,9 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         return obstacles;
     }
 
-    function startFreeFlight(b) {
+    function startFreeFlight(b, forceTouch = false) {
 
-        if (!canHover || !b.ball || !b.tile || b.flying) {
+        if ((!canHover && !forceTouch) || !b.ball || !b.tile || b.flying) {
             return;
         }
 
@@ -5181,6 +5180,109 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
             b.tile.addEventListener("mouseleave", () => stopFreeFlight(b));
         }
     });
+
+    /* Touch: Ein normaler kurzer Tap bleibt ein normaler Link-Klick.
+       Erst wenn die Fingerbewegung eindeutig horizontal ist, startet
+       fuer die beruehrte Kachel der Freiflug. Das native horizontale
+       Scrollen der Connect-Reihe bleibt dabei unangetastet. */
+    if (!canHover && platformsGrid) {
+        let touchBall = null;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchWasSwipe = false;
+
+        platformsGrid.addEventListener(
+            "touchstart",
+            (event) => {
+                if (event.touches.length !== 1) {
+                    return;
+                }
+
+                const tile = event.target.closest(".platform-tile");
+                touchBall = tile ? balls.find((b) => b.tile === tile) : null;
+
+                if (!touchBall) {
+                    return;
+                }
+
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+                touchWasSwipe = false;
+            },
+            { passive: true }
+        );
+
+        platformsGrid.addEventListener(
+            "touchmove",
+            (event) => {
+                if (!touchBall || event.touches.length !== 1) {
+                    return;
+                }
+
+                const dx = event.touches[0].clientX - touchStartX;
+                const dy = event.touches[0].clientY - touchStartY;
+
+                /* Erst nach klarer horizontaler Bewegung aktivieren.
+                   So bleibt ein kurzer Tap zum Oeffnen des Links unveraendert. */
+                if (
+                    !touchWasSwipe &&
+                    Math.abs(dx) >= 10 &&
+                    Math.abs(dx) > Math.abs(dy)
+                ) {
+                    touchWasSwipe = true;
+                    startFreeFlight(touchBall, true);
+                }
+            },
+            { passive: true }
+        );
+
+        function endTouchFreeFlight() {
+            if (!touchBall) {
+                return;
+            }
+
+            const finishedBall = touchBall;
+            const wasSwipe = touchWasSwipe;
+
+            if (finishedBall.flying) {
+                stopFreeFlight(finishedBall);
+            }
+
+            touchBall = null;
+            touchWasSwipe = false;
+
+            /* Sicherheitshalber den synthetischen Klick nach einem Swipe
+               einmal abfangen. Ein echter kurzer Tap wird nicht beruehrt. */
+            if (wasSwipe && finishedBall.tile) {
+                const suppressSwipeClick = (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    finishedBall.tile.removeEventListener(
+                        "click",
+                        suppressSwipeClick,
+                        true
+                    );
+                };
+
+                finishedBall.tile.addEventListener(
+                    "click",
+                    suppressSwipeClick,
+                    true
+                );
+
+                setTimeout(() => {
+                    finishedBall.tile.removeEventListener(
+                        "click",
+                        suppressSwipeClick,
+                        true
+                    );
+                }, 450);
+            }
+        }
+
+        platformsGrid.addEventListener("touchend", endTouchFreeFlight, { passive: true });
+        platformsGrid.addEventListener("touchcancel", endTouchFreeFlight, { passive: true });
+    }
 
     window.addEventListener("resize", () => {
         balls.forEach((b) => {
