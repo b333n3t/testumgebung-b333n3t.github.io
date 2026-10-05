@@ -1555,16 +1555,16 @@ body {
     opacity: .75;
 }
 
+/* Connect: horizontal scrollen bleibt moeglich, die Scrollbar ist nur optisch verborgen. */
+.platforms-grid {
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none;   /* alte Microsoft-Engines */
+}
+
 .platforms-grid::-webkit-scrollbar {
-    height: 5px;
-}
-
-.platforms-grid::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.platforms-grid::-webkit-scrollbar-thumb {
-    background: rgba(242,242,240,.45);
+    width: 0;
+    height: 0;
+    display: none;              /* Safari, Chrome, Edge (Chromium) */
 }
 
 
@@ -4927,26 +4927,6 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
                         obstacles.push(r);
                     }
                 });
-        }
-
-        /* Die sichtbare horizontale Connect-Scrollbar ist ebenfalls
-           eine Barriere. Falls der Browser eine Overlay-Scrollbar nutzt,
-           wird mindestens ein 7px hoher Kollisionsstreifen verwendet. */
-        if (
-            platformsGrid &&
-            platformsGrid.scrollWidth > platformsGrid.clientWidth
-        ) {
-            const gridRect = rectRelativeToPage(platformsGrid);
-            const measured =
-                platformsGrid.offsetHeight - platformsGrid.clientHeight;
-            const thickness = Math.max(7, measured || 0);
-
-            obstacles.push({
-                left: gridRect.left,
-                right: gridRect.right,
-                top: gridRect.bottom - thickness,
-                bottom: gridRect.bottom + 1
-            });
         }
 
         return obstacles;
