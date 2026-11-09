@@ -202,6 +202,74 @@ body {
 
 
 /* =========================================================
+   SEITE 0 – CAMOU
+   ========================================================= */
+
+.page-camou {
+    background:
+        radial-gradient(ellipse at 38% 52%, #62e6c2 0%, #5bd9b0 30%, transparent 68%),
+        radial-gradient(ellipse at 100% 100%, #03121c 0%, #0a2f3d 24%, transparent 58%),
+        radial-gradient(ellipse at 100% 45%, #2c8f8f 0%, transparent 52%),
+        linear-gradient(180deg, #3e9a63 0%, #4fbf8a 38%, #4db89a 100%);
+    color: #05222b;
+}
+
+.page-camou-content {
+    width: min(1100px, 90vw);
+}
+
+.camou-link {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 14px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.camou-kicker {
+    font-size: clamp(14px, 2vw, 20px);
+    letter-spacing: .18em;
+    text-transform: lowercase;
+}
+
+.camou-name {
+    font-size: clamp(60px, 10vw, 150px);
+    font-weight: 700;
+    line-height: .85;
+    letter-spacing: -0.08em;
+    border-bottom: 3px solid transparent;
+    transition: border-color .25s ease;
+}
+
+.camou-link:hover .camou-name,
+.camou-link:focus-visible .camou-name {
+    border-bottom-color: currentColor;
+}
+
+.page-camou .side-label {
+    color: #e8fff6;
+}
+
+@media (max-width: 800px) and (orientation: portrait),
+       (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    .page-camou .side-label {
+        left: calc(100% - max(18px, env(safe-area-inset-right)));
+        right: auto;
+        top: 50%;
+        bottom: auto;
+        transform-origin: center;
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+}
+
+@media (max-width: 950px) and (orientation: landscape) and (max-height: 600px) {
+    .camou-name {
+        font-size: clamp(42px, 11vh, 72px);
+    }
+}
+
+
+/* =========================================================
    SEITE 1
    ========================================================= */
 
@@ -664,9 +732,9 @@ body {
     filter: none;
 }
 
-.card-article.stadtkonzerte-card:hover .stadtkonzerte-thumb {
-    transform: none;
-    filter: none;
+.stadtkonzerte-card:hover .stadtkonzerte-thumb {
+    transform: scale(1.04);
+    filter: brightness(.75);
 }
 
 .article-overlay {
@@ -1156,47 +1224,57 @@ body {
     left: 50%;
     top: 50%;
 
-    transform: translate(-50%, -50%);
+    transform:
+        translate(-50%, -50%);
 
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
 
-    border: 1px solid rgba(255,255,255,.8);
+    border: 1px solid rgba(255,255,255,.78);
     border-radius: 50%;
 
-    background: rgba(0,0,0,.18);
+    background: rgba(0,0,0,.20);
+
+    color: white;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0;
+    line-height: 1;
+
+    padding: 0;
 
     z-index: 3;
 
+    opacity: .82;
+
     transition:
         transform .3s ease,
+        opacity .3s ease,
         background .3s ease;
 }
 
 .youtube-play::before {
     content: "";
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-40%, -50%);
-
+    display: block;
     width: 0;
     height: 0;
-
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-left: 8px solid rgba(255,255,255,.95);
+    border-left: 8px solid rgba(255,255,255,.92);
+    margin-left: 2px;
 }
 
 .youtube-card:hover .youtube-play {
     transform:
         translate(-50%, -50%)
-        scale(1.12);
+        scale(1.08);
 
-    background: rgba(0,0,0,.28);
+    opacity: 1;
+    background: rgba(0,0,0,.30);
 }
 
 
@@ -1442,38 +1520,6 @@ body {
     box-shadow: 0 14px 30px rgba(0,0,0,.36);
 }
 
-/* Connect: aktive Kachel oeffnet sich fuer den Logo-Freiflug.
-   Desktop per Hover, Touchgeraete waehrend eines horizontalen Swipes. */
-.page-platforms {
-    isolation: isolate;
-}
-
-.platform-tile.is-freeflight {
-    border-color: transparent;
-    box-shadow: none;
-    background: transparent;
-    transform: none;
-    overflow: visible;
-    z-index: 30;
-}
-
-.platform-tile.is-freeflight .platform-link-card {
-    opacity: 1;
-}
-
-.platform-flight-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.platform-flight-layer .platform-logo {
-    pointer-events: none;
-    z-index: 1;
-}
-
 .platforms-divider {
     flex: 0 0 auto;
     width: 1px;
@@ -1488,7 +1534,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: 14px;
+    gap: 8px;
     min-height: 0;
     text-decoration: none;
     color: inherit;
@@ -1542,12 +1588,6 @@ body {
     object-fit: contain;
 }
 
-.platform-name {
-    font-size: 22px;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    text-transform: lowercase;
-}
 
 .platform-action {
     font-size: 12px;
@@ -1556,16 +1596,16 @@ body {
     opacity: .75;
 }
 
-/* Connect: horizontal scrollen bleibt moeglich, die Scrollbar ist nur optisch verborgen. */
-.platforms-grid {
-    scrollbar-width: none;      /* Firefox */
-    -ms-overflow-style: none;   /* alte Microsoft-Engines */
+.platforms-grid::-webkit-scrollbar {
+    height: 5px;
 }
 
-.platforms-grid::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-    display: none;              /* Safari, Chrome, Edge (Chromium) */
+.platforms-grid::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.platforms-grid::-webkit-scrollbar-thumb {
+    background: rgba(242,242,240,.45);
 }
 
 
@@ -1628,10 +1668,6 @@ body {
     .platform-logo img {
         width: 34px;
         height: 34px;
-    }
-
-    .platform-name {
-        font-size: 15px;
     }
 
     .page-1 .side-label {
@@ -2448,7 +2484,7 @@ body {
        damit obere/rechte Rahmen nicht abgeschnitten werden. */
     .platforms-grid {
         gap: 12px;
-        padding-top: 2px;
+        padding-top: 6px;
         padding-right: 2px;
         padding-bottom: 10px;
     }
@@ -2458,6 +2494,7 @@ body {
         min-width: calc((100% - 12px) / 2);
         height: 34dvh;
         padding: 12px;
+        margin-top: 1px;
         overflow: hidden;
     }
 
@@ -2516,14 +2553,15 @@ body {
         <span></span>
     </button>
     <div class="burger-dropdown" id="burger-dropdown">
-        <button class="burger-link" type="button" data-page="0"><span class="num">01</span> gespalten</button>
-        <button class="burger-link" type="button" data-page="1"><span class="num">02</span> die andere</button>
-        <button class="burger-link" type="button" data-page="2"><span class="num">03</span> spotify</button>
-        <button class="burger-link" type="button" data-page="3"><span class="num">04</span> youtube</button>
-        <button class="burger-link" type="button" data-page="4"><span class="num">05</span> drei</button>
-        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> connect</button>
-        <a class="burger-link" href="kontakt.html"><span class="num">07</span> kontakt</a>
-        <a class="burger-link" href="impressum.html"><span class="num">08</span> impressum</a>
+        <button class="burger-link" type="button" data-page="0"><span class="num">01</span> camou</button>
+        <button class="burger-link" type="button" data-page="1"><span class="num">02</span> gespalten</button>
+        <button class="burger-link" type="button" data-page="2"><span class="num">03</span> die andere</button>
+        <button class="burger-link" type="button" data-page="3"><span class="num">04</span> spotify</button>
+        <button class="burger-link" type="button" data-page="4"><span class="num">05</span> youtube</button>
+        <button class="burger-link" type="button" data-page="5"><span class="num">06</span> drei</button>
+        <button class="burger-link" type="button" data-page="6"><span class="num">07</span> connect</button>
+        <a class="burger-link" href="kontakt.html"><span class="num">08</span> kontakt</a>
+        <a class="burger-link" href="impressum.html"><span class="num">09</span> impressum</a>
     </div>
 </nav>
 
@@ -2585,12 +2623,43 @@ body {
 
 
 <!-- =======================================================
+     SEITE 0 – CAMOU (neues Projekt)
+     ======================================================= -->
+
+<section
+    class="page page-camou active"
+    data-page="0"
+>
+
+    <div class="page-camou-content">
+
+        <a
+            class="camou-link"
+            href="https://camou.ch"
+            target="_blank"
+            rel="noopener"
+        >
+            <span class="camou-kicker">neues projekt –</span>
+            <span class="camou-name">camou</span>
+        </a>
+
+    </div>
+
+    <div class="side-label">
+        scroll und swipe
+    </div>
+
+</section>
+
+
+
+<!-- =======================================================
      SEITE 1
      ======================================================= -->
 
 <section
-    class="page page-1 active"
-    data-page="0"
+    class="page page-1"
+    data-page="1"
 >
 
     <div class="page-1-content">
@@ -2642,7 +2711,7 @@ body {
 
 <section
     class="page page-2"
-    data-page="1"
+    data-page="2"
 >
 
     <div class="page-2-content">
@@ -3002,7 +3071,7 @@ body {
 
 <section
     class="page page-3"
-    data-page="2"
+    data-page="3"
 >
 
     <div class="page-3-content">
@@ -3036,7 +3105,7 @@ body {
 
 <section
     class="page page-4"
-    data-page="3"
+    data-page="4"
 >
 
     <div class="page-4-content">
@@ -3100,6 +3169,11 @@ body {
 
                 <span class="youtube-play" aria-hidden="true"></span>
 
+                <span class="youtube-bottom">
+                    <span>neu</span>
+                    <span>▶</span>
+                </span>
+
             </div>
 <!-- VIDEO 07 -->
 
@@ -3133,6 +3207,11 @@ body {
                 </span>
 
                 <span class="youtube-play" aria-hidden="true"></span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
 
             </div>
 <!-- VIDEO 06 -->
@@ -3168,6 +3247,11 @@ body {
 
                 <span class="youtube-play" aria-hidden="true"></span>
 
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
             </div>
 <!-- VIDEO 05 -->
 
@@ -3201,6 +3285,11 @@ body {
                 </span>
 
                 <span class="youtube-play" aria-hidden="true"></span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
 
             </div>
 <!-- VIDEO 04 -->
@@ -3236,6 +3325,11 @@ body {
 
                 <span class="youtube-play" aria-hidden="true"></span>
 
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
             </div>
 <!-- VIDEO 03 -->
 
@@ -3270,6 +3364,11 @@ body {
 
                 <span class="youtube-play" aria-hidden="true"></span>
 
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
+
             </div>
 <!-- VIDEO 02 -->
 
@@ -3303,6 +3402,11 @@ body {
                 </span>
 
                 <span class="youtube-play" aria-hidden="true"></span>
+
+                <span class="youtube-bottom">
+                    <span>video</span>
+                    <span>▶</span>
+                </span>
 
             </div>
 <!-- VIDEO 01 -->
@@ -3339,6 +3443,11 @@ body {
 
                 <span class="youtube-play" aria-hidden="true"></span>
 
+                <span class="youtube-bottom">
+                    <span>älter</span>
+                    <span>▶</span>
+                </span>
+
             </div>
 
         </div>
@@ -3370,7 +3479,7 @@ body {
 
 <section
     class="page page-drei"
-    data-page="4"
+    data-page="5"
 >
 
     <div class="page-drei-content">
@@ -3423,7 +3532,7 @@ body {
 
 <section
     class="page page-platforms"
-    data-page="5"
+    data-page="6"
 >
 
     <div class="platforms-content">
@@ -3610,12 +3719,13 @@ const pages = Array.from(
 /*
     Aktuelle Seite
 
-    0 = gespalten
-    1 = die andere
-    2 = Spotify
-    3 = YouTube
-    4 = Drei
-    5 = Connect
+    0 = camou
+    1 = gespalten
+    2 = die andere
+    3 = Spotify
+    4 = YouTube
+    5 = Drei
+    6 = Connect
 */
 
 let currentPage = 0;
@@ -3891,7 +4001,7 @@ function changePage() {
         ersten Erscheinen den Typewriter-Text.
     */
 
-    if (currentPage === 1) {
+    if (currentPage === 2) {
 
         startAboutTypewriter();
 
@@ -4768,24 +4878,23 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
 
 
 /* =========================================================
-   PLATTFORMEN – BALL-BOUNCE + FREIFLUG BEIM HOVER
+   PLATTFORMEN – BALL-BOUNCE
 
-   Normal: jedes Logo prallt innerhalb seiner eigenen Kachel.
-   Desktop-Hover: Rahmen und Schatten der aktiven Kachel
-   verschwinden; nur ihr Logo darf ueber die Connect-Seite
-   fliegen. Andere Kacheln, sichtbare Texte, Bedienelemente,
-   die horizontale Scrollbar und der Seitenrand sind feste
-   Hindernisse. Beim Verlassen kehrt das Logo in seine Kachel
-   zurueck.
+   Die Plattform-Logos prallen wie ein
+   DVD-Bildschirmschoner innerhalb ihrer
+   Kachel hin und her. Läuft nur, während
+   die Plattformen-Seite sichtbar ist
+   (aktiv oder Zielseite), und pausiert bei
+   reduzierter Bewegungspräferenz oder wenn
+   der Tab im Hintergrund ist.
    ========================================================= */
 
 (function () {
 
     const reduceMotion =
-        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const canHover =
-        window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
 
     const arenas = Array.from(
         document.querySelectorAll(".platform-arena")
@@ -4798,21 +4907,8 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
     const platformsPage =
         document.querySelector(".page-platforms");
 
-    const platformsGrid =
-        document.querySelector(".platforms-grid");
-
-    if (!platformsPage) {
-        return;
-    }
-
-    const flightLayer = document.createElement("div");
-    flightLayer.className = "platform-flight-layer";
-    flightLayer.setAttribute("aria-hidden", "true");
-    platformsPage.appendChild(flightLayer);
-
     const balls = arenas.map((arena) => ({
         arena,
-        tile: arena.closest(".platform-tile"),
         ball: arena.querySelector(".platform-logo"),
         x: 0,
         y: 0,
@@ -4820,544 +4916,104 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
         vy: 0,
         maxX: 0,
         maxY: 0,
-        ready: false,
-        flying: false,
-        obstacles: []
+        ready: false
     }));
 
-    /* Es darf immer nur genau EIN Logo im Freiflug sein. */
-    let activeFlyingBall = null;
-
-    function rectRelativeToPage(el) {
-        const r = el.getBoundingClientRect();
-        const p = platformsPage.getBoundingClientRect();
-
-        return {
-            left: r.left - p.left,
-            top: r.top - p.top,
-            right: r.right - p.left,
-            bottom: r.bottom - p.top
-        };
-    }
-
-    /* Bei Texten nur die tatsaechlich sichtbaren Buchstaben-/Textgrenzen
-       verwenden. Ein display:block-Label soll nicht als unsichtbare
-       Barriere ueber die komplette Kachelbreite wirken. */
-    function textRectRelativeToPage(el) {
-        const range = document.createRange();
-        range.selectNodeContents(el);
-
-        const r = range.getBoundingClientRect();
-        const p = platformsPage.getBoundingClientRect();
-
-        if (r.width <= 0 || r.height <= 0) {
-            return null;
-        }
-
-        const pad = 3;
-
-        return {
-            left: r.left - p.left - pad,
-            top: r.top - p.top - pad,
-            right: r.right - p.left + pad,
-            bottom: r.bottom - p.top + pad
-        };
-    }
+    /*
+        Zufällige Startposition + -richtung
+        je Ball, damit sie nicht synchron
+        laufen.
+    */
 
     function initBall(b) {
 
-        if (!b.ball || b.flying) {
+        if (!b.ball) {
             return;
         }
 
-        const ballWidth = b.ball.offsetWidth;
-        const ballHeight = b.ball.offsetHeight;
+        const arenaRect =
+            b.arena.getBoundingClientRect();
 
-        b.maxX = Math.max(0, b.arena.clientWidth - ballWidth);
-        b.maxY = Math.max(0, b.arena.clientHeight - ballHeight);
+        const ballRect =
+            b.ball.getBoundingClientRect();
+
+        const maxX =
+            Math.max(0, arenaRect.width - ballRect.width);
+
+        const maxY =
+            Math.max(0, arenaRect.height - ballRect.height);
+
+        b.maxX = maxX;
+        b.maxY = maxY;
 
         if (!b.ready) {
-            b.x = Math.random() * b.maxX;
-            b.y = Math.random() * b.maxY;
 
-            const angle = Math.random() * Math.PI * 2;
+            b.x = Math.random() * maxX;
+            b.y = Math.random() * maxY;
+
+            const angle =
+                Math.random() * Math.PI * 2;
+
             const speed = 34 + Math.random() * 22;
 
             b.vx = Math.cos(angle) * speed;
             b.vy = Math.sin(angle) * speed;
+
             b.ready = true;
+
         } else {
-            b.x = Math.max(0, Math.min(b.x, b.maxX));
-            b.y = Math.max(0, Math.min(b.y, b.maxY));
+
+            b.x = Math.min(b.x, maxX);
+            b.y = Math.min(b.y, maxY);
+
         }
 
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
     }
 
-    function collectObstacles(activeBall) {
-        const obstacles = [];
-
-        /* Geschlossene Kacheln sind komplett gesperrt. */
-        document
-            .querySelectorAll(".page-platforms .platform-tile:not(.is-freeflight)")
-            .forEach((el) => {
-                if (el.getClientRects().length) {
-                    obstacles.push(rectRelativeToPage(el));
-                }
-            });
-
-        /* Grosse Seitenelemente / Bedienelemente. */
-        [
-            ".platforms-header h2",
-            ".platforms-nav",
-            ".page-platforms .side-label",
-            ".page-platforms .platforms-divider",
-            ".burger-menu"
-        ].forEach((selector) => {
-            document.querySelectorAll(selector).forEach((el) => {
-                if (el.getClientRects().length) {
-                    obstacles.push(rectRelativeToPage(el));
-                }
-            });
-        });
-
-        /* In der geoeffneten Kachel bleiben deren sichtbare Texte
-           Hindernisse – aber nur die echte Textflaeche, nicht der
-           komplette Block/obere Kachelrand. */
-        if (activeBall.tile) {
-            activeBall.tile
-                .querySelectorAll(".tile-label, .platform-name, .platform-action")
-                .forEach((el) => {
-                    const r = textRectRelativeToPage(el);
-                    if (r) {
-                        obstacles.push(r);
-                    }
-                });
-        }
-
-        return obstacles;
-    }
-
-    function startFreeFlight(b, forceTouch = false) {
-
-        if ((!canHover && !forceTouch) || !b.ball || !b.tile) {
-            return;
-        }
-
-        if (activeFlyingBall && activeFlyingBall !== b) {
-            stopFreeFlight(activeFlyingBall);
-        }
-
-        if (b.flying) {
-            activeFlyingBall = b;
-            return;
-        }
-
-        /*
-            Die aktuelle Bildschirmposition VOR dem Umhaengen merken.
-            Dadurch beginnt der Freiflug exakt dort, wo das Logo in der
-            Kachel gerade war – ohne sichtbaren Sprung/Teleport.
-            vx/vy bleiben unveraendert, also auch die Flugrichtung.
-        */
-        const ballRect = b.ball.getBoundingClientRect();
-        const pageRect = platformsPage.getBoundingClientRect();
-
-        const startX = ballRect.left - pageRect.left;
-        const startY = ballRect.top - pageRect.top;
-
-        b.flying = true;
-        activeFlyingBall = b;
-        b.tile.classList.add("is-freeflight");
-
-        /* Alte Arena-Transformation entfernen, BEVOR die neue absolute
-           Position gesetzt wird. Sonst wuerde sie doppelt eingerechnet. */
-        b.ball.style.transform = "none";
-        flightLayer.appendChild(b.ball);
-
-        b.x = startX;
-        b.y = startY;
-
-        b.ball.style.left = `${b.x}px`;
-        b.ball.style.top = `${b.y}px`;
-
-        const movedRect = b.ball.getBoundingClientRect();
-        b.maxX = Math.max(0, pageRect.width - movedRect.width);
-        b.maxY = Math.max(0, pageRect.height - movedRect.height);
-        b.obstacles = collectObstacles(b);
-    }
-
-    function stopFreeFlight(b) {
-
-        if (!b.ball || !b.tile || !b.flying) {
-            return;
-        }
-
-        b.flying = false;
-        if (activeFlyingBall === b) {
-            activeFlyingBall = null;
-        }
-        b.tile.classList.remove("is-freeflight");
-
-        /* Freiflug-Koordinaten entfernen; in der Arena wird wieder
-           ausschliesslich mit translate3d gearbeitet. */
-        b.ball.style.left = "0px";
-        b.ball.style.top = "0px";
-        b.ball.style.transform = "none";
-
-        b.arena.appendChild(b.ball);
-
-        b.ready = false;
-        b.obstacles = [];
-        initBall(b);
-    }
-
-    function overlaps(x, y, w, h, r) {
-        return (
-            x < r.right &&
-            x + w > r.left &&
-            y < r.bottom &&
-            y + h > r.top
-        );
-    }
-
-    /* Falls sich durch horizontales Scrollen ein Hindernis unter das
-       fliegende Logo schiebt, wird das Logo ueber den KUERZESTEN Weg
-       wieder vor die Kante gesetzt. So gibt es keinen Sprung auf die
-       gegenueberliegende Seite der Kachel. */
-    function resolveExistingOverlap(b, w, h) {
-        for (const r of b.obstacles) {
-            if (!overlaps(b.x, b.y, w, h, r)) {
-                continue;
-            }
-
-            const exits = [
-                { side: "left",   d: Math.max(0, b.x + w - r.left) },
-                { side: "right",  d: Math.max(0, r.right - b.x) },
-                { side: "top",    d: Math.max(0, b.y + h - r.top) },
-                { side: "bottom", d: Math.max(0, r.bottom - b.y) }
-            ];
-
-            const best = exits.reduce((a, c) => c.d < a.d ? c : a);
-
-            if (best.side === "left") {
-                b.x = Math.max(0, r.left - w);
-                b.vx = -Math.abs(b.vx);
-            } else if (best.side === "right") {
-                b.x = Math.min(b.maxX, r.right);
-                b.vx = Math.abs(b.vx);
-            } else if (best.side === "top") {
-                b.y = Math.max(0, r.top - h);
-                b.vy = -Math.abs(b.vy);
-            } else {
-                b.y = Math.min(b.maxY, r.bottom);
-                b.vy = Math.abs(b.vy);
-            }
-        }
-    }
-
-    function moveFlyingBall(b, dt) {
-        const pageRect = platformsPage.getBoundingClientRect();
-        const ballRect = b.ball.getBoundingClientRect();
-        const w = ballRect.width;
-        const h = ballRect.height;
-
-        b.maxX = Math.max(0, pageRect.width - w);
-        b.maxY = Math.max(0, pageRect.height - h);
-
-        resolveExistingOverlap(b, w, h);
-
-        let nextX = b.x + b.vx * dt;
-
-        if (nextX <= 0) {
-            nextX = 0;
-            b.vx = Math.abs(b.vx);
-        } else if (nextX >= b.maxX) {
-            nextX = b.maxX;
-            b.vx = -Math.abs(b.vx);
-        }
-
-        for (const r of b.obstacles) {
-            if (!overlaps(nextX, b.y, w, h, r)) {
-                continue;
-            }
-
-            /* Nur gegen die Kante prallen, die vom bisherigen Punkt aus
-               wirklich gekreuzt wurde. Kein Versetzen auf die Gegenseite. */
-            if (b.x + w <= r.left + 1 && nextX + w > r.left) {
-                nextX = Math.max(0, r.left - w);
-                b.vx = -Math.abs(b.vx);
-            } else if (b.x >= r.right - 1 && nextX < r.right) {
-                nextX = Math.min(b.maxX, r.right);
-                b.vx = Math.abs(b.vx);
-            } else {
-                /* Hindernis hat sich durch Scrollen unter das Logo bewegt. */
-                b.x = nextX;
-                resolveExistingOverlap(b, w, h);
-                nextX = b.x;
-            }
-            break;
-        }
-
-        b.x = nextX;
-
-        let nextY = b.y + b.vy * dt;
-
-        if (nextY <= 0) {
-            nextY = 0;
-            b.vy = Math.abs(b.vy);
-        } else if (nextY >= b.maxY) {
-            nextY = b.maxY;
-            b.vy = -Math.abs(b.vy);
-        }
-
-        for (const r of b.obstacles) {
-            if (!overlaps(b.x, nextY, w, h, r)) {
-                continue;
-            }
-
-            if (b.y + h <= r.top + 1 && nextY + h > r.top) {
-                nextY = Math.max(0, r.top - h);
-                b.vy = -Math.abs(b.vy);
-            } else if (b.y >= r.bottom - 1 && nextY < r.bottom) {
-                nextY = Math.min(b.maxY, r.bottom);
-                b.vy = Math.abs(b.vy);
-            } else {
-                b.y = nextY;
-                resolveExistingOverlap(b, w, h);
-                nextY = b.y;
-            }
-            break;
-        }
-
-        b.y = nextY;
-
-        /* Im Freiflug liegen x/y bereits im Koordinatensystem der
-           Connect-Seite. left/top verhindert einen Positionssprung beim
-           Wechsel aus der vorher transformierten Kachel-Arena. */
-        b.ball.style.left = `${b.x}px`;
-        b.ball.style.top = `${b.y}px`;
-    }
-
-    function moveArenaBall(b, dt) {
-
-        if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
-            return;
-        }
-
-        b.x += b.vx * dt;
-        b.y += b.vy * dt;
-
-        if (b.x <= 0) {
-            b.x = 0;
-            b.vx = Math.abs(b.vx);
-        } else if (b.x >= b.maxX) {
-            b.x = b.maxX;
-            b.vx = -Math.abs(b.vx);
-        }
-
-        if (b.y <= 0) {
-            b.y = 0;
-            b.vy = Math.abs(b.vy);
-        } else if (b.y >= b.maxY) {
-            b.y = b.maxY;
-            b.vy = -Math.abs(b.vy);
-        }
-
-        b.ball.style.transform =
-            `translate3d(${b.x}px, ${b.y}px, 0)`;
-    }
-
-    function refreshFlyingObstacles() {
-        balls.forEach((b) => {
-            if (b.flying) {
-                b.obstacles = collectObstacles(b);
-                const rect = b.ball.getBoundingClientRect();
-                resolveExistingOverlap(b, rect.width, rect.height);
-                b.ball.style.left = `${b.x}px`;
-                b.ball.style.top = `${b.y}px`;
-            }
-        });
-    }
-
-    balls.forEach((b) => {
-        initBall(b);
-
-        if (canHover && b.tile) {
-            b.tile.addEventListener("mouseenter", () => startFreeFlight(b));
-            b.tile.addEventListener("mouseleave", () => stopFreeFlight(b));
-        }
-    });
-
-    /* Touch: Ein normaler kurzer Tap bleibt ein normaler Link-Klick.
-       Erst wenn die Fingerbewegung eindeutig horizontal ist, startet
-       fuer die beruehrte Kachel der Freiflug. Das native horizontale
-       Scrollen der Connect-Reihe bleibt dabei unangetastet. */
-    if (!canHover && platformsGrid) {
-        let touchBall = null;
-        let touchStartX = 0;
-        let touchStartY = 0;
-        let touchWasSwipe = false;
-
-        platformsGrid.addEventListener(
-            "touchstart",
-            (event) => {
-                if (event.touches.length !== 1) {
-                    return;
-                }
-
-                const tile = event.target.closest(".platform-tile");
-                touchBall = tile ? balls.find((b) => b.tile === tile) : null;
-
-                if (!touchBall) {
-                    return;
-                }
-
-                touchStartX = event.touches[0].clientX;
-                touchStartY = event.touches[0].clientY;
-                touchWasSwipe = false;
-            },
-            { passive: true }
-        );
-
-        platformsGrid.addEventListener(
-            "touchmove",
-            (event) => {
-                if (!touchBall || event.touches.length !== 1) {
-                    return;
-                }
-
-                const dx = event.touches[0].clientX - touchStartX;
-                const dy = event.touches[0].clientY - touchStartY;
-
-                /* Erst nach klarer horizontaler Bewegung aktivieren.
-                   So bleibt ein kurzer Tap zum Oeffnen des Links unveraendert. */
-                if (
-                    !touchWasSwipe &&
-                    Math.abs(dx) >= 10 &&
-                    Math.abs(dx) > Math.abs(dy)
-                ) {
-                    touchWasSwipe = true;
-                    startFreeFlight(touchBall, true);
-                }
-
-                if (touchWasSwipe) {
-                    /* Beim horizontalen Scrollen kann unter dem Finger
-                       bereits die naechste Kachel liegen. Dann wird der
-                       bisherige Freiflug sofort beendet und auf genau
-                       diese Kachel gewechselt. */
-                    const touch = event.touches[0];
-                    const underFinger = document.elementFromPoint(
-                        touch.clientX,
-                        touch.clientY
-                    );
-                    const currentTile = underFinger
-                        ? underFinger.closest(".platform-tile")
-                        : null;
-                    const nextBall = currentTile
-                        ? balls.find((b) => b.tile === currentTile)
-                        : null;
-
-                    if (nextBall && nextBall !== touchBall) {
-                        if (touchBall && touchBall.flying) {
-                            stopFreeFlight(touchBall);
-                        }
-                        touchBall = nextBall;
-                        startFreeFlight(touchBall, true);
-                    } else if (!nextBall && touchBall && touchBall.flying) {
-                        /* Finger liegt im Zwischenraum: altes Logo darf
-                           nicht auf der Seite zurueckbleiben. */
-                        stopFreeFlight(touchBall);
-                    }
-                }
-            },
-            { passive: true }
-        );
-
-        function endTouchFreeFlight() {
-            if (!touchBall) {
-                return;
-            }
-
-            const finishedBall = touchBall;
-            const wasSwipe = touchWasSwipe;
-
-            if (finishedBall.flying) {
-                stopFreeFlight(finishedBall);
-            }
-
-            touchBall = null;
-            touchWasSwipe = false;
-
-            /* Sicherheitshalber den synthetischen Klick nach einem Swipe
-               einmal abfangen. Ein echter kurzer Tap wird nicht beruehrt. */
-            if (wasSwipe && finishedBall.tile) {
-                const suppressSwipeClick = (event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    finishedBall.tile.removeEventListener(
-                        "click",
-                        suppressSwipeClick,
-                        true
-                    );
-                };
-
-                finishedBall.tile.addEventListener(
-                    "click",
-                    suppressSwipeClick,
-                    true
-                );
-
-                setTimeout(() => {
-                    finishedBall.tile.removeEventListener(
-                        "click",
-                        suppressSwipeClick,
-                        true
-                    );
-                }, 450);
-            }
-        }
-
-        platformsGrid.addEventListener("touchend", endTouchFreeFlight, { passive: true });
-        platformsGrid.addEventListener("touchcancel", endTouchFreeFlight, { passive: true });
-    }
+    balls.forEach(initBall);
 
     window.addEventListener("resize", () => {
-        balls.forEach((b) => {
-            if (b.flying) {
-                b.obstacles = collectObstacles(b);
-            } else {
-                initBall(b);
-            }
-        });
+        balls.forEach(initBall);
     });
 
-    if (platformsGrid) {
-        platformsGrid.addEventListener(
-            "scroll",
-            refreshFlyingObstacles,
-            { passive: true }
-        );
-    }
-
     function isPlatformsPageVisible() {
+
         return Boolean(
-            platformsPage.classList.contains("active") ||
-            platformsPage.classList.contains("behind")
+            platformsPage &&
+            (
+                platformsPage.classList.contains("active") ||
+                platformsPage.classList.contains("behind")
+            )
         );
+
     }
 
     let lastTime = null;
+
     let rafRunning = false;
 
+    /*
+        Performance-Fix: Statt die rAF-Schleife
+        dauerhaft ab dem ersten Seitenaufruf
+        durchlaufen zu lassen (auch wenn die
+        Connect-Seite nie angeschaut wird),
+        läuft sie nur, während die Seite
+        tatsächlich sichtbar ist, und stoppt
+        sich danach komplett selbst – statt
+        sich nur "leer" weiterzuplanen.
+    */
+
     function ensureTickRunning() {
+
         if (rafRunning || !isPlatformsPageVisible()) {
             return;
         }
 
         rafRunning = true;
         lastTime = null;
+
         requestAnimationFrame(tick);
+
     }
 
     function tick(time) {
@@ -5375,30 +5031,67 @@ document.querySelectorAll(".platforms-nav-btn").forEach((button) => {
             return;
         }
 
-        const dt = Math.min(time - lastTime, 40) / 1000;
+        /*
+            Zeitdifferenz begrenzen, damit ein
+            kurzzeitig inaktiver Tab beim
+            Zurückkehren nicht zu einem riesigen
+            Sprung führt.
+        */
+
+        const dt =
+            Math.min(time - lastTime, 40) / 1000;
+
         lastTime = time;
 
         balls.forEach((b) => {
-            if (!b.ball) {
+
+            if (!b.ball || (b.maxX <= 0 && b.maxY <= 0)) {
                 return;
             }
 
-            if (b.flying) {
-                moveFlyingBall(b, dt);
-            } else {
-                moveArenaBall(b, dt);
+            b.x += b.vx * dt;
+            b.y += b.vy * dt;
+
+            if (b.x <= 0) {
+                b.x = 0;
+                b.vx = Math.abs(b.vx);
+            } else if (b.x >= b.maxX) {
+                b.x = b.maxX;
+                b.vx = -Math.abs(b.vx);
             }
+
+            if (b.y <= 0) {
+                b.y = 0;
+                b.vy = Math.abs(b.vy);
+            } else if (b.y >= b.maxY) {
+                b.y = b.maxY;
+                b.vy = -Math.abs(b.vy);
+            }
+
+            b.ball.style.transform =
+                `translate3d(${b.x}px, ${b.y}px, 0)`;
+
         });
+
     }
 
     ensureTickRunning();
 
-    if ("MutationObserver" in window) {
+    /*
+        Startet die Schleife neu, sobald die
+        Connect-Seite wieder aktiv/Zielseite
+        wird (Klassenwechsel durch die
+        Seiten-Navigation).
+    */
+
+    if (platformsPage && "MutationObserver" in window) {
+
         new MutationObserver(ensureTickRunning)
             .observe(platformsPage, {
                 attributes: true,
                 attributeFilter: ["class"]
             });
+
     }
 
 })();
@@ -6040,7 +5733,7 @@ function jumpToPage(index) {
         page.style.maskImage = "none";
     });
 
-    if (currentPage === 1) {
+    if (currentPage === 2) {
         startAboutTypewriter();
     }
 
@@ -6085,7 +5778,7 @@ document.querySelectorAll(".burger-link").forEach((link) => {
    Erlaubt externen Seiten wie kontakt.html
    oder impressum.html, gezielt auf eine
    Unterseite zu verlinken, z. B.
-   gespalten.html#page=1 für "die andere".
+   gespalten.html#page=2 für "die andere".
    ========================================================= */
 
 function updatePageHash(index) {
@@ -6131,7 +5824,7 @@ function applyPageFromHash() {
         page.style.maskImage = "none";
     });
 
-    if (currentPage === 1) {
+    if (currentPage === 2) {
         startAboutTypewriter();
     }
 
@@ -6158,3 +5851,4 @@ updateMask();
 
 </body>
 </html>
+
