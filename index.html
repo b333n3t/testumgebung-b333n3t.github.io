@@ -233,17 +233,23 @@ body {
 }
 
 .camou-name {
+    display: inline-flex;
+    align-items: baseline;
+    gap: .12em;
     font-size: clamp(60px, 10vw, 150px);
     font-weight: 700;
     line-height: .85;
     letter-spacing: -0.08em;
-    border-bottom: 3px solid transparent;
-    transition: border-color .25s ease;
 }
 
-.camou-link:hover .camou-name,
-.camou-link:focus-visible .camou-name {
-    border-bottom-color: currentColor;
+.camou-name-text {
+    border-bottom: 3px solid currentColor;
+}
+
+.camou-arrow {
+    font-size: .38em;
+    line-height: 1;
+    letter-spacing: 0;
 }
 
 .page-camou .side-label {
@@ -1988,6 +1994,11 @@ body {
     font-size: 11px;
 }
 
+/* Eigenschreibweise des Projektnamens im Burger-Menü beibehalten. */
+.burger-dropdown .burger-link:first-child {
+    text-transform: none;
+}
+
 @media (max-width: 800px) {
 
     .burger-menu {
@@ -2640,7 +2651,7 @@ body {
             rel="noopener"
         >
             <span class="camou-kicker">neues projekt –</span>
-            <span class="camou-name">camOu↗</span>
+            <span class="camou-name"><span class="camou-name-text">camOu</span><span class="camou-arrow" aria-hidden="true">↗</span></span>
         </a>
 
     </div>
@@ -5851,4 +5862,3 @@ updateMask();
 
 </body>
 </html>
-
